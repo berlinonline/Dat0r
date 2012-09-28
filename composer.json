@@ -1,5 +1,5 @@
 {
-    "name": "shrink0r/CMF",
+    "name": "shrink/CMF",
     "type": "library",
     "description": "Current prototype for a data-object abstraction with codegeneration and data integrity support.",
     "keywords": ["data mapper", "scaffolding"],
