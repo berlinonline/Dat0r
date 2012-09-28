@@ -13,9 +13,10 @@ curl -s http://getcomposer.org/installer | php
 
 - create a 'composer.json' file with the following content:
 {
-  "require": {
-      "twig/twig": "1.*"
-  }
+    "require": {
+        "shrink/cmf": "*"
+    },
+    "minimum-stability": "dev"
 }
 
 - Then install via composer:
