@@ -12,24 +12,24 @@ class CliOptionsProvider
         $optsIn = getopt(self::PARSE_EXPRESSION);
         if (2 > count($optsIn))
         {
-            throw new \OptionParseException("Invalid number of arguments given.");
+            throw new OptionParseException("Invalid number of arguments given.");
         }
         if (! isset($optsIn['d']) || ! isset($optsIn['c']))
         {
-            throw new \OptionParseException("Missing one of either options: config,module_defintiion,action.");
+            throw new OptionParseException("Missing one of either options: config,module_defintiion,action.");
         }
 
         $filePath = realpath($optsIn['d']);
         if (! $filePath || ! is_readable($filePath))
         {
-            throw new \OptionParseException(
+            throw new OptionParseException(
                 "The given module definition is not readable at path: " . $optsIn['d']
             );
         }
         $configPath = realpath($optsIn['c']);
         if (! $configPath || ! is_readable($configPath))
         {
-            throw new \OptionParseException(
+            throw new OptionParseException(
                 "The given config file is not readable at path: " . $optsIn['c']
             );
         }

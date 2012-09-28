@@ -1,13 +1,11 @@
 <?php
 
-namespace CMF\Core\CodeGenerator;
+namespace CMF\Core;
 
 class AutoloadException extends \Exception {}
 
 class Autoloader
 {
-    const PACKAGE_ROOT_NAMESPACE = 'CMF\Core\Runtime';
-
     private static $rootNamespace;
 
     static public function register()
@@ -31,16 +29,9 @@ class Autoloader
             array('', DIRECTORY_SEPARATOR), 
             $class
         );
-        $classPath = $baseName . '.class.php';
-        $ifacePath = $baseName . '.iface.php';
-        
-        if (is_readable($classPath))
+        if (is_readable($classPath = $baseName . '.php'))
         {
             require_once $classPath;
-        }
-        else if (is_readable($ifacePath))
-        {
-            require_once $ifacePath;
         }
         else
         {
