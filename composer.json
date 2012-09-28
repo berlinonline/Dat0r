@@ -14,5 +14,7 @@
         "php": ">=5.3",
         "twig/twig": "1.*"
     },
-    "autoload": { "CMF" : "lib/" }
+    "autoload": { 
+        "psr-0": {"CMF" : "lib/" }
+    }
 }
