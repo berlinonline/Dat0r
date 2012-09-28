@@ -1,0 +1,20 @@
+{
+    "name": "shrink0r/CMF",
+    "type": "library",
+    "description": "Current prototype for a data-object abstraction with codegeneration and data integrity support.",
+    "keywords": ["data mapper", "scaffolding"],
+    "homepage": "https://github.com/shrink/draftcmm",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thorsten Schmitt-Rink"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.*",
+        "twig/twig": "1.*"
+    },
+    "autoload": {
+        "psr-0" : { "CMF" : "lib/" }
+    }
+}

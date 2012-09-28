@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>                                                                                                                                     
+<!-- 
+Defines the structure of the Foo test module used for playing around.
+-->
+<module name="Foo">
+    <description>
+        The Foo module reflects bar data and so on ...
+    </description>
+    <fields>
+        <field name="title" type="text">
+            <description>Holds an foo's title.</description>
+        </field>
+        <field name="description" type="text">
+            <description>Holds an foo's description.</description>
+        </field>
+        <field name="bar" type="aggregate">
+            <description>Holds an article's kicker.</description>
+            <aggregate name="Bar">
+                <description>The Bar aggregate module reflects bar data and so on ...</description>
+                <fields>
+                    <field name="food" type="text">
+                        <description>Holds a bar's food data.</description>
+                        <option name="pizza">
+                            <option name="toppings">
+                                <option>cheese</option>
+                                <option>pepperonis</option>
+                            </option>
+                        </option>
+                    </field>
+                    <field name="clickCount" type="integer">
+                        <description>Holds a bar's number of clicks.</description>
+                    </field>
+                    <!--
+                    <field name="foobar" type="struct">
+                        <description>Holds a bar's structured value.</description>
+                        <option name="struct">
+                            <option name="key_one">
+                                <option name="value">int</option>
+                            </option>
+                            <option name="key_two">
+                                <option name="value">mixed</option>
+                            </option>
+                        </option>
+                    </field>
+                    -->
+                </fields>
+            </aggregate>
+        </field>
+    </fields>
+</module>
