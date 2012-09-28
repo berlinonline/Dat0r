@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Current prototype for a data-object abstraction with codegeneration and data integrity support.",
     "keywords": ["data mapper", "scaffolding"],
-    "homepage": "https://github.com/shrink/draftcmm",
+    "homepage": "https://github.com/shrink/CMF",
     "license": "MIT",
     "authors": [
         {
@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.*",
+        "php": ">=5.3",
         "twig/twig": "1.*"
     },
     "autoload": {
