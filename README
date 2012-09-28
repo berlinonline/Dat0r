@@ -26,4 +26,4 @@ php composer.phar install
 Usage:
 --------------
 
-An example integration can be found at https://github.com/shrink/draftcmm
+An example for integration and usage can be found at https://github.com/shrink/draftcmm
