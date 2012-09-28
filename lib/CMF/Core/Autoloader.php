@@ -36,7 +36,7 @@ class Autoloader
         else
         {
             throw new AutoloadException(
-                "Unable to autoload demanded class: $class, tried locations $classPath and $ifacePath."
+                "Unable to autoload demanded class: $class at location: $baseName.php.'
             );
         }
     }
