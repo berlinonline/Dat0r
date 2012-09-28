@@ -1,7 +1,7 @@
 Prototype for testing a data mapper based on code generation.
 The idea is to provide a library that you can use to easily define data structures
 along with some features such as structured values, validation and and change tracking.
-==============================================================
+=======================================================================================
 
 Installation:
 --------------
