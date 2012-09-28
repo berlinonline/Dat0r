@@ -1,0 +1,28 @@
+Prototype for testing a data mapper based on code generation.
+The idea is to provide a library that you can use to easily define data structures
+along with some features such as structured values, validation and and change tracking.
+==============================================================
+
+Installation:
+--------------
+
+This library can be used by integrating it via composer.
+
+- add composer: 
+curl -s http://getcomposer.org/installer | php
+
+- create a 'composer.json' file with the following content:
+{
+  "require": {
+      "twig/twig": "1.*"
+  }
+}
+
+- Then install via composer:
+php composer.phar install
+
+
+Usage:
+--------------
+
+An example integration can be found at https://github.com/shrink/draftcmm
