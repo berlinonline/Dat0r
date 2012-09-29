@@ -1,0 +1,106 @@
+diff --git a/lib/CMF/Core/CodeGenerator/CodeGenerator.php b/lib/CMF/Core/CodeGenerator/CodeGenerator.php
+index e04c12c..6c0a1ec 100644
+--- a/lib/CMF/Core/CodeGenerator/CodeGenerator.php
++++ b/lib/CMF/Core/CodeGenerator/CodeGenerator.php
+@@ -10,8 +10,6 @@ class CodeGenerator
+ 
+     const NS_DOCUMENT = '\CMF\Core\Runtime\Document';
+ 
+-    const DOMAIN_BASE_NS = 'CMF\Domain\Runtime';
+-
+     protected $config;
+ 
+     protected $twig;
+@@ -142,6 +140,7 @@ class CodeGenerator
+     {
+         $package = $this->moduleDefinition->getPackage();
+         $moduleName = $this->moduleDefinition->getRoot();
++        $namespace = $this->moduleDefinition->getNamespace();
+         $parts = explode('/', $package);
+         array_shift($parts);
+ 
+@@ -154,7 +153,7 @@ class CodeGenerator
+ 
+         $lastPart = array_pop($parts);
+         array_unshift($parts, $moduleName);
+-        
+-        return sprintf('%s\%s', self::DOMAIN_BASE_NS, implode('\\', $parts) . $lastPart);
++
++        return sprintf('%s\%s', $namespace, implode('\\', $parts) . $lastPart);
+     }
+ }
+diff --git a/lib/CMF/Core/CodeGenerator/ModuleDefinition.php b/lib/CMF/Core/CodeGenerator/ModuleDefinition.php
+index cdf5a56..8f98739 100644
+--- a/lib/CMF/Core/CodeGenerator/ModuleDefinition.php
++++ b/lib/CMF/Core/CodeGenerator/ModuleDefinition.php
+@@ -8,6 +8,8 @@ class ModuleDefinition
+ 
+     private $root;
+ 
++    private $namespace;
++
+     private $type;
+ 
+     private $base;
+@@ -37,6 +39,11 @@ class ModuleDefinition
+         return $this->base;
+     }
+ 
++    public function getNamespace()
++    {
++        return $this->namespace;
++    }
++
+     public function getName()
+     {
+         return $this->name;
+@@ -74,7 +81,10 @@ class ModuleDefinition
+ 
+     protected function __construct(array $data)
+     {
+-        $requiredData = array('package', 'type', 'root', 'base', 'name', 'description', 'options', 'fields', 'aggregates');
++        $requiredData = array(
++            'package', 'type', 'root', 'base', 'name', 'description', 
++            'options', 'fields', 'aggregates', 'namespace'
++        );
+ 
+         foreach ($requiredData as $prop)
+         {
+diff --git a/lib/CMF/Core/CodeGenerator/ModuleDefinitionParser.php b/lib/CMF/Core/CodeGenerator/ModuleDefinitionParser.php
+index 5024b9c..6b84c75 100644
+--- a/lib/CMF/Core/CodeGenerator/ModuleDefinitionParser.php
++++ b/lib/CMF/Core/CodeGenerator/ModuleDefinitionParser.php
+@@ -35,14 +35,15 @@ class ModuleDefinitionParser
+     {
+         // @todo validate name (must start uppercase, letters & numbers only), package, desc and fields.
+         $name = $element->getAttribute('name');
++        $namespace = $element->getAttribute('namespace');
+         $package = $this->parsePackageAttribute($element);
+         $description = $this->parseDescriptionElement(
+             $xpath->query('description', $element)->item(0)
+         );
+-
+         $root = empty($rootData) ? $name : $rootData['name'];
+         $type = empty($rootData) ? 'root' : 'aggregate';
+         $package = empty($rootData) ? $package : $rootData['package'];
++        $namespace = empty($rootData) ? $namespace : $rootData['namespace'];
+         $options = $this->parseOptions($element, $xpath);
+ 
+         $fields = array();
+@@ -53,7 +54,7 @@ class ModuleDefinitionParser
+             {
+                 // @todo make module namespace configurable.
+                 $fieldData['options']['aggregate_module'] = sprintf(
+-                    'CMF\Domain\Runtime\%s\%s', $root, $fieldData['options']['aggregate_module']
++                    '%s\%s\%s', $namespace, $root, $fieldData['options']['aggregate_module']
+                 );
+             }
+             $fields[$fieldData['name']] = $fieldData;
+@@ -62,6 +63,7 @@ class ModuleDefinitionParser
+         $moduleData = array(
+             'type' => $type,
+             'package' => $package,
++            'namespace' => $namespace,
+             'root' => $root,
+             'base' => self::BASE_DOCUMENT, // @todo allow to configure the base?
+             'name' => $name,

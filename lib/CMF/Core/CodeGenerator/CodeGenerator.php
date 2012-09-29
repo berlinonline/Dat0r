@@ -10,8 +10,6 @@ class CodeGenerator
 
     const NS_DOCUMENT = '\CMF\Core\Runtime\Document';
 
-    const DOMAIN_BASE_NS = 'CMF\Domain\Runtime';
-
     protected $config;
 
     protected $twig;
@@ -142,6 +140,7 @@ class CodeGenerator
     {
         $package = $this->moduleDefinition->getPackage();
         $moduleName = $this->moduleDefinition->getRoot();
+        $namespace = $this->moduleDefinition->getNamespace();
         $parts = explode('/', $package);
         array_shift($parts);
 
@@ -154,7 +153,7 @@ class CodeGenerator
 
         $lastPart = array_pop($parts);
         array_unshift($parts, $moduleName);
-        
-        return sprintf('%s\%s', self::DOMAIN_BASE_NS, implode('\\', $parts) . $lastPart);
+
+        return sprintf('%s\%s', $namespace, implode('\\', $parts) . $lastPart);
     }
 }

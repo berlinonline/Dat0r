@@ -35,14 +35,15 @@ class ModuleDefinitionParser
     {
         // @todo validate name (must start uppercase, letters & numbers only), package, desc and fields.
         $name = $element->getAttribute('name');
+        $namespace = $element->getAttribute('namespace');
         $package = $this->parsePackageAttribute($element);
         $description = $this->parseDescriptionElement(
             $xpath->query('description', $element)->item(0)
         );
-
         $root = empty($rootData) ? $name : $rootData['name'];
         $type = empty($rootData) ? 'root' : 'aggregate';
         $package = empty($rootData) ? $package : $rootData['package'];
+        $namespace = empty($rootData) ? $namespace : $rootData['namespace'];
         $options = $this->parseOptions($element, $xpath);
 
         $fields = array();
@@ -53,7 +54,7 @@ class ModuleDefinitionParser
             {
                 // @todo make module namespace configurable.
                 $fieldData['options']['aggregate_module'] = sprintf(
-                    'CMF\Domain\Runtime\%s\%s', $root, $fieldData['options']['aggregate_module']
+                    '%s\%s\%s', $namespace, $root, $fieldData['options']['aggregate_module']
                 );
             }
             $fields[$fieldData['name']] = $fieldData;
@@ -62,6 +63,7 @@ class ModuleDefinitionParser
         $moduleData = array(
             'type' => $type,
             'package' => $package,
+            'namespace' => $namespace,
             'root' => $root,
             'base' => self::BASE_DOCUMENT, // @todo allow to configure the base?
             'name' => $name,

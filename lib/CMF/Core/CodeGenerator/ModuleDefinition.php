@@ -8,6 +8,8 @@ class ModuleDefinition
 
     private $root;
 
+    private $namespace;
+
     private $type;
 
     private $base;
@@ -35,6 +37,11 @@ class ModuleDefinition
     public function getBase()
     {
         return $this->base;
+    }
+
+    public function getNamespace()
+    {
+        return $this->namespace;
     }
 
     public function getName()
@@ -74,7 +81,10 @@ class ModuleDefinition
 
     protected function __construct(array $data)
     {
-        $requiredData = array('package', 'type', 'root', 'base', 'name', 'description', 'options', 'fields', 'aggregates');
+        $requiredData = array(
+            'package', 'type', 'root', 'base', 'name', 'description', 
+            'options', 'fields', 'aggregates', 'namespace'
+        );
 
         foreach ($requiredData as $prop)
         {
