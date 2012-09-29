@@ -35,7 +35,7 @@ class CodeGenerator
         $namespace = $this->buildNamespace();
         $parentClass = sprintf('%s\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
 
-        $source = $this->twig->render('Module/BaseModule.class.twig', array(
+        $source = $this->twig->render('Module/BaseModule.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
@@ -55,7 +55,7 @@ class CodeGenerator
         $implementor = sprintf('%sModule', $moduleName);
         $namespace = $this->buildNamespace();
 
-        $source = $this->twig->render('Module/Module.class.twig', array(
+        $source = $this->twig->render('Module/Module.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
@@ -72,7 +72,7 @@ class CodeGenerator
         $implementor = sprintf('Base%sDocument', $moduleName);
         $namespace = $this->buildNamespace();
 
-        $source = $this->twig->render('Document/BaseDocument.class.twig', array(
+        $source = $this->twig->render('Document/BaseDocument.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
@@ -92,7 +92,7 @@ class CodeGenerator
         $implementor = sprintf('%sDocument', $moduleName);
         $namespace = $this->buildNamespace();
 
-        $source = $this->twig->render('Document/Document.class.twig', array(
+        $source = $this->twig->render('Document/Document.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,

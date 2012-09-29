@@ -1,11 +1,14 @@
 <?php
 
+$baseDir = dirname(dirname(__FILE__));
+
 // autoload vendor libs
-require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$autoloadPath = array($baseDir, 'vendor', 'autoload.php');
+require_once implode(DIRECTORY_SEPARATOR, $autoloadPath);
 
 // autoload cmf codegeneration
-$autoloadPathParts = array(dirname(dirname(__FILE__)), 'lib', 'CMF', 'Core', 'Autoloader.php');
-require_once implode(DIRECTORY_SEPARATOR, $autoloadPathParts);
+$cmfAutoloaderPath = array($baseDir, 'lib', 'CMF', 'Autoloader.php');
+require_once implode(DIRECTORY_SEPARATOR, $cmfAutoloaderPath);
 
-CMF\Core\Autoloader::register();
+CMF\Autoloader::register();
 CMF\Core\CodeGenerator\CliInterface::run();

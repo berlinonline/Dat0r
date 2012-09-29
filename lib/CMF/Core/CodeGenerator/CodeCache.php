@@ -51,11 +51,11 @@ class CodeCache
         }
 
         $cachedFiles = array('base' => array(), 'skeleton' => array());
-        foreach (glob($moduleDir . 'base/*.class.php') as $baseFile)
+        foreach (glob($moduleDir . 'base/*.php') as $baseFile)
         {
             $cachedFiles['base'][] = $baseFile;
         }
-        foreach (glob($moduleDir . '*.class.php') as $skeletonFile)
+        foreach (glob($moduleDir . '*.php') as $skeletonFile)
         {
             $cachedFiles['skeleton'][] = $skeletonFile;
         }
@@ -110,7 +110,7 @@ class CodeCache
 
     protected function writeCacheFile($baseDir, array $codeDef)
     {
-        $filePath = $baseDir . $codeDef['class'] . '.class.php';
+        $filePath = $baseDir . $codeDef['class'] . '.php';
         if (! file_put_contents($filePath, $codeDef['source']))
         {
             throw new \Exception("Failed to write file: " . $filePath);
