@@ -44,16 +44,18 @@ class Autoloader
         {
             $filePath = self::buildCorePath($class);
         }
-
-        foreach (self::$domainPackages as $rootNs => $baseDir)
+        else
         {
-            if (0 === strpos($class, $rootNs))
+            foreach (self::$domainPackages as $rootNs => $baseDir)
             {
-                $filePath = self::buildDomainPath($class, $rootNs, $baseDir);
-                break;
+                if (0 === strpos($class, $rootNs))
+                {
+                    $filePath = self::buildDomainPath($class, $rootNs, $baseDir);
+                    break;
+                }
             }
         }
-
+        
         if ($filePath)
         {
             self::tryRequire($filePath);
