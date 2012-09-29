@@ -51,8 +51,9 @@ class ModuleDefinitionParser
             $fieldData = $this->parseFieldElement($fieldElement, $xpath);
             if ('aggregate' === $fieldData['type'])
             {
+                // @todo make module namespace configurable.
                 $fieldData['options']['aggregate_module'] = sprintf(
-                    'CMF\Runtime\Domain\%s\%s', $root, $fieldData['options']['aggregate_module']
+                    'CMF\Domain\Runtime\%s\%s', $root, $fieldData['options']['aggregate_module']
                 );
             }
             $fields[$fieldData['name']] = $fieldData;

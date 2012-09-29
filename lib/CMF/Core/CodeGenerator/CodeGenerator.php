@@ -10,7 +10,7 @@ class CodeGenerator
 
     const NS_DOCUMENT = '\CMF\Core\Runtime\Document';
 
-    const DOMAIN_BASE_NS = 'CMF\Runtime\Domain';
+    const DOMAIN_BASE_NS = 'CMF\Domain\Runtime';
 
     protected $config;
 
