@@ -1,10 +1,12 @@
-Prototype for testing a data mapper based on code generation.
-The idea is to provide a library that you can use to easily define data structures
-along with some features such as structured values, validation and and change tracking.
-=======================================================================================
+# CMF
 
-Installation:
---------------
+This library is a prototype for yet another data mapper based on code generation.
+The idea is to provide a lightweight (php)solution for defining and managing data structures in form of data objects.
+More description and docs are up the pipeline.
+
+* Build Status:[![Build Status](https://travis-ci.org/shrink/CMF.png)](https://travis-ci.org/shrink/CMF)
+
+## Installation
 
 This library can be used by integrating it via composer.
 
@@ -23,7 +25,6 @@ curl -s http://getcomposer.org/installer | php
 php composer.phar install
 
 
-Usage:
---------------
+## Usage
 
 An example for integration and usage can be found at https://github.com/shrink/draftcmm
