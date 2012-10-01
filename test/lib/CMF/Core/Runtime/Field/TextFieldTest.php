@@ -23,7 +23,7 @@ class TextFieldTest extends Runtime\BaseTest
         $textField = Field\TextField::create(self::FIELDNAME, $options);
 
         $this->assertEquals($textField->getName(), self::FIELDNAME);
-        $this->assertFalse($textField->hasOption('snafu_23'));
+        $this->assertFalse($textField->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue)
         {
             $this->assertTrue($textField->hasOption($optName));
@@ -45,9 +45,9 @@ class TextFieldTest extends Runtime\BaseTest
     public function testValidate()
     {
         $textField = Field\TextField::create(self::FIELDNAME);
-        $this->assertTrue($textField->validate('some text value, if you foo what I bar.'));
-        $this->assertFalse($textField->validate(234));
-        $this->assertFalse($textField->validate(array('foo' => 'bar')));
+        $this->assertTrue($textField->validate('this is a valid text value.'));
+        $this->assertFalse($textField->validate(235));
+        $this->assertFalse($textField->validate(array('fnord' => 'array not acceptable')));
     }
 
     public static function getOptionsFixture()
@@ -59,6 +59,13 @@ class TextFieldTest extends Runtime\BaseTest
             array(
                 'some_option_name' => 'some_option_value',
                 'another_option_name' => 'another_option_value'
+            ),
+            array(
+                'some_option_name' => 23,
+                'another_option_name' => 5
+            ),
+            array(
+                'some_option_name' => array('foo' => 'bar')
             )
         );
 
