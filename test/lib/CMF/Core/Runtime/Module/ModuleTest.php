@@ -57,4 +57,15 @@ class ModuleTest extends Runtime\BaseTest
         $this->assertInstanceOf('CMF\Core\Runtime\Field\TextField', $fields->get('headline'));
         $this->assertInstanceOf('CMF\Core\Runtime\Field\IntegerField', $fields->get('clickCount'));
     }
+
+    public function createDocument()
+    {
+        $module = RootModuleTestProxy::create('Article', array( 
+            \CMF\Core\Runtime\Field\TextField::create('headline'), 
+            \CMF\Core\Runtime\Field\TextField::create('content'), 
+            \CMF\Core\Runtime\Field\IntegerField::create('clickCount')
+        ));
+
+        $this->assertInstanceOf('CMF\Core\Runtime\Document', $module->createDocument());
+    }
 }
