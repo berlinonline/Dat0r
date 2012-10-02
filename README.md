@@ -1,28 +1,31 @@
 # CMF
 
+[![Build Status](https://travis-ci.org/shrink/CMF.png)](https://travis-ci.org/shrink/CMF)
+
 This library is a prototype for yet another data mapper based on code generation.
 The idea is to provide a lightweight (php)solution for defining and managing data structures in form of data objects.
 More description and docs are up the pipeline.
-
-* Build Status: [![Build Status](https://travis-ci.org/shrink/CMF.png)](https://travis-ci.org/shrink/CMF)
 
 ## Installation
 
 This library can be used by integrating it via composer.
 
-- add composer: 
-curl -s http://getcomposer.org/installer | php
+Add composer: 
 
-- create a 'composer.json' file with the following content:
-{
-    "require": {
-        "shrink/cmf": "*"
-    },
-    "minimum-stability": "dev"
-}
+    curl -s http://getcomposer.org/installer | php
 
-- Then install via composer:
-php composer.phar install
+Create a 'composer.json' file with the following content:
+
+    {
+        "require": {
+            "shrink/cmf": "*"
+        },
+        "minimum-stability": "dev"
+    }
+
+Then install via composer:
+
+    php composer.phar install
 
 
 ## Usage
