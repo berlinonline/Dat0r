@@ -102,6 +102,16 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
     }
 
     /**
+     * Returns the size of the collection.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return count(array_values($this->fields));
+    }
+
+    /**
      * Closes the collection to any further modifications.
      */
     public function freeze()

@@ -50,6 +50,11 @@ abstract class Module extends Runtime\Freezable implements IModule
         return self::$instances[$class];
     }
 
+    public static function create($name, array $fields)
+    {
+        return new static($name, $fields);
+    }
+
     /**
      * Returns the name of the module.
      * 
@@ -78,7 +83,7 @@ abstract class Module extends Runtime\Freezable implements IModule
         {
             foreach ($fieldnames as $fieldname)
             {
-                $fields[] = $this->getField($fieldname);
+                $fields[$fieldname] = $this->getField($fieldname);
             }
         }
 
