@@ -10,11 +10,11 @@ More description and docs are up the pipeline.
 
 This library can be used by integrating it via composer.
 
-- add composer: 
+Add composer: 
 
     curl -s http://getcomposer.org/installer | php
 
-- create a 'composer.json' file with the following content:
+Create a 'composer.json' file with the following content:
 
     {
         "require": {
@@ -23,7 +23,7 @@ This library can be used by integrating it via composer.
         "minimum-stability": "dev"
     }
 
-- Then install via composer:
+Then install via composer:
 
     php composer.phar install
 
