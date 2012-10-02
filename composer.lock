@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "52affc96c87c0e01e62a1a97fa10f4f1d9810e15"
+                "reference": "2be9955ec07394c7111b50da24c779033833ea35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/52affc96c87c0e01e62a1a97fa10f4f1d9810e15",
-                "reference": "52affc96c87c0e01e62a1a97fa10f4f1d9810e15",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/2be9955ec07394c7111b50da24c779033833ea35",
+                "reference": "2be9955ec07394c7111b50da24c779033833ea35",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-spl": "*",
                 "ext-xdebug": ">=2.0.5"
             },
-            "time": "1349011284",
+            "time": "1349196221",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -73,7 +73,6 @@
             "require": {
                 "php": ">=5.2.7"
             },
-            "time": "1348340841",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -99,7 +98,8 @@
             "keywords": [
                 "filesystem",
                 "iterator"
-            ]
+            ],
+            "time": "1348340841"
         },
         {
             "name": "phpunit/php-text-template",
@@ -240,12 +240,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3fd1406999216d4c5d699674a78c48c88fab766b"
+                "reference": "8c7598eb8b0512bab6dae4a2f6324296c499f85f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/3fd1406999216d4c5d699674a78c48c88fab766b",
-                "reference": "3fd1406999216d4c5d699674a78c48c88fab766b",
+                "url": "https://github.com/sebastianbergmann/phpunit/zipball/8c7598eb8b0512bab6dae4a2f6324296c499f85f",
+                "reference": "8c7598eb8b0512bab6dae4a2f6324296c499f85f",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*"
             },
-            "time": "1349125539",
+            "time": "1349197000",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -328,7 +328,6 @@
             "suggest": {
                 "ext-soap": "*"
             },
-            "time": "1348211215",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -354,7 +353,8 @@
             "keywords": [
                 "mock",
                 "xunit"
-            ]
+            ],
+            "time": "1348211215"
         },
         {
             "name": "symfony/yaml",
@@ -374,7 +374,6 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1348817656",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -401,7 +400,8 @@
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "1348817656"
         },
         {
             "name": "twig/twig",

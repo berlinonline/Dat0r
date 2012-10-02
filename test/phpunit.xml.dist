@@ -11,14 +11,14 @@
          syntaxCheck="false"
          bootstrap="./bootstrap.php">
   <testsuites>
-    <testsuite name="CMF Test Suite">
-      <directory>./lib/CMF/</directory>
+    <testsuite name="Dat0r Test Suite">
+      <directory>./lib/Dat0r/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../lib/CMF/</directory>
+      <directory suffix=".php">../lib/Dat0r/</directory>
     </whitelist>
   </filter>
 

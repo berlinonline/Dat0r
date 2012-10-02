@@ -7,8 +7,8 @@ $autoloadPath = array($baseDir, 'vendor', 'autoload.php');
 require_once implode(DIRECTORY_SEPARATOR, $autoloadPath);
 
 // autoload cmf codegeneration
-$cmfAutoloaderPath = array($baseDir, 'lib', 'CMF', 'Autoloader.php');
+$cmfAutoloaderPath = array($baseDir, 'lib', 'Dat0r', 'Autoloader.php');
 require_once implode(DIRECTORY_SEPARATOR, $cmfAutoloaderPath);
 
-CMF\Autoloader::register();
-CMF\Core\CodeGenerator\CliInterface::run();
+Dat0r\Autoloader::register();
+Dat0r\Core\CodeGenerator\CliInterface::run();
