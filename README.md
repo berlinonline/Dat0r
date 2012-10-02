@@ -4,7 +4,7 @@ This library is a prototype for yet another data mapper based on code generation
 The idea is to provide a lightweight (php)solution for defining and managing data structures in form of data objects.
 More description and docs are up the pipeline.
 
-* Build Status:[![Build Status](https://travis-ci.org/shrink/CMF.png)](https://travis-ci.org/shrink/CMF)
+* Build Status: [![Build Status](https://travis-ci.org/shrink/CMF.png)](https://travis-ci.org/shrink/CMF)
 
 ## Installation
 
