@@ -9,6 +9,7 @@ It just takes care of defining data-structures and realizing them via code gener
 Besides plain containers for our data, we needed two more concerns to be respected by the lib.
 * Ensure value consistency - no one wants ambigious data to be let in.
 * Support complex structure definitions such as aggregated/nested objects or inheriting from other data-objects.
+
 Consistency is achieved by a field specific validation of values.
 Values are only set if validation succeeds, so data is most surely always held as defined.
 The xml markup used to define data-structures allows to nest structure definitions
