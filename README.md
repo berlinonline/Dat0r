@@ -11,18 +11,21 @@ More description and docs are up the pipeline.
 This library can be used by integrating it via composer.
 
 - add composer: 
-curl -s http://getcomposer.org/installer | php
+
+    curl -s http://getcomposer.org/installer | php
 
 - create a 'composer.json' file with the following content:
-{
-    "require": {
-        "shrink/cmf": "*"
-    },
-    "minimum-stability": "dev"
-}
+
+    {
+        "require": {
+            "shrink/cmf": "*"
+        },
+        "minimum-stability": "dev"
+    }
 
 - Then install via composer:
-php composer.phar install
+
+    php composer.phar install
 
 
 ## Usage
