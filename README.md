@@ -48,18 +48,18 @@ An example for integration and usage can be found at https://github.com/shrink/d
 
 ## Documentation
 
-### Architecture
-
 Dat0r is basically made up of two layers, lets call them "core"- and "domain"-layer.
 The core-layer's job is to actually manage data, whereas the domain-layer's purpose is to expose domain specific APIs.
 
-#### Core Layer
+### Core Layer
 
 The core-layer provides access to the meta-data that is derived from your data-object definitions.
 It mainly consists of three interfaces named "IModule", "IField" and "IDocument".
 ... tbd
 
-#### Domain Layer
+![core-layer](https://dl.dropbox.com/u/97162004/dat0r-core.png)
+
+### Domain Layer
 
 Provides access to data via domain specific api that is exposed by generated data-objects.
 ... tbd
