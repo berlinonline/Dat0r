@@ -1,6 +1,8 @@
-# Dat0r
+# Dat0r 
 
 [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
+
+## Abstract
 
 When crafting code we think that it is essential to correctly distinguish and separate concerns.
 We believe that decoupled components are less painfull to maintain and easier to reuse.
@@ -44,18 +46,20 @@ Then install via composer:
 
 An example for integration and usage can be found at https://github.com/shrink/draftcmm
 
-## Architecture
+## Documentation
+
+### Architecture
 
 Dat0r is basically made up of two layers, lets call them "core"- and "domain"-layer.
 The core-layer's job is to actually manage data, whereas the domain-layer's purpose is to expose domain specific APIs.
 
-### Core Layer
+#### Core Layer
 
 The core-layer provides access to the meta-data that is derived from your data-object definitions.
 It mainly consists of three interfaces named "IModule", "IField" and "IDocument".
 ... tbd
 
-### Domain Layer
+#### Domain Layer
 
 Provides access to data via domain specific api that is exposed by generated data-objects.
 ... tbd
