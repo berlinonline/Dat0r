@@ -9,11 +9,11 @@ We believe that decoupled components are less painfull to maintain and easier to
 
 Dat0r is a code-generation library that was built to ease our management of domain specific data-objects in php.
 The main difference to existing php solutions, that allow generating code to handle data structures is,
-that Dat0r is not an ORM and it doesn't implement any other persistence concerns.
-It just takes care of defining data-structures and realizing them via code generation.
-Besides plain containers for our data, we needed two more concerns to be respected by the lib.
-* Ensure value consistency - no one wants ambigious data to be let in.
-* Support complex structure definitions such as aggregated/nested objects or inheriting from other data-objects.
+that Dat0r is not an ORM and it doesn't implement any other concerns than defining and holding data.
+It allows to define data-structures in xml and then realizes them via code generation.
+Besides holding (complexly) structured data, we needed two more concerns to be taken care of.
+* Ensure value consistency - we don't like broken data.
+* Provide some kind of inheritance to allow reuse of structure definitions.
 
 Consistency is achieved by field specific validation of values.
 Values are only set if validation succeeds, so data is most surely always held as defined.
@@ -53,9 +53,16 @@ The core-layer's job is to actually manage data, whereas the domain-layer's purp
 
 ### Core Layer
 
-The core-layer provides access to the meta-data that is derived from your data-object definitions.
-It mainly consists of three interfaces named "IModule", "IField" and "IDocument".
-... tbd
+To manage data the core-layer derives meta-data from your data-structure definitions.
+This meta-data is represented by the interfaces "IModule" and "IField" and
+used to create instances of your data-objects, represented by the "IDocument" interface.
+Modules hold meta-data on the document level and compose Fields, that hold meta-data on the property level.
+Further more modules are responsable for creating documents based on their given meta-data.
+Documents are the type that actually holds the data.
+They use their module's fields to define per property behaviour such as validation or comparison
+and they track state changes over time as a list of (change)events.
+
+Shows all components of the core-layer:
 
 ![core-layer](https://dl.dropbox.com/u/97162004/dat0r-core.png)
 
