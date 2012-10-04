@@ -54,7 +54,7 @@ Below you will find an example for the definition of a simple article object.
 <!--
 Holds the definition of a data structure that makes up an example module named Article.
 -->
-<module type="Article" namespace="Example\DataObjects">
+<module type="Article" namespace="Example\DataObject">
     <description>
         Articles hold news related content 
         and basically consist of a title, a paragraph and a teaser text.
@@ -76,7 +76,6 @@ Holds the definition of a data structure that makes up an example module named A
         </field>
     </fields>
 </module>
-
 ```
 
 ### 2. Generate
@@ -130,9 +129,11 @@ As shown in the above file tree, two concrete classes have been generated from o
 The following code snippet shows an example usage of the provided API:
 
 ```php
+<?php
+
 require_once dirname(__FILE__) . '/autoload.php';
 
-use Example\DataObjects\Article;
+use Example\DataObject\Article;
 
 $module = Article\ArticleModule::getInstance();
 $article = $module->createDocument(array(
@@ -150,6 +151,8 @@ foreach ($article->getChanges() as $changeEvent)
 {
     var_dump($changeEvent);
 }
+
+?>
 ```
 
 An other example for integration and usage can be found at https://github.com/shrink/draftcmm
@@ -183,15 +186,56 @@ Below you will find diagram that shows the how the core-layer's components and h
 
 Sitting on top of the generic core-layer, the *domain-layer* uses generated classes to provide an interface,
 that is dedicated to the domains described within our data definitions.  
-The *domain-layer* consists of two sublayers we'll name *base-* and *custom-layer*.  
+The *domain-layer* acts upon two levels of abstraction that we'll call *base-* and *custom-level*.
 
-#### Base-Layer
+#### Base-Level
 
-The *base-layer* connects our generated domain specific *modules* and *documents* with the *core-layer*.   
+The *base-level* code connects our generated domain specific *modules* and *documents* with the *core-layer*.   
 As the *core-layer* provides us with generic default implementations for a given structure definition,
-it is the *base-layers* job to define and pass these concrete definitions to the *core-layer*.  
+it is the *base-level's* job to define and pass these concrete definitions to the *core-layer*.  
+Usually the only place you'll find *base-level* code are auto-generated Base* classes.  
+Listed below, an example showing how structure information is propagated from the *domain-layer* *BaseArticleModule*
+to the underlying *core-layer* *Module* implementation.  
+The code is an excerpt from the code resulting from our above <a href="#2-generate">usage example</a>.
 
-#### Custom-Layer
+```php
+<?php
 
-The *custom-layer's* purpose lies in providing a place for us to easily customize behaviour,
-without risking too much side effects towards other concerns than the one of current interest.  
+namespace Example\DataObject\Article;
+
+abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
+{
+    protected function __construct()
+    {
+        return parent::__construct('Article', array( 
+            \Dat0r\Core\Runtime\Field\TextField::create('title'), 
+            \Dat0r\Core\Runtime\Field\TextField::create('teaser'), 
+            \Dat0r\Core\Runtime\Field\TextField::create('paragraph'), 
+            \Dat0r\Core\Runtime\Field\TextField::create('slug', array(                                 
+                'pattern' => '/^[a-z0-9-]+$/',  
+            )),         
+        ));
+    }
+
+    /**
+     * Returns the IDocument implementor to use when creating new documents.
+     *
+     * @return string Fully qualified name of an IDocument implementation.
+     */
+    protected function getDocumentImplementor()
+    {
+        return 'Funky\DataObject\Foo\FooDocument';
+    }
+}
+
+?>
+```
+
+#### Custom-Level
+
+The *custom-level's* purpose lies in providing a place for us to easily customize behaviour.
+Whenever a *core-layer* implementation doesn't fit our needs, the *custom-layer* is the place to put hands on.  
+Referring to the file tree <a href="#2-generate">in the usage example section</a>,
+the ArticleModule and ArticleDocument classes would represent the *custom-level* implementations for the Article package.  
+By default these are empty skeletons, that are ready to override or extend
+any default behaviour for *modules* and *documents*.  
