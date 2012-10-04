@@ -17,7 +17,7 @@ so you can reuse and extend structures in a way that most probally is familiar.
 
 This library can be used by integrating it via composer.
 
-Add composer: 
+Add composer:
 
     curl -s http://getcomposer.org/installer | php
 
@@ -35,14 +35,124 @@ Then install via composer:
     php composer.phar install
 
 
-## Usage
+## Usage (work in progress)
 
-An example for integration and usage can be found at https://github.com/shrink/draftcmm
+### 1. Define
+
+After installation you are ready to write your first data-definition. 
+Bellow you will find an example for the definition of a simple article object.
+
+*article.module.xml*:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+
+<module type="Article" namespace="Example\DataObjects">
+    <description>
+        Articles hold news related content 
+        and basically consist of a title, a paragraph and a teaser text.
+    </description>
+    <fields>
+        <field name="title" type="text">
+            <description>Holds an article's title.</description>
+        </field>
+        <field name="teaser" type="text">
+            <description>Holds an article's teaser.</description>
+        </field>
+        <field name="paragraph" type="text">
+            <description>Holds an article's paragraph.</description>
+        </field>
+        <field name="slug" type="text">
+            <description>Holds an article's slug.</description>
+            <!-- slugs will only be accepted if they match the following pattern -->
+            <option name="pattern">/^[a-z0-9-]+$/</option>
+        </field>
+    </fields>
+</module>
+
+```
+
+
+### 2. Generate
+
+Before the code generation can be kicked off,
+we need to create a little config file in order to control a few aspects of code generation.
+
+*codegen.config.ini*:
+
+```ini
+; Tell Dat0r where we want generated code to be deployed.
+deployDir=./data_objects
+
+; Tell Dat0r where we want code to be generated to before deploying.
+cacheDir=./codegen_cache
+
+; Tell whether we want generated code to completely moved or just copied 
+; from our cache to the deploy dir. Valid values are 'copy' or 'move'.
+deployMethod=move
+```
+
+Then make sure that the directories that we configured above actually exist:
+
+```
+mkdir data_objects codegen_cache
+```
+
+To then actually generate our code we run:
+
+```
+php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
+```
+
+This should result within an Article folder being created inside our ./data_objects directory.
+The Article's file tree should look like this:
+
+```
+.
+|-- ArticleDocument.php
+|-- ArticleModule.php
+|-- base
+|   |-- BaseArticleDocument.php
+|   |-- BaseArticleModule.php
+```
+
+### 3. Use
+
+After generating the code we are now ready to make profit by using it. :)
+As shown in the above file tree, two concrete classes have been generated from our definition.
+The following code snippet shows an example usage of the provided API:
+
+```php
+require_once dirname(__FILE__) . '/autoload.php';
+
+use Example\DataObjects\Article;
+
+$module = Article\ArticleModule::getInstance();
+$article = $module->createDocument(array(
+    'title' => "This is an article's title.",
+    'teaser' => "This is an article's teaser text.",
+    'paragraph' => "This is an article's paragraph",
+    'slug' => "article-example-slug"
+));
+$article->setTitle("This an article's changed title.");
+$article->setTeaser("This an article's changed teaser text.");
+
+var_dump($article->toArray());
+
+foreach ($article->getChanges() as $changeEvent)
+{
+    var_dump($changeEvent);
+}
+```
+
+An other example for integration and usage can be found at https://github.com/shrink/draftcmm
 
 ## Documentation
 
 Dat0r is basically made up of two layers, lets call them *core-* and *domain-layer*.  
 The *core-layer's* job is to actually manage data, whereas the *domain-layer's* purpose is to expose domain specific APIs.  
+These APIs help us to write code for our business domains in a more clarified and less complex way,
+than we could achieve when using a completely generic approach.
 
 ### Core-Layer
 
@@ -54,7 +164,7 @@ Further more *modules* are responsable for creating *documents* based on their g
 *Documents* are the type that actually holds the data.  
 They use their *module's* *fields* to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.  
-In short you can say *modules* compose *fields* to realize your data-definitions and then use the latter to create *Documents*.
+In short you can say *modules* compose *fields* to realize your data-definitions and then use the latter to create *documents*.
 
 *core-layer visualization:*
 
