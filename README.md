@@ -19,21 +19,26 @@ This library can be used by integrating it via composer.
 
 Add composer:
 
+```shell
     curl -s http://getcomposer.org/installer | php
+```
 
 Create a 'composer.json' file with the following content:
 
-    {
-        "require": {
-            "berlinonline/Dat0r": "*"
-        },
-        "minimum-stability": "dev"
-    }
+```json
+{
+    "require": {
+        "berlinonline/Dat0r": "*"
+    },
+    "minimum-stability": "dev"
+}
+```
 
 Then install via composer:
 
-    php composer.phar install
-
+```shell
+php composer.phar install
+```
 
 ## Usage (work in progress)
 
@@ -94,13 +99,13 @@ deployMethod=move
 
 Then make sure that the directories that we configured above actually exist:
 
-```
+```shell
 mkdir data_objects codegen_cache
 ```
 
 To then actually generate our code we run:
 
-```
+```shell
 php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
