@@ -112,7 +112,7 @@ php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
 This should result within an Article folder being created inside our ./data_objects directory.  
-The Article's file tree should look like this:
+The Article directory's file tree should look like this:
 
 ```
 .
