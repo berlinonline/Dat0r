@@ -14,8 +14,8 @@ Besides holding (complexly) structured data, we needed two more concerns to be t
 
 Consistency is achieved by field specific validation of values.  
 Values are only set if validation succeeds, so data is most surely always held as defined.  
-The xml markup used to define data-structures allows to nest structure definitions  
-and supports data-object inheritance so you can reuse and extend common structure definitions.  
+The xml markup for defining data-structures supports to nested structures and exposes a classical inheritance model,  
+so you can reuse and extend structures in way that most probally is familiar.  
 
 ## Installation
 
