@@ -229,7 +229,7 @@ abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
      */
     protected function getDocumentImplementor()
     {
-        return 'Funky\DataObject\Foo\FooDocument';
+        return 'Example\DataObject\Article\ArticleDocument';
     }
 }
 
