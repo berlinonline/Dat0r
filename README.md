@@ -160,6 +160,8 @@ An other example for integration and usage can be found at https://github.com/sh
 
 ## Documentation
 
+### Architecture
+
 Dat0r is basically made up of two layers, lets call them *core-* and *domain-layer*.  
 The *core-layer's* job is to actually manage data, whereas the *domain-layer's* purpose is to expose domain specific APIs.  
 These APIs help us to write code for our business domains in a more clarified and less complex way,
@@ -169,7 +171,7 @@ than we could achieve when using a completely generic approach.
 
 ![dat0r-layers](https://dl.dropbox.com/u/97162004/dat0r-layers.png)
 
-### Core-Layer
+#### Core-Layer
 
 To manage data the *core-layer* derives meta-data from your data-structure definitions.  
 This meta-data is represented by the interfaces *IModule* and *IField* and
@@ -187,13 +189,13 @@ Below you will find diagram that shows the how the core-layer's components and h
 
 ![core-layer](https://dl.dropbox.com/u/97162004/dat0r-core.png)
 
-### Domain-Layer
+#### Domain-Layer
 
 Sitting on top of the generic core-layer, the *domain-layer* uses generated classes to provide an interface,
 that is dedicated to the domains described within our data definitions.  
 The *domain-layer* acts upon two levels of abstraction that we'll call *base-* and *custom-level*.  
 
-#### Base-Level
+##### Base-Level
 
 The *base-level* code connects our generated domain specific *modules* and *documents* with the *core-layer*.   
 As the *core-layer* provides us with generic default implementations for a given structure definition,
@@ -236,7 +238,7 @@ abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
 ?>
 ```
 
-#### Custom-Level
+##### Custom-Level
 
 The *custom-level's* purpose lies in providing a place for us to easily customize behaviour.  
 Whenever a *core-layer* implementation doesn't fit our needs, the *custom-layer* is the place to put hands on.  
@@ -244,3 +246,8 @@ Referring to the file tree <a href="#2-generate">in the usage example section</a
 the ArticleModule and ArticleDocument classes would represent the *custom-level* implementations of the Article definition.  
 By default these are empty skeletons,
 that are ready to override or extend any default behaviour for *modules* and *documents*.  
+
+
+### API Doc
+
+... to be done
