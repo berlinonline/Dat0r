@@ -40,7 +40,7 @@ Then install via composer:
 php composer.phar install
 ```
 
-## Usage (work in progress)
+## Usage
 
 ### 1. Define
 
@@ -171,7 +171,9 @@ Further more *modules* are responsable for creating *documents* based on their g
 *Documents* are the type that actually holds the data.  
 They use their *module's* *fields* to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.  
-In short you can say *modules* compose *fields* to realize your data-definitions and then use the latter to create *documents*.
+In short you can say *modules* compose *fields* to realize your data-definitions
+and then use the latter to create *documents* that hold the data.
+Below you will find diagram that shows the how the core-layer's components and how they play together.
 
 *core-layer visualization:*
 
@@ -179,5 +181,17 @@ In short you can say *modules* compose *fields* to realize your data-definitions
 
 ### Domain-Layer
 
-Provides access to data via domain specific api that is exposed by generated data-objects.
-... tbd
+Sitting on top of the generic core-layer, the *domain-layer* uses generated classes to provide an interface,
+that is dedicated to the domains described within our data definitions.  
+The *domain-layer* consists of two sublayers we'll name *base-* and *custom-layer*.  
+
+#### Base-Layer
+
+The *base-layer* connects our generated domain specific *modules* and *documents* with the *core-layer*.   
+As the *core-layer* provides us with generic default implementations for a given structure definition,
+it is the *base-layers* job to define and pass these concrete definitions to the *core-layer*.  
+
+#### Custom-Layer
+
+The *custom-layer's* purpose lies in providing a place for us to easily customize behaviour,
+without risking too much side effects towards other concerns than the one of current interest.  
