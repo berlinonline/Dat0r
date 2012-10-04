@@ -45,7 +45,7 @@ php composer.phar install
 ### 1. Define
 
 After installation you are ready to write your first data-definition.  
-Bellow you will find an example for the definition of a simple article object.
+Below you will find an example for the definition of a simple article object.
 
 *article.module.xml*:
 
@@ -82,7 +82,8 @@ Holds the definition of a data structure that makes up an example module named A
 ### 2. Generate
 
 Before the code generation can be kicked off,
-we need to create a little config file in order to control a few aspects of code generation.
+we need to create a little config file in order to control a few aspects of code generation.  
+The contents of the config file we are using for this example is listed below.
 
 *codegen.config.ini*:
 
