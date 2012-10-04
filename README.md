@@ -197,9 +197,9 @@ The *domain-layer* acts upon two levels of abstraction that we'll call *base-* a
 The *base-level* code connects our generated domain specific *modules* and *documents* with the *core-layer*.   
 As the *core-layer* provides us with generic default implementations for a given structure definition,
 it is the *base-level's* job to define and pass these concrete definitions to the *core-layer*.  
-Usually the only place you'll find *base-level* code are auto-generated Base* classes.  
-Listed below, an example showing how structure information is propagated from the *domain-layer* *BaseArticleModule*
-to the underlying *core-layer* *Module* implementation.  
+Usually the only places you'll find *base-level* code are the auto-generated Base* classes.  
+Listed below is an example showing how structure information is propagated from the *domain-layer*
+to the underlying *core-layer* by using inheritance to provide the specific definitions to the core.  
 The code is an excerpt from the results of the above <a href="#2-generate">code generation example</a>.  
 
 ```php
