@@ -44,7 +44,7 @@ php composer.phar install
 
 ### 1. Define
 
-After installation you are ready to write your first data-definition. 
+After installation you are ready to write your first data-definition.  
 Bellow you will find an example for the definition of a simple article object.
 
 *article.module.xml*:
@@ -110,7 +110,7 @@ To then actually generate our code we run:
 php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
-This should result within an Article folder being created inside our ./data_objects directory.
+This should result within an Article folder being created inside our ./data_objects directory.  
 The Article's file tree should look like this:
 
 ```
@@ -124,8 +124,8 @@ The Article's file tree should look like this:
 
 ### 3. Use
 
-After generating the code we are now ready to make profit by using it. :)
-As shown in the above file tree, two concrete classes have been generated from our definition.
+After generating the code we are now ready to make profit by using it. :)  
+As shown in the above file tree, two concrete classes have been generated from our definition.  
 The following code snippet shows an example usage of the provided API:
 
 ```php
