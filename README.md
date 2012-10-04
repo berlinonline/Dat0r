@@ -162,7 +162,7 @@ An other example for integration and usage can be found at https://github.com/sh
 Dat0r is basically made up of two layers, lets call them *core-* and *domain-layer*.  
 The *core-layer's* job is to actually manage data, whereas the *domain-layer's* purpose is to expose domain specific APIs.  
 These APIs help us to write code for our business domains in a more clarified and less complex way,
-than we could achieve when using a completely generic approach.
+than we could achieve when using a completely generic approach.  
 
 ### Core-Layer
 
@@ -175,8 +175,8 @@ Further more *modules* are responsable for creating *documents* based on their g
 They use their *module's* *fields* to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.  
 In short you can say *modules* compose *fields* to realize your data-definitions
-and then use the latter to create *documents* that hold the data.
-Below you will find diagram that shows the how the core-layer's components and how they play together.
+and then use the latter to create *documents* that hold the data.  
+Below you will find diagram that shows the how the core-layer's components and how they play together.  
 
 *core-layer visualization:*
 
@@ -186,7 +186,7 @@ Below you will find diagram that shows the how the core-layer's components and h
 
 Sitting on top of the generic core-layer, the *domain-layer* uses generated classes to provide an interface,
 that is dedicated to the domains described within our data definitions.  
-The *domain-layer* acts upon two levels of abstraction that we'll call *base-* and *custom-level*.
+The *domain-layer* acts upon two levels of abstraction that we'll call *base-* and *custom-level*.  
 
 #### Base-Level
 
@@ -196,7 +196,7 @@ it is the *base-level's* job to define and pass these concrete definitions to th
 Usually the only place you'll find *base-level* code are auto-generated Base* classes.  
 Listed below, an example showing how structure information is propagated from the *domain-layer* *BaseArticleModule*
 to the underlying *core-layer* *Module* implementation.  
-The code is an excerpt from the code resulting from our above <a href="#2-generate">usage example</a>.
+The code is an excerpt from the results of the above <a href="#2-generate">code generation example</a>.  
 
 ```php
 <?php
@@ -233,9 +233,9 @@ abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
 
 #### Custom-Level
 
-The *custom-level's* purpose lies in providing a place for us to easily customize behaviour.
+The *custom-level's* purpose lies in providing a place for us to easily customize behaviour.  
 Whenever a *core-layer* implementation doesn't fit our needs, the *custom-layer* is the place to put hands on.  
 Referring to the file tree <a href="#2-generate">in the usage example section</a>,
-the ArticleModule and ArticleDocument classes would represent the *custom-level* implementations for the Article package.  
-By default these are empty skeletons, that are ready to override or extend
-any default behaviour for *modules* and *documents*.  
+the ArticleModule and ArticleDocument classes would represent the *custom-level* implementations of the Article definition.  
+By default these are empty skeletons,
+that are ready to override or extend any default behaviour for *modules* and *documents*.  
