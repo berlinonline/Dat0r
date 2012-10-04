@@ -1,5 +1,5 @@
 {
-    "name": "berlinonline/Dat0r",
+    "name": "berlinonline/dat0r",
     "type": "library",
     "description": "Library for generating data-objects.",
     "keywords": ["data mapper", "scaffolding"],
