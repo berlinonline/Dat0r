@@ -61,8 +61,9 @@ Further more modules are responsable for creating documents based on their given
 Documents are the type that actually holds the data.
 They use their module's fields to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.
+In short you can say "Module"s compose "Field"s to realize your data-definitions and then use  the latter to create "Document"s.
 
-Shows all components of the core-layer:
+*Core layer visualization:*
 
 ![core-layer](https://dl.dropbox.com/u/97162004/dat0r-core.png)
 
