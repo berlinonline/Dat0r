@@ -19,8 +19,8 @@ This library can be used by integrating it via composer.
 
 Add composer:
 
-```shell
-    curl -s http://getcomposer.org/installer | php
+```sh
+curl -s http://getcomposer.org/installer | php
 ```
 
 Create a 'composer.json' file with the following content:
@@ -36,7 +36,7 @@ Create a 'composer.json' file with the following content:
 
 Then install via composer:
 
-```shell
+```sh
 php composer.phar install
 ```
 
@@ -51,7 +51,9 @@ Bellow you will find an example for the definition of a simple article object.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-
+<!--
+Holds the definition of a data structure that makes up an example module named Article.
+-->
 <module type="Article" namespace="Example\DataObjects">
     <description>
         Articles hold news related content 
@@ -77,7 +79,6 @@ Bellow you will find an example for the definition of a simple article object.
 
 ```
 
-
 ### 2. Generate
 
 Before the code generation can be kicked off,
@@ -99,13 +100,13 @@ deployMethod=move
 
 Then make sure that the directories that we configured above actually exist:
 
-```shell
+```sh
 mkdir data_objects codegen_cache
 ```
 
 To then actually generate our code we run:
 
-```shell
+```sh
 php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
