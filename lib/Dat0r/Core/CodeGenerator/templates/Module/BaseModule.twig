@@ -17,7 +17,7 @@ abstract class {{ implementor }} extends {{ parent_class }}
      */
     protected function __construct()
     {
-        return parent::__construct('{{ module_name }}', array( {% for field in fields %}
+        parent::__construct('{{ module_name }}', array( {% for field in fields %}
 
             {% spaceless %}
                 {% if field.options|length > 0 %} 
