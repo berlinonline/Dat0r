@@ -164,6 +164,10 @@ The *core-layer's* job is to actually manage data, whereas the *domain-layer's* 
 These APIs help us to write code for our business domains in a more clarified and less complex way,
 than we could achieve when using a completely generic approach.  
 
+*layers visualization:*
+
+![dat0r-layers](https://dl.dropbox.com/u/97162004/dat0r-layers.png)
+
 ### Core-Layer
 
 To manage data the *core-layer* derives meta-data from your data-structure definitions.  
