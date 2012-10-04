@@ -1,9 +1,9 @@
 {
-    "name": "shrink/cmf",
+    "name": "berlinonline/Dat0r",
     "type": "library",
-    "description": "Current prototype for a data-object abstraction with codegeneration and data integrity support.",
+    "description": "Library for generating data-objects.",
     "keywords": ["data mapper", "scaffolding"],
-    "homepage": "https://github.com/shrink/Dat0r",
+    "homepage": "https://github.com/berlinonline/Dat0r",
     "license": "MIT",
     "authors": [
         {

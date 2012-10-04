@@ -6,7 +6,7 @@
 
 Dat0r is a code-generation library that was built to ease our management of domain specific data-objects in php.  
 The main difference to existing php solutions, that allow generating code to handle data structures is,  
-that Dat0r is not an ORM and it doesn't implement any other concerns than defining and holding data.  
+that Dat0r is not an ORM and it doesn't implement any other concerns than mere data definition and containment.  
 It allows to define data-structures in xml and then realizes them via code generation.  
 Besides holding (complexly) structured data, we needed two more concerns to be taken care of.  
 * Ensure value consistency - we don't like broken data.  
@@ -14,8 +14,8 @@ Besides holding (complexly) structured data, we needed two more concerns to be t
 
 Consistency is achieved by field specific validation of values.  
 Values are only set if validation succeeds, so data is most surely always held as defined.  
-The xml markup for defining data-structures supports to nested structures and exposes a classical inheritance model,  
-so you can reuse and extend structures in way that most probally is familiar.  
+The xml markup for defining data-structures supports nested structures and exposes a classical inheritance model,  
+so you can reuse and extend structures in a way that most probally is familiar.  
 
 ## Installation
 
@@ -29,7 +29,7 @@ Create a 'composer.json' file with the following content:
 
     {
         "require": {
-            "shrink/cmf": "*"
+            "berlinonline/Dat0r": "*"
         },
         "minimum-stability": "dev"
     }
