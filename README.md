@@ -1,5 +1,5 @@
 # Dat0r [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
-
+___
 Dat0r is a code-generation library that was built to ease our management of domain specific data-objects in php.  
 The main difference to existing php solutions, that allow generating code to handle data structures is,
 that Dat0r is not an ORM and it doesn't implement any other concerns than mere data definition and containment.  
@@ -80,6 +80,7 @@ Holds the definition of a data structure that makes up an example module named A
 
 ### 2. Generate
 
+The next step after defining our desired data structure is to generate the corresponding code.  
 Before the code generation can be kicked off,
 we need to create a little config file in order to control a few aspects of code generation.  
 The contents of the config file we are using for this example is listed below.
@@ -98,13 +99,13 @@ cacheDir=./codegen_cache
 deployMethod=move
 ```
 
-Then make sure that the directories that we configured above actually exist:
+Then make sure, that the directories which we configured above actually exist:
 
 ```sh
 mkdir data_objects codegen_cache
 ```
 
-To then actually generate our code we run:
+To then actually generate the code we run:
 
 ```sh
 php ./vendor/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
@@ -125,8 +126,8 @@ The Article directory's file tree should look like this:
 ### 3. Use
 
 After generating the code we are now ready to make profit by using it. :)  
-As shown in the above file tree, two concrete classes have been generated from our definition.  
-The following code snippet shows an example usage of the provided API:
+As shown in the above file tree, two concrete and two abstract classes have been generated from our definition.  
+The following code snippet shows an example usage of the API provided by the concrete implementations:  s
 
 ```php
 <?php
