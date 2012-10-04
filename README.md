@@ -247,6 +247,7 @@ the ArticleModule and ArticleDocument classes would represent the *custom-level*
 By default these are empty skeletons,
 that are ready to override or extend any default behaviour for *modules* and *documents*.  
 
+***
 
 ### API Doc
 
