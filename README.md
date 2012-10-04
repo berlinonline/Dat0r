@@ -1,6 +1,4 @@
-# Dat0r 
-
-[![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
+# Dat0r [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
 
 ## Abstract
 
@@ -46,17 +44,17 @@ An example for integration and usage can be found at https://github.com/shrink/d
 ## Documentation
 
 Dat0r is basically made up of two layers, lets call them *core-* and *domain-layer*.  
-The core layer's job is to actually manage data, whereas the domain-layer's purpose is to expose domain specific APIs.  
+The *core-layer's* job is to actually manage data, whereas the *domain-layer's* purpose is to expose domain specific APIs.  
 
 ### Core-Layer
 
 To manage data the *core-layer* derives meta-data from your data-structure definitions.  
 This meta-data is represented by the interfaces *IModule* and *IField* and
 used to create instances of your data-objects, represented by the *IDocument* interface.  
-Modules hold meta-data on the document level and compose Fields, that hold meta-data on the property level.  
-Further more modules are responsable for creating documents based on their given meta-data.  
-Documents are the type that actually holds the data.  
-They use their module's fields to define per property behaviour such as validation or comparison  
+Modules hold meta-data on the *document* level and compose *fields*, that hold meta-data on the property level.  
+Further more *modules* are responsable for creating *documents* based on their given meta-data.  
+*Documents* are the type that actually holds the data.  
+They use their *module's* *fields* to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.  
 In short you can say *modules* compose *fields* to realize your data-definitions and then use the latter to create *Documents*.
 
