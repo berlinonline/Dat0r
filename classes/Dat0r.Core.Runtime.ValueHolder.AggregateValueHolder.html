@@ -1,0 +1,392 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Dat0r\Core\Runtime\ValueHolder\AggregateValueHolder</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Dat0r.html"><i class="icon-th"></i> Dat0r</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">270</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">9</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public inherited"><a href="#__toString" title="__toString :: Returns string representation of the current value."><span class="description">Returns string representation of the current value.</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#addAggregateChangedListener" title="addAggregateChangedListener :: "><span class="description">addAggregateChangedListener()
+        </span><pre>addAggregateChangedListener()</pre></a></li>
+<li class="method public inherited"><a href="#create" title="create :: Creates a new IValueHolder instance from a given value."><span class="description">Creates a new IValueHolder instance from a given value.</span><pre>create()</pre></a></li>
+<li class="method public inherited"><a href="#freeze" title="freeze :: Closes a concrete object instance for further modifications."><span class="description">Closes a concrete object instance for further modifications.</span><pre>freeze()</pre></a></li>
+<li class="method public inherited"><a href="#getValue" title="getValue :: Returns the ValueHolder's value."><span class="description">Returns the ValueHolder's value.</span><pre>getValue()</pre></a></li>
+<li class="method public "><a href="#isEqualTo" title="isEqualTo :: Tells whether a spefic IValueHolder instance's value is considered equal to
+the value of an other given IValueHolder."><span class="description">Tells whether a spefic IValueHolder instance's value is considered equal to
+the value of an other given IValueHolder.</span><pre>isEqualTo()</pre></a></li>
+<li class="method public inherited"><a href="#isFrozen" title="isFrozen :: Tells whether a concrete object instance is frozen or not."><span class="description">Tells whether a concrete object instance is frozen or not.</span><pre>isFrozen()</pre></a></li>
+<li class="method public "><a href="#isGreaterThan" title="isGreaterThan :: Tells whether a spefic IValueHolder instance's value is considered greater than
+the value of an other given IValueHolder."><span class="description">Tells whether a spefic IValueHolder instance's value is considered greater than
+the value of an other given IValueHolder.</span><pre>isGreaterThan()</pre></a></li>
+<li class="method public "><a href="#isLessThan" title="isLessThan :: Tells whether a spefic IValueHolder instance's value is considered less than
+the value of an other given IValueHolder."><span class="description">Tells whether a spefic IValueHolder instance's value is considered less than
+the value of an other given IValueHolder.</span><pre>isLessThan()</pre></a></li>
+<li class="method public "><a href="#notifyAggregateChanged" title="notifyAggregateChanged :: "><span class="description">notifyAggregateChanged()
+        </span><pre>notifyAggregateChanged()</pre></a></li>
+<li class="method public "><a href="#onDocumentChanged" title="onDocumentChanged :: "><span class="description">onDocumentChanged()
+        </span><pre>onDocumentChanged()</pre></a></li>
+<li class="method public "><a href="#setValue" title="setValue :: Sets the value holder's (array) value."><span class="description">Sets the value holder's (array) value.</span><pre>setValue()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#__construct" title="__construct :: Contructs a new ValueHolder instance from a given value."><span class="description">Contructs a new ValueHolder instance from a given value.</span><pre>__construct()</pre></a></li>
+<li class="method protected inherited"><a href="#getField" title="getField :: Returns the field that we are handling the data for."><span class="description">Returns the field that we are handling the data for.</span><pre>getField()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24aggregateChangedListeners" title="$aggregateChangedListeners :: "><span class="description">$aggregateChangedListeners</span><pre>$aggregateChangedListeners</pre></a></li>
+<li class="property private inherited"><a href="#%24field" title="$field :: "><span class="description">&lt;p&gt;Holds field which's data we are handling.&lt;/p&gt;
+</span><pre>$field</pre></a></li>
+<li class="property private inherited"><a href="#%24frozen" title="$frozen :: "><span class="description">$frozen</span><pre>$frozen</pre></a></li>
+<li class="property private inherited"><a href="#%24value" title="$value :: "><span class="description">&lt;p&gt;Holds the ValueHolder's value.&lt;/p&gt;
+</span><pre>$value</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CDat0r%5CCore%5CRuntime%5CValueHolder%5CAggregateValueHolder" id="\Dat0r\Core\Runtime\ValueHolder\AggregateValueHolder"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Dat0r.html">Dat0r</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.html">Core</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.html">Runtime</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.ValueHolder.html">ValueHolder</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Dat0r.Core.Runtime.ValueHolder.AggregateValueHolder.html">AggregateValueHolder</a>
+</li>
+</ul>
+<div href="../classes/Dat0r.Core.Runtime.ValueHolder.AggregateValueHolder.html" class="element class">
+<p class="short_description">This is the default IValueHolder implementation used for holding module aggregates.</p>
+<div class="details">
+<p class="long_description"></p>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="__toString" id="__toString"></a><div class="element clickable method public __toString" data-toggle="collapse" data-target=".__toString .collapse">
+<h2>Returns string representation of the current value.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::__toString()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="addAggregateChangedListener" id="addAggregateChangedListener"></a><div class="element clickable method public addAggregateChangedListener" data-toggle="collapse" data-target=".addAggregateChangedListener .collapse">
+<h2>addAggregateChangedListener()
+        </h2>
+<pre>addAggregateChangedListener(\Dat0r\Core\Runtime\Document\IAggregateChangedListener $aggregateChangedListener) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$aggregateChangedListener</h4></div>
+</div></div>
+</div>
+<a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
+<h2>Creates a new IValueHolder instance from a given value.</h2>
+<pre>create(\Dat0r\Core\Runtime\Field\IField $field, mixed $value) : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::create()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$field</h4></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+</div></div>
+</div>
+<a name="freeze" id="freeze"></a><div class="element clickable method public freeze" data-toggle="collapse" data-target=".freeze .collapse">
+<h2>Closes a concrete object instance for further modifications.</h2>
+<pre>freeze() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\IFreezable::freeze()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\IValueHolder::freeze()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::freeze()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="getValue" id="getValue"></a><div class="element clickable method public getValue" data-toggle="collapse" data-target=".getValue .collapse">
+<h2>Returns the ValueHolder's value.</h2>
+<pre>getValue() : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::getValue()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a name="isEqualTo" id="isEqualTo"></a><div class="element clickable method public isEqualTo" data-toggle="collapse" data-target=".isEqualTo .collapse">
+<h2>Tells whether a spefic IValueHolder instance's value is considered equal to
+the value of an other given IValueHolder.</h2>
+<pre>isEqualTo(\Dat0r\Core\Runtime\ValueHolder\IValueHolder $other) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$other</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="isFrozen" id="isFrozen"></a><div class="element clickable method public isFrozen" data-toggle="collapse" data-target=".isFrozen .collapse">
+<h2>Tells whether a concrete object instance is frozen or not.</h2>
+<pre>isFrozen() : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\IFreezable::isFrozen()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\IValueHolder::isFrozen()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::isFrozen()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="isGreaterThan" id="isGreaterThan"></a><div class="element clickable method public isGreaterThan" data-toggle="collapse" data-target=".isGreaterThan .collapse">
+<h2>Tells whether a spefic IValueHolder instance's value is considered greater than
+the value of an other given IValueHolder.</h2>
+<pre>isGreaterThan(\Dat0r\Core\Runtime\ValueHolder\IValueHolder $other) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$other</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="isLessThan" id="isLessThan"></a><div class="element clickable method public isLessThan" data-toggle="collapse" data-target=".isLessThan .collapse">
+<h2>Tells whether a spefic IValueHolder instance's value is considered less than
+the value of an other given IValueHolder.</h2>
+<pre>isLessThan(\Dat0r\Core\Runtime\ValueHolder\IValueHolder $other) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$other</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="notifyAggregateChanged" id="notifyAggregateChanged"></a><div class="element clickable method public notifyAggregateChanged" data-toggle="collapse" data-target=".notifyAggregateChanged .collapse">
+<h2>notifyAggregateChanged()
+        </h2>
+<pre>notifyAggregateChanged(\Dat0r\Core\Runtime\Document\DocumentChangedEvent $event) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$event</h4></div>
+</div></div>
+</div>
+<a name="onDocumentChanged" id="onDocumentChanged"></a><div class="element clickable method public onDocumentChanged" data-toggle="collapse" data-target=".onDocumentChanged .collapse">
+<h2>onDocumentChanged()
+        </h2>
+<pre>onDocumentChanged(\Dat0r\Core\Runtime\Document\DocumentChangedEvent $event) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$event</h4></div>
+</div></div>
+</div>
+<a name="setValue" id="setValue"></a><div class="element clickable method public setValue" data-toggle="collapse" data-target=".setValue .collapse">
+<h2>Sets the value holder's (array) value.</h2>
+<pre>setValue(array $value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method protected __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Contructs a new ValueHolder instance from a given value.</h2>
+<pre>__construct(\Dat0r\Core\Runtime\Field\IField $field, mixed $value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$field</h4></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code>
+</div>
+</div></div>
+</div>
+<a name="getField" id="getField"></a><div class="element clickable method protected getField" data-toggle="collapse" data-target=".getField .collapse">
+<h2>Returns the field that we are handling the data for.</h2>
+<pre>getField() : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::getField()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24aggregateChangedListeners" id="$aggregateChangedListeners"> </a><div class="element clickable property private $aggregateChangedListeners" data-toggle="collapse" data-target=".$aggregateChangedListeners .collapse">
+<h2>$aggregateChangedListeners</h2>
+<pre>$aggregateChangedListeners </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24field" id="$field"> </a><div class="element clickable property private $field" data-toggle="collapse" data-target=".$field .collapse">
+<h2>&lt;p&gt;Holds field which's data we are handling.&lt;/p&gt;
+</h2>
+<pre>$field : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::$$field</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24frozen" id="$frozen"> </a><div class="element clickable property private $frozen" data-toggle="collapse" data-target=".$frozen .collapse">
+<h2>$frozen</h2>
+<pre>$frozen : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\Freezable::$$frozen</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::$$frozen</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="%24value" id="$value"> </a><div class="element clickable property private $value" data-toggle="collapse" data-target=".$value .collapse">
+<h2>&lt;p&gt;Holds the ValueHolder's value.&lt;/p&gt;
+</h2>
+<pre>$value : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::$$value</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-05T18:49:00+02:00.<br></footer></div>
+</div>
+</body>
+</html>

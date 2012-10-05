@@ -1,0 +1,295 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Dat0r.html"><i class="icon-th"></i> Dat0r</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">270</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">9</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#addValueChangedListener" title="addValueChangedListener :: "><span class="description">addValueChangedListener()
+        </span><pre>addValueChangedListener()</pre></a></li>
+<li class="method public "><a href="#create" title="create :: Creates a new ValuesHolder instance."><span class="description">Creates a new ValuesHolder instance.</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#get" title="get :: Returns the value for a specific field."><span class="description">Returns the value for a specific field.</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#has" title="has :: Tells whether a value has been set for a given field."><span class="description">Tells whether a value has been set for a given field.</span><pre>has()</pre></a></li>
+<li class="method public "><a href="#notifyValueChanged" title="notifyValueChanged :: "><span class="description">notifyValueChanged()
+        </span><pre>notifyValueChanged()</pre></a></li>
+<li class="method public "><a href="#onAggregateChanged" title="onAggregateChanged :: "><span class="description">onAggregateChanged()
+        </span><pre>onAggregateChanged()</pre></a></li>
+<li class="method public "><a href="#reset" title="reset :: Resets the value for a given field."><span class="description">Resets the value for a given field.</span><pre>reset()</pre></a></li>
+<li class="method public "><a href="#set" title="set :: Sets a value for a given field."><span class="description">Sets a value for a given field.</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#toArray" title="toArray :: Returns an array representation of the ValueHolder's present state."><span class="description">Returns an array representation of the ValueHolder's present state.</span><pre>toArray()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#__construct" title="__construct :: Constructs a new ValuesHolder instance."><span class="description">Constructs a new ValuesHolder instance.</span><pre>__construct()</pre></a></li>
+<li class="method protected "><a href="#createValueHolder" title="createValueHolder :: Creates a IValueHolder instance for a given combination of IField and raw value."><span class="description">Creates a IValueHolder instance for a given combination of IField and raw value.</span><pre>createValueHolder()</pre></a></li>
+<li class="method protected "><a href="#getModule" title="getModule :: Returns the valueholder instance's associated module."><span class="description">Returns the valueholder instance's associated module.</span><pre>getModule()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24module" title="$module :: "><span class="description">$module</span><pre>$module</pre></a></li>
+<li class="property private "><a href="#%24valueChangedListeners" title="$valueChangedListeners :: "><span class="description">$valueChangedListeners</span><pre>$valueChangedListeners</pre></a></li>
+<li class="property private "><a href="#%24values" title="$values :: "><span class="description">&lt;p&gt;Holds the ValuesHolder's values.&lt;/p&gt;
+</span><pre>$values</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CDat0r%5CCore%5CRuntime%5CValueHolder%5CValueHolderCollection" id="\Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Dat0r.html">Dat0r</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.html">Core</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.html">Runtime</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.ValueHolder.html">ValueHolder</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Dat0r.Core.Runtime.ValueHolder.ValueHolderCollection.html">ValueHolderCollection</a>
+</li>
+</ul>
+<div href="../classes/Dat0r.Core.Runtime.ValueHolder.ValueHolderCollection.html" class="element class">
+<p class="short_description"></p>
+<div class="details">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>todo</th>
+<td>explain what valuesholders are and why they exist.</td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="addValueChangedListener" id="addValueChangedListener"></a><div class="element clickable method public addValueChangedListener" data-toggle="collapse" data-target=".addValueChangedListener .collapse">
+<h2>addValueChangedListener()
+        </h2>
+<pre>addValueChangedListener(\Dat0r\Core\Runtime\Document\IValueChangedListener $valueChangedListener) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$valueChangedListener</h4></div>
+</div></div>
+</div>
+<a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
+<h2>Creates a new ValuesHolder instance.</h2>
+<pre>create(\Dat0r\Core\Runtime\Module\IModule $module) : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Document\ValuesHolder</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$module</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Document\ValuesHolder</code></div>
+</div></div>
+</div>
+<a name="get" id="get"></a><div class="element clickable method public get" data-toggle="collapse" data-target=".get .collapse">
+<h2>Returns the value for a specific field.</h2>
+<pre>get(\Dat0r\Core\Runtime\Field\IField $field) : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+</div></div>
+</div>
+<a name="has" id="has"></a><div class="element clickable method public has" data-toggle="collapse" data-target=".has .collapse">
+<h2>Tells whether a value has been set for a given field.</h2>
+<pre>has(\Dat0r\Core\Runtime\Field\IField $field) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="notifyValueChanged" id="notifyValueChanged"></a><div class="element clickable method public notifyValueChanged" data-toggle="collapse" data-target=".notifyValueChanged .collapse">
+<h2>notifyValueChanged()
+        </h2>
+<pre>notifyValueChanged(\Dat0r\Core\Runtime\Document\ValueChangedEvent $event) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$event</h4></div>
+</div></div>
+</div>
+<a name="onAggregateChanged" id="onAggregateChanged"></a><div class="element clickable method public onAggregateChanged" data-toggle="collapse" data-target=".onAggregateChanged .collapse">
+<h2>onAggregateChanged()
+        </h2>
+<pre>onAggregateChanged(\Dat0r\Core\Runtime\Field\AggregateField $field, \Dat0r\Core\Runtime\Document\DocumentChangedEvent $event) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$field</h4></div>
+<div class="subelement argument"><h4>$event</h4></div>
+</div></div>
+</div>
+<a name="reset" id="reset"></a><div class="element clickable method public reset" data-toggle="collapse" data-target=".reset .collapse">
+<h2>Resets the value for a given field.</h2>
+<pre>reset(\Dat0r\Core\Runtime\Field\IField $field) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+</div></div>
+</div>
+<a name="set" id="set"></a><div class="element clickable method public set" data-toggle="collapse" data-target=".set .collapse">
+<h2>Sets a value for a given field.</h2>
+<pre>set(\Dat0r\Core\Runtime\Field\IField $field, \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder $value, boolean $override) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+</div>
+<div class="subelement argument">
+<h4>$override</h4>
+<code>boolean</code>
+</div>
+</div></div>
+</div>
+<a name="toArray" id="toArray"></a><div class="element clickable method public toArray" data-toggle="collapse" data-target=".toArray .collapse">
+<h2>Returns an array representation of the ValueHolder's present state.</h2>
+<pre>toArray() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method protected __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Constructs a new ValuesHolder instance.</h2>
+<pre>__construct(\Dat0r\Core\Runtime\Module\IModule $module) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$module</h4></div>
+</div></div>
+</div>
+<a name="createValueHolder" id="createValueHolder"></a><div class="element clickable method protected createValueHolder" data-toggle="collapse" data-target=".createValueHolder .collapse">
+<h2>Creates a IValueHolder instance for a given combination of IField and raw value.</h2>
+<pre>createValueHolder(\Dat0r\Core\Runtime\Field\IField $field, $rawValue) : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<div class="subelement argument"><h4>$rawValue</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+</div></div>
+</div>
+<a name="getModule" id="getModule"></a><div class="element clickable method protected getModule" data-toggle="collapse" data-target=".getModule .collapse">
+<h2>Returns the valueholder instance's associated module.</h2>
+<pre>getModule() : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Module\IModule</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Module\IModule</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24module" id="$module"> </a><div class="element clickable property private $module" data-toggle="collapse" data-target=".$module .collapse">
+<h2>$module</h2>
+<pre>$module </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24valueChangedListeners" id="$valueChangedListeners"> </a><div class="element clickable property private $valueChangedListeners" data-toggle="collapse" data-target=".$valueChangedListeners .collapse">
+<h2>$valueChangedListeners</h2>
+<pre>$valueChangedListeners </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24values" id="$values"> </a><div class="element clickable property private $values" data-toggle="collapse" data-target=".$values .collapse">
+<h2>&lt;p&gt;Holds the ValuesHolder's values.&lt;/p&gt;
+</h2>
+<pre>$values : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-05T18:49:00+02:00.<br></footer></div>
+</div>
+</body>
+</html>

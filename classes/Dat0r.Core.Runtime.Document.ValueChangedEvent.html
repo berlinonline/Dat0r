@@ -1,0 +1,222 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Dat0r\Core\Runtime\Document\ValueChangedEvent</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Dat0r.html"><i class="icon-th"></i> Dat0r</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">270</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">9</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#create" title="create :: Creates a new ValueChangedEvent instance."><span class="description">Creates a new ValueChangedEvent instance.</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#getAggregateEvent" title="getAggregateEvent :: "><span class="description">getAggregateEvent()
+        </span><pre>getAggregateEvent()</pre></a></li>
+<li class="method public "><a href="#getField" title="getField :: Returns the event's affected field."><span class="description">Returns the event's affected field.</span><pre>getField()</pre></a></li>
+<li class="method public "><a href="#getNewValue" title="getNewValue :: Returns the new value of the event's related field."><span class="description">Returns the new value of the event's related field.</span><pre>getNewValue()</pre></a></li>
+<li class="method public "><a href="#getOldValue" title="getOldValue :: Returns the previous value of the event's related field."><span class="description">Returns the previous value of the event's related field.</span><pre>getOldValue()</pre></a></li>
+<li class="method public "><a href="#getTimestamp" title="getTimestamp :: Returns the event's creation time as a unix timestamp."><span class="description">Returns the event's creation time as a unix timestamp.</span><pre>getTimestamp()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#__construct" title="__construct :: Constructs a new ValueChangedEvent instance."><span class="description">Constructs a new ValueChangedEvent instance.</span><pre>__construct()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24aggregateEvent" title="$aggregateEvent :: "><span class="description">$aggregateEvent</span><pre>$aggregateEvent</pre></a></li>
+<li class="property private "><a href="#%24field" title="$field :: "><span class="description">$field</span><pre>$field</pre></a></li>
+<li class="property private "><a href="#%24newValue" title="$newValue :: "><span class="description">$newValue</span><pre>$newValue</pre></a></li>
+<li class="property private "><a href="#%24oldValue" title="$oldValue :: "><span class="description">$oldValue</span><pre>$oldValue</pre></a></li>
+<li class="property private "><a href="#%24timestamp" title="$timestamp :: "><span class="description">$timestamp</span><pre>$timestamp</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CDat0r%5CCore%5CRuntime%5CDocument%5CValueChangedEvent" id="\Dat0r\Core\Runtime\Document\ValueChangedEvent"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Dat0r.html">Dat0r</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.html">Core</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.html">Runtime</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.Runtime.Document.html">Document</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Dat0r.Core.Runtime.Document.ValueChangedEvent.html">ValueChangedEvent</a>
+</li>
+</ul>
+<div href="../classes/Dat0r.Core.Runtime.Document.ValueChangedEvent.html" class="element class">
+<p class="short_description">ValueChangedEvent(s) reflect state changes to an document's underlying ValuesHolder.</p>
+<div class="details">
+<p class="long_description"><p>These events are fired everytime an document field-value actually changes and can be used
+to track state changes over time.</p></p>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
+<h2>Creates a new ValueChangedEvent instance.</h2>
+<pre>create(\Dat0r\Core\Runtime\Field\Field $field, \Dat0r\Core\Runtime\ValueHolder\IValueHolder $old, \Dat0r\Core\Runtime\ValueHolder\IValueHolder $new, $aggregateEvent) : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\ValueChangedEvent</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<div class="subelement argument"><h4>$old</h4></div>
+<div class="subelement argument"><h4>$new</h4></div>
+<div class="subelement argument"><h4>$aggregateEvent</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\ValueChangedEvent</code></div>
+</div></div>
+</div>
+<a name="getAggregateEvent" id="getAggregateEvent"></a><div class="element clickable method public getAggregateEvent" data-toggle="collapse" data-target=".getAggregateEvent .collapse">
+<h2>getAggregateEvent()
+        </h2>
+<pre>getAggregateEvent() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="getField" id="getField"></a><div class="element clickable method public getField" data-toggle="collapse" data-target=".getField .collapse">
+<h2>Returns the event's affected field.</h2>
+<pre>getField() : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Field\IField</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Field\IField</code></div>
+</div></div>
+</div>
+<a name="getNewValue" id="getNewValue"></a><div class="element clickable method public getNewValue" data-toggle="collapse" data-target=".getNewValue .collapse">
+<h2>Returns the new value of the event's related field.</h2>
+<pre>getNewValue() : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+</div></div>
+</div>
+<a name="getOldValue" id="getOldValue"></a><div class="element clickable method public getOldValue" data-toggle="collapse" data-target=".getOldValue .collapse">
+<h2>Returns the previous value of the event's related field.</h2>
+<pre>getOldValue() : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+</div></div>
+</div>
+<a name="getTimestamp" id="getTimestamp"></a><div class="element clickable method public getTimestamp" data-toggle="collapse" data-target=".getTimestamp .collapse">
+<h2>Returns the event's creation time as a unix timestamp.</h2>
+<pre>getTimestamp() : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>int</code></div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method protected __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Constructs a new ValueChangedEvent instance.</h2>
+<pre>__construct(\Dat0r\Core\Runtime\Field\Field $field, \Dat0r\Core\Runtime\ValueHolder\IValueHolder $old, \Dat0r\Core\Runtime\ValueHolder\IValueHolder $new, $aggregateEvent) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Field\IField</code>
+</div>
+<div class="subelement argument"><h4>$old</h4></div>
+<div class="subelement argument"><h4>$new</h4></div>
+<div class="subelement argument"><h4>$aggregateEvent</h4></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24aggregateEvent" id="$aggregateEvent"> </a><div class="element clickable property private $aggregateEvent" data-toggle="collapse" data-target=".$aggregateEvent .collapse">
+<h2>$aggregateEvent</h2>
+<pre>$aggregateEvent : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\DocumentChangedEvent</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24field" id="$field"> </a><div class="element clickable property private $field" data-toggle="collapse" data-target=".$field .collapse">
+<h2>$field</h2>
+<pre>$field : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Field\IField</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24newValue" id="$newValue"> </a><div class="element clickable property private $newValue" data-toggle="collapse" data-target=".$newValue .collapse">
+<h2>$newValue</h2>
+<pre>$newValue : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24oldValue" id="$oldValue"> </a><div class="element clickable property private $oldValue" data-toggle="collapse" data-target=".$oldValue .collapse">
+<h2>$oldValue</h2>
+<pre>$oldValue : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24timestamp" id="$timestamp"> </a><div class="element clickable property private $timestamp" data-toggle="collapse" data-target=".$timestamp .collapse">
+<h2>$timestamp</h2>
+<pre>$timestamp : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-05T18:49:00+02:00.<br></footer></div>
+</div>
+</body>
+</html>
