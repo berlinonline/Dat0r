@@ -3,6 +3,7 @@
 namespace Dat0r\Core\Runtime\Module;
 
 use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\Error;
 use Dat0r\Core\Runtime\Field;
 
 /**
@@ -35,8 +36,12 @@ abstract class Module extends Runtime\Freezable implements IModule
     /**
      * Returns the pooled instance of a specific module.
      * Each module is pooled exactly once, making this a singleton style (factory)method.
-     *
+     * This method is used to provide a convenient access to generated domain module instances,
+     * which is the reason why this method takes no arguments.
+     * 
      * @return Dat0r\Core\Runtime\Module\IModule
+     *
+     * @codeCoverageIgnore
      */
     public static function getInstance()
     {
@@ -50,6 +55,18 @@ abstract class Module extends Runtime\Freezable implements IModule
         return self::$instances[$class];
     }
 
+    /**
+     * Standard factory method for dynamically creating modules.
+     * During common usage this method probally ain't needed.
+     * During testing it is, as it allows us to test modules dynamically. 
+     *
+     * @see ModuleTest.php
+     *
+     * @param string The name of the module to create.
+     * @param array An array of IField implementations that define the module's structure.
+     *
+     * @return Dat0r\Core\Runtime\Module\IModule
+     */
     public static function create($name, array $fields)
     {
         return new static($name, $fields);
@@ -137,7 +154,7 @@ abstract class Module extends Runtime\Freezable implements IModule
     }
 
     /**
-     * Closes the module to any further modifications.
+     * Freezes the module and all it's fields.
      */
     public function freeze()
     {

@@ -16,11 +16,6 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
     private $fields = array();
 
     /**
-     * @var boolean $frozen Flag that indicates whether a collection is mutable or not.
-     */
-    private $frozen = FALSE;
-
-    /**
      * Creates a new field collection passing in an initial set of fields.
      *
      * @param array $fields
@@ -39,7 +34,7 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
      */
     public function add(IField $field)
     {
-        if (TRUE === $this->frozen)
+        if (TRUE === $this->isFrozen())
         {
             throw new Error\ObjectImmutableException(
                 "This FieldCollection instance is closed to modifications."
@@ -116,21 +111,12 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
      */
     public function freeze()
     {
-        $this->frozen = TRUE;
+        parent::freeze();
+
         foreach ($this->fields as $field)
         {
             $field->freeze();
         }
-    }
-
-    /**
-     * Tells whether the collection is frozen or not. 
-     *
-     * @return boolean
-     */
-    public function isFrozen()
-    {
-        return $this->frozen;
     }
 
     //

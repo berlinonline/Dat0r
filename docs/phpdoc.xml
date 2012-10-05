@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpdocumentor>
+<phpdoc>
+  <title>Data0r</title>
   <parser>
     <default-package-name>Dat0r</default-package-name>
     <target>./api</target>
@@ -23,4 +24,4 @@
     <ignore-hidden>on</ignore-hidden>
     <ignore-symlinks>on</ignore-symlinks>
   </files>
-</phpdocumentor>
+</phpdoc>

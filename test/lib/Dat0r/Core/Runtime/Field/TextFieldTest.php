@@ -1,11 +1,11 @@
 <?php
 
 namespace Dat0r\Tests\Core\Runtime\Field;
-use Dat0r\Tests\Core\Runtime;
+use Dat0r\Tests\Core;
 
 use Dat0r\Core\Runtime\Field;
 
-class TextFieldTest extends Runtime\BaseTest
+class TextFieldTest extends Core\BaseTest
 {
     const FIELDNAME = 'test_text_field';
 
@@ -50,6 +50,9 @@ class TextFieldTest extends Runtime\BaseTest
         $this->assertFalse($textField->validate(array('fnord' => 'array not acceptable')));
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getOptionsFixture()
     {
         // @todo generate random options.
@@ -72,6 +75,9 @@ class TextFieldTest extends Runtime\BaseTest
         return $fixtures;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getTextFixture()
     {
         // @todo generate random (utf-8) text

@@ -1,10 +1,8 @@
 <?php
 
-namespace Dat0r\Tests\Core\Runtime;
+namespace Dat0r\Tests\Core;
 
-use Dat0r\Tests\Core;
-
-abstract class BaseTest extends Core\BaseTest
+abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
     
 }

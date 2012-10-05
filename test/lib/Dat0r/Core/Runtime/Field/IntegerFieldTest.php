@@ -1,15 +1,15 @@
 <?php
 
 namespace Dat0r\Tests\Core\Runtime\Field;
-use Dat0r\Tests\Core\Runtime;
+use Dat0r\Tests\Core;
 
 use Dat0r\Core\Runtime\Field;
 
-class IntegerFieldTest extends Runtime\BaseTest
+class IntegerFieldTest extends Core\BaseTest
 {
     const FIELDNAME = 'test_int_field';
 
-    public function testCreate()
+    public function testCreateField()
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
@@ -19,7 +19,7 @@ class IntegerFieldTest extends Runtime\BaseTest
     /**
      * @dataProvider getOptionsFixture
      */
-    public function testCreateWithOptions(array $options)
+    public function testCreateFieldWithOptions(array $options)
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME, $options);
 
@@ -43,7 +43,7 @@ class IntegerFieldTest extends Runtime\BaseTest
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
 
-    public function testValidate()
+    public function testValidation()
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $this->assertTrue($integerField->validate(235));
@@ -51,6 +51,9 @@ class IntegerFieldTest extends Runtime\BaseTest
         $this->assertFalse($integerField->validate(array('fnord' => 'array not acceptable')));
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getOptionsFixture()
     {
         // @todo generate random options.
@@ -73,6 +76,9 @@ class IntegerFieldTest extends Runtime\BaseTest
         return $fixtures;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getIntegerFixture()
     {
         // @todo generate random (utf-8) text

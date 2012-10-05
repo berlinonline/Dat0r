@@ -1,8 +1,9 @@
 <?php
-
 namespace Dat0r\Core\Runtime\Module;
 
 use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Document;
 
 /**
  * @todo write a meaningfull text that explains what modules are and what they do.
@@ -28,7 +29,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param array $fieldnames A list of fieldnames to filter for.
      *
-     * @return Dat0r\Core\Runtime\Field\FieldCollection
+     * @return Field\FieldCollection
      */
     public function getFields(array $fieldnames = array());
 
@@ -37,7 +38,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param string $name
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return Field\IField
      */
     public function getField($name);
 
@@ -46,7 +47,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param array $data Optional data for initial hydration.
      *
-     * @return Dat0r\Core\Runtime\Document\IDocument
+     * @return Document\IDocument
      */
     public function createDocument(array $data = array());
 }

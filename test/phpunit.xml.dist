@@ -11,20 +11,24 @@
          syntaxCheck="false"
          bootstrap="./bootstrap.php">
   <testsuites>
-    <testsuite name="Dat0r Test Suite">
-      <directory>./lib/Dat0r/</directory>
+    <testsuite name="Runtume Testsuite">
+      <directory>./lib/Dat0r/Core/Runtime</directory>
+    </testsuite>
+    <testsuite name="CodeGenerator Testsuite">
+      <directory>./lib/Dat0r/Core/CodeGenerator</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../lib/Dat0r/</directory>
+      <directory suffix=".php">../lib</directory>
+      <directory suffix=".php">./lib</directory>
     </whitelist>
   </filter>
 
   <logging>
     <log type="coverage-clover" target="./clover.xml"/>
     <log type="coverage-html" target="./coverage-report" charset="UTF-8"
-        yui="true" highlight="true" lowUpperBound="90" highLowerBound="100"/>
+        yui="true" highlight="true" lowUpperBound="60" highLowerBound="80"/>
   </logging>
 </phpunit>
