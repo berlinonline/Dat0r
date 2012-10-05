@@ -14,7 +14,8 @@
     "require": {
         "php": ">=5.3",
         "twig/twig": "1.*",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "phpdocumentor/phpdocumentor": "*"
     },
     "autoload": { 
         "psr-0": {"Dat0r" : "lib/" }

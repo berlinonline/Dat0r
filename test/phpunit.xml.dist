@@ -24,5 +24,7 @@
 
   <logging>
     <log type="coverage-clover" target="./clover.xml"/>
+    <log type="coverage-html" target="./coverage-report" charset="UTF-8"
+        yui="true" highlight="true" lowUpperBound="90" highLowerBound="100"/>
   </logging>
 </phpunit>
