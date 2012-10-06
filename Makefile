@@ -6,10 +6,11 @@ help:
 	@echo "  update - Updates composer and all dependencies."
 	@echo "  test - Runs all test suites and publishes an code coverage report in xml and html."
 	@echo "  docs - Generates the php api doc."
+	@echo "  help - Shows this dialog."
 	@exit 0
 
 test:
-	@if [ ! -d ./test/reports ]; then mkdir bin; fi
+	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
 	@./vendor/bin/phpunit -c ./test/phpunit.xml.dist
 
 docs:
