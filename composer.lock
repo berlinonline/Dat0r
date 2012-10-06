@@ -844,12 +844,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3.7.5"
+                "reference": "4c5545c8686c28a224c879a11f5b6263d13d4b90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/3.7.5",
-                "reference": "3.7.5",
+                "url": "https://github.com/sebastianbergmann/phpunit/zipball/4c5545c8686c28a224c879a11f5b6263d13d4b90",
+                "reference": "4c5545c8686c28a224c879a11f5b6263d13d4b90",
                 "shasum": ""
             },
             "require": {
@@ -871,7 +871,7 @@
                 "ext-tokenizer": "*",
                 "phpunit/php-invoker": ">=1.1.0"
             },
-            "time": "1349515836",
+            "time": "1349564795",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -1208,17 +1208,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml",
-                "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69"
+                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/zipball/f965c71d0edb97cef36c556f2bda25298fce7e69",
-                "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69",
+                "url": "https://github.com/symfony/Yaml/zipball/1f7ba14c4b263dbf701e25705b0b2175a850a784",
+                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "time": "1349553479",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1245,8 +1246,7 @@
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com",
-            "time": "1348817656"
+            "homepage": "http://symfony.com"
         },
         {
             "name": "twig/twig",

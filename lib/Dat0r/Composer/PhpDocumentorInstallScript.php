@@ -28,6 +28,7 @@ class PhpDocumentorInstallScript
     {
         try
         {
+            echo "Moving phpDocumentor assets from project root to phpDocumentor's vendor directory." . PHP_EOL;
             $projectRoot = self::locateProjectRoot();
 
             $vendorDir = $projectRoot . DIRECTORY_SEPARATOR . 'vendor';
@@ -93,13 +94,13 @@ class PhpDocumentorInstallScript
             $targetPath = $to . DIRECTORY_SEPARATOR . $assetName;
             if (is_dir($targetPath))
             {
-                echo "Asset/template '$assetName' allready exists inside vendor directory" . PHP_EOL;
                 self::removeDirectory($assetDirectory);
+                echo "- Asset/template '$assetName' allready exists inside vendor directory." . PHP_EOL;
             }
             else
             {
                 rename($assetDirectory, $targetPath);
-                echo "Moved phpdocumentor asset/template: $assetName" . PHP_EOL;
+                echo "- Moved phpdocumentor asset/template: $assetName." . PHP_EOL;
             }
         }
     }
@@ -111,18 +112,24 @@ class PhpDocumentorInstallScript
      */
     protected static function removeDirectory($directory)
     {
-        $directoryIter = new \RecursiveDirectoryIterator($directory);
-        $filesIter = new \RecursiveIteratorIterator($directoryIter, \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach($filesIter as $file)
+        $dirHandle = opendir($directory);
+        while (($file = readdir($dirHandle)) !== FALSE)
         {
-            if ($file->isDir())
+            if ('.' === $file || '..' === $file)
             {
-                rmdir($file->getRealPath());
-            } 
-            else 
+                continue;
+            }
+            $path = $directory . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($path))
             {
-                unlink($file->getRealPath());
+                self::removeDirectory($path);
+            }
+            else
+            {
+                unlink($path);
             }
         }
+        closedir($dirHandle);
+        rmdir($directory);
     }
 }
