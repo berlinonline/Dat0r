@@ -6,15 +6,19 @@ class AutoloadException extends \Exception {}
 
 class Autoloader
 {
-    const NS_ROOT = 'Dat0r';
-
     /**
-     * Holds a list of generated domain packages,
-     * mapping their namespaces to correspondig base directories.
+     * Holds a list of domain namespaces mapped to corresponding base dirs for autoloading.
      *
      * @var array $domainPackages
      */
     private static $domainPackages;
+
+    /**
+     * Maps Dat0r package namespaces to their corresponding base dir to use for autloading.
+     *
+     * @var array $corePackages
+     */
+    private static $corePackages;
 
     /**
      * Registers the autoloader to be used by the current process.
@@ -27,6 +31,12 @@ class Autoloader
     {
         self::$domainPackages = $domainPackages;
 
+        $here = __DIR__;
+        self::$corePackages = array(
+            'Dat0r\\Core' => $here,
+            'Dat0r\\Tests' => dirname(dirname($here)) . '/test/lib/Dat0r'
+        );
+
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(new self, 'autoload'));
     }
@@ -38,32 +48,14 @@ class Autoloader
      */
     static public function autoload($class)
     {
-        $filePath = FALSE;
-
-        if (0 === strpos($class, self::NS_ROOT))
-        {
-            $filePath = self::buildCorePath($class);
-        }
-        else
-        {
-            foreach (self::$domainPackages as $rootNs => $baseDir)
-            {
-                if (0 === strpos($class, $rootNs))
-                {
-                    $filePath = self::buildDomainPath($class, $rootNs, $baseDir);
-                    break;
-                }
-            }
-        }
-        
-        if ($filePath)
+        if (($filePath = (0 === strpos($class, 'Dat0r')) ? self::buildCorePath($class) : self::buildDomainPath($class)))
         {
             self::tryRequire($filePath);
         }
     }
 
     /**
-     * Builds the class filepath for a given core class.
+     * Try to build a path for a Dat0r class.
      *
      * @param string $class
      *
@@ -71,21 +63,47 @@ class Autoloader
      */
     private static function buildCorePath($class)
     {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . str_replace(
-            array(self::NS_ROOT, '\\'),
-            array('', DIRECTORY_SEPARATOR),
-            $class
-        ) . '.php';
+        $filePath = NULL;
+        foreach (self::$corePackages as $rootNs => $baseDir)
+        {
+            if (0 === strpos($class, $rootNs))
+            {
+                $filePath = self::buildPath($class, $rootNs, $baseDir);
+                break;
+            }
+        }
+        return $filePath;
     }
 
     /**
-     * Builds the class filepath for a given domain class.
+     * Try to build a path for a given domain class.
      *
      * @param string $class
      *
      * @return string
      */
-    private static function buildDomainPath($class, $rootNs, $baseDir)
+    private static function buildDomainPath($class)
+    {
+        $filePath = NULL;
+        foreach (self::$domainPackages as $rootNs => $baseDir)
+        {
+            if (0 === strpos($class, $rootNs))
+            {
+                $filePath = self::buildPath($class, $rootNs, $baseDir);
+                break;
+            }
+        }
+        return $filePath;
+    }
+
+    /**
+     * Builds the class filepath for a given class.
+     *
+     * @param string $class
+     *
+     * @return string
+     */
+    private static function buildPath($class, $rootNs, $baseDir)
     {
         $baseName = str_replace(
             array($rootNs, '\\'),
