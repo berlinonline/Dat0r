@@ -105,8 +105,8 @@ class ModuleTest extends Core\BaseTest
      */
     public function testInvalidFieldException(Module\IModule $module)
     {
-        $module->getField('foobar-field-does-not-exist');
-    }
+        $module->getField('foobar-field-does-not-exist'); // @codeCoverageIgnoreStart
+    } // @codeCoverageIgnoreEnd
 
     /**
      * @expectedException Dat0r\Core\Runtime\Error\InvalidImplementorException
@@ -120,8 +120,8 @@ class ModuleTest extends Core\BaseTest
         ));
         $module->freeze();
 
-        $module->createDocument();
-    }
+        $module->createDocument(); // @codeCoverageIgnoreStart
+    } // @codeCoverageIgnoreEnd
 
     /**
      * @codeCoverageIgnore

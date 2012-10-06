@@ -15,9 +15,13 @@
         "php": ">=5.3",
         "twig/twig": "1.*",
         "phpunit/phpunit": "3.7.*",
-        "phpdocumentor/phpdocumentor": "*"
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "autoload": { 
         "psr-0": {"Dat0r" : "lib/" }
+    },
+    "scripts": {
+        "post-install-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets",
+        "post-update-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets"
     }
 }

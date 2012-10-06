@@ -40,7 +40,7 @@ class Autoloader
     {
         $filePath = FALSE;
 
-        if (0 === strpos($class, self::NS_ROOT . '\Core'))
+        if (0 === strpos($class, self::NS_ROOT))
         {
             $filePath = self::buildCorePath($class);
         }
