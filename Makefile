@@ -2,11 +2,14 @@
 
 help:
 	@echo "List of available targets:"
-	@echo "  test - Runs all test Dat0r suites."
-	@echo "  install - Installs everything you need on top of a vanilla checkout."
+	@echo "  install - Installs composer and all dependencies."
+	@echo "  update - Updates composer and all dependencies."
+	@echo "  test - Runs all test suites and publishes an code coverage report in xml and html."
+	@echo "  docs - Generates the php api doc."
 	@exit 0
 
 test:
+	@if [ ! -d ./test/reports ]; then mkdir bin; fi
 	@./vendor/bin/phpunit -c ./test/phpunit.xml.dist
 
 docs:
