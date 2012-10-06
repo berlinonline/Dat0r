@@ -111,8 +111,8 @@ class PhpDocumentorInstallScript
      */
     protected static function removeDirectory($directory)
     {
-        $directoryIter = new RecursiveDirectoryIterator($directory);
-        $filesIter = new RecursiveIteratorIterator($directoryIter, RecursiveIteratorIterator::CHILD_FIRST);
+        $directoryIter = new \RecursiveDirectoryIterator($directory);
+        $filesIter = new \RecursiveIteratorIterator($directoryIter, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($filesIter as $file)
         {
             if ($file->isDir())

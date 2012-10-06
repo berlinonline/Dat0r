@@ -1,5 +1,5 @@
 {
-    "hash": "6c5337411c99a23c0b4d7d059438de26",
+    "hash": "57005233a89e510bfa53ef21a003abb1",
     "packages": [
         {
             "name": "cilex/cilex",
@@ -844,12 +844,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3.7.3"
+                "reference": "3.7.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/3.7.3",
-                "reference": "3.7.3",
+                "url": "https://github.com/sebastianbergmann/phpunit/zipball/3.7.5",
+                "reference": "3.7.5",
                 "shasum": ""
             },
             "require": {
@@ -871,7 +871,7 @@
                 "ext-tokenizer": "*",
                 "phpunit/php-invoker": ">=1.1.0"
             },
-            "time": "1349463741",
+            "time": "1349515836",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -1161,17 +1161,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process",
-                "reference": "2965a0340c138d7b47e74ed6c44402d946f0bbd2"
+                "reference": "fc5b082e436161427e29652e3316d7def5f7a64f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/zipball/2965a0340c138d7b47e74ed6c44402d946f0bbd2",
-                "reference": "2965a0340c138d7b47e74ed6c44402d946f0bbd2",
+                "url": "https://github.com/symfony/Process/zipball/fc5b082e436161427e29652e3316d7def5f7a64f",
+                "reference": "fc5b082e436161427e29652e3316d7def5f7a64f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "time": "1349553363",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1198,8 +1199,7 @@
                 }
             ],
             "description": "Symfony Process Component",
-            "homepage": "http://symfony.com",
-            "time": "1349363877"
+            "homepage": "http://symfony.com"
         },
         {
             "name": "symfony/yaml",
@@ -1254,18 +1254,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "7dd2f1764681df2635c127e45cc3acb43e5d0194"
+                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/7dd2f1764681df2635c127e45cc3acb43e5d0194",
-                "reference": "7dd2f1764681df2635c127e45cc3acb43e5d0194",
+                "url": "https://github.com/fabpot/Twig/zipball/5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
+                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1349449745",
+            "time": "1349508092",
             "type": "library",
             "extra": {
                 "branch-alias": {

@@ -19,14 +19,16 @@ code:
 
 	@php ./bin/generate_code.php
 
+install: install-dependencies
+
+install-dependencies: install-composer
+
+	@make install-composer
+	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- update
+
 install-composer:
 
 	@if [ ! -d ./bin ]; then mkdir bin; fi
 	@if [ ! -f ./bin/composer.phar ]; then curl -s http://getcomposer.org/installer | php -d date.timezone="Europe/Berlin" -- --install-dir=./bin/; fi
-
-install-dependencies:
-
-	@make install-composer
-	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- update
 	
 .PHONY: test help code docs
