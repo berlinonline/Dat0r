@@ -20,7 +20,7 @@
     <template name="responsive" />
   </transformations>
   <files>
-    <directory>../lib</directory>
+    <directory>../src</directory>
     <ignore-hidden>on</ignore-hidden>
     <ignore-symlinks>on</ignore-symlinks>
   </files>

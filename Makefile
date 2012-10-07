@@ -13,8 +13,8 @@ test:
 	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
 	@./vendor/bin/phpunit -c ./test/phpunit.xml.dist
 
-docs:
-	@php ./vendor/bin/phpdoc.php --config ./docs/phpdoc.xml
+doc:
+	@php ./vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
 
 install: install-deps
 
@@ -33,4 +33,4 @@ update-deps: update-composer
 update-composer: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- self-update
 
-.PHONY: test help code docs install update
+.PHONY: test help code doc install update

@@ -12,17 +12,17 @@
          bootstrap="./bootstrap.php">
   <testsuites>
     <testsuite name="Runtume Testsuite">
-      <directory>./lib/Dat0r/Core/Runtime</directory>
+      <directory>./src/Dat0r/Core/Runtime</directory>
     </testsuite>
     <testsuite name="CodeGenerator Testsuite">
-      <directory>./lib/Dat0r/Core/CodeGenerator</directory>
+      <directory>./src/Dat0r/Core/CodeGenerator</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../lib</directory>
-      <directory suffix=".php">./lib</directory>
+      <directory suffix=".php">../src</directory>
+      <directory suffix=".php">./src</directory>
     </whitelist>
   </filter>
 

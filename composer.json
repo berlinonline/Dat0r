@@ -18,7 +18,7 @@
         "phpdocumentor/phpdocumentor": "2.*"
     },
     "autoload": { 
-        "psr-0": {"Dat0r" : "lib/" }
+        "psr-0": {"Dat0r" : "src/" }
     },
     "scripts": {
         "post-install-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets",

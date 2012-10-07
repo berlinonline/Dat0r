@@ -33,8 +33,9 @@ class Autoloader
 
         $here = __DIR__;
         self::$corePackages = array(
-            'Dat0r\\Core' => $here,
-            'Dat0r\\Tests' => dirname(dirname($here)) . '/test/lib/Dat0r'
+            'Dat0r\\Core' => $here . DIRECTORY_SEPARATOR . 'Core',
+            'Dat0r\\Composer' => $here . DIRECTORY_SEPARATOR . 'Composer',
+            'Dat0r\\Tests' => dirname(dirname($here)) . '/test/src/Dat0r'
         );
 
         ini_set('unserialize_callback_func', 'spl_autoload_call');
