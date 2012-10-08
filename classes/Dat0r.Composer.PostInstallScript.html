@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>Data0r » \Dat0r\Core\CodeGenerator\CliOptionsProvider</title>
+<title>Data0r » \Dat0r\Composer\PostInstallScript</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">273</span></a></li>
+                <span class="label label-info">270</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
                 <span class="label label-info">9</span>
@@ -57,50 +57,88 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#getOptions" title="getOptions :: "><span class="description">getOptions()
-        </span><pre>getOptions()</pre></a></li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#PARSE_EXPRESSION" title="PARSE_EXPRESSION :: "><span class="description">PARSE_EXPRESSION</span><pre>PARSE_EXPRESSION</pre></a></li>
+<li class="method public "><a href="#execute" title="execute :: Moves phpdocumentor assets from a project's root dir to the phpdocumentor vendor directory
+and deletes the data directory from the project's root dir."><span class="description">Moves phpdocumentor assets from a project's root dir to the phpdocumentor vendor directory
+and deletes the data directory from the project's root dir.</span><pre>execute()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#findBaseDirectory" title="findBaseDirectory :: Tries to resolve our base directory,
+meaning one directory above the vendor directory we've been installed to."><span class="description">Tries to resolve our base directory,
+meaning one directory above the vendor directory we've been installed to.</span><pre>findBaseDirectory()</pre></a></li>
+<li class="method protected "><a href="#moveDirectoryContents" title="moveDirectoryContents :: Moves contents from one to another directory."><span class="description">Moves contents from one to another directory.</span><pre>moveDirectoryContents()</pre></a></li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5CDat0r%5CCore%5CCodeGenerator%5CCliOptionsProvider" id="\Dat0r\Core\CodeGenerator\CliOptionsProvider"></a><ul class="breadcrumb">
+<a name="%5CDat0r%5CComposer%5CPostInstallScript" id="\Dat0r\Composer\PostInstallScript"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/Dat0r.html">Dat0r</a></li>
-<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.html">Core</a></li>
-<span class="divider">\</span><li><a href="../namespaces/Dat0r.Core.CodeGenerator.html">CodeGenerator</a></li>
+<span class="divider">\</span><li><a href="../namespaces/Dat0r.Composer.html">Composer</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/Dat0r.Core.CodeGenerator.CliOptionsProvider.html">CliOptionsProvider</a>
+<span class="divider">\</span><a href="../classes/Dat0r.Composer.PostInstallScript.html">PostInstallScript</a>
 </li>
 </ul>
-<div href="../classes/Dat0r.Core.CodeGenerator.CliOptionsProvider.html" class="element class"><div class="details">
+<div href="../classes/Dat0r.Composer.PostInstallScript.html" class="element class">
+<p class="short_description">This script works around the phpDocumentor/UnifiedAssetInstaller's way of defining the data directory
+that it installs templates and other phpdocumentor assets to.</p>
+<div class="details">
+<p class="long_description"><p>As you can tell from the following, the path is hard coded to be relative against the current working directory.
+https://github.com/phpDocumentor/UnifiedAssetInstaller/blob/master/src/phpDocumentor/Composer/UnifiedAssetInstaller.php#L21,</p>
+
+<p>This class be registered as a composer post-install hook to fix the issue and move the templates
+to the phpdocumentor vendor directory where they belong imho (correct me if I'm wrong).</p></p>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a name="getOptions" id="getOptions"></a><div class="element clickable method public getOptions" data-toggle="collapse" data-target=".getOptions .collapse">
-<h2>getOptions()
-        </h2>
-<pre>getOptions() </pre>
+<a name="execute" id="execute"></a><div class="element clickable method public execute" data-toggle="collapse" data-target=".execute .collapse">
+<h2>Moves phpdocumentor assets from a project's root dir to the phpdocumentor vendor directory
+and deletes the data directory from the project's root dir.</h2>
+<pre>execute(\Composer\Script\Event $event) </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
-</div>
-<h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="PARSE_EXPRESSION" id="PARSE_EXPRESSION"> </a><div class="element clickable constant  PARSE_EXPRESSION" data-toggle="collapse" data-target=".PARSE_EXPRESSION .collapse">
-<h2>PARSE_EXPRESSION</h2>
-<pre>PARSE_EXPRESSION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$event</h4>
+<code>\Composer\Script\Event</code>
 </div>
 </div></div>
+</div>
+<a name="findBaseDirectory" id="findBaseDirectory"></a><div class="element clickable method protected findBaseDirectory" data-toggle="collapse" data-target=".findBaseDirectory .collapse">
+<h2>Tries to resolve our base directory,
+meaning one directory above the vendor directory we've been installed to.</h2>
+<pre>findBaseDirectory() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="moveDirectoryContents" id="moveDirectoryContents"></a><div class="element clickable method protected moveDirectoryContents" data-toggle="collapse" data-target=".moveDirectoryContents .collapse">
+<h2>Moves contents from one to another directory.</h2>
+<pre>moveDirectoryContents(string $from, string $to) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-08T22:02:25Z.<br></footer></div>
+            generated on 2012-10-05T21:30:58Z.<br></footer></div>
 </div>
 </body>
 </html>

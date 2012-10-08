@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">269</span></a></li>
+                <span class="label label-info">273</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
                 <span class="label label-info">9</span>
@@ -60,18 +60,15 @@
 <li class="method public "><a href="#autoload" title="autoload :: Autoloads a given class."><span class="description">Autoloads a given class.</span><pre>autoload()</pre></a></li>
 <li class="method public "><a href="#register" title="register :: Registers the autoloader to be used by the current process."><span class="description">Registers the autoloader to be used by the current process.</span><pre>register()</pre></a></li>
 <li class="nav-header private">» Private</li>
-<li class="method private "><a href="#buildCorePath" title="buildCorePath :: Builds the class filepath for a given core class."><span class="description">Builds the class filepath for a given core class.</span><pre>buildCorePath()</pre></a></li>
-<li class="method private "><a href="#buildDomainPath" title="buildDomainPath :: Builds the class filepath for a given domain class."><span class="description">Builds the class filepath for a given domain class.</span><pre>buildDomainPath()</pre></a></li>
+<li class="method private "><a href="#buildCorePath" title="buildCorePath :: Try to build a path for a Dat0r class."><span class="description">Try to build a path for a Dat0r class.</span><pre>buildCorePath()</pre></a></li>
+<li class="method private "><a href="#buildDomainPath" title="buildDomainPath :: Try to build a path for a given domain class."><span class="description">Try to build a path for a given domain class.</span><pre>buildDomainPath()</pre></a></li>
+<li class="method private "><a href="#buildPath" title="buildPath :: Builds the class filepath for a given class."><span class="description">Builds the class filepath for a given class.</span><pre>buildPath()</pre></a></li>
 <li class="method private "><a href="#tryRequire" title="tryRequire :: Tries to require a given file."><span class="description">Tries to require a given file.</span><pre>tryRequire()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24domainPackages" title="$domainPackages :: Holds a list of generated domain packages,
-mapping their namespaces to correspondig base directories."><span class="description">Holds a list of generated domain packages,
-mapping their namespaces to correspondig base directories.</span><pre>$domainPackages</pre></a></li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#NS_ROOT" title="NS_ROOT :: "><span class="description">NS_ROOT</span><pre>NS_ROOT</pre></a></li>
+<li class="property private "><a href="#%24corePackages" title="$corePackages :: Maps Dat0r package namespaces to their corresponding base dir to use for autloading."><span class="description">Maps Dat0r package namespaces to their corresponding base dir to use for autloading.</span><pre>$corePackages</pre></a></li>
+<li class="property private "><a href="#%24domainPackages" title="$domainPackages :: Holds a list of domain namespaces mapped to corresponding base dirs for autoloading."><span class="description">Holds a list of domain namespaces mapped to corresponding base dirs for autoloading.</span><pre>$domainPackages</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -115,7 +112,7 @@ in order to have them autoloaded accordingly.</p></p>
 </div></div>
 </div>
 <a name="buildCorePath" id="buildCorePath"></a><div class="element clickable method private buildCorePath" data-toggle="collapse" data-target=".buildCorePath .collapse">
-<h2>Builds the class filepath for a given core class.</h2>
+<h2>Try to build a path for a Dat0r class.</h2>
 <pre>buildCorePath(string $class) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -130,8 +127,23 @@ in order to have them autoloaded accordingly.</p></p>
 </div></div>
 </div>
 <a name="buildDomainPath" id="buildDomainPath"></a><div class="element clickable method private buildDomainPath" data-toggle="collapse" data-target=".buildDomainPath .collapse">
-<h2>Builds the class filepath for a given domain class.</h2>
-<pre>buildDomainPath(string $class, $rootNs, $baseDir) : string</pre>
+<h2>Try to build a path for a given domain class.</h2>
+<pre>buildDomainPath(string $class) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$class</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="buildPath" id="buildPath"></a><div class="element clickable method private buildPath" data-toggle="collapse" data-target=".buildPath .collapse">
+<h2>Builds the class filepath for a given class.</h2>
+<pre>buildPath(string $class, $rootNs, $baseDir) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -163,18 +175,15 @@ in order to have them autoloaded accordingly.</p></p>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a name="%24domainPackages" id="$domainPackages"> </a><div class="element clickable property private $domainPackages" data-toggle="collapse" data-target=".$domainPackages .collapse">
-<h2>Holds a list of generated domain packages,
-mapping their namespaces to correspondig base directories.</h2>
-<pre>$domainPackages : array</pre>
+<a name="%24corePackages" id="$corePackages"> </a><div class="element clickable property private $corePackages" data-toggle="collapse" data-target=".$corePackages .collapse">
+<h2>Maps Dat0r package namespaces to their corresponding base dir to use for autloading.</h2>
+<pre>$corePackages : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
-<h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="NS_ROOT" id="NS_ROOT"> </a><div class="element clickable constant  NS_ROOT" data-toggle="collapse" data-target=".NS_ROOT .collapse">
-<h2>NS_ROOT</h2>
-<pre>NS_ROOT </pre>
+<a name="%24domainPackages" id="$domainPackages"> </a><div class="element clickable property private $domainPackages" data-toggle="collapse" data-target=".$domainPackages .collapse">
+<h2>Holds a list of domain namespaces mapped to corresponding base dirs for autoloading.</h2>
+<pre>$domainPackages : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
@@ -184,7 +193,7 @@ mapping their namespaces to correspondig base directories.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-05T17:14:51Z.<br></footer></div>
+            generated on 2012-10-08T22:02:25Z.<br></footer></div>
 </div>
 </body>
 </html>
