@@ -31,6 +31,18 @@ class DocumentChangedEvent implements Runtime\IEvent
         return $this->valueChangedEvent;
     }
 
+    public function __toString()
+    {
+        $stringRep = sprintf(
+            "[%s] A %s module's document field value has changed: \n %s",
+            get_class($this),
+            $this->getDocument()->getModule()->getName(),
+            $this->getValueChangedEvent()
+        );
+
+        return $stringRep;
+    }
+
     protected function __construct(IDocument $document, ValueChangedEvent $valueChangedEvent)
     {
         $this->document = $document;

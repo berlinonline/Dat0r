@@ -44,14 +44,14 @@ class CodeCache
 
         $moduleName = $moduleDefinition->getName();
         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
-        $baseClassDir = $moduleDir . 'base' . DIRECTORY_SEPARATOR;
+        $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
         if (! is_readable($moduleDir) || ! is_readable($baseClassDir))
         {
             throw new \Exception("Unable to read from module cache directories: $moduleDir, $baseClassDir");
         }
 
         $cachedFiles = array('base' => array(), 'skeleton' => array());
-        foreach (glob($moduleDir . 'base/*.php') as $baseFile)
+        foreach (glob($moduleDir . 'Base/*.php') as $baseFile)
         {
             $cachedFiles['base'][] = $baseFile;
         }
@@ -75,8 +75,9 @@ class CodeCache
             );
         }
         $moduleName = $result->getModuleDefinition()->getName();
+        var_dump($moduleName);
         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
-        $baseClassDir = $moduleDir . 'base' . DIRECTORY_SEPARATOR;
+        $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
         if (! is_dir($moduleDir))
         {
             if (! mkdir($moduleDir))

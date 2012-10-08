@@ -116,10 +116,6 @@ class Autoloader
             array('', DIRECTORY_SEPARATOR),
             $class
         );
-        if (0 === strpos($baseName, '/Base'))
-        {
-            $baseDir .= DIRECTORY_SEPARATOR . 'base';
-        }
         return $baseDir . DIRECTORY_SEPARATOR . $baseName . '.php';
     }
 

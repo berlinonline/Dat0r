@@ -143,7 +143,9 @@ Dat0r\Autoloader::register(array(
 ```
 
 We now have autoload support for the Example\DataObject namespace.  
-The following code snippet shows an example usage of the API provided by the concrete implementations:
+The following code snippet shows an example usage of the API provided by the concrete implementations.  
+
+*dat0r_example.php:*
 
 ```php
 <?php

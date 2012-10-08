@@ -52,8 +52,8 @@ class Deployment
 
     protected function moveCache(array $sourceFiles, $cacheDir, $targetDir)
     {
-        $cacheBaseDir = realpath($cacheDir . '/base');
-        $targetBaseDir = realpath($targetDir . '/base');
+        $cacheBaseDir = realpath($cacheDir . '/Base');
+        $targetBaseDir = realpath($targetDir . '/Base');
         foreach ($sourceFiles['base'] as $base)
         {
             $fileName = basename($base);
@@ -70,8 +70,8 @@ class Deployment
 
     protected function copyCache(array $sourceFiles, $cacheDir, $targetDir)
     {
-        $cacheBaseDir = realpath($cacheDir . '/base');
-        $targetBaseDir = realpath($targetDir . '/base');
+        $cacheBaseDir = realpath($cacheDir . '/Base');
+        $targetBaseDir = realpath($targetDir . '/Base');
         foreach ($sourceFiles['base'] as $base)
         {
             $fileName = basename($base);
@@ -98,17 +98,17 @@ class Deployment
             throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName());
         }
 
-        $targetBaseDir = $targetDir . '/base';
+        $targetBaseDir = $targetDir . '/Base';
         if (! is_dir($targetBaseDir))
         {
             if (! mkdir($targetBaseDir))
             {
-                throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/base');
+                throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
             }
         }
         if (! is_writable($targetBaseDir))
         {
-            throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName().'/base');
+            throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
         }
     }
 }

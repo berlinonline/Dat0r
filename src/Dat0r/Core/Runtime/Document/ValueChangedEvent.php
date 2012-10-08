@@ -98,6 +98,25 @@ class ValueChangedEvent implements Runtime\IEvent
         return $this->aggregateEvent;
     }
 
+
+    public function __toString()
+    {
+        $stringRep = sprintf(
+            "The `%s` field's value changed from '%s' to '%s'",
+            $this->getField()->getName(),
+            $this->getOldValue(),
+            $this->getNewValue()
+        );
+
+        if (($aggregateEvent = $this->getAggregateEvent()))
+        {
+            $stringRep .= PHP_EOL . "The actual changed occured upon the field's aggregate though.";
+            $stringRep .= PHP_EOL . $aggregateEvent;
+        }
+
+        return $stringRep;
+    }
+
     /**
      * Constructs a new ValueChangedEvent instance.
      *

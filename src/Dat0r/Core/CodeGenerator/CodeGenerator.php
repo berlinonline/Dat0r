@@ -4,11 +4,11 @@ namespace Dat0r\Core\CodeGenerator;
 
 class CodeGenerator                                                                                                                                             
 {
-    const NS_MODULE = '\Dat0r\Core\Runtime\Module';
+    const NS_MODULE = '\\Dat0r\\Core\\Runtime\\Module';
 
-    const NS_FIELDS = '\Dat0r\Core\Runtime\Field';
+    const NS_FIELDS = '\\Dat0r\Core\\Runtime\\Field';
 
-    const NS_DOCUMENT = '\Dat0r\Core\Runtime\Document';
+    const NS_DOCUMENT = '\\Dat0r\\Core\\Runtime\\Document';
 
     protected $config;
 
@@ -29,18 +29,19 @@ class CodeGenerator
     public function generateBaseModule()
     {
         $moduleName = $this->moduleDefinition->getName();
-        $implementor = sprintf('Base%sModule', $moduleName);
+        $implementor = sprintf('%sModule', $moduleName);
         $namespace = $this->buildNamespace();
-        $parentClass = sprintf('%s\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
+        
+        $parentClass = sprintf('%s\\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
 
         $source = $this->twig->render('Module/BaseModule.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
-            'namespace' => $namespace,
+            'namespace' => $namespace . '\\Base',
             'parent_class' => $parentClass,
             'implementor' => $implementor,
             'fields' => $this->prepareFieldDefinitions(),
-            'document_implementor' => sprintf('%s\%sDocument', $namespace, $moduleName),
+            'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),
             'options' => $this->moduleDefinition->getOptions()
         ));
 
@@ -57,7 +58,7 @@ class CodeGenerator
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
-            'parent_class' => sprintf('Base%sModule', $moduleName),
+            'parent_class' => sprintf('\\%s\\Base\\%sModule', $namespace, $moduleName),
             'implementor' => $implementor
         ));
 
@@ -67,9 +68,9 @@ class CodeGenerator
     public function generateBaseDocument()
     {
         $moduleName = $this->moduleDefinition->getName();
-        $implementor = sprintf('Base%sDocument', $moduleName);
+        $implementor = sprintf('%sDocument', $moduleName);
         $namespace = $this->buildNamespace();
-
+        $namespace .= '\\Base';
         $source = $this->twig->render('Document/BaseDocument.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
@@ -77,7 +78,7 @@ class CodeGenerator
             'parent_class' => $this->moduleDefinition->getBase(),
             'implementor' => $implementor,
             'fields' => $this->prepareFieldDefinitions(),
-            'document_implementor' => sprintf('%s\%sDocument', $namespace, $moduleName),
+            'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),
             'options' => $this->moduleDefinition->getOptions()
         ));
 
@@ -94,7 +95,7 @@ class CodeGenerator
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
-            'parent_class' => sprintf('Base%sDocument', $moduleName),
+            'parent_class' => sprintf('\\%s\\Base\\%sDocument', $namespace, $moduleName),
             'implementor' => $implementor,
             'description' => $this->moduleDefinition->getDescription()
         ));
@@ -114,7 +115,7 @@ class CodeGenerator
         $fields = array();
         foreach ($this->moduleDefinition->getFields() as $field)
         {
-            $field['implementor'] = sprintf('%s\%sField', self::NS_FIELDS, ucfirst($field['type']));
+            $field['implementor'] = sprintf('%s\\%sField', self::NS_FIELDS, ucfirst($field['type']));
             $field['options'] = $this->prepareOptions($field['options']);
             $fields[] = $field;
         }
@@ -154,6 +155,6 @@ class CodeGenerator
         $lastPart = array_pop($parts);
         array_unshift($parts, $moduleName);
 
-        return sprintf('%s\%s', $namespace, implode('\\', $parts) . $lastPart);
+        return sprintf('%s\\%s', $namespace, implode('\\', $parts) . $lastPart);
     }
 }

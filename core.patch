@@ -1,0 +1,246 @@
+diff --git a/src/Dat0r/Autoloader.php b/src/Dat0r/Autoloader.php
+index a08a43f..5277a82 100644
+--- a/src/Dat0r/Autoloader.php
++++ b/src/Dat0r/Autoloader.php
+@@ -116,10 +116,6 @@ class Autoloader
+             array('', DIRECTORY_SEPARATOR),
+             $class
+         );
+-        if (0 === strpos($baseName, '/Base'))
+-        {
+-            $baseDir .= DIRECTORY_SEPARATOR . 'base';
+-        }
+         return $baseDir . DIRECTORY_SEPARATOR . $baseName . '.php';
+     }
+ 
+diff --git a/src/Dat0r/Core/CodeGenerator/CodeCache.php b/src/Dat0r/Core/CodeGenerator/CodeCache.php
+index 569fb7c..41da6e3 100644
+--- a/src/Dat0r/Core/CodeGenerator/CodeCache.php
++++ b/src/Dat0r/Core/CodeGenerator/CodeCache.php
+@@ -44,14 +44,14 @@ class CodeCache
+ 
+         $moduleName = $moduleDefinition->getName();
+         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
+-        $baseClassDir = $moduleDir . 'base' . DIRECTORY_SEPARATOR;
++        $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
+         if (! is_readable($moduleDir) || ! is_readable($baseClassDir))
+         {
+             throw new \Exception("Unable to read from module cache directories: $moduleDir, $baseClassDir");
+         }
+ 
+         $cachedFiles = array('base' => array(), 'skeleton' => array());
+-        foreach (glob($moduleDir . 'base/*.php') as $baseFile)
++        foreach (glob($moduleDir . 'Base/*.php') as $baseFile)
+         {
+             $cachedFiles['base'][] = $baseFile;
+         }
+@@ -75,8 +75,9 @@ class CodeCache
+             );
+         }
+         $moduleName = $result->getModuleDefinition()->getName();
++        var_dump($moduleName);
+         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
+-        $baseClassDir = $moduleDir . 'base' . DIRECTORY_SEPARATOR;
++        $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
+         if (! is_dir($moduleDir))
+         {
+             if (! mkdir($moduleDir))
+diff --git a/src/Dat0r/Core/CodeGenerator/CodeGenerator.php b/src/Dat0r/Core/CodeGenerator/CodeGenerator.php
+index 297b27d..b5d501e 100644
+--- a/src/Dat0r/Core/CodeGenerator/CodeGenerator.php
++++ b/src/Dat0r/Core/CodeGenerator/CodeGenerator.php
+@@ -4,11 +4,11 @@ namespace Dat0r\Core\CodeGenerator;
+ 
+ class CodeGenerator                                                                                                                                             
+ {
+-    const NS_MODULE = '\Dat0r\Core\Runtime\Module';
++    const NS_MODULE = '\\Dat0r\\Core\\Runtime\\Module';
+ 
+-    const NS_FIELDS = '\Dat0r\Core\Runtime\Field';
++    const NS_FIELDS = '\\Dat0r\Core\\Runtime\\Field';
+ 
+-    const NS_DOCUMENT = '\Dat0r\Core\Runtime\Document';
++    const NS_DOCUMENT = '\\Dat0r\\Core\\Runtime\\Document';
+ 
+     protected $config;
+ 
+@@ -29,18 +29,19 @@ class CodeGenerator
+     public function generateBaseModule()
+     {
+         $moduleName = $this->moduleDefinition->getName();
+-        $implementor = sprintf('Base%sModule', $moduleName);
++        $implementor = sprintf('%sModule', $moduleName);
+         $namespace = $this->buildNamespace();
+-        $parentClass = sprintf('%s\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
++        
++        $parentClass = sprintf('%s\\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
+ 
+         $source = $this->twig->render('Module/BaseModule.twig', array(
+             'datetime' => date('Y-m-d H:i:s'),
+             'module_name' => $moduleName,
+-            'namespace' => $namespace,
++            'namespace' => $namespace . '\\Base',
+             'parent_class' => $parentClass,
+             'implementor' => $implementor,
+             'fields' => $this->prepareFieldDefinitions(),
+-            'document_implementor' => sprintf('%s\%sDocument', $namespace, $moduleName),
++            'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),
+             'options' => $this->moduleDefinition->getOptions()
+         ));
+ 
+@@ -57,7 +58,7 @@ class CodeGenerator
+             'datetime' => date('Y-m-d H:i:s'),
+             'module_name' => $moduleName,
+             'namespace' => $namespace,
+-            'parent_class' => sprintf('Base%sModule', $moduleName),
++            'parent_class' => sprintf('\\%s\\Base\\%sModule', $namespace, $moduleName),
+             'implementor' => $implementor
+         ));
+ 
+@@ -67,9 +68,9 @@ class CodeGenerator
+     public function generateBaseDocument()
+     {
+         $moduleName = $this->moduleDefinition->getName();
+-        $implementor = sprintf('Base%sDocument', $moduleName);
++        $implementor = sprintf('%sDocument', $moduleName);
+         $namespace = $this->buildNamespace();
+-
++        $namespace .= '\\Base';
+         $source = $this->twig->render('Document/BaseDocument.twig', array(
+             'datetime' => date('Y-m-d H:i:s'),
+             'module_name' => $moduleName,
+@@ -77,7 +78,7 @@ class CodeGenerator
+             'parent_class' => $this->moduleDefinition->getBase(),
+             'implementor' => $implementor,
+             'fields' => $this->prepareFieldDefinitions(),
+-            'document_implementor' => sprintf('%s\%sDocument', $namespace, $moduleName),
++            'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),
+             'options' => $this->moduleDefinition->getOptions()
+         ));
+ 
+@@ -94,7 +95,7 @@ class CodeGenerator
+             'datetime' => date('Y-m-d H:i:s'),
+             'module_name' => $moduleName,
+             'namespace' => $namespace,
+-            'parent_class' => sprintf('Base%sDocument', $moduleName),
++            'parent_class' => sprintf('\\%s\\Base\\%sDocument', $namespace, $moduleName),
+             'implementor' => $implementor,
+             'description' => $this->moduleDefinition->getDescription()
+         ));
+@@ -114,7 +115,7 @@ class CodeGenerator
+         $fields = array();
+         foreach ($this->moduleDefinition->getFields() as $field)
+         {
+-            $field['implementor'] = sprintf('%s\%sField', self::NS_FIELDS, ucfirst($field['type']));
++            $field['implementor'] = sprintf('%s\\%sField', self::NS_FIELDS, ucfirst($field['type']));
+             $field['options'] = $this->prepareOptions($field['options']);
+             $fields[] = $field;
+         }
+@@ -154,6 +155,6 @@ class CodeGenerator
+         $lastPart = array_pop($parts);
+         array_unshift($parts, $moduleName);
+ 
+-        return sprintf('%s\%s', $namespace, implode('\\', $parts) . $lastPart);
++        return sprintf('%s\\%s', $namespace, implode('\\', $parts) . $lastPart);
+     }
+ }
+diff --git a/src/Dat0r/Core/CodeGenerator/Deployment.php b/src/Dat0r/Core/CodeGenerator/Deployment.php
+index 60be3af..31a17b5 100644
+--- a/src/Dat0r/Core/CodeGenerator/Deployment.php
++++ b/src/Dat0r/Core/CodeGenerator/Deployment.php
+@@ -52,8 +52,8 @@ class Deployment
+ 
+     protected function moveCache(array $sourceFiles, $cacheDir, $targetDir)
+     {
+-        $cacheBaseDir = realpath($cacheDir . '/base');
+-        $targetBaseDir = realpath($targetDir . '/base');
++        $cacheBaseDir = realpath($cacheDir . '/Base');
++        $targetBaseDir = realpath($targetDir . '/Base');
+         foreach ($sourceFiles['base'] as $base)
+         {
+             $fileName = basename($base);
+@@ -70,8 +70,8 @@ class Deployment
+ 
+     protected function copyCache(array $sourceFiles, $cacheDir, $targetDir)
+     {
+-        $cacheBaseDir = realpath($cacheDir . '/base');
+-        $targetBaseDir = realpath($targetDir . '/base');
++        $cacheBaseDir = realpath($cacheDir . '/Base');
++        $targetBaseDir = realpath($targetDir . '/Base');
+         foreach ($sourceFiles['base'] as $base)
+         {
+             $fileName = basename($base);
+@@ -98,17 +98,17 @@ class Deployment
+             throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName());
+         }
+ 
+-        $targetBaseDir = $targetDir . '/base';
++        $targetBaseDir = $targetDir . '/Base';
+         if (! is_dir($targetBaseDir))
+         {
+             if (! mkdir($targetBaseDir))
+             {
+-                throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/base');
++                throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
+             }
+         }
+         if (! is_writable($targetBaseDir))
+         {
+-            throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName().'/base');
++            throw new \Exception("Can write to deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
+         }
+     }
+ }
+diff --git a/src/Dat0r/Core/Runtime/Document/DocumentChangedEvent.php b/src/Dat0r/Core/Runtime/Document/DocumentChangedEvent.php
+index c5fd0ab..7e29e4a 100644
+--- a/src/Dat0r/Core/Runtime/Document/DocumentChangedEvent.php
++++ b/src/Dat0r/Core/Runtime/Document/DocumentChangedEvent.php
+@@ -31,6 +31,18 @@ class DocumentChangedEvent implements Runtime\IEvent
+         return $this->valueChangedEvent;
+     }
+ 
++    public function __toString()
++    {
++        $stringRep = sprintf(
++            "[%s] A %s module's document field value has changed: \n %s",
++            get_class($this),
++            $this->getDocument()->getModule()->getName(),
++            $this->getValueChangedEvent()
++        );
++
++        return $stringRep;
++    }
++
+     protected function __construct(IDocument $document, ValueChangedEvent $valueChangedEvent)
+     {
+         $this->document = $document;
+diff --git a/src/Dat0r/Core/Runtime/Document/ValueChangedEvent.php b/src/Dat0r/Core/Runtime/Document/ValueChangedEvent.php
+index 67e7b9f..7a8062a 100644
+--- a/src/Dat0r/Core/Runtime/Document/ValueChangedEvent.php
++++ b/src/Dat0r/Core/Runtime/Document/ValueChangedEvent.php
+@@ -98,6 +98,25 @@ class ValueChangedEvent implements Runtime\IEvent
+         return $this->aggregateEvent;
+     }
+ 
++
++    public function __toString()
++    {
++        $stringRep = sprintf(
++            "The `%s` field's value changed from '%s' to '%s'",
++            $this->getField()->getName(),
++            $this->getOldValue(),
++            $this->getNewValue()
++        );
++
++        if (($aggregateEvent = $this->getAggregateEvent()))
++        {
++            $stringRep .= PHP_EOL . "The actual changed occured upon the field's aggregate though.";
++            $stringRep .= PHP_EOL . $aggregateEvent;
++        }
++
++        return $stringRep;
++    }
++
+     /**
+      * Constructs a new ValueChangedEvent instance.
+      *
