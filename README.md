@@ -108,7 +108,7 @@ mkdir data_objects codegen_cache
 To then actually generate the code we run:
 
 ```sh
-php ./vendor/berlinonline/dat0r/bin/gen.php -c codegen.config.ini -d article.module.xml -a gen+dep
+php ./vendor/berlinonline/dat0r/bin/generate_code.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
 This should result within an Article folder being created inside our ./data_objects directory.  
@@ -164,12 +164,12 @@ $article = $module->createDocument(array(
 $article->setTitle("This an article's changed title.");
 $article->setTeaser("This an article's changed teaser text.");
 
-var_dump($article->toArray());
-
-foreach ($article->getChanges() as $changeEvent)
+foreach ($article->getChanges() as $idx => $changeEvent)
 {
-    var_dump($changeEvent);
+    printf("- event number %d:\n%s\n", $idx + 1, $changeEvent);
 }
+
+printf("- current data:\n%s", print_r($article->toArray(), TRUE));
 ```
 
 When running the example ...
@@ -181,18 +181,18 @@ php dat0r_example.php
 ... we should receive the following output:
 
 ```
-array(4) {
-  ["title"]=>
-  string(32) "This an article's changed title."
-  ["teaser"]=>
-  string(38) "This an article's changed teaser text."
-  ["paragraph"]=>
-  string(30) "This is an article's paragraph"
-  ["slug"]=>
-  string(20) "article-example-slug"
-}
+- event number 1:
 The `title` field's value changed from 'This is an article's title.' to 'This an article's changed title.'
+- event number 2:
 The `teaser` field's value changed from 'This is an article's teaser text.' to 'This an article's changed teaser text.'
+- current data:
+Array
+(
+    [title] => This an article's changed title.
+    [teaser] => This an article's changed teaser text.
+    [paragraph] => This is an article's paragraph
+    [slug] => article-example-slug
+)
 ```
 
 For further details on the available core level API
