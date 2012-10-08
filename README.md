@@ -114,9 +114,9 @@ php ./vendor/berlinonline/dat0r/bin/generate_code.php -c codegen.config.ini -d a
 This should result within an Article folder being created inside our ./data_objects directory,
 which should now correspond to the directory tree show below.
 
-*expected structure of the `data_objects` directory:*
+*expected structure of the `data_objects directory:*
 
-``
+```
 data_objects/
 `-- Article
     |-- ArticleDocument.php
