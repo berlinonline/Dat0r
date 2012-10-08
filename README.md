@@ -172,6 +172,31 @@ foreach ($article->getChanges() as $changeEvent)
 }
 ```
 
+When running the example ...
+
+```sh
+php dat0r_example.php
+```
+
+... we should receive the following output:
+
+```
+array(4) {
+  ["title"]=>
+  string(32) "This an article's changed title."
+  ["teaser"]=>
+  string(38) "This an article's changed teaser text."
+  ["paragraph"]=>
+  string(30) "This is an article's paragraph"
+  ["slug"]=>
+  string(20) "article-example-slug"
+}
+The `title` field's value changed from 'This is an article's title.' to 'This an article's changed title.'
+The `teaser` field's value changed from 'This is an article's teaser text.' to 'This an article's changed teaser text.'
+```
+
+For further details on the available core level API
+consult the <a href="https://github.com/berlinonline/Dat0r#api-doc">API Doc</a> section.  
 An other example for integration and usage can be found at https://github.com/shrink/draftcmm
 
 ## Documentation
