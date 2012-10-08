@@ -75,7 +75,6 @@ class CodeCache
             );
         }
         $moduleName = $result->getModuleDefinition()->getName();
-        var_dump($moduleName);
         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
         $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
         if (! is_dir($moduleDir))

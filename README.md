@@ -56,7 +56,7 @@ Then install via composer:
 php composer.phar install
 ```
 
-To verify that Dat0r has been correctly installed and is working run:
+To verify that Dat0r has been correctly installed and is working, run:
 
 ```sh
 ./vendor/bin/dat0r_make.sh test
