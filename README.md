@@ -124,7 +124,7 @@ mkdir data_objects codegen_cache
 To then actually generate the code we run:
 
 ```sh
-php ./vendor/berlinonline/dat0r/bin/generate_code.php -c codegen.config.ini -d article.module.xml -a gen+dep
+php ./vendor/bin/generate_code.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
 This should result within an Article folder being created inside our ./data_objects directory,
