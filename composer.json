@@ -1,5 +1,6 @@
 {
     "name": "berlinonline/dat0r",
+    "bin": ["bin/generate_code.php"],
     "type": "library",
     "description": "Library for generating data-objects.",
     "keywords": ["data mapper", "scaffolding"],

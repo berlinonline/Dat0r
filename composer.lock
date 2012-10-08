@@ -1,5 +1,5 @@
 {
-    "hash": "57005233a89e510bfa53ef21a003abb1",
+    "hash": "5e9f833e0be4430896779f3ef7840bf5",
     "packages": [
         {
             "name": "cilex/cilex",
@@ -611,12 +611,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "1.2.3"
+                "reference": "1.2.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/1.2.3",
-                "reference": "1.2.3",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/1.2.5",
+                "reference": "1.2.5",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                 "ext-spl": "*",
                 "ext-xdebug": ">=2.0.5"
             },
-            "time": "1349452893",
+            "time": "1349598856",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -844,12 +844,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4c5545c8686c28a224c879a11f5b6263d13d4b90"
+                "reference": "ed9f20dab1cfc2a9f89cc77a520ae5576723ca45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/4c5545c8686c28a224c879a11f5b6263d13d4b90",
-                "reference": "4c5545c8686c28a224c879a11f5b6263d13d4b90",
+                "url": "https://github.com/sebastianbergmann/phpunit/zipball/ed9f20dab1cfc2a9f89cc77a520ae5576723ca45",
+                "reference": "ed9f20dab1cfc2a9f89cc77a520ae5576723ca45",
                 "shasum": ""
             },
             "require": {
@@ -871,7 +871,7 @@
                 "ext-tokenizer": "*",
                 "phpunit/php-invoker": ">=1.1.0"
             },
-            "time": "1349564795",
+            "time": "1349709119",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -1254,18 +1254,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1"
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
-                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
+                "url": "https://github.com/fabpot/Twig/zipball/347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1349508092",
+            "time": "1349702400",
             "type": "library",
             "extra": {
                 "branch-alias": {
