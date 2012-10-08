@@ -111,11 +111,13 @@ To then actually generate the code we run:
 php ./vendor/berlinonline/dat0r/bin/generate_code.php -c codegen.config.ini -d article.module.xml -a gen+dep
 ```
 
-This should result within an Article folder being created inside our ./data_objects directory.  
-The Article directory's file tree should look like this:
+This should result within an Article folder being created inside our ./data_objects directory,
+which should now correspond to the directory tree show below.
 
-```
-`data_objects/
+*expected structure of the `data_objects` directory:*
+
+``
+data_objects/
 `-- Article
     |-- ArticleDocument.php
     |-- ArticleModule.php
