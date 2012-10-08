@@ -114,9 +114,9 @@ php ./vendor/berlinonline/dat0r/bin/generate_code.php -c codegen.config.ini -d a
 This should result within an Article folder being created inside our ./data_objects directory,
 which should now correspond to the directory tree show below.
 
-*expected structure of the `data_objects directory:*
+*expected structure of the `data_objects` directory:*
 
-```
+``
 data_objects/
 `-- Article
     |-- ArticleDocument.php
@@ -252,13 +252,13 @@ The code is an excerpt from the results of the above <a href="#2-generate">code 
 ```php
 <?php
 
-namespace Example\DataObject\Article;
+namespace Example\DataObject\Article\Base;
 
-abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
+abstract class ArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
 {
     protected function __construct()
     {
-        return parent::__construct('Article', array( 
+        parent::__construct('Article', array( 
             \Dat0r\Core\Runtime\Field\TextField::create('title'), 
             \Dat0r\Core\Runtime\Field\TextField::create('teaser'), 
             \Dat0r\Core\Runtime\Field\TextField::create('paragraph'), 
@@ -268,11 +268,6 @@ abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
         ));
     }
 
-    /**
-     * Returns the IDocument implementor to use when creating new documents.
-     *
-     * @return string Fully qualified name of an IDocument implementation.
-     */
     protected function getDocumentImplementor()
     {
         return 'Example\DataObject\Article\ArticleDocument';

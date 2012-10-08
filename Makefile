@@ -1,6 +1,10 @@
 # vim: ts=4:sw=4:noexpandtab!:
 
+PROJECT_BASEDIR = `if [ -d ../../../vendor ]; then echo $$(cd ../../../ && pwd); else echo $$(pwd); fi`
+
 help:
+	@echo "Project base directory is: $(PROJECT_BASEDIR)"
+	@echo "---------------------------------------------"
 	@echo "List of available targets:"
 	@echo "  install - Installs composer and all dependencies."
 	@echo "  update - Updates composer and all dependencies."
@@ -11,10 +15,10 @@ help:
 
 test:
 	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
-	@./vendor/bin/phpunit -c ./test/phpunit.xml.dist
+	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./test/phpunit.xml.dist
 
 doc:
-	@php ./vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
+	@php $(PROJECT_BASEDIR)/vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
 
 install: install-deps
 
