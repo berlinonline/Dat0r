@@ -54,7 +54,7 @@ Below you will find an example for the definition of a simple article object.
 <!--
 Holds the definition of a data structure that makes up an example module named Article.
 -->
-<module type="Article" namespace="Example\DataObject">
+<module name="Article" namespace="Example\DataObject">
     <description>
         Articles hold news related content 
         and basically consist of a title, a paragraph and a teaser text.
@@ -115,12 +115,13 @@ This should result within an Article folder being created inside our ./data_obje
 The Article directory's file tree should look like this:
 
 ```
-.
-|-- ArticleDocument.php
-|-- ArticleModule.php
-|-- base
-|   |-- BaseArticleDocument.php
-|   |-- BaseArticleModule.php
+`data_objects/
+`-- Article
+    |-- ArticleDocument.php
+    |-- ArticleModule.php
+    `-- Base
+        |-- ArticleDocument.php
+        `-- ArticleModule.php
 ```
 
 ### 3. Use
