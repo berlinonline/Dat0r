@@ -132,7 +132,7 @@ which should now correspond to the directory tree show below.
 
 *expected structure of the `data_objects` directory:*
 
-``
+```
 data_objects/
 `-- Article
     |-- ArticleDocument.php
