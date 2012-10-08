@@ -126,13 +126,27 @@ The Article directory's file tree should look like this:
 ### 3. Use
 
 After generating the code we are now ready to make profit by using it. :)  
-As shown in the above file tree, two concrete and two abstract classes have been generated from our definition.  
+As shown in the above file tree, two concrete and two abstract classes have been generated from our definition.
+In order to get those classes autoloaded we will need to create a small autoload file for our example:  
+
+```php
+<?php
+// require the vendor/composer autoload.
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+// then register our generated package to Dat0r.
+Dat0r\Autoloader::register(array(
+    'Example\DataObject' => __DIR__ . DIRECTORY_SEPARATOR . 'data_objects'
+));
+```
+
+We now have autoload support for the Example\DataObject namespace.  
 The following code snippet shows an example usage of the API provided by the concrete implementations:
 
 ```php
 <?php
 
-require_once dirname(__FILE__) . '/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 use Example\DataObject\Article;
 
@@ -152,8 +166,6 @@ foreach ($article->getChanges() as $changeEvent)
 {
     var_dump($changeEvent);
 }
-
-?>
 ```
 
 An other example for integration and usage can be found at https://github.com/shrink/draftcmm
@@ -234,8 +246,6 @@ abstract class BaseArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
         return 'Example\DataObject\Article\ArticleDocument';
     }
 }
-
-?>
 ```
 
 ##### Custom-Level
