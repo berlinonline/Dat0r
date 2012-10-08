@@ -127,7 +127,9 @@ The Article directory's file tree should look like this:
 
 After generating the code we are now ready to make profit by using it. :)  
 As shown in the above file tree, two concrete and two abstract classes have been generated from our definition.
-In order to get those classes autoloaded we will need to create a small autoload file for our example:  
+In order to get those classes autoloaded we will need to create a small autoload file for our example.  
+
+*autoload.php:*
 
 ```php
 <?php
