@@ -29,17 +29,22 @@ class Autoloader
      */
     static public function register(array $domainPackages = array())
     {
-        self::$domainPackages = $domainPackages;
+        if (! self::$corePackages)
+        {
+            $here = __DIR__;
+            self::$corePackages = array(
+                'Dat0r\\Core' => $here . DIRECTORY_SEPARATOR . 'Core',
+                'Dat0r\\Composer' => $here . DIRECTORY_SEPARATOR . 'Composer',
+                'Dat0r\\Tests' => dirname(dirname($here)) . '/test/src/Dat0r'
+            );
 
-        $here = __DIR__;
-        self::$corePackages = array(
-            'Dat0r\\Core' => $here . DIRECTORY_SEPARATOR . 'Core',
-            'Dat0r\\Composer' => $here . DIRECTORY_SEPARATOR . 'Composer',
-            'Dat0r\\Tests' => dirname(dirname($here)) . '/test/src/Dat0r'
-        );
+            self::$domainPackages = array();
 
-        ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(new self, 'autoload'));
+            ini_set('unserialize_callback_func', 'spl_autoload_call');
+            spl_autoload_register(array(new self, 'autoload'));
+        }
+        
+        self::$domainPackages = array_merge(self::$domainPackages, $domainPackages);
     }
 
     /**
