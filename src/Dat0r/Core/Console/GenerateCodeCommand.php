@@ -41,16 +41,8 @@ class GenerateCodeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try
-        {
-            $this->validateInput($input);
-            $this->processPayload($input, $output);
-        }
-        catch (Exception $error)
-        {
-            $output->writeln(sprintf('<error>Error: %s</error>', $error->getMessage()));
-            $this->displayUsage($output);
-        }
+        $this->validateInput($input);
+        $this->processPayload($input, $output);
     }
 
     protected function validateInput(InputInterface $input)
@@ -89,7 +81,7 @@ class GenerateCodeCommand extends Command
             $configuration = Configuration::create(
                 parse_ini_file($input->getArgument('config'))
             );
-            
+
             if (in_array('gen', $actions))
             {
                 $builder = Builder::create($configuration);

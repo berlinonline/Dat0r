@@ -2,7 +2,10 @@
 <?php
 
 use Dat0r\Core\Console;
+
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Input\ArgvInput;
 
 $baseDir = dirname(__DIR__);
 if (! is_dir($baseDir . DIRECTORY_SEPARATOR . 'vendor'))
@@ -18,6 +21,40 @@ if (! is_dir($baseDir . DIRECTORY_SEPARATOR . 'vendor'))
 $autoloadPath = array($baseDir, 'vendor', 'autoload.php');
 require_once implode(DIRECTORY_SEPARATOR, $autoloadPath);
 
-$application = new Application();
-$application->add(new Console\GenerateCodeCommand);
-$application->run();
+$exitCode = 1;
+
+try
+{
+    $application = new Application();
+    $application->setAutoExit(FALSE);
+    $application->setCatchExceptions(FALSe);
+    $application->add(new Console\GenerateCodeCommand);
+    $exitCode = $application->run();
+}
+catch(\Exception $error)
+{
+    $output = new ConsoleOutput();
+    $input = new ArgvInput();
+    $command = NULL;
+
+    $output->writeln(sprintf('<error>Error: %s</error>', $error->getMessage()));
+
+    try
+    {
+        $command = $application->find($input->getFirstArgument());
+    }
+    catch (\InvalidArgumentException $ex)
+    {
+        $command = NULL;
+    }
+    if ($command)
+    {
+         $output->writeln($command->asText());
+    }
+    else
+    {
+         $output->writeln($application->asText());
+    }
+}
+
+return $exitCode;
