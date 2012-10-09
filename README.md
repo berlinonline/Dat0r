@@ -69,7 +69,7 @@ To verify that Dat0r has been correctly installed and is working, run:
 After installation you are ready to write your first data-definition.  
 Below you will find an example for the definition of a simple article object.
 
-*article.module.xml*:
+*article_module.xml*:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -107,14 +107,14 @@ Before the code generation can be kicked off,
 we need to create a little config file in order to control a few aspects of code generation.  
 The contents of the config file we are using for this example is listed below.
 
-*codegen.config.ini*:
+*codegen_config.ini*:
 
 ```ini
-; Tell Dat0r where we want generated code to be deployed.
-deployDir=./data_objects
-
 ; Tell Dat0r where we want code to be generated to before deploying.
 cacheDir=./codegen_cache
+
+; Tell Dat0r where we want generated code to be deployed.
+deployDir=./data_objects
 
 ; Tell whether we want generated code to completely moved or just copied 
 ; from our cache to the deploy dir. Valid values are 'copy' or 'move'.
@@ -130,7 +130,7 @@ mkdir data_objects codegen_cache
 To then actually generate the code we run:
 
 ```sh
-./vendor/bin/dat0r.console generate codegen.config.ini article.module.xml
+./vendor/bin/dat0r.console generate codegen_config.ini article_module.xml
 ```
 
 This should result within an Article folder being created inside our ./data_objects directory,
