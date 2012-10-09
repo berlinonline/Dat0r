@@ -6,6 +6,7 @@ help:
 	@echo "Project base directory is: $(PROJECT_BASEDIR)"
 	@echo "---------------------------------------------"
 	@echo "List of available targets:"
+	@echo "  code - Generate data-objects from a given module definition. Use 'make code conf={path} def={path}'"
 	@echo "  install - Installs composer and all dependencies."
 	@echo "  update - Updates composer and all dependencies."
 	@echo "  test - Runs all test suites and publishes an code coverage report in xml and html."
@@ -13,12 +14,8 @@ help:
 	@echo "  help - Shows this dialog."
 	@exit 0
 
-test:
-	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
-	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./test/phpunit.xml.dist
-
-doc:
-	@php $(PROJECT_BASEDIR)/vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
+code:
+	@./bin/dat0r.console generate $(conf) $(def) "gen+dep"
 
 install: install-deps
 
@@ -36,5 +33,12 @@ update-deps: update-composer
 
 update-composer: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- self-update
+
+test:
+	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
+	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./test/phpunit.xml.dist
+
+doc:
+	@php $(PROJECT_BASEDIR)/vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
 
 .PHONY: test help code doc install update
