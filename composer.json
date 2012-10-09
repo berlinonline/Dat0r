@@ -1,6 +1,5 @@
 {
     "name": "berlinonline/dat0r",
-    "bin": ["bin/generate_code.php", "bin/dat0r_make.sh"],
     "type": "library",
     "description": "Library for generating data-objects.",
     "keywords": ["data mapper", "scaffolding"],
@@ -22,6 +21,7 @@
     "autoload": { 
         "psr-0": {"Dat0r" : "src/" }
     },
+    "bin": ["bin/generate_code.php", "bin/dat0r.make", "bin/dat0r.console"],
     "scripts": {
         "post-install-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets",
         "post-update-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets"
