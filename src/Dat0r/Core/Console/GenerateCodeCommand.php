@@ -81,17 +81,14 @@ class GenerateCodeCommand extends Command
 
     protected function processPayload(InputInterface $input, OutputInterface $output)
     {
-        $config = $input->getOption('config');
-        $definition = $input->getOption('definition');
-        $action = $input->getOption('action');
-
         try
         {
-            $configuration = Configuration::create($config);
-            $parser = ModuleDefinitionParser::create();
-            $moduleDefinition = $parser->parse($definition);
-            $actions = explode('+', $action);
+            $actions = explode('+', $input->getArgument('action'));
 
+            $parser = ModuleDefinitionParser::create();
+            $moduleDefinition = $parser->parse($input->getArgument('definition'));
+
+            $configuration = Configuration::create($input->getArgument('config'));
             if (in_array('gen', $actions))
             {
                 $builder = Builder::create($configuration);
@@ -107,11 +104,6 @@ class GenerateCodeCommand extends Command
         {
             throw new Exception("An error occured while trying to process command.", 0, $error);
         }
-
-        $output->writeln("Successfully generated/deployed your code.");
-        $output->writeln(sprintf('<info>Config: %s</info>', $config));
-        $output->writeln(sprintf('<info>Definition file: %s</info>', $definition));
-        $output->writeln(sprintf('<info>Action: %s</info>', $action));
     }
 
     protected function displayUsage(OutputInterface $output)
