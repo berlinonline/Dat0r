@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use Dat0r\Core\Console;
+use Symfony\Component\Console\Application;
+
 $baseDir = dirname(__DIR__);
 if (! is_dir($baseDir . DIRECTORY_SEPARATOR . 'vendor'))
 {
@@ -15,5 +18,6 @@ if (! is_dir($baseDir . DIRECTORY_SEPARATOR . 'vendor'))
 $autoloadPath = array($baseDir, 'vendor', 'autoload.php');
 require_once implode(DIRECTORY_SEPARATOR, $autoloadPath);
 
-Dat0r\Autoloader::register();
-Dat0r\Core\CodeGenerator\CliInterface::run();
+$application = new Application();
+$application->add(new Console\GenerateCodeCommand);
+$application->run();
