@@ -84,11 +84,12 @@ class GenerateCodeCommand extends Command
         try
         {
             $actions = explode('+', $input->getArgument('action'));
-
             $parser = ModuleDefinitionParser::create();
             $moduleDefinition = $parser->parse($input->getArgument('definition'));
-
-            $configuration = Configuration::create($input->getArgument('config'));
+            $configuration = Configuration::create(
+                parse_ini_file($input->getArgument('config'))
+            );
+            
             if (in_array('gen', $actions))
             {
                 $builder = Builder::create($configuration);
