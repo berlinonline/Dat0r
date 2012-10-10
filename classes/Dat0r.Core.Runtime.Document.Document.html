@@ -31,10 +31,10 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">273</span></a></li>
+                <span class="label label-info">159</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
-                <span class="label label-info">9</span>
+                <span class="label label-info">4</span>
 </li></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
                 <span class="label label-info">0</span></a></li>
@@ -57,8 +57,7 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#addDocumentChangedListener" title="addDocumentChangedListener :: "><span class="description">addDocumentChangedListener()
-        </span><pre>addDocumentChangedListener()</pre></a></li>
+<li class="method public "><a href="#addDocumentChangedListener" title="addDocumentChangedListener :: Registers a given document changed listener."><span class="description">Registers a given document changed listener.</span><pre>addDocumentChangedListener()</pre></a></li>
 <li class="method public "><a href="#create" title="create :: Creates a new Document."><span class="description">Creates a new Document.</span><pre>create()</pre></a></li>
 <li class="method public "><a href="#getChanges" title="getChanges :: Returns a list of unhandled changes."><span class="description">Returns a list of unhandled changes.</span><pre>getChanges()</pre></a></li>
 <li class="method public "><a href="#getModule" title="getModule :: Returns an entries module."><span class="description">Returns an entries module.</span><pre>getModule()</pre></a></li>
@@ -73,10 +72,10 @@ hence if it has any unhandled changes.</span><pre>isClean()</pre></a></li>
 <li class="method public "><a href="#markClean" title="markClean :: Marks the current document instance as clean,
 hence resets the all tracked changed."><span class="description">Marks the current document instance as clean,
 hence resets the all tracked changed.</span><pre>markClean()</pre></a></li>
-<li class="method public "><a href="#notifyDocumentChanged" title="notifyDocumentChanged :: "><span class="description">notifyDocumentChanged()
-        </span><pre>notifyDocumentChanged()</pre></a></li>
-<li class="method public "><a href="#onValueChanged" title="onValueChanged :: "><span class="description">onValueChanged()
-        </span><pre>onValueChanged()</pre></a></li>
+<li class="method public "><a href="#notifyDocumentChanged" title="notifyDocumentChanged :: Propgates the given value changed event
+as a document changed event to our registered document changed listeners."><span class="description">Propgates the given value changed event
+as a document changed event to our registered document changed listeners.</span><pre>notifyDocumentChanged()</pre></a></li>
+<li class="method public "><a href="#onValueChanged" title="onValueChanged :: Handles value changed events that are received from our value holders."><span class="description">Handles value changed events that are received from our value holders.</span><pre>onValueChanged()</pre></a></li>
 <li class="method public "><a href="#setValue" title="setValue :: Sets a specific value by fieldname."><span class="description">Sets a specific value by fieldname.</span><pre>setValue()</pre></a></li>
 <li class="method public "><a href="#setValues" title="setValues :: Sets a given list of values."><span class="description">Sets a given list of values.</span><pre>setValues()</pre></a></li>
 <li class="method public "><a href="#toArray" title="toArray :: Returns an array representation of an entries current value state."><span class="description">Returns an array representation of an entries current value state.</span><pre>toArray()</pre></a></li>
@@ -86,11 +85,10 @@ hence resets the all tracked changed.</span><pre>markClean()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24changes" title="$changes :: "><span class="description">&lt;p&gt;Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).&lt;/p&gt;
-</span><pre>$changes</pre></a></li>
-<li class="property private "><a href="#%24documentChangedListeners" title="$documentChangedListeners :: "><span class="description">$documentChangedListeners</span><pre>$documentChangedListeners</pre></a></li>
-<li class="property private "><a href="#%24module" title="$module :: "><span class="description">$module</span><pre>$module</pre></a></li>
-<li class="property private "><a href="#%24values" title="$values :: "><span class="description">$values</span><pre>$values</pre></a></li>
+<li class="property private "><a href="#%24changes" title="$changes :: Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent)."><span class="description">Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).</span><pre>$changes</pre></a></li>
+<li class="property private "><a href="#%24documentChangedListeners" title="$documentChangedListeners :: Holds a list of listeners regisered to our document changed event."><span class="description">Holds a list of listeners regisered to our document changed event.</span><pre>$documentChangedListeners</pre></a></li>
+<li class="property private "><a href="#%24module" title="$module :: Holds the documents parent module."><span class="description">Holds the documents parent module.</span><pre>$module</pre></a></li>
+<li class="property private "><a href="#%24values" title="$values :: Represents a list of value holders that (surprise) hold a document's values."><span class="description">Represents a list of value holders that (surprise) hold a document's values.</span><pre>$values</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -107,43 +105,56 @@ hence resets the all tracked changed.</span><pre>markClean()</pre></a></li>
 </li>
 </ul>
 <div href="../classes/Dat0r.Core.Runtime.Document.Document.html" class="element class">
-<p class="short_description">Base class that all Dat0r entries should extend.</p>
+<p class="short_description">Document completely implements the IDocument interface
+and serves as the parent to generated domain specific Base\Document classes.</p>
 <div class="details">
 <p class="long_description"></p>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
+<th>copyright</th>
+<td>BerlinOnline Stadtportal GmbH & Co. KG</td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="mailto:tschmittrink@gmail.com">Thorsten Schmitt-Rink</a></td>
+</tr>
+<tr>
 <th>todo</th>
-<td>Add an 'extends BaseDocument' for IRepository integration.</td>
-</tr></table>
+<td>Add a marker interface for Repository integration.</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="addDocumentChangedListener" id="addDocumentChangedListener"></a><div class="element clickable method public addDocumentChangedListener" data-toggle="collapse" data-target=".addDocumentChangedListener .collapse">
-<h2>addDocumentChangedListener()
-        </h2>
+<h2>Registers a given document changed listener.</h2>
 <pre>addDocumentChangedListener(\Dat0r\Core\Runtime\Document\IDocumentChangedListener $documentChangedListener) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$documentChangedListener</h4></div>
+<div class="subelement argument">
+<h4>$documentChangedListener</h4>
+<code><a href="../classes/Dat0r.Core.Runtime.Document.IDocumentChangedListener.html">\Dat0r\Core\Runtime\Document\IDocumentChangedListener</a></code>
+</div>
 </div></div>
 </div>
 <a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
 <h2>Creates a new Document.</h2>
-<pre>create(\Dat0r\Core\Runtime\Module\IModule $module, array $data) : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\IDocument</pre>
+<pre>create(\Dat0r\Core\Runtime\Module\IModule $module, array $data) : <a href="../classes/Dat0r.Core.Runtime.Document.IDocument.html">\Dat0r\Core\Runtime\Document\IDocument</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$module</h4>
-<code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Module\IModule</code>
+<code><a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></code>
 </div>
 <div class="subelement argument">
 <h4>$data</h4>
 <code>array</code>
 </div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\IDocument</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Document.IDocument.html">\Dat0r\Core\Runtime\Document\IDocument</a></code></div>
 </div></div>
 </div>
 <a name="getChanges" id="getChanges"></a><div class="element clickable method public getChanges" data-toggle="collapse" data-target=".getChanges .collapse">
@@ -154,22 +165,22 @@ hence resets the all tracked changed.</span><pre>markClean()</pre></a></li>
 <p class="long_description"></p>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>An list of Dat0r\Core\Runtime\Document\ValueChangedEvent.</div>
+<code>array</code>An list of ValueChangedEvent.</div>
 </div></div>
 </div>
 <a name="getModule" id="getModule"></a><div class="element clickable method public getModule" data-toggle="collapse" data-target=".getModule .collapse">
 <h2>Returns an entries module.</h2>
-<pre>getModule() : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Module\IModule</pre>
+<pre>getModule() : <a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Module\IModule</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></code></div>
 </div></div>
 </div>
 <a name="getValue" id="getValue"></a><div class="element clickable method public getValue" data-toggle="collapse" data-target=".getValue .collapse">
 <h2>Returns the value for a specific field.</h2>
-<pre>getValue(string $fieldname, boolean $raw) : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<pre>getValue(string $fieldname, boolean $raw) : <a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -182,7 +193,7 @@ hence resets the all tracked changed.</span><pre>markClean()</pre></a></li>
 <h4>$raw</h4>
 <code>boolean</code><p>Whether to return the raw value or the corresponding IValueHolder instance.</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></code></div>
 </div></div>
 </div>
 <a name="getValues" id="getValues"></a><div class="element clickable method public getValues" data-toggle="collapse" data-target=".getValues .collapse">
@@ -202,7 +213,7 @@ defined by the optional fieldnames parameter.</h2>
 <code>boolean</code><p>Whether to return the raw value or the corresponding IValueHolder instance.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>A list of Dat0r\Core\Runtime\ValueHolder\IValueHolder.</div>
+<code>array</code>A list of IValueHolder or raw values depending on the $raw flag.</div>
 </div></div>
 </div>
 <a name="isClean" id="isClean"></a><div class="element clickable method public isClean" data-toggle="collapse" data-target=".isClean .collapse">
@@ -225,7 +236,7 @@ hence if it has any unhandled changes.</h2>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$other</h4>
-<code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Document\IDocument</code>
+<code><a href="../classes/Dat0r.Core.Runtime.Document.IDocument.html">\Dat0r\Core\Runtime\Document\IDocument</a></code>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code>boolean</code></div>
@@ -239,25 +250,30 @@ hence resets the all tracked changed.</h2>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
 <a name="notifyDocumentChanged" id="notifyDocumentChanged"></a><div class="element clickable method public notifyDocumentChanged" data-toggle="collapse" data-target=".notifyDocumentChanged .collapse">
-<h2>notifyDocumentChanged()
-        </h2>
+<h2>Propgates the given value changed event
+as a document changed event to our registered document changed listeners.</h2>
 <pre>notifyDocumentChanged(\Dat0r\Core\Runtime\Document\ValueChangedEvent $event) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$event</h4></div>
+<div class="subelement argument">
+<h4>$event</h4>
+<code><a href="../classes/Dat0r.Core.Runtime.Document.ValueChangedEvent.html">\Dat0r\Core\Runtime\Document\ValueChangedEvent</a></code>
+</div>
 </div></div>
 </div>
 <a name="onValueChanged" id="onValueChanged"></a><div class="element clickable method public onValueChanged" data-toggle="collapse" data-target=".onValueChanged .collapse">
-<h2>onValueChanged()
-        </h2>
+<h2>Handles value changed events that are received from our value holders.</h2>
 <pre>onValueChanged(\Dat0r\Core\Runtime\Document\ValueChangedEvent $event) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$event</h4></div>
+<div class="subelement argument">
+<h4>$event</h4>
+<code><a href="../classes/Dat0r.Core.Runtime.Document.ValueChangedEvent.html">\Dat0r\Core\Runtime\Document\ValueChangedEvent</a></code>
+</div>
 </div></div>
 </div>
 <a name="setValue" id="setValue"></a><div class="element clickable method public setValue" data-toggle="collapse" data-target=".setValue .collapse">
@@ -309,7 +325,7 @@ hence resets the all tracked changed.</h2>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$module</h4>
-<code>\Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Module\IModule</code>
+<code><a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></code>
 </div>
 <div class="subelement argument">
 <h4>$data</h4>
@@ -333,27 +349,26 @@ hence resets the all tracked changed.</h2>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a name="%24changes" id="$changes"> </a><div class="element clickable property private $changes" data-toggle="collapse" data-target=".$changes .collapse">
-<h2>&lt;p&gt;Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).&lt;/p&gt;
-</h2>
+<h2>Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).</h2>
 <pre>$changes : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
 <a name="%24documentChangedListeners" id="$documentChangedListeners"> </a><div class="element clickable property private $documentChangedListeners" data-toggle="collapse" data-target=".$documentChangedListeners .collapse">
-<h2>$documentChangedListeners</h2>
-<pre>$documentChangedListeners </pre>
+<h2>Holds a list of listeners regisered to our document changed event.</h2>
+<pre>$documentChangedListeners : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
 <a name="%24module" id="$module"> </a><div class="element clickable property private $module" data-toggle="collapse" data-target=".$module .collapse">
-<h2>$module</h2>
-<pre>$module : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\Module\IModule</pre>
+<h2>Holds the documents parent module.</h2>
+<pre>$module : <a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
 <a name="%24values" id="$values"> </a><div class="element clickable property private $values" data-toggle="collapse" data-target=".$values .collapse">
-<h2>$values</h2>
-<pre>$values : \Dat0r\Core\Runtime\Document\Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection</pre>
+<h2>Represents a list of value holders that (surprise) hold a document's values.</h2>
+<pre>$values : <a href="../classes/Dat0r.Core.Runtime.ValueHolder.ValueHolderCollection.html">\Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
@@ -364,7 +379,7 @@ hence resets the all tracked changed.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-08T22:02:25Z.<br></footer></div>
+            generated on 2012-10-10T23:27:02Z.<br></footer></div>
 </div>
 </body>
 </html>

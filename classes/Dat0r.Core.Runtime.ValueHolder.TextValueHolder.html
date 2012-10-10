@@ -31,10 +31,10 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">273</span></a></li>
+                <span class="label label-info">159</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
-                <span class="label label-info">9</span>
+                <span class="label label-info">4</span>
 </li></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
                 <span class="label label-info">0</span></a></li>
@@ -71,16 +71,16 @@ the value of an other given IValueHolder.</span><pre>isGreaterThan()</pre></a></
 <li class="method public "><a href="#isLessThan" title="isLessThan :: Tells whether a spefic IValueHolder instance's value is considered less than
 the value of an other given IValueHolder."><span class="description">Tells whether a spefic IValueHolder instance's value is considered less than
 the value of an other given IValueHolder.</span><pre>isLessThan()</pre></a></li>
-<li class="method public "><a href="#setValue" title="setValue :: Sets the value holder's (text) value."><span class="description">Sets the value holder's (text) value.</span><pre>setValue()</pre></a></li>
+<li class="method public "><a href="#setValue" title="setValue :: Sets the value holder's (int) value."><span class="description">Sets the value holder's (int) value.</span><pre>setValue()</pre></a></li>
 <li class="nav-header protected">» Protected</li>
-<li class="method protected "><a href="#__construct" title="__construct :: Contructs a new ValueHolder instance from a given value."><span class="description">Contructs a new ValueHolder instance from a given value.</span><pre>__construct()</pre></a></li>
+<li class="method protected "><a href="#__construct" title="__construct :: Contructs a new TextValueHolder instance from a given value."><span class="description">Contructs a new TextValueHolder instance from a given value.</span><pre>__construct()</pre></a></li>
 <li class="method protected inherited"><a href="#getField" title="getField :: Returns the field that we are handling the data for."><span class="description">Returns the field that we are handling the data for.</span><pre>getField()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
 <li class="property private inherited"><a href="#%24field" title="$field :: "><span class="description">&lt;p&gt;Holds field which's data we are handling.&lt;/p&gt;
 </span><pre>$field</pre></a></li>
-<li class="property private inherited"><a href="#%24frozen" title="$frozen :: "><span class="description">$frozen</span><pre>$frozen</pre></a></li>
+<li class="property private inherited"><a href="#%24frozen" title="$frozen :: Holds a flag telling if the current instance is considered frozen or not."><span class="description">Holds a flag telling if the current instance is considered frozen or not.</span><pre>$frozen</pre></a></li>
 <li class="property private inherited"><a href="#%24value" title="$value :: "><span class="description">&lt;p&gt;Holds the ValueHolder's value.&lt;/p&gt;
 </span><pre>$value</pre></a></li>
 </ul>
@@ -99,9 +99,19 @@ the value of an other given IValueHolder.</span><pre>isLessThan()</pre></a></li>
 </li>
 </ul>
 <div href="../classes/Dat0r.Core.Runtime.ValueHolder.TextValueHolder.html" class="element class">
-<p class="short_description">This is the default IValueHolder implementation used for text values.</p>
+<p class="short_description">Default IValueHolder implementation used for text value containment.</p>
 <div class="details">
 <p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>copyright</th>
+<td>BerlinOnline Stadtportal GmbH & Co. KG</td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="mailto:tschmittrink@gmail.com">Thorsten Schmitt-Rink</a></td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="__toString" id="__toString"></a><div class="element clickable method public __toString" data-toggle="collapse" data-target=".__toString .collapse">
@@ -120,7 +130,7 @@ the value of an other given IValueHolder.</span><pre>isLessThan()</pre></a></li>
 </div>
 <a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
 <h2>Creates a new IValueHolder instance from a given value.</h2>
-<pre>create(\Dat0r\Core\Runtime\Field\IField $field, mixed $value) : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</pre>
+<pre>create(\Dat0r\Core\Runtime\Field\IField $field, mixed $value) : <a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -129,13 +139,16 @@ the value of an other given IValueHolder.</span><pre>isLessThan()</pre></a></li>
 <td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::create()</td>
 </tr></table>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$field</h4></div>
+<div class="subelement argument">
+<h4>$field</h4>
+<code><a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></code>
+</div>
 <div class="subelement argument">
 <h4>$value</h4>
 <code>mixed</code>
 </div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></code></div>
 </div></div>
 </div>
 <a name="freeze" id="freeze"></a><div class="element clickable method public freeze" data-toggle="collapse" data-target=".freeze .collapse">
@@ -184,7 +197,7 @@ the value of an other given IValueHolder.</h2>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$other</h4>
-<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+<code><a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></code>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code>boolean</code></div>
@@ -224,7 +237,7 @@ the value of an other given IValueHolder.</h2>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$other</h4>
-<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+<code><a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></code>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code>boolean</code></div>
@@ -240,14 +253,14 @@ the value of an other given IValueHolder.</h2>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$other</h4>
-<code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\ValueHolder\IValueHolder</code>
+<code><a href="../classes/Dat0r.Core.Runtime.ValueHolder.IValueHolder.html">\Dat0r\Core\Runtime\ValueHolder\IValueHolder</a></code>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
 <a name="setValue" id="setValue"></a><div class="element clickable method public setValue" data-toggle="collapse" data-target=".setValue .collapse">
-<h2>Sets the value holder's (text) value.</h2>
+<h2>Sets the value holder's (int) value.</h2>
 <pre>setValue(string $value) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -260,13 +273,16 @@ the value of an other given IValueHolder.</h2>
 </div></div>
 </div>
 <a name="__construct" id="__construct"></a><div class="element clickable method protected __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>Contructs a new ValueHolder instance from a given value.</h2>
+<h2>Contructs a new TextValueHolder instance from a given value.</h2>
 <pre>__construct(\Dat0r\Core\Runtime\Field\IField $field, mixed $value) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$field</h4></div>
+<div class="subelement argument">
+<h4>$field</h4>
+<code><a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></code>
+</div>
 <div class="subelement argument">
 <h4>$value</h4>
 <code>mixed</code>
@@ -275,7 +291,7 @@ the value of an other given IValueHolder.</h2>
 </div>
 <a name="getField" id="getField"></a><div class="element clickable method protected getField" data-toggle="collapse" data-target=".getField .collapse">
 <h2>Returns the field that we are handling the data for.</h2>
-<pre>getField() : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</pre>
+<pre>getField() : <a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -284,7 +300,7 @@ the value of an other given IValueHolder.</h2>
 <td>\Dat0r\Core\Runtime\ValueHolder\ValueHolder::getField()</td>
 </tr></table>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></code></div>
 </div></div>
 </div>
 <h3>
@@ -292,7 +308,7 @@ the value of an other given IValueHolder.</h2>
 <a name="%24field" id="$field"> </a><div class="element clickable property private $field" data-toggle="collapse" data-target=".$field .collapse">
 <h2>&lt;p&gt;Holds field which's data we are handling.&lt;/p&gt;
 </h2>
-<pre>$field : \Dat0r\Core\Runtime\ValueHolder\Dat0r\Core\Runtime\Field\IField</pre>
+<pre>$field : <a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -303,7 +319,7 @@ the value of an other given IValueHolder.</h2>
 </div></div>
 </div>
 <a name="%24frozen" id="$frozen"> </a><div class="element clickable property private $frozen" data-toggle="collapse" data-target=".$frozen .collapse">
-<h2>$frozen</h2>
+<h2>Holds a flag telling if the current instance is considered frozen or not.</h2>
 <pre>$frozen : boolean</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -340,7 +356,7 @@ the value of an other given IValueHolder.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-08T22:02:24Z.<br></footer></div>
+            generated on 2012-10-10T23:27:02Z.<br></footer></div>
 </div>
 </body>
 </html>

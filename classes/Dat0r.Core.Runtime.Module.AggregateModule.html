@@ -31,10 +31,10 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">273</span></a></li>
+                <span class="label label-info">159</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
-                <span class="label label-info">9</span>
+                <span class="label label-info">4</span>
 </li></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
                 <span class="label label-info">0</span></a></li>
@@ -66,18 +66,16 @@
 <li class="method public inherited"><a href="#getName" title="getName :: Returns the name of the module."><span class="description">Returns the name of the module.</span><pre>getName()</pre></a></li>
 <li class="method public inherited"><a href="#isFrozen" title="isFrozen :: Tells whether a specific IFreezable instance is frozen or not."><span class="description">Tells whether a specific IFreezable instance is frozen or not.</span><pre>isFrozen()</pre></a></li>
 <li class="nav-header protected">» Protected</li>
-<li class="method protected inherited"><a href="#__construct" title="__construct :: Constructs a new Dat0r\Core\Runtime\Module\Module."><span class="description">Constructs a new Dat0r\Core\Runtime\Module\Module.</span><pre>__construct()</pre></a></li>
+<li class="method protected inherited"><a href="#__construct" title="__construct :: Constructs a new Module."><span class="description">Constructs a new Module.</span><pre>__construct()</pre></a></li>
 <li class="method protected "><a href="#getDefaultFields" title="getDefaultFields :: Returns the default fields that are initially added to a module upon creation."><span class="description">Returns the default fields that are initially added to a module upon creation.</span><pre>getDefaultFields()</pre></a></li>
 <li class="method protected inherited"><a href="#getDocumentImplementor" title="getDocumentImplementor :: Returns the class(name) to use when creating new entries for this module."><span class="description">Returns the class(name) to use when creating new entries for this module.</span><pre>getDocumentImplementor()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
-<li class="property private inherited"><a href="#%24fields" title="$fields :: "><span class="description">&lt;p&gt;Holds the module's fields.&lt;/p&gt;
-</span><pre>$fields</pre></a></li>
-<li class="property private inherited"><a href="#%24frozen" title="$frozen :: "><span class="description">$frozen</span><pre>$frozen</pre></a></li>
-<li class="property private inherited"><a href="#%24instances" title="$instances :: "><span class="description">&lt;p&gt;Holds a list of IModule implementations stored by name.&lt;/p&gt;</span><pre>$instances</pre></a></li>
-<li class="property private inherited"><a href="#%24name" title="$name :: "><span class="description">&lt;p&gt;Holds the module's name.&lt;/p&gt;
-</span><pre>$name</pre></a></li>
+<li class="property private inherited"><a href="#%24fields" title="$fields :: Holds the module's fields."><span class="description">Holds the module's fields.</span><pre>$fields</pre></a></li>
+<li class="property private inherited"><a href="#%24frozen" title="$frozen :: Holds a flag telling if the current instance is considered frozen or not."><span class="description">Holds a flag telling if the current instance is considered frozen or not.</span><pre>$frozen</pre></a></li>
+<li class="property private inherited"><a href="#%24instances" title="$instances :: Holds a list of IModule implementations that are pooled by type."><span class="description">Holds a list of IModule implementations that are pooled by type.</span><pre>$instances</pre></a></li>
+<li class="property private inherited"><a href="#%24name" title="$name :: Holds the module's name."><span class="description">Holds the module's name.</span><pre>$name</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -94,14 +92,24 @@
 </li>
 </ul>
 <div href="../classes/Dat0r.Core.Runtime.Module.AggregateModule.html" class="element class">
-<p class="short_description">Base class that all Dat0r modules should extend.</p>
+<p class="short_description">Provides and contrains behaviour in the context of being nested by a another module.</p>
 <div class="details">
 <p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>copyright</th>
+<td>BerlinOnline Stadtportal GmbH & Co. KG</td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="mailto:tschmittrink@gmail.com">Thorsten Schmitt-Rink</a></td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="create" id="create"></a><div class="element clickable method public create" data-toggle="collapse" data-target=".create .collapse">
 <h2>Standard factory method for dynamically creating modules.</h2>
-<pre>create(string $name, array $fields) : \Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Module\IModule</pre>
+<pre>create(string $name, array $fields) : <a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"><p>During common usage this method probally ain't needed.
@@ -125,12 +133,12 @@ During testing it is, as it allows us to test modules dynamically.</p></p>
 <code>array</code><p>An array of IField implementations that define the module's structure.</p>
 </div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Module\IModule</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></code></div>
 </div></div>
 </div>
 <a name="createDocument" id="createDocument"></a><div class="element clickable method public createDocument" data-toggle="collapse" data-target=".createDocument .collapse">
 <h2>Creates a new IDocument instance.</h2>
-<pre>createDocument(array $data) : \Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Document\IDocument</pre>
+<pre>createDocument(array $data) : <a href="../classes/Dat0r.Core.Runtime.Document.IDocument.html">\Dat0r\Core\Runtime\Document\IDocument</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -144,11 +152,11 @@ During testing it is, as it allows us to test modules dynamically.</p></p>
 <code>array</code><p>Optional data for initial hydration.</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\InvalidImplementorException</code></th>
+<th><code><a href="../classes/Dat0r.Core.Runtime.Error.InvalidImplementorException.html">\Dat0r\Core\Runtime\Error\InvalidImplementorException</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Document\IDocument</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Document.IDocument.html">\Dat0r\Core\Runtime\Document\IDocument</a></code></div>
 </div></div>
 </div>
 <a name="freeze" id="freeze"></a><div class="element clickable method public freeze" data-toggle="collapse" data-target=".freeze .collapse">
@@ -165,7 +173,7 @@ During testing it is, as it allows us to test modules dynamically.</p></p>
 </div>
 <a name="getField" id="getField"></a><div class="element clickable method public getField" data-toggle="collapse" data-target=".getField .collapse">
 <h2>Returns a certain module field by name.</h2>
-<pre>getField(string $name) : \Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Field\IField</pre>
+<pre>getField(string $name) : <a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -180,16 +188,16 @@ During testing it is, as it allows us to test modules dynamically.</p></p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Moule\InvalidFieldException</code></th>
+<th><code><a href="../classes/Dat0r.Core.Runtime.Module.InvalidFieldException.html">\Dat0r\Core\Runtime\Module\InvalidFieldException</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Field\IField</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Field.IField.html">\Dat0r\Core\Runtime\Field\IField</a></code></div>
 </div></div>
 </div>
 <a name="getFields" id="getFields"></a><div class="element clickable method public getFields" data-toggle="collapse" data-target=".getFields .collapse">
 <h2>Returns the module's field collection.</h2>
-<pre>getFields(array $fieldnames) : \Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Field\FieldCollection</pre>
+<pre>getFields(array $fieldnames) : <a href="../classes/Dat0r.Core.Runtime.Field.FieldCollection.html">\Dat0r\Core\Runtime\Field\FieldCollection</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -202,12 +210,12 @@ During testing it is, as it allows us to test modules dynamically.</p></p>
 <h4>$fieldnames</h4>
 <code>array</code><p>A list of fieldnames to filter for.</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Field\FieldCollection</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Field.FieldCollection.html">\Dat0r\Core\Runtime\Field\FieldCollection</a></code></div>
 </div></div>
 </div>
 <a name="getInstance" id="getInstance"></a><div class="element clickable method public getInstance" data-toggle="collapse" data-target=".getInstance .collapse">
 <h2>Returns the pooled instance of a specific module.</h2>
-<pre>getInstance() : \Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Module\IModule</pre>
+<pre>getInstance() : <a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"><p>Each module is pooled exactly once, making this a singleton style (factory)method.
@@ -224,7 +232,7 @@ which is the reason why this method takes no arguments.</p></p>
 </tr>
 </table>
 <h3>Returns</h3>
-<div class="subelement response"><code>\Dat0r\Core\Runtime\Module\Dat0r\Core\Runtime\Module\IModule</code></div>
+<div class="subelement response"><code><a href="../classes/Dat0r.Core.Runtime.Module.IModule.html">\Dat0r\Core\Runtime\Module\IModule</a></code></div>
 </div></div>
 </div>
 <a name="getName" id="getName"></a><div class="element clickable method public getName" data-toggle="collapse" data-target=".getName .collapse">
@@ -262,7 +270,7 @@ which is the reason why this method takes no arguments.</p></p>
 </div></div>
 </div>
 <a name="__construct" id="__construct"></a><div class="element clickable method protected __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>Constructs a new Dat0r\Core\Runtime\Module\Module.</h2>
+<h2>Constructs a new Module.</h2>
 <pre>__construct(string $name, array $fields) </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -290,7 +298,7 @@ which is the reason why this method takes no arguments.</p></p>
 <p class="long_description"></p>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>A list of Dat0r\Core\Runtime\Field\IField implemenations.</div>
+<code>array</code>A list of IField implemenations.</div>
 </div></div>
 </div>
 <a name="getDocumentImplementor" id="getDocumentImplementor"></a><div class="element clickable method protected getDocumentImplementor" data-toggle="collapse" data-target=".getDocumentImplementor .collapse">
@@ -310,9 +318,8 @@ which is the reason why this method takes no arguments.</p></p>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a name="%24fields" id="$fields"> </a><div class="element clickable property private $fields" data-toggle="collapse" data-target=".$fields .collapse">
-<h2>&lt;p&gt;Holds the module's fields.&lt;/p&gt;
-</h2>
-<pre>$fields : \Dat0r\Core\Runtime\Module\FieldCollection</pre>
+<h2>Holds the module's fields.</h2>
+<pre>$fields : <a href="../classes/Dat0r.Core.Runtime.Field.FieldCollection.html">\Dat0r\Core\Runtime\Field\FieldCollection</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
@@ -323,7 +330,7 @@ which is the reason why this method takes no arguments.</p></p>
 </div></div>
 </div>
 <a name="%24frozen" id="$frozen"> </a><div class="element clickable property private $frozen" data-toggle="collapse" data-target=".$frozen .collapse">
-<h2>$frozen</h2>
+<h2>Holds a flag telling if the current instance is considered frozen or not.</h2>
 <pre>$frozen : boolean</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -341,7 +348,7 @@ which is the reason why this method takes no arguments.</p></p>
 </div></div>
 </div>
 <a name="%24instances" id="$instances"> </a><div class="element clickable property private $instances" data-toggle="collapse" data-target=".$instances .collapse">
-<h2>&lt;p&gt;Holds a list of IModule implementations stored by name.&lt;/p&gt;</h2>
+<h2>Holds a list of IModule implementations that are pooled by type.</h2>
 <pre>$instances : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -353,8 +360,7 @@ which is the reason why this method takes no arguments.</p></p>
 </div></div>
 </div>
 <a name="%24name" id="$name"> </a><div class="element clickable property private $name" data-toggle="collapse" data-target=".$name .collapse">
-<h2>&lt;p&gt;Holds the module's name.&lt;/p&gt;
-</h2>
+<h2>Holds the module's name.</h2>
 <pre>$name : string</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -372,7 +378,7 @@ which is the reason why this method takes no arguments.</p></p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-08T22:02:25Z.<br></footer></div>
+            generated on 2012-10-10T23:27:02Z.<br></footer></div>
 </div>
 </body>
 </html>
