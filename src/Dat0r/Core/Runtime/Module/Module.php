@@ -2,27 +2,38 @@
 
 namespace Dat0r\Core\Runtime\Module;
 
-use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\Freezable;
 use Dat0r\Core\Runtime\Error;
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Document\IDocument;
+use Dat0r\Core\Runtime\Field\IField;
+use Dat0r\Core\Runtime\Field\FieldCollection;
 
 /**
  * Base class that all Dat0r modules should extend.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class Module extends Runtime\Freezable implements IModule
+abstract class Module extends Freezable implements IModule
 {
     /**
-     * @var array $instances Holds a list of IModule implementations stored by name.
+     * Holds a list of IModule implementations that are pooled by type.
+     *
+     * @var array $instances 
      */
     private static $instances = array();
 
     /**
-     * @var string $name Holds the module's name.
+     * Holds the module's name.
+     *
+     * @var string $name
      */
     private $name;
 
     /**
-     * @var FieldCollection $fields Holds the module's fields.
+     * Holds the module's fields.
+     *
+     * @var FieldCollection $fields
      */
     private $fields;
 
@@ -39,7 +50,7 @@ abstract class Module extends Runtime\Freezable implements IModule
      * This method is used to provide a convenient access to generated domain module instances,
      * which is the reason why this method takes no arguments.
      * 
-     * @return Dat0r\Core\Runtime\Module\IModule
+     * @return IModule
      *
      * @codeCoverageIgnore
      */
@@ -65,7 +76,7 @@ abstract class Module extends Runtime\Freezable implements IModule
      * @param string The name of the module to create.
      * @param array An array of IField implementations that define the module's structure.
      *
-     * @return Dat0r\Core\Runtime\Module\IModule
+     * @return IModule
      */
     public static function create($name, array $fields)
     {
@@ -87,7 +98,7 @@ abstract class Module extends Runtime\Freezable implements IModule
      *
      * @param array $fieldnames A list of fieldnames to filter for.
      *
-     * @return Dat0r\Core\Runtime\Field\FieldCollection
+     * @return FieldCollection
      */
     public function getFields(array $fieldnames = array())
     {
@@ -104,7 +115,7 @@ abstract class Module extends Runtime\Freezable implements IModule
             }
         }
 
-        $collection = Field\FieldCollection::create($fields);
+        $collection = FieldCollection::create($fields);
         $collection->freeze();
         return $collection;
     }
@@ -114,9 +125,9 @@ abstract class Module extends Runtime\Freezable implements IModule
      *
      * @param string $name
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      *
-     * @throws Dat0r\Core\Runtime\Moule\InvalidFieldException
+     * @throws InvalidFieldException
      */
     public function getField($name)
     {
@@ -135,9 +146,9 @@ abstract class Module extends Runtime\Freezable implements IModule
      *
      * @param array $data Optional data for initial hydration.
      *
-     * @return Dat0r\Core\Runtime\Document\IDocument
+     * @return IDocument
      *
-     * @throws Dat0r\Core\Runtime\InvalidImplementorException
+     * @throws Error\InvalidImplementorException
      */
     public function createDocument(array $data = array())
     {
@@ -163,7 +174,7 @@ abstract class Module extends Runtime\Freezable implements IModule
     }
 
     /**
-     * Constructs a new Dat0r\Core\Runtime\Module\Module.
+     * Constructs a new Module.
      *
      * @param string $name
      * @param array $fields
@@ -172,7 +183,7 @@ abstract class Module extends Runtime\Freezable implements IModule
     {
         $this->name = $name;
 
-        $this->fields = Field\FieldCollection::create($this->getDefaultFields());
+        $this->fields = FieldCollection::create($this->getDefaultFields());
         $this->fields->addMore($fields);
     }
 }

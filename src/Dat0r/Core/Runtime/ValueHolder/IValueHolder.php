@@ -2,22 +2,23 @@
 
 namespace Dat0r\Core\Runtime\ValueHolder;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\IFreezable;
+use Dat0r\Core\Runtime\Field\IField;
 
 /**
  * @todo Explain what valid holders are and what they are supposed to do.
  */
-interface IValueHolder extends Runtime\IFreezable
+interface IValueHolder extends IFreezable
 {
     /**
      * Creates a new IValueHolder instance for the given value.
      *
+     * @param IField $field
      * @param mixed $value
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
-    public static function create(Field\IField $field, $value = NULL);
+    public static function create(IField $field, $value = NULL);
 
     /**
      * Returns the value holder's aggregated value.
@@ -36,7 +37,7 @@ interface IValueHolder extends Runtime\IFreezable
     /** 
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */
@@ -45,7 +46,7 @@ interface IValueHolder extends Runtime\IFreezable
     /** 
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */
@@ -54,7 +55,7 @@ interface IValueHolder extends Runtime\IFreezable
     /** 
      * Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */

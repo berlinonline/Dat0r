@@ -1,5 +1,8 @@
 # Dat0r [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
 
+When crafting code we think that it is essential to correctly distinguish and separate concerns.  
+We believe that decoupled components are less painfull to maintain and easier to reuse.  
+
 Dat0r is a code-generation library that was built to ease our management of domain specific data-objects in php.  
 The main difference to existing php solutions, that allow generating code to handle data structures is,
 that Dat0r is not an ORM and it doesn't implement any other concerns than mere data definition and containment.  

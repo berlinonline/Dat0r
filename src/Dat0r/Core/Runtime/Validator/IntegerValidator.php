@@ -4,6 +4,9 @@ namespace Dat0r\Core\Runtime\Validator;
 
 /**
  * Default implementation for validators that validate integers.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class IntegerValidator extends Validator
 {

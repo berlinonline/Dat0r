@@ -2,33 +2,52 @@
 
 namespace Dat0r\Core\Runtime\ValueHolder;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\Document;
-use Dat0r\Core\Runtime\Module;
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Module\IModule;
+use Dat0r\Core\Runtime\Module\InvalidFieldException;
+use Dat0r\Core\Runtime\Field\IField;
+use Dat0r\Core\Runtime\Field\AggregateField;
+use Dat0r\Core\Runtime\Document\IAggregateChangedListener;
+use Dat0r\Core\Runtime\Document\IValueChangedListener;
+use Dat0r\Core\Runtime\Document\ValueChangedEvent;
+use Dat0r\Core\Runtime\Document\DocumentChangedEvent;
 
 /**
- * @todo explain what valuesholders are and why they exist.
+ * Represents a list of IValueHolder.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class ValueHolderCollection implements Document\IAggregateChangedListener
+class ValueHolderCollection implements IAggregateChangedListener
 {
+    /**
+     * Holds our associated module.
+     *
+     * @var IModule $module
+     */
     private $module;
 
     /**
-     * @var array $values Holds the ValuesHolder's values.
+     * Holds the ValuesHolder's values.
+     *
+     * @var array $values
      */
     private $values = array();
 
+    /**
+     * Holds a list of listeners regisered to our value changed event.
+     *
+     * @var array $valueChangedListeners
+     */
     private $valueChangedListeners = array();
 
     /**
      * Creates a new ValuesHolder instance.
      *
-     * @param Dat0r\Core\Runtime\Document\IDocument $document
+     * @param IModule $module
      *
-     * @return Dat0r\Core\Runtime\Document\ValuesHolder
+     * @return ValuesHolder
      */
-    public static function create(Module\IModule $module)
+    public static function create(IModule $module)
     {
         return new self($module);
     }
@@ -36,15 +55,15 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /**
      * Sets a value for a given field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $value
+     * @param IField $field
+     * @param IValueHolder $value
      * @param boolean $override
      */
-    public function set(Field\IField $field, $value, $override = TRUE)
+    public function set(IField $field, $value, $override = TRUE)
     {
         if (! $this->getModule()->getFields()->has($field))
         {
-            throw new Module\InvalidFieldException(
+            throw new InvalidFieldException(
                 "Trying to set value for a field which is not contained by this ValueHolder's module."
             );
         }
@@ -58,7 +77,7 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
         {
             $this->values[$field->getName()] = $newValueObject;
             $this->notifyValueChanged(
-                Document\ValueChangedEvent::create($field, $prevValueObject, $newValueObject)
+                ValueChangedEvent::create($field, $prevValueObject, $newValueObject)
             );
         }
     }
@@ -66,15 +85,15 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /** 
      * Returns the value for a specific field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
+     * @param IField $field
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */ 
-    public function get(Field\IField $field)
+    public function get(IField $field)
     {
         if (! $this->has($field))
         {
-            throw new Module\InvalidFieldException(
+            throw new InvalidFieldException(
                 sprintf("The given field %s is not set on the current ValuesHolder instance.", $field->getName())
             );
         }
@@ -84,9 +103,9 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /**
      * Resets the value for a given field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
+     * @param IField $field
      */
-    public function reset(Field\IField $field)
+    public function reset(IField $field)
     {
         if ($this->has($field))
         {
@@ -97,11 +116,11 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /**
      * Tells whether a value has been set for a given field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
+     * @param IField $field
      *
      * @return boolean
      */
-    public function has(Field\IField $field)
+    public function has(IField $field)
     {
         return isset($this->values[$field->getName()]);
     }
@@ -116,7 +135,12 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
         return $this->values;
     }
 
-    public function notifyValueChanged(Document\ValueChangedEvent $event)
+    /**
+     * Propagates a given value changed event to all corresponding listeners.
+     *
+     * @param ValueChangedEvent $event
+     */
+    public function notifyValueChanged(ValueChangedEvent $event)
     {
         foreach ($this->valueChangedListeners as $listener)
         {
@@ -124,7 +148,12 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
         }
     }
 
-    public function addValueChangedListener(Document\IValueChangedListener $valueChangedListener)
+    /**
+     * Registers a given listener as a recipient of value changed events.
+     *
+     * @param IValueChangedListener $valueChangedListener
+     */
+    public function addValueChangedListener(IValueChangedListener $valueChangedListener)
     {
         if (! in_array($valueChangedListener, $this->valueChangedListeners))
         {
@@ -132,11 +161,17 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
         }
     }
 
-    public function onAggregateChanged(Field\AggregateField $field, Document\DocumentChangedEvent $event)
+    /**
+     * Handles document changed events that are sent by aggregated documents.
+     *
+     * @param AggregateField $field
+     * @param DocumentChangedEvent $event
+     */
+    public function onAggregateChanged(AggregateField $field, DocumentChangedEvent $event)
     {
         $valueChangedEvent = $event->getValueChangedEvent();
 
-        $this->notifyValueChanged(Document\ValueChangedEvent::create(
+        $this->notifyValueChanged(ValueChangedEvent::create(
             $field, 
             $valueChangedEvent->getOldValue(),
             $valueChangedEvent->getNewValue(),
@@ -146,8 +181,10 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
 
     /**
      * Constructs a new ValuesHolder instance.
+     *
+     * @param IModule $module
      */
-    protected function __construct(Module\IModule $module) 
+    protected function __construct(IModule $module) 
     {
         $this->module = $module;
     }
@@ -155,7 +192,7 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /**
      * Returns the valueholder instance's associated module.
      *
-     * @return Dat0r\Core\Runtime\Module\IModule
+     * @return IModule
      */
     protected function getModule()
     {
@@ -165,12 +202,12 @@ class ValueHolderCollection implements Document\IAggregateChangedListener
     /**
      * Creates a IValueHolder instance for a given combination of IField and raw value.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
-     * @param mixed $value
+     * @param IField $field
+     * @param mixed $rawValue
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
-    protected function createValueHolder(Field\IField $field, $rawValue)
+    protected function createValueHolder(IField $field, $rawValue)
     {
         $valueHolder = $field->createValueHolder($rawValue);
         if ($valueHolder instanceof AggregateValueHolder)

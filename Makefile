@@ -15,6 +15,7 @@ help:
 	@exit 0
 
 code:
+	@cd $(PROJECT_BASEDIR)
 	@./bin/dat0r.console generate $(conf) $(def) "gen+dep"
 
 install: install-deps

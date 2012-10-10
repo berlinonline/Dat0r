@@ -4,6 +4,9 @@ namespace Dat0r\Core\Runtime\Validator;
 
 /**
  * Default implementation for validators that validate aggregates.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class AggregateValidator extends Validator
 {

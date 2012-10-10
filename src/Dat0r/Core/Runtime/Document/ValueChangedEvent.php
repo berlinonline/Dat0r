@@ -2,52 +2,67 @@
 
 namespace Dat0r\Core\Runtime\Document;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\ValueHolder;
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\IEvent;
+use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
+use Dat0r\Core\Runtime\Field\IField;
+use Dat0r\Core\Runtime\Document\DocumentChangedEvent;
 
 /**
  * ValueChangedEvent(s) reflect state changes to an document's underlying ValuesHolder.
  * These events are fired everytime an document field-value actually changes and can be used
  * to track state changes over time.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class ValueChangedEvent implements Runtime\IEvent
+class ValueChangedEvent implements IEvent
 {
     /**
-     * @var Dat0r\Core\Runtime\Field\IField
+     * Holds the event's field origin.
+     * @var IField
      */
     private $field;
 
     /**
+     * Holds the previous value of our field origin.
+     * 
      * @var mixed $oldValue
      */
     private $oldValue;
 
     /**
-     * @var mixed $oldValue
+     * Holds the new value of our field origin.
+     *
+     * @var mixed $newValue
      */
     private $newValue;
 
     /**
+     * Holds the time at which the event was created.
+     *
      * @var int $timestamp
      */
     private $timestamp;
 
     /**
-     * @var Dat0r\Core\Runtime\Document\DocumentChangedEvent $aggregateEvent
+     * Holds a possibly underlying aggrgate's value changed event.
+     *
+     * @var DocumentChangedEvent $aggregateEvent
      */
     private $aggregateEvent;
 
     /**
      * Creates a new ValueChangedEvent instance.
      * 
-     * @param Dat0r\Core\Runtime\Field\IField $field
-     * @param array $values
+     * @param IField $field
+     * @param IValueHolder $old
+     * @param IValueHolder $new
+     * @param DocumentChangedEvent $aggregateEvent
      *
-     * @return Dat0r\Core\Runtime\Document\ValueChangedEvent
+     * @return ValueChangedEvent
      */
     public static function create(
-        Field\Field $field, ValueHolder\IValueHolder $old, ValueHolder\IValueHolder $new, $aggregateEvent = NULL
+        IField $field, IValueHolder $old, IValueHolder $new, DocumentChangedEvent $aggregateEvent = NULL
     )
     {
         return new static($field, $old, $new, $aggregateEvent);
@@ -56,7 +71,7 @@ class ValueChangedEvent implements Runtime\IEvent
     /**
      * Returns the event's affected field.
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      */
     public function getField()
     {
@@ -66,7 +81,7 @@ class ValueChangedEvent implements Runtime\IEvent
     /**
      * Returns the previous value of the event's related field.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getOldValue()
     {
@@ -76,7 +91,7 @@ class ValueChangedEvent implements Runtime\IEvent
     /**
      * Returns the new value of the event's related field.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getNewValue()
     {
@@ -93,12 +108,22 @@ class ValueChangedEvent implements Runtime\IEvent
         return $this->timestamp;
     }
 
+    /**
+     * If the originating field is an aggregate field,
+     * this method returns an aggregated document's underlying value changed event.
+     *
+     * @return ValueChangedEvent
+     */
     public function getAggregateEvent()
     {
         return $this->aggregateEvent;
     }
 
-
+    /**
+     * Returns a string representation of the current event.
+     *
+     * @return string
+     */
     public function __toString()
     {
         $stringRep = sprintf(
@@ -120,12 +145,13 @@ class ValueChangedEvent implements Runtime\IEvent
     /**
      * Constructs a new ValueChangedEvent instance.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $oldValue
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $newValue
+     * @param IField $field
+     * @param IValueHolder $old
+     * @param IValueHolder $new
+     * @param DocumentChangedEvent $aggregateEvent
      */
     protected function __construct(
-        Field\Field $field, ValueHolder\IValueHolder $old, ValueHolder\IValueHolder $new, $aggregateEvent = NULL
+        IField $field, IValueHolder $old, IValueHolder $new, DocumentChangedEvent $aggregateEvent = NULL
     )
     {
         $this->field = $field;

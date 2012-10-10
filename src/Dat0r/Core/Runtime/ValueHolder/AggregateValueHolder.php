@@ -2,23 +2,34 @@
 
 namespace Dat0r\Core\Runtime\ValueHolder;
 
-use Dat0r\Core\Runtime;
 use Dat0r\Runtime\Error;
-use Dat0r\Core\Runtime\Field;
-use Dat0r\Core\Runtime\Document;
+use Dat0r\Core\Runtime\Field\IField;
+use Dat0r\Core\Runtime\Field\AggregateField;
+use Dat0r\Core\Runtime\Document\IDocumentChangedListener;
+use Dat0r\Core\Runtime\Document\IAggregateChangedListener;
+use Dat0r\Core\Runtime\Document\DocumentChangedEvent;
 
 /**
- * This is the default IValueHolder implementation used for holding module aggregates.
+ * Default IValueHolder implementation used for holding nested documents.
+ * Should be use as the base to all other dat0r valueholder implementations.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class AggregateValueHolder extends ValueHolder implements Document\IDocumentChangedListener
+class AggregateValueHolder extends ValueHolder implements IDocumentChangedListener
 {
+    /**
+     * Holds a list of listeners to our aggregate changed event.
+     *
+     * @var array $aggregateChangedListeners
+     */
     private $aggregateChangedListeners = array();
 
     /** 
      * Tells whether a spefic IValueHolder instance's value is considered greater than 
      * the value of an other given IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */
@@ -31,7 +42,7 @@ class AggregateValueHolder extends ValueHolder implements Document\IDocumentChan
      * Tells whether a spefic IValueHolder instance's value is considered less than 
      * the value of an other given IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */
@@ -44,7 +55,7 @@ class AggregateValueHolder extends ValueHolder implements Document\IDocumentChan
      * Tells whether a spefic IValueHolder instance's value is considered equal to 
      * the value of an other given IValueHolder.
      *
-     * @param Dat0r\Core\Runtime\ValueHolder\IValueHolder $other
+     * @param IValueHolder $other
      *
      * @return boolean
      */
@@ -67,7 +78,12 @@ class AggregateValueHolder extends ValueHolder implements Document\IDocumentChan
         parent::setValue($aggregateDocument);
     }
 
-    public function notifyAggregateChanged(Document\DocumentChangedEvent $event)
+    /**
+     * Propagates a given document changed event to all corresponding listeners.
+     *
+     * @param DocumentChangedEvent $event
+     */
+    public function notifyAggregateChanged(DocumentChangedEvent $event)
     {
         foreach ($this->aggregateChangedListeners as $listener)
         {
@@ -75,7 +91,12 @@ class AggregateValueHolder extends ValueHolder implements Document\IDocumentChan
         }
     }
 
-    public function addAggregateChangedListener(Document\IAggregateChangedListener $aggregateChangedListener)
+    /**
+     * Registers a given listener as a recipient of aggregate changed events.
+     *
+     * @param IAggregateChangedListener $aggregateChangedListener
+     */
+    public function addAggregateChangedListener(IAggregateChangedListener $aggregateChangedListener)
     {
         if (! in_array($aggregateChangedListener, $this->aggregateChangedListeners))
         {
@@ -83,19 +104,25 @@ class AggregateValueHolder extends ValueHolder implements Document\IDocumentChan
         }
     }
 
-    public function onDocumentChanged(Document\DocumentChangedEvent $event)
+    /**
+     * Handles document changed events that are sent by our aggregated document.
+     *
+     * @param DocumentChangedEvent $event
+     */
+    public function onDocumentChanged(DocumentChangedEvent $event)
     {
         $this->notifyAggregateChanged($event);
     }
 
     /**
-     * Contructs a new ValueHolder instance from a given value.
+     * Contructs a new AggregateValueHolder instance from a given value.
      *
+     * @param IField $field 
      * @param mixed $value 
      */
-    protected function __construct(Field\IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = NULL)
     {
-        if (! ($field instanceof Field\AggregateField))
+        if (! ($field instanceof AggregateField))
         {
             throw new Error\BadValueException(
                 "Only instances of AggregateField my be associated with AggregateValueHolder."

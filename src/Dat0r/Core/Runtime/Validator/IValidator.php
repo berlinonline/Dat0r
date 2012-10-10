@@ -2,21 +2,25 @@
 
 namespace Dat0r\Core\Runtime\Validator;
 
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Field\IField;
 
 /**
- * @todo explain what validators do etc.
+ * IValidators are responseable for validating document data on a per field/property level,
+ * before it is set.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 interface IValidator
 {
     /**
      * Creates a new validator instance for a given field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
+     * @param IField $field
      *
-     * @return Dat0r\Core\Runtime\Validator\IValidator
+     * @return IValidator
      */
-    public static function create(Field\IField $field);
+    public static function create(IField $field);
 
     /**
      * Validates a given value thereby considering the state of the field

@@ -4,31 +4,32 @@ namespace Dat0r\Tests\Core\Runtime\Module;
 use Dat0r\Tests\Core;
 
 use Dat0r\Core\Runtime\Module;
+use Dat0r\Core\Runtime\Field;
 
 class ModuleTest extends Core\BaseTest
 {
     public function testCreateRootModule()
     {
         $module = RootModule::create('Article', array( 
-            \Dat0r\Core\Runtime\Field\TextField::create('headline'), 
-            \Dat0r\Core\Runtime\Field\TextField::create('content'), 
-            \Dat0r\Core\Runtime\Field\IntegerField::create('clickCount')
+            Field\TextField::create('headline'), 
+            Field\TextField::create('content'), 
+            Field\IntegerField::create('clickCount')
         ));
         $module->freeze();
 
         $this->assertEquals('Article', $module->getName());
         // All RootModules should own fields for id and revision.
         $this->assertEquals(5, $module->getFields()->getSize());
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $module->getField('id'));
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $module->getField('revision'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $module->getField('id'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $module->getField('revision'));
     }
 
     public function testCreateAggegateModule()
     {
         $module = AggregateModule::create('ArticleAggregate', array( 
-            \Dat0r\Core\Runtime\Field\TextField::create('headline'), 
-            \Dat0r\Core\Runtime\Field\TextField::create('content'), 
-            \Dat0r\Core\Runtime\Field\IntegerField::create('clickCount')
+            Field\TextField::create('headline'), 
+            Field\TextField::create('content'), 
+            Field\IntegerField::create('clickCount')
         ));
         $module->freeze();
 
@@ -57,8 +58,8 @@ class ModuleTest extends Core\BaseTest
      */
     public function testGetFieldMethod(Module\IModule $module)
     {
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $module->getField('headline'));
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\IntegerField', $module->getField('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $module->getField('headline'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerField', $module->getField('clickCount'));
     }
 
     /**
@@ -68,12 +69,12 @@ class ModuleTest extends Core\BaseTest
     {
         $fields = $module->getFields();
 
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\FieldCollection', $fields);
         $this->assertEquals(5, $fields->getSize()); // RootModule's ship with an id and a revision field.
 
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $fields->get('content'));
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\IntegerField', $fields->get('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('headline'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('content'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
     }
 
     /**
@@ -83,11 +84,11 @@ class ModuleTest extends Core\BaseTest
     {
         $fields = $module->getFields(array('headline', 'clickCount'));
 
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\FieldCollection', $fields);
         $this->assertEquals(2, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\IntegerField', $fields->get('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('headline'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
     }
 
     /**
@@ -96,7 +97,7 @@ class ModuleTest extends Core\BaseTest
     public function testCreateDocumentMethod(Module\IModule $module)
     {
         $document = $module->createDocument();
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Document\Document', $document);
+        $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $document);
     }
 
     /**
@@ -114,9 +115,9 @@ class ModuleTest extends Core\BaseTest
     public function testInvalidDocumentImplementorException()
     {
         $module = InvalidRootModule::create('Article', array( 
-            \Dat0r\Core\Runtime\Field\TextField::create('headline'), 
-            \Dat0r\Core\Runtime\Field\TextField::create('content'), 
-            \Dat0r\Core\Runtime\Field\IntegerField::create('clickCount')
+            Field\TextField::create('headline'), 
+            Field\TextField::create('content'), 
+            Field\IntegerField::create('clickCount')
         ));
         $module->freeze();
 
@@ -129,9 +130,9 @@ class ModuleTest extends Core\BaseTest
     public static function provideModuleInstances()
     {
         $module = RootModule::create('Article', array( 
-            \Dat0r\Core\Runtime\Field\TextField::create('headline'), 
-            \Dat0r\Core\Runtime\Field\TextField::create('content'), 
-            \Dat0r\Core\Runtime\Field\IntegerField::create('clickCount')
+            Field\TextField::create('headline'), 
+            Field\TextField::create('content'), 
+            Field\IntegerField::create('clickCount')
         ));
 
         $module->freeze();

@@ -2,14 +2,18 @@
 
 namespace Dat0r\Core\Runtime\Field;
 
-use Dat0r\Core\Runtime;
 use Dat0r\Runtime\Error;
-use Dat0r\Core\Runtime\ValueHolder;
+use Dat0r\Core\Runtime\Freezable;
+use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
 
 /**
- * Base class that all Dat0r fields should extend.
+ * Base class that all Dat0r IField implementations should extend.
+ * Provides a pretty complete implementation for the IField interface.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class Field extends Runtime\Freezable implements IField
+abstract class Field extends Freezable implements IField
 {
     /**
      * Holds the option name of the option that provides the IValueHolder implementor to use
@@ -24,12 +28,16 @@ abstract class Field extends Runtime\Freezable implements IField
     const OPT_VALIDATOR = 'validator';
 
     /**
-     * @var string $name Holds the field's name.
+     * Holds the field's name.
+     *
+     * @var string $name
      */
     protected $name;
 
     /**
-     * @var array $options Holds the field'S options.
+     * Holds the field'S options.
+     *
+     * @var array $options
      */
     protected $options = array();
 
@@ -72,6 +80,8 @@ abstract class Field extends Runtime\Freezable implements IField
 
     /**
      * Validates a given value with a strategy dedicated to the field.
+     *
+     * @param mixed $value
      * 
      * @return boolean
      */
@@ -94,7 +104,7 @@ abstract class Field extends Runtime\Freezable implements IField
     /**
      * Returns the default value of the field.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getDefaultValue()
     {
@@ -130,7 +140,9 @@ abstract class Field extends Runtime\Freezable implements IField
     /**
      * Creates a IValueHolder instance dedicated to the current field instance.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @param mixed $value
+     *
+     * @return IValueHolder
      */
     public function createValueHolder($value)
     {
@@ -150,7 +162,7 @@ abstract class Field extends Runtime\Freezable implements IField
     }
 
     /**
-     * Constructs a new Dat0r\Core\Runtime\Module\Module.
+     * Constructs a new field instance.
      *
      * @param string $name
      * @param array $options

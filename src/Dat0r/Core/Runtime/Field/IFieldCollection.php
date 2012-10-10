@@ -2,9 +2,15 @@
 
 namespace Dat0r\Core\Runtime\Field;
 
-use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\IFreezable;
 
-interface IFieldCollection extends \Iterator, Runtime\IFreezable
+/**
+ * IFieldCollection represents a list of IField.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ */
+interface IFieldCollection extends \Iterator, IFreezable
 {
     /**
      * Creates a new field collection passing in an initial set of fields.

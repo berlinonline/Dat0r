@@ -3,8 +3,11 @@
 namespace Dat0r\Core\Runtime\Field;
 
 /**
- * Concreate implementation of the Field base class.
+ * Concrete implementation of the Field base class.
  * Stuff in here is dedicated to handling integer values.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class IntegerField extends Field
 {
@@ -15,7 +18,7 @@ class IntegerField extends Field
      */
     protected function getValueHolderImplementor()
     {
-        return 'Dat0r\Core\Runtime\ValueHolder\IntegerValueHolder';
+        return 'Dat0r\\Core\Runtime\\ValueHolder\\IntegerValueHolder';
     }
 
     /**
@@ -25,6 +28,6 @@ class IntegerField extends Field
      */
     protected function getValidationImplementor()
     {
-        return 'Dat0r\Core\Runtime\Validator\IntegerValidator';
+        return 'Dat0r\\Core\Runtime\\Validator\\IntegerValidator';
     }
 }

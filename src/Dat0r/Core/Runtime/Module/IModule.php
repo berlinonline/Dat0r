@@ -1,14 +1,19 @@
 <?php
 namespace Dat0r\Core\Runtime\Module;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\Field;
-use Dat0r\Core\Runtime\Document;
+use Dat0r\Core\Runtime\IFreezable;
+use Dat0r\Core\Runtime\Field\IField;
+use Dat0r\Core\Runtime\Field\FieldCollection;
+use Dat0r\Core\Runtime\Document\IDocument;
 
 /**
- * @todo write a meaningfull text that explains what modules are and what they do.
+ * IModules define data structures by composing property related strategies named IField,
+ * to derive concrete instances of the defined data structures in form of IDocument's.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IModule extends Runtime\IFreezable
+interface IModule extends IFreezable
 {
     /**
      * Gets a module's pooled instance.
@@ -29,7 +34,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param array $fieldnames A list of fieldnames to filter for.
      *
-     * @return Field\FieldCollection
+     * @return FieldCollection
      */
     public function getFields(array $fieldnames = array());
 
@@ -38,7 +43,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param string $name
      *
-     * @return Field\IField
+     * @return IField
      */
     public function getField($name);
 
@@ -47,7 +52,7 @@ interface IModule extends Runtime\IFreezable
      *
      * @param array $data Optional data for initial hydration.
      *
-     * @return Document\IDocument
+     * @return IDocument
      */
     public function createDocument(array $data = array());
 }

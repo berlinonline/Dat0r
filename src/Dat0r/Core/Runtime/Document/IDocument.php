@@ -2,23 +2,27 @@
 
 namespace Dat0r\Core\Runtime\Document;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\Module;
+use Dat0r\Core\Runtime\Module\IModule;
+use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
 
 /**
- * @todo explain what entries are and what they do.
+ * An IDocument is a generic container for structured data.
+ * It provides access to values on a per field base.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 interface IDocument
 {
     /**
      * Creates a new Document.
      *
-     * @param Dat0r\Core\Runtime\Module\IModule $module
+     * @param IModule $module
      * @param array $data
      *
-     * @return Dat0r\Core\Runtime\Document\IDocument 
+     * @return IDocument 
      */
-    public static function create(Module\IModule $module, array $data = array());
+    public static function create(IModule $module, array $data = array());
 
     /**
      * Sets a given list of values.
@@ -41,7 +45,7 @@ interface IDocument
      * @param string $fieldname
      * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getValue($fieldname, $raw = TRUE);
 
@@ -52,14 +56,14 @@ interface IDocument
      * @param array $fieldnames
      * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return array A list of Dat0r\Core\Runtime\ValueHolder\IValueHolder.
+     * @return array A list of IValueHolder.
      */
     public function getValues(array $fieldnames = array(), $raw = TRUE);
 
     /**
      * Returns a list of unhandled changes.
      * 
-     * @return array An list of Dat0r\Core\Runtime\Document\ValueChangedEvent.
+     * @return array An list of ValueChangedEvent.
      */
     public function getChanges();
 
@@ -80,14 +84,14 @@ interface IDocument
     /**
      * Returns an entries module.
      *
-     * @return Dat0r\Core\Runtime\Module\IModule
+     * @return IModule
      */
     public function getModule();
 
     /** 
      * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
      *
-     * @param Dat0r\Core\Runtime\Document\IDocument $other
+     * @param IDocument $other
      *
      * @return boolean
      */

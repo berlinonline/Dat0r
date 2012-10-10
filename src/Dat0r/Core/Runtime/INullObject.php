@@ -2,6 +2,12 @@
 
 namespace Dat0r\Core\Runtime;
 
+/**
+ * The INullObject is a marker interface for declaring null objects.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ */
 interface INullObject
 {
     

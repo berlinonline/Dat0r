@@ -2,9 +2,17 @@
 
 namespace Dat0r\Core\Runtime;
 
+/**
+ * Freezable provides a base implementation of the IFreezable interface.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ */
 abstract class Freezable
 {
     /**
+     * Holds a flag telling if the current instance is considered frozen or not.
+     *
      * @var boolean $frozen
      */
     private $frozen;

@@ -3,8 +3,11 @@
 namespace Dat0r\Core\Runtime\Field;
 
 /**
- * Concreate implementation of the Field base class.
+ * Concrete implementation of the Field base class.
  * Stuff in here is dedicated to handling text.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class TextField extends Field
 {
@@ -15,7 +18,7 @@ class TextField extends Field
      */
     protected function getValueHolderImplementor()
     {
-        return 'Dat0r\Core\Runtime\ValueHolder\TextValueHolder';
+        return 'Dat0r\\Core\Runtime\\ValueHolder\\TextValueHolder';
     }
 
     /**
@@ -25,6 +28,6 @@ class TextField extends Field
      */
     protected function getValidationImplementor()
     {
-        return 'Dat0r\Core\Runtime\Validator\TextValidator';
+        return 'Dat0r\\Core\Runtime\\Validator\\TextValidator';
     }
 }

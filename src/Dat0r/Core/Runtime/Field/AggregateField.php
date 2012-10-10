@@ -2,12 +2,15 @@
 
 namespace Dat0r\Core\Runtime\Field;
 
-use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\Module\AggregateModule;
 use Dat0r\Core\Runtime\Error;
 
 /**
- * Concreate implementation of the Field base class.
+ * Concrete implementation of the Field base class.
  * Stuff in here is dedicated to handling aggregates (nested data structures).
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class AggregateField extends Field
 {
@@ -20,7 +23,7 @@ class AggregateField extends Field
     /**
      * Gets the aggregate module that has been set for the current field instance.
      *
-     * @return Dat0r\Core\Runtime\Module\AggregateModule
+     * @return AggregateModule
      */
     public function getAggregateModule()
     {
@@ -48,7 +51,7 @@ class AggregateField extends Field
      */
     protected function getValueHolderImplementor()
     {
-        return 'Dat0r\Core\Runtime\ValueHolder\AggregateValueHolder';
+        return 'Dat0r\\Core\Runtime\\ValueHolder\\AggregateValueHolder';
     }
 
     /**
@@ -58,6 +61,6 @@ class AggregateField extends Field
      */
     protected function getValidationImplementor()
     {
-        return 'Dat0r\Core\Runtime\Validator\AggregateValidator';
+        return 'Dat0r\\Core\Runtime\\Validator\\AggregateValidator';
     }
 }

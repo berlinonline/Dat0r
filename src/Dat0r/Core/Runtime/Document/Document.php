@@ -2,43 +2,59 @@
 
 namespace Dat0r\Core\Runtime\Document;
 
-use Dat0r\Core\Runtime;
 use Dat0r\Core\Runtime\Error;
-use Dat0r\Core\Runtime\Module;
-use Dat0r\Core\Runtime\ValueHolder;
+use Dat0r\Core\Runtime\Module\IModule;
+use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
+use Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection;
 
 /**
- * Base class that all Dat0r entries should extend.
- * @todo Add an 'extends BaseDocument' for IRepository integration.
+ * Document completely implements the IDocument interface
+ * and serves as the parent to generated domain specific Base\Document classes.
+ * 
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ *
+ * @todo Add a marker interface for Repository integration.
  */
 abstract class Document implements IDocument, IValueChangedListener 
 {
     /**
-     * @var Dat0r\Core\Runtime\Module\IModule $module
+     * Holds the documents parent module.
+     *
+     * @var IModule $module
      */
     private $module;
 
     /**
-     * @var Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection $values
+     * Represents a list of value holders that (surprise) hold a document's values.
+     *
+     * @var ValueHolderCollection $values
      */
     private $values;
 
     /**
-     * @var array $changes Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).
+     * Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).
+     *
+     * @var array $changes
      */
     private $changes = array();
 
+    /**
+     * Holds a list of listeners regisered to our document changed event.
+     *
+     * @var array $documentChangedListeners
+     */
     private $documentChangedListeners = array();
 
     /**
      * Creates a new Document.
      *
-     * @param Dat0r\Core\Runtime\Module\IModule $module
+     * @param IModule $module
      * @param array $data
      *
-     * @return Dat0r\Core\Runtime\Document\IDocument 
+     * @return IDocument 
      */
-    public static function create(Module\IModule $module, array $data = array())
+    public static function create(IModule $module, array $data = array())
     {
         return new static($module, $data);
     }
@@ -81,7 +97,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * @param string $fieldname
      * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getValue($fieldname, $raw = TRUE)
     {
@@ -105,7 +121,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * @param array $fieldnames
      * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return array A list of Dat0r\Core\Runtime\ValueHolder\IValueHolder.
+     * @return array A list of IValueHolder or raw values depending on the $raw flag.
      */
     public function getValues(array $fieldnames = array(), $raw = TRUE)
     {
@@ -157,7 +173,7 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Returns a list of unhandled changes.
      * 
-     * @return array An list of Dat0r\Core\Runtime\Document\ValueChangedEvent.
+     * @return array An list of ValueChangedEvent.
      */
     public function getChanges()
     {
@@ -187,7 +203,7 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Returns an entries module.
      *
-     * @return Dat0r\Core\Runtime\Module\IModule
+     * @return IModule
      */
     public function getModule()
     {
@@ -197,7 +213,7 @@ abstract class Document implements IDocument, IValueChangedListener
     /** 
      * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
      *
-     * @param Dat0r\Core\Runtime\Document\IDocument $other
+     * @param IDocument $other
      *
      * @return boolean
      */
@@ -224,6 +240,12 @@ abstract class Document implements IDocument, IValueChangedListener
         return $isEqual;
     }
 
+    /**
+     * Propgates the given value changed event
+     * as a document changed event to our registered document changed listeners.
+     *
+     * @param ValueChangedEvent $event
+     */
     public function notifyDocumentChanged(ValueChangedEvent $event)
     {
         $event = DocumentChangedEvent::create($this, $event);
@@ -233,6 +255,11 @@ abstract class Document implements IDocument, IValueChangedListener
         }
     }
 
+    /**
+     * Registers a given document changed listener.
+     *
+     * @param IDocumentChangedListener $documentChangedListener
+     */
     public function addDocumentChangedListener(IDocumentChangedListener $documentChangedListener)
     {
         if (! in_array($documentChangedListener, $this->documentChangedListeners))
@@ -241,6 +268,11 @@ abstract class Document implements IDocument, IValueChangedListener
         }
     }
 
+    /**
+     * Handles value changed events that are received from our value holders.
+     *
+     * @param ValueChangedEvent $event
+     */
     public function onValueChanged(ValueChangedEvent $event)
     {
         // @todo Possible optimization: only track events for RootModule documents,
@@ -252,13 +284,13 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Constructs a new Document instance.
      *
-     * @param Dat0r\Core\Runtime\Module\IModule $module
+     * @param IModule $module
      * @param array $data
      */
-    protected function __construct(Module\IModule $module, array $data = array())
+    protected function __construct(IModule $module, array $data = array())
     {
         $this->module = $module;
-        $this->values = ValueHolder\ValueHolderCollection::create($this->getModule());
+        $this->values = ValueHolderCollection::create($this->getModule());
         $this->hydrate($data);
         $this->values->addValueChangedListener($this);
     }

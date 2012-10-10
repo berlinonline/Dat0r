@@ -2,8 +2,16 @@
 
 namespace Dat0r;
 
-class AutoloadException extends \Exception {}
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'AutoloadException.php';
 
+/**
+ * Provides autoloading for all classes inside the Dat0r namespace
+ * along with support for registering additional namespaces for psr-0 autoloading
+ * relative to corresponding base paths.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ */
 class Autoloader
 {
     /**
@@ -119,7 +127,7 @@ class Autoloader
         return $baseDir . DIRECTORY_SEPARATOR . $baseName . '.php';
     }
 
-    /**
+   /**
     * Tries to require a given file.
     *
     * @param string $filePath

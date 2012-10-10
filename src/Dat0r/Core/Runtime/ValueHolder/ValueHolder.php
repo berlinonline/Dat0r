@@ -2,16 +2,20 @@
 
 namespace Dat0r\Core\Runtime\ValueHolder;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Error;
+use Dat0r\Core\Runtime\Freezable;
+use Dat0r\Core\Runtime\Field\IField;
 
 /**
  * Basic IValueHolder implementation that all other ValueHolders should inherit from.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class ValueHolder extends Runtime\Freezable implements IValueHolder
+abstract class ValueHolder extends Freezable implements IValueHolder
 {
     /**
-     * @var Dat0r\Core\Runtime\Field\IField $field Holds field which's data we are handling.
+     * @var IField $field Holds field which's data we are handling.
      */
     private $field;
 
@@ -23,11 +27,12 @@ abstract class ValueHolder extends Runtime\Freezable implements IValueHolder
     /**
      * Creates a new IValueHolder instance from a given value.
      *
+     * @param IField $field
      * @param mixed $value
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
-    public static function create(Field\IField $field, $value = NULL)
+    public static function create(IField $field, $value = NULL)
     {
         return new static($field, $value);
     }
@@ -92,9 +97,10 @@ abstract class ValueHolder extends Runtime\Freezable implements IValueHolder
     /**
      * Contructs a new ValueHolder instance from a given value.
      *
+     * @param IField $field 
      * @param mixed $value 
      */
-    protected function __construct(Field\IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = NULL)
     {
         $this->field = $field;
         
@@ -107,7 +113,7 @@ abstract class ValueHolder extends Runtime\Freezable implements IValueHolder
     /**
      * Returns the field that we are handling the data for.
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      */
     protected function getField()
     {

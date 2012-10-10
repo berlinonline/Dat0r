@@ -2,36 +2,44 @@
 
 namespace Dat0r\Core\Runtime\Validator;
 
-use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Field\IField;
 
 /**
  * Base implementation of the IValidator interface.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ *
  * @todo Will probally be responseable for implementing validation reports 
  * and other validation related basic functionalities.
  */
 abstract class Validator implements IValidator
 {
     /**
-     * @var Dat0r\Core\Runtime\Field\IField $field
+     * Holds th validator's associated field.
+     *
+     * @var IField $field
      */
     private $field;
 
     /**
      * Creates a new Validator instance for a given field.
      *
-     * @param Dat0r\Core\Runtime\Field\IField $field
+     * @param IField $field
      *
-     * @return Dat0r\Core\Runtime\Validator\IValidator
+     * @return IValidator
      */     
-    public static function create(Field\IField $field)
+    public static function create(IField $field)
     {
         return new static($field);
     }
 
     /**
      * Constructs a new validator instance for the given field.
+     *
+     * @param IField $field
      */
-    protected function __construct(Field\IField $field)
+    protected function __construct(IField $field)
     {
         $this->field = $field;
     }

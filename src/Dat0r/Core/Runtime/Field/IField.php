@@ -2,16 +2,23 @@
 
 namespace Dat0r\Core\Runtime\Field;
 
-use Dat0r\Core\Runtime;
-use Dat0r\Core\Runtime\ValueHolder;
+use Dat0r\Core\Runtime\IFreezable;
+use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
 
 /**
- * @todo write a meaningfull text that explains what fields are and what they do.
+ * IFields hold meta data that is used to model document properties,
+ * hence your data's behaviour concerning consistent containment.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IField extends Runtime\IFreezable
+interface IField extends IFreezable
 {
     /**
      * Creates a new field instance.
+     *
+     * @param string $name
+     * @param array $options
      *
      * @return IField
      */
@@ -26,6 +33,8 @@ interface IField extends Runtime\IFreezable
 
     /**
      * Validates a given value with a strategy dedicated to the field.
+     *
+     * @param mixed $value
      * 
      * @return boolean
      */
@@ -34,7 +43,7 @@ interface IField extends Runtime\IFreezable
     /**
      * Returns the default value of the field.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @return IValueHolder
      */
     public function getDefaultValue();
 
@@ -61,7 +70,9 @@ interface IField extends Runtime\IFreezable
     /**
      * Creates a IValueHolder instance dedicated to the current field instance.
      *
-     * @return Dat0r\Core\Runtime\ValueHolder\IValueHolder
+     * @param mixed $value
+     *
+     * @return IValueHolder
      */
     public function createValueHolder($value);
 }

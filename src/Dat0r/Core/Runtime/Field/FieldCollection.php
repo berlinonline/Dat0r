@@ -2,16 +2,21 @@
 
 namespace Dat0r\Core\Runtime\Field;
 
-use Dat0r\Core\Runtime;
+use Dat0r\Core\Runtime\Freezable;
 use Dat0r\Core\Runtime\Error;
 
 /**
  * Represents a collection of IField.
+ *
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class FieldCollection extends Runtime\Freezable implements IFieldCollection
+class FieldCollection extends Freezable implements IFieldCollection
 {
     /**
-     * @var array $fields Holds a list of IField.
+     * Holds a list of IField.
+     *
+     * @var array $fields
      */ 
     private $fields = array();
 
@@ -126,7 +131,7 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
     /**
      * Resets our collection cursor and return the first field.
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      */
     public function rewind()
     {
@@ -136,7 +141,7 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
     /**
      * Returns the field for the current collection cursor position.
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      */
     public function current()
     {
@@ -157,7 +162,7 @@ class FieldCollection extends Runtime\Freezable implements IFieldCollection
      * Returns the next field in our collection, 
      * thereby forwarding the collection cursor's position.
      *
-     * @return Dat0r\Core\Runtime\Field\IField
+     * @return IField
      */
     public function next() 
     {
