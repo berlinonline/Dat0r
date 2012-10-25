@@ -1,5 +1,5 @@
 {
-    "hash": "08110adfb7d58b22244c8a13d5828c5b",
+    "hash": "56a8e0c7e01043cf58970a983c4d1085",
     "packages": [
         {
             "name": "cilex/cilex",
@@ -231,50 +231,50 @@
         },
         {
             "name": "phpdocumentor/phpdocumentor",
-            "version": "v2.0.0a10",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/phpDocumentor2",
-                "reference": "v2.0.0a10"
+                "reference": "a9f616bca3f834496fb8926fe3a78f36aaeb09ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/phpDocumentor/phpDocumentor2/zipball/v2.0.0a10",
-                "reference": "v2.0.0a10",
+                "url": "https://github.com/phpDocumentor/phpDocumentor2/zipball/a9f616bca3f834496fb8926fe3a78f36aaeb09ed",
+                "reference": "a9f616bca3f834496fb8926fe3a78f36aaeb09ed",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "cilex/cilex": "dev-master",
                 "dflydev/markdown": "1.0.*",
+                "phpdocumentor/graphviz": "1.*",
+                "phpdocumentor/template-responsive": "1.*",
+                "phpdocumentor/template-new-black": "1.*",
+                "php": ">=5.3.3",
                 "nikic/php-parser": "dev-master",
-                "symfony/event-dispatcher": "2.1.*@stable",
                 "zendframework/zend-stdlib": "2.*",
                 "zendframework/zend-config": "2.*",
                 "zendframework/zend-locale": "2.*",
-                "zendframework/zend-servicemanager": "2.*",
                 "zendframework/zend-translator": "2.*",
-                "phpdocumentor/graphviz": "1.*",
                 "phpdocumentor/fileset": "1.0.0-beta2",
+                "zendframework/zend-servicemanager": "2.*",
+                "phpdocumentor/template-zend": "1.*",
                 "phpdocumentor/reflection-docblock": "1.0.*",
                 "phpdocumentor/plugin-twig": "1.*",
-                "phpdocumentor/template-responsive": "1.*",
-                "phpdocumentor/template-new-black": "1.*",
-                "phpdocumentor/template-zend": "1.*",
                 "phpdocumentor/template-old-ocean": "1.*",
-                "phpdocumentor/template-checkstyle": "1.*"
+                "phpdocumentor/template-checkstyle": "1.*",
+                "cilex/cilex": "dev-master",
+                "symfony/event-dispatcher": "2.1.*@stable"
             },
             "require-dev": {
                 "behat/behat": ">=2.4@stable",
-                "phpunit/phpunit": "3.7.*@stable",
-                "mockery/mockery": ">=0.7.0@stable"
+                "mockery/mockery": ">=0.7.0@stable",
+                "phpunit/phpunit": "3.7.*@stable"
             },
-            "time": "2012-09-28 21:10:45",
+            "time": "1349004892",
             "bin": [
                 "bin/phpdoc.php"
             ],
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "phpDocumentor": [
@@ -454,7 +454,7 @@
                 "phpdocumentor/unified-asset-installer": "1.*",
                 "phpdocumentor/template-abstract": "1.*"
             },
-            "time": "2012-07-29 14:03:30",
+            "time": "2012-07-29 07:03:30",
             "type": "phpdocumentor-template",
             "installation-source": "dist",
             "license": [
@@ -486,7 +486,7 @@
                 "ext-xsl": "*",
                 "phpdocumentor/unified-asset-installer": "1.*"
             },
-            "time": "2012-08-24 20:05:33",
+            "time": "2012-08-24 13:05:33",
             "type": "phpdocumentor-template",
             "installation-source": "dist",
             "license": [
@@ -518,7 +518,7 @@
                 "ext-xsl": "*",
                 "phpdocumentor/unified-asset-installer": "1.*"
             },
-            "time": "2012-08-02 18:21:42",
+            "time": "2012-08-02 11:21:42",
             "type": "phpdocumentor-template",
             "installation-source": "dist",
             "license": [
@@ -551,7 +551,7 @@
                 "phpdocumentor/unified-asset-installer": "1.*",
                 "phpdocumentor/template-abstract": "1.*"
             },
-            "time": "2012-07-07 19:53:47",
+            "time": "2012-07-07 12:53:47",
             "type": "phpdocumentor-template",
             "installation-source": "dist",
             "license": [
@@ -611,12 +611,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "1.2.5"
+                "reference": "52fe0780d05429ea028af923393486bf2c544f8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/1.2.5",
-                "reference": "1.2.5",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/52fe0780d05429ea028af923393486bf2c544f8f",
+                "reference": "52fe0780d05429ea028af923393486bf2c544f8f",
                 "shasum": ""
             },
             "require": {
@@ -627,11 +627,9 @@
             },
             "suggest": {
                 "ext-dom": "*",
-                "ext-reflection": "*",
-                "ext-spl": "*",
                 "ext-xdebug": ">=2.0.5"
             },
-            "time": "1349598856",
+            "time": "1350668319",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -653,7 +651,7 @@
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
             "keywords": [
                 "testing",
                 "coverage",
@@ -666,18 +664,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "1.3.3"
+                "reference": "f36e853b6fbafc7325551fe743f6ba4846638f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-file-iterator/zipball/1.3.3",
-                "reference": "1.3.3",
+                "url": "https://github.com/sebastianbergmann/php-file-iterator/zipball/f36e853b6fbafc7325551fe743f6ba4846638f91",
+                "reference": "f36e853b6fbafc7325551fe743f6ba4846638f91",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.7"
+                "php": ">=5.3.3"
             },
-            "time": "1349453185",
+            "time": "1350290255",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -699,7 +697,7 @@
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-file-iterator/",
             "keywords": [
                 "filesystem",
                 "iterator"
@@ -711,18 +709,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "e85c02b18b79f5072c40aa8e0f97905d1525e839"
+                "reference": "6abad057d7226067bddee449c83c14893c21acb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-text-template/zipball/e85c02b18b79f5072c40aa8e0f97905d1525e839",
-                "reference": "e85c02b18b79f5072c40aa8e0f97905d1525e839",
+                "url": "https://github.com/sebastianbergmann/php-text-template/zipball/6abad057d7226067bddee449c83c14893c21acb4",
+                "reference": "6abad057d7226067bddee449c83c14893c21acb4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.7"
+                "php": ">=5.3.3"
             },
-            "time": "1349415382",
+            "time": "1350290684",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -744,7 +742,7 @@
                 }
             ],
             "description": "Simple template engine.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-text-template/",
             "keywords": [
                 "template"
             ]
@@ -755,18 +753,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-timer.git",
-                "reference": "1.0.4"
+                "reference": "98fa257378170a7cdc9c0b7c4f238178cb2c0abb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-timer/zipball/1.0.4",
-                "reference": "1.0.4",
+                "url": "https://github.com/sebastianbergmann/php-timer/zipball/98fa257378170a7cdc9c0b7c4f238178cb2c0abb",
+                "reference": "98fa257378170a7cdc9c0b7c4f238178cb2c0abb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.7"
+                "php": ">=5.3.3"
             },
-            "time": "1349453353",
+            "time": "1350290346",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -788,7 +786,7 @@
                 }
             ],
             "description": "Utility class for timing",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-timer/",
             "keywords": [
                 "timer"
             ]
@@ -799,19 +797,19 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "1.1.5"
+                "reference": "c6d365771312aba7b347bc477faef850eea3488f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-token-stream/zipball/1.1.5",
-                "reference": "1.1.5",
+                "url": "https://github.com/sebastianbergmann/php-token-stream/zipball/c6d365771312aba7b347bc477faef850eea3488f",
+                "reference": "c6d365771312aba7b347bc477faef850eea3488f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.7",
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "php": ">=5.3.3"
             },
-            "time": "1349453872",
+            "time": "1350290650",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -833,7 +831,7 @@
                 }
             ],
             "description": "Wrapper around PHP's tokenizer extension.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-token-stream/",
             "keywords": [
                 "tokenizer"
             ]
@@ -844,12 +842,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ed9f20dab1cfc2a9f89cc77a520ae5576723ca45"
+                "reference": "c1dbcebfac88acbff53d04f70462cc3f85aeb24a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/ed9f20dab1cfc2a9f89cc77a520ae5576723ca45",
-                "reference": "ed9f20dab1cfc2a9f89cc77a520ae5576723ca45",
+                "url": "https://github.com/sebastianbergmann/phpunit/zipball/c1dbcebfac88acbff53d04f70462cc3f85aeb24a",
+                "reference": "c1dbcebfac88acbff53d04f70462cc3f85aeb24a",
                 "shasum": ""
             },
             "require": {
@@ -871,7 +869,7 @@
                 "ext-tokenizer": "*",
                 "phpunit/php-invoker": ">=1.1.0"
             },
-            "time": "1349709119",
+            "time": "1350879414",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -915,24 +913,22 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "1.2.1"
+                "reference": "b167e119d97d5c2ff0c49d97979004544b5713c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects/zipball/1.2.1",
-                "reference": "1.2.1",
+                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects/zipball/b167e119d97d5c2ff0c49d97979004544b5713c7",
+                "reference": "b167e119d97d5c2ff0c49d97979004544b5713c7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-text-template": ">=1.1.1@stable",
-                "ext-reflection": "*",
-                "ext-spl": "*"
+                "phpunit/php-text-template": ">=1.1.1@stable"
             },
             "suggest": {
                 "ext-soap": "*"
             },
-            "time": "1349453471",
+            "time": "1350337609",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -954,7 +950,7 @@
                 }
             ],
             "description": "Mock Object library for PHPUnit",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/phpunit-mock-objects/",
             "keywords": [
                 "mock",
                 "xunit"
@@ -1013,17 +1009,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "1b4f8c7fb257aebf9abd52093e720a3e73458877"
+                "reference": "55030275de3c40849b6afac9f913ccd92ffe3232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/1b4f8c7fb257aebf9abd52093e720a3e73458877",
-                "reference": "1b4f8c7fb257aebf9abd52093e720a3e73458877",
+                "url": "https://github.com/symfony/Console/zipball/55030275de3c40849b6afac9f913ccd92ffe3232",
+                "reference": "55030275de3c40849b6afac9f913ccd92ffe3232",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "time": "1350916632",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1050,8 +1047,7 @@
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com",
-            "time": "1349363877"
+            "homepage": "http://symfony.com"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1114,17 +1110,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder",
-                "reference": "3566ba9c000c40fb409de1ebdc6e390a14248c3c"
+                "reference": "e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Finder/zipball/3566ba9c000c40fb409de1ebdc6e390a14248c3c",
-                "reference": "3566ba9c000c40fb409de1ebdc6e390a14248c3c",
+                "url": "https://github.com/symfony/Finder/zipball/e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b",
+                "reference": "e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "time": "1350717030",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1151,8 +1148,7 @@
                 }
             ],
             "description": "Symfony Finder Component",
-            "homepage": "http://symfony.com",
-            "time": "1349363877"
+            "homepage": "http://symfony.com"
         },
         {
             "name": "symfony/process",
@@ -1161,18 +1157,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process",
-                "reference": "fc5b082e436161427e29652e3316d7def5f7a64f"
+                "reference": "6d483356f7496f1305a67f6a50cc33ec900c3930"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/zipball/fc5b082e436161427e29652e3316d7def5f7a64f",
-                "reference": "fc5b082e436161427e29652e3316d7def5f7a64f",
+                "url": "https://github.com/symfony/Process/zipball/6d483356f7496f1305a67f6a50cc33ec900c3930",
+                "reference": "6d483356f7496f1305a67f6a50cc33ec900c3930",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1349553363",
+            "time": "1350717030",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1208,18 +1204,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml",
-                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784"
+                "reference": "76256c6d9f7f113eb31077883657191510ff0532"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/zipball/1f7ba14c4b263dbf701e25705b0b2175a850a784",
-                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784",
+                "url": "https://github.com/symfony/Yaml/zipball/76256c6d9f7f113eb31077883657191510ff0532",
+                "reference": "76256c6d9f7f113eb31077883657191510ff0532",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1349553479",
+            "time": "1351093287",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1254,22 +1250,22 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3"
+                "reference": "61393dc9fb8982110048624aa573aec4aee0b465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
-                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
+                "url": "https://github.com/fabpot/Twig/zipball/61393dc9fb8982110048624aa573aec4aee0b465",
+                "reference": "61393dc9fb8982110048624aa573aec4aee0b465",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1349702400",
+            "time": "1350737598",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "installation-source": "source",
@@ -1425,7 +1421,7 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "phpdocumentor/phpdocumentor": 20
+    }
 }

@@ -13,7 +13,7 @@ class IntegerFieldTest extends Core\BaseTest
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
-        $this->assertInstanceOf('Dat0r\Core\Runtime\Field\IntegerField', $integerField);
+        $this->assertInstanceOf('Dat0r\\Core\Runtime\\Field\\IntegerField', $integerField);
     }
 
     /**
@@ -39,7 +39,7 @@ class IntegerFieldTest extends Core\BaseTest
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $valueHolder = $integerField->createValueHolder($intValue);
-        $this->assertInstanceOf('Dat0r\Core\Runtime\ValueHolder\IntegerValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Core\Runtime\\ValueHolder\\IntegerValueHolder', $valueHolder);
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
 

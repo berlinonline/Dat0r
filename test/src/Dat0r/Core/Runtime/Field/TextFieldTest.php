@@ -38,7 +38,7 @@ class TextFieldTest extends Core\BaseTest
     {
         $textField = Field\TextField::create(self::FIELDNAME);
         $valueHolder = $textField->createValueHolder($textValue);
-        $this->assertInstanceOf('Dat0r\Core\Runtime\ValueHolder\TextValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Core\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
         $this->assertEquals($textValue, $valueHolder->getValue());
     }
 

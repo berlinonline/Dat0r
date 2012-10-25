@@ -51,8 +51,6 @@ abstract class Module extends Freezable implements IModule
      * which is the reason why this method takes no arguments.
      * 
      * @return IModule
-     *
-     * @codeCoverageIgnore
      */
     public static function getInstance()
     {
@@ -64,23 +62,6 @@ abstract class Module extends Freezable implements IModule
             self::$instances[$class] = $module;
         }
         return self::$instances[$class];
-    }
-
-    /**
-     * Standard factory method for dynamically creating modules.
-     * During common usage this method probally ain't needed.
-     * During testing it is, as it allows us to test modules dynamically. 
-     *
-     * @see ModuleTest.php
-     *
-     * @param string The name of the module to create.
-     * @param array An array of IField implementations that define the module's structure.
-     *
-     * @return IModule
-     */
-    public static function create($name, array $fields)
-    {
-        return new static($name, $fields);
     }
 
     /**

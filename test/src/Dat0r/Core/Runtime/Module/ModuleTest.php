@@ -1,21 +1,16 @@
 <?php
 
 namespace Dat0r\Tests\Core\Runtime\Module;
-use Dat0r\Tests\Core;
+use Dat0r\Tests\Core\BaseTest;
 
-use Dat0r\Core\Runtime\Module;
+use Dat0r\Core\Runtime\Module\IModule;
 use Dat0r\Core\Runtime\Field;
 
-class ModuleTest extends Core\BaseTest
+class ModuleTest extends BaseTest
 {
     public function testCreateRootModule()
     {
-        $module = RootModule::create('Article', array( 
-            Field\TextField::create('headline'), 
-            Field\TextField::create('content'), 
-            Field\IntegerField::create('clickCount')
-        ));
-        $module->freeze();
+        $module = RootModule::getInstance();
 
         $this->assertEquals('Article', $module->getName());
         // All RootModules should own fields for id and revision.
@@ -26,21 +21,16 @@ class ModuleTest extends Core\BaseTest
 
     public function testCreateAggegateModule()
     {
-        $module = AggregateModule::create('ArticleAggregate', array( 
-            Field\TextField::create('headline'), 
-            Field\TextField::create('content'), 
-            Field\IntegerField::create('clickCount')
-        ));
-        $module->freeze();
+        $module = AggregateModule::getInstance();
 
-        $this->assertEquals(3, $module->getFields()->getSize());
-        $this->assertEquals('ArticleAggregate', $module->getName());
+        $this->assertEquals(2, $module->getFields()->getSize());
+        $this->assertEquals('Paragraph', $module->getName());
     }
 
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testForConsistentFrozenState(Module\IModule $module)
+    public function testForConsistentFrozenState(IModule $module)
     {
         $fields = $module->getFields();
 
@@ -56,7 +46,7 @@ class ModuleTest extends Core\BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldMethod(Module\IModule $module)
+    public function testGetFieldMethod(IModule $module)
     {
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $module->getField('headline'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerField', $module->getField('clickCount'));
@@ -65,7 +55,7 @@ class ModuleTest extends Core\BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldsMethodPlain(Module\IModule $module)
+    public function testGetFieldsMethodPlain(IModule $module)
     {
         $fields = $module->getFields();
 
@@ -80,7 +70,7 @@ class ModuleTest extends Core\BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldsMethodFiltered(Module\IModule $module)
+    public function testGetFieldsMethodFiltered(IModule $module)
     {
         $fields = $module->getFields(array('headline', 'clickCount'));
 
@@ -94,7 +84,7 @@ class ModuleTest extends Core\BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testCreateDocumentMethod(Module\IModule $module)
+    public function testCreateDocumentMethod(IModule $module)
     {
         $document = $module->createDocument();
         $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $document);
@@ -104,7 +94,7 @@ class ModuleTest extends Core\BaseTest
      * @dataProvider provideModuleInstances
      * @expectedException Dat0r\Core\Runtime\Module\InvalidFieldException
      */
-    public function testInvalidFieldException(Module\IModule $module)
+    public function testInvalidFieldException(IModule $module)
     {
         $module->getField('foobar-field-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
@@ -114,13 +104,7 @@ class ModuleTest extends Core\BaseTest
      */
     public function testInvalidDocumentImplementorException()
     {
-        $module = InvalidRootModule::create('Article', array( 
-            Field\TextField::create('headline'), 
-            Field\TextField::create('content'), 
-            Field\IntegerField::create('clickCount')
-        ));
-        $module->freeze();
-
+        $module = InvalidRootModule::getInstance();
         $module->createDocument(); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
@@ -129,14 +113,6 @@ class ModuleTest extends Core\BaseTest
      */
     public static function provideModuleInstances()
     {
-        $module = RootModule::create('Article', array( 
-            Field\TextField::create('headline'), 
-            Field\TextField::create('content'), 
-            Field\IntegerField::create('clickCount')
-        ));
-
-        $module->freeze();
-
-        return array(array($module));
+        return array(array(RootModule::getInstance()));
     }
 }

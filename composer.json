@@ -16,7 +16,7 @@
         "php": ">=5.3",
         "twig/twig": "1.*",
         "phpunit/phpunit": "3.7.*",
-        "phpdocumentor/phpdocumentor": "2.*",
+        "phpdocumentor/phpdocumentor": "dev-master",
         "symfony/console": "2.1.*"
     },
     "autoload": { 
