@@ -20,19 +20,21 @@ class CodeCache
     {
         $cacheDir = realpath($this->config->getCacheDir());
         $moduleName = $moduleDefinition->getName();
+
         return $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
     }
 
     public function has(ModuleDefinition $moduleDefinition)
     {
         $files = $this->read($moduleDefinition);
+        
         return ! empty($files['base']) || ! empty($files['skeleton']);
     }
 
     public function read(ModuleDefinition $moduleDefinition)
     {
         $cacheDir = realpath($this->getConfig()->getCacheDir());
-        if (! is_dir($cacheDir))
+        if (! is_dir($cacheDir) && ! mkdir($cacheDir))
         {
             throw new \Exception(
                 sprintf(
@@ -55,17 +57,19 @@ class CodeCache
         {
             $cachedFiles['base'][] = $baseFile;
         }
+
         foreach (glob($moduleDir . '*.php') as $skeletonFile)
         {
             $cachedFiles['skeleton'][] = $skeletonFile;
         }
+
         return $cachedFiles;
     }
 
     public function write(BuildResult $result)
     {
-        $cacheDir = realpath($this->getConfig()->getCacheDir());
-        if (! is_dir($cacheDir))
+        $cacheDir = $this->getConfig()->getCacheDir();
+        if (! is_dir($cacheDir) && ! mkdir($cacheDir, 0775, TRUE))
         {
             throw new \Exception(
                 sprintf(
@@ -74,22 +78,17 @@ class CodeCache
                 )
             );
         }
+
         $moduleName = $result->getModuleDefinition()->getName();
         $moduleDir = $cacheDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR;
         $baseClassDir = $moduleDir . 'Base' . DIRECTORY_SEPARATOR;
-        if (! is_dir($moduleDir))
+        if (! is_dir($moduleDir) && ! mkdir($moduleDir))
         {
-            if (! mkdir($moduleDir))
-            {
-                throw new \Exception("Unable to create cache directory: $moduleDir");
-            }
+            throw new \Exception("Unable to create cache directory: $moduleDir");
         }
-        if (! is_dir($baseClassDir))
+        if (! is_dir($baseClassDir) && ! mkdir($baseClassDir))
         {
-            if (! mkdir($baseClassDir))
-            {
-                throw new \Exception("Unable to create cache directory: $baseClassDir");
-            }
+            throw new \Exception("Unable to create cache directory: $baseClassDir");
         }
         if (! is_writable($moduleDir) || ! is_writable($baseClassDir))
         {
@@ -105,6 +104,7 @@ class CodeCache
         {
             $tempFiles['skeleton'][] = $this->writeCacheFile($moduleDir, $codeDef);
         }
+
         return $tempFiles;
     }
 

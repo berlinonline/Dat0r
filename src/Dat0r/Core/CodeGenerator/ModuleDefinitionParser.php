@@ -37,15 +37,28 @@ class ModuleDefinitionParser
         $name = $element->getAttribute('name');
         $namespace = $element->getAttribute('namespace');
         $package = $this->parsePackageAttribute($element);
-        $description = $this->parseDescriptionElement(
-            $xpath->query('description', $element)->item(0)
-        );
         $root = empty($rootData) ? $name : $rootData['name'];
         $type = empty($rootData) ? 'root' : 'aggregate';
         $package = empty($rootData) ? $package : $rootData['package'];
         $namespace = empty($rootData) ? $namespace : $rootData['namespace'];
         $options = $this->parseOptions($element, $xpath);
+        $description = $this->parseDescriptionElement(
+            $xpath->query('description', $element)->item(0)
+        );
 
+        $baseClass = NULL;
+        if (isset($options['baseModule']))
+        {
+            $baseClass = $options['baseModule'];
+        }
+        else
+        {
+            $baseClass = sprintf('\\Dat0r\\Core\\Runtime\\Module\\%sModule', ucfirst($type));
+        }
+        if (0 !== strpos($baseClass, '\\'))
+        {
+            $baseClass = '\\'.$baseClass;
+        }
         $fields = array();
         foreach ($xpath->query('fields/field', $element) as $fieldElement)
         {
@@ -65,12 +78,17 @@ class ModuleDefinitionParser
             'package' => $package,
             'namespace' => $namespace,
             'root' => $root,
-            'base' => self::BASE_DOCUMENT, // @todo allow to configure the base?
             'name' => $name,
             'description' => $description,
             'options' => $options,
             'fields' => $fields,
-            'aggregates' => array()
+            'aggregates' => array(),
+            'baseDocument' => isset($options['baseDocument']) 
+                ? $options['baseDocument'] 
+                : self::BASE_DOCUMENT, 
+            'baseModule' => isset($options['baseModule']) 
+                ? $options['baseModule'] 
+                : sprintf('\\Dat0r\\Core\\Runtime\\Module\\%sModule', ucfirst($type))
         );
 
         if (empty($rootData))

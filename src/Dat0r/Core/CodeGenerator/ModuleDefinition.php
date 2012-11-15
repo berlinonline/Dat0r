@@ -12,7 +12,9 @@ class ModuleDefinition
 
     private $type;
 
-    private $base;
+    private $baseModule;
+
+    private $baseDocument;
 
     private $name;
 
@@ -34,9 +36,14 @@ class ModuleDefinition
         return $this->package;
     }
 
-    public function getBase()
+    public function getBaseModule()
     {
-        return $this->base;
+        return $this->baseModule;
+    }
+
+    public function getBaseDocument()
+    {
+        return $this->baseDocument;
     }
 
     public function getNamespace()
@@ -82,8 +89,8 @@ class ModuleDefinition
     protected function __construct(array $data)
     {
         $requiredData = array(
-            'package', 'type', 'root', 'base', 'name', 'description', 
-            'options', 'fields', 'aggregates', 'namespace'
+            'package', 'type', 'root', 'baseModule', 'baseDocument',
+            'name', 'description', 'options', 'fields', 'aggregates', 'namespace'
         );
 
         foreach ($requiredData as $prop)

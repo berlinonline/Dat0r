@@ -31,8 +31,11 @@ class CodeGenerator
         $moduleName = $this->moduleDefinition->getName();
         $implementor = sprintf('%sModule', $moduleName);
         $namespace = $this->buildNamespace();
-        
-        $parentClass = sprintf('%s\\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
+        $parentClass = $this->moduleDefinition->getBaseModule();
+        if (! $parentClass)
+        {
+            $parentClass = sprintf('%s\\%sModule', self::NS_MODULE, ucfirst($this->moduleDefinition->getType()));
+        }
 
         $source = $this->twig->render('Module/BaseModule.twig', array(
             'datetime' => date('Y-m-d H:i:s'),
@@ -42,7 +45,9 @@ class CodeGenerator
             'implementor' => $implementor,
             'fields' => $this->prepareFieldDefinitions(),
             'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),
-            'options' => $this->moduleDefinition->getOptions()
+            'options' => $this->prepareOptions(
+                $this->moduleDefinition->getOptions()
+            )
         ));
 
         return array('class' => $implementor, 'source' => $source);
@@ -75,7 +80,7 @@ class CodeGenerator
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $moduleName,
             'namespace' => $namespace,
-            'parent_class' => $this->moduleDefinition->getBase(),
+            'parent_class' => $this->moduleDefinition->getBaseDocument(),
             'implementor' => $implementor,
             'fields' => $this->prepareFieldDefinitions(),
             'document_implementor' => sprintf('%s\\%sDocument', $namespace, $moduleName),

@@ -5,6 +5,7 @@ namespace Dat0r\Core\Runtime\Field;
 use Dat0r\Runtime\Error;
 use Dat0r\Core\Runtime\Freezable;
 use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
+use Dat0r\Core\Runtime\ValueHolder\NullValue;
 
 /**
  * Base class that all Dat0r IField implementations should extend.
@@ -108,7 +109,7 @@ abstract class Field extends Freezable implements IField
      */
     public function getDefaultValue()
     {
-        return ValueHolder\NullValue::create($this);
+        return NullValue::create($this);
     }
 
     /**

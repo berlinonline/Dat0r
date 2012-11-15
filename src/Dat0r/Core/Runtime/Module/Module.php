@@ -37,6 +37,13 @@ abstract class Module extends Freezable implements IModule
      */
     private $fields;
 
+    /**
+     * Holds the field'S options.
+     *
+     * @var array $options
+     */
+    private $options = array();
+
     /** 
      * Returns the class(name) to use when creating new entries for this module.
      *
@@ -47,8 +54,7 @@ abstract class Module extends Freezable implements IModule
     /**
      * Returns the pooled instance of a specific module.
      * Each module is pooled exactly once, making this a singleton style (factory)method.
-     * This method is used to provide a convenient access to generated domain module instances,
-     * which is the reason why this method takes no arguments.
+     * This method is used to provide a convenient access to generated domain module instances.
      * 
      * @return IModule
      */
@@ -146,6 +152,32 @@ abstract class Module extends Freezable implements IModule
     }
 
     /**
+     * Returns a module option by name if it exists.
+     * Otherwise an optional default is returned.
+     *
+     * @param string $name
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getOption($name, $default = NULL)
+    {
+        return $this->hasOption($name) ? $this->options[$name] : $default;
+    }
+
+    /**
+     * Tells if a module currently owns a specific option.
+     *
+     * @param string $name
+     *
+     * @return boolean
+     */
+    public function hasOption($name)
+    {
+        return array_key_exists($name, $this->options);
+    }
+
+    /**
      * Freezes the module and all it's fields.
      */
     public function freeze()
@@ -160,11 +192,15 @@ abstract class Module extends Freezable implements IModule
      * @param string $name
      * @param array $fields
      */
-    protected function __construct($name, array $fields)
+    protected function __construct($name, array $fields = array(), array $options = array())
     {
         $this->name = $name;
-
+        $this->options = $options;
+        
         $this->fields = FieldCollection::create($this->getDefaultFields());
-        $this->fields->addMore($fields);
+        if (! empty($fields))
+        {
+            $this->fields->addMore($fields);
+        }
     }
 }

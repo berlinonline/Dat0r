@@ -20,9 +20,9 @@ class Deployment
 
     public function deploy(ModuleDefinition $moduleDefinition)
     {
-        $deployDir = realpath($this->config->getDeployDir());
+        $deployDir = $this->config->getDeployDir();
         $cacheDir = $this->cache->getPath($moduleDefinition);
-        $targetDir = realpath($deployDir) . '/' . $moduleDefinition->getName();
+        $targetDir = $deployDir . DIRECTORY_SEPARATOR . $moduleDefinition->getName();
 
         if ($this->cache->has($moduleDefinition))
         {
@@ -88,7 +88,7 @@ class Deployment
     {
         if (! is_dir($targetDir))
         {
-            if (! mkdir($targetDir))
+            if (! mkdir($targetDir, 0775, TRUE))
             {
                 throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName());
             }
@@ -99,12 +99,9 @@ class Deployment
         }
 
         $targetBaseDir = $targetDir . '/Base';
-        if (! is_dir($targetBaseDir))
+        if (! is_dir($targetBaseDir) && ! mkdir($targetBaseDir, 0775, TRUE))
         {
-            if (! mkdir($targetBaseDir))
-            {
-                throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
-            }
+            throw new \Exception("Can't create deploy directory: $deployDir/".$moduleDefinition->getName().'/Base');
         }
         if (! is_writable($targetBaseDir))
         {
