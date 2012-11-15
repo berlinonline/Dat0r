@@ -57,21 +57,16 @@ class AggregateFieldTest extends Core\BaseTest
         }
     }
 
-    public function testCreateValidator()
+    /**
+     * @dataProvider getAggregateFixture
+     */
+    public function testValidate(array $aggregateData)
     {
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
             Field\AggregateField::OPT_AGGREGATE_MODULE => 'Dat0r\\Tests\\Core\\Runtime\\Module\\AggregateModule'
         ));
-        $valueHolder = $aggregateField->createValueHolder($aggregateData);
-        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\ValueHolder\\AggregateValueHolder', $valueHolder);
-
-        $document = $valueHolder->getValue();
-        $this->assertInstanceOf('Dat0r\\Tests\\Core\\Runtime\\Document\\DocumentTestProxy', $document);
         
-        foreach ($aggregateData as $fieldname => $value)
-        {
-            $this->assertEquals($value, $document->getValue($fieldname));
-        }
+        $this->assertTrue($aggregateField->validate($aggregateData));
     }
 
     /**
