@@ -31,7 +31,7 @@ Create a 'composer.json' file with the following content:
 ```json
 {
     "require": {
-        "berlinonline/Dat0r": "*"
+        "berlinonline/Dat0r": "dev-master"
     },
     "minimum-stability": "dev"
 }
