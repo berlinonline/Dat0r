@@ -31,25 +31,9 @@ Create a 'composer.json' file with the following content:
 ```json
 {
     "require": {
-        "berlinonline/Dat0r": "*"
+        "berlinonline/Dat0r": "dev-master"
     },
     "minimum-stability": "dev"
-}
-```
-
-If you wish to fix the `data` directory created by the phpdocumentor dependency,
-you can add the dat0r post install script to the composer file.
-
-```json
-{
-    "require": {
-        "berlinonline/Dat0r": "*"
-    },
-    "minimum-stability": "dev",
-    "scripts": {
-        "post-install-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets",
-        "post-update-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets"
-    }
 }
 ```
 
