@@ -12,16 +12,5 @@ use Dat0r\Core\Runtime\Field\TextField;
  */
 abstract class RootModule extends Module
 {
-    /**
-     * Returns the default fields that are initially added to a module upon creation.
-     *
-     * @return array A list of IField implemenations.
-     */
-    protected function getDefaultFields()
-    {
-        return array(
-            TextField::create('id'),
-            TextField::create('revision')
-        );
-    }
+    
 }

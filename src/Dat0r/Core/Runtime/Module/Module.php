@@ -203,4 +203,9 @@ abstract class Module extends Freezable implements IModule
             $this->fields->addMore($fields);
         }
     }
+
+    protected function getDefaultFields()
+    {
+        return array();
+    }
 }

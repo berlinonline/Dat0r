@@ -85,6 +85,11 @@ class GenerateCodeCommand extends Command
             {
                 $builder = Builder::create($configuration);
                 $builder->build($moduleDefinition);
+
+                foreach ($configuration->getPlugins() as $plugin)
+                {
+                    $plugin->execute($moduleDefinition);
+                }
             }
             if (in_array('dep', $actions))
             {
@@ -103,19 +108,21 @@ class GenerateCodeCommand extends Command
         $configPath = $input->getArgument('config');
         $basePath = dirname(realpath($configPath));
 
-        $config = parse_ini_file($configPath);
+        $config = parse_ini_file($configPath, TRUE);
+        $config['basePath'] = $basePath;
+
         $cacheDir = $config['cacheDir'];
         $deployDir = $config['deployDir'];
 
         if (0 !== strpos($cacheDir, DIRECTORY_SEPARATOR))
         {
-            $cacheDir = $this->normalizePath(
+            $cacheDir = Configuration::normalizePath(
                 $basePath . DIRECTORY_SEPARATOR . $cacheDir
             );
         }
         if (0 !== strpos($deployDir, DIRECTORY_SEPARATOR))
         {
-            $deployDir = $this->normalizePath(
+            $deployDir = Configuration::normalizePath(
                 $basePath . DIRECTORY_SEPARATOR . $deployDir
             );
         }
@@ -123,32 +130,20 @@ class GenerateCodeCommand extends Command
         $config['cacheDir'] = $cacheDir;
         $config['deployDir'] = $deployDir;
 
-        return Configuration::create($config);
-    }
+        if (isset($config['plugins']))
+        {
+            foreach ($config['plugins'] as $class => $classPath)
+            {
+                if (0 !== strpos($classPath, DIRECTORY_SEPARATOR))
+                {
+                    $config['plugins'][$class] = Configuration::normalizePath(
+                        $basePath . DIRECTORY_SEPARATOR . $classPath
+                    );
+                }
+            }
+        }
 
-    protected function normalizePath($path) 
-    {
-        return array_reduce(
-            explode(DIRECTORY_SEPARATOR, $path), function($a, $b) {
-                if(0 === $a)
-                {
-                    $a = DIRECTORY_SEPARATOR;
-                }
-                if("" === $b || "." === $b)
-                {
-                    return $a;
-                }
-                if(".." === $b)
-                {
-                    return dirname($a);
-                }
-                return preg_replace(
-                    sprintf("/\%s+/", DIRECTORY_SEPARATOR), 
-                    DIRECTORY_SEPARATOR, 
-                    $a.DIRECTORY_SEPARATOR.$b
-                );
-            }, 0
-        );
+        return Configuration::create($config);
     }
 
     protected function displayUsage(OutputInterface $output)
