@@ -10,7 +10,7 @@ use Dat0r\Core\Runtime\IFreezable;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IFieldCollection extends \Iterator, IFreezable
+interface IFieldCollection extends \Iterator, IFreezable, \Countable, \ArrayAccess 
 {
     /**
      * Creates a new field collection passing in an initial set of fields.

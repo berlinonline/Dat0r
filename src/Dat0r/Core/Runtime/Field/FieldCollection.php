@@ -129,57 +129,6 @@ class FieldCollection extends Freezable implements IFieldCollection
     //
 
     /**
-     * Resets our collection cursor and return the first field.
-     *
-     * @return IField
-     */
-    public function rewind()
-    {
-        \reset($this->fields);
-    }
-    
-    /**
-     * Returns the field for the current collection cursor position.
-     *
-     * @return IField
-     */
-    public function current()
-    {
-        return \current($this->fields);
-    }
-    
-    /**
-     * Returns the fieldname for the current collection cursor position.
-     *
-     * @return string
-     */
-    public function key() 
-    {
-        return \key($this->fields);
-    }
-    
-    /**
-     * Returns the next field in our collection, 
-     * thereby forwarding the collection cursor's position.
-     *
-     * @return IField
-     */
-    public function next() 
-    {
-        return \next($this->fields);
-    }
-    
-    /**
-     * Tells whether the collection cursor's current position is valid.
-     *
-     * @return boolean
-     */
-    public function valid()
-    {
-        return isset($this->fields[$this->key()]);
-    }
-
-    /**
      * Returns an array representation of the current collection instance.
      *
      * @return array
@@ -200,5 +149,88 @@ class FieldCollection extends Freezable implements IFieldCollection
         {
             $this->add($field);
         }
+    }
+
+    public function count()
+    {
+        return \count($this->fields);
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->fields[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->fields[$offset];
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->fields[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        \array_splice($this->fields, $offset, 1);
+    }
+
+    /**
+     * Returns the field for the current collection cursor position.
+     *
+     * @return IField
+     */
+    public function current()
+    {
+        if ($this->valid())
+        {
+            return \current($this->fields);
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    /**
+     * Returns the fieldname for the current collection cursor position.
+     *
+     * @return string
+     */
+    public function key()
+    {
+        return \key($this->fields);
+    }
+
+    /**
+     * Returns the next field in our collection, 
+     * thereby forwarding the collection cursor's position.
+     *
+     * @return IField
+     */
+    public function next()
+    {
+        return \next($this->fields);
+    }
+
+    /**
+     * Resets our collection cursor and return the first field.
+     *
+     * @return IField
+     */
+    public function rewind()
+    {
+        \reset($this->fields);
+    }
+
+    /**
+     * Tells whether the collection cursor's current position is valid.
+     *
+     * @return boolean
+     */
+    public function valid()
+    {
+        return NULL !== \key($this->fields);
     }
 }
