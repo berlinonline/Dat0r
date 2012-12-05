@@ -113,6 +113,7 @@ class ModuleDefinitionParser
             'text' => 'string', 
             'integer' => 'int', 
             'struct' => 'array',
+            'reference' => 'string',
             'aggregate' => 'object'
         ); 
         // @todo validate field type (must resolve to valid class), name (letters/numbers only) and desc.
