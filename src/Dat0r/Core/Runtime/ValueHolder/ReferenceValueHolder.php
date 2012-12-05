@@ -24,7 +24,9 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        return (! empty($this->getValue()) && empty($other->getValue()));
+        $leftVal = $this->getValue();
+        $rightVal = $other->getValue();
+        return (! empty($leftVal) && empty($rightVal));
     }
 
     /** 
@@ -37,7 +39,9 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        return (empty($this->getValue()) && ! empty($other->getValue()));
+        $leftVal = $this->getValue();
+        $rightVal = $other->getValue();
+        return (empty($leftVal) && ! empty($rightVal));
     }
 
     /** 
