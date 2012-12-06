@@ -129,6 +129,19 @@ abstract class Module extends Freezable implements IModule
     }
 
     /**
+     * Returns the field to use when identitfying documents
+     * that belong to a module.
+     *
+     * @return IField
+     */
+    public function getIdentifierField()
+    {
+        return $this->getField(
+            $this->getOption('identifier_field')
+        );
+    }
+
+    /**
      * Creates a new IDocument instance.
      *
      * @param array $data Optional data for initial hydration.

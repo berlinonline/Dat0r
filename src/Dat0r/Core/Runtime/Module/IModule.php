@@ -55,4 +55,12 @@ interface IModule extends IFreezable
      * @return IDocument
      */
     public function createDocument(array $data = array());
+
+    /**
+     * Returns the field to use when identitfying documents
+     * that belong to a module.
+     *
+     * @return IField
+     */
+    public function getIdentifierField();   
 }

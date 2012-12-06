@@ -111,11 +111,12 @@ class ModuleDefinitionParser
         // @todo need to find the correct place for these mappings. maybe define it in xml.
         $phpTypeMap = array(
             'text' => 'string', 
+            'textarea' => 'string',
             'integer' => 'int', 
             'struct' => 'array',
             'reference' => 'string',
             'aggregate' => 'object'
-        ); 
+        );
         // @todo validate field type (must resolve to valid class), name (letters/numbers only) and desc.
         $type = $element->getAttribute('type');
         $name = $element->getAttribute('name');

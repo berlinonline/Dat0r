@@ -4,6 +4,8 @@ namespace Dat0r\Core\Runtime\Document;
 
 use Dat0r\Core\Runtime\Error;
 use Dat0r\Core\Runtime\Module\IModule;
+use Dat0r\Core\Runtime\Field\ReferenceField;
+use Dat0r\Core\Runtime\Field\AggregateField;
 use Dat0r\Core\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection;
 
@@ -85,9 +87,12 @@ abstract class Document implements IDocument, IValueChangedListener
         }
         else
         {
-            throw new InvalidValueException(
+            $error = new InvalidValueException(
                 sprintf("Invalid field value given for field: %s", $fieldname)
             );
+            $error->setFieldname($fieldname);
+
+            throw $error;
         }
     }
 
@@ -151,22 +156,39 @@ abstract class Document implements IDocument, IValueChangedListener
     public function toArray()
     {
         $values = array();
+        
         foreach ($this->getModule()->getFields() as $field)
         {
             $value = $this->getValue($field->getName());
-            if (is_object($value) && is_callable(array($value, 'toArray')))
+            if ($field instanceof ReferenceField)
             {
-                $values[$field->getName()] = $value->toArray();
+                if (! empty($value))
+                {
+                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
+                    $identityField = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
+                    $refIdentifiers = array();
+
+                    foreach ($value as $document)
+                    {
+                        $refIdentifiers[] = $document->getValue($identityField);
+                    }
+                    
+                    $values[$field->getName()] = $refIdentifiers;
+                }
             }
-            else if (is_scalar($value))
+            else if ($field instanceof AggregateField)
             {
-                $values[$field->getName()] = $value;
+                if ($value instanceof IDocument)
+                {
+                    $values[$field->getName()] = $value->toArray();
+                }
             }
             else
             {
-                // @todo Someone messed it up, throw Core\LogicException?
+                $values[$field->getName()] = $value;
             }
         }
+
         return $values;
     }
 

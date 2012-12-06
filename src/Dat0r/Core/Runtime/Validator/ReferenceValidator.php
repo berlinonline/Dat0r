@@ -2,6 +2,10 @@
 
 namespace Dat0r\Core\Runtime\Validator;
 
+use Dat0r\Core\Runtime\Document\IDocument;
+use Dat0r\Core\Runtime\Document\DocumentSet;
+use Dat0r\Core\Runtime\Field\ReferenceField;
+
 /**
  * Default implementation for validators that validate text.
  *
@@ -20,7 +24,28 @@ class ReferenceValidator extends Validator
      */
     public function validate($value)
     {
+        if (! ($value instanceof DocumentSet))
+        {
+            return FALSE;
+        }
+
+        // @todo dont forget to adjust when introducing multi-reference fields.
+        $referencedModules = $this->getField()->getReferencedModules();
+        $referencedModule = $referencedModules[0];
+
+        $references = $this->getField()->getOption(ReferenceField::OPT_REFERENCES);
+        $identityField = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
         
-        return is_string($value);
+        foreach ($value as $document)
+        {
+            $identifier = $document->getValue($identityField);
+
+            if (empty($identifier))
+            {
+                return FALSE;
+            }
+        }
+
+        return TRUE;
     }
 }

@@ -43,4 +43,9 @@ abstract class Validator implements IValidator
     {
         $this->field = $field;
     }
+
+    protected function getField()
+    {
+        return $this->field;
+    }
 }

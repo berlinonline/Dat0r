@@ -13,6 +13,15 @@ use Dat0r\Core\Runtime\Error;
  */
 class InvalidValueException extends Error\BadValueException
 {
+    protected $fieldname;
 
+    public function setFieldname($fieldname)
+    {
+        $this->fieldname = $fieldname;
+    }
+
+    public function getFieldname()
+    {
+        return $this->fieldname;
+    }
 }
-
