@@ -21,6 +21,6 @@ class TextValidator extends Validator
     public function validate($value)
     {
         // @todo implement more than this demo condition.
-        return is_string($value);
+        return is_string($value) || is_null($value);
     }
 }

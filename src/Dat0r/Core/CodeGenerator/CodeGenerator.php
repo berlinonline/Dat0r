@@ -119,8 +119,13 @@ class CodeGenerator
     {
         $fields = array();
         foreach ($this->moduleDefinition->getFields() as $field)
-        {
-            $field['implementor'] = sprintf('%s\\%sField', self::NS_FIELDS, ucfirst($field['type']));
+        {   
+            $type = preg_replace_callback('/-(.)/', function($matches)
+            {
+                return strtoupper($matches[1]);
+            }, $field['type']);
+            
+            $field['implementor'] = sprintf('%s\\%sField', self::NS_FIELDS, ucfirst($type));
             $field['options'] = $this->prepareOptions($field['options']);
             $fields[] = $field;
         }

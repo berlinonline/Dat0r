@@ -115,7 +115,8 @@ class ModuleDefinitionParser
             'integer' => 'int', 
             'struct' => 'array',
             'reference' => 'string',
-            'aggregate' => 'object'
+            'aggregate' => 'object',
+            'text-collection' => 'array'
         );
         // @todo validate field type (must resolve to valid class), name (letters/numbers only) and desc.
         $type = $element->getAttribute('type');
