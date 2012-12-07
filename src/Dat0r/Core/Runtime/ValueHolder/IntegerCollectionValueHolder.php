@@ -4,15 +4,15 @@ namespace Dat0r\Core\Runtime\ValueHolder;
 
 use Dat0r\Core\Runtime\Error;
 use Dat0r\Core\Runtime\Field\IField;
-use Dat0r\Core\Runtime\Field\TextCollectionField;
+use Dat0r\Core\Runtime\Field\IntegerCollectionField;
 
 /**
- * Default IValueHolder implementation used for text collection value containment.
+ * Default IValueHolder implementation used for integer collection value containment.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class TextCollectionValueHolder extends ValueHolder
+class IntegerCollectionValueHolder extends ValueHolder
 {
     /** 
      * Tells whether a spefic IValueHolder instance's value is considered greater than 
@@ -120,12 +120,12 @@ class TextCollectionValueHolder extends ValueHolder
     {
         $values = array();
         $value = empty($value) ? array() : $value;
-        foreach ($value as $text)
+        
+        foreach ($value as $int)
         {
-            $text = trim($text);
-            if (! empty($text))
+            if (! empty($int))
             {
-                $values[] = $text;
+                $values[] = (int)$int;
             }
         }
         
@@ -140,12 +140,13 @@ class TextCollectionValueHolder extends ValueHolder
      */
     protected function __construct(IField $field, $value = NULL)
     {
-        if (! ($field instanceof TextCollectionField))
+        if (! ($field instanceof IntegerCollectionField))
         {
             throw new Error\BadValueException(
-                "Only instances of TextCollectionField my be associated with TextCollectionValueHolder."
+                "Only instances of IntegerCollectionField may be associated with IntegerCollectionValueHolder."
             );
         }
+
         parent::__construct($field, $value);
     }
 }

@@ -3,12 +3,12 @@
 namespace Dat0r\Core\Runtime\Validator;
 
 /**
- * Default implementation for validators that validate integers.
+ * Default implementation for validators that validate key-values collections.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class IntegerValidator extends Validator
+class KeyValuesCollectionValidator extends Validator
 {
     /**
      * Validates a given value thereby considering the state of the field
@@ -20,7 +20,18 @@ class IntegerValidator extends Validator
      */
     public function validate($value)
     {
-        // @todo implement more than this demo condition.
-        return is_numeric($value) || empty($value);
+        if (is_array($value))
+        {   
+            foreach ($value as $key => $values)
+            {
+                // @todo validate $values
+            }
+        }
+        else if (! empty($value))
+        {
+            return FALSE;
+        }
+
+        return TRUE;
     }
 }

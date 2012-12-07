@@ -4,15 +4,15 @@ namespace Dat0r\Core\Runtime\ValueHolder;
 
 use Dat0r\Core\Runtime\Error;
 use Dat0r\Core\Runtime\Field\IField;
-use Dat0r\Core\Runtime\Field\TextCollectionField;
+use Dat0r\Core\Runtime\Field\KeyValuesCollectionField;
 
 /**
- * Default IValueHolder implementation used for text collection value containment.
+ * Default IValueHolder implementation used for key-values collection value containment.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class TextCollectionValueHolder extends ValueHolder
+class KeyValuesCollectionValueHolder extends ValueHolder
 {
     /** 
      * Tells whether a spefic IValueHolder instance's value is considered greater than 
@@ -107,6 +107,26 @@ class TextCollectionValueHolder extends ValueHolder
         {
             $areEqual = FALSE;
         }
+        else
+        {
+            foreach ($leftVal as $key => $values)
+            {
+                if (! isset($rightVal[$key]))
+                {
+                    $areEqual = FALSE;
+                    break;
+                }
+
+                foreach ($values as $idx => $curValue)
+                {
+                    if (isset($rightVal[$key][$idx]) !== $curValue)
+                    {
+                        $areEqual = FALSE;
+                        break;
+                    }
+                }
+            }
+        }
 
         return $areEqual;
     }
@@ -118,18 +138,26 @@ class TextCollectionValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        $values = array();
+        $attributes = array();
         $value = empty($value) ? array() : $value;
-        foreach ($value as $text)
+        foreach ($value as $key => $values)
         {
-            $text = trim($text);
-            if (! empty($text))
+            $key = trim($key);
+            if (! empty($key))
             {
-                $values[] = $text;
+                $attributes[$key] = array();
+                foreach ($values as $curValue)
+                {
+                    $curValue = trim($curValue);
+                    if (! empty($curValue))
+                    {
+                        $attributes[$key][] = $curValue;
+                    }
+                }
             }
         }
         
-        parent::setValue($values);
+        parent::setValue($attributes);
     }
 
     /**
@@ -140,10 +168,10 @@ class TextCollectionValueHolder extends ValueHolder
      */
     protected function __construct(IField $field, $value = NULL)
     {
-        if (! ($field instanceof TextCollectionField))
+        if (! ($field instanceof KeyValuesCollectionField))
         {
             throw new Error\BadValueException(
-                "Only instances of TextCollectionField my be associated with TextCollectionValueHolder."
+                "Only instances of KeyValuesCollectionField my be associated with KeyValuesCollectionValueHolder."
             );
         }
         parent::__construct($field, $value);
