@@ -4,15 +4,15 @@ namespace Dat0r\Core\Runtime\ValueHolder;
 
 use Dat0r\Core\Runtime\Error;
 use Dat0r\Core\Runtime\Field\IField;
-use Dat0r\Core\Runtime\Field\TextCollectionField;
+use Dat0r\Core\Runtime\Field\KeyValueField;
 
 /**
- * Default IValueHolder implementation used for text collection value containment.
+ * Default IValueHolder implementation used for key-value containment.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class TextCollectionValueHolder extends ValueHolder
+class KeyValueValueHolder extends ValueHolder
 {
     /** 
      * Tells whether a spefic IValueHolder instance's value is considered greater than 
@@ -95,15 +95,15 @@ class TextCollectionValueHolder extends ValueHolder
 
         if (0 < $leftCount && $leftCount === $rightCount)
         {
-            foreach ($leftVal as $idx => $text)
+            foreach ($leftVal as $key => $value)
             {
-                if ($rightVal[$idx] !== $text)
+                if ($rightVal[$key] !== $value)
                 {
                     $areEqual = FALSE;
                 }
             }
         }
-        else if ($leftCount !== $rightCount)
+        else
         {
             $areEqual = FALSE;
         }
@@ -118,18 +118,19 @@ class TextCollectionValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        $values = array();
+        $attributes = array();
         $value = empty($value) ? array() : $value;
-        foreach ($value as $text)
+
+        foreach ($value as $key => $value)
         {
-            $text = trim((string)$text);
-            if (! empty($text))
+            $key = trim($key);
+            if (! empty($key))
             {
-                $values[] = $text;
+                $attributes[$key] = $this->castValue($value);
             }
         }
         
-        parent::setValue($values);
+        parent::setValue($attributes);
     }
 
     /**
@@ -140,13 +141,42 @@ class TextCollectionValueHolder extends ValueHolder
      */
     protected function __construct(IField $field, $value = NULL)
     {
-        if (! ($field instanceof TextCollectionField))
+        if (! ($field instanceof KeyValueField))
         {
             throw new Error\BadValueException(
-                "Only instances of TextCollectionField my be associated with TextCollectionValueHolder."
+                "Only instances of KeyValueField my be associated with KeyValueValueHolder."
             );
         }
         
         parent::__construct($field, $value);
+    }
+
+    protected function castValue($value)
+    {
+        $valueType = $this->getField()->getValueTypeConstraint();
+        $validValues = TRUE;
+
+        switch ($valueType) 
+        {
+            case 'integer':
+            {
+                $value = (int)$value;
+                break;
+            }
+
+            case 'string':
+            {
+                 $value = (string)$value;
+                break;
+            }
+
+            case 'boolean':
+            {
+                 $value = (bool)$value;
+                break;
+            }
+        }
+
+        return $value;
     }
 }

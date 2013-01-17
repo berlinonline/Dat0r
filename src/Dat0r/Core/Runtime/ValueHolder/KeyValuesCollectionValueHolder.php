@@ -151,7 +151,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
                     $curValue = trim($curValue);
                     if (! empty($curValue))
                     {
-                        $attributes[$key][] = $curValue;
+                        $attributes[$key][] = $this->castValue($curValue);
                     }
                 }
             }
@@ -174,6 +174,36 @@ class KeyValuesCollectionValueHolder extends ValueHolder
                 "Only instances of KeyValuesCollectionField my be associated with KeyValuesCollectionValueHolder."
             );
         }
+        
         parent::__construct($field, $value);
+    }
+
+    protected function castValue($value)
+    {
+        $valueType = $this->getField()->getValueTypeConstraint();
+        $validValues = TRUE;
+
+        switch ($valueType) 
+        {
+            case 'integer':
+            {
+                $value = (int)$value;
+                break;
+            }
+
+            case 'string':
+            {
+                 $value = (string)$value;
+                break;
+            }
+
+            case 'boolean':
+            {
+                 $value = (bool)$value;
+                break;
+            }
+        }
+
+        return $value;
     }
 }

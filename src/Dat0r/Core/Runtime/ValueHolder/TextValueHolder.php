@@ -26,6 +26,7 @@ class TextValueHolder extends ValueHolder
     {
         $leftVal = $this->getValue();
         $rightVal = $other->getValue();
+
         return 0 < strcmp($leftVal, $rightVal);
     }
 
@@ -39,9 +40,9 @@ class TextValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $this->checkComparisonCompatibility($other);
         $leftVal = $this->getValue();
         $rightVal = $other->getValue();
+
         return 0 > strcmp($leftVal, $rightVal);
     }
 
@@ -82,6 +83,7 @@ class TextValueHolder extends ValueHolder
                 "Only instances of TextField my be associated with TextValueHolder."
             );
         }
+        
         parent::__construct($field, $value);
     }
 }

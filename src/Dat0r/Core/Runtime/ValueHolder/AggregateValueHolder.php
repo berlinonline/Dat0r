@@ -128,6 +128,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
                 "Only instances of AggregateField my be associated with AggregateValueHolder."
             );
         }
+        
         parent::__construct($field, $value);
     }
 }

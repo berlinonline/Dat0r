@@ -72,6 +72,7 @@ abstract class ValueHolder extends Freezable implements IValueHolder
     {
         $value = $this->getValue();
         $string = '';
+
         if (is_object($value))
         {
             if (is_callable(array($value, '__toString')))
@@ -91,6 +92,7 @@ abstract class ValueHolder extends Freezable implements IValueHolder
         {
             $string = print_r($value, TRUE);
         }
+        
         return $string;
     }
 

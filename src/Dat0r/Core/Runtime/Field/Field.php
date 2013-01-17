@@ -28,6 +28,8 @@ abstract class Field extends Freezable implements IField
      */
     const OPT_VALIDATOR = 'validator';
 
+    const OPT_VALUE_CONSTRAINT = 'constraints';
+
     /**
      * Holds the field's name.
      *
@@ -44,17 +46,31 @@ abstract class Field extends Freezable implements IField
 
     /**
      * Returns the IValueHolder implementation to use when aggregating (value)data for this field.
+     * Override this method if you want inject your own implementation.
      *
      * @return string Fully qualified name of an IValueHolder implementation.
      */
-    abstract protected function getValueHolderImplementor();
+    protected function getValueHolderImplementor()
+    {
+        return preg_replace_callback('/(.*)\\Field(.*)Field$/is', function($matches)
+        {
+            return sprintf('%sValueHolder%sValueHolder', $matches[1], $matches[2]);
+        }, get_class($this));
+    }
 
     /**
      * Returns the IValidator implementation to use when validating values for this field.
+     * Override this method if you want inject your own implementation.
      *
      * @return string Fully qualified name of an IValidator implementation.
      */
-    abstract protected function getValidationImplementor();
+    protected function getValidationImplementor()
+    {
+        return preg_replace_callback('/(.*)\\Field(.*)Field$/is', function($matches)
+        {
+            return sprintf('%sValidator%sValidator', $matches[1], $matches[2]);
+        }, get_class($this));
+    }
 
     /**
      * Creates a new field instance.
@@ -158,8 +174,21 @@ abstract class Field extends Freezable implements IField
             );
         }
         $valueHolder = $implementor::create($this, $value);
-        // @todo check against instanceof IValueHolder
+        // @todo check against instanceof IValueHolder?
         return $valueHolder;
+    }
+
+    public function getValueTypeConstraint()
+    {
+        $constraints = $this->getOption(self::OPT_VALUE_CONSTRAINT);
+        $valueType = 'dynamic';
+
+        if (isset($constraints['value_type']))
+        {
+            $valueType = $constraints['value_type'];
+        }
+
+        return $valueType; 
     }
 
     /**

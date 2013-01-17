@@ -100,6 +100,11 @@ class ModuleDefinitionParser
                 $aggregate = ModuleDefinition::create($aggregateData);
                 $aggregates[$aggregate->getName()] = $aggregate;
             }
+            // hack around aggregates being available in the scope, so just add 'em all for now.
+            foreach ($aggregates as $aggregate)
+            {
+                $aggregate->setAggregates($aggregates);
+            }
             $moduleData['aggregates'] = $aggregates;
         }
 
@@ -118,7 +123,9 @@ class ModuleDefinitionParser
             'aggregate' => 'object',
             'text-collection' => 'array',
             'integer-collection' => 'array',
-            'key-values-collection' => 'array'
+            'key-values-collection' => 'array',
+            'key-value' => 'array',
+            'boolean' => 'boolean'
         );
         // @todo validate field type (must resolve to valid class), name (letters/numbers only) and desc.
         $type = $element->getAttribute('type');

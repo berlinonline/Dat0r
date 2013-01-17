@@ -3,12 +3,12 @@
 namespace Dat0r\Core\Runtime\Validator;
 
 /**
- * Default implementation for validators that validate text.
+ * Default implementation for validators that validate boolean values.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class TextValidator extends Validator
+class BooleanValidator extends Validator
 {
     /**
      * Validates a given value thereby considering the state of the field
@@ -20,7 +20,6 @@ class TextValidator extends Validator
      */
     public function validate($value)
     {
-        // @todo implement more than this demo condition.
-        return is_string($value) || empty($value);
+        return is_bool($value) || is_null($value);
     }
 }

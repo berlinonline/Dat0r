@@ -8,7 +8,7 @@ namespace Dat0r\Core\Runtime\Validator;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class KeyValuesCollectionValidator extends Validator
+class KeyValuesCollectionValidator extends KeyValueValidator
 {
     /**
      * Validates a given value thereby considering the state of the field
@@ -24,10 +24,13 @@ class KeyValuesCollectionValidator extends Validator
         {   
             foreach ($value as $key => $values)
             {
-                // @todo validate $values
+                if (! $this->hasValidValues($values))
+                {
+                    return FALSE;
+                }
             }
         }
-        else if (! empty($value))
+        else if (! is_null($value))
         {
             return FALSE;
         }

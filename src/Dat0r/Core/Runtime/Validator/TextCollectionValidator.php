@@ -30,7 +30,7 @@ class TextCollectionValidator extends TextValidator
                 }
             }
         }
-        else if (! empty($value))
+        else if (! is_null($value))
         {
             return FALSE;
         }

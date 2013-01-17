@@ -26,6 +26,7 @@ class IntegerValueHolder extends ValueHolder
     {
         $leftVal = $this->getValue();
         $rightVal = $other->getValue();
+
         return $leftVal > $rightVal;
     }
 
@@ -39,9 +40,9 @@ class IntegerValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $this->checkComparisonCompatibility($other);
         $leftVal = $this->getValue();
         $rightVal = $other->getValue();
+
         return $leftVal < $rightVal;
     }
     
@@ -82,6 +83,7 @@ class IntegerValueHolder extends ValueHolder
                 "Only instances of NumberField my be associated with NumberValueHolder."
             );
         }
+        
         parent::__construct($field, $value);
     }
 }

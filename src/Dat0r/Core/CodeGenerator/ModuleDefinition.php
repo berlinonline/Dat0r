@@ -81,6 +81,11 @@ class ModuleDefinition
         return $this->aggregates;
     }
 
+    public function setAggregates(array $aggregates)
+    {
+        $this->aggregates = $aggregates;
+    }
+
     public function getRoot()
     {
         return $this->root;

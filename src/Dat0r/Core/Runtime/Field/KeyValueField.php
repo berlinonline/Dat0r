@@ -4,12 +4,12 @@ namespace Dat0r\Core\Runtime\Field;
 
 /**
  * Concrete implementation of the Field base class.
- * Stuff in here is dedicated to handling integer collections.
+ * Stuff in here is dedicated to handling key-value pairs.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class IntegerCollectionField extends Field
+class KeyValueField extends Field
 {
     
 }
