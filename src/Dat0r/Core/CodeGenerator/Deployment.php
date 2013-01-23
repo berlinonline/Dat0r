@@ -63,10 +63,11 @@ class Deployment
         foreach ($sourceFiles['skeleton'] as $skeleton)
         {
             $fileName = basename($skeleton);
+            $targetPath = sprintf('%s/%s', $targetDir, $fileName);
 
-            if (! file_exists($fileName))
+            if (! file_exists($targetPath))
             {
-                rename($skeleton, sprintf('%s/%s', $targetDir, $fileName));
+                rename($skeleton, $targetPath);
             }
         }
         @rmdir($cacheDir); // try to clean up
@@ -84,10 +85,11 @@ class Deployment
         foreach ($sourceFiles['skeleton'] as $skeleton)
         {
             $fileName = basename($skeleton);
+            $targetPath = sprintf('%s/%s', $targetDir, $fileName);
 
             if (! file_exists($fileName))
             {
-                copy($skeleton, sprintf('%s/%s', $targetDir, $fileName));
+                copy($skeleton, $targetPath);
             }
         }
     }

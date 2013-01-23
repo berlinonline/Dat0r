@@ -50,18 +50,21 @@ class GenerateCodeCommand extends Command
         $config = $input->getArgument('config');
         $definition = $input->getArgument('definition');
         $action = $input->getArgument('action');
+        
         if (! is_readable(realpath($config)))
         {
             throw new Exception(
                 sprintf('The given `config` argument path `%s` is not readable.', $config)
             );
         }
+
         if (! is_readable(realpath($definition)))
         {
             throw new Exception(
                 sprintf('The given `definition` argument path `%s` is not readable.', $definition)
             );
         }
+
         $validActions = array('gen', 'dep', 'gen+dep');
         if (! in_array($action, $validActions))
         {
@@ -81,6 +84,7 @@ class GenerateCodeCommand extends Command
             // then kick off code generation and/or deployment
             $actions = explode('+', $input->getArgument('action'));
             $configuration = $this->loadConfig($input);
+
             if (in_array('gen', $actions))
             {
                 $builder = Builder::create($configuration);
@@ -91,6 +95,7 @@ class GenerateCodeCommand extends Command
                     $plugin->execute($moduleDefinition);
                 }
             }
+
             if (in_array('dep', $actions))
             {
                 $deployment = Deployment::create($configuration);
@@ -106,29 +111,32 @@ class GenerateCodeCommand extends Command
     protected function loadConfig(InputInterface $input)
     {
         $configPath = $input->getArgument('config');
-        $basePath = dirname(realpath($configPath));
-
         $config = parse_ini_file($configPath, TRUE);
+
+        $basePath = dirname($configPath);
+        if (0 !== strpos($basePath, DIRECTORY_SEPARATOR))
+        {
+            $basePath = getcwd() . DIRECTORY_SEPARATOR . $basePath;
+        }
         $config['basePath'] = $basePath;
-
+        
         $cacheDir = $config['cacheDir'];
-        $deployDir = $config['deployDir'];
-
         if (0 !== strpos($cacheDir, DIRECTORY_SEPARATOR))
         {
             $cacheDir = Configuration::normalizePath(
-                $basePath . DIRECTORY_SEPARATOR . $cacheDir
+                dirname(realpath($configPath)) . '/' . $cacheDir
             );
+            $config['cacheDir'] = $cacheDir;
         }
+
+        $deployDir = $config['deployDir'];
         if (0 !== strpos($deployDir, DIRECTORY_SEPARATOR))
         {
             $deployDir = Configuration::normalizePath(
-                $basePath . DIRECTORY_SEPARATOR . $deployDir
+                dirname(realpath($configPath)) . '/' . $deployDir
             );
+            $config['deployDir'] = $deployDir;
         }
-        
-        $config['cacheDir'] = $cacheDir;
-        $config['deployDir'] = $deployDir;
 
         if (isset($config['plugins']))
         {
@@ -136,6 +144,8 @@ class GenerateCodeCommand extends Command
             {
                 if (0 !== strpos($classPath, DIRECTORY_SEPARATOR))
                 {
+                    // need the call to Configuration::normalizePath so we are not affected,
+                    // when the classPath is relative to a symlink location.
                     $config['plugins'][$class] = Configuration::normalizePath(
                         $basePath . DIRECTORY_SEPARATOR . $classPath
                     );
