@@ -119,6 +119,12 @@ abstract class Document implements IDocument, IValueChangedListener
         return (TRUE === $raw) ? $valueHolder->getValue() : $valueHolder;
     }
 
+    public function hasValue($fieldname)
+    {
+        $field = $this->module->getField($fieldname);
+        return $this->values->has($field); 
+    }
+
     /**
      * Returns the values of either all fields or a specific field subset
      * defined by the optional fieldnames parameter.

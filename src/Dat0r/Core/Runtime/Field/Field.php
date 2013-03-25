@@ -30,6 +30,8 @@ abstract class Field extends Freezable implements IField
 
     const OPT_VALUE_CONSTRAINT = 'constraints';
 
+    const OPT_VALUE_DEFAULT = 'default_value';
+
     /**
      * Holds the field's name.
      *
@@ -125,6 +127,13 @@ abstract class Field extends Freezable implements IField
      */
     public function getDefaultValue()
     {
+        if ($this->hasOption(self::OPT_VALUE_DEFAULT))
+        {
+            return $this->createValueHolder(
+                $this->getOption(self::OPT_VALUE_DEFAULT)
+            );
+        }
+        
         return NullValue::create($this);
     }
 
