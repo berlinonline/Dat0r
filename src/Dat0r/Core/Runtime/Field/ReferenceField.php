@@ -11,7 +11,7 @@ namespace Dat0r\Core\Runtime\Field;
  */
 class ReferenceField extends Field
 {
-    const OPT_MAX_REFERENCES = 'max_references';
+    const OPT_MAX_REFERENCES = 'max';
 
     const OPT_REFERENCES = 'references';
 

@@ -36,7 +36,7 @@ interface IModule extends IFreezable
      *
      * @return FieldCollection
      */
-    public function getFields(array $fieldnames = array());
+    public function getFields(array $fieldnames = array(), $types = array());
 
     /**
      * Returns a certain module field by name.

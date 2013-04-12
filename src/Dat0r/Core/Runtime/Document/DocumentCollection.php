@@ -11,6 +11,11 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
         $this->documents = $documents;
     }
 
+    public function indexOf(IDocument $document)
+    {
+        return array_search($document, $this->documents, TRUE);
+    }
+
     public function first()
     {
         return 1 <= $this->count() ? $this->documents[0] : FALSE;
@@ -23,9 +28,7 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function remove(IDocument $document)
     {
-        $offset = array_search($document, $this->documents, TRUE);
-
-        $this->offsetUnset($offset);
+        $this->offsetUnset($this->indexOf($document));
     }
 
     public function toArray()

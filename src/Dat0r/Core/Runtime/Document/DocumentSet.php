@@ -2,103 +2,37 @@
 
 namespace Dat0r\Core\Runtime\Document;
 
-class DocumentSet implements \Countable, \ArrayAccess, \Iterator 
+class DocumentSet extends DocumentCollection
 {
-    private $documents;
-
-    private $fieldname;
+    private $ids;
 
     public function __construct(array $documents = array())
     {
-        $this->documents = $documents;
-    }
+        parent::__construct($documents);
 
-    public function first()
-    {
-        $identitfiers = array_keys($this->documents);
+        $this->ids = array();
 
-        return $this->offsetGet($identitfiers[0]);
+        foreach ($this as $document)
+        {
+            $this->ids[] = $this->getDocumentIdentifier($document);
+        }
     }
 
     public function add(IDocument $document)
     {
         $identitfier = $this->getDocumentIdentifier($document);
-
-        $this->offsetSet($identitfier, $document);
+        
+        if (! in_array($identitfier, $this->ids))
+        {
+            parent::add($document);
+        }
     }
 
     public function remove(IDocument $document)
     {
-        $identitfier = $this->getDocumentIdentifier($document);
+        parent::remove($document);
 
-        $this->offsetUnset($offset);
-    }
-
-    public function toArray()
-    {
-        $data = array_map(function($document)
-        {
-            return $document->toArray();
-        }, $this->documents);
-
-        return $data;
-    }
-
-    public function count()
-    {
-        return count($this->documents);
-    }
-
-    public function offsetExists($offset)
-    {
-        return isset($this->documents[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->documents[$offset];
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->documents[$offset] = $value;
-    }
-
-    public function offsetUnset($offset)
-    {
-        array_splice($this->documents, $offset, 1);
-    }
-
-    public function current()
-    {
-        if ($this->valid())
-        {
-            return current($this->documents);
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-
-    public function key()
-    {
-        return key($this->documents);
-    }
-
-    public function next()
-    {
-        return next($this->documents);
-    }
-
-    public function rewind()
-    {
-        reset($this->documents);
-    }
-
-    public function valid()
-    {
-        return NULL !== key($this->documents);
+        array_splice($this->ids, $this->indexOf($document), 1);
     }
 
     /**
@@ -113,6 +47,10 @@ class DocumentSet implements \Countable, \ArrayAccess, \Iterator
     {
         $identifierField = $document->getModule()->getIdentifierField();
 
-        return $document->getValue($identifierField->getName());
+        return sprintf(
+            '%s.%s', 
+            $document->getModule()->getName(),
+            $document->getValue($identifierField->getName())
+        );
     }
 }

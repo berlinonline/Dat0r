@@ -66,7 +66,6 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        
         parent::setValue($value);
     }
 

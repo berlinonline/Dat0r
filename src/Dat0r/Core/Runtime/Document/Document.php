@@ -170,13 +170,18 @@ abstract class Document implements IDocument, IValueChangedListener
             {
                 if (! empty($value))
                 {
+                    $refMap = array();
                     $references = $field->getOption(ReferenceField::OPT_REFERENCES);
                     $identityField = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
                     $refIdentifiers = array();
 
                     foreach ($value as $document)
                     {
-                        $refIdentifiers[] = $document->getValue($identityField);
+                        $refModule = $document->getModule();
+                        $refIdentifiers[] = array(
+                            'id' => $document->getValue($identityField),
+                            'module' => $refModule->getOption('prefix', strtolower($refModule->getName()))
+                        );
                     }
                     
                     $values[$field->getName()] = $refIdentifiers;

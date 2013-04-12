@@ -87,7 +87,7 @@ abstract class Module extends Freezable implements IModule
      *
      * @return FieldCollection
      */
-    public function getFields(array $fieldnames = array())
+    public function getFields(array $fieldnames = array(), $types = array())
     {
         $fields = array();
         if (empty($fieldnames))
@@ -100,6 +100,14 @@ abstract class Module extends Freezable implements IModule
             {
                 $fields[$fieldname] = $this->getField($fieldname);
             }
+        }
+
+        if (! empty($types))
+        {
+            $fields = array_filter($fields, function($field) use($types)
+            {
+                return in_array(get_class($field), $types);
+            });
         }
 
         $collection = FieldCollection::create($fields);
