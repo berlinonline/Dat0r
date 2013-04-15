@@ -20,17 +20,17 @@ class UuidValidator extends TextValidator
      */
     public function validate($value)
     {
-        $result = parent::validate($value);
+        $isValid = parent::validate($value);
 
-        if (TRUE === $result)
+        if (TRUE === $isValid)
         {
-            $result = (1 === preg_match(
+            $isValid = (1 === preg_match(
                 '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
                 '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', 
                 $value
             ));
         }
 
-        return $result;
+        return $isValid;
     }
 }

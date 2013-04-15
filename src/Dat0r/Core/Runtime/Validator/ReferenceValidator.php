@@ -3,7 +3,7 @@
 namespace Dat0r\Core\Runtime\Validator;
 
 use Dat0r\Core\Runtime\Document\IDocument;
-use Dat0r\Core\Runtime\Document\DocumentSet;
+use Dat0r\Core\Runtime\Document\DocumentCollection;
 use Dat0r\Core\Runtime\Field\ReferenceField;
 
 /**
@@ -24,21 +24,29 @@ class ReferenceValidator extends Validator
      */
     public function validate($value)
     {
-        if (! ($value instanceof DocumentSet))
+        if (! ($value instanceof DocumentCollection))
         {
             return FALSE;
         }
 
-        // @todo dont forget to adjust when introducing multi-reference fields.
-        $referencedModules = $this->getField()->getReferencedModules();
-        $referencedModule = $referencedModules[0];
+        $referenceMap = array();
+        foreach ($this->getField()->getOption(ReferenceField::OPT_REFERENCES) as $reference)
+        {
+            $referenceMap[$reference[ReferenceField::OPT_MODULE]] = $reference[ReferenceField::OPT_IDENTITY_FIELD];
+        }
 
-        $references = $this->getField()->getOption(ReferenceField::OPT_REFERENCES);
-        $identityField = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
-        
         foreach ($value as $document)
         {
-            $identifier = $document->getValue($identityField);
+            $module = $document->getModule();
+            $moduleImplementor = get_class($module);
+
+            if (! isset($referenceMap[$moduleImplementor]))
+            {
+                return FALSE;
+            }
+
+            $identifierField = $referenceMap[$moduleImplementor];
+            $identifier = $document->getValue($identifierField);
 
             if (empty($identifier))
             {
