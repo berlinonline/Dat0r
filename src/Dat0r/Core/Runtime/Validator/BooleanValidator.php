@@ -34,9 +34,9 @@ class BooleanValidator extends Validator
         {
             $castValue = FALSE;
         } 
-        else if (is_string($castValue)) 
+        else if (empty($castValue)) 
         {
-            $castValue = AgaviToolkit::literalize($castValue);
+            $castValue = FALSE;
         }
 
         return is_bool($castValue);
