@@ -20,6 +20,25 @@ class BooleanValidator extends Validator
      */
     public function validate($value)
     {
-        return is_bool($value) || is_null($value);
+        $castValue = $value;
+        
+        if (is_bool($castValue)) 
+        {
+            // noop
+        } 
+        else if (1 === $castValue || '1' === $castValue) 
+        {
+            $castValue = TRUE;
+        } 
+        else if (0 === $castValue || '0' === $castValue) 
+        {
+            $castValue = FALSE;
+        } 
+        else if (is_string($castValue)) 
+        {
+            $castValue = AgaviToolkit::literalize($castValue);
+        }
+
+        return is_bool($castValue);
     }
 }
