@@ -19,11 +19,15 @@ class UuidFieldTest extends Core\BaseTest
     public function testDefaultValue()
     {
         $uuidField = Field\UuidField::create(self::FIELDNAME);
-        $defaultValHolder = $uuidField->getDefaultValue();
-        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\ValueHolder\\UuidValueHolder', $defaultValHolder);
+        $defaultValue = $uuidField->getDefaultValue();
 
-        $default = $defaultValHolder->getValue();
-        $this->assertFalse(empty($default));
+        $this->assertFalse(! empty($defaultValue));
+        $this->assertTrue(is_string($defaultValue));
+        $this->assetTrue((1 === preg_match(
+            '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
+            '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', 
+            $defaultValue
+        ));
     }
 
     /**
