@@ -23,7 +23,7 @@ class UuidFieldTest extends Core\BaseTest
 
         $this->assertFalse(empty($defaultValue));
         $this->assertTrue(is_string($defaultValue));
-        $this->assetTrue((1 === preg_match(
+        $this->assertTrue((1 === preg_match(
             '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
             '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', 
             $defaultValue
