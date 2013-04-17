@@ -21,7 +21,7 @@ class UuidFieldTest extends Core\BaseTest
         $uuidField = Field\UuidField::create(self::FIELDNAME);
         $defaultValue = $uuidField->getDefaultValue();
 
-        $this->assertFalse(! empty($defaultValue));
+        $this->assertFalse(empty($defaultValue));
         $this->assertTrue(is_string($defaultValue));
         $this->assetTrue((1 === preg_match(
             '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
