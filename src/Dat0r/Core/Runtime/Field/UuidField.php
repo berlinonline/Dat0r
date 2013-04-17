@@ -20,9 +20,7 @@ class UuidField extends TextField
      */
     public function getDefaultValue()
     {
-        return $this->createValueHolder(
-            $this->generateUuidV4()
-        );
+        return $this->generateUuidV4();
     }
 
     // from http://www.php.net/manual/en/function.uniqid.php#94959

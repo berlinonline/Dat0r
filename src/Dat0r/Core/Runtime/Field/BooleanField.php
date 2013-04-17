@@ -11,5 +11,8 @@ namespace Dat0r\Core\Runtime\Field;
  */
 class BooleanField extends Field
 {
-    
+    public function getDefaultValue()
+    {
+        return $this->hasOption(self::OPT_VALUE_DEFAULT) ? (bool)$this->getOption(self::OPT_VALUE_DEFAULT) : FALSE;
+    }
 }

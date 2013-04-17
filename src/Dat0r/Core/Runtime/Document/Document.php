@@ -108,14 +108,16 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $field = $this->module->getField($fieldname);
         $value = NULL;
-        if ($this->values->has($field))
+
+        if ($this->hasValue($fieldname))
         {
             $valueHolder = $this->values->get($field);
         }
         else
         {
-            $valueHolder = $field->getDefaultValue();
+            throw new InvalidValueException("Field $fieldname has not been corretly initialized during initial hydrate.");
         }
+
         return (TRUE === $raw) ? $valueHolder->getValue() : $valueHolder;
     }
 
@@ -324,7 +326,7 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $this->module = $module;
         $this->values = ValueHolderCollection::create($this->getModule());
-        $this->hydrate($data);
+        $this->hydrate($data, TRUE);
         $this->values->addValueChangedListener($this);
     }
 
@@ -333,8 +335,10 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @param array $values
      */
-    protected function hydrate(array $values = array())
+    protected function hydrate(array $values = array(), $applyDefaults = FALSE)
     {
+        $nonHydratedFields =  array();
+
         if (! empty($values))
         {
             foreach ($this->module->getFields() as $fieldname => $field)
@@ -343,7 +347,23 @@ abstract class Document implements IDocument, IValueChangedListener
                 {
                     $this->setValue($field->getName(), $values[$fieldname]);
                 }
+                else if($applyDefaults)
+                {
+                    $nonHydratedFields[] = $field;
+                }
             }
+        }
+        else
+        {
+            foreach ($this->module->getFields() as $fieldname => $field)
+            {
+                $nonHydratedFields[] = $field;
+            }
+        }
+
+        foreach ($nonHydratedFields as $field)
+        {
+            $this->setValue($field->getName(), $field->getDefaultValue());
         }
     }
 }

@@ -20,6 +20,11 @@ class AggregateField extends Field
      */
     const OPT_AGGREGATE_MODULE = 'aggregate_module';
 
+    public function getDefaultValue()
+    {
+        return array();
+    }
+
     /**
      * Gets the aggregate module that has been set for the current field instance.
      *

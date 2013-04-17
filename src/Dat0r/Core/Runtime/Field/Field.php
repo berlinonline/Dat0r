@@ -129,12 +129,10 @@ abstract class Field extends Freezable implements IField
     {
         if ($this->hasOption(self::OPT_VALUE_DEFAULT))
         {
-            return $this->createValueHolder(
-                $this->getOption(self::OPT_VALUE_DEFAULT)
-            );
+            return $this->getOption(self::OPT_VALUE_DEFAULT);
         }
         
-        return NullValue::create($this);
+        return NULL;
     }
 
     /**

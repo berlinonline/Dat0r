@@ -43,7 +43,7 @@ interface IField extends IFreezable
     /**
      * Returns the default value of the field.
      *
-     * @return IValueHolder
+     * @return mixed
      */
     public function getDefaultValue();
 
