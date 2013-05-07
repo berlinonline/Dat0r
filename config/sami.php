@@ -17,9 +17,12 @@ require_once implode(DIRECTORY_SEPARATOR, $autoloadPath);
 
 // return SAMI configuration for generation of API documentation
 return new Sami\Sami($baseDir . '/src/Dat0r', array(
-    'title'                => 'Dat0r API',
-    'theme'                => 'enhanced',
-    'default_opened_level' => 2,
-    'build_dir'            => __DIR__.'/../build/docs/',
-    'cache_dir'            => __DIR__.'/../build/cache',
+    'title'                 => 'Dat0r API',
+    'theme'                 => 'dat0r',
+    'default_opened_level'  => 2,
+    'build_dir'             => __DIR__.'/../build/docs/',
+    'cache_dir'             => __DIR__.'/../build/cache',
+    'template_dirs'         => array(__DIR__.'/sami-theme'),
+    'favicon'               => 'dat0r-favicon.png',
+//    'base_url'              => 'http://localhost:8081/docs/',
 ));
