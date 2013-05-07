@@ -2,5 +2,5 @@ language: php
 php:
 - 5.3
 - 5.4
-before_script: make install
+before_script: make update
 script: make test

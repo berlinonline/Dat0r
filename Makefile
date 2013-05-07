@@ -7,10 +7,10 @@ help:
 	@echo "---------------------------------------------"
 	@echo "List of available targets:"
 	@echo "  code - Generate data-objects from a given module definition. Use 'make code conf={path} def={path}'"
-	@echo "  install - Installs composer and all dependencies."
-	@echo "  update - Updates composer and all dependencies."
-	@echo "  test - Runs all test suites and publishes an code coverage report in xml and html."
-	@echo "  docs - Generates the php api doc."
+	@echo "  install - Installs composer and all dependencies for production environments."
+	@echo "  update - Updates composer and all dependencies for development environments."
+	@echo "  test - Runs all test suites and publishes a code coverage report in xml and html to build/reports."
+	@echo "  doc - Generates the php api documentation to the build/docs folder."
 	@echo "  help - Shows this dialog."
 	@exit 0
 
@@ -36,8 +36,7 @@ update-composer: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- self-update
 
 test:
-	@if [ ! -d ./test/reports ]; then mkdir ./test/reports; fi
-	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./test/phpunit.xml.dist
+	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./config/phpunit.xml
 
 doc:
 	@if [ -d ./build/docs ]; then rm -rf ./build/docs; fi
