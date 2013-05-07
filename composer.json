@@ -11,7 +11,7 @@
             "name": "Thorsten Schmitt-Rink"
         }
     ],
-    
+
     "require": {
         "php": ">=5.3",
         "twig/twig": "1.*",
@@ -19,13 +19,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "sami/sami": "1.0"
     },
     "autoload": { 
         "psr-0": {"Dat0r" : "src/" }
-    },
-    "scripts": {
-        "post-install-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets",
-        "post-update-cmd": "Dat0r\\Composer\\PhpDocumentorInstallScript::fixAssets"
     }
 }

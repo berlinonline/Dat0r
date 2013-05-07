@@ -40,6 +40,7 @@ test:
 	@$(PROJECT_BASEDIR)/vendor/bin/phpunit -c ./test/phpunit.xml.dist
 
 doc:
-	@php $(PROJECT_BASEDIR)/vendor/bin/phpdoc.php --config ./doc/phpdoc.xml
+	@if [ -d ./build/docs ]; then rm -rf ./build/docs; fi
+	@php $(PROJECT_BASEDIR)/vendor/bin/sami.php update ./config/sami.php
 
 .PHONY: test help code doc install update

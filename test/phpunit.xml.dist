@@ -27,8 +27,12 @@
   </filter>
 
   <logging>
-    <log type="coverage-clover" target="./reports/coverage.xml"/>
-    <log type="coverage-html" target="./reports/coverage-html" charset="UTF-8"
-        yui="true" highlight="true" lowUpperBound="60" highLowerBound="80"/>
+      <log type="coverage-clover" target="./../build/reports/coverage.xml"/>
+      <log type="coverage-html" target="./../build/reports/coverage-html"
+          charset="UTF-8"
+          yui="true"
+          highlight="true"
+          lowUpperBound="60"
+          highLowerBound="80"/>
   </logging>
 </phpunit>

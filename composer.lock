@@ -1,147 +1,127 @@
 {
-    "hash": "56a8e0c7e01043cf58970a983c4d1085",
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "3eefe329ed414a1aaf2e0e1188e9c4d0",
     "packages": [
         {
-            "name": "cilex/cilex",
-            "version": "dev-master",
+            "name": "symfony/console",
+            "version": "v2.1.10",
+            "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Cilex/Cilex",
-                "reference": "1a4cb7a2e4b03b77bbb52dd08c034c12e26b3d4c"
+                "url": "https://github.com/symfony/Console.git",
+                "reference": "v2.1.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/Cilex/Cilex/zipball/1a4cb7a2e4b03b77bbb52dd08c034c12e26b3d4c",
-                "reference": "1a4cb7a2e4b03b77bbb52dd08c034c12e26b3d4c",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.1.10",
+                "reference": "v2.1.10",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "pimple/pimple": "1.0.*",
-                "symfony/console": "2.1.*",
-                "symfony/process": "2.1.*",
-                "symfony/finder": "2.1.*"
+                "php": ">=5.3.3"
             },
-            "require-dev": {
-                "symfony/validator": "2.1.*"
-            },
-            "suggest": {
-                "monolog/monolog": ">=1.0.0",
-                "symfony/yaml": ">=1.0.0",
-                "symfony/validator": ">=1.0.0"
-            },
-            "time": "1347541340",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Cilex": "src/"
+                    "Symfony\\Component\\Console": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
                 }
             ],
-            "description": "The PHP micro-framework for Command line tools based on the Symfony2 Components",
-            "homepage": "http://cilex.github.com",
-            "keywords": [
-                "microframework",
-                "cli"
-            ]
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-05-06 06:31:43"
         },
         {
-            "name": "dflydev/markdown",
-            "version": "dev-master",
+            "name": "twig/twig",
+            "version": "v1.12.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dflydev/dflydev-markdown.git",
-                "reference": "11f8faa2d17f717a038b4d372abd22a6ac4a15dc"
+                "url": "https://github.com/fabpot/Twig.git",
+                "reference": "v1.12.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-markdown/zipball/11f8faa2d17f717a038b4d372abd22a6ac4a15dc",
-                "reference": "11f8faa2d17f717a038b4d372abd22a6ac4a15dc",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.12.3",
+                "reference": "v1.12.3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.2.4"
             },
-            "time": "1342369887",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.12-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "dflydev\\markdown": "src"
+                    "Twig_": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "BSD-3"
             ],
             "authors": [
                 {
-                    "name": "Dragonfly Development Inc.",
-                    "email": "info@dflydev.com",
-                    "homepage": "http://dflydev.com"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Beau Simensen",
-                    "email": "beau@dflydev.com",
-                    "homepage": "http://beausimensen.com"
-                },
-                {
-                    "name": "Michel Fortin",
-                    "homepage": "http://michelf.com"
-                },
-                {
-                    "name": "John Gruber",
-                    "homepage": "http://daringfireball.net"
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com"
                 }
             ],
-            "description": "PHP Markdown & Extra",
-            "homepage": "http://github.com/dflydev/dflydev-markdown",
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
             "keywords": [
-                "markdown"
-            ]
-        },
+                "templating"
+            ],
+            "time": "2013-04-08 12:40:11"
+        }
+    ],
+    "packages-dev": [
         {
             "name": "nikic/php-parser",
-            "version": "dev-master",
+            "version": "v0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser",
-                "reference": "af5d288fb357a3c2994ef4e49953731f7fe0524a"
+                "reference": "v0.9.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/nikic/PHP-Parser/zipball/af5d288fb357a3c2994ef4e49953731f7fe0524a",
-                "reference": "af5d288fb357a3c2994ef4e49953731f7fe0524a",
+                "url": "https://github.com/nikic/PHP-Parser/archive/v0.9.3.zip",
+                "reference": "v0.9.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
             },
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "PHPParser": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -152,491 +132,42 @@
             ],
             "description": "A PHP parser written in PHP",
             "keywords": [
-                "php",
-                "parser"
+                "parser",
+                "php"
             ],
-            "time": "1347054121"
-        },
-        {
-            "name": "phpdocumentor/fileset",
-            "version": "1.0.0-beta2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/Fileset",
-                "reference": "1.0.0-beta2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/Fileset/zipball/1.0.0-beta2",
-                "reference": "1.0.0-beta2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/finder": "2.*"
-            },
-            "time": "2012-06-04 17:49:45",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Fileset component for collecting a set of files given directories and file paths",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "phpdoc",
-                "files",
-                "fileset"
-            ]
-        },
-        {
-            "name": "phpdocumentor/graphviz",
-            "version": "1.0.0-beta3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/GraphViz",
-                "reference": "1.0.0-beta3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/GraphViz/zipball/1.0.0-beta3",
-                "reference": "1.0.0-beta3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "time": "2012-04-06 16:56:51",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ]
-        },
-        {
-            "name": "phpdocumentor/phpdocumentor",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/phpDocumentor2",
-                "reference": "a9f616bca3f834496fb8926fe3a78f36aaeb09ed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/phpDocumentor2/zipball/a9f616bca3f834496fb8926fe3a78f36aaeb09ed",
-                "reference": "a9f616bca3f834496fb8926fe3a78f36aaeb09ed",
-                "shasum": ""
-            },
-            "require": {
-                "dflydev/markdown": "1.0.*",
-                "phpdocumentor/graphviz": "1.*",
-                "phpdocumentor/template-responsive": "1.*",
-                "phpdocumentor/template-new-black": "1.*",
-                "php": ">=5.3.3",
-                "nikic/php-parser": "dev-master",
-                "zendframework/zend-stdlib": "2.*",
-                "zendframework/zend-config": "2.*",
-                "zendframework/zend-locale": "2.*",
-                "zendframework/zend-translator": "2.*",
-                "phpdocumentor/fileset": "1.0.0-beta2",
-                "zendframework/zend-servicemanager": "2.*",
-                "phpdocumentor/template-zend": "1.*",
-                "phpdocumentor/reflection-docblock": "1.0.*",
-                "phpdocumentor/plugin-twig": "1.*",
-                "phpdocumentor/template-old-ocean": "1.*",
-                "phpdocumentor/template-checkstyle": "1.*",
-                "cilex/cilex": "dev-master",
-                "symfony/event-dispatcher": "2.1.*@stable"
-            },
-            "require-dev": {
-                "behat/behat": ">=2.4@stable",
-                "mockery/mockery": ">=0.7.0@stable",
-                "phpunit/phpunit": "3.7.*@stable"
-            },
-            "time": "1349004892",
-            "bin": [
-                "bin/phpdoc.php"
-            ],
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor": [
-                        "src/",
-                        "tests/unit/"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Documentation Generator for PHP",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "api",
-                "application",
-                "dga"
-            ]
-        },
-        {
-            "name": "phpdocumentor/plugin-twig",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/plugin-twig.git",
-                "reference": "1.0.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/plugin-twig/zipball/1.0.0",
-                "reference": "1.0.0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "twig/twig": ">=1.8,<2.0-dev"
-            },
-            "time": "2012-07-08 18:11:16",
-            "type": "phpdocumentor-plugin",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Plugin for phpDocumentor2 that adds support for creating templates using Twig as templating engine",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "twig",
-                "plugin",
-                "phpDocumentor"
-            ]
-        },
-        {
-            "name": "phpdocumentor/reflection-docblock",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock",
-                "reference": "1.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock/zipball/1.0.2",
-                "reference": "1.0.2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "dflydev/markdown": "1.0.*"
-            },
-            "time": "2012-09-10 14:50:44",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor\\Reflection": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-abstract",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.abstract",
-                "reference": "1.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.abstract/zipball/1.0.2",
-                "reference": "1.0.2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*"
-            },
-            "time": "2012-08-14 19:55:19",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Simple bright template for phpDocumentor",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template"
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-checkstyle",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.checkstyle.git",
-                "reference": "1.0.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.checkstyle/zipball/1.0.1",
-                "reference": "1.0.1",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*"
-            },
-            "time": "2012-08-14 20:16:25",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Checkstyle XML output template for phpDocumentor2",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template"
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-new-black",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.new_black",
-                "reference": "1.0.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.new_black/zipball/1.0.3",
-                "reference": "1.0.3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*",
-                "phpdocumentor/template-abstract": "1.*"
-            },
-            "time": "2012-07-29 07:03:30",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Web 2.0 template with dark sidebar for phpDocumentor",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template"
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-old-ocean",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.old_ocean.git",
-                "reference": "1.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.old_ocean/zipball/1.0.2",
-                "reference": "1.0.2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*"
-            },
-            "time": "2012-08-24 13:05:33",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Blue template with high contrast for the foreground",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template"
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-responsive",
-            "version": "1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.responsive",
-                "reference": "1.0.6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.responsive/zipball/1.0.6",
-                "reference": "1.0.6",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*"
-            },
-            "time": "2012-08-02 11:21:42",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Responsive modern template for phpDocumentor",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template"
-            ]
-        },
-        {
-            "name": "phpdocumentor/template-zend",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/template.zend",
-                "reference": "1.0.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/template.zend/zipball/1.0.1",
-                "reference": "1.0.1",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xsl": "*",
-                "phpdocumentor/unified-asset-installer": "1.*",
-                "phpdocumentor/template-abstract": "1.*"
-            },
-            "time": "2012-07-07 12:53:47",
-            "type": "phpdocumentor-template",
-            "installation-source": "dist",
-            "license": [
-                "MIT"
-            ],
-            "description": "Official Zend Framework Template for phpDocumentor2",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "documentation",
-                "phpdoc",
-                "template",
-                "zend",
-                "ZendFramework",
-                "zf"
-            ]
-        },
-        {
-            "name": "phpdocumentor/unified-asset-installer",
-            "version": "1.0.1-beta4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/UnifiedAssetInstaller",
-                "reference": "1.0.1-beta4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/UnifiedAssetInstaller/zipball/1.0.1-beta4",
-                "reference": "1.0.1-beta4",
-                "shasum": ""
-            },
-            "time": "2012-05-08 18:26:46",
-            "type": "composer-installer",
-            "extra": {
-                "class": "\\phpDocumentor\\Composer\\UnifiedAssetInstaller"
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor\\Composer": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Asset installer for phpDocumentor",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "assets",
-                "installer",
-                "plugins",
-                "templates"
-            ]
+            "time": "2012-11-22 18:54:05"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.x-dev",
+            "version": "1.2.9",
             "source": {
                 "type": "git",
-                "url": "git://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "52fe0780d05429ea028af923393486bf2c544f8f"
+                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+                "reference": "1.2.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage/zipball/52fe0780d05429ea028af923393486bf2c544f8f",
-                "reference": "52fe0780d05429ea028af923393486bf2c544f8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.9",
+                "reference": "1.2.9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "phpunit/php-file-iterator": ">=1.3.0@stable",
-                "phpunit/php-token-stream": ">=1.1.3@stable",
-                "phpunit/php-text-template": ">=1.1.1@stable"
+                "phpunit/php-text-template": ">=1.1.1@stable",
+                "phpunit/php-token-stream": ">=1.1.3@stable"
             },
             "suggest": {
                 "ext-dom": "*",
                 "ext-xdebug": ">=2.0.5"
             },
-            "time": "1350668319",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "PHP/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -653,36 +184,36 @@
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
             "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
             "keywords": [
-                "testing",
                 "coverage",
+                "testing",
                 "xunit"
-            ]
+            ],
+            "time": "2013-02-26 18:55:56"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "dev-master",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "f36e853b6fbafc7325551fe743f6ba4846638f91"
+                "reference": "1.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-file-iterator/zipball/f36e853b6fbafc7325551fe743f6ba4846638f91",
-                "reference": "f36e853b6fbafc7325551fe743f6ba4846638f91",
+                "url": "https://github.com/sebastianbergmann/php-file-iterator/zipball/1.3.3",
+                "reference": "1.3.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350290255",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "File/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -697,37 +228,37 @@
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
-            "homepage": "https://github.com/sebastianbergmann/php-file-iterator/",
+            "homepage": "http://www.phpunit.de/",
             "keywords": [
                 "filesystem",
                 "iterator"
-            ]
+            ],
+            "time": "2012-10-11 04:44:38"
         },
         {
             "name": "phpunit/php-text-template",
-            "version": "dev-master",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "6abad057d7226067bddee449c83c14893c21acb4"
+                "reference": "1.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-text-template/zipball/6abad057d7226067bddee449c83c14893c21acb4",
-                "reference": "6abad057d7226067bddee449c83c14893c21acb4",
+                "url": "https://github.com/sebastianbergmann/php-text-template/zipball/1.1.4",
+                "reference": "1.1.4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350290684",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "Text/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -745,33 +276,33 @@
             "homepage": "https://github.com/sebastianbergmann/php-text-template/",
             "keywords": [
                 "template"
-            ]
+            ],
+            "time": "2012-10-31 11:15:28"
         },
         {
             "name": "phpunit/php-timer",
-            "version": "dev-master",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-timer.git",
-                "reference": "98fa257378170a7cdc9c0b7c4f238178cb2c0abb"
+                "reference": "1.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-timer/zipball/98fa257378170a7cdc9c0b7c4f238178cb2c0abb",
-                "reference": "98fa257378170a7cdc9c0b7c4f238178cb2c0abb",
+                "url": "https://github.com/sebastianbergmann/php-timer/zipball/1.0.4",
+                "reference": "1.0.4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350290346",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "PHP/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -786,37 +317,37 @@
                 }
             ],
             "description": "Utility class for timing",
-            "homepage": "https://github.com/sebastianbergmann/php-timer/",
+            "homepage": "http://www.phpunit.de/",
             "keywords": [
                 "timer"
-            ]
+            ],
+            "time": "2012-10-11 04:45:58"
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "dev-master",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c6d365771312aba7b347bc477faef850eea3488f"
+                "reference": "1.1.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-token-stream/zipball/c6d365771312aba7b347bc477faef850eea3488f",
-                "reference": "c6d365771312aba7b347bc477faef850eea3488f",
+                "url": "https://github.com/sebastianbergmann/php-token-stream/zipball/1.1.5",
+                "reference": "1.1.5",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=5.3.3"
             },
-            "time": "1350290650",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "PHP/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -831,45 +362,48 @@
                 }
             ],
             "description": "Wrapper around PHP's tokenizer extension.",
-            "homepage": "https://github.com/sebastianbergmann/php-token-stream/",
+            "homepage": "http://www.phpunit.de/",
             "keywords": [
                 "tokenizer"
-            ]
+            ],
+            "time": "2012-10-11 04:47:14"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.x-dev",
+            "version": "3.7.19",
             "source": {
                 "type": "git",
-                "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c1dbcebfac88acbff53d04f70462cc3f85aeb24a"
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "3.7.19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/zipball/c1dbcebfac88acbff53d04f70462cc3f85aeb24a",
-                "reference": "c1dbcebfac88acbff53d04f70462cc3f85aeb24a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3.7.19",
+                "reference": "3.7.19",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
                 "ext-dom": "*",
                 "ext-pcre": "*",
                 "ext-reflection": "*",
                 "ext-spl": "*",
+                "php": ">=5.3.3",
+                "phpunit/php-code-coverage": ">=1.2.1,<1.3.0",
                 "phpunit/php-file-iterator": ">=1.3.1",
                 "phpunit/php-text-template": ">=1.1.1",
-                "phpunit/php-code-coverage": ">=1.2.1",
-                "phpunit/php-timer": ">=1.0.2",
-                "phpunit/phpunit-mock-objects": ">=1.2.0",
-                "symfony/yaml": ">=2.1.0"
+                "phpunit/php-timer": ">=1.0.2,<1.1.0",
+                "phpunit/phpunit-mock-objects": ">=1.2.0,<1.3.0",
+                "symfony/yaml": ">=2.0.0,<2.3.0"
+            },
+            "require-dev": {
+                "pear-pear/pear": "1.9.4"
             },
             "suggest": {
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
-                "phpunit/php-invoker": ">=1.1.0"
+                "phpunit/php-invoker": ">=1.1.0,<1.2.0"
             },
-            "time": "1350879414",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -879,12 +413,12 @@
                     "dev-master": "3.7.x-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "PHPUnit/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "",
                 "../../symfony/yaml/"
@@ -902,23 +436,24 @@
             "description": "The PHP Unit Testing framework.",
             "homepage": "http://www.phpunit.de/",
             "keywords": [
-                "testing",
                 "phpunit",
+                "testing",
                 "xunit"
-            ]
+            ],
+            "time": "2013-03-25 11:45:06"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "1.2.x-dev",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "b167e119d97d5c2ff0c49d97979004544b5713c7"
+                "reference": "1.2.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects/zipball/b167e119d97d5c2ff0c49d97979004544b5713c7",
-                "reference": "b167e119d97d5c2ff0c49d97979004544b5713c7",
+                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects/archive/1.2.3.zip",
+                "reference": "1.2.3",
                 "shasum": ""
             },
             "require": {
@@ -928,14 +463,13 @@
             "suggest": {
                 "ext-soap": "*"
             },
-            "time": "1350337609",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "PHPUnit/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 ""
             ],
@@ -954,20 +488,21 @@
             "keywords": [
                 "mock",
                 "xunit"
-            ]
+            ],
+            "time": "2013-01-13 10:24:48"
         },
         {
             "name": "pimple/pimple",
-            "version": "dev-master",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
-                "url": "git://github.com/fabpot/Pimple.git",
-                "reference": "b9f27b8dc18c08f00627dec02359b46a24791dc3"
+                "url": "https://github.com/fabpot/Pimple.git",
+                "reference": "v1.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Pimple/zipball/b9f27b8dc18c08f00627dec02359b46a24791dc3",
-                "reference": "b9f27b8dc18c08f00627dec02359b46a24791dc3",
+                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/v1.0.2",
+                "reference": "v1.0.2",
                 "shasum": ""
             },
             "require": {
@@ -979,12 +514,12 @@
                     "dev-master": "1.0.x-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Pimple": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -997,42 +532,97 @@
             "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
             "homepage": "http://pimple.sensiolabs.org",
             "keywords": [
-                "dependency injection",
-                "container"
+                "container",
+                "dependency injection"
             ],
-            "time": "1347278988"
+            "time": "2013-03-08 08:21:40"
         },
         {
-            "name": "symfony/console",
-            "version": "2.1.x-dev",
-            "target-dir": "Symfony/Component/Console",
+            "name": "sami/sami",
+            "version": "v1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console",
-                "reference": "55030275de3c40849b6afac9f913ccd92ffe3232"
+                "url": "https://github.com/fabpot/Sami.git",
+                "reference": "v1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/55030275de3c40849b6afac9f913ccd92ffe3232",
-                "reference": "55030275de3c40849b6afac9f913ccd92ffe3232",
+                "url": "https://api.github.com/repos/fabpot/Sami/zipball/v1.0",
+                "reference": "v1.0",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "0.9.*",
+                "php": ">=5.3.0",
+                "pimple/pimple": "1.0.*",
+                "symfony/console": ">=2.1,<3.0",
+                "symfony/filesystem": ">=2.1,<3.0",
+                "symfony/finder": ">=2.1,<3.0",
+                "symfony/process": ">=2.1,<3.0",
+                "symfony/yaml": ">=2.1,<3.0",
+                "twig/twig": "1.*"
+            },
+            "bin": [
+                "sami.php"
+            ],
+            "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Sami": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Sami, an API documentation generator",
+            "homepage": "http://sami.sensiolabs.org",
+            "keywords": [
+                "phpdoc"
+            ],
+            "time": "2013-04-05 13:01:32"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v2.2.1",
+            "target-dir": "Symfony/Component/Filesystem",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Filesystem.git",
+                "reference": "v2.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350916632",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Console": ""
+                    "Symfony\\Component\\Filesystem\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1046,94 +636,40 @@
                     "homepage": "http://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Console Component",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "2.1.x-dev",
-            "target-dir": "Symfony/Component/EventDispatcher",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/EventDispatcher",
-                "reference": "fb273317c0505ba657aa3d727530d36ae671fb82"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/symfony/EventDispatcher/zipball/fb273317c0505ba657aa3d727530d36ae671fb82",
-                "reference": "fb273317c0505ba657aa3d727530d36ae671fb82",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "symfony/dependency-injection": "2.1.*"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "2.1.*",
-                "symfony/http-kernel": "2.1.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\EventDispatcher": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony EventDispatcher Component",
+            "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "1349363877"
+            "time": "2013-01-17 15:25:59"
         },
         {
             "name": "symfony/finder",
-            "version": "2.1.x-dev",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Finder",
-                "reference": "e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b"
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Finder/zipball/e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b",
-                "reference": "e5dac3c0c277c1b5266dcb467c49b29dc7fb6a9b",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350717030",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Finder": ""
+                    "Symfony\\Component\\Finder\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1148,39 +684,39 @@
                 }
             ],
             "description": "Symfony Finder Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-01 07:51:50"
         },
         {
             "name": "symfony/process",
-            "version": "2.1.x-dev",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Process",
-                "reference": "6d483356f7496f1305a67f6a50cc33ec900c3930"
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/zipball/6d483356f7496f1305a67f6a50cc33ec900c3930",
-                "reference": "6d483356f7496f1305a67f6a50cc33ec900c3930",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350717030",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Process": ""
+                    "Symfony\\Component\\Process\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1195,39 +731,39 @@
                 }
             ],
             "description": "Symfony Process Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml",
-                "reference": "76256c6d9f7f113eb31077883657191510ff0532"
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/zipball/76256c6d9f7f113eb31077883657191510ff0532",
-                "reference": "76256c6d9f7f113eb31077883657191510ff0532",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1351093287",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Yaml\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1242,186 +778,21 @@
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "twig/twig",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/fabpot/Twig.git",
-                "reference": "61393dc9fb8982110048624aa573aec4aee0b465"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/61393dc9fb8982110048624aa573aec4aee0b465",
-                "reference": "61393dc9fb8982110048624aa573aec4aee0b465",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "time": "1350737598",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.11-dev"
-                }
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                }
-            },
-            "license": [
-                "BSD-3"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ]
-        },
-        {
-            "name": "zendframework/zendframework",
-            "version": "2.0.0beta4",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/zendframework/zf2.git",
-                "reference": "release-2.0.0beta4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/zendframework/zf2/zipball/release-2.0.0beta4",
-                "reference": "release-2.0.0beta4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "replace": {
-                "zendframework/zend-acl": "self.version",
-                "zendframework/zend-amf": "self.version",
-                "zendframework/zend-authentication": "self.version",
-                "zendframework/zend-barcode": "self.version",
-                "zendframework/zend-cache": "self.version",
-                "zendframework/zend-captcha": "self.version",
-                "zendframework/zend-cloud": "self.version",
-                "zendframework/zend-code": "self.version",
-                "zendframework/zend-config": "self.version",
-                "zendframework/zend-console": "self.version",
-                "zendframework/zend-crypt": "self.version",
-                "zendframework/zend-currency": "self.version",
-                "zendframework/zend-date": "self.version",
-                "zendframework/zend-db": "self.version",
-                "zendframework/zend-di": "self.version",
-                "zendframework/zend-docbook": "self.version",
-                "zendframework/zend-dojo": "self.version",
-                "zendframework/zend-dom": "self.version",
-                "zendframework/zend-eventmanager": "self.version",
-                "zendframework/zend-feed": "self.version",
-                "zendframework/zend-file": "self.version",
-                "zendframework/zend-filter": "self.version",
-                "zendframework/zend-form": "self.version",
-                "zendframework/zend-gdata": "self.version",
-                "zendframework/zend-http": "self.version",
-                "zendframework/zend-infocard": "self.version",
-                "zendframework/zend-inputfilter": "self.version",
-                "zendframework/zend-json": "self.version",
-                "zendframework/zend-ldap": "self.version",
-                "zendframework/zend-loader": "self.version",
-                "zendframework/zend-locale": "self.version",
-                "zendframework/zend-log": "self.version",
-                "zendframework/zend-mail": "self.version",
-                "zendframework/zend-markup": "self.version",
-                "zendframework/zend-math": "self.version",
-                "zendframework/zend-measure": "self.version",
-                "zendframework/zend-memory": "self.version",
-                "zendframework/zend-mime": "self.version",
-                "zendframework/zend-modulemanager": "self.version",
-                "zendframework/zend-mvc": "self.version",
-                "zendframework/zend-navigation": "self.version",
-                "zendframework/zend-oauth": "self.version",
-                "zendframework/zend-openid": "self.version",
-                "zendframework/zend-paginator": "self.version",
-                "zendframework/zend-pdf": "self.version",
-                "zendframework/zend-progressbar": "self.version",
-                "zendframework/zend-queue": "self.version",
-                "zendframework/zend-rest": "self.version",
-                "zendframework/zend-search-lucene": "self.version",
-                "zendframework/zend-serializer": "self.version",
-                "zendframework/zend-server": "self.version",
-                "zendframework/zend-service-agilezen": "self.version",
-                "zendframework/zend-service-akismet": "self.version",
-                "zendframework/zend-service-amazon": "self.version",
-                "zendframework/zend-service-audioscrobbler": "self.version",
-                "zendframework/zend-service-delicious": "self.version",
-                "zendframework/zend-service-developergarden": "self.version",
-                "zendframework/zend-service-flickr": "self.version",
-                "zendframework/zend-service-gogrid": "self.version",
-                "zendframework/zend-service-livedocx": "self.version",
-                "zendframework/zend-service-nirvanix": "self.version",
-                "zendframework/zend-service-rackspace": "self.version",
-                "zendframework/zend-service-recaptcha": "self.version",
-                "zendframework/zend-service-slideshare": "self.version",
-                "zendframework/zend-service-strikeiron": "self.version",
-                "zendframework/zend-service-technorati": "self.version",
-                "zendframework/zend-service-twitter": "self.version",
-                "zendframework/zend-service-windowsazure": "self.version",
-                "zendframework/zend-service-yahoo": "self.version",
-                "zendframework/zend-servicemanager": "self.version",
-                "zendframework/zend-session": "self.version",
-                "zendframework/zend-soap": "self.version",
-                "zendframework/zend-stdlib": "self.version",
-                "zendframework/zend-tag": "self.version",
-                "zendframework/zend-test": "self.version",
-                "zendframework/zend-text": "self.version",
-                "zendframework/zend-timesync": "self.version",
-                "zendframework/zend-translator": "self.version",
-                "zendframework/zend-uri": "self.version",
-                "zendframework/zend-validator": "self.version",
-                "zendframework/zend-view": "self.version",
-                "zendframework/zend-wildfire": "self.version",
-                "zendframework/zend-xmlrpc": "self.version"
-            },
-            "time": "2012-05-22 21:00:45",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Zend": "library/"
-                }
-            },
-            "description": "Zend Framework 2",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "framework",
-                "zf2"
-            ]
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
         }
     ],
-    "packages-dev": null,
     "aliases": [
 
     ],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "phpdocumentor/phpdocumentor": 20
-    }
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": {
+        "php": ">=5.3"
+    },
+    "platform-dev": [
+
+    ]
 }
