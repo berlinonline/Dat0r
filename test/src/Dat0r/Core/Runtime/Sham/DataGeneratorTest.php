@@ -1,0 +1,140 @@
+<?php
+
+namespace Dat0r\Tests\Core\Runtime\Sham;
+
+use Dat0r\Core\Runtime\Sham\DataGenerator;
+use Dat0r\Core\Runtime\Document\IDocument;
+
+use Dat0r\Tests\Core\BaseTest;
+use Dat0r\Tests\Core\Runtime\Module\RootModule;
+
+class DataGeneratorTest extends BaseTest
+{
+    protected $module;
+    protected $document;
+
+    public function setUp()
+    {
+        $this->module = RootModule::getInstance();
+        $this->document = $this->module->createDocument();
+    }
+
+    public function testDefaultDocument()
+    {
+        $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $this->document);
+        $this->assertEquals('Article', $this->module->getName());
+        $this->assertEquals(6, $this->module->getFields()->getSize());
+        $this->assertTrue($this->document->isClean(), 'Document should have no changes prior filling it with fake data');
+    }
+
+    public function testFillDocument()
+    {
+        DataGenerator::fill($this->document);
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertTrue(count($this->document->getChanges()) === $this->module->getFields()->getSize());
+    }
+
+    public function testFillDocumentClean()
+    {
+        DataGenerator::fill($this->document, array('mark_clean' => true));
+
+        $this->assertTrue($this->document->isClean(), 'Document has changes, but the given flag should have prevented that.');
+        $this->assertTrue(count($this->document->getChanges()) === 0);
+    }
+
+    public function testFillDocumentWithClosure()
+    {
+        DataGenerator::fill($this->document, array(
+            'locale' => 'de_DE',
+            'fields' => array(
+                'author' => function() { return 'trololo'; }
+            )
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertTrue(count($this->document->getChanges()) === $this->module->getFields()->getSize());
+        $this->assertTrue($this->document->getValue('author') === 'trololo');
+    }
+
+    public function testFillDocumentWithMultipleClosures()
+    {
+        $faker = \Faker\Factory::create('en_UK');
+        $fake_author = function() use ($faker) {
+            return $faker->name;
+        };
+        $fake_headline = function() use ($faker) {
+            return $faker->sentence;
+        };
+        $fake_content = function() use ($faker) {
+            return $faker->paragraphs(4, true);
+        };
+
+        DataGenerator::fill($this->document, array(
+            'locale' => 'de_DE',
+            'fields' => array(
+                'headline' => $fake_headline,
+                'content' => $fake_content,
+                'author' => $fake_author,
+                'images' => array(1,2,3,4),
+                'clickCount' => 1337,
+                'non_existant' => 'asdf'
+            )
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertTrue(count($this->document->getChanges()) === $this->module->getFields()->getSize());
+        $this->assertTrue(count($this->document->getValue('images')) === 4);
+        $this->assertTrue($this->document->getValue('clickCount') === 1337);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @codeCoverageIgnore
+     */
+    public function testInvalidLocaleForFill()
+    {
+        DataGenerator::fill($this->document, array('locale' => 'trololo'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @codeCoverageIgnore
+     */
+    public function testInvalidLocaleForFill2()
+    {
+        DataGenerator::fill($this->document, array('locale' => 1));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @codeCoverageIgnore
+     */
+    public function testInvalidLocaleForFill3()
+    {
+        DataGenerator::fill($this->document, array('locale' => new \stdClass()));
+    }
+
+    public function testCreateDocument()
+    {
+        $document = DataGenerator::createDocument($this->module);
+
+        $this->assertTrue($document->isClean(), 'New document should have no changes.');
+        $this->assertTrue(0 === count($document->getChanges()), 'New document should have no changes.');
+    }
+
+    public function testCreateDocuments()
+    {
+        $num_documents = 30;
+        $documents = DataGenerator::createDocuments($this->module, array('count' => $num_documents, 'locale' => 'fr_FR'));
+
+        $this->assertTrue($num_documents === count($documents));
+
+        for ($i = 0; $i < $num_documents; $i++)
+        {
+            $document = $documents[$i];
+            $this->assertTrue($document->isClean(), "New document $i should have no changes.");
+            $this->assertTrue(0 === count($document->getChanges()), "New document $i should have no changes.");
+        }
+    }
+}

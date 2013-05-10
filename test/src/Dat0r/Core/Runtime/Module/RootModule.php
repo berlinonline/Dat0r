@@ -9,10 +9,18 @@ class RootModule extends Module\RootModule
 {
     protected function __construct()
     {
-        parent::__construct('Article', array( 
+        parent::__construct('Article', array(
             Field\TextField::create('headline'),
-            Field\TextField::create('content'), 
-            Field\IntegerField::create('clickCount')
+            Field\TextField::create('content'),
+            Field\IntegerField::create('clickCount'),
+            Field\TextField::create('author'),
+            Field\IntegerCollectionField::create('images'),
+//            Field\AggregateField::create('location', array(
+//                'aggregate_module' => 'Honeybee\\Domain\\Person\\LocationModule',
+//            )),
+            Field\KeyValueField::create('meta', array(
+                'constraints' => array('value_type' => 'dynamic',),
+            )),
         ));
     }
 
