@@ -23,7 +23,7 @@ class DataGeneratorTest extends BaseTest
     {
         $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $this->document);
         $this->assertEquals('Article', $this->module->getName());
-        $this->assertEquals(6, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
+        $this->assertEquals(7, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
         $this->assertEquals($this->module->getFields()->getSize(), count($this->module->getFields()), 'Number of fields should be equal independant of used count method.');
         $this->assertTrue($this->document->isClean(), 'Document should have no changes prior filling it with fake data');
         $this->assertTrue(count($this->document->getChanges()) === 0, 'Document should not contain changes prior test.');
@@ -88,6 +88,75 @@ class DataGeneratorTest extends BaseTest
         $this->assertTrue(count($this->document->getChanges()) === $this->module->getFields()->getSize());
         $this->assertTrue(count($this->document->getValue('images')) === 4);
         $this->assertTrue($this->document->getValue('clickCount') === 1337);
+    }
+
+    public function testFillDocumentGuessTextFieldAuthor()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $author = $this->document->getValue('author');
+        $name_parts = explode('-', $author);
+        $name_parts = explode(' ', $name_parts[0]);
+        // should now be something like '(prefix )firstname lastname'
+        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 2);
+
+        $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
+        $prefixMale = $reflectionClass->getProperty('prefixMale');
+        $prefixFemale = $reflectionClass->getProperty('prefixFemale');
+        $firstName = $reflectionClass->getProperty('firstName');
+        $lastName = $reflectionClass->getProperty('lastName');
+        $prefixMale->setAccessible(true);
+        $prefixFemale->setAccessible(true);
+        $firstName->setAccessible(true);
+        $lastName->setAccessible(true);
+
+        $available_name_parts = array_merge(
+            $prefixMale->getValue(),
+            $prefixFemale->getValue(),
+            $firstName->getValue(),
+            $lastName->getValue()
+        );
+
+        $this->assertContains($name_parts[0], $available_name_parts, 'Prefix or firstName should be part of the generated author name.');
+        $this->assertContains($name_parts[1], $available_name_parts, 'firstName or lastName should be part of the generated author name.');
+    }
+
+    public function testFillDocumentGuessTextFieldAuthorDisabled()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_GUESS_PROVIDER_BY_NAME => FALSE
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $author = $this->document->getValue('author');
+        $name_parts = explode('-', $author);
+        $name_parts = explode(' ', $name_parts[0]);
+        // should now be something like '(prefix )firstname lastname'
+        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 2);
+
+        $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
+        $prefixMale = $reflectionClass->getProperty('prefixMale');
+        $prefixFemale = $reflectionClass->getProperty('prefixFemale');
+        $firstName = $reflectionClass->getProperty('firstName');
+        $lastName = $reflectionClass->getProperty('lastName');
+        $prefixMale->setAccessible(true);
+        $prefixFemale->setAccessible(true);
+        $firstName->setAccessible(true);
+        $lastName->setAccessible(true);
+
+        $available_name_parts = array_merge(
+            $prefixMale->getValue(),
+            $prefixFemale->getValue(),
+            $firstName->getValue(),
+            $lastName->getValue()
+        );
+
+        $this->assertNotContains($name_parts[0], $available_name_parts, 'Prefix or firstName should NOT be part of the generated author name.');
+        $this->assertNotContains($name_parts[1], $available_name_parts, 'firstName or lastName should NOT be part of the generated author name.');
     }
 
     public function testFillDocumentIgnoreField()

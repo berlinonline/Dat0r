@@ -5,13 +5,14 @@ namespace Dat0r\Core\Runtime\Sham;
 use Dat0r\Core\Runtime\Module\IModule;
 use Dat0r\Core\Runtime\Document\IDocument;
 use Dat0r\Core\Runtime\Field;
+use Dat0r\Core\Runtime\Sham\Guesser\TextField AS TextFieldGuesser;
 
 /**
  * Sham\DataGenerator is a class that is able to create or fill documents
  * containing fake data.
  *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Steffen Gransow <graste@mivesto.de>
+ * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  */
 class DataGenerator
 {
@@ -39,6 +40,11 @@ class DataGenerator
      * name of options array key to use to set the number of documents to generate
      */
     const OPTION_COUNT = 'count';
+
+    /**
+     * name of options array key to use to disable the guessing of fake data provider by fieldname
+     */
+    const OPTION_GUESS_PROVIDER_BY_NAME = 'guess_provider_by_name';
 
     /**
      * This method fills the document with fake data. You may customize the
@@ -91,6 +97,12 @@ class DataGenerator
             $fieldoptions = $options[self::OPTION_FIELD_VALUES];
         }
 
+        $guess_provider = TRUE;
+        if (array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options) && FALSE === $options[self::OPTION_GUESS_PROVIDER_BY_NAME])
+        {
+            $guess_provider = FALSE;
+        }
+
         $faker = \Faker\Factory::create($locale);
 
         $module = $document->getModule();
@@ -108,7 +120,16 @@ class DataGenerator
             {
                 case 'Dat0r\Core\Runtime\Field\TextField':
                 {
-                    self::addValue($document, $fieldname, $faker->words(2, true), $fieldoptions);
+                    $value = $faker->words(2, TRUE);
+                    if ($guess_provider)
+                    {
+                        $closure = TextFieldGuesser::guess($fieldname, $faker);
+                        if (!empty($closure) && is_callable($closure))
+                        {
+                            $value = $closure();
+                        }
+                    }
+                    self::addValue($document, $fieldname, $value, $fieldoptions);
                     break;
                 }
                 case 'Dat0r\Core\Runtime\Field\TextareaField':

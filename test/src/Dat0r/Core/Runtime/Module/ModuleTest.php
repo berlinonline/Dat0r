@@ -13,7 +13,7 @@ class ModuleTest extends BaseTest
         $module = RootModule::getInstance();
 
         $this->assertEquals('Article', $module->getName());
-        $this->assertEquals(6, $module->getFields()->getSize());
+        $this->assertEquals(7, $module->getFields()->getSize());
     }
 
     public function testCreateAggegateModule()
@@ -57,12 +57,13 @@ class ModuleTest extends BaseTest
         $fields = $module->getFields();
 
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\FieldCollection', $fields);
-        $this->assertEquals(6, $fields->getSize());
+        $this->assertEquals(7, $fields->getSize());
 
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('headline'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('content'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('author'));
+        $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\TextField', $fields->get('email'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\IntegerCollectionField', $fields->get('images'));
         $this->assertInstanceOf('Dat0r\\Core\\Runtime\\Field\\KeyValueField', $fields->get('meta'));
     }
