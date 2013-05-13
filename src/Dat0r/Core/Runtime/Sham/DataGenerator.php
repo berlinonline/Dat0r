@@ -21,6 +21,11 @@ class DataGenerator
     const OPTION_FIELD_VALUES = 'field_values';
 
     /**
+     * name of options array key to use to exclude certain fields from fake data generation
+     */
+    const OPTION_EXCLUDED_FIELDS = 'excluded_fields';
+
+    /**
      * name of options array key to use to mark changed documents as clean
      */
     const OPTION_MARK_CLEAN = 'mark_clean';
@@ -69,7 +74,16 @@ class DataGenerator
             $locale = $loc;
         }
 
-        $faker = \Faker\Factory::create($locale);
+        $fields_to_exclude = array();
+        if (!empty($options[self::OPTION_EXCLUDED_FIELDS]))
+        {
+            $excluded = $options[self::OPTION_EXCLUDED_FIELDS];
+            if (!is_array($excluded))
+            {
+                throw new \InvalidArgumentException('Given option "' . self::OPTION_EXCLUDED_FIELDS . '" is not an array. It should be an array of fieldnames.');
+            }
+            $fields_to_exclude = $excluded;
+        }
 
         $fieldoptions = array();
         if (!empty($options[self::OPTION_FIELD_VALUES]) && is_array($options[self::OPTION_FIELD_VALUES]))
@@ -77,9 +91,16 @@ class DataGenerator
             $fieldoptions = $options[self::OPTION_FIELD_VALUES];
         }
 
+        $faker = \Faker\Factory::create($locale);
+
         $module = $document->getModule();
         foreach ($module->getFields() as $fieldname => $field)
         {
+            if (in_array($fieldname, $fields_to_exclude, TRUE))
+            {
+                continue;
+            }
+
             $type = get_class($field);
             $value = NULL;
 

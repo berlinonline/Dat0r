@@ -23,8 +23,10 @@ class DataGeneratorTest extends BaseTest
     {
         $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $this->document);
         $this->assertEquals('Article', $this->module->getName());
-        $this->assertEquals(6, $this->module->getFields()->getSize());
+        $this->assertEquals(6, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
+        $this->assertEquals($this->module->getFields()->getSize(), count($this->module->getFields()), 'Number of fields should be equal independant of used count method.');
         $this->assertTrue($this->document->isClean(), 'Document should have no changes prior filling it with fake data');
+        $this->assertTrue(count($this->document->getChanges()) === 0, 'Document should not contain changes prior test.');
     }
 
     public function testFillDocument()
@@ -87,6 +89,19 @@ class DataGeneratorTest extends BaseTest
         $this->assertTrue(count($this->document->getValue('images')) === 4);
         $this->assertTrue($this->document->getValue('clickCount') === 1337);
     }
+
+    public function testFillDocumentIgnoreField()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_EXCLUDED_FIELDS => array('author', 'clickCount', 'non_existant')
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertEquals($this->module->getFields()->getSize() -2, count($this->document->getChanges()), '2 Fields should have been ignored.');
+        $this->setExpectedException('\Dat0r\Core\Runtime\Module\InvalidFieldException');
+        // @codeCoverageIgnoreStart
+        $this->assertFalse($this->document->getValue('non_existant'));
+    }// @codeCoverageIgnoreEnd
 
     /**
      * @expectedException \Dat0r\Core\Runtime\Document\InvalidValueException
