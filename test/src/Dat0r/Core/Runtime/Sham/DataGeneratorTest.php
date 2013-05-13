@@ -90,6 +90,15 @@ class DataGeneratorTest extends BaseTest
         $this->assertTrue($this->document->getValue('clickCount') === 1337);
     }
 
+    public function testFillDocumentGuessTextFieldEmail()
+    {
+        DataGenerator::fill($this->document);
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $email = $this->document->getValue('email');
+        $this->assertEquals($email, filter_var($email, FILTER_VALIDATE_EMAIL));
+    }
+
     public function testFillDocumentGuessTextFieldAuthor()
     {
         DataGenerator::fill($this->document, array(
