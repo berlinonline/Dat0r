@@ -16,6 +16,26 @@ use Dat0r\Core\Runtime\Field;
 class DataGenerator
 {
     /**
+     * name of options array key to use for an array of fieldname => value pairs
+     */
+    const OPTION_FIELD_VALUES = 'field_values';
+
+    /**
+     * name of options array key to use to mark changed documents as clean
+     */
+    const OPTION_MARK_CLEAN = 'mark_clean';
+
+    /**
+     * name of options array key to use to set the locale used for fake data generation
+     */
+    const OPTION_LOCALE = 'locale';
+
+    /**
+     * name of options array key to use to set the number of documents to generate
+     */
+    const OPTION_COUNT = 'count';
+
+    /**
      * This method fills the document with fake data. You may customize the
      * fake data used for each field by using the options array.
      *
@@ -23,10 +43,10 @@ class DataGenerator
      * - `locale`: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
      * - `mark_clean`: Calls `$document->markClean()` at the end to prevent
      *                 change events to occur after faking data. Default false.
-     * - `fields`: array of `fieldname` => `value` pairs to customize fake
-     *             values per field of the given document. You can either
-     *             specify a direct value or provide a closure. The closure
-     *             must return the value you want to set on that field.
+     * - `field_values`: array of `fieldname` => `value` pairs to customize fake
+     *                   values per field of the given document. You can either
+     *                   specify a direct value or provide a closure. The closure
+     *                   must return the value you want to set on that field.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
      * @param array $options array of options to customize fake data creation.
@@ -38,12 +58,12 @@ class DataGenerator
     public static function fill(IDocument $document, array $options = array())
     {
         $locale = 'de_DE';
-        if (!empty($options['locale']))
+        if (!empty($options[self::OPTION_LOCALE]))
         {
-            $loc = $options['locale'];
+            $loc = $options[self::OPTION_LOCALE];
             if (!is_string($loc) || !preg_match('#[a-z]{2,6}_[A-Z]{2,6}#', $loc))
             {
-                throw new \InvalidArgumentException('Given locale is not a valid string. Use "languageCode_countryCode", e.g. "de_DE" or "en_UK".');
+                throw new \InvalidArgumentException('Given option "' . self::OPTION_LOCALE . '" is not a valid string. Use "languageCode_countryCode", e.g. "de_DE" or "en_UK".');
             }
             $locale = $loc;
         }
@@ -51,9 +71,9 @@ class DataGenerator
         $faker = \Faker\Factory::create($locale);
 
         $fieldoptions = array();
-        if (!empty($options['fields']) && is_array($options['fields']))
+        if (!empty($options[self::OPTION_FIELD_VALUES]) && is_array($options[self::OPTION_FIELD_VALUES]))
         {
-            $fieldoptions = $options['fields'];
+            $fieldoptions = $options[self::OPTION_FIELD_VALUES];
         }
 
         $module = $document->getModule();
@@ -122,7 +142,7 @@ class DataGenerator
             }
         }
 
-        if (array_key_exists('mark_clean', $options) && TRUE === $options['mark_clean'])
+        if (array_key_exists(self::OPTION_MARK_CLEAN, $options) && TRUE === $options[self::OPTION_MARK_CLEAN])
         {
             $document->markClean();
         }
@@ -132,25 +152,25 @@ class DataGenerator
      * Creates a document with fake data for the given module.
      *
      * @param IModule $module module to create documents for
-     * @param array $options For valid options see @see fill method
+     * @param array $options For valid options see fill() method
      *
-     * @return newly created document with fake data
+     * @return document newly created with fake data
      *
      * @throws \InvalidArgumentException in case of invalid integer value for `count` option
      */
     public static function createDocument(IModule $module, array $options = array())
     {
-        $options['mark_clean'] = true;
+        $options[self::OPTION_MARK_CLEAN] = TRUE;
         $document = $module->createDocument();
         self::fill($document, $options);
         return $document;
     }
 
     /**
-     * Creates `count` number of documents for the given module.
+     * Creates `count` number of documents with fake data for the given module.
      *
      * @param IModule $module module to create documents for
-     * @param array $options use `count` for number of documents to create. For other options see @see fill method
+     * @param array $options use `count` for number of documents to create. For other options see fill() method.
      *
      * @return array of new documents with fake data
      *
@@ -161,15 +181,15 @@ class DataGenerator
         $documents = array();
 
         $count = 10;
-        if (!empty($options['count']))
+        if (!empty($options[self::OPTION_COUNT]))
         {
-            $cnt = $options['count'];
+            $cnt = $options[self::OPTION_COUNT];
             if (!is_int($cnt))
             {
-                throw new \InvalidArgumentException('Given count is not an integer. Provide a correct value or use fallback to default count.');
+                throw new \InvalidArgumentException('Given option "' . self::OPTION_COUNT . '" is not an integer. Provide a correct value or use fallback to default count.');
             }
             $count = $cnt;
-            unset($options['count']);
+            unset($options[self::OPTION_COUNT]);
         }
 
         for ($i = 0; $i < $count; $i++) {
@@ -185,7 +205,7 @@ class DataGenerator
      * @param Document $document the document to modify
      * @param string $fieldname the name of the field to set a value for
      * @param mixed $default_value Default value to set.
-     * @param array $options array Array containing a `fieldname => $mixed` entry.
+     * @param array $options Array containing a `fieldname => $mixed` entry.
      *                       $mixed is set as value instead of $default_value.
      *                       If $mixed is a closure it will be called and used.
      *

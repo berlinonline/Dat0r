@@ -37,7 +37,7 @@ class DataGeneratorTest extends BaseTest
 
     public function testFillDocumentClean()
     {
-        DataGenerator::fill($this->document, array('mark_clean' => true));
+        DataGenerator::fill($this->document, array(DataGenerator::OPTION_MARK_CLEAN => true));
 
         $this->assertTrue($this->document->isClean(), 'Document has changes, but the given flag should have prevented that.');
         $this->assertTrue(count($this->document->getChanges()) === 0);
@@ -46,8 +46,8 @@ class DataGeneratorTest extends BaseTest
     public function testFillDocumentWithClosure()
     {
         DataGenerator::fill($this->document, array(
-            'locale' => 'de_DE',
-            'fields' => array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_FIELD_VALUES => array(
                 'author' => function() { return 'trololo'; }
             )
         ));
@@ -71,8 +71,8 @@ class DataGeneratorTest extends BaseTest
         };
 
         DataGenerator::fill($this->document, array(
-            'locale' => 'de_DE',
-            'fields' => array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_FIELD_VALUES => array(
                 'headline' => $fake_headline,
                 'content' => $fake_content,
                 'author' => $fake_author,
@@ -94,7 +94,7 @@ class DataGeneratorTest extends BaseTest
      */
     public function testInvalidLocaleForFill()
     {
-        DataGenerator::fill($this->document, array('locale' => 'trololo'));
+        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => 'trololo'));
     }
 
     /**
@@ -103,7 +103,7 @@ class DataGeneratorTest extends BaseTest
      */
     public function testInvalidLocaleForFill2()
     {
-        DataGenerator::fill($this->document, array('locale' => 1));
+        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => 1));
     }
 
     /**
@@ -112,7 +112,7 @@ class DataGeneratorTest extends BaseTest
      */
     public function testInvalidLocaleForFill3()
     {
-        DataGenerator::fill($this->document, array('locale' => new \stdClass()));
+        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => new \stdClass()));
     }
 
     public function testCreateDocument()
@@ -126,7 +126,10 @@ class DataGeneratorTest extends BaseTest
     public function testCreateDocuments()
     {
         $num_documents = 30;
-        $documents = DataGenerator::createDocuments($this->module, array('count' => $num_documents, 'locale' => 'fr_FR'));
+        $documents = DataGenerator::createDocuments($this->module, array(
+            DataGenerator::OPTION_COUNT => $num_documents,
+            DataGenerator::OPTION_LOCALE => 'fr_FR'
+        ));
 
         $this->assertTrue($num_documents === count($documents));
 
