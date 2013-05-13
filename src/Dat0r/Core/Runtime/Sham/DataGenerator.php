@@ -7,8 +7,8 @@ use Dat0r\Core\Runtime\Document\IDocument;
 use Dat0r\Core\Runtime\Field;
 
 /**
- * Sham\DataGenerator is a class that is able to create documents containing
- * fake data. It's also possible to fill existing documents with fake data.
+ * Sham\DataGenerator is a class that is able to create or fill documents
+ * containing fake data.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Steffen Gransow <graste@mivesto.de>
@@ -53,6 +53,7 @@ class DataGenerator
      *
      * @return void
      *
+     * @throws \Dat0r\Core\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
      * @throws \InvalidArgumentException in case of invalid locale option string
      */
     public static function fill(IDocument $document, array $options = array())

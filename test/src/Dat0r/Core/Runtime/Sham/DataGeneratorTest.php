@@ -89,6 +89,20 @@ class DataGeneratorTest extends BaseTest
     }
 
     /**
+     * @expectedException \Dat0r\Core\Runtime\Document\InvalidValueException
+     * @codeCoverageIgnore
+     */
+    public function testFillDocumentWithInvalidFieldValue()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_FIELD_VALUES => array(
+                'clickCount' => 'trololo'
+            )
+        ));
+    }
+
+    /**
      * @expectedException \InvalidArgumentException
      * @codeCoverageIgnore
      */
