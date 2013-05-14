@@ -70,6 +70,8 @@ class DataGenerator
      *
      * @throws \Dat0r\Core\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
      * @throws \InvalidArgumentException in case of invalid locale option string
+     * @throws \Dat0r\Core\Runtime\Error\LogicException on AggregateField misconfiguration
+     * @throws \Dat0r\Core\Runtime\Error\InvalidImplementorException on AggregateField misconfiguration
      */
     public static function fill(IDocument $document, array $options = array())
     {
@@ -203,6 +205,11 @@ class DataGenerator
                 case 'Dat0r\Core\Runtime\Field\BooleanField':
                 {
                     self::addValue($document, $fieldname, $faker->boolean, $fieldoptions);
+                    break;
+                }
+                case 'Dat0r\Core\Runtime\Field\AggregateField':
+                {
+                    self::addValue($document, $fieldname, self::createDataFor($field->getAggregateModule()), $fieldoptions);
                     break;
                 }
                 default:

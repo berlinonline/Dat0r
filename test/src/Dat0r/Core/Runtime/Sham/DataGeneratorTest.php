@@ -23,7 +23,7 @@ class DataGeneratorTest extends BaseTest
     {
         $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $this->document);
         $this->assertEquals('Article', $this->module->getName());
-        $this->assertEquals(9, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
+        $this->assertEquals(10, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
         $this->assertEquals($this->module->getFields()->getSize(), count($this->module->getFields()), 'Number of fields should be equal independant of used count method.');
         $this->assertTrue($this->document->isClean(), 'Document should have no changes prior filling it with fake data');
         $this->assertTrue(count($this->document->getChanges()) === 0, 'Document should not contain changes prior test.');
@@ -103,6 +103,14 @@ class DataGeneratorTest extends BaseTest
         $this->assertGreaterThanOrEqual(1, count($this->document->getValue('keywords')), 'At least one keyword should be set.');
     }
 
+    public function testFillDocumentAggregate()
+    {
+        $data = DataGenerator::createDataFor($this->module);
+        $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
+        $this->assertArrayHasKey('title', $data['paragraph'], 'The Paragraph should have a title field.');
+        $this->assertArrayHasKey('content', $data['paragraph'], 'The Paragraph should have a content field.');
+    }
+
     public function testFillDocumentGuessTextFieldEmail()
     {
         DataGenerator::fill($this->document);
@@ -123,7 +131,7 @@ class DataGeneratorTest extends BaseTest
         $name_parts = explode('-', $author);
         $name_parts = explode(' ', $name_parts[0]);
         // should now be something like '(prefix )firstname lastname'
-        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 2);
+        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
 
         $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
         $prefixMale = $reflectionClass->getProperty('prefixMale');
@@ -178,7 +186,10 @@ class DataGeneratorTest extends BaseTest
         );
 
         $this->assertNotContains($name_parts[0], $available_name_parts, 'Prefix or firstName should NOT be part of the generated author name.');
-        $this->assertNotContains($name_parts[1], $available_name_parts, 'firstName or lastName should NOT be part of the generated author name.');
+        if (count($name_parts) > 1)
+        {
+            $this->assertNotContains($name_parts[1], $available_name_parts, 'firstName or lastName should NOT be part of the generated author name.');
+        }
     }
 
     public function testFillDocumentIgnoreField()

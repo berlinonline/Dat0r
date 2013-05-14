@@ -18,9 +18,9 @@ class RootModule extends Module\RootModule
             Field\IntegerCollectionField::create('images'),
             Field\TextCollectionField::create('keywords'),
             Field\BooleanField::create('enabled'),
-//            Field\AggregateField::create('location', array(
-//                'aggregate_module' => 'Honeybee\\Domain\\Person\\LocationModule',
-//            )),
+            Field\AggregateField::create('paragraph', array(
+                'aggregate_module' => '\Dat0r\Tests\Core\Runtime\Module\AggregateModule',
+            )),
             Field\KeyValueField::create('meta', array(
                 'constraints' => array('value_type' => 'dynamic',),
             )),

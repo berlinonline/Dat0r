@@ -11,7 +11,7 @@ class AggregateModule extends Module\AggregateModule
     {
         parent::__construct('Paragraph', array( 
             Field\TextField::create('title'), 
-            Field\TextField::create('content')
+            Field\TextareaField::create('content')
         ));
     }
 
