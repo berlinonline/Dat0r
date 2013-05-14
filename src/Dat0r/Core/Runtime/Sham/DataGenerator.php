@@ -124,7 +124,7 @@ class DataGenerator
             {
                 case 'Dat0r\Core\Runtime\Field\TextField':
                 {
-                    $value = $faker->words(2, TRUE);
+                    $value = $faker->words($faker->randomNumber(1, 3), TRUE);
                     if ($guess_provider)
                     {
                         $closure = TextFieldGuesser::guess($fieldname, $faker);
@@ -139,7 +139,8 @@ class DataGenerator
                 case 'Dat0r\Core\Runtime\Field\TextCollectionField':
                 {
                     $values = array();
-                    for ($i = 0; $i < $faker->randomNumber(1, 5); $i++)
+                    $numberOfValues = $faker->randomNumber(1, 5);
+                    for ($i = 0; $i < $numberOfValues; $i++)
                     {
                         $text = $faker->words($faker->randomNumber(1, 3), TRUE);
                         if ($guess_provider)
@@ -157,7 +158,8 @@ class DataGenerator
                 }
                 case 'Dat0r\Core\Runtime\Field\TextareaField':
                 {
-                    self::addValue($document, $fieldname, $faker->paragraphs(4, true), $fieldoptions);
+                    $text = $faker->paragraphs($faker->randomNumber(1, 5));
+                    self::addValue($document, $fieldname, implode(PHP_EOL . PHP_EOL, $text), $fieldoptions);
                     break;
                 }
                 case 'Dat0r\Core\Runtime\Field\IntegerField':
@@ -168,7 +170,8 @@ class DataGenerator
                 case 'Dat0r\Core\Runtime\Field\IntegerCollectionField':
                 {
                     $values = array();
-                    for ($i = 0; $i < 5; $i++)
+                    $numberOfValues = $faker->randomNumber(1, 5);
+                    for ($i = 0; $i < $numberOfValues; $i++)
                     {
                         $values[] = $faker->numberBetween(1, 99999);
                     }
@@ -182,12 +185,19 @@ class DataGenerator
                 }
                 case 'Dat0r\Core\Runtime\Field\KeyValuesCollectionField':
                 {
-                    $values = array();
-                    for ($i = 0; $i < 5; $i++)
+                    $collection = array();
+                    $numberOfEntries = $faker->numberBetween(1,5);
+                    for ($i = 0; $i < $numberOfEntries; $i++)
                     {
-                        $values[] = array($faker->word => $faker->sentence);
+                        $values = array();
+                        $numberOfValues = $faker->numberBetween(1,5);
+                        for ($i = 0; $i < $numberOfValues; $i++)
+                        {
+                            $values[] = $faker->words($faker->numberBetween(1,3), TRUE);
+                        }
+                        $collection[$faker->word] = $values;
                     }
-                    self::addValue($document, $fieldname, $values, $fieldoptions);
+                    self::addValue($document, $fieldname, $collection, $fieldoptions);
                     break;
                 }
                 case 'Dat0r\Core\Runtime\Field\BooleanField':
