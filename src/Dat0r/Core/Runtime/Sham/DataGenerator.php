@@ -176,11 +176,6 @@ class DataGenerator
                     self::addValue($document, $fieldname, $faker->boolean, $fieldoptions);
                     break;
                 }
-                case 'Dat0r\Core\Runtime\Field\UuidField':
-                {
-                    self::addValue($document, $fieldname, $faker->uuid, $fieldoptions);
-                    break;
-                }
                 default:
                 {
                     self::addValue($document, $fieldname, $field->getDefaultValue(), $fieldoptions);
