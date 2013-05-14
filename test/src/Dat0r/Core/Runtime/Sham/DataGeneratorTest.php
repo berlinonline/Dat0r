@@ -158,7 +158,7 @@ class DataGeneratorTest extends BaseTest
         $name_parts = explode('-', $author);
         $name_parts = explode(' ', $name_parts[0]);
         // should now be something like '(prefix )firstname lastname'
-        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 2);
+        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
 
         $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
         $prefixMale = $reflectionClass->getProperty('prefixMale');
