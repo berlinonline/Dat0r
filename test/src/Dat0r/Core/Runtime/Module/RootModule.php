@@ -16,6 +16,8 @@ class RootModule extends Module\RootModule
             Field\TextField::create('author'),
             Field\TextField::create('email'),
             Field\IntegerCollectionField::create('images'),
+            Field\TextCollectionField::create('keywords'),
+            Field\BooleanField::create('enabled'),
 //            Field\AggregateField::create('location', array(
 //                'aggregate_module' => 'Honeybee\\Domain\\Person\\LocationModule',
 //            )),

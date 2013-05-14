@@ -118,8 +118,24 @@ class TextField
                 return function() use ($generator) { return $generator->email; };
                 break;
             }
+            case 'iso6801':
+            case 'birthdate':
+            case 'birthday':
+            case 'datetime':
+            case 'date':
+            case 'updated_at':
+            case 'inserted_at':
+            case 'created_at':
+            case 'deleted_at':
+            {
+                return function() use ($generator) { return $generator->iso8601; };
+                break;
+            }
             case 'phone':
+            case 'fax':
+            case 'telefax':
             case 'telephone':
+            case 'telefon':
             case 'phone_number':
             case 'phonenumber':
             case 'mobile':
@@ -150,6 +166,14 @@ class TextField
             case 'road':
             {
                 return function() use ($generator) { return $generator->streetAddress; };
+                break;
+            }
+            case 'house_number':
+            case 'housenumber':
+            case 'building_number':
+            case 'buildingnumber':
+            {
+                return function() use ($generator) { return $generator->buildingNumber; };
                 break;
             }
             case 'postcode':
@@ -183,8 +207,30 @@ class TextField
             }
             case 'title':
             case 'headline':
+            case 'subheadline':
             {
                 return function() use ($generator) { return $generator->sentence; };
+                break;
+            }
+            case 'url':
+            case 'website':
+            case 'web':
+            case 'homepage':
+            {
+                return function() use ($generator) { return $generator->url; };
+                break;
+            }
+            case 'lon':
+            case 'lng':
+            case 'longitude':
+            {
+                return function() use ($generator) { return $generator->longitude; };
+                break;
+            }
+            case 'lat':
+            case 'latitude':
+            {
+                return function() use ($generator) { return $generator->longitude; };
                 break;
             }
             default:

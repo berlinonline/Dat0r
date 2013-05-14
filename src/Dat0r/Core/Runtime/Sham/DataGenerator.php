@@ -136,6 +136,25 @@ class DataGenerator
                     self::addValue($document, $fieldname, $value, $fieldoptions);
                     break;
                 }
+                case 'Dat0r\Core\Runtime\Field\TextCollectionField':
+                {
+                    $values = array();
+                    for ($i = 0; $i < $faker->randomNumber(1, 5); $i++)
+                    {
+                        $text = $faker->words($faker->randomNumber(1, 3), TRUE);
+                        if ($guess_provider)
+                        {
+                            $closure = TextFieldGuesser::guess($fieldname, $faker);
+                            if (!empty($closure) && is_callable($closure))
+                            {
+                                $text = $closure();
+                            }
+                        }
+                        $values[] = $text;
+                    }
+                    self::addValue($document, $fieldname, $values, $fieldoptions);
+                    break;
+                }
                 case 'Dat0r\Core\Runtime\Field\TextareaField':
                 {
                     self::addValue($document, $fieldname, $faker->paragraphs(4, true), $fieldoptions);
