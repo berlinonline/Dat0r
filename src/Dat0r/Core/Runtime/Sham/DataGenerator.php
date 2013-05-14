@@ -196,6 +196,24 @@ class DataGenerator
     }
 
     /**
+     * Creates an array with fake data for the given module.
+     *
+     * @param IModule $module module to create fake data for
+     * @param array $options For valid options see fill() method
+     *
+     * @return array of fake data for the given module
+     *
+     * @throws \InvalidArgumentException in case of invalid option string (e.g. count or excluded fields or locale)
+     * @throws \Dat0r\Core\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     */
+    public static function createDataFor(IModule $module, array $options = array())
+    {
+        $document = $module->createDocument();
+        self::fill($document, $options);
+        return $document->toArray();
+    }
+
+    /**
      * Creates a document with fake data for the given module.
      *
      * @param IModule $module module to create documents for
@@ -203,7 +221,8 @@ class DataGenerator
      *
      * @return document newly created with fake data
      *
-     * @throws \InvalidArgumentException in case of invalid integer value for `count` option
+     * @throws \InvalidArgumentException in case of invalid option string (e.g. count or excluded fields or locale)
+     * @throws \Dat0r\Core\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
      */
     public static function createDocument(IModule $module, array $options = array())
     {
@@ -221,7 +240,8 @@ class DataGenerator
      *
      * @return array of new documents with fake data
      *
-     * @throws \InvalidArgumentException in case of invalid integer value for `count` option
+     * @throws \InvalidArgumentException in case of invalid option string (e.g. count or excluded fields or locale)
+     * @throws \Dat0r\Core\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
      */
     public static function createDocuments(IModule $module, array $options = array())
     {

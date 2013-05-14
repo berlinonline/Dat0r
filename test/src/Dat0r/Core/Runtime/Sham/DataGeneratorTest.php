@@ -222,6 +222,24 @@ class DataGeneratorTest extends BaseTest
         DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => new \stdClass()));
     }
 
+    public function testCreateDataFor()
+    {
+        $data = DataGenerator::createDataFor($this->module, array(
+            DataGenerator::OPTION_FIELD_VALUES => array(
+                'non_existant' => 'trololo'
+            )
+        ));
+
+        $this->assertTrue(is_array($data), 'Returned data should be an array.');
+        $this->assertTrue(!empty($data), 'Returned data array should not be empty.');
+        $this->assertArrayHasKey('author', $data);
+        $this->assertArrayHasKey('email', $data);
+        $this->assertArrayHasKey('headline', $data);
+        $this->assertArrayHasKey('clickCount', $data);
+        $this->assertArrayHasKey('content', $data);
+        $this->assertFalse(isset($data['non_existant']), 'Returned array should not have a value for the non_existant field.');
+    }
+
     public function testCreateDocument()
     {
         $document = DataGenerator::createDocument($this->module);
