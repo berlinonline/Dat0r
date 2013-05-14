@@ -51,13 +51,17 @@ class DataGenerator
      * fake data used for each field by using the options array.
      *
      * Supported options:
-     * - `locale`: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
-     * - `mark_clean`: Calls `$document->markClean()` at the end to prevent
-     *                 change events to occur after faking data. Default false.
-     * - `field_values`: array of `fieldname` => `value` pairs to customize fake
-     *                   values per field of the given document. You can either
-     *                   specify a direct value or provide a closure. The closure
-     *                   must return the value you want to set on that field.
+     * - OPTION_LOCALE: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
+     * - OPTION_MARK_CLEAN: Calls `$document->markClean()` at the end to prevent
+     *                 change events to occur after faking data. Default is false.
+     * - OPTION_FIELD_VALUES: array of `fieldname` => `value` pairs to customize
+     *                  fake values per field of the given document. You can
+     *                  either specify a direct value or provide a closure. The
+     *                  closure must return the value you want to set on that field.
+     * - OPTION_EXCLUDED_FIELDS: Array of fieldnames to excluded from filling
+     *                  with fake data.
+     * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain fieldnames
+     *                  trigger different providers (e.g. firstname or email).
      *
      * @param IDocument $document an instance of the document to fill with fake data.
      * @param array $options array of options to customize fake data creation.
