@@ -21,6 +21,22 @@ class RootModule extends Module\RootModule
             Field\AggregateField::create('paragraph', array(
                 'aggregate_module' => '\Dat0r\Tests\Core\Runtime\Module\AggregateModule',
             )),
+            Field\ReferenceField::create('references', array(
+                Field\ReferenceField::OPT_REFERENCES => array(
+                    /*
+                     * array(
+                     *     Field\ReferenceField::OPT_MODULE => 'Dat0r\Tests\Core\Runtime\Module\AggregateModule',
+                     *     Field\ReferenceField::OPT_IDENTITY_FIELD => 'title',
+                     *     Field\ReferenceField::OPT_DISPLAY_FIELD => 'title'
+                     * ),
+                     */
+                    array(
+                        Field\ReferenceField::OPT_MODULE => 'Dat0r\Tests\Core\Runtime\Module\RootModule',
+                        Field\ReferenceField::OPT_IDENTITY_FIELD => 'headline',
+                        Field\ReferenceField::OPT_DISPLAY_FIELD => 'headline'
+                    ),
+                ),
+            )),
             Field\KeyValueField::create('meta', array(
                 'constraints' => array('value_type' => 'dynamic',),
             )),

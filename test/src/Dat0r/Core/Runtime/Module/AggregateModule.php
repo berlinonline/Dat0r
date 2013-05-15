@@ -9,8 +9,8 @@ class AggregateModule extends Module\AggregateModule
 {
     protected function __construct()
     {
-        parent::__construct('Paragraph', array( 
-            Field\TextField::create('title'), 
+        parent::__construct('Paragraph', array(
+            Field\TextField::create('title'),
             Field\TextareaField::create('content')
         ));
     }

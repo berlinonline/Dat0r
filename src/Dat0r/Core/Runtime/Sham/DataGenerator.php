@@ -47,6 +47,11 @@ class DataGenerator
     const OPTION_GUESS_PROVIDER_BY_NAME = 'guess_provider_by_name';
 
     /**
+     * name of options array key to use to set the current level of recursion (for reference fields)
+     */
+    const OPTION_RECURSION_LEVEL = 'recursion_level';
+
+    /**
      * This method fills the document with fake data. You may customize the
      * fake data used for each field by using the options array.
      *
@@ -107,6 +112,16 @@ class DataGenerator
         if (array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options) && FALSE === $options[self::OPTION_GUESS_PROVIDER_BY_NAME])
         {
             $guess_provider = FALSE;
+        }
+
+        $recursion_level = 1;
+        if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
+        {
+            $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
+        }
+        else
+        {
+            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
         }
 
         $faker = \Faker\Factory::create($locale);
@@ -188,14 +203,14 @@ class DataGenerator
                 case 'Dat0r\Core\Runtime\Field\KeyValuesCollectionField':
                 {
                     $collection = array();
-                    $numberOfEntries = $faker->numberBetween(1,5);
+                    $numberOfEntries = $faker->numberBetween(1, 5);
                     for ($i = 0; $i < $numberOfEntries; $i++)
                     {
                         $values = array();
-                        $numberOfValues = $faker->numberBetween(1,5);
+                        $numberOfValues = $faker->numberBetween(1, 5);
                         for ($i = 0; $i < $numberOfValues; $i++)
                         {
-                            $values[] = $faker->words($faker->numberBetween(1,3), TRUE);
+                            $values[] = $faker->words($faker->numberBetween(1, 3), TRUE);
                         }
                         $collection[$faker->word] = $values;
                     }
@@ -209,7 +224,42 @@ class DataGenerator
                 }
                 case 'Dat0r\Core\Runtime\Field\AggregateField':
                 {
-                    self::addValue($document, $fieldname, self::createDataFor($field->getAggregateModule()), $fieldoptions);
+                    if ($recursion_level > 1)
+                    {
+                        break;
+                    }
+                    $aggregateModule = $field->getAggregateModule();
+                    $options_clone = $options;
+                    $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
+                    $data = self::createDataFor($aggregateModule, $options_clone);
+                    self::addValue($document, $fieldname, $data, $fieldoptions);
+                    break;
+                }
+                case 'Dat0r\Core\Runtime\Field\ReferenceField':
+                {
+                    if ($recursion_level > 1)
+                    {
+                        break;
+                    }
+                    $referencedModules = $field->getReferencedModules();
+                    $collection = $field->getDefaultValue();
+                    $numberOfReferencedModules = count($referencedModules);
+                    $numberOfNewReferenceEntries = $faker->numberBetween(1, 3);
+                    $options_clone = $options;
+                    $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
+                    // add number of documents to reference depending on number of referenced modules
+                    for ($i = 0; $i < $numberOfReferencedModules; $i++)
+                    {
+                        $numberOfNewReferenceEntries += $faker->numberBetween(0, 3);
+                    }
+                    // add new documents to collection for referenced modules
+                    for ($i = 0; $i < $numberOfNewReferenceEntries; $i++)
+                    {
+                        $ref_module = $faker->randomElement($referencedModules);
+                        $new_document = self::createDocument($ref_module, $options_clone);
+                        $collection->add($new_document);
+                    }
+                    self::addValue($document, $fieldname, $collection, $fieldoptions);
                     break;
                 }
                 default:

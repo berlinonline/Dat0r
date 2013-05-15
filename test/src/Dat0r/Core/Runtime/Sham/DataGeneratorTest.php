@@ -23,7 +23,7 @@ class DataGeneratorTest extends BaseTest
     {
         $this->assertInstanceOf('Dat0r\\Core\Runtime\\Document\\Document', $this->document);
         $this->assertEquals('Article', $this->module->getName());
-        $this->assertEquals(10, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
+        $this->assertEquals(11, $this->module->getFields()->getSize(), 'Number of fields is unexpected. Please adjust tests if new fields were introduced.');
         $this->assertEquals($this->module->getFields()->getSize(), count($this->module->getFields()), 'Number of fields should be equal independant of used count method.');
         $this->assertTrue($this->document->isClean(), 'Document should have no changes prior filling it with fake data');
         $this->assertTrue(count($this->document->getChanges()) === 0, 'Document should not contain changes prior test.');
@@ -128,9 +128,17 @@ class DataGeneratorTest extends BaseTest
 
         $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
         $author = $this->document->getValue('author');
-        $name_parts = explode('-', $author);
-        $name_parts = explode(' ', $name_parts[0]);
-        // should now be something like '(prefix )firstname lastname'
+        $name_parts = explode(' ', $author);
+        $len = count($name_parts);
+        for ($i = 0; $i < $len; $i++)
+        {
+            if ($i == 0)
+            {
+                continue; // first part is a prefixName or a firstName
+            }
+            $name_parts[$i] = array_shift(explode('-', $name_parts[$i])); // split firstName-firstName and lastName-lastName and get just the first name
+        }
+        // should now be something like '(prefix )firstname lastname...'
         $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
 
         $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
@@ -151,7 +159,10 @@ class DataGeneratorTest extends BaseTest
         );
 
         $this->assertContains($name_parts[0], $available_name_parts, 'Prefix or firstName should be part of the generated author name.');
-        $this->assertContains($name_parts[1], $available_name_parts, 'firstName or lastName should be part of the generated author name.');
+        if (count($name_parts) > 1)
+        {
+            $this->assertContains($name_parts[1], $available_name_parts, 'firstName or lastName should be part of the generated author name.');
+        }
     }
 
     public function testFillDocumentGuessTextFieldAuthorDisabled()
@@ -163,9 +174,17 @@ class DataGeneratorTest extends BaseTest
 
         $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
         $author = $this->document->getValue('author');
-        $name_parts = explode('-', $author);
-        $name_parts = explode(' ', $name_parts[0]);
-        // should now be something like '(prefix )firstname lastname'
+        $name_parts = explode(' ', $author);
+        $len = count($name_parts);
+        for ($i = 0; $i < $len; $i++)
+        {
+            if ($i == 0)
+            {
+                continue; // first part is a prefixName or a firstName
+            }
+            $name_parts[$i] = array_shift(explode('-', $name_parts[$i])); // split firstName-firstName and lastName-lastName and get just the first name
+        }
+        // should now be something like '(prefix )firstname lastname...'
         $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
 
         $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
