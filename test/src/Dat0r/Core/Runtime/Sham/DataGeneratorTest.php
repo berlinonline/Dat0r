@@ -213,12 +213,15 @@ class DataGeneratorTest extends BaseTest
 
     public function testFillDocumentIgnoreField()
     {
+        $this->assertEquals(11, $this->module->getFields()->getSize());
+        $excluded_fields = array('author', 'clickCount', 'enabled', 'references', 'paragraph');
         DataGenerator::fill($this->document, array(
-            DataGenerator::OPTION_EXCLUDED_FIELDS => array('author', 'clickCount', 'enabled', 'non_existant')
+            DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_fields, array('non_existant'))
         ));
 
         $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
-        $this->assertEquals($this->module->getFields()->getSize() - 3, count($this->document->getChanges()), '3 Fields should have been ignored.');
+        $this->assertEquals($this->module->getFields()->getSize() - count($excluded_fields), count($this->document->getChanges()), count($excluded_fields) . ' fields should have been ignored.');
+
         $this->setExpectedException('\Dat0r\Core\Runtime\Module\InvalidFieldException');
         // @codeCoverageIgnoreStart
         $this->assertFalse($this->document->getValue('non_existant'));

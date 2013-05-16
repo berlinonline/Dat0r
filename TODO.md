@@ -2,7 +2,8 @@
 
 A list of things that could or should be done. Contributions are welcome.
 
-- introduce `hasField()` method on `Module` instead of having to use `getValue()` and catching an `InvalidFieldException`
+- introduce `hasField()` method on `Module` instead of having to use `getValue()` and catching an `InvalidFieldException`?
+- AggregateField and ReferenceField are not tracked with ChangeEvents?
 - fix unspecific documentation in various files (verbose copy&paste docs)
 - improve existing validation system/hooks
   - add stable validators

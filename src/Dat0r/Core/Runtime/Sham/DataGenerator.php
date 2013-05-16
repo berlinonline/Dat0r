@@ -2,9 +2,13 @@
 
 namespace Dat0r\Core\Runtime\Sham;
 
-use Dat0r\Core\Runtime\Module\IModule;
+use Faker\Factory;
+
 use Dat0r\Core\Runtime\Document\IDocument;
+use Dat0r\Core\Runtime\Module\IModule;
+use Dat0r\Core\Runtime\Field\IField;
 use Dat0r\Core\Runtime\Field;
+
 use Dat0r\Core\Runtime\Sham\Guesser\TextField AS TextFieldGuesser;
 
 /**
@@ -102,29 +106,7 @@ class DataGenerator
             $fields_to_exclude = $excluded;
         }
 
-        $fieldoptions = array();
-        if (!empty($options[self::OPTION_FIELD_VALUES]) && is_array($options[self::OPTION_FIELD_VALUES]))
-        {
-            $fieldoptions = $options[self::OPTION_FIELD_VALUES];
-        }
-
-        $guess_provider = TRUE;
-        if (array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options) && FALSE === $options[self::OPTION_GUESS_PROVIDER_BY_NAME])
-        {
-            $guess_provider = FALSE;
-        }
-
-        $recursion_level = 1;
-        if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
-        {
-            $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
-        }
-        else
-        {
-            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
-        }
-
-        $faker = \Faker\Factory::create($locale);
+        $faker = Factory::create($locale);
 
         $module = $document->getModule();
         foreach ($module->getFields() as $fieldname => $field)
@@ -134,139 +116,14 @@ class DataGenerator
                 continue;
             }
 
-            $type = get_class($field);
-            $value = NULL;
-
-            switch ($type)
+            $name = self::getMethodNameFor($field);
+            if (NULL !== $name && is_callable("\\Dat0r\\Core\\Runtime\\Sham\\DataGenerator::$name"))
             {
-                case 'Dat0r\Core\Runtime\Field\TextField':
-                {
-                    $value = $faker->words($faker->randomNumber(1, 3), TRUE);
-                    if ($guess_provider)
-                    {
-                        $closure = TextFieldGuesser::guess($fieldname, $faker);
-                        if (!empty($closure) && is_callable($closure))
-                        {
-                            $value = $closure();
-                        }
-                    }
-                    self::addValue($document, $fieldname, $value, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\TextCollectionField':
-                {
-                    $values = array();
-                    $numberOfValues = $faker->randomNumber(1, 5);
-                    for ($i = 0; $i < $numberOfValues; $i++)
-                    {
-                        $text = $faker->words($faker->randomNumber(1, 3), TRUE);
-                        if ($guess_provider)
-                        {
-                            $closure = TextFieldGuesser::guess($fieldname, $faker);
-                            if (!empty($closure) && is_callable($closure))
-                            {
-                                $text = $closure();
-                            }
-                        }
-                        $values[] = $text;
-                    }
-                    self::addValue($document, $fieldname, $values, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\TextareaField':
-                {
-                    $text = $faker->paragraphs($faker->randomNumber(1, 5));
-                    self::addValue($document, $fieldname, implode(PHP_EOL . PHP_EOL, $text), $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\IntegerField':
-                {
-                    self::addValue($document, $fieldname, $faker->numberBetween(1, 99999), $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\IntegerCollectionField':
-                {
-                    $values = array();
-                    $numberOfValues = $faker->randomNumber(1, 5);
-                    for ($i = 0; $i < $numberOfValues; $i++)
-                    {
-                        $values[] = $faker->numberBetween(1, 99999);
-                    }
-                    self::addValue($document, $fieldname, $values, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\KeyValueField':
-                {
-                    self::addValue($document, $fieldname, array($faker->word => $faker->sentence), $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\KeyValuesCollectionField':
-                {
-                    $collection = array();
-                    $numberOfEntries = $faker->numberBetween(1, 5);
-                    for ($i = 0; $i < $numberOfEntries; $i++)
-                    {
-                        $values = array();
-                        $numberOfValues = $faker->numberBetween(1, 5);
-                        for ($i = 0; $i < $numberOfValues; $i++)
-                        {
-                            $values[] = $faker->words($faker->numberBetween(1, 3), TRUE);
-                        }
-                        $collection[$faker->word] = $values;
-                    }
-                    self::addValue($document, $fieldname, $collection, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\BooleanField':
-                {
-                    self::addValue($document, $fieldname, $faker->boolean, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\AggregateField':
-                {
-                    if ($recursion_level > 1)
-                    {
-                        break;
-                    }
-                    $aggregateModule = $field->getAggregateModule();
-                    $options_clone = $options;
-                    $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
-                    $data = self::createDataFor($aggregateModule, $options_clone);
-                    self::addValue($document, $fieldname, $data, $fieldoptions);
-                    break;
-                }
-                case 'Dat0r\Core\Runtime\Field\ReferenceField':
-                {
-                    if ($recursion_level > 1)
-                    {
-                        break;
-                    }
-                    $referencedModules = $field->getReferencedModules();
-                    $collection = $field->getDefaultValue();
-                    $numberOfReferencedModules = count($referencedModules);
-                    $numberOfNewReferenceEntries = $faker->numberBetween(1, 3);
-                    $options_clone = $options;
-                    $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
-                    // add number of documents to reference depending on number of referenced modules
-                    for ($i = 0; $i < $numberOfReferencedModules; $i++)
-                    {
-                        $numberOfNewReferenceEntries += $faker->numberBetween(0, 3);
-                    }
-                    // add new documents to collection for referenced modules
-                    for ($i = 0; $i < $numberOfNewReferenceEntries; $i++)
-                    {
-                        $ref_module = $faker->randomElement($referencedModules);
-                        $new_document = self::createDocument($ref_module, $options_clone);
-                        $collection->add($new_document);
-                    }
-                    self::addValue($document, $fieldname, $collection, $fieldoptions);
-                    break;
-                }
-                default:
-                {
-                    self::addValue($document, $fieldname, $field->getDefaultValue(), $fieldoptions);
-                    break;
-                }
+                self::$name($faker, $document, $field, $options);
+            }
+            else
+            {
+                self::setValue($document, $field, $field->getDefaultValue(), $options);
             }
         }
 
@@ -347,6 +204,172 @@ class DataGenerator
         return $documents;
     }
 
+    protected static function addText($faker, IDocument $document, IField $field, $options)
+    {
+        $value = $faker->words($faker->randomNumber(1, 3), TRUE);
+        if (self::shouldGuessByName($options))
+        {
+            $closure = TextFieldGuesser::guess($field->getName(), $faker);
+            if (!empty($closure) && is_callable($closure))
+            {
+                $value = $closure();
+            }
+        }
+        self::setValue($document, $field, $value, $options);
+    }
+
+    protected static function addTextCollection($faker, IDocument $document, IField $field, $options)
+    {
+        $values = array();
+
+        $numberOfValues = $faker->randomNumber(1, 5);
+        for ($i = 0; $i < $numberOfValues; $i++)
+        {
+            $text = $faker->words($faker->randomNumber(1, 3), TRUE);
+            if (self::shouldGuessByName($options))
+            {
+                $closure = TextFieldGuesser::guess($field->getName(), $faker);
+                if (!empty($closure) && is_callable($closure))
+                {
+                    $text = $closure();
+                }
+            }
+            $values[] = $text;
+        }
+
+        self::setValue($document, $field, $values, $options);
+    }
+
+    protected static function addTextarea($faker, IDocument $document, IField $field, $options)
+    {
+        $text = $faker->paragraphs($faker->randomNumber(1, 5));
+        self::setValue($document, $field, implode(PHP_EOL . PHP_EOL, $text), $options);
+    }
+
+    protected static function addInteger($faker, IDocument $document, IField $field, $options)
+    {
+        self::setValue($document, $field, $faker->numberBetween(1, 99999), $options);
+    }
+
+    protected static function addIntegerCollection($faker, IDocument $document, IField $field, $options)
+    {
+        $values = array();
+
+        $numberOfValues = $faker->randomNumber(1, 5);
+        for ($i = 0; $i < $numberOfValues; $i++)
+        {
+            $values[] = $faker->numberBetween(1, 99999);
+        }
+
+        self::setValue($document, $field, $values, $options);
+    }
+
+    protected static function addKeyValue($faker, IDocument $document, IField $field, $options)
+    {
+        $values = array();
+
+        $numberOfValues = $faker->randomNumber(1, 5);
+        for ($i = 0; $i < $numberOfValues; $i++)
+        {
+            $values[$faker->word] = $faker->sentence;
+        }
+
+        self::setValue($document, $field, $values, $options);
+    }
+
+    protected static function addKeyValuesCollection($faker, IDocument $document, IField $field, $options)
+    {
+        $collection = array();
+
+        $numberOfEntries = $faker->numberBetween(1, 5);
+        for ($i = 0; $i < $numberOfEntries; $i++)
+        {
+            $values = array();
+            $numberOfValues = $faker->numberBetween(1, 5);
+            for ($i = 0; $i < $numberOfValues; $i++)
+            {
+                $values[] = $faker->words($faker->numberBetween(1, 3), TRUE);
+            }
+            $collection[$faker->word] = $values;
+        }
+
+        self::setValue($document, $field, $collection, $options);
+    }
+
+    protected static function addBoolean($faker, IDocument $document, IField $field, $options)
+    {
+        self::setValue($document, $field, $faker->boolean, $options);
+    }
+
+    protected static function addAggregateModule($faker, IDocument $document, IField $field, $options)
+    {
+        $recursion_level = 1;
+        if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
+        {
+            $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
+        }
+        else
+        {
+            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
+        }
+
+        if ($recursion_level > 1)
+        {
+            return;
+        }
+
+        $options_clone = $options;
+        $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
+
+        $aggregateModule = $field->getAggregateModule();
+        $data = self::createDataFor($aggregateModule, $options_clone);
+
+        self::setValue($document, $field, $data, $options);
+    }
+
+    protected static function addReference($faker, IDocument $document, IField $field, $options)
+    {
+        $recursion_level = 1;
+        if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
+        {
+            $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
+        }
+        else
+        {
+            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
+        }
+
+        if ($recursion_level > 1)
+        {
+            return;
+        }
+
+        $options_clone = $options;
+        $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
+
+        $referencedModules = $field->getReferencedModules();
+        $collection = $field->getDefaultValue();
+
+        $numberOfReferencedModules = count($referencedModules);
+        $numberOfNewReferenceEntries = $faker->numberBetween(1, 3);
+
+        // add number of documents to reference depending on number of referenced modules
+        for ($i = 0; $i < $numberOfReferencedModules; $i++)
+        {
+            $numberOfNewReferenceEntries += $faker->numberBetween(0, 3);
+        }
+
+        // add new documents to collection for referenced modules
+        for ($i = 0; $i < $numberOfNewReferenceEntries; $i++)
+        {
+            $ref_module = $faker->randomElement($referencedModules);
+            $new_document = self::createDocument($ref_module, $options_clone);
+            $collection->add($new_document);
+        }
+
+        self::setValue($document, $field, $collection, $options);
+    }
+
     /**
      * Sets either given default value or value from option to the given field.
      *
@@ -359,15 +382,22 @@ class DataGenerator
      *
      * @return void
      */
-    protected static function addValue(IDocument $document, $fieldname, $default_value, $options)
+    protected static function setValue(IDocument $document, IField $field, $default_value, $options)
     {
-        if (empty($options[$fieldname]))
+        $fieldname = $field->getName();
+        $fieldoptions = array();
+        if (!empty($options[self::OPTION_FIELD_VALUES]) && is_array($options[self::OPTION_FIELD_VALUES]))
+        {
+            $fieldoptions = $options[self::OPTION_FIELD_VALUES];
+        }
+
+        if (empty($fieldoptions[$fieldname]))
         {
             $document->setValue($fieldname, $default_value);
         }
         else
         {
-            $option = $options[$fieldname];
+            $option = $fieldoptions[$fieldname];
             if (is_callable($option))
             {
                 $document->setValue($fieldname, $option());
@@ -377,5 +407,26 @@ class DataGenerator
                 $document->setValue($fieldname, $option);
             }
         }
+    }
+
+    protected static function shouldGuessByName($options)
+    {
+        if (array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options) && FALSE === $options[self::OPTION_GUESS_PROVIDER_BY_NAME])
+        {
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    protected static function getMethodNameFor($field)
+    {
+        $type = get_class($field);
+        $name = NULL;
+        if (preg_match('/^Dat0r\\\\Core\\\\Runtime\\\\Field\\\\(.*)Field$/', $type, $matches))
+        {
+            $name = 'add' . $matches[1];
+        }
+
+        return $name;
     }
 }
