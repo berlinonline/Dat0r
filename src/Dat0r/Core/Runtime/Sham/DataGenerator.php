@@ -249,7 +249,7 @@ class DataGenerator
      */
     public static function fill(IDocument $document, array $options = array())
     {
-        $data_generator = new DataGenerator();
+        $data_generator = new static();
         $data_generator->fake($document, $options);
     }
 
@@ -269,7 +269,7 @@ class DataGenerator
      */
     public static function createDataFor(IModule $module, array $options = array())
     {
-        $data_generator = new DataGenerator();
+        $data_generator = new static();
         return $data_generator->fakeData($module, $options);
     }
 
@@ -289,7 +289,7 @@ class DataGenerator
      */
     public static function createDocument(IModule $module, array $options = array())
     {
-        $data_generator = new DataGenerator();
+        $data_generator = new static();
         return $data_generator->createFakeDocument($module, $options);
     }
 
@@ -322,7 +322,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addText(IDocument $document, IField $field, $options)
+    protected function addText(IDocument $document, IField $field, array $options = array())
     {
         $value = $this->faker->words($this->faker->randomNumber(1, 3), TRUE);
 
@@ -347,7 +347,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addTextCollection(IDocument $document, IField $field, $options)
+    protected function addTextCollection(IDocument $document, IField $field, array $options = array())
     {
         $values = array();
 
@@ -378,7 +378,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addTextarea(IDocument $document, IField $field, $options)
+    protected function addTextarea(IDocument $document, IField $field, array $options = array())
     {
         $text = $this->faker->paragraphs($this->faker->randomNumber(1, 5));
         $this->setValue($document, $field, implode(PHP_EOL . PHP_EOL, $text), $options);
@@ -393,7 +393,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addInteger(IDocument $document, IField $field, $options)
+    protected function addInteger(IDocument $document, IField $field, array $options = array())
     {
         $this->setValue($document, $field, $this->faker->numberBetween(1, 99999), $options);
     }
@@ -407,7 +407,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addIntegerCollection(IDocument $document, IField $field, $options)
+    protected function addIntegerCollection(IDocument $document, IField $field, array $options = array())
     {
         $values = array();
 
@@ -429,7 +429,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addKeyValue(IDocument $document, IField $field, $options)
+    protected function addKeyValue(IDocument $document, IField $field, array $options = array())
     {
         $values = array();
 
@@ -451,7 +451,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addKeyValuesCollection(IDocument $document, IField $field, $options)
+    protected function addKeyValuesCollection(IDocument $document, IField $field, array $options = array())
     {
         $collection = array();
 
@@ -479,7 +479,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addBoolean(IDocument $document, IField $field, $options)
+    protected function addBoolean(IDocument $document, IField $field, array $options = array())
     {
         $this->setValue($document, $field, $this->faker->boolean, $options);
     }
@@ -493,7 +493,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addAggregate(IDocument $document, IField $field, $options)
+    protected function addAggregate(IDocument $document, IField $field, array $options = array())
     {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
@@ -523,7 +523,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addReference(IDocument $document, IField $field, $options)
+    protected function addReference(IDocument $document, IField $field, array $options = array())
     {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
@@ -574,7 +574,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function setValue(IDocument $document, IField $field, $default_value, $options)
+    protected function setValue(IDocument $document, IField $field, $default_value, array $options = array())
     {
         $fieldname = $field->getName();
         $fieldoptions = array();
