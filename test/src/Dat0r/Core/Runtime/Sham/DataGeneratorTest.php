@@ -136,7 +136,8 @@ class DataGeneratorTest extends BaseTest
             {
                 continue; // first part is a prefixName or a firstName
             }
-            $name_parts[$i] = array_shift(explode('-', $name_parts[$i])); // split firstName-firstName and lastName-lastName and get just the first name
+            $candidate = explode('-', $name_parts[$i]);
+            $name_parts[$i] = array_shift($candidate); // split firstName-firstName and lastName-lastName and get just the first name
         }
         // should now be something like '(prefix )firstname lastname...'
         $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
@@ -182,7 +183,8 @@ class DataGeneratorTest extends BaseTest
             {
                 continue; // first part is a prefixName or a firstName
             }
-            $name_parts[$i] = array_shift(explode('-', $name_parts[$i])); // split firstName-firstName and lastName-lastName and get just the first name
+            $candidate = explode('-', $name_parts[$i]);
+            $name_parts[$i] = array_shift($candidate); // split firstName-firstName and lastName-lastName and get just the first name
         }
         // should now be something like '(prefix )firstname lastname...'
         $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
