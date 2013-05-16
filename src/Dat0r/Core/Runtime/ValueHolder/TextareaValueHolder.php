@@ -14,5 +14,19 @@ use Dat0r\Core\Runtime\Field\TextField;
  */
 class TextareaValueHolder extends TextValueHolder
 {
+    public function setValue($value)
+    {
+        $value = (string)$value;
 
+        if ($this->getField()->getOption('use_richtext', FALSE))
+        {
+            $value = html_entity_decode(
+                htmlspecialchars_decode($value, ENT_COMPAT), 
+                ENT_COMPAT, 
+                'UTF-8'
+            );
+        }
+
+        parent::setValue($value);
+    }
 }
