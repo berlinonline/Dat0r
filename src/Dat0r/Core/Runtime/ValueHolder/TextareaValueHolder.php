@@ -23,6 +23,6 @@ class TextareaValueHolder extends TextValueHolder
             $value = html_entity_decode(htmlspecialchars_decode($value));
         }
 
-        parent::setValue($value);
+        parent::setValue(iconv('UTF-8', 'UTF-8//IGNORE', $value));
     }
 }
