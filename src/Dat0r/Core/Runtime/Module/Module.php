@@ -204,6 +204,7 @@ abstract class Module extends Freezable implements IModule
     public function freeze()
     {
         parent::freeze();
+
         $this->fields->freeze();
     }
 
@@ -223,6 +224,11 @@ abstract class Module extends Freezable implements IModule
         {
             $this->fields->addMore($fields);
         }
+    }
+
+    public function getDefaultFieldnames()
+    {
+        return array_keys($this->getDefaultFields());
     }
 
     protected function getDefaultFields()
