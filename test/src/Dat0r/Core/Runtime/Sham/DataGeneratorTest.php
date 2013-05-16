@@ -108,6 +108,7 @@ class DataGeneratorTest extends BaseTest
         $data = DataGenerator::createDataFor($this->module);
         $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
         $this->assertArrayHasKey('title', $data['paragraph'], 'The Paragraph should have a title field.');
+        $this->assertTrue(!empty($data['paragraph']['title']), 'The title of the Paragraph should not be empty.');
         $this->assertArrayHasKey('content', $data['paragraph'], 'The Paragraph should have a content field.');
     }
 
@@ -216,7 +217,7 @@ class DataGeneratorTest extends BaseTest
     public function testFillDocumentIgnoreField()
     {
         $this->assertEquals(11, $this->module->getFields()->getSize());
-        $excluded_fields = array('author', 'clickCount', 'enabled', 'references', 'paragraph');
+        $excluded_fields = array('author', 'clickCount', 'enabled', 'references');
         DataGenerator::fill($this->document, array(
             DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_fields, array('non_existant'))
         ));

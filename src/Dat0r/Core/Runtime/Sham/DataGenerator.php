@@ -493,16 +493,12 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addAggregateModule(IDocument $document, IField $field, $options)
+    protected function addAggregate(IDocument $document, IField $field, $options)
     {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
         {
             $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
-        }
-        else
-        {
-            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
         }
 
         if ($recursion_level > 1)
@@ -512,7 +508,6 @@ class DataGenerator
 
         $options_clone = $options;
         $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
-
         $aggregateModule = $field->getAggregateModule();
         $data = $this->fakeData($aggregateModule, $options_clone);
 
@@ -534,10 +529,6 @@ class DataGenerator
         if (!empty($options[self::OPTION_RECURSION_LEVEL]) && is_int($options[self::OPTION_RECURSION_LEVEL]))
         {
             $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
-        }
-        else
-        {
-            $options[self::OPTION_RECURSION_LEVEL] = $recursion_level;
         }
 
         if ($recursion_level > 1)
