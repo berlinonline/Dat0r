@@ -57,6 +57,32 @@ class DataGeneratorTest extends BaseTest
         $this->assertTrue($this->document->getValue('author') === 'trololo');
     }
 
+    public function testFillDocumentWithCallable()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_FIELD_VALUES => array(
+                'author' => array($this, 'getTrololo')
+            )
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertTrue($this->document->getValue('author') === 'trololo');
+    }
+
+    public function testFillDocumentWithStaticCallable()
+    {
+        DataGenerator::fill($this->document, array(
+            DataGenerator::OPTION_LOCALE => 'de_DE',
+            DataGenerator::OPTION_FIELD_VALUES => array(
+                'author' => 'Dat0r\\Tests\\Core\\Runtime\\Sham\\DataGeneratorTest::getStaticTrololo'
+            )
+        ));
+
+        $this->assertFalse($this->document->isClean(), 'Document has no changes, but should have been filled with fake data.');
+        $this->assertTrue($this->document->getValue('author') === 'trololo');
+    }
+
     public function testFillDocumentWithMultipleClosures()
     {
         $faker = \Faker\Factory::create('en_UK');
@@ -313,5 +339,15 @@ class DataGeneratorTest extends BaseTest
             $this->assertTrue($document->isClean(), "New document $i should have no changes.");
             $this->assertTrue(0 === count($document->getChanges()), "New document $i should have no changes.");
         }
+    }
+
+    public function getTrololo()
+    {
+        return 'trololo';
+    }
+
+    public static function getStaticTrololo()
+    {
+        return 'trololo';
     }
 }

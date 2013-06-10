@@ -331,7 +331,7 @@ class DataGenerator
             $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
             if (!empty($closure) && is_callable($closure))
             {
-                $value = $closure();
+                $value = call_user_func($closure);
             }
         }
 
@@ -360,7 +360,7 @@ class DataGenerator
                 $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
                 if (!empty($closure) && is_callable($closure))
                 {
-                    $text = $closure();
+                    $text = call_user_func($closure);
                 }
             }
             $values[] = $text;
@@ -571,6 +571,9 @@ class DataGenerator
      * @param array $options Array containing a `fieldname => $mixed` entry.
      *                       $mixed is set as value instead of $default_value.
      *                       If $mixed is a closure it will be called and used.
+     *                       $mixed may also be another callable like an array
+     *                       `array($class, "$methodName")` or a string like
+     *                       `'Your\Namespace\Foo::getStaticTrololo'`.
      *
      * @return void
      */
@@ -592,7 +595,7 @@ class DataGenerator
             $option = $fieldoptions[$fieldname];
             if (is_callable($option))
             {
-                $document->setValue($fieldname, $option());
+                $document->setValue($fieldname, call_user_func($option));
             }
             else
             {
