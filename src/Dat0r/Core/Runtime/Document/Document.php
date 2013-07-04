@@ -12,13 +12,13 @@ use Dat0r\Core\Runtime\ValueHolder\ValueHolderCollection;
 /**
  * Document completely implements the IDocument interface
  * and serves as the parent to generated domain specific Base\Document classes.
- * 
+ *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  *
  * @todo Add a marker interface for Repository integration.
  */
-abstract class Document implements IDocument, IValueChangedListener 
+abstract class Document implements IDocument, IValueChangedListener
 {
     /**
      * Holds the documents parent module.
@@ -54,7 +54,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * @param IModule $module
      * @param array $data
      *
-     * @return IDocument 
+     * @return IDocument
      */
     public static function create(IModule $module, array $data = array())
     {
@@ -65,7 +65,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * Sets a given list of values.
      *
      * @param array $values
-     */ 
+     */
     public function setValues(array $values)
     {
         $this->hydrate($values);
@@ -87,10 +87,11 @@ abstract class Document implements IDocument, IValueChangedListener
         }
         else
         {
-            $error = new InvalidValueException(
-                sprintf("Invalid field value given for field: %s", $fieldname)
-            );
+            $error = new InvalidValueException();
+
             $error->setFieldname($fieldname);
+            $error->setModuleName($this->module->getName());
+            $error->setValue($value);
 
             throw $error;
         }
@@ -124,7 +125,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function hasValue($fieldname)
     {
         $field = $this->module->getField($fieldname);
-        return $this->values->has($field); 
+        return $this->values->has($field);
     }
 
     /**
@@ -164,7 +165,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function toArray()
     {
         $values = array();
-        
+
         foreach ($this->getModule()->getFields() as $field)
         {
             $value = $this->getValue($field->getName());
@@ -185,7 +186,7 @@ abstract class Document implements IDocument, IValueChangedListener
                             'module' => $refModule->getOption('prefix', strtolower($refModule->getName()))
                         );
                     }
-                    
+
                     $values[$field->getName()] = $refIdentifiers;
                 }
             }
@@ -207,7 +208,7 @@ abstract class Document implements IDocument, IValueChangedListener
 
     /**
      * Returns a list of unhandled changes.
-     * 
+     *
      * @return array An list of ValueChangedEvent.
      */
     public function getChanges()
@@ -245,7 +246,7 @@ abstract class Document implements IDocument, IValueChangedListener
         return $this->module;
     }
 
-    /** 
+    /**
      * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
      *
      * @param IDocument $other
@@ -316,6 +317,24 @@ abstract class Document implements IDocument, IValueChangedListener
         $this->notifyDocumentChanged($event);
     }
 
+    public function checkMandatoryFields()
+    {
+        foreach ($this->getModule()->getFields() as $field)
+        {
+            $value = $this->getValue($field->getName());
+            $isMandatory = ($field->getOption('mandatory') == TRUE);
+
+            if ($isMandatory && empty($value))
+            {
+                $error = new MandatoryValueMissingException();
+                $error->setFieldName($field->getName());
+                $error->setModuleName($this->module->getName());
+
+                throw $error;
+            }
+        }
+    }
+
     /**
      * Constructs a new Document instance.
      *
@@ -347,7 +366,7 @@ abstract class Document implements IDocument, IValueChangedListener
                 {
                     $this->setValue($field->getName(), $values[$fieldname]);
                 }
-                else if($applyDefaults)
+                else
                 {
                     $nonHydratedFields[] = $field;
                 }
@@ -361,9 +380,12 @@ abstract class Document implements IDocument, IValueChangedListener
             }
         }
 
-        foreach ($nonHydratedFields as $field)
+        if ($applyDefaults)
         {
-            $this->setValue($field->getName(), $field->getDefaultValue());
+            foreach ($nonHydratedFields as $field)
+            {
+                $this->setValue($field->getName(), $field->getDefaultValue());
+            }
         }
     }
 }

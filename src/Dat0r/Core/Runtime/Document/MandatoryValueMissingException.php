@@ -5,19 +5,17 @@ namespace Dat0r\Core\Runtime\Document;
 use Dat0r\Core\Runtime\Error;
 
 /**
- * Represents excpetions that reflect occurences of invalid values
- * during method execution.
+ * Reflects exceptions that occur in the context of invalid/bad values trying to be assigned somewhere.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class InvalidValueException extends Error\BadValueException
+class MandatoryValueMissingException extends Error\BadValueException
 {
     public function __toString()
     {
         return sprintf(
-            "Invalid value: '%s', given for module '%s' and field '%s'.",
-            $this->getValue(),
+            "Required value missing for module '%s' and field '%s'.",
             $this->getModuleName(),
             $this->getFieldName()
         );
