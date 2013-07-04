@@ -20,7 +20,7 @@ interface IDocument
      * @param IModule $module
      * @param array $data
      *
-     * @return IDocument 
+     * @return IDocument
      */
     public static function create(IModule $module, array $data = array());
 
@@ -28,7 +28,7 @@ interface IDocument
      * Sets a given list of values.
      *
      * @param array $values
-     */ 
+     */
     public function setValues(array $values);
 
     /**
@@ -62,7 +62,7 @@ interface IDocument
 
     /**
      * Returns a list of unhandled changes.
-     * 
+     *
      * @return array An list of ValueChangedEvent.
      */
     public function getChanges();
@@ -88,7 +88,7 @@ interface IDocument
      */
     public function getModule();
 
-    /** 
+    /**
      * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
      *
      * @param IDocument $other

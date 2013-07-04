@@ -130,7 +130,7 @@ class ModuleDefinitionParser
         // @todo validate field type (must resolve to valid class), name (letters/numbers only) and desc.
         $type = $element->getAttribute('type');
         $name = $element->getAttribute('name');
-        $options = $options = $this->parseOptions($element, $xpath);
+        $options = $this->parseOptions($element, $xpath);
         $description = $this->parseDescriptionElement(
             $xpath->query('description', $element)->item(0)
         );

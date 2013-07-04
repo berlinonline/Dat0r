@@ -21,7 +21,7 @@ class DocumentSet extends DocumentCollection
     public function add(IDocument $document)
     {
         $identitfier = $this->getDocumentIdentifier($document);
-        
+
         if (! in_array($identitfier, $this->ids))
         {
             parent::add($document);
@@ -48,7 +48,7 @@ class DocumentSet extends DocumentCollection
         $identifierField = $document->getModule()->getIdentifierField();
 
         return sprintf(
-            '%s.%s', 
+            '%s.%s',
             $document->getModule()->getName(),
             $document->getValue($identifierField->getName())
         );

@@ -25,7 +25,7 @@ class ValueChangedEvent implements IEvent
 
     /**
      * Holds the previous value of our field origin.
-     * 
+     *
      * @var mixed $oldValue
      */
     private $oldValue;
@@ -53,7 +53,7 @@ class ValueChangedEvent implements IEvent
 
     /**
      * Creates a new ValueChangedEvent instance.
-     * 
+     *
      * @param IField $field
      * @param IValueHolder $old
      * @param IValueHolder $new

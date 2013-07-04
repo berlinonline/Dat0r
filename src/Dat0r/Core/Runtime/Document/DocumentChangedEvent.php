@@ -29,7 +29,7 @@ class DocumentChangedEvent implements IEvent
 
     /**
      * Creates a new document changed event instance.
-     * 
+     *
      * @param IDocument $document
      * @param ValueChangedEvent $valueChangedEvent
      *
