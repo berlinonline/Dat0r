@@ -66,7 +66,14 @@ class IntegerValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        parent::setValue((int)$value);
+        if ($this->getField()->getOption('precision') === 'float')
+        {
+            parent::setValue((float)$value);
+        }
+        else
+        {
+            parent::setValue((int)$value);
+        }
     }
 
     /**
