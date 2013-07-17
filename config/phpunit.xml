@@ -12,10 +12,10 @@
          bootstrap="./../test/bootstrap.php">
   <testsuites>
     <testsuite name="Runtume Testsuite">
-        <directory>../test/src/Dat0r/Core/Runtime</directory>
+        <directory>../test/src/Dat0r/Core</directory>
     </testsuite>
     <testsuite name="CodeGenerator Testsuite">
-        <directory>../test/src/Dat0r/Core/CodeGenerator</directory>
+        <directory>../test/src/Dat0r/CodeGenerator</directory>
     </testsuite>
   </testsuites>
 
