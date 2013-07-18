@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests;
 
-class ObjectSetTest extends BaseTestCase
+class ObjectSetTest extends TestCase
 {
 
 }

@@ -4,8 +4,10 @@ namespace Dat0r\Tests;
 
 use Dat0r\Tests\Fixtures;
 
-// @todo test IObject implementations as value (recursively nad flat)
-class ObjectTest extends BaseTestCase
+// @todo:
+// - test IObject as nested value (recursively)
+// - test empty objects
+class ObjectTest extends TestCase
 {
     public function testCreate()
     {
