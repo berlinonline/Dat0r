@@ -14,9 +14,9 @@ class ObjectSet extends ObjectList implements ISet
 
         if (!isset($data[self::ITEMS_KEY_FIELD]))
         {
-            throw new \InvalidArgumentException(
+            throw new Exception(
                 sprintf(
-                    "Missing key '%s' for data given to '%s'.",
+                    "Missing key '%s' for data that was passed to '%s'.",
                     self::ITEMS_KEY_FIELD,
                     __METHOD__
                 )
@@ -38,7 +38,7 @@ class ObjectSet extends ObjectList implements ISet
         }
         else
         {
-            throw new \Exception(
+            throw new Exception(
                 sprintf(
                     "Invalid collection-key-field '%s' given.",
                     $this->items_key_field

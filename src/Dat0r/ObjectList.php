@@ -16,7 +16,7 @@ class ObjectList extends Object implements ICollection
     {
         if (!isset($data[self::ITEM_IMPLEMENTOR]))
         {
-            throw new \InvalidArgumentException(
+            throw new Exception(
                 sprintf(
                     "Missing key '%s' for data given to '%s'.",
                     self::ITEM_IMPLEMENTOR,
@@ -27,7 +27,7 @@ class ObjectList extends Object implements ICollection
 
         if (!class_exists($data[self::ITEM_IMPLEMENTOR]))
         {
-            throw new \InvalidArgumentException(
+            throw new Exception(
                 sprintf(
                     "Unable to find class '%s' for '%s' given to '%s'.",
                     $data[self::ITEM_IMPLEMENTOR],
@@ -50,7 +50,7 @@ class ObjectList extends Object implements ICollection
 
     public function add($item)
     {
-        $this->items[] = $item;
+        $this->offsetSet($this->count(), $item);
     }
 
     public function addMore(array $items)
@@ -122,7 +122,7 @@ class ObjectList extends Object implements ICollection
 
     public function count()
     {
-        return \count($this->items);
+        return count($this->items);
     }
 
     public function offsetExists($offset)
@@ -137,21 +137,33 @@ class ObjectList extends Object implements ICollection
 
     public function offsetSet($offset, $value)
     {
-        $this->validateItemImplementor($value);
+        if (!$value instanceof $this->item_implementor)
+        {
+            throw new Exception(
+                sprintf(
+                    "Items passed to the '%s' method must relate to '%s'."
+                        . "%sAn instance of '%s' was given instead.",
+                    __METHOD__,
+                    $this->item_implementor,
+                    PHP_EOL,
+                    get_class($value)
+                )
+            );
+        }
 
         $this->items[$offset] = $value;
     }
 
     public function offsetUnset($offset)
     {
-        \array_splice($this->items, $offset, 1);
+        array_splice($this->items, $offset, 1);
     }
 
     public function current()
     {
         if ($this->valid())
         {
-            return \current($this->items);
+            return current($this->items);
         }
         else
         {
@@ -161,41 +173,26 @@ class ObjectList extends Object implements ICollection
 
     public function key()
     {
-        return \key($this->items);
+        return key($this->items);
     }
 
     public function next()
     {
-        return \next($this->items);
+        return next($this->items);
     }
 
     public function rewind()
     {
-        \reset($this->items);
+        reset($this->items);
     }
 
     public function valid()
     {
-        return NULL !== \key($this->items);
+        return NULL !== key($this->items);
     }
 
     protected function __construct()
     {
         $this->items = array();
-    }
-
-    protected function validateItemImplementor($item)
-    {
-        if (!($item instanceof $this->item_implementor))
-        {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Items passed to this method must be relate to the '%s' interface/class."
-                        . "%s instance given instead.",
-                    $this->item_implementor,
-                    get_class($item)
-                )
-            );
-        }
     }
 }

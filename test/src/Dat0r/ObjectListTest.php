@@ -236,6 +236,15 @@ class ObjectListTest extends TestCase
         $this->assertEquals(false, $object_list->has($other_items[0]));
     }
 
+    /**
+     * @expectedException Dat0r\Exception
+     */
+    public function testAddInvalidItem()
+    {
+        $object_list = Fixtures\TestObjectList::create();
+        $object_list->add(new Fixtures\UnsupportedObject());
+    }
+
     protected function getRandomTestObjects()
     {
         $test_objects = array();
