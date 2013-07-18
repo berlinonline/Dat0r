@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\CodeGen;
+namespace Dat0r\CodeGen\CodeGenerator;
 
 class BuildResult
 {

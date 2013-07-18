@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\CodeGen\Schema;
+namespace Dat0r\Generic;
 
-abstract class BaseDefinition
+class Object implements IObject
 {
     public static function create(array $data = array())
     {
@@ -25,7 +25,7 @@ abstract class BaseDefinition
 
         foreach (get_object_vars($this) as $prop => $value)
         {
-            if (is_object($value))
+            if ($value instanceof IObject)
             {
                 $data[$prop] = $value->toArray();
             }
@@ -37,6 +37,4 @@ abstract class BaseDefinition
 
         return $data;
     }
-
-    protected function __construct() {}
 }

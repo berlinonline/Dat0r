@@ -2,7 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class OptionDefinition extends BaseDefinition
+use Dat0r\Generic;
+
+class OptionDefinition extends Generic\Object
 {
     protected $name;
 

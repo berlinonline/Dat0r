@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\CodeGen;
+namespace Dat0r\CodeGen\CodeGenerator;
 
 // @todo Read settings from a config file.
 class Deployment

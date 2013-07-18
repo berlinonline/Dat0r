@@ -10,11 +10,12 @@ class ModuleSchemaXmlParserTest extends BaseTest
 
     public function testParseSchema()
     {
-        $schema_path = dirname(dirname(dirname(dirname(__DIR__))))
-            . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'topic_schema.xml';
+        $module_schema_path = __DIR__ .
+            DIRECTORY_SEPARATOR . 'fixtures' .
+            DIRECTORY_SEPARATOR . 'extensive_module_example.xml';
 
         $parser = ModuleSchemaXmlParser::create();
-        $module_schema = $parser->parseSchema($schema_path);
+        $module_schema = $parser->parseSchema($module_schema_path);
 
         $this->assertInstanceOf('\Dat0r\CodeGen\Schema\ModuleSchema', $module_schema);
     }

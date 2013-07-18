@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Core\Console;
+namespace Dat0r\CodeGen\Console;
 
 class Exception extends \Exception
 {

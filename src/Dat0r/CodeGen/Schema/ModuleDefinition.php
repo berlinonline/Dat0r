@@ -2,7 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class ModuleDefinition extends BaseDefinition
+use Dat0r\Generic;
+
+class ModuleDefinition extends Generic\Object
 {
     protected $name;
 
@@ -12,7 +14,7 @@ class ModuleDefinition extends BaseDefinition
 
     protected $description;
 
-    protected $options = array();
+    protected $options;
 
     protected $fields;
 
@@ -48,7 +50,7 @@ class ModuleDefinition extends BaseDefinition
 
     protected function __construct()
     {
-        $this->fields = new FieldDefinitionSet();
-        $this->options = new OptionDefinitionList();
+        $this->fields = FieldDefinitionSet::create();
+        $this->options = OptionDefinitionList::create();
     }
 }

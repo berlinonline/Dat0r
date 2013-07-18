@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Core\Console;
+namespace Dat0r\CodeGen\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,10 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Dat0r\CodeGen\Configuration;
+use Dat0r\CodeGen\Config\Configuration;
 use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
-use Dat0r\CodeGen\Builder;
-use Dat0r\CodeGen\Deployment;
+use Dat0r\CodeGen\Generator\Builder;
+use Dat0r\CodeGen\Generator\Deployment;
 
 class GenerateCodeCommand extends Command
 {
@@ -50,7 +50,7 @@ class GenerateCodeCommand extends Command
         $config = $input->getArgument('config');
         $definition = $input->getArgument('definition');
         $action = $input->getArgument('action');
-        
+
         if (! is_readable(realpath($config)))
         {
             throw new Exception(
@@ -119,7 +119,7 @@ class GenerateCodeCommand extends Command
             $basePath = getcwd() . DIRECTORY_SEPARATOR . $basePath;
         }
         $config['basePath'] = $basePath;
-        
+
         $cacheDir = $config['cacheDir'];
         if (0 !== strpos($cacheDir, DIRECTORY_SEPARATOR))
         {

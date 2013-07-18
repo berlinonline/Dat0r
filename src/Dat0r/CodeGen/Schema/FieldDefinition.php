@@ -2,7 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class FieldDefinition extends BaseDefinition
+use Dat0r\Generic;
+
+class FieldDefinition extends Generic\Object
 {
     protected $name;
 

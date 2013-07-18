@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\CodeGen\Schema;
+namespace Dat0r\Generic;
 
-interface IDefinition
+interface IObject
 {
     public static function create(array $data = array());
 

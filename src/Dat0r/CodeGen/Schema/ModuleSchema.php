@@ -2,7 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class ModuleSchema extends BaseDefinition
+use Dat0r\Generic;
+
+class ModuleSchema extends Generic\Object
 {
     protected $namespace;
 
@@ -28,6 +30,6 @@ class ModuleSchema extends BaseDefinition
     protected function __construct()
     {
         $this->module_definition = ModuleDefinition::create();
-        $this->aggregate_definitions = new ModuleDefinitionSet();
+        $this->aggregate_definitions = ModuleDefinitionSet::create();
     }
 }

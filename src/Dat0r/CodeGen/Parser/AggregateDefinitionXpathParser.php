@@ -8,7 +8,7 @@ class AggregateDefinitionXpathParser extends ModuleDefinitionXpathParser
 {
     public function parseXpath(\DOMXPath $xpath, array $options = array())
     {
-        $aggregate_set = new Schema\ModuleDefinitionSet();
+        $aggregate_set = Schema\ModuleDefinitionSet::create();
 
         $node_list = $xpath->query('//aggregate_definition', $options['context']);
 
