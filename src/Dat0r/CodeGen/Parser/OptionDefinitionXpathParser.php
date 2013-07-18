@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Parser;
 
 use Dat0r\CodeGen\Schema;
 
-class OptionDefinitionXpathParser implements IXpathParser
+class OptionDefinitionXpathParser extends BaseXpathParser
 {
     public function parseXpath(\DOMXPath $xpath, array $options = array())
     {

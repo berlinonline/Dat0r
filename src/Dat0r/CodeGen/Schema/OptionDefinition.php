@@ -2,13 +2,13 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class OptionDefinition
+class OptionDefinition extends BaseDefinition
 {
-    private $name;
+    protected $name;
 
-    private $value;
+    protected $value;
 
-    private $default;
+    protected $default;
 
     public function getName()
     {
@@ -49,21 +49,4 @@ class OptionDefinition
 
         return $data;
     }
-
-    public static function create(array $data = array())
-    {
-        $option_definition = new static();
-
-        foreach ($data as $key => $value)
-        {
-            if (property_exists($option_definition, $key))
-            {
-                $option_definition->$key = $value;
-            }
-        }
-
-        return $option_definition;
-    }
-
-    protected function __construct() {}
 }

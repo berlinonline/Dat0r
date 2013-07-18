@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 class OptionDefinitionList
 {
-    private $option_definitions = array();
+    protected $option_definitions = array();
 
     public function __construct(array $option_definitions = array())
     {

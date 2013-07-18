@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 class ModuleDefinitionSet
 {
-    private $module_definitions = array();
+    protected $module_definitions = array();
 
     public function __construct(array $module_definitions = array())
     {

@@ -2,15 +2,15 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class FieldDefinition
+class FieldDefinition extends BaseDefinition
 {
-    private $name;
+    protected $name;
 
-    private $description;
+    protected $description;
 
-    private $type;
+    protected $type;
 
-    private $options;
+    protected $options;
 
     public function getName()
     {
@@ -31,31 +31,4 @@ class FieldDefinition
     {
         return $this->options;
     }
-
-    public function toArray()
-    {
-        return array(
-            'name' => $this->name,
-            'type' => $this->type,
-            'description' => $this->description,
-            'options' => $this->options->toArray()
-        );
-    }
-
-    public static function create(array $data = array())
-    {
-        $field_definition = new static();
-
-        foreach ($data as $key => $value)
-        {
-            if (property_exists($field_definition, $key))
-            {
-                $field_definition->$key = $value;
-            }
-        }
-
-        return $field_definition;
-    }
-
-    protected function __construct() {}
 }

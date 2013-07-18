@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 class FieldDefinitionSet
 {
-    private $field_definitions = array();
+    protected $field_definitions = array();
 
     public function __construct(array $field_definitions = array())
     {

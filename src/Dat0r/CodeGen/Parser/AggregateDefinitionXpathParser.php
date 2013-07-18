@@ -10,16 +10,11 @@ class AggregateDefinitionXpathParser extends ModuleDefinitionXpathParser
     {
         $aggregate_set = new Schema\ModuleDefinitionSet();
 
-        $aggregate_node_list = $xpath->query(
-            '//aggregate_definition',
-            $options['context']
-        );
+        $node_list = $xpath->query('//aggregate_definition', $options['context']);
 
-        foreach ($aggregate_node_list as $aggregate_element)
+        foreach ($node_list as $element)
         {
-            $aggregate_set->add(
-                $this->parseModuleDefinition($xpath, $aggregate_element)
-            );
+            $aggregate_set->add($this->parseModuleDefinition($xpath, $element));
         }
 
         return $aggregate_set;

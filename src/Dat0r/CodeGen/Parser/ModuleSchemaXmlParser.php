@@ -16,8 +16,8 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
         $module_schema_element = $document->documentElement;
         $xpath = new \DOMXPath($document);
 
-        $module_definition_parser = new ModuleDefinitionXpathParser();
-        $aggregates_parser = new AggregateDefinitionXpathParser();
+        $module_definition_parser = ModuleDefinitionXpathParser::create();
+        $aggregates_parser = AggregateDefinitionXpathParser::create();
 
         return Schema\ModuleSchema::create(array(
             'namespace' => $module_schema_element->getAttribute('namespace'),
@@ -35,6 +35,13 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
     public static function create()
     {
         return new static();
+    }
+
+    protected function __construct()
+    {
+        $config_dir = dirname(dirname(dirname(dirname(__DIR__))));
+        $path_parts = array($config_dir, 'config', 'module_schema.xsd');
+        $this->xsd_schema_file = implode(DIRECTORY_SEPARATOR, $path_parts);
     }
 
     protected function createDomDocument($module_schema_file)
@@ -63,12 +70,5 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
         }
 
         return $document;
-    }
-
-    protected function __construct()
-    {
-        $config_dir = dirname(dirname(dirname(dirname(__DIR__))));
-        $path_parts = array($config_dir, 'config', 'module_schema.xsd');
-        $this->xsd_schema_file = implode(DIRECTORY_SEPARATOR, $path_parts);
     }
 }

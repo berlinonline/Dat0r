@@ -2,19 +2,19 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class ModuleDefinition
+class ModuleDefinition extends BaseDefinition
 {
-    private $name;
+    protected $name;
 
-    private $implementor;
+    protected $implementor;
 
-    private $document_implementor;
+    protected $document_implementor;
 
-    private $description;
+    protected $description;
 
-    private $options = array();
+    protected $options = array();
 
-    private $fields;
+    protected $fields;
 
     public function getName()
     {
@@ -44,33 +44,6 @@ class ModuleDefinition
     public function getFields()
     {
         return $this->fields;
-    }
-
-    public function toArray()
-    {
-        return array(
-            'name' => $this->name,
-            'implementor' => $this->implementor,
-            'document_implementor' => $this->document_implementor,
-            'description' => $this->description,
-            'options' => $this->options->toArray(),
-            'fields' => $this->fields->toArray()
-        );
-    }
-
-    public static function create(array $data = array())
-    {
-        $module_definition = new static();
-
-        foreach ($data as $key => $value)
-        {
-            if (property_exists($module_definition, $key))
-            {
-                $module_definition->$key = $value;
-            }
-        }
-
-        return $module_definition;
     }
 
     protected function __construct()

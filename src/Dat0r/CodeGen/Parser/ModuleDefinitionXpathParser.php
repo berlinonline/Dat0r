@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Parser;
 
 use Dat0r\CodeGen\Schema;
 
-class ModuleDefinitionXpathParser implements IXpathParser
+class ModuleDefinitionXpathParser extends BaseXpathParser
 {
     public function parseXpath(\DOMXPath $xpath, array $options = array())
     {
@@ -39,32 +39,11 @@ class ModuleDefinitionXpathParser implements IXpathParser
         ));
     }
 
-    protected function parseDescription(\DOMXPath $xpath, \DOMElement $element)
-    {
-        return array_map(function($line)
-        {
-            return trim($line);
-        }, preg_split ('/$\R?^/m', trim($element->nodeValue)));
-    }
-
-    protected function parseOptions(\DOMXPath $xpath, \DOMElement $element)
-    {
-        $parser = new OptionDefinitionXpathParser();
-
-        return $parser->parseXpath(
-            $xpath,
-            array('context' => $element)
-        );
-    }
-
     protected function parseFields(\DOMXPath $xpath, \DOMElement $element)
     {
-        $parser = new FieldDefinitionXpathParser();
+        $parser = FieldDefinitionXpathParser::create();
         $fields_element = $xpath->query('./fields', $element)->item(0);
 
-        return $parser->parseXpath(
-            $xpath,
-            array('context' => $fields_element)
-        );
+        return $parser->parseXpath($xpath, array('context' => $fields_element));
     }
 }
