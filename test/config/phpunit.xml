@@ -15,7 +15,7 @@
         <directory>../src/Dat0r/Core</directory>
     </testsuite>
     <testsuite name="CodeGenerator Testsuite">
-        <directory>../src/Dat0r/CodeGenerator</directory>
+        <directory>../src/Dat0r/CodeGen</directory>
     </testsuite>
   </testsuites>
 

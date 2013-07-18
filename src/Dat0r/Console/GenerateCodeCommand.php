@@ -8,10 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Dat0r\CodeGenerator\Configuration;
-use Dat0r\CodeGenerator\ModuleDefinitionParser;
-use Dat0r\CodeGenerator\Builder;
-use Dat0r\CodeGenerator\Deployment;
+use Dat0r\CodeGen\Configuration;
+use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
+use Dat0r\CodeGen\Builder;
+use Dat0r\CodeGen\Deployment;
 
 class GenerateCodeCommand extends Command
 {
@@ -79,8 +79,8 @@ class GenerateCodeCommand extends Command
         try
         {
             // fetch and parse the module definition of interest
-            $parser = ModuleDefinitionParser::create();
-            $moduleDefinition = $parser->parse($input->getArgument('definition'));
+            $parser = ModuleSchemaXmlParser::create();
+            $moduleDefinition = $parser->parseSchema($input->getArgument('definition'));
             // then kick off code generation and/or deployment
             $actions = explode('+', $input->getArgument('action'));
             $configuration = $this->loadConfig($input);

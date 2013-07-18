@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\CodeGenerator;
+namespace Dat0r\CodeGen;
 
 class CodeCache
 {

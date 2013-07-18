@@ -1,79 +1,61 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
   version="1.0"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   attributeFormDefault="unqualified"
-  elementFormDefault="qualified">
+  elementFormDefault="qualified"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <xsd:element name="module_schema" type="module_schema_type" />
+  <xsd:element name="module_schema" type="module_schemaType" />
 
-  <xsd:complexType name="module_schema_type">
+  <xsd:complexType name="module_schemaType">
     <xsd:sequence>
-      <xsd:element name="module_definition" type="module_definition_type" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="aggregate_definition" type="aggregate_definition_type" />
+      <xsd:element name="module_definition" type="module_definitionType" />
+      <xsd:element name="aggregate_definition" type="aggregate_definitionType" maxOccurs="unbounded" />
     </xsd:sequence>
-  </xsd:complexType>
-
-  <xsd:complexType name="aggregate_definition_type">
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" />
-      <xsd:element name="fields" type="fields_type" />
-    </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" />
-  </xsd:complexType>
-
-  <xsd:complexType name="fields_type">
-    <xsd:sequence>
-      <xsd:element maxOccurs="unbounded" name="field" type="field_type" />
-    </xsd:sequence>
-  </xsd:complexType>
-
-  <xsd:complexType name="field_type">
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" />
-    </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" />
-    <xsd:attribute name="type" type="xsd:string" />
-  </xsd:complexType>
-
-  <xsd:complexType name="module_definition_type">
-    <xsd:sequence>
-      <xsd:element name="base" type="xsd:string" />
-      <xsd:element name="document_base" type="xsd:string" />
-      <xsd:element name="description" type="xsd:string" />
-      <xsd:element name="options" type="options_type" />
-      <xsd:element name="fields" type="fields_type" />
-    </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" />
     <xsd:attribute name="namespace" type="xsd:string" />
   </xsd:complexType>
 
-  <xsd:complexType name="fields_type">
+  <xsd:complexType name="module_definitionType">
     <xsd:sequence>
-      <xsd:element maxOccurs="unbounded" name="field" type="field_type" />
+      <xsd:element name="implementor" type="xsd:string" />
+      <xsd:element name="document_implementor" type="xsd:string" />
+      <xsd:element name="description" type="xsd:string" />
+      <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="fields" type="fieldsType" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="aggregate_definitionType">
+    <xsd:sequence>
+      <xsd:element name="implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="document_implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="description" type="xsd:string" />
+      <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="fields" type="fieldsType" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="fieldsType">
+    <xsd:sequence>
+      <xsd:element name="field" type="fieldType" maxOccurs="unbounded" />
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="field_type">
+  <xsd:complexType name="fieldType">
     <xsd:sequence>
       <xsd:element name="description" type="xsd:string" />
-      <xsd:element name="option" type="option_type" />
+      <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" />
     <xsd:attribute name="type" type="xsd:string" />
   </xsd:complexType>
 
-  <xsd:complexType name="option_type">
-    <xsd:attribute name="name" type="xsd:string" />
-  </xsd:complexType>
-
-  <xsd:complexType name="options_type">
+  <xsd:complexType name="optionType" mixed="true">
     <xsd:sequence>
-      <xsd:element maxOccurs="unbounded" name="option" type="option_type" />
+      <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-  </xsd:complexType>
-
-  <xsd:complexType name="option_type">
     <xsd:attribute name="name" type="xsd:string" />
   </xsd:complexType>
 
