@@ -7,11 +7,10 @@ use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
 
 class ModuleSchemaXmlParserTest extends BaseTest
 {
-
     public function testParseSchema()
     {
         $module_schema_path = __DIR__ .
-            DIRECTORY_SEPARATOR . 'fixtures' .
+            DIRECTORY_SEPARATOR . 'Fixtures' .
             DIRECTORY_SEPARATOR . 'extensive_module_example.xml';
 
         $parser = ModuleSchemaXmlParser::create();

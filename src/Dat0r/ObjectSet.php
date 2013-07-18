@@ -30,11 +30,6 @@ class ObjectSet extends ObjectList implements ISet
 
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof ModuleDefinition))
-        {
-            throw new \Exception("Invalid module-definition given.");
-        }
-
         $getter_method = sprintf('get%s', ucfirst($this->items_key_field));
 
         if (is_callable(array($value, $getter_method)))
@@ -51,6 +46,6 @@ class ObjectSet extends ObjectList implements ISet
             );
         }
 
-        $this->module_definitions[$value->getName()] = $value;
+        parent::offsetSet($offset, $value);
     }
 }

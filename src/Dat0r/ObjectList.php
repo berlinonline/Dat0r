@@ -137,17 +137,7 @@ class ObjectList extends Object implements ICollection
 
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof $this->item_implementor))
-        {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Items passed to this method must be relate to the '%s' interface/class."
-                        . "%s instance given instead.",
-                    $this->item_implementor,
-                    get_class($value)
-                )
-            );
-        }
+        $this->validateItemImplementor($value);
 
         $this->items[$offset] = $value;
     }
@@ -192,5 +182,20 @@ class ObjectList extends Object implements ICollection
     protected function __construct()
     {
         $this->items = array();
+    }
+
+    protected function validateItemImplementor($item)
+    {
+        if (!($item instanceof $this->item_implementor))
+        {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Items passed to this method must be relate to the '%s' interface/class."
+                        . "%s instance given instead.",
+                    $this->item_implementor,
+                    get_class($item)
+                )
+            );
+        }
     }
 }
