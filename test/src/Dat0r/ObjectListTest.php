@@ -186,9 +186,18 @@ class ObjectListTest extends TestCase
     public function testHasKey()
     {
         $items = $this->getRandomTestObjects();
+        $items_count = count($items);
+        $last_index = $items_count - 1;
+        // pick a random item from the list to test against
+        $random_key = 0;
+        if ($last_index > 0)
+        {
+            $random_key = $this->faker->randomNumber(0, $last_index);
+        }
 
         $object_list = Fixtures\TestObjectList::create($items);
-        $this->assertEquals(count($items), $object_list->getSize());
+        $this->assertEquals(true, $object_list->hasKey($random_key));
+        $this->assertEquals(false, $object_list->hasKey($items_count + 1));
     }
 
     public function testGetKey()
