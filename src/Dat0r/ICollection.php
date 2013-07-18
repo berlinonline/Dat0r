@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Generic;
+namespace Dat0r;
 
 interface ICollection extends IObject, \Iterator, \Countable, \ArrayAccess
 {

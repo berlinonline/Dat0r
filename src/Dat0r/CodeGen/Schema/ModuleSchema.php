@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\Generic;
+use Dat0r;
 
-class ModuleSchema extends Generic\Object
+class ModuleSchema extends Dat0r\Object
 {
     protected $namespace;
 

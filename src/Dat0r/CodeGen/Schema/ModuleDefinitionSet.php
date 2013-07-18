@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\Generic;
+use Dat0r;
 
-class ModuleDefinitionSet extends Generic\ObjectSet
+class ModuleDefinitionSet extends Dat0r\ObjectSet
 {
     public static function create(array $items = array())
     {

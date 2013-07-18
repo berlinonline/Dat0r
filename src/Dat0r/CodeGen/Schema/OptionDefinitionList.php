@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\Generic;
+use Dat0r;
 
-class OptionDefinitionList extends Generic\ObjectList
+class OptionDefinitionList extends Dat0r\ObjectList
 {
     public static function create(array $items = array())
     {
