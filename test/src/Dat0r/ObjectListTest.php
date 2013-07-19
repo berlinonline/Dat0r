@@ -8,7 +8,7 @@ class ObjectListTest extends TestCase
 {
     public function testCreate()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $object_list = Fixtures\TestObjectList::create($items);
 
         $this->assertInstanceOf('\\Dat0r\\Tests\\Fixtures\\TestObjectList', $object_list);
@@ -17,7 +17,7 @@ class ObjectListTest extends TestCase
 
     public function testAdd()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
 
         $object_list = Fixtures\TestObjectList::create();
         foreach ($items as $item)
@@ -39,10 +39,10 @@ class ObjectListTest extends TestCase
 
     public function testAddMore()
     {
-        $initial_items = $this->getRandomTestObjects();
+        $initial_items = Fixtures\TestObject::createRandomInstances();
         $initial_items_count = count($initial_items);
 
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $more_items_count = count($items);
 
         $object_list = Fixtures\TestObjectList::create($initial_items);
@@ -71,7 +71,7 @@ class ObjectListTest extends TestCase
 
     public function testRemove()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
         $last_index = $items_count - 1;
         $random_index = 0;
@@ -79,7 +79,7 @@ class ObjectListTest extends TestCase
         // pick a random item from the list data to be removed
         if ($last_index > 0)
         {
-            $random_index = $this->faker->randomNumber(0, $last_index);
+            $random_index = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_index];
 
@@ -108,13 +108,13 @@ class ObjectListTest extends TestCase
 
     public function testRemoveMore()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
         $last_index = $items_count - 1;
 
         // pick some random items to remove
         $max_remove = round($items_count / 2, 0);
-        $numof_items_to_remove = $this->faker->randomNumber(1, $max_remove);
+        $numof_items_to_remove = self::$faker->randomNumber(1, $max_remove);
         $random_items = array();
         $randomly_picked_indexes = array();
         for($i = 0; $i < $numof_items_to_remove; $i++)
@@ -124,7 +124,7 @@ class ObjectListTest extends TestCase
             {
                 if ($last_index > 0)
                 {
-                    $random_index = $this->faker->randomNumber(0, $last_index);
+                    $random_index = self::$faker->randomNumber(0, $last_index);
                 }
             }
             while(in_array($random_index, $randomly_picked_indexes));
@@ -158,7 +158,7 @@ class ObjectListTest extends TestCase
 
     public function testGetFirst()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $first_item = $items[0];
 
         $object_list = Fixtures\TestObjectList::create($items);
@@ -167,7 +167,7 @@ class ObjectListTest extends TestCase
 
     public function testGetLast()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $last_item = $items[count($items) - 1];
 
         $object_list = Fixtures\TestObjectList::create($items);
@@ -176,7 +176,7 @@ class ObjectListTest extends TestCase
 
     public function testGetSize()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
 
         $object_list = Fixtures\TestObjectList::create($items);
@@ -185,14 +185,14 @@ class ObjectListTest extends TestCase
 
     public function testHasKey()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0)
         {
-            $random_key = $this->faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->randomNumber(0, $last_index);
         }
 
         $object_list = Fixtures\TestObjectList::create($items);
@@ -202,14 +202,14 @@ class ObjectListTest extends TestCase
 
     public function testGetKey()
     {
-        $items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0)
         {
-            $random_key = $this->faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_key];
 
@@ -219,15 +219,15 @@ class ObjectListTest extends TestCase
 
     public function testHas()
     {
-        $items = $this->getRandomTestObjects();
-        $other_items = $this->getRandomTestObjects();
+        $items = Fixtures\TestObject::createRandomInstances();
+        $other_items = Fixtures\TestObject::createRandomInstances();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0)
         {
-            $random_key = $this->faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_key];
 
@@ -243,29 +243,5 @@ class ObjectListTest extends TestCase
     {
         $object_list = Fixtures\TestObjectList::create();
         $object_list->add(new Fixtures\UnsupportedObject());
-    }
-
-    protected function getRandomTestObjects()
-    {
-        $test_objects = array();
-        $max = $this->faker->randomNumber(1, 15);
-
-        for ($i = 0; $i < $max; $i++)
-        {
-            $test_objects[] = Fixtures\TestObject::create(
-                $this->getRandomScalarValues()
-            );
-        }
-
-        return $test_objects;
-    }
-
-    protected function getRandomScalarValues()
-    {
-        return array(
-            'property_one' => $this->faker->word(23),
-            'property_two' => $this->faker->randomNumber(0, 500),
-            'property_three' => $this->faker->boolean()
-        );
     }
 }

@@ -14,38 +14,16 @@ class ObjectList extends Object implements ICollection
 
     public static function create(array $data = array())
     {
-        if (!isset($data[self::ITEM_IMPLEMENTOR]))
-        {
-            throw new Exception(
-                sprintf(
-                    "Missing key '%s' for data given to '%s'.",
-                    self::ITEM_IMPLEMENTOR,
-                    __METHOD__
-                )
-            );
-        }
+        $list = new static();
 
-        if (!class_exists($data[self::ITEM_IMPLEMENTOR]))
-        {
-            throw new Exception(
-                sprintf(
-                    "Unable to find class '%s' for '%s' given to '%s'.",
-                    $data[self::ITEM_IMPLEMENTOR],
-                    self::ITEM_IMPLEMENTOR,
-                    __METHOD__
-                )
-            );
-        }
-
-        $object_list = new static();
-        $object_list->item_implementor = $data[self::ITEM_IMPLEMENTOR];
+        $list->applyParameters($data);
 
         if (isset($data[self::ITEMS]))
         {
-            $object_list->addMore($data[self::ITEMS]);
+            $list->addMore($data[self::ITEMS]);
         }
 
-        return $object_list;
+        return $list;
     }
 
     public function add($item)
@@ -194,5 +172,33 @@ class ObjectList extends Object implements ICollection
     protected function __construct()
     {
         $this->items = array();
+    }
+
+    protected function applyParameters(array $parameters = array())
+    {
+        if (!isset($parameters[self::ITEM_IMPLEMENTOR]))
+        {
+            throw new Exception(
+                sprintf(
+                    "Missing key '%s' for parameters given to '%s'.",
+                    self::ITEM_IMPLEMENTOR,
+                    __METHOD__
+                )
+            );
+        }
+
+        if (!class_exists($parameters[self::ITEM_IMPLEMENTOR]))
+        {
+            throw new Exception(
+                sprintf(
+                    "Unable to find class '%s' for '%s' given to '%s'.",
+                    $parameters[self::ITEM_IMPLEMENTOR],
+                    self::ITEM_IMPLEMENTOR,
+                    __METHOD__
+                )
+            );
+        }
+
+        $this->item_implementor = $parameters[self::ITEM_IMPLEMENTOR];
     }
 }

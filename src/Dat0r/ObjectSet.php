@@ -8,29 +8,12 @@ class ObjectSet extends ObjectList implements ISet
 
     protected $items_key_field;
 
-    public static function create(array $data = array())
-    {
-        $object_set = parent::create($data);
-
-        if (!isset($data[self::ITEMS_KEY_FIELD]))
-        {
-            throw new Exception(
-                sprintf(
-                    "Missing key '%s' for data that was passed to '%s'.",
-                    self::ITEMS_KEY_FIELD,
-                    __METHOD__
-                )
-            );
-        }
-
-        $object_set->items_key_field = $data[self::ITEMS_KEY_FIELD];
-
-        return $object_set;
-    }
-
     public function offsetSet($offset, $value)
     {
-        $getter_method = sprintf('get%s', ucfirst($this->items_key_field));
+        $getter_method = 'get' . preg_replace(
+            '/(?:^|_)(.?)/e',"strtoupper('$1')",
+            $this->items_key_field
+        );
 
         if (is_callable(array($value, $getter_method)))
         {
@@ -47,5 +30,23 @@ class ObjectSet extends ObjectList implements ISet
         }
 
         parent::offsetSet($offset, $value);
+    }
+
+    protected function applyParameters(array $parameters = array())
+    {
+        parent::applyParameters($parameters);
+
+        if (!isset($parameters[self::ITEMS_KEY_FIELD]))
+        {
+            throw new Exception(
+                sprintf(
+                    "Missing key '%s' for parameters that where passed to '%s'.",
+                    self::ITEMS_KEY_FIELD,
+                    __METHOD__
+                )
+            );
+        }
+
+        $this->items_key_field = $parameters[self::ITEMS_KEY_FIELD];
     }
 }

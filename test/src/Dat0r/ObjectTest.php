@@ -32,9 +32,9 @@ class ObjectTest extends TestCase
     protected function getRandomScalarValues()
     {
         return array(
-            'property_one' => $this->faker->word(23),
-            'property_two' => $this->faker->randomNumber(0, 500),
-            'property_three' => $this->faker->boolean()
+            'property_one' => self::$faker->word(23),
+            'property_two' => self::$faker->randomNumber(0, 500),
+            'property_three' => self::$faker->boolean()
         );
     }
 }

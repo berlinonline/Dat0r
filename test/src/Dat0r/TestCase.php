@@ -6,10 +6,10 @@ use Faker;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    protected $faker;
+    protected static $faker;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->faker = Faker\Factory::create();
+        self::$faker = Faker\Factory::create();
     }
 }
