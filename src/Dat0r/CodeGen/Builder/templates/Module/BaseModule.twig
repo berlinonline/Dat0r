@@ -23,25 +23,14 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
 
             {% spaceless %}
                 {% if field.options|length > 0 %}
-                    {{ field.implementor }}::create('{{ field.name }}', array( {% for option in field.options %}
-                {% autoescape false %}
-                {% spaceless %}
-                        '{{ option.name }}' => {{ option.value }},
-                {% endspaceless %} {% endautoescape %} {% endfor %}
-
-            )),
+                    {{ field.implementor }}::create('{{ field.name }}', {{ field.options|raw }}),
                 {% else %}
                     {{ field.implementor }}::create('{{ field.name }}'),
                 {% endif %}
 
             {% endspaceless %} {% endfor %}
 
-        ){% if options|length > 0 %}, array({% for option in options %}
-            {% autoescape false %}
-            {% spaceless %}
-                '{{ option.name }}' => {{ option.value }},
-            {% endspaceless %} {% endautoescape %} {% endfor %}
-        ){% endif %});
+        ){% if options|length > 0 %}, {{ options|raw }} {% endif %});
     }
 
     /**

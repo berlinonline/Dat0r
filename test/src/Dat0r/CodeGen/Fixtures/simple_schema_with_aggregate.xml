@@ -3,6 +3,7 @@
 
     <module_definition name="SimpleSchema">
         <description>Example schema describing a simple module.</description>
+        <option name="some_option">with_some_value</option>
         <fields>
             <field name="title" type="text">
                 <description>A title field.</description>

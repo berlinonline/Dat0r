@@ -21,6 +21,7 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
 
         return Schema\ModuleSchema::create(array(
             'namespace' => $module_schema_element->getAttribute('namespace'),
+            'package' => $module_schema_element->getAttribute('package'),
             'module_definition' => $module_definition_parser->parseXpath(
                 $xpath,
                 array('context' => $module_schema_element)

@@ -8,6 +8,8 @@ class ModuleSchema extends Dat0r\Object
 {
     protected $namespace;
 
+    protected $package;
+
     protected $module_definition;
 
     protected $aggregate_definitions;
@@ -22,9 +24,24 @@ class ModuleSchema extends Dat0r\Object
         return $this->module_definition;
     }
 
+    public function setModuleDefinition(ModuleDefinition $module_definition)
+    {
+        $this->module_definition = $module_definition;
+
+        if (!$this->package)
+        {
+            $this->package = $module_definition->getName();
+        }
+    }
+
     public function getAggregateDefinitions()
     {
         return $this->aggregate_definitions;
+    }
+
+    public function getPackage()
+    {
+        return $this->package;
     }
 
     protected function __construct()

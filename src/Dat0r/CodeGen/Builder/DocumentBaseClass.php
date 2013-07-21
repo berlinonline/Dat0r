@@ -13,6 +13,11 @@ class DocumentBaseClass extends DocumentClass
         return 'Document/BaseDocument.twig';
     }
 
+    protected function buildPackage()
+    {
+        return parent::buildPackage() . '\\Base';
+    }
+
     protected function getParentImplementor()
     {
         $parent_class = $this->module_definition->getDocumentImplementor();
@@ -23,16 +28,5 @@ class DocumentBaseClass extends DocumentClass
         }
 
         return $parent_class;
-    }
-
-    protected function getTemplateVars()
-    {
-        $module_name = $this->module_definition->getName();
-        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name . '\\Base';
-
-        return array_merge(
-            parent::getTemplateVars(),
-            array('namespace' => $namespace)
-        );
     }
 }

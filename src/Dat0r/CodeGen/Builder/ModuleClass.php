@@ -8,9 +8,7 @@ class ModuleClass extends ClassBuilder
 {
     protected function getImplementor()
     {
-        $module_name = $this->module_definition->getName();
-
-        return sprintf('%sModule', $module_name);
+        return $this->module_definition->getName() . 'Module';
     }
 
     protected function getTemplate()

@@ -13,6 +13,11 @@ class ModuleBaseClass extends ModuleClass
         return 'Module/BaseModule.twig';
     }
 
+    protected function buildPackage()
+    {
+        return parent::buildPackage() . '\\Base';
+    }
+
     protected function getParentImplementor()
     {
         $parent_implementor = $this->module_definition->getImplementor();
@@ -33,15 +38,15 @@ class ModuleBaseClass extends ModuleClass
 
     protected function getTemplateVars()
     {
-        $module_name = $this->module_definition->getName();
-        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name;
-        $base_package = $namespace . '\\Base';
-
         return array_merge(
             parent::getTemplateVars(),
             array(
-                'namespace' => $base_package,
-                'document_implementor' => sprintf('%s\\%sDocument', $namespace, $module_name)
+                'document_implementor' => sprintf(
+                    '%s\\%s\\%sDocument',
+                    $this->buildNamespace(),
+                    parent::buildPackage(),
+                    $this->module_definition->getName()
+                )
             )
         );
     }

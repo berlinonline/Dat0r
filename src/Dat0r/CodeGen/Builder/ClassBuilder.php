@@ -34,11 +34,8 @@ abstract class ClassBuilder implements IClassBuilder
         return ClassContainer::create(array(
             'file_name' => $implementor . '.php',
             'class_name' => $implementor,
-            'namespace' => sprintf(
-                '%s\\%s\\Base',
-                $this->module_schema->getNamespace(),
-                $this->module_definition->getName()
-            ),
+            'namespace' => $this->buildNamespace(),
+            'package' => $this->buildPackage(),
             'source_code' => $this->twig->render(
                 $this->getTemplate(),
                 $this->getTemplateVars()
@@ -67,7 +64,6 @@ abstract class ClassBuilder implements IClassBuilder
     {
         $module_name = $this->module_definition->getName();
         $implementor = $this->getImplementor();
-        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name;
 
         $parent_class = $this->getParentImplementor();
         $parent_class_parts = array_filter(explode('\\', $parent_class));
@@ -79,24 +75,36 @@ abstract class ClassBuilder implements IClassBuilder
             'datetime' => date('Y-m-d H:i:s'),
             'module_name' => $module_name,
             'description' => $this->module_definition->getDescription(),
-            'namespace' => $namespace,
+            'namespace' => sprintf('%s\\%s', $this->buildNamespace(), $this->buildPackage()),
             'parent_namespace' => $parent_namespace,
             'parent_package' => $parent_package,
             'parent_implementor' => $parent_implementor,
             'implementor' => $implementor,
             'fields' => $this->buildFieldDefinitionData($this->module_definition->getFields()),
-            'options' => $this->formatOptions($this->module_definition->getOptions())
+            'options' => $this->preRenderOptions($this->module_definition->getOptions())
         );
+    }
+
+    protected function buildNamespace()
+    {
+        return $this->module_schema->getNamespace();
+    }
+
+    protected function buildPackage()
+    {
+        return $this->module_schema->getPackage();
     }
 
     protected function getParentImplementor()
     {
         $module_name = $this->module_definition->getName();
-        $implementor = $this->getImplementor();
-        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name;
-        $base_package = $namespace . '\\Base';
 
-        return $base_package . '\\' . $implementor;
+        return sprintf(
+            '%s\\%s\\Base\\%s',
+            $this->buildNamespace(),
+            $this->buildPackage(),
+            $this->getImplementor()
+        );
     }
 
     protected function buildFieldDefinitionData(Schema\FieldDefinitionSet $fields)
@@ -105,45 +113,39 @@ abstract class ClassBuilder implements IClassBuilder
 
         foreach ($fields as $field_definition)
         {
-            $camelcased_type = preg_replace_callback('/_(.)/', function($matches)
-            {
-                return strtoupper($matches[1]);
-            }, $field_definition->getType());
-
-            $field_implementor = sprintf(
-                '%s\\%sField',
-                self::NS_FIELDS,
-                ucfirst($camelcased_type)
+            $camelcased_type = preg_replace(
+                '/(?:^|-)(.?)/e',"strtoupper('$1')",
+                $field_definition->getType()
             );
+
+            $field_implementor = sprintf('%s\\%sField', self::NS_FIELDS, $camelcased_type);
 
             $fields_data[] = array(
                 'implementor' => $field_implementor,
-                'name' => $field_definition->getName(),
-                'options' => $this->formatOptions($field_definition->getOptions())
+                'name' => lcfirst(preg_replace(
+                    '/(?:^|_)(.?)/e',"strtoupper('$1')",
+                    $field_definition->getName()
+                )),
+                'options' => $this->preRenderOptions($field_definition->getOptions())
             );
         }
 
         return $fields_data;
     }
 
-    protected function formatOptions(Schema\OptionDefinitionList $options)
+    protected function preRenderOptions(Schema\OptionDefinitionList $options)
     {
-        $formatted_options = array();
+        $pre_rendered_options = '';
 
-        foreach ($options as $option)
+        if ($options->getSize() > 0)
         {
-            $formatted_value = preg_replace(
+            $pre_rendered_options = preg_replace(
                 array('/array\s*\(\s*/is', '/,\s+/is', '/\d+\s+=>\s+/is', '/\s+=>\s+/is'),
                 array("array(", ', ', '', ' => '),
-                preg_replace('/\n/is', '', var_export($option->getValue(), TRUE))
-            );
-
-            $formatted_options[$option->getName()] = array(
-                'name' => $option->getName(),
-                'value' => $formatted_value
+                preg_replace('/\n/is', '', var_export($options->toArray(), TRUE))
             );
         }
 
-        return $formatted_options;
+        return $pre_rendered_options;
     }
 }

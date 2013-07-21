@@ -77,12 +77,25 @@ class Service
 
         foreach ($class_list as $class_container)
         {
-            // @todo write file to disk
+            $rel_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
+            $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $rel_path;
+
+            if (!is_dir($package_dir))
+            {
+                mkdir($package_dir, 0775, true);
+            }
+
+            $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
+
+            if (!file_put_contents($class_filepath, $class_container->getSourceCode()))
+            {
+                // @todo error handling ...
+            }
         }
     }
 
     protected function moveCache()
     {
-
+        // @todo implement
     }
 }

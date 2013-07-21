@@ -8,9 +8,7 @@ class DocumentClass extends ClassBuilder
 {
     protected function getImplementor()
     {
-        $module_name = $this->module_definition->getName();
-
-        return sprintf('%sDocument', $module_name);
+        return $this->module_definition->getName() . 'Document';
     }
 
     protected function getTemplate()

@@ -8,10 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Dat0r\CodeGen\Config\Configuration;
-use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
-use Dat0r\CodeGen\Generator\Builder;
-use Dat0r\CodeGen\Generator\Deployment;
+use Dat0r\CodeGen;
 
 class GenerateCodeCommand extends Command
 {
@@ -19,16 +16,16 @@ class GenerateCodeCommand extends Command
     {
         $this
             ->setName('generate')
-            ->setDescription('Generate and/or deploy code for a given module definition.')
+            ->setDescription('Generate and/or deploy code for a given module schema_path.')
             ->addArgument(
                 'config',
                 InputArgument::REQUIRED,
                 'Path pointing to a valid (ini) config file.'
             )
             ->addArgument(
-                'definition',
+                'schema_path',
                 InputArgument::REQUIRED,
-                'Path pointing to a valid (xml) module definition file.'
+                'Path pointing to a valid (xml) module schema file.'
             )
             ->addArgument(
                 'action',
@@ -48,7 +45,7 @@ class GenerateCodeCommand extends Command
     protected function validateInput(InputInterface $input)
     {
         $config = $input->getArgument('config');
-        $definition = $input->getArgument('definition');
+        $schema_path = $input->getArgument('schema_path');
         $action = $input->getArgument('action');
 
         if (! is_readable(realpath($config)))
@@ -58,10 +55,10 @@ class GenerateCodeCommand extends Command
             );
         }
 
-        if (! is_readable(realpath($definition)))
+        if (! is_readable(realpath($schema_path)))
         {
             throw new Exception(
-                sprintf('The given `definition` argument path `%s` is not readable.', $definition)
+                sprintf('The given `schema_path` argument path `%s` is not readable.', $schema_path)
             );
         }
 
@@ -78,28 +75,16 @@ class GenerateCodeCommand extends Command
     {
         try
         {
-            // fetch and parse the module definition of interest
-            $parser = ModuleSchemaXmlParser::create();
-            $moduleDefinition = $parser->parseSchema($input->getArgument('definition'));
-            // then kick off code generation and/or deployment
-            $actions = explode('+', $input->getArgument('action'));
-            $configuration = $this->loadConfig($input);
+            $service = CodeGen\Service::create($this->loadConfig());
 
             if (in_array('gen', $actions))
             {
-                $builder = Builder::create($configuration);
-                $builder->build($moduleDefinition);
-
-                foreach ($configuration->getPlugins() as $plugin)
-                {
-                    $plugin->execute($moduleDefinition);
-                }
+                $service->buildSchema($input->getArgument('schema_path'));
             }
 
             if (in_array('dep', $actions))
             {
-                $deployment = Deployment::create($configuration);
-                $deployment->deploy($moduleDefinition);
+                $service->deployBuild();
             }
         }
         catch (\Exception $error)
@@ -113,47 +98,7 @@ class GenerateCodeCommand extends Command
         $configPath = $input->getArgument('config');
         $config = parse_ini_file($configPath, TRUE);
 
-        $basePath = dirname($configPath);
-        if (0 !== strpos($basePath, DIRECTORY_SEPARATOR))
-        {
-            $basePath = getcwd() . DIRECTORY_SEPARATOR . $basePath;
-        }
-        $config['basePath'] = $basePath;
-
-        $cacheDir = $config['cacheDir'];
-        if (0 !== strpos($cacheDir, DIRECTORY_SEPARATOR))
-        {
-            $cacheDir = Configuration::normalizePath(
-                dirname(realpath($configPath)) . '/' . $cacheDir
-            );
-            $config['cacheDir'] = $cacheDir;
-        }
-
-        $deployDir = $config['deployDir'];
-        if (0 !== strpos($deployDir, DIRECTORY_SEPARATOR))
-        {
-            $deployDir = Configuration::normalizePath(
-                dirname(realpath($configPath)) . '/' . $deployDir
-            );
-            $config['deployDir'] = $deployDir;
-        }
-
-        if (isset($config['plugins']))
-        {
-            foreach ($config['plugins'] as $class => $classPath)
-            {
-                if (0 !== strpos($classPath, DIRECTORY_SEPARATOR))
-                {
-                    // need the call to Configuration::normalizePath so we are not affected,
-                    // when the classPath is relative to a symlink location.
-                    $config['plugins'][$class] = Configuration::normalizePath(
-                        $basePath . DIRECTORY_SEPARATOR . $classPath
-                    );
-                }
-            }
-        }
-
-        return Configuration::create($config);
+        return CodeGen\Config::create($config);
     }
 
     protected function displayUsage(OutputInterface $output)
