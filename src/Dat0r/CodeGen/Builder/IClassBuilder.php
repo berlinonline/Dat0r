@@ -6,5 +6,5 @@ use Dat0r\CodeGen\Schema;
 
 interface IClassBuilder
 {
-    public function build(Schema\ModuleSchema $module_schema);
+    public function build();
 }

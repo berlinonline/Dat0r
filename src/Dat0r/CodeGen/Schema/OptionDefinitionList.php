@@ -20,7 +20,7 @@ class OptionDefinitionList extends Dat0r\ArrayList
     {
         $data = array();
 
-        foreach ($this->option_definitions as $option)
+        foreach ($this->items as $option)
         {
             $name = $option->getName();
             $value = $option->getValue();

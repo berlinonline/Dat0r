@@ -10,35 +10,48 @@ class Service
 {
     protected $config;
 
+    protected $schema_parser;
+
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->schema_parser = Parser\ModuleSchemaXmlParser::create();
     }
 
     public function buildSchema($module_schema_path)
     {
-        $schema_parser = Parser\ModuleSchemaXmlParser::create();
-        $module_schema = $schema_parser->parseSchema($module_schema_path);
-
-        $module_definition = $module_schema->getModuleDefinition();
-        $module_name = $module_definition->getName();
-
-        $builders = array(
-            Builder\ModuleBaseClass::create(),
-            Builder\ModuleClass::create(),
-            Builder\DocumentBaseClass::create(),
-            Builder\DocumentClass::create()
+        $class_builders = $this->createClassBuilders(
+            $this->schema_parser->parseSchema($module_schema_path)
         );
 
-        $build_code = function($builder) use ($module_schema) {
-            return $builder->build($module_schema);
-        };
-
+        $executeBuild = function($builder) { return $builder->build(); };
         $class_list = Builder\ClassContainerList::create(
-            array_map($build_code, $builders)
+            array_map($executeBuild, $class_builders)
         );
 
         $this->writeCache($class_list);
+    }
+
+    protected function createClassBuilders(Schema\ModuleSchema $module_schema)
+    {
+        $createBuilders = function(Schema\ModuleDefinition $module) use ($module_schema)
+        {
+            return array(
+                Builder\ModuleBaseClass::create($module_schema, $module),
+                Builder\ModuleClass::create($module_schema, $module),
+                Builder\DocumentBaseClass::create($module_schema, $module),
+                Builder\DocumentClass::create($module_schema, $module)
+            );
+        };
+
+        $root_module = $module_schema->getModuleDefinition();
+        $class_builders = $createBuilders($root_module);
+        foreach ($root_module->getAggregateDefinitions($module_schema) as $aggregate_module)
+        {
+            $class_builders = array_merge($class_builders, $createBuilders($aggregate_module));
+        }
+
+        return $class_builders;
     }
 
     protected function writeCache(Builder\ClassContainerList $class_list)
@@ -64,9 +77,7 @@ class Service
 
         foreach ($class_list as $class_container)
         {
-
-var_dump($class_container->toArray());
-
+            // @todo write file to disk
         }
     }
 

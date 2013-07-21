@@ -6,15 +6,14 @@ use Dat0r\CodeGen\Schema;
 
 class DocumentClass extends ClassBuilder
 {
-    protected function getImplementor(Schema\ModuleSchema $module_schema)
+    protected function getImplementor()
     {
-        $module_definition = $module_schema->getModuleDefinition();
-        $module_name = $module_definition->getName();
+        $module_name = $this->module_definition->getName();
 
         return sprintf('%sDocument', $module_name);
     }
 
-    protected function getTemplate(Schema\ModuleSchema $module_schema)
+    protected function getTemplate()
     {
         return 'Document/Document.twig';
     }

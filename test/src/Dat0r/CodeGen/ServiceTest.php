@@ -17,7 +17,7 @@ class ServiceTest extends Tests\TestCase
 
         $module_schema_path = __DIR__ .
             DIRECTORY_SEPARATOR . 'Fixtures' .
-            DIRECTORY_SEPARATOR . 'simple_schema.xml';
+            DIRECTORY_SEPARATOR . 'simple_schema_with_aggregate.xml';
 
         $codegen_service = new CodeGen\Service($config);
         $codegen_service->buildSchema($module_schema_path);

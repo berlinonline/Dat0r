@@ -8,15 +8,14 @@ class DocumentBaseClass extends DocumentClass
 {
     const NS_DOCUMENT = 'Dat0r\\Core\\Document';
 
-    protected function getTemplate(Schema\ModuleSchema $module_schema)
+    protected function getTemplate()
     {
         return 'Document/BaseDocument.twig';
     }
 
-    protected function getParentImplementor(Schema\ModuleSchema $module_schema)
+    protected function getParentImplementor()
     {
-        $module_definition = $module_schema->getModuleDefinition();
-        $parent_class = $module_definition->getDocumentImplementor();
+        $parent_class = $this->module_definition->getDocumentImplementor();
 
         if (!$parent_class)
         {
@@ -26,14 +25,13 @@ class DocumentBaseClass extends DocumentClass
         return $parent_class;
     }
 
-    protected function getTemplateVars(Schema\ModuleSchema $module_schema)
+    protected function getTemplateVars()
     {
-        $module_definition = $module_schema->getModuleDefinition();
-        $module_name = $module_definition->getName();
-        $namespace = $module_schema->getNamespace() . '\\' . $module_name . '\\Base';
+        $module_name = $this->module_definition->getName();
+        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name . '\\Base';
 
         return array_merge(
-            parent::getTemplateVars($module_schema),
+            parent::getTemplateVars(),
             array('namespace' => $namespace)
         );
     }

@@ -8,33 +8,37 @@ class ModuleBaseClass extends ModuleClass
 {
     const NS_MODULE = 'Dat0r\\Core\\Module';
 
-    protected function getTemplate(Schema\ModuleSchema $module_schema)
+    protected function getTemplate()
     {
         return 'Module/BaseModule.twig';
     }
 
-    protected function getParentImplementor(Schema\ModuleSchema $module_schema)
+    protected function getParentImplementor()
     {
-        $module_definition = $module_schema->getModuleDefinition();
-        $parent_class = $module_definition->getImplementor();
+        $parent_implementor = $this->module_definition->getImplementor();
 
-        if (!$parent_class)
+        if (!$parent_implementor)
         {
-            $parent_class = sprintf('%s\\RootModule', self::NS_MODULE);
+            $parent_implementor = sprintf(
+                '%s\\%s',
+                ModuleBaseClass::NS_MODULE,
+                ($this->module_definition instanceof Schema\AggregateDefinition)
+                ? 'AggregateModule'
+                : 'RootModule'
+            );
         }
 
-        return $parent_class;
+        return $parent_implementor;
     }
 
-    protected function getTemplateVars(Schema\ModuleSchema $module_schema)
+    protected function getTemplateVars()
     {
-        $module_definition = $module_schema->getModuleDefinition();
-        $module_name = $module_definition->getName();
-        $namespace = $module_schema->getNamespace() . '\\' . $module_name;
+        $module_name = $this->module_definition->getName();
+        $namespace = $this->module_schema->getNamespace() . '\\' . $module_name;
         $base_package = $namespace . '\\Base';
 
         return array_merge(
-            parent::getTemplateVars($module_schema),
+            parent::getTemplateVars(),
             array(
                 'namespace' => $base_package,
                 'document_implementor' => sprintf('%s\\%sDocument', $namespace, $module_name)
