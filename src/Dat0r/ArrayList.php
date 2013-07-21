@@ -2,7 +2,7 @@
 
 namespace Dat0r;
 
-class ObjectList extends Object implements ICollection
+class ArrayList extends Object implements ICollection
 {
     const ITEMS = 'items';
 

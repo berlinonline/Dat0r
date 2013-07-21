@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 use Dat0r;
 
-class FieldDefinitionSet extends Dat0r\ObjectSet
+class FieldDefinitionSet extends Dat0r\Set
 {
     public static function create(array $items = array())
     {

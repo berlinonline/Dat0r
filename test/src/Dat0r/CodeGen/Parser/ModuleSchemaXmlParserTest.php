@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\CodeGen\Parser;
 
-use Dat0r\Tests\Core\BaseTest;
+use Dat0r\Tests;
 use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
 
-class ModuleSchemaXmlParserTest extends BaseTest
+class ModuleSchemaXmlParserTest extends Tests\TestCase
 {
     public function testParseSchema()
     {

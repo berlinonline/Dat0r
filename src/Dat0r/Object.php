@@ -6,17 +6,27 @@ class Object implements IObject
 {
     public static function create(array $data = array())
     {
-        $module_schema = new static();
+        $object = new static();
 
         foreach ($data as $key => $value)
         {
-            if (property_exists($module_schema, $key))
+            $camelcased_key = preg_replace_callback('/_(.)/', function($matches)
             {
-                $module_schema->$key = $value;
+                return strtoupper($matches[1]);
+            }, $key);
+
+            $setter_method = 'set' . $camelcased_key;
+            if (is_callable(array($object, $setter_method)))
+            {
+                $object->$setter_method($value);
+            }
+            else if (property_exists($object, $key))
+            {
+                $object->$key = $value;
             }
         }
 
-        return $module_schema;
+        return $object;
     }
 
     public function toArray()

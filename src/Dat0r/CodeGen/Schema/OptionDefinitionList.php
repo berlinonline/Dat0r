@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 use Dat0r;
 
-class OptionDefinitionList extends Dat0r\ObjectList
+class OptionDefinitionList extends Dat0r\ArrayList
 {
     public static function create(array $items = array())
     {

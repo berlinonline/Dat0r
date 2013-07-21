@@ -7,10 +7,12 @@ then the '{{ module_name }}Document' (skeleton) class probally might be a good p
 
 namespace {{ namespace }};
 
+use {{ parent_namespace }};
+
 /**
  * Serves as the base class to the '{{ module_name }}' document skeleton.
  */
-abstract class {{ implementor }} extends {{ parent_class }}
+abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implementor }}
 { {% for field in fields %}
 
     /**

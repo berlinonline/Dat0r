@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Fixtures;
 
 use Dat0r;
 
-class TestObjectSet extends Dat0r\ObjectSet
+class TestObjectSet extends Dat0r\Set
 {
     public static function create(array $items = array())
     {

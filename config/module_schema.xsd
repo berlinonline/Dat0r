@@ -10,15 +10,15 @@
   <xsd:complexType name="module_schemaType">
     <xsd:sequence>
       <xsd:element name="module_definition" type="module_definitionType" />
-      <xsd:element name="aggregate_definition" type="aggregate_definitionType" maxOccurs="unbounded" />
+      <xsd:element name="aggregate_definition" type="aggregate_definitionType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
     <xsd:attribute name="namespace" type="xsd:string" />
   </xsd:complexType>
 
   <xsd:complexType name="module_definitionType">
     <xsd:sequence>
-      <xsd:element name="implementor" type="xsd:string" />
-      <xsd:element name="document_implementor" type="xsd:string" />
+      <xsd:element name="implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="document_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" />
       <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded" />
       <xsd:element name="fields" type="fieldsType" />

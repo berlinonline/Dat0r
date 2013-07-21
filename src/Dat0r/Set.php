@@ -2,7 +2,7 @@
 
 namespace Dat0r;
 
-class ObjectSet extends ObjectList implements ISet
+class Set extends ArrayList implements ISet
 {
     const ITEMS_KEY_FIELD = 'items_key_field';
 

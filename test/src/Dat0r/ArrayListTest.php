@@ -4,7 +4,7 @@ namespace Dat0r\Tests;
 
 use Dat0r\Tests\Fixtures;
 
-class ObjectListTest extends TestCase
+class ArrayListTest extends TestCase
 {
     public function testCreate()
     {

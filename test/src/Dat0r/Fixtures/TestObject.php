@@ -13,6 +13,11 @@ class TestObject extends Dat0r\Object
 
     protected $property_three;
 
+    public function setPropertyOne($property_one)
+    {
+        $this->property_one = $property_one;
+    }
+
     public function getPropertyOne()
     {
         return $this->property_one;
