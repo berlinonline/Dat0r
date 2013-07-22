@@ -120,13 +120,13 @@ class Autoloader
      */
     private static function buildPath($class, $namespace, $base_dir)
     {
-        $baseName = str_replace(
+        $base_name = str_replace(
             array($namespace, '\\'),
             array('', DIRECTORY_SEPARATOR),
             $class
         );
 
-        return $base_dir . DIRECTORY_SEPARATOR . $baseName . '.php';
+        return $base_dir . DIRECTORY_SEPARATOR . $base_name . '.php';
     }
 
     /**
