@@ -19,13 +19,15 @@ class GenerateCodeCommand extends BaseCommand
             self::NAME
         )->setDescription(
             'Generate and/or deploy code for a given module schema_path.'
-        )->addArgument(
+        )->addOption(
             'config',
-            InputArgument::REQUIRED,
+            'c',
+            InputArgument::OPTIONAL,
             'Path pointing to a valid (ini) config file.'
-        )->addArgument(
-            'schema_path',
-            InputArgument::REQUIRED,
+        )->addOption(
+            'schema',
+            's',
+            InputArgument::OPTIONAL,
             'Path pointing to a valid (xml) module schema file.'
         )->addArgument(
             'action',
@@ -43,8 +45,8 @@ class GenerateCodeCommand extends BaseCommand
 
     protected function validateInput(InputInterface $input)
     {
-        $config = $input->getArgument('config');
-        $schema_path = $input->getArgument('schema_path');
+        $config = $input->getOption('config');
+        $schema_path = $input->getOption('schema');
         $action = $input->getArgument('action');
 
         if (! is_readable(realpath($config))) {
@@ -59,8 +61,8 @@ class GenerateCodeCommand extends BaseCommand
             );
         }
 
-        $validActions = array('gen', 'dep', 'gen+dep');
-        if (! in_array($action, $validActions)) {
+        $valid_actions = array('gen', 'dep', 'gen+dep');
+        if (! in_array($action, $valid_actions)) {
             throw new Exception(
                 sprintf('The given `action` argument value `%s` is not supported.', $action)
             );
@@ -69,11 +71,15 @@ class GenerateCodeCommand extends BaseCommand
 
     protected function processPayload(InputInterface $input, OutputInterface $output)
     {
+        $actions = explode('+', $input->getArgument('action'));
+
         try {
-            $service = CodeGen\Service::create($this->loadConfig());
+            $service = CodeGen\Service::create(
+                array('config' => $this->loadConfig($input))
+            );
 
             if (in_array('gen', $actions)) {
-                $service->buildSchema($input->getArgument('schema_path'));
+                $service->buildSchema($input->getOption('schema'));
             }
 
             if (in_array('dep', $actions)) {
@@ -86,8 +92,8 @@ class GenerateCodeCommand extends BaseCommand
 
     protected function loadConfig(InputInterface $input)
     {
-        $configPath = $input->getArgument('config');
-        $config = parse_ini_file($configPath, true);
+        $config_path = $input->getOption('config');
+        $config = parse_ini_file($config_path, true);
 
         return CodeGen\Config::create($config);
     }

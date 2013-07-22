@@ -2,19 +2,19 @@
 
 namespace Dat0r\CodeGen;
 
+use Dat0r;
 use Dat0r\CodeGen\Parser;
 use Dat0r\CodeGen\Schema;
 use Dat0r\CodeGen\Builder;
 
-class Service
+class Service extends Dat0r\Object
 {
     protected $config;
 
     protected $schema_parser;
 
-    public function __construct(Config $config)
+    public function __construct()
     {
-        $this->config = $config;
         $this->schema_parser = Parser\ModuleSchemaXmlParser::create();
     }
 
