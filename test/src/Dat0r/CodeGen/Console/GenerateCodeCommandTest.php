@@ -3,36 +3,23 @@
 namespace Dat0r\Tests\CodeGen\Console;
 
 use Dat0r\Tests;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Dat0r\CodeGen\Console as Dat0rConsole;
+use Symfony\Component\Console as SymfonyConsole;
+use Symfony\Component\Console\Tester;
 
-class GenerateCommandCommandTest extends Tests\TestCase
+class GenerateCodeCommandTest extends Tests\TestCase
 {
-    public function testAutoloadDirOption()
+    public function testFoo()
     {
-        $text = $this->executeCheckCommand('empty.json', array(
-            '--autoload_dir' => __DIR__,
-            '--verbose' => true
-        ));
-
-        $this->assertRegExp('/Classes will be autoloaded from "' . preg_quote(__DIR__, '/') . '"/', $text);
     }
 
-    /**
-     * Executes CheckCommand with given config file and options.
-     *
-     * @param string $filename name of file in Fixtures folder
-     * @param array $options CLI options
-     *
-     * @return string output
-     */
-    protected function executeCheckCommand($filename, array $options = array())
+    protected function executeCommand($filename, array $options = array())
     {
-        $application = new Application();
-        $application->add(new Console\GenerateCodeCommand());
+        $application = new SymfonyConsole\Application();
+        $application->add(new Dat0rConsole\GenerateCodeCommand());
 
-        $command = $application->find(Console\GenerateCodeCommand::NAME);
-        $tester = new CommandTester($command);
+        $command = $application->find(Dat0rConsole\GenerateCodeCommand::NAME);
+        $tester = new Tester\CommandTester($command);
 
         $tester->execute(
             array_merge(

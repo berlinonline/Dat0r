@@ -9,14 +9,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Dat0r\CodeGen;
 
-class GenerateCodeCommand extends Command
+class GenerateCodeCommand extends BaseCommand
 {
     const NAME = 'generate_code';
 
     protected function configure()
     {
         $this->setName(
-            self::NAME,
+            self::NAME
         )->setDescription(
             'Generate and/or deploy code for a given module schema_path.'
         )->addArgument(
