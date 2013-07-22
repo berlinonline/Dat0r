@@ -10,8 +10,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
     {
         $options_list = Schema\OptionDefinitionList::create();
 
-        foreach($xpath->query('./option', $options['context']) as $option_element)
-        {
+        foreach ($xpath->query('./option', $options['context']) as $option_element) {
             $options_list->add(
                 $this->parseOption($xpath, $option_element)
             );
@@ -26,31 +25,28 @@ class OptionDefinitionXpathParser extends BaseXpathParser
         $value = null;
         $default = null;
 
-        if ($element->hasAttribute('name'))
-        {
+        if ($element->hasAttribute('name')) {
             $name = $element->getAttribute('name');
         }
 
         $nested_options = $xpath->query('./option', $element);
-        if ($nested_options->length > 0)
-        {
+        if ($nested_options->length > 0) {
             $value = Schema\OptionDefinitionList::create();
-            foreach ($nested_options as $option_element)
-            {
+            foreach ($nested_options as $option_element) {
                 $value->add(
                     $this->parseOption($xpath, $option_element)
                 );
             }
-        }
-        else
-        {
+        } else {
             $value = trim($element->nodeValue);
         }
 
-        return Schema\OptionDefinition::create(array(
-            'name' => $name,
-            'value' => $value,
-            'default' => $default
-        ));
+        return Schema\OptionDefinition::create(
+            array(
+                'name' => $name,
+                'value' => $value,
+                'default' => $default
+            )
+        );
     }
 }

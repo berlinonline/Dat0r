@@ -27,7 +27,7 @@ try
 {
     $application = new Application();
     $application->setAutoExit(FALSE);
-    $application->setCatchExceptions(FALSe);
+    $application->setCatchExceptions(FALSE);
     $application->add(new Console\GenerateCodeCommand);
     $exitCode = $application->run();
 }

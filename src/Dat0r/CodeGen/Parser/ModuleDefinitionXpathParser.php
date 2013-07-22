@@ -10,8 +10,7 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
     {
         $node_list = $xpath->query('./module_definition', $options['context']);
 
-        if ($node_list->length === 0)
-        {
+        if ($node_list->length === 0) {
             throw new ParseException(
                 "Missing module_definition node. Please check the given module_schema."
             );
@@ -29,14 +28,16 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
             $xpath->query('./description', $element)->item(0)
         );
 
-        return Schema\ModuleDefinition::create(array(
-            'name' => $element->getAttribute('name'),
-            'implementor' => $implementor,
-            'document_implementor' => $document_implementor,
-            'description' => $description,
-            'options' => $this->parseOptions($xpath, $element),
-            'fields' => $this->parseFields($xpath, $element)
-        ));
+        return Schema\ModuleDefinition::create(
+            array(
+                'name' => $element->getAttribute('name'),
+                'implementor' => $implementor,
+                'document_implementor' => $document_implementor,
+                'description' => $description,
+                'options' => $this->parseOptions($xpath, $element),
+                'fields' => $this->parseFields($xpath, $element)
+            )
+        );
     }
 
     protected function parseFields(\DOMXPath $xpath, \DOMElement $element)

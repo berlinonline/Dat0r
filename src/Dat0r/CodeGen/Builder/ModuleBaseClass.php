@@ -22,8 +22,7 @@ class ModuleBaseClass extends ModuleClass
     {
         $parent_implementor = $this->module_definition->getImplementor();
 
-        if (!$parent_implementor)
-        {
+        if (!$parent_implementor) {
             $parent_implementor = sprintf(
                 '%s\\%s',
                 ModuleBaseClass::NS_MODULE,

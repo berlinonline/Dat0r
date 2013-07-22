@@ -28,8 +28,7 @@ class ModuleSchema extends Dat0r\Object
     {
         $this->module_definition = $module_definition;
 
-        if (!$this->package)
-        {
+        if (!$this->package) {
             $this->package = $module_definition->getName();
         }
     }

@@ -9,14 +9,18 @@ abstract class BaseXpathParser implements IXpathParser
         return new static();
     }
 
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
     protected function parseDescription(\DOMXPath $xpath, \DOMElement $element)
     {
-        return array_map(function($line)
-        {
-            return trim($line);
-        }, preg_split ('/$\R?^/m', trim($element->nodeValue)));
+        return array_map(
+            function ($line) {
+                return trim($line);
+            },
+            preg_split('/$\R?^/m', trim($element->nodeValue))
+        );
     }
 
     protected function parseOptions(\DOMXPath $xpath, \DOMElement $element)

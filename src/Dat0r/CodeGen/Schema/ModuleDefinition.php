@@ -51,14 +51,10 @@ class ModuleDefinition extends Dat0r\Object
     public function getAggregateDefinitions(ModuleSchema $module_schema)
     {
         $aggregate_names = array();
-        foreach ($this->fields as $field)
-        {
-            if ($field->getType() === 'aggregate')
-            {
-                foreach ($field->getOptions() as $option)
-                {
-                    if ($option->getName() === 'modules')
-                    {
+        foreach ($this->fields as $field) {
+            if ($field->getType() === 'aggregate') {
+                foreach ($field->getOptions() as $option) {
+                    if ($option->getName() === 'modules') {
                         $aggregate_names = array_merge(
                             $aggregate_names,
                             $option->getValue()->toArray()
@@ -69,10 +65,8 @@ class ModuleDefinition extends Dat0r\Object
         }
 
         $aggregates_set = ModuleDefinitionSet::create();
-        foreach ($module_schema->getAggregateDefinitions() as $aggregate)
-        {
-            if (in_array($aggregate->getName(), $aggregate_names))
-            {
+        foreach ($module_schema->getAggregateDefinitions() as $aggregate) {
+            if (in_array($aggregate->getName(), $aggregate_names)) {
                 $aggregates_set->add($aggregate);
             }
         }

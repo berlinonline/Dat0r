@@ -10,35 +10,32 @@ class OptionDefinitionList extends Dat0r\ArrayList
     {
         $item_implementor = sprintf('\\%s\\OptionDefinition', __NAMESPACE__);
 
-        return parent::create(array(
-            self::ITEM_IMPLEMENTOR => $item_implementor,
-            self::ITEMS => $items
-        ));
+        return parent::create(
+            array(
+                self::ITEM_IMPLEMENTOR => $item_implementor,
+                self::ITEMS => $items
+            )
+        );
     }
 
     public function toArray()
     {
         $data = array();
 
-        foreach ($this->items as $option)
-        {
+        foreach ($this->items as $option) {
             $name = $option->getName();
             $value = $option->getValue();
             $next_value = $value;
 
-            if ($value instanceof OptionDefinitionList)
-            {
+            if ($value instanceof OptionDefinitionList) {
                 $next_value = $value->toArray();
             }
 
             $next_value = $next_value ? $next_value : $option->getDefault();
 
-            if ($name)
-            {
+            if ($name) {
                 $data[$name] = $next_value;
-            }
-            else
-            {
+            } else {
                 $data[] = $next_value;
             }
         }

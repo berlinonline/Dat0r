@@ -19,18 +19,20 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
         $module_definition_parser = ModuleDefinitionXpathParser::create();
         $aggregates_parser = AggregateDefinitionXpathParser::create();
 
-        return Schema\ModuleSchema::create(array(
-            'namespace' => $module_schema_element->getAttribute('namespace'),
-            'package' => $module_schema_element->getAttribute('package'),
-            'module_definition' => $module_definition_parser->parseXpath(
-                $xpath,
-                array('context' => $module_schema_element)
-            ),
-            'aggregate_definitions' => $aggregates_parser->parseXpath(
-                $xpath,
-                array('context' => $module_schema_element)
+        return Schema\ModuleSchema::create(
+            array(
+                'namespace' => $module_schema_element->getAttribute('namespace'),
+                'package' => $module_schema_element->getAttribute('package'),
+                'module_definition' => $module_definition_parser->parseXpath(
+                    $xpath,
+                    array('context' => $module_schema_element)
+                ),
+                'aggregate_definitions' => $aggregates_parser->parseXpath(
+                    $xpath,
+                    array('context' => $module_schema_element)
+                )
             )
-        ));
+        );
     }
 
     public static function create()
@@ -47,8 +49,7 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
 
     protected function createDomDocument($module_schema_file)
     {
-        if (!is_readable($module_schema_file))
-        {
+        if (!is_readable($module_schema_file)) {
             throw new ParseException(
                 "Unable to read file at path '$module_schema_file'."
             );
@@ -56,15 +57,13 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
 
         $document = new \DOMDocument('1.0', 'utf-8');
 
-        if (!$document->load($module_schema_file))
-        {
+        if (!$document->load($module_schema_file)) {
             throw new ParseException(
                 "Failed loading the given module-schema."
             );
         }
 
-        if (!$document->schemaValidate($this->xsd_schema_file))
-        {
+        if (!$document->schemaValidate($this->xsd_schema_file)) {
             throw new ParseException(
                 "Schema validation for the given module-schema failed."
             );

@@ -10,8 +10,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
     {
         $field_set = Schema\FieldDefinitionSet::create();
 
-        foreach($xpath->query('./field', $options['context']) as $element)
-        {
+        foreach ($xpath->query('./field', $options['context']) as $element) {
             $field_set->add($this->parseField($xpath, $element));
         }
 
@@ -25,11 +24,13 @@ class FieldDefinitionXpathParser extends BaseXpathParser
             $xpath->query('./description', $element)->item(0)
         );
 
-        return Schema\FieldDefinition::create(array(
-            'name' => $element->getAttribute('name'),
-            'type' => $element->getAttribute('type'),
-            'description' => $description,
-            'options' => $this->parseOptions($xpath, $element)
-        ));
+        return Schema\FieldDefinition::create(
+            array(
+                'name' => $element->getAttribute('name'),
+                'type' => $element->getAttribute('type'),
+                'description' => $description,
+                'options' => $this->parseOptions($xpath, $element)
+            )
+        );
     }
 }

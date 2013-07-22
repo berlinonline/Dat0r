@@ -22,8 +22,7 @@ class DocumentBaseClass extends DocumentClass
     {
         $parent_class = $this->module_definition->getDocumentImplementor();
 
-        if (!$parent_class)
-        {
+        if (!$parent_class) {
             $parent_class = sprintf('%s\\Document', self::NS_DOCUMENT);
         }
 

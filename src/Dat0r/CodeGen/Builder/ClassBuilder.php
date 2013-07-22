@@ -21,8 +21,7 @@ abstract class ClassBuilder implements IClassBuilder
     public static function create(
         Schema\ModuleSchema $module_schema,
         Schema\ModuleDefinition $module_definition = null
-    )
-    {
+    ) {
         return new static($module_schema, $module_definition);
     }
 
@@ -31,23 +30,24 @@ abstract class ClassBuilder implements IClassBuilder
         $this->module_schema->getModuleDefinition();
         $implementor = $this->getImplementor();
 
-        return ClassContainer::create(array(
-            'file_name' => $implementor . '.php',
-            'class_name' => $implementor,
-            'namespace' => $this->buildNamespace(),
-            'package' => $this->buildPackage(),
-            'source_code' => $this->twig->render(
-                $this->getTemplate(),
-                $this->getTemplateVars()
+        return ClassContainer::create(
+            array(
+                'file_name' => $implementor . '.php',
+                'class_name' => $implementor,
+                'namespace' => $this->buildNamespace(),
+                'package' => $this->buildPackage(),
+                'source_code' => $this->twig->render(
+                    $this->getTemplate(),
+                    $this->getTemplateVars()
+                )
             )
-        ));
+        );
     }
 
     protected function __construct(
         Schema\ModuleSchema $module_schema,
         Schema\ModuleDefinition $module_definition = null
-    )
-    {
+    ) {
         $this->twig = new \Twig_Environment(
             new \Twig_Loader_Filesystem(
                 __DIR__ . DIRECTORY_SEPARATOR . 'templates'
@@ -111,10 +111,10 @@ abstract class ClassBuilder implements IClassBuilder
     {
         $fields_data = array();
 
-        foreach ($fields as $field_definition)
-        {
+        foreach ($fields as $field_definition) {
             $camelcased_type = preg_replace(
-                '/(?:^|-)(.?)/e',"strtoupper('$1')",
+                '/(?:^|-)(.?)/e',
+                "strtoupper('$1')",
                 $field_definition->getType()
             );
 
@@ -122,10 +122,13 @@ abstract class ClassBuilder implements IClassBuilder
 
             $fields_data[] = array(
                 'implementor' => $field_implementor,
-                'name' => lcfirst(preg_replace(
-                    '/(?:^|_)(.?)/e',"strtoupper('$1')",
-                    $field_definition->getName()
-                )),
+                'name' => lcfirst(
+                    preg_replace(
+                        '/(?:^|_)(.?)/e',
+                        "strtoupper('$1')",
+                        $field_definition->getName()
+                    )
+                ),
                 'options' => $this->preRenderOptions($field_definition->getOptions())
             );
         }
@@ -137,12 +140,11 @@ abstract class ClassBuilder implements IClassBuilder
     {
         $pre_rendered_options = '';
 
-        if ($options->getSize() > 0)
-        {
+        if ($options->getSize() > 0) {
             $pre_rendered_options = preg_replace(
                 array('/array\s*\(\s*/is', '/,\s+/is', '/\d+\s+=>\s+/is', '/\s+=>\s+/is'),
                 array("array(", ', ', '', ' => '),
-                preg_replace('/\n/is', '', var_export($options->toArray(), TRUE))
+                preg_replace('/\n/is', '', var_export($options->toArray(), true))
             );
         }
 
