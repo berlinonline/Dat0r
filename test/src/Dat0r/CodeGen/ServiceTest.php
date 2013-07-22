@@ -9,11 +9,13 @@ class ServiceTest extends Tests\TestCase
 {
     public function testBuildSchema()
     {
-        $config = CodeGen\Config::create(array(
-            'cache_dir' => __DIR__ . DIRECTORY_SEPARATOR . '.code_cache',
-            'deploy_dir' => '',
-            'plugin_settings' => array()
-        ));
+        $config = CodeGen\Config::create(
+            array(
+                'cache_dir' => __DIR__ . DIRECTORY_SEPARATOR . '.code_cache',
+                'deploy_dir' => '',
+                'plugin_settings' => array()
+            )
+        );
 
         $module_schema_path = __DIR__ .
             DIRECTORY_SEPARATOR . 'Fixtures' .

@@ -10,10 +10,12 @@ class TestObjectSet extends Dat0r\Set
     {
         $item_implementor = sprintf('\\%s\\TestObject', __NAMESPACE__);
 
-        return parent::create(array(
-            self::ITEM_IMPLEMENTOR => $item_implementor,
-            self::ITEMS_KEY_FIELD => 'property_one',
-            self::ITEMS => $items
-        ));
+        return parent::create(
+            array(
+                self::ITEM_IMPLEMENTOR => $item_implementor,
+                self::ITEMS_KEY_FIELD => 'property_one',
+                self::ITEMS => $items
+            )
+        );
     }
 }

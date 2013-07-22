@@ -8,20 +8,19 @@ class Object implements IObject
     {
         $object = new static();
 
-        foreach ($data as $key => $value)
-        {
-            $camelcased_key = preg_replace_callback('/_(.)/', function($matches)
-            {
-                return strtoupper($matches[1]);
-            }, $key);
+        foreach ($data as $key => $value) {
+            $camelcased_key = preg_replace_callback(
+                '/_(.)/',
+                function ($matches) {
+                    return strtoupper($matches[1]);
+                },
+                $key
+            );
 
             $setter_method = 'set' . $camelcased_key;
-            if (is_callable(array($object, $setter_method)))
-            {
+            if (is_callable(array($object, $setter_method))) {
                 $object->$setter_method($value);
-            }
-            else if (property_exists($object, $key))
-            {
+            } elseif (property_exists($object, $key)) {
                 $object->$key = $value;
             }
         }
@@ -33,14 +32,10 @@ class Object implements IObject
     {
         $data = array();
 
-        foreach (get_object_vars($this) as $prop => $value)
-        {
-            if ($value instanceof IObject)
-            {
+        foreach (get_object_vars($this) as $prop => $value) {
+            if ($value instanceof IObject) {
                 $data[$prop] = $value->toArray();
-            }
-            else
-            {
+            } else {
                 $data[$prop] = $value;
             }
         }

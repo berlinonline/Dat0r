@@ -20,8 +20,7 @@ class ArrayListTest extends TestCase
         $items = Fixtures\TestObject::createRandomInstances();
 
         $object_list = Fixtures\TestObjectList::create();
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $object_list->add($item);
         }
 
@@ -30,8 +29,7 @@ class ArrayListTest extends TestCase
         $this->assertEquals($expected_item_count, count($object_list));
 
         // assert item order
-        foreach ($object_list as $index => $object)
-        {
+        foreach ($object_list as $index => $object) {
             $expected_item = $items[$index];
             $this->assertEquals($expected_item, $object);
         }
@@ -53,15 +51,11 @@ class ArrayListTest extends TestCase
         $this->assertEquals($expected_item_count, count($object_list));
 
         // assert item order
-        foreach ($object_list as $index => $object)
-        {
+        foreach ($object_list as $index => $object) {
             $expected_item = null;
-            if ($index < $initial_items_count)
-            {
+            if ($index < $initial_items_count) {
                 $expected_item = $initial_items[$index];
-            }
-            else
-            {
+            } else {
                 $expected_item = $items[$index - $initial_items_count];
             }
 
@@ -77,8 +71,7 @@ class ArrayListTest extends TestCase
         $random_index = 0;
 
         // pick a random item from the list data to be removed
-        if ($last_index > 0)
-        {
+        if ($last_index > 0) {
             $random_index = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_index];
@@ -92,16 +85,13 @@ class ArrayListTest extends TestCase
 
         // assert item order
         $expected_items = array();
-        foreach ($items as $index => $item)
-        {
-            if ($index !== $random_index)
-            {
+        foreach ($items as $index => $item) {
+            if ($index !== $random_index) {
                 $expected_items[] = $item;
             }
         }
 
-        foreach ($object_list as $index => $object)
-        {
+        foreach ($object_list as $index => $object) {
             $this->assertEquals($expected_items[$index], $object);
         }
     }
@@ -117,17 +107,13 @@ class ArrayListTest extends TestCase
         $numof_items_to_remove = self::$faker->randomNumber(1, $max_remove);
         $random_items = array();
         $randomly_picked_indexes = array();
-        for($i = 0; $i < $numof_items_to_remove; $i++)
-        {
+        for ($i = 0; $i < $numof_items_to_remove; $i++) {
             $random_index = 0;
-            do
-            {
-                if ($last_index > 0)
-                {
+            do {
+                if ($last_index > 0) {
                     $random_index = self::$faker->randomNumber(0, $last_index);
                 }
-            }
-            while(in_array($random_index, $randomly_picked_indexes));
+            } while (in_array($random_index, $randomly_picked_indexes));
 
             $random_items[] = $items[$random_index];
             $randomly_picked_indexes[] = $random_index;
@@ -142,16 +128,13 @@ class ArrayListTest extends TestCase
 
         // assert item order
         $expected_items = array();
-        foreach ($items as $index => $item)
-        {
-            if (!in_array($index, $randomly_picked_indexes))
-            {
+        foreach ($items as $index => $item) {
+            if (!in_array($index, $randomly_picked_indexes)) {
                 $expected_items[] = $item;
             }
         }
 
-        foreach ($object_list as $index => $object)
-        {
+        foreach ($object_list as $index => $object) {
             $this->assertEquals($expected_items[$index], $object);
         }
     }
@@ -190,8 +173,7 @@ class ArrayListTest extends TestCase
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
-        if ($last_index > 0)
-        {
+        if ($last_index > 0) {
             $random_key = self::$faker->randomNumber(0, $last_index);
         }
 
@@ -207,8 +189,7 @@ class ArrayListTest extends TestCase
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
-        if ($last_index > 0)
-        {
+        if ($last_index > 0) {
             $random_key = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_key];
@@ -225,8 +206,7 @@ class ArrayListTest extends TestCase
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
         $random_key = 0;
-        if ($last_index > 0)
-        {
+        if ($last_index > 0) {
             $random_key = self::$faker->randomNumber(0, $last_index);
         }
         $random_item = $items[$random_key];

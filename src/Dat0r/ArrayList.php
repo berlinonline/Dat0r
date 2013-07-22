@@ -18,8 +18,7 @@ class ArrayList extends Object implements ICollection
 
         $list->applyParameters($data);
 
-        if (isset($data[self::ITEMS]))
-        {
+        if (isset($data[self::ITEMS])) {
             $list->addMore($data[self::ITEMS]);
         }
 
@@ -33,8 +32,7 @@ class ArrayList extends Object implements ICollection
 
     public function addMore(array $items)
     {
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $this->add($item);
         }
     }
@@ -46,8 +44,7 @@ class ArrayList extends Object implements ICollection
 
     public function removeMore(array $items)
     {
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $this->remove($item);
         }
     }
@@ -57,8 +54,7 @@ class ArrayList extends Object implements ICollection
         $keys = array_keys($this->items);
         $first_key = reset($keys);
 
-        if ($first_key !== false)
-        {
+        if ($first_key !== false) {
             return $this->items[$first_key];
         }
 
@@ -70,8 +66,7 @@ class ArrayList extends Object implements ICollection
         $keys = array_keys($this->items);
         $last_key = end($keys);
 
-        if ($last_key !== false)
-        {
+        if ($last_key !== false) {
             return $this->items[$last_key];
         }
 
@@ -115,12 +110,11 @@ class ArrayList extends Object implements ICollection
 
     public function offsetSet($offset, $value)
     {
-        if (!$value instanceof $this->item_implementor)
-        {
+        if (!$value instanceof $this->item_implementor) {
             throw new Exception(
                 sprintf(
                     "Items passed to the '%s' method must relate to '%s'."
-                        . "%sAn instance of '%s' was given instead.",
+                    . "%sAn instance of '%s' was given instead.",
                     __METHOD__,
                     $this->item_implementor,
                     PHP_EOL,
@@ -139,13 +133,10 @@ class ArrayList extends Object implements ICollection
 
     public function current()
     {
-        if ($this->valid())
-        {
+        if ($this->valid()) {
             return current($this->items);
-        }
-        else
-        {
-            return FALSE;
+        } else {
+            return false;
         }
     }
 
@@ -166,7 +157,7 @@ class ArrayList extends Object implements ICollection
 
     public function valid()
     {
-        return NULL !== key($this->items);
+        return null !== key($this->items);
     }
 
     protected function __construct()
@@ -176,8 +167,7 @@ class ArrayList extends Object implements ICollection
 
     protected function applyParameters(array $parameters = array())
     {
-        if (!isset($parameters[self::ITEM_IMPLEMENTOR]))
-        {
+        if (!isset($parameters[self::ITEM_IMPLEMENTOR])) {
             throw new Exception(
                 sprintf(
                     "Missing key '%s' for parameters given to '%s'.",
@@ -187,8 +177,7 @@ class ArrayList extends Object implements ICollection
             );
         }
 
-        if (!class_exists($parameters[self::ITEM_IMPLEMENTOR]))
-        {
+        if (!class_exists($parameters[self::ITEM_IMPLEMENTOR])) {
             throw new Exception(
                 sprintf(
                     "Unable to find class '%s' for '%s' given to '%s'.",

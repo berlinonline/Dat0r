@@ -7,16 +7,14 @@ class SetTest extends TestCase
     public function testSet()
     {
         $items = array();
-        foreach (Fixtures\TestObject::createRandomInstances() as $item)
-        {
+        foreach (Fixtures\TestObject::createRandomInstances() as $item) {
             $items[$item->getPropertyOne()] = $item;
         }
 
         $items = array_values($items);
         $object_set = Fixtures\TestObjectSet::create($items);
 
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $object_set->add($item);
         }
 

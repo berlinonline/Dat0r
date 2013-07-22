@@ -40,8 +40,7 @@ class TestObject extends Dat0r\Object
         $test_objects = array();
         $max = $faker->randomNumber(1, 15);
 
-        for ($i = 0; $i < $max; $i++)
-        {
+        for ($i = 0; $i < $max; $i++) {
             $test_objects[] = static::create(
                 array(
                     'property_one' => $faker->word(23),

@@ -10,9 +10,11 @@ class TestObjectList extends Dat0r\ArrayList
     {
         $item_implementor = sprintf('\\%s\\TestObject', __NAMESPACE__);
 
-        return parent::create(array(
-            self::ITEM_IMPLEMENTOR => $item_implementor,
-            self::ITEMS => $items
-        ));
+        return parent::create(
+            array(
+                self::ITEM_IMPLEMENTOR => $item_implementor,
+                self::ITEMS => $items
+            )
+        );
     }
 }

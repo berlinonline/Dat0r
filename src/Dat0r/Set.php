@@ -11,16 +11,14 @@ class Set extends ArrayList implements ISet
     public function offsetSet($offset, $value)
     {
         $getter_method = 'get' . preg_replace(
-            '/(?:^|_)(.?)/e',"strtoupper('$1')",
+            '/(?:^|_)(.?)/e',
+            "strtoupper('$1')",
             $this->items_key_field
         );
 
-        if (is_callable(array($value, $getter_method)))
-        {
+        if (is_callable(array($value, $getter_method))) {
             $offset = $value->$getter_method();
-        }
-        else
-        {
+        } else {
             throw new Exception(
                 sprintf(
                     "Invalid collection-key-field '%s' given.",
@@ -36,8 +34,7 @@ class Set extends ArrayList implements ISet
     {
         parent::applyParameters($parameters);
 
-        if (!isset($parameters[self::ITEMS_KEY_FIELD]))
-        {
+        if (!isset($parameters[self::ITEMS_KEY_FIELD])) {
             throw new Exception(
                 sprintf(
                     "Missing key '%s' for parameters that where passed to '%s'.",
