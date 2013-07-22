@@ -42,4 +42,14 @@ doc:
 	@if [ -d ./build/docs ]; then rm -rf ./build/docs; fi
 	@php $(PROJECT_BASEDIR)/vendor/bin/sami.php update ./config/sami.php
 
+code-sniffer:
+
+	@if [ -d ./build/reports ]; then rm -rf ./build/reports; fi
+	@mkdir ./build/reports
+	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/reports/checkstyle.xml --standard=psr2 ./src
+
+code-sniffer-cli:
+
+	-@./vendor/bin/phpcs --extensions=php --standard=psr2 ./src
+
 .PHONY: test help code doc install update
