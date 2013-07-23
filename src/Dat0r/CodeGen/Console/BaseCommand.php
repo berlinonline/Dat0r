@@ -18,7 +18,7 @@ abstract class BaseCommand extends Command\Command
         foreach ($path_parts as $path_part) {
             if ($path_part === '..') {
                 array_pop($parents);
-            } elseif ($path_part !== '.')) {
+            } elseif ($path_part !== '.') {
                 $parents[] = $path_part;
             }
         }
@@ -39,5 +39,7 @@ abstract class BaseCommand extends Command\Command
         }
 
         return $fixed_path;
+    // @codeCoverageIgnoreStart
     }
+    // @codeCoverageIgnoreEnd
 }

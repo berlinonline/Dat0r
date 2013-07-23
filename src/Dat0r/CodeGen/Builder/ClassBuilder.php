@@ -112,13 +112,13 @@ abstract class ClassBuilder implements IClassBuilder
         $fields_data = array();
 
         foreach ($fields as $field_definition) {
-            $camelcased_type = preg_replace(
+            $camel_caps_type = preg_replace(
                 '/(?:^|-)(.?)/e',
                 "strtoupper('$1')",
                 $field_definition->getType()
             );
 
-            $field_implementor = sprintf('%s\\%sField', self::NS_FIELDS, $camelcased_type);
+            $field_implementor = sprintf('%s\\%sField', self::NS_FIELDS, $camel_caps_type);
 
             $fields_data[] = array(
                 'implementor' => $field_implementor,

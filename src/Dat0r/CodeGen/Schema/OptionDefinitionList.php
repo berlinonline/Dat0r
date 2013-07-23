@@ -12,8 +12,8 @@ class OptionDefinitionList extends Dat0r\ArrayList
 
         return parent::create(
             array(
-                self::ITEM_IMPLEMENTOR => $item_implementor,
-                self::ITEMS => $items
+                self::KEY_ITEM_IMPLEMENTOR => $item_implementor,
+                self::KEY_ITEMS => $items
             )
         );
     }

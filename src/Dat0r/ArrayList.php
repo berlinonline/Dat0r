@@ -4,9 +4,9 @@ namespace Dat0r;
 
 class ArrayList extends Object implements ICollection
 {
-    const ITEMS = 'items';
+    const KEY_ITEMS = 'items';
 
-    const ITEM_IMPLEMENTOR = 'item_implementor';
+    const KEY_ITEM_IMPLEMENTOR = 'item_implementor';
 
     protected $items;
 
@@ -18,8 +18,8 @@ class ArrayList extends Object implements ICollection
 
         $list->applyParameters($data);
 
-        if (isset($data[self::ITEMS])) {
-            $list->addMore($data[self::ITEMS]);
+        if (isset($data[self::KEY_ITEMS])) {
+            $list->addMore($data[self::KEY_ITEMS]);
         }
 
         return $list;
@@ -93,21 +93,33 @@ class ArrayList extends Object implements ICollection
         return $this->getKey($item) !== false;
     }
 
+    /**
+     * @see http://php.net/manual/en/class.countable.php
+     */
     public function count()
     {
         return count($this->items);
     }
 
+    /**
+     * @see http://php.net/manual/en/class.arrayaccess.php
+     */
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
+    /**
+     * @see http://php.net/manual/en/class.arrayaccess.php
+     */
     public function offsetGet($offset)
     {
         return $this->items[$offset];
     }
 
+    /**
+     * @see http://php.net/manual/en/class.arrayaccess.php
+     */
     public function offsetSet($offset, $value)
     {
         if (!$value instanceof $this->item_implementor) {
@@ -126,11 +138,33 @@ class ArrayList extends Object implements ICollection
         $this->items[$offset] = $value;
     }
 
+    /**
+     * @see http://php.net/manual/en/class.arrayaccess.php
+     */
     public function offsetUnset($offset)
     {
         array_splice($this->items, $offset, 1);
     }
 
+    /**
+     * @see http://php.net/manual/en/class.iterator.php
+     */
+    public function key()
+    {
+        return key($this->items);
+    }
+
+    /**
+     * @see http://php.net/manual/en/class.iterator.php
+     */
+    public function valid()
+    {
+        return null !== $this->key();
+    }
+
+    /**
+     * @see http://php.net/manual/en/class.iterator.php
+     */
     public function current()
     {
         if ($this->valid()) {
@@ -140,24 +174,20 @@ class ArrayList extends Object implements ICollection
         }
     }
 
-    public function key()
-    {
-        return key($this->items);
-    }
-
+    /**
+     * @see http://php.net/manual/en/class.iterator.php
+     */
     public function next()
     {
         return next($this->items);
     }
 
+    /**
+     * @see http://php.net/manual/en/class.iterator.php
+     */
     public function rewind()
     {
-        reset($this->items);
-    }
-
-    public function valid()
-    {
-        return null !== key($this->items);
+        return reset($this->items);
     }
 
     protected function __construct()
@@ -167,27 +197,27 @@ class ArrayList extends Object implements ICollection
 
     protected function applyParameters(array $parameters = array())
     {
-        if (!isset($parameters[self::ITEM_IMPLEMENTOR])) {
+        if (!isset($parameters[self::KEY_ITEM_IMPLEMENTOR])) {
             throw new Exception(
                 sprintf(
                     "Missing key '%s' for parameters given to '%s'.",
-                    self::ITEM_IMPLEMENTOR,
+                    self::KEY_ITEM_IMPLEMENTOR,
                     __METHOD__
                 )
             );
         }
 
-        if (!class_exists($parameters[self::ITEM_IMPLEMENTOR])) {
+        if (!class_exists($parameters[self::KEY_ITEM_IMPLEMENTOR])) {
             throw new Exception(
                 sprintf(
                     "Unable to find class '%s' for '%s' given to '%s'.",
-                    $parameters[self::ITEM_IMPLEMENTOR],
-                    self::ITEM_IMPLEMENTOR,
+                    $parameters[self::KEY_ITEM_IMPLEMENTOR],
+                    self::KEY_ITEM_IMPLEMENTOR,
                     __METHOD__
                 )
             );
         }
 
-        $this->item_implementor = $parameters[self::ITEM_IMPLEMENTOR];
+        $this->item_implementor = $parameters[self::KEY_ITEM_IMPLEMENTOR];
     }
 }

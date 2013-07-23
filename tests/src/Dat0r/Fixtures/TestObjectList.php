@@ -6,14 +6,14 @@ use Dat0r;
 
 class TestObjectList extends Dat0r\ArrayList
 {
+    const ITEM_IMPLEMENTOR = '\\Dat0r\\Tests\\Fixtures\\TestObject';
+
     public static function create(array $items = array())
     {
-        $item_implementor = sprintf('\\%s\\TestObject', __NAMESPACE__);
-
         return parent::create(
             array(
-                self::ITEM_IMPLEMENTOR => $item_implementor,
-                self::ITEMS => $items
+                self::KEY_ITEM_IMPLEMENTOR => self::ITEM_IMPLEMENTOR,
+                self::KEY_ITEMS => $items
             )
         );
     }

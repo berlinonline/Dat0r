@@ -32,6 +32,8 @@ class Autoloader
      * in order to have them autoloaded accordingly.
      *
      * @param array $domain_packages
+     *
+     * @codeCoverageIgnoreStart
      */
     public static function register(array $domain_packages = array())
     {
@@ -50,6 +52,7 @@ class Autoloader
 
         self::$domain_packages = array_merge(self::$domain_packages, $domain_packages);
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Autoloads a given class.

@@ -8,13 +8,10 @@ class ModuleDefinitionSet extends Dat0r\Set
 {
     public static function create(array $items = array())
     {
-        $item_implementor = sprintf('\\%s\\ModuleDefinition', __NAMESPACE__);
-
         return parent::create(
             array(
-                self::ITEM_IMPLEMENTOR => $item_implementor,
-                self::ITEMS_KEY_FIELD => 'name',
-                self::ITEMS => $items
+                self::KEY_ITEM_IMPLEMENTOR => sprintf('\\%s\\ModuleDefinition', __NAMESPACE__),
+                self::KEY_ITEMS => $items
             )
         );
     }

@@ -4,15 +4,15 @@ namespace Dat0r\Tests\Fixtures;
 
 use Dat0r;
 
-class TestObjectSet extends Dat0r\Set
+class ListWithInvalidParameters extends Dat0r\ArrayList
 {
-    const ITEM_IMPLEMENTOR = '\\Dat0r\\Tests\\Fixtures\\TestObject';
+    const INVALID_IMPLEMENTOR = 'FlexibleGraphPreference';
 
     public static function create(array $items = array())
     {
         return parent::create(
             array(
-                self::KEY_ITEM_IMPLEMENTOR => self::ITEM_IMPLEMENTOR,
+                self::KEY_ITEM_IMPLEMENTOR => self::INVALID_IMPLEMENTOR,
                 self::KEY_ITEMS => $items
             )
         );
