@@ -6,33 +6,33 @@ use Dat0r\Tests\Fixtures;
 
 abstract class CollectionTestCase extends TestCase
 {
-    abstract protected function createListInstance(array $items = array());
+    abstract protected function createCollectionInstance(array $items = array());
 
-    abstract protected function createRandomListItems();
+    abstract protected function createRandomItems();
 
     public function testCreate()
     {
-        $items = $this->createRandomListItems();
-        $object_list = $this->createListInstance($items);
+        $items = $this->createRandomItems();
+        $collection = $this->createCollectionInstance($items);
 
-        $this->assertInstanceOf('\\Dat0r\\ICollection', $object_list);
+        $this->assertInstanceOf('\\Dat0r\\ICollection', $collection);
     }
 
     public function testAdd()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
 
-        $object_list = $this->createListInstance();
+        $collection = $this->createCollectionInstance();
         foreach ($items as $item) {
-            $object_list->add($item);
+            $collection->add($item);
         }
 
         // assert item count
         $expected_item_count = count($items);
-        $this->assertEquals($expected_item_count, count($object_list));
+        $this->assertEquals($expected_item_count, count($collection));
 
         // assert item order
-        foreach ($object_list as $index => $object) {
+        foreach ($collection as $index => $object) {
             $expected_item = $items[$index];
             $this->assertEquals($expected_item, $object);
         }
@@ -40,21 +40,21 @@ abstract class CollectionTestCase extends TestCase
 
     public function testAddMore()
     {
-        $initial_items = $this->createRandomListItems();
+        $initial_items = $this->createRandomItems();
         $initial_items_count = count($initial_items);
 
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $more_items_count = count($items);
 
-        $object_list = $this->createListInstance($initial_items);
-        $object_list->addMore($items);
+        $collection = $this->createCollectionInstance($initial_items);
+        $collection->addMore($items);
 
         // assert item count
         $expected_item_count = $initial_items_count + $more_items_count;
-        $this->assertEquals($expected_item_count, count($object_list));
+        $this->assertEquals($expected_item_count, count($collection));
 
         // assert item order
-        foreach ($object_list as $index => $object) {
+        foreach ($collection as $index => $object) {
             $expected_item = null;
             if ($index < $initial_items_count) {
                 $expected_item = $initial_items[$index];
@@ -68,7 +68,7 @@ abstract class CollectionTestCase extends TestCase
 
     public function testRemove()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $items_count = count($items);
         $last_index = $items_count - 1;
         $random_index = 0;
@@ -79,12 +79,12 @@ abstract class CollectionTestCase extends TestCase
         }
         $random_item = $items[$random_index];
 
-        $object_list = $this->createListInstance($items);
-        $object_list->remove($random_item);
+        $collection = $this->createCollectionInstance($items);
+        $collection->remove($random_item);
 
         // assert item count
         $expected_item_count = $items_count - 1;
-        $this->assertEquals($expected_item_count, count($object_list));
+        $this->assertEquals($expected_item_count, count($collection));
 
         // assert item order
         $expected_items = array();
@@ -94,14 +94,14 @@ abstract class CollectionTestCase extends TestCase
             }
         }
 
-        foreach ($object_list as $index => $object) {
+        foreach ($collection as $index => $object) {
             $this->assertEquals($expected_items[$index], $object);
         }
     }
 
     public function testRemoveMore()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $items_count = count($items);
         $last_index = $items_count - 1;
 
@@ -122,12 +122,12 @@ abstract class CollectionTestCase extends TestCase
             $randomly_picked_indexes[] = $random_index;
         }
 
-        $object_list = $this->createListInstance($items);
-        $object_list->removeMore($random_items);
+        $collection = $this->createCollectionInstance($items);
+        $collection->removeMore($random_items);
 
         // assert item count
         $expected_item_count = $items_count - count($random_items);
-        $this->assertEquals($expected_item_count, count($object_list));
+        $this->assertEquals($expected_item_count, count($collection));
 
         // assert item order
         $expected_items = array();
@@ -137,41 +137,59 @@ abstract class CollectionTestCase extends TestCase
             }
         }
 
-        foreach ($object_list as $index => $object) {
+        foreach ($collection as $index => $object) {
             $this->assertEquals($expected_items[$index], $object);
         }
     }
 
     public function testGetFirst()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $first_item = $items[0];
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals($first_item, $object_list->getFirst());
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($first_item, $collection->getFirst());
     }
 
     public function testGetLast()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $last_item = $items[count($items) - 1];
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals($last_item, $object_list->getLast());
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($last_item, $collection->getLast());
+    }
+
+    public function testGetOffsetFirst()
+    {
+        $items = $this->createRandomItems();
+        $first_item = $items[0];
+
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($first_item, $collection[0]);
+    }
+
+    public function testGetOffsetLast()
+    {
+        $items = $this->createRandomItems();
+        $last_item = $items[count($items) - 1];
+
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($last_item, $collection[count($items) - 1]);
     }
 
     public function testGetSize()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $items_count = count($items);
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals($items_count, $object_list->getSize());
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($items_count, $collection->getSize());
     }
 
     public function testHasKey()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
@@ -180,14 +198,14 @@ abstract class CollectionTestCase extends TestCase
             $random_key = self::$faker->randomNumber(0, $last_index);
         }
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals(true, $object_list->hasKey($random_key));
-        $this->assertEquals(false, $object_list->hasKey($items_count + 1));
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals(true, $collection->hasKey($random_key));
+        $this->assertEquals(false, $collection->hasKey($items_count + 1));
     }
 
     public function testGetKey()
     {
-        $items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
@@ -197,14 +215,14 @@ abstract class CollectionTestCase extends TestCase
         }
         $random_item = $items[$random_key];
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals($random_key, $object_list->getKey($random_item));
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals($random_key, $collection->getKey($random_item));
     }
 
     public function testHas()
     {
-        $items = $this->createRandomListItems();
-        $other_items = $this->createRandomListItems();
+        $items = $this->createRandomItems();
+        $other_items = $this->createRandomItems();
         $items_count = count($items);
         $last_index = $items_count - 1;
         // pick a random item from the list to test against
@@ -214,38 +232,58 @@ abstract class CollectionTestCase extends TestCase
         }
         $random_item = $items[$random_key];
 
-        $object_list = $this->createListInstance($items);
-        $this->assertEquals(true, $object_list->has($random_item));
-        $this->assertEquals(false, $object_list->has($other_items[0]));
-    }
-
-    /**
-     * @expectedException Dat0r\Exception
-     */
-    public function testInvalidParameters()
-    {
-        $corrupt_list = Fixtures\ListWithEmptyParameters::create();
+        $collection = $this->createCollectionInstance($items);
+        $this->assertEquals(true, $collection->has($random_item));
+        $this->assertEquals(false, $collection->has($other_items[0]));
     }
 
     public function testEmptyListCurrent()
     {
-        $items = $this->createRandomListItems();
-        $empty_list = $this->createListInstance();
+        $items = $this->createRandomItems();
+        $empty_collection = $this->createCollectionInstance();
 
-        $this->assertFalse($empty_list->current());
+        $this->assertFalse($empty_collection->current());
     }
 
     public function testEmptyListGetFirst()
     {
-        $empty_list = $this->createListInstance();
+        $empty_collection = $this->createCollectionInstance();
 
-        $this->assertNull($empty_list->getFirst());
+        $this->assertNull($empty_collection->getFirst());
     }
 
     public function testEmptyListGetLast()
     {
-        $empty_list = $this->createListInstance();
+        $empty_collection = $this->createCollectionInstance();
 
-        $this->assertNull($empty_list->getLast());
+        $this->assertNull($empty_collection->getLast());
+    }
+
+    /**
+     * @expectedException Dat0r\Exception
+     * @codeCoverageIgnore
+     */
+    public function testAddInvalidItem()
+    {
+        $collection = $this->createCollectionInstance();
+        $collection->add(new Fixtures\UnsupportedObject);
+    }
+
+    /**
+     * @expectedException Dat0r\Exception
+     * @codeCoverageIgnore
+     */
+    public function testInvalidParameters()
+    {
+        Fixtures\ListWithInvalidParameters::create();
+    }
+
+    /**
+     * @expectedException Dat0r\Exception
+     * @codeCoverageIgnore
+     */
+    public function testEmptyParameters()
+    {
+        Fixtures\ListWithEmptyParameters::create();
     }
 }

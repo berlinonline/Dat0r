@@ -12,14 +12,14 @@ class ArrayList extends Object implements ICollection
 
     protected $item_implementor;
 
-    public static function create(array $data = array())
+    public static function create(array $parameters = array())
     {
         $list = new static();
 
-        $list->applyParameters($data);
+        $list->applyParameters($parameters);
 
-        if (isset($data[self::KEY_ITEMS])) {
-            $list->addMore($data[self::KEY_ITEMS]);
+        if (isset($parameters[self::KEY_ITEMS])) {
+            $list->addMore($parameters[self::KEY_ITEMS]);
         }
 
         return $list;

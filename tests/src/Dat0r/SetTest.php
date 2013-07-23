@@ -6,12 +6,12 @@ use Dat0r\Tests\Fixtures;
 
 class SetTest extends CollectionTestCase
 {
-    protected function createListInstance(array $items = array())
+    protected function createCollectionInstance(array $items = array())
     {
         return Fixtures\TestObjectSet::create($items);
     }
 
-    protected function createRandomListItems()
+    protected function createRandomItems()
     {
         return Fixtures\TestObject::createRandomInstances();
     }
