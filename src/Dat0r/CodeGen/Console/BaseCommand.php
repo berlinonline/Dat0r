@@ -6,23 +6,20 @@ use Symfony\Component\Console\Command;
 
 abstract class BaseCommand extends Command\Command
 {
-    public function fixRelativePath($path_with_dots)
+    public function resolvePathRelativeToBaseDir($path, $base_dir)
     {
-        $array = explode(DIRECTORY_SEPARATOR, $path_with_dots);
-        $domain = array_shift($array);
+        if ($path{0} !== '.') {
+            return $path;
+        }
+
+        $path_parts = explode(DIRECTORY_SEPARATOR, $this->fixPath($base_dir) . $path);
 
         $parents = array();
-        foreach ($array as $dir) {
-            switch ($dir) {
-                case '.':
-                // Don't need to do anything here
-                break;
-                case '..':
-                    array_pop($parents);
-                break;
-                default:
-                    $parents[] = $dir;
-                break;
+        foreach ($path_parts as $path_part) {
+            if ($path_part === '..') {
+                array_pop($parents);
+            } elseif ($path_part !== '.')) {
+                $parents[] = $path_part;
             }
         }
 
@@ -37,8 +34,8 @@ abstract class BaseCommand extends Command\Command
             return $fixed_path;
         }
 
-        if ('/' != $path{strlen($path) - 1}) {
-            $fixed_path .= '/';
+        if (DIRECTORY_SEPARATOR != $path{strlen($path) - 1}) {
+            $fixed_path .= DIRECTORY_SEPARATOR;
         }
 
         return $fixed_path;

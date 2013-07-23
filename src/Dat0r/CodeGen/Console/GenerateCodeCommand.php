@@ -55,13 +55,13 @@ class GenerateCodeCommand extends BaseCommand
         $schema_path = $input->getOption('schema');
         $actions = explode('+', $input->getArgument('action'));
 
-        if (! is_readable(realpath($config))) {
+        if (!is_readable(realpath($config))) {
             throw new Exception(
                 sprintf('The given `config` argument path `%s` is not readable.', $config)
             );
         }
 
-        if (! is_readable(realpath($schema_path))) {
+        if (!is_readable(realpath($schema_path))) {
             throw new Exception(
                 sprintf('The given `schema_path` argument path `%s` is not readable.', $schema_path)
             );
@@ -69,7 +69,7 @@ class GenerateCodeCommand extends BaseCommand
 
         $valid_actions = array('generate', 'gen', 'g', 'deploy', 'dep', 'd');
         foreach ($actions as $action) {
-            if (! in_array($action, $valid_actions)) {
+            if (!in_array($action, $valid_actions)) {
                 throw new Exception(
                     sprintf('The given `action` argument value `%s` is not supported.', $action)
                 );
@@ -139,24 +139,20 @@ class GenerateCodeCommand extends BaseCommand
             throw new Exception("Unable to parse given config file: $config_path.");
         }
 
-        if (isset($settings['cache_dir']) && $settings['cache_dir']{0} === '.')
-        {
-            // @todo fix relative paths and resolve '.' and '..'
-            $cache_dir = dirname($config_path) . DIRECTORY_SEPARATOR
-            . $this->fixRelativePath($settings['cache_dir']);
-
-            $settings['cache_dir'] = $this->fixRelativePath($deploy_dir);
+        if (isset($settings['cache_dir']) && $settings['cache_dir']{0} === '.') {
+            $settings['cache_Dir'] = $this->resolvePathRelativeToBaseDir(
+                $settings['cache_Dir'],
+                dirname($config_path)
+            );
         }
 
-        if (isset($settings['deploy_dir']) && $settings['deploy_dir']{0} === '.')
-        {
-            // @todo fix relative paths and resolve '.' and '..'
-            $deploy_dir = dirname($config_path) . DIRECTORY_SEPARATOR
-            . $this->fixRelativePath($settings['deploy_dir']);
-
-            $settings['deploy_dir'] = $this->fixRelativePath($deploy_dir);
+        if (isset($settings['deploy_dir']) && $settings['deploy_dir']{0} === '.') {
+            $settings['deploy_dir'] = $this->resolvePathRelativeToBaseDir(
+                $settings['deploy_dir'],
+                dirname($config_path)
+            );
         }
-var_dump($settings);exit;
+
         return $settings;
     }
 
