@@ -22,15 +22,18 @@ class GenerateCodeCommandTest extends Tests\TestCase
         $this->command = $this->application->find(Dat0rConsole\GenerateCodeCommand::NAME);
         $this->fixtures_dir = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
     }
-    public function testFoo()
+    public function testGenerateAction()
     {
         $this->executeCommand(
             array(
-                'action' => 'gen',
+                'action' => 'generate',
                 '--config' => $this->fixtures_dir . 'schema_build.ini',
                 '--schema' => $this->fixtures_dir . 'module_schema.xml'
             )
         );
+
+        // @todo verify resulting generated classes by fixture and interface.
+        // secondary will require (auto)loading those classes from the code/deploy dir.
     }
 
     protected function executeCommand(array $options = array())

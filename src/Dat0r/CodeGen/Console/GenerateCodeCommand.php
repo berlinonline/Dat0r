@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Dat0r\CodeGen;
+use Dat0r\CodeGen\Parser;
 
 class GenerateCodeCommand extends BaseCommand
 {
@@ -29,6 +30,11 @@ class GenerateCodeCommand extends BaseCommand
             's',
             InputArgument::OPTIONAL,
             'Path pointing to a valid (xml) module schema file.'
+        )->addOption(
+            'directory',
+            'd',
+            InputArgument::OPTIONAL,
+            'When the config or schema file are omitted, dat0r will look for standard files in this directory.'
         )->addArgument(
             'action',
             InputArgument::OPTIONAL,
@@ -47,7 +53,7 @@ class GenerateCodeCommand extends BaseCommand
     {
         $config = $input->getOption('config');
         $schema_path = $input->getOption('schema');
-        $action = $input->getArgument('action');
+        $actions = explode('+', $input->getArgument('action'));
 
         if (! is_readable(realpath($config))) {
             throw new Exception(
@@ -61,11 +67,13 @@ class GenerateCodeCommand extends BaseCommand
             );
         }
 
-        $valid_actions = array('gen', 'dep', 'gen+dep');
-        if (! in_array($action, $valid_actions)) {
-            throw new Exception(
-                sprintf('The given `action` argument value `%s` is not supported.', $action)
-            );
+        $valid_actions = array('generate', 'gen', 'g', 'deploy', 'dep', 'd');
+        foreach ($actions as $action) {
+            if (! in_array($action, $valid_actions)) {
+                throw new Exception(
+                    sprintf('The given `action` argument value `%s` is not supported.', $action)
+                );
+            }
         }
     }
 
@@ -74,15 +82,20 @@ class GenerateCodeCommand extends BaseCommand
         $actions = explode('+', $input->getArgument('action'));
 
         try {
+            $module_schema = $this->getModuleSchemaPath($input);
+
             $service = CodeGen\Service::create(
-                array('config' => $this->loadConfig($input))
+                array(
+                    'config' => $this->getConfig($input)->validate(),
+                    'schema_parser' => Parser\ModuleSchemaXmlParser::create()
+                )
             );
 
-            if (in_array('gen', $actions)) {
-                $service->buildSchema($input->getOption('schema'));
+            if (in_array(array('generate', 'gen', 'g'), $actions)) {
+                $service->buildSchema($module_schema);
             }
 
-            if (in_array('dep', $actions)) {
+            if (in_array(array('deploy', 'dep', 'd'), $actions)) {
                 $service->deployBuild();
             }
         } catch (\Exception $error) {
@@ -90,12 +103,72 @@ class GenerateCodeCommand extends BaseCommand
         }
     }
 
-    protected function loadConfig(InputInterface $input)
+    protected function getModuleSchemaPath(InputInterface $input)
+    {
+        $schema_path = $input->getOption('schema');
+
+        if (empty($schema)) {
+            $schema_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.xml';
+        }
+
+        return $schema_path;
+    }
+
+    protected function getConfig(InputInterface $input)
     {
         $config_path = $input->getOption('config');
-        $config = parse_ini_file($config_path, true);
 
-        return CodeGen\Config::create($config);
+        if (empty($config_path)) {
+            $config_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.ini';
+        }
+
+        if (!is_readable($config_path)) {
+            throw new Exception("Unable to read config file at: $config_path.");
+        }
+
+        return CodeGen\Config::create(
+            $this->parseConfig($config_path)
+        );
+    }
+
+    protected function parseConfig($config_path)
+    {
+        $settings = parse_ini_file($config_path, true);
+
+        if ($settings === false) {
+            throw new Exception("Unable to parse given config file: $config_path.");
+        }
+
+        if (isset($settings['cache_dir']) && $settings['cache_dir']{0} === '.')
+        {
+            // @todo fix relative paths and resolve '.' and '..'
+            $cache_dir = dirname($config_path) . DIRECTORY_SEPARATOR
+            . $this->fixRelativePath($settings['cache_dir']);
+
+            $settings['cache_dir'] = $this->fixRelativePath($deploy_dir);
+        }
+
+        if (isset($settings['deploy_dir']) && $settings['deploy_dir']{0} === '.')
+        {
+            // @todo fix relative paths and resolve '.' and '..'
+            $deploy_dir = dirname($config_path) . DIRECTORY_SEPARATOR
+            . $this->fixRelativePath($settings['deploy_dir']);
+
+            $settings['deploy_dir'] = $this->fixRelativePath($deploy_dir);
+        }
+var_dump($settings);exit;
+        return $settings;
+    }
+
+    protected function getLookupDir(InputInterface $input)
+    {
+        $lookup_dir = $input->getOption('directory');
+
+        if (empty($lookup_dir)) {
+            $lookup_dir = getcwd();
+        }
+
+        return $lookup_dir;
     }
 
     protected function displayUsage(OutputInterface $output)

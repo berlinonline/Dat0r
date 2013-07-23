@@ -13,11 +13,6 @@ class Service extends Dat0r\Object
 
     protected $schema_parser;
 
-    public function __construct()
-    {
-        $this->schema_parser = Parser\ModuleSchemaXmlParser::create();
-    }
-
     public function buildSchema($module_schema_path)
     {
         $class_builders = $this->createClassBuilders(
@@ -33,6 +28,11 @@ class Service extends Dat0r\Object
         );
 
         $this->writeCache($class_list);
+    }
+
+    public function deployBuild()
+    {
+        var_dump("not implemented ... ");
     }
 
     protected function createClassBuilders(Schema\ModuleSchema $module_schema)
@@ -61,7 +61,7 @@ class Service extends Dat0r\Object
         $cache_dir = realpath($this->config->getCachedir());
 
         if (!$cache_dir) {
-            mkdir($this->config->getCachedir());
+            mkdir($this->config->getCachedir(), 0752, true);
         }
 
         $cache_dir = realpath($this->config->getCachedir());
@@ -80,7 +80,7 @@ class Service extends Dat0r\Object
             $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $rel_path;
 
             if (!is_dir($package_dir)) {
-                mkdir($package_dir, 0775, true);
+                mkdir($package_dir, 0750, true);
             }
 
             $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
@@ -89,9 +89,5 @@ class Service extends Dat0r\Object
                 // @todo error handling ...
             }
         }
-    }
-
-    protected function moveCache()
-    {
     }
 }
