@@ -140,8 +140,8 @@ class GenerateCodeCommand extends BaseCommand
         }
 
         if (isset($settings['cache_dir']) && $settings['cache_dir']{0} === '.') {
-            $settings['cache_Dir'] = $this->resolvePathRelativeToBaseDir(
-                $settings['cache_Dir'],
+            $settings['cache_dir'] = $this->resolvePathRelativeToBaseDir(
+                $settings['cache_dir'],
                 dirname($config_path)
             );
         }
