@@ -59,13 +59,11 @@ class Config extends Dat0r\Object implements IConfig
 
     public function validate()
     {
-        if (empty($this->cache_dir))
-        {
+        if (empty($this->cache_dir)) {
             throw new Exception("Missing 'cache_dir' setting.");
         }
 
-        if (empty($this->deploy_dir))
-        {
+        if (empty($this->deploy_dir)) {
             throw new Exception("Missing 'deploy_dir' setting.");
         }
 

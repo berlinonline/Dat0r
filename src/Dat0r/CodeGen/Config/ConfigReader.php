@@ -8,23 +8,18 @@ abstract class ConfigReader extends Dat0r\Object implements IConfigReader
 {
     protected function resolveRelativePath($path, $base)
     {
-        $path = explode('/', ltrim($path, '/'));
-        $base = explode('/', rtrim($base, '/'));
+        $path_parts = explode(DIRECTORY_SEPARATOR, $this->fixPath($base) . $path);
+        $parents = array();
 
-        for(;;) {
-            if (reset($path) === '..') {
-                array_shift($path);
-                array_pop($base);
-            } else {
-                break;
-            }
-
-            if (count($base) <= 1) {
-                throw Exception('Exceeded base path!');
+        foreach ($path_parts as $path_part) {
+            if ($path_part === '..') {
+                array_pop($parents);
+            } elseif ($path_part !== '.') {
+                $parents[] = $path_part;
             }
         }
 
-        return implode($base, '/')."/".implode($path, '/');
+        return implode(DIRECTORY_SEPARATOR, $parents);
     }
 
     protected function fixPath($path)
