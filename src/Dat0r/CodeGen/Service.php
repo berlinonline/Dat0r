@@ -3,6 +3,7 @@
 namespace Dat0r\CodeGen;
 
 use Dat0r;
+use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser;
 use Dat0r\CodeGen\Schema;
 use Dat0r\CodeGen\Builder;
@@ -32,7 +33,68 @@ class Service extends Dat0r\Object
 
     public function deployBuild()
     {
-        var_dump("not implemented ... ");
+        $cache_dir = realpath($this->config->getCachedir());
+        if (!is_dir($cache_dir)) {
+            throw new Exception(
+                sprintf(
+                    "The cache directory '%s' to deploy from does not exist.",
+                    $this->config->getCachedir()
+                )
+            );
+        }
+
+        $deploy_dir = $this->config->getDeployDir();
+        if (!is_dir($deploy_dir)) {
+            mkdir($deploy_dir, 0752, true);
+        }
+
+        if (!($deploy_dir = realpath($deploy_dir))) {
+            throw new Exception(
+                sprintf(
+                    "The configured deploy directory %s does not exist and could not be created.",
+                    $this->config->getDeployDir()
+                )
+            );
+        }
+
+        $method = $this->config->getDeployMethod();
+        if ($method === 'move') {
+            $this->moveDirectory($cache_dir, $deploy_dir);
+        } else {
+            $this->copyDirectory($cache_dir, $deploy_dir);
+        }
+    }
+
+    protected function copyDirectory($from, $to)
+    {
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($from, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $item) {
+            if ($item->isDir()) {
+                 mkdir($to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            } else {
+                copy($item, $to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            }
+        }
+    }
+
+    protected function moveDirectory($from, $to)
+    {
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($from, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $item) {
+            if ($item->isDir()) {
+                mkdir($to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            } else {
+                rename($item, $to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            }
+        }
     }
 
     protected function createClassBuilders(Schema\ModuleSchema $module_schema)
@@ -58,18 +120,15 @@ class Service extends Dat0r\Object
 
     protected function writeCache(Builder\ClassContainerList $class_list)
     {
-        $cache_dir = realpath($this->config->getCachedir());
-
-        if (!$cache_dir) {
-            mkdir($this->config->getCachedir(), 0752, true);
+        $cache_dir = $this->config->getCachedir();
+        if (!is_dir($cache_dir)) {
+            mkdir($cache_dir, 0752, true);
         }
 
-        $cache_dir = realpath($this->config->getCachedir());
-
-        if (!$cache_dir) {
+        if (!($cache_dir = realpath($cache_dir))) {
             throw new Exception(
                 sprintf(
-                    "The configured cache directory %s is does not exist.",
+                    "The configured cache directory %s does not exist and could not be created.",
                     $this->config->getCachedir()
                 )
             );
@@ -84,7 +143,6 @@ class Service extends Dat0r\Object
             }
 
             $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-
             if (!file_put_contents($class_filepath, $class_container->getSourceCode())) {
                 // @todo error handling ...
             }

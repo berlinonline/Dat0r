@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\CodeGen\Console;
+namespace Dat0r\CodeGen\Config;
 
 use Dat0r\CodeGen;
 

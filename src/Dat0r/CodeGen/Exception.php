@@ -2,6 +2,8 @@
 
 namespace Dat0r\CodeGen;
 
-class Exception extends \Exception
+use Dat0r;
+
+class Exception extends Dat0r\Exception
 {
 }

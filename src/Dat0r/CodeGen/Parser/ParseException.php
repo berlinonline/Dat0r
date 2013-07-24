@@ -2,6 +2,8 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-class ParseException extends \Exception
+use Dat0r\CodeGen;
+
+class ParseException extends CodeGen\Exception
 {
 }

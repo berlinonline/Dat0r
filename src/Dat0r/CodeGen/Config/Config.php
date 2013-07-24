@@ -1,22 +1,18 @@
 <?php
 
-namespace Dat0r\CodeGen;
+namespace Dat0r\CodeGen\Config;
 
 use Dat0r;
 
-class Config extends Dat0r\Object
+class Config extends Dat0r\Object implements IConfig
 {
-    const DEPLOY_COPY = 'copy';
-
-    const DEPLOY_MOVE = 'move';
-
     protected $cache_dir;
 
     protected $deploy_dir;
 
     protected $deploy_method = self::DEPLOY_COPY;
 
-    protected $plugin_settings;
+    protected $plugin_settings = array();
 
     public function getCacheDir()
     {
@@ -41,6 +37,19 @@ class Config extends Dat0r\Object
     public function getDeployMethod()
     {
         return $this->deploy_method;
+    }
+
+    protected function setDeployMethod($deploy_method)
+    {
+        $valid_methods = array(self::DEPLOY_COPY, self::DEPLOY_MOVE);
+
+        if (!in_array($deploy_method, $valid_methods)) {
+            throw new Exception(
+                sprintf("Invalid deploy method '%s' passed to config.", $deploy_method)
+            );
+        }
+
+        $this->deploy_method = $deploy_method;
     }
 
     public function getPluginSettings()
