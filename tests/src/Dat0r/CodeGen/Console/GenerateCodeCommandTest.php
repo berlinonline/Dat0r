@@ -21,21 +21,14 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     protected $fixtures_dir;
 
-    public function setUp()
-    {
-        $this->application = new SymfonyConsole\Application();
-        $this->application->add(new Dat0rConsole\GenerateCodeCommand());
-        $this->command = $this->application->find(Dat0rConsole\GenerateCodeCommand::NAME);
-        $this->fixtures_dir = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
+    protected $service_mock;
 
-        // reset testing-cache and -deploy directories
-        // @see Fixtures/deploy_copy.ini and Fixtures/deploy_move.ini
-        `rm -rf /tmp/dat0r_cache_test_dir`;
-        `rm -rf /tmp/dat0r_deploy_test_dir`;
-    }
-
-    public function testGenerateAction()
+    public function testValidConfigHandling()
     {
+        $this->service_mock->expects($this->once())->method('buildSchema');
+        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->command->setService($this->service_mock);
+
         $this->executeCommand(
             array(
                 'action' => 'generate',
@@ -44,11 +37,30 @@ class GenerateCodeCommandTest extends Tests\TestCase
             )
         );
 
-        // @todo assert /tmp/dat0r_cache_test_dir contents
+        $this->assertNotNull($this->service_mock->getConfig());
     }
 
-    public function testDeployCopyAction()
+    public function testGenerateAction()
     {
+        $this->service_mock->expects($this->once())->method('buildSchema');
+        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->command->setService($this->service_mock);
+
+        $this->executeCommand(
+            array(
+                'action' => 'generate',
+                '--config' => $this->fixtures_dir . self::FIXTURE_CONFIG,
+                '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
+            )
+        );
+    }
+
+    public function testDeployAction()
+    {
+        $this->service_mock->expects($this->once())->method('buildSchema');
+        $this->service_mock->expects($this->once())->method('deployBuild');
+        $this->command->setService($this->service_mock);
+
         $this->executeCommand(
             array(
                 'action' => 'generate+deploy',
@@ -56,23 +68,6 @@ class GenerateCodeCommandTest extends Tests\TestCase
                 '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
             )
         );
-
-        // @todo assert /tmp/dat0r_deploy_test_dir contents
-        // and that the cache dir is still there.
-    }
-
-    public function testDeployMoveAction()
-    {
-        $this->executeCommand(
-            array(
-                'action' => 'generate+deploy',
-                '--config' => $this->fixtures_dir . self::FIXTURE_CONFIG_MOVE_DEPLOYMENT,
-                '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
-            )
-        );
-
-        // @todo assert /tmp/dat0r_deploy_test_dir contents
-        // and that the cache dir is gone.
     }
 
     /**
@@ -80,12 +75,30 @@ class GenerateCodeCommandTest extends Tests\TestCase
      */
     public function testInvalidAction()
     {
+        $this->service_mock->expects($this->never())->method('buildSchema');
+        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->command->setService($this->service_mock);
+
         $this->executeCommand(
             array(
                 'action' => 'invalid_action',
-                '--config' => $this->fixtures_dir . 'schema_build.ini',
-                '--schema' => $this->fixtures_dir . 'module_schema.xml'
+                '--config' => $this->fixtures_dir . self::FIXTURE_CONFIG,
+                '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
             )
+        );
+    }
+
+    protected function setUp()
+    {
+        $this->fixtures_dir = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
+
+        $this->application = new SymfonyConsole\Application();
+        $this->application->add(new Dat0rConsole\GenerateCodeCommand());
+        $this->command = $this->application->find(Dat0rConsole\GenerateCodeCommand::NAME);
+
+        $this->service_mock = $this->getMock(
+            'Dat0r\\CodeGen\\Service',
+            array('buildSchema', 'deployBuild')
         );
     }
 

@@ -2,12 +2,12 @@
 
 namespace Dat0r\CodeGen\Console;
 
-use Symfony\Component\Console\Command;
-use Symfony\Component\Console\Input;
-use Symfony\Component\Console\Output;
 use Dat0r\CodeGen;
 use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser;
+use Symfony\Component\Console\Command;
+use Symfony\Component\Console\Input;
+use Symfony\Component\Console\Output;
 
 class GenerateCodeCommand extends Command\Command
 {
@@ -16,6 +16,13 @@ class GenerateCodeCommand extends Command\Command
     protected static $generate_action_aliases = array('generate', 'gen', 'g');
 
     protected static $deploy_action_aliases = array('deploy', 'dep', 'd');
+
+    protected $service;
+
+    public function setService(CodeGen\Service $service)
+    {
+        $this->service = $service;
+    }
 
     protected function configure()
     {
@@ -49,7 +56,24 @@ class GenerateCodeCommand extends Command\Command
     protected function execute(Input\InputInterface $input, Output\OutputInterface $output)
     {
         $this->validateInput($input);
-        $this->processPayload($input, $output);
+
+        $service = $this->fetchService($input);
+        $service->setConfig(
+            $this->createConfig($input)->validate()
+        );
+
+        $module_schema = $this->getModuleSchemaPath($input);
+        $actions = explode('+', $input->getArgument('action'));
+
+        $diff_count = count(array_diff(self::$generate_action_aliases, $actions));
+        if ($diff_count < count(self::$generate_action_aliases)) {
+            $service->buildSchema($module_schema);
+        }
+
+        $diff_count = count(array_diff(self::$deploy_action_aliases, $actions));
+        if ($diff_count < count(self::$deploy_action_aliases)) {
+            $service->deployBuild();
+        }
     }
 
     protected function validateInput(Input\InputInterface $input)
@@ -72,34 +96,6 @@ class GenerateCodeCommand extends Command\Command
         }
     }
 
-    protected function processPayload(Input\InputInterface $input, Output\OutputInterface $output)
-    {
-        $actions = explode('+', $input->getArgument('action'));
-
-        try {
-            $module_schema = $this->getModuleSchemaPath($input);
-
-            $service = CodeGen\Service::create(
-                array(
-                    'config' => $this->getConfig($input)->validate(),
-                    'schema_parser' => Parser\ModuleSchemaXmlParser::create()
-                )
-            );
-
-            $matched_actions = array_diff(self::$generate_action_aliases, $actions);
-            if (count($matched_actions) < count(self::$generate_action_aliases)) {
-                $service->buildSchema($module_schema);
-            }
-
-            $matched_actions = array_diff(self::$deploy_action_aliases, $actions);
-            if (count($matched_actions) < count(self::$deploy_action_aliases)) {
-                $service->deployBuild();
-            }
-        } catch (\Exception $error) {
-            throw new Exception("An error occured while trying to process command.\n-> " . $error->getMessage());
-        }
-    }
-
     protected function getModuleSchemaPath(Input\InputInterface $input)
     {
         $schema_path = $input->getOption('schema');
@@ -111,7 +107,18 @@ class GenerateCodeCommand extends Command\Command
         return $schema_path;
     }
 
-    protected function getConfig(Input\InputInterface $input)
+    protected function fetchService(Input\InputInterface $input)
+    {
+        if (!$this->service) {
+            $this->service = CodeGen\Service::create(
+                array('schema_parser' => Parser\ModuleSchemaXmlParser::create())
+            );
+        }
+
+        return $this->service;
+    }
+
+    protected function createConfig(Input\InputInterface $input)
     {
         $config_path = $input->getOption('config');
 
@@ -122,7 +129,9 @@ class GenerateCodeCommand extends Command\Command
         $config_reader = Config\IniFileConfigReader::create();
         $settings = $config_reader->read($config_path);
 
-        return Config\Config::create($settings);
+        $this->service_config = Config\Config::create($settings);
+
+        return $this->service_config;
     }
 
     protected function getLookupDir(Input\InputInterface $input)

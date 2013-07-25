@@ -7,12 +7,34 @@ use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser;
 use Dat0r\CodeGen\Schema;
 use Dat0r\CodeGen\Builder;
+use Symfony\Component\Filesystem;
 
 class Service extends Dat0r\Object
 {
+    const DIR_MODE = 0750;
+
+    const FILE_MODE = 0750;
+
     protected $config;
 
     protected $schema_parser;
+
+    protected $filesystem;
+
+    public function __construct()
+    {
+        $this->filesystem = new Filesystem\Filesystem();
+    }
+
+    public function setConfig(Config\IConfig $config)
+    {
+        $this->config = $config;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
 
     public function buildSchema($module_schema_path)
     {
@@ -45,7 +67,7 @@ class Service extends Dat0r\Object
 
         $deploy_dir = $this->config->getDeployDir();
         if (!is_dir($deploy_dir)) {
-            mkdir($deploy_dir, 0752, true);
+            $this->filesystem->mkdir($deploy_dir, self::DIR_MODE);
         }
 
         if (!($deploy_dir = realpath($deploy_dir))) {
@@ -59,41 +81,9 @@ class Service extends Dat0r\Object
 
         $method = $this->config->getDeployMethod();
         if ($method === 'move') {
-            $this->moveDirectory($cache_dir, $deploy_dir);
+            $this->filesystem->rename($cache_dir, $deploy_dir, true);
         } else {
-            $this->copyDirectory($cache_dir, $deploy_dir);
-        }
-    }
-
-    protected function copyDirectory($from, $to)
-    {
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($from, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        foreach ($iterator as $item) {
-            if ($item->isDir()) {
-                 mkdir($to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-            } else {
-                copy($item, $to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-            }
-        }
-    }
-
-    protected function moveDirectory($from, $to)
-    {
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($from, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        foreach ($iterator as $item) {
-            if ($item->isDir()) {
-                mkdir($to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-            } else {
-                rename($item, $to . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-            }
+            $this->filesystem->mirror($cache_dir, $deploy_dir, null, array('override' => true));
         }
     }
 
@@ -122,7 +112,7 @@ class Service extends Dat0r\Object
     {
         $cache_dir = $this->config->getCachedir();
         if (!is_dir($cache_dir)) {
-            mkdir($cache_dir, 0752, true);
+            $this->filesystem->mkdir($cache_dir, self::DIR_MODE);
         }
 
         if (!($cache_dir = realpath($cache_dir))) {
@@ -139,13 +129,16 @@ class Service extends Dat0r\Object
             $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $rel_path;
 
             if (!is_dir($package_dir)) {
-                mkdir($package_dir, 0750, true);
+                $this->filesystem->mkdir($package_dir, self::DIR_MODE);
             }
 
             $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-            if (!file_put_contents($class_filepath, $class_container->getSourceCode())) {
-                // @todo error handling ...
-            }
+
+            $this->filesystem->dumpFile(
+                $class_filepath,
+                $class_container->getSourceCode(),
+                self::FILE_MODE
+            );
         }
     }
 }
