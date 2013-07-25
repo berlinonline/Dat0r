@@ -86,7 +86,8 @@ class GenerateCodeCommandTest extends Tests\TestCase
                 '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
             )
         );
-    }
+    // @codeCoverageIgnoreStart
+    } // @codeCoverageIgnoreEnd
 
     protected function setUp()
     {

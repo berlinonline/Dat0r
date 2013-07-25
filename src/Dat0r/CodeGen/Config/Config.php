@@ -19,7 +19,7 @@ class Config extends Dat0r\Object implements IConfig
         return $this->cache_dir;
     }
 
-    protected function setCacheDir($cache_dir)
+    public function setCacheDir($cache_dir)
     {
         $this->cache_dir = trim($cache_dir);
     }
@@ -29,7 +29,7 @@ class Config extends Dat0r\Object implements IConfig
         return $this->deploy_dir;
     }
 
-    protected function setDeployDir($deploy_dir)
+    public function setDeployDir($deploy_dir)
     {
         $this->deploy_dir = trim($deploy_dir);
     }
@@ -39,7 +39,7 @@ class Config extends Dat0r\Object implements IConfig
         return $this->deploy_method;
     }
 
-    protected function setDeployMethod($deploy_method)
+    public function setDeployMethod($deploy_method)
     {
         $valid_methods = array(self::DEPLOY_COPY, self::DEPLOY_MOVE);
 
