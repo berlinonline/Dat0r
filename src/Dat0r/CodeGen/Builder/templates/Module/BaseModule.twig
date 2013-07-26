@@ -19,18 +19,20 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
      */
     protected function __construct()
     {
-        parent::__construct('{{ module_name }}', array( {% for field in fields %}
-
-            {% spaceless %}
+        parent::__construct(
+            '{{ module_name }}',
+            array(
+            {% for field in fields %}
                 {% if field.options|length > 0 %}
-                    {{ field.implementor }}::create('{{ field.name }}', {{ field.options|raw }}),
+                {{ field.implementor }}::create('{{ field.name }}', {{ field.options|raw }}),
                 {% else %}
-                    {{ field.implementor }}::create('{{ field.name }}'),
+                {{ field.implementor }}::create('{{ field.name }}'),
                 {% endif %}
-
-            {% endspaceless %} {% endfor %}
-
-        ){% if options|length > 0 %}, {{ options|raw }} {% endif %});
+            {% endfor %}
+            ){% if options|length > 0 %},
+            {{ options|raw }}
+            {% endif %}
+        );
     }
 
     /**
