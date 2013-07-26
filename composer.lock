@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b06a353b56691445b50212859076efcf",
+    "hash": "50900d0d847208a0dab64567025081d3",
     "packages": [
         {
             "name": "fzaninotto/faker",
@@ -53,26 +53,31 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.1.11",
+            "version": "v2.2.4",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.1.11"
+                "reference": "v2.2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.1.11",
-                "reference": "v2.1.11",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.2.4",
+                "reference": "v2.2.4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Console": ""
+                    "Symfony\\Component\\Console\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -91,7 +96,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-26 18:42:07"
+            "time": "2013-07-08 14:34:53"
         },
         {
             "name": "symfony/filesystem",
@@ -696,20 +701,24 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.4.5",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "1.4.5"
+                "reference": "1.4.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/1.4.5",
-                "reference": "1.4.5",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/1.4.6",
+                "reference": "1.4.6",
                 "shasum": ""
             },
             "require": {
+                "ext-tokenizer": "*",
                 "php": ">=5.1.2"
+            },
+            "suggest": {
+                "phpunit/php-timer": "dev-master"
             },
             "bin": [
                 "scripts/phpcs"
@@ -759,7 +768,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2013-04-03 23:16:28"
+            "time": "2013-07-25 03:49:02"
         },
         {
             "name": "symfony/finder",
