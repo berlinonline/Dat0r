@@ -122,7 +122,7 @@ mkdir data_objects codegen_cache
 To then actually generate the code we run:
 
 ```sh
-./vendor/bin/dat0r.console generate codegen_config.ini article_module.xml
+./vendor/bin/dat0r.console generate_code --config codegen_config.ini --schema article_module.xml
 ```
 
 This should result within an Article folder being created inside our ./data_objects directory,
