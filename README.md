@@ -3,6 +3,7 @@
 * Version: dev-master (0.7.0-dev)
 * Date: 2013/xx/xx
 * Build: [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
+* PHP-FIG Support: psr-0, psr-1 and psr-2
 
 ## Purpose
 
