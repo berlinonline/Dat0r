@@ -22,6 +22,11 @@ class OptionDefinition extends Dat0r\Object
         return $this->value;
     }
 
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
     public function getDefault()
     {
         return $this->default;

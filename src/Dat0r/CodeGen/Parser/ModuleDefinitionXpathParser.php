@@ -22,7 +22,15 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
     protected function parseModuleDefinition(\DOMXPath $xpath, \DOMElement $element)
     {
         $implementor = null;
+        if ($element->hasAttribute('implementor')) {
+            $implementor = $element->getAttribute('implementor');
+        }
+
         $document_implementor = null;
+        if ($element->hasAttribute('document_implementor')) {
+            $implementor = $element->getAttribute('document_implementor');
+        }
+
         $description = $this->parseDescription(
             $xpath,
             $xpath->query('./description', $element)->item(0)

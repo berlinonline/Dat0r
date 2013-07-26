@@ -25,6 +25,22 @@ abstract class ClassBuilder implements IClassBuilder
         return new static($module_schema, $module_definition);
     }
 
+    public function __construct(
+        Schema\ModuleSchema $module_schema,
+        Schema\ModuleDefinition $module_definition = null
+    ) {
+        $this->twig = new \Twig_Environment(
+            new \Twig_Loader_Filesystem(
+                __DIR__ . DIRECTORY_SEPARATOR . 'templates'
+            )
+        );
+
+        $this->module_schema = $module_schema;
+        $this->module_definition = $module_definition
+            ? $module_definition
+            : $module_schema->getModuleDefinition();
+    }
+
     public function build()
     {
         $this->module_schema->getModuleDefinition();
@@ -42,22 +58,6 @@ abstract class ClassBuilder implements IClassBuilder
                 )
             )
         );
-    }
-
-    protected function __construct(
-        Schema\ModuleSchema $module_schema,
-        Schema\ModuleDefinition $module_definition = null
-    ) {
-        $this->twig = new \Twig_Environment(
-            new \Twig_Loader_Filesystem(
-                __DIR__ . DIRECTORY_SEPARATOR . 'templates'
-            )
-        );
-
-        $this->module_schema = $module_schema;
-        $this->module_definition = $module_definition
-            ? $module_definition
-            : $module_schema->getModuleDefinition();
     }
 
     protected function getTemplateVars()
@@ -119,16 +119,34 @@ abstract class ClassBuilder implements IClassBuilder
             );
 
             $field_implementor = sprintf('%s\\%sField', self::NS_FIELDS, $camel_caps_type);
+            $field_name = preg_replace(
+                '/(?:^|_)(.?)/e',
+                "strtoupper('$1')",
+                $field_definition->getName()
+            );
+
+            if ($field_definition->getType() === 'aggregate') {
+                foreach ($field_definition->getOptions() as $option) {
+                    if ($option->getName() === 'modules') {
+                        foreach ($option->getValue() as $module_option) {
+                            $module_option->setValue(
+                                sprintf(
+                                    '%s\\%s\\%s',
+                                    $this->buildNamespace(),
+                                    $this->buildPackage(),
+                                    $module_option->getValue()
+                                )
+                            );
+                        }
+                    }
+                }
+            }
 
             $fields_data[] = array(
                 'implementor' => $field_implementor,
-                'name' => lcfirst(
-                    preg_replace(
-                        '/(?:^|_)(.?)/e',
-                        "strtoupper('$1')",
-                        $field_definition->getName()
-                    )
-                ),
+                'name' => lcfirst($field_name),
+                'setter' => 'set' . $field_name,
+                'getter' => 'get' . $field_name,
                 'options' => $this->preRenderOptions($field_definition->getOptions())
             );
         }

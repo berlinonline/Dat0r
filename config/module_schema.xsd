@@ -46,7 +46,7 @@
 
   <xsd:complexType name="fieldType">
     <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:element name="option" type="optionType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required" />

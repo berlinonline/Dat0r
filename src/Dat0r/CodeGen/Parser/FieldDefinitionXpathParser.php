@@ -19,10 +19,14 @@ class FieldDefinitionXpathParser extends BaseXpathParser
 
     protected function parseField(\DOMXPath $xpath, \DOMElement $element)
     {
-        $description = $this->parseDescription(
-            $xpath,
-            $xpath->query('./description', $element)->item(0)
-        );
+        $description = '';
+
+        if (($description_element = $xpath->query('./description', $element)->item(0))) {
+            $description = $this->parseDescription(
+                $xpath,
+                $xpath->query('./description', $element)->item(0)
+            );
+        }
 
         return Schema\FieldDefinition::create(
             array(

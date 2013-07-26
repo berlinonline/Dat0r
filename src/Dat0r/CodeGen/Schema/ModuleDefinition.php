@@ -18,34 +18,10 @@ class ModuleDefinition extends Dat0r\Object
 
     protected $fields;
 
-    public function getName()
+    public function __construct()
     {
-        return $this->name;
-    }
-
-    public function getImplementor()
-    {
-        return $this->implementor;
-    }
-
-    public function getDocumentImplementor()
-    {
-        return $this->document_implementor;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    public function getFields()
-    {
-        return $this->fields;
+        $this->fields = FieldDefinitionSet::create();
+        $this->options = OptionDefinitionList::create();
     }
 
     public function getAggregateDefinitions(ModuleSchema $module_schema)
@@ -74,9 +50,33 @@ class ModuleDefinition extends Dat0r\Object
         return $aggregates_set;
     }
 
-    protected function __construct()
+    public function getName()
     {
-        $this->fields = FieldDefinitionSet::create();
-        $this->options = OptionDefinitionList::create();
+        return $this->name;
+    }
+
+    public function getImplementor()
+    {
+        return $this->implementor;
+    }
+
+    public function getDocumentImplementor()
+    {
+        return $this->document_implementor;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getFields()
+    {
+        return $this->fields;
     }
 }

@@ -20,7 +20,7 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
      *
      * @return {{ field.php_type }}
      */
-    public function get{{ field.name|capitalize }}()
+    public function {{ field.getter }}()
     {
         return $this->getValue('{{ field.name }}');
     }
@@ -30,7 +30,7 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
      *
      * @param {{ field.php_type }} ${{ field.name }}
      */
-    public function set{{ field.name|capitalize }}(${{ field.name }})
+    public function {{ field.setter }}(${{ field.name }})
     {
         $this->setValue('{{ field.name }}', ${{ field.name }});
     }
