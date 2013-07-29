@@ -6,7 +6,7 @@ use Dat0r\CodeGen\Schema;
 
 class ModuleBaseClass extends ModuleClass
 {
-    const NS_MODULE = 'Dat0r\\Core\\Module';
+    const NS_MODULE = '\\Dat0r\\Core\\Module';
 
     protected function getTemplate()
     {
@@ -24,7 +24,7 @@ class ModuleBaseClass extends ModuleClass
 
         if (!$parent_implementor) {
             $parent_implementor = sprintf(
-                '%s\\%s',
+                '\\%s\\%s',
                 ModuleBaseClass::NS_MODULE,
                 ($this->module_definition instanceof Schema\AggregateDefinition)
                 ? 'AggregateModule'
@@ -40,12 +40,12 @@ class ModuleBaseClass extends ModuleClass
         return array_merge(
             parent::getTemplateVars(),
             array(
-                'document_implementor' => sprintf(
-                    '%s\\%s\\%sDocument',
+                'document_implementor' => var_export(sprintf(
+                    '\\%s\\%s\\%sDocument',
                     $this->buildNamespace(),
                     parent::buildPackage(),
                     $this->module_definition->getName()
-                )
+                ), true)
             )
         );
     }

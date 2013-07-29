@@ -8,9 +8,11 @@ class FieldDefinition extends Dat0r\Object
 {
     protected $name;
 
+    protected $implementor;
+
     protected $description;
 
-    protected $type;
+    protected $short_name;
 
     protected $options;
 
@@ -19,9 +21,14 @@ class FieldDefinition extends Dat0r\Object
         return $this->name;
     }
 
-    public function getType()
+    public function getImplementor()
     {
-        return $this->type;
+        return $this->implementor;
+    }
+
+    public function getShortName()
+    {
+        return $this->short_name;
     }
 
     public function getDescription()

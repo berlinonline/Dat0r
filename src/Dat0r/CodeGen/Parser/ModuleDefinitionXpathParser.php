@@ -22,13 +22,15 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
     protected function parseModuleDefinition(\DOMXPath $xpath, \DOMElement $element)
     {
         $implementor = null;
-        if ($element->hasAttribute('implementor')) {
-            $implementor = $element->getAttribute('implementor');
+        $implementor_list = $xpath->query('./implementor', $element);
+        if ($implementor_list->length > 0) {
+            $implementor = $implementor_list->item(0)->nodeValue;
         }
 
         $document_implementor = null;
-        if ($element->hasAttribute('document_implementor')) {
-            $implementor = $element->getAttribute('document_implementor');
+        $document_implementor_list = $xpath->query('./document_implementor', $element);
+        if ($document_implementor_list->length > 0) {
+            $document_implementor = $document_implementor_list->item(0)->nodeValue;
         }
 
         $description = $this->parseDescription(
@@ -39,8 +41,8 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
         return Schema\ModuleDefinition::create(
             array(
                 'name' => $element->getAttribute('name'),
-                'implementor' => $implementor,
-                'document_implementor' => $document_implementor,
+                'implementor' => str_replace("'", "", var_export($implementor, true)),
+                'document_implementor' => str_replace("'", "", var_export($document_implementor, true)),
                 'description' => $description,
                 'options' => $this->parseOptions($xpath, $element),
                 'fields' => $this->parseFields($xpath, $element)

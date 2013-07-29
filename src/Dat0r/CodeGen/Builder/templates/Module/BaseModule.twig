@@ -7,7 +7,9 @@ then the '{{ module_name }}Module' (skeleton) class probally might be a good pla
 
 namespace {{ namespace }};
 
-use {{ parent_namespace }};
+{% for namespace in namespaces_to_use %}
+use {{ namespace }};
+{% endfor %}
 
 /**
  * Serves as the base class to the '{{ module_name }}'' module skeleton.
@@ -22,16 +24,26 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
         parent::__construct(
             '{{ module_name }}',
             array(
-            {% for field in fields %}
-                {% if field.options|length > 0 %}
-                {{ field.implementor }}::create('{{ field.name }}', {{ field.options|raw }}),
-                {% else %}
-                {{ field.implementor }}::create('{{ field.name }}'),
-                {% endif %}
-            {% endfor %}
-            ){% if options|length > 0 %},
+            {%- for field in fields %}
+                {%- if field.options|length > 0 %}
+
+                {{ field.class_name }}::create(
+                    '{{ field.name }}',
+                    {{ field.options|raw }}
+                ),
+
+                {%- else %}
+
+                {{ field.class_name }}::create('{{ field.name }}'),
+
+                {%- endif %}
+            {%- endfor %}
+
+            )
+            {%- if options|length > 0 %},
             {{ options|raw }}
-            {% endif %}
+            {%- endif %}
+
         );
     }
 
@@ -42,6 +54,6 @@ abstract class {{ implementor }} extends {{ parent_package }}\{{ parent_implemen
      */
     protected function getDocumentImplementor()
     {
-        return '{{ document_implementor }}';
+        return {{ document_implementor|raw }};
     }
 }

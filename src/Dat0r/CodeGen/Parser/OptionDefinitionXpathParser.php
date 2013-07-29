@@ -44,8 +44,8 @@ class OptionDefinitionXpathParser extends BaseXpathParser
         return Schema\OptionDefinition::create(
             array(
                 'name' => $name,
-                'value' => $value,
-                'default' => $default
+                'value' => $this->literalize($value),
+                'default' => $this->literalize($default)
             )
         );
     }
