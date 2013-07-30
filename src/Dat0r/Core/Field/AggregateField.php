@@ -18,7 +18,9 @@ class AggregateField extends Field
      * Holds the option name of the option that provides the module implementor that reflects
      * the aggregated data structure.
      */
-    const OPT_AGGREGATE_MODULE = 'aggregate_module';
+    const OPT_MODULES = 'modules';
+
+    protected $aggregated_modules = array();
 
     public function getDefaultValue()
     {
@@ -32,20 +34,19 @@ class AggregateField extends Field
      */
     public function getAggregateModule()
     {
-        if (! $this->hasOption(self::OPT_AGGREGATE_MODULE))
+        if (!$this->hasOption(self::OPT_MODULES))
         {
             throw new Error\LogicException(
-                "AggregateField instances must be provided an aggregate module option."
+                "AggregateField instances must be provided an 'modules' option."
             );
         }
-        $moduleImplementor = $this->getOption(self::OPT_AGGREGATE_MODULE);
-        if (! class_exists($moduleImplementor))
-        {
-            throw new Error\InvalidImplementorException(
-                "The module implementor: '$moduleImplementor' given to aggregate field: " . 
-                $this->getName() . " can not be resolved."
-            );
+        $aggregated_modules = $this->getOption(self::OPT_MODULES);
+        foreach ($aggregated_modules as $aggregated_module) {
+            if (! class_exists($aggregated_module)) {
+                throw new Error\InvalidImplementorException(
+                    "Invalid implementor: '$aggregated_module' given to aggregate field."
+                );
+            }
         }
-        return $moduleImplementor::getInstance();
     }
 }

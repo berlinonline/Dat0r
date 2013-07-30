@@ -16,7 +16,9 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
             );
         }
 
-        return $this->parseModuleDefinition($xpath, $node_list->item(0));
+        return Schema\ModuleDefinition::create(
+            $this->parseModuleDefinition($xpath, $node_list->item(0))
+        );
     }
 
     protected function parseModuleDefinition(\DOMXPath $xpath, \DOMElement $element)
@@ -38,15 +40,13 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
             $xpath->query('./description', $element)->item(0)
         );
 
-        return Schema\ModuleDefinition::create(
-            array(
-                'name' => $element->getAttribute('name'),
-                'implementor' => str_replace("'", "", var_export($implementor, true)),
-                'document_implementor' => str_replace("'", "", var_export($document_implementor, true)),
-                'description' => $description,
-                'options' => $this->parseOptions($xpath, $element),
-                'fields' => $this->parseFields($xpath, $element)
-            )
+        return array(
+            'name' => $element->getAttribute('name'),
+            'implementor' => $implementor,
+            'document_implementor' => $document_implementor,
+            'description' => $description,
+            'options' => $this->parseOptions($xpath, $element),
+            'fields' => $this->parseFields($xpath, $element)
         );
     }
 

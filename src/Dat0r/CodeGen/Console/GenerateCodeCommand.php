@@ -72,7 +72,7 @@ class GenerateCodeCommand extends Command\Command
 
         $diff_count = count(array_diff(self::$deploy_action_aliases, $actions));
         if ($diff_count < count(self::$deploy_action_aliases)) {
-            $service->deployBuild();
+            $service->deployBuild($output);
         }
     }
 

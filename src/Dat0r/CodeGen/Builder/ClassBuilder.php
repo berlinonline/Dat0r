@@ -6,7 +6,7 @@ use Dat0r\CodeGen\Schema;
 
 abstract class ClassBuilder implements IClassBuilder
 {
-    const NS_FIELDS = 'Dat0r\Core\Field';
+    const NS_FIELDS = '\\Dat0r\\Core\\Field';
 
     protected $twig;
 
@@ -45,7 +45,6 @@ abstract class ClassBuilder implements IClassBuilder
     {
         $this->module_schema->getModuleDefinition();
         $implementor = $this->getImplementor();
-
         return ClassContainer::create(
             array(
                 'file_name' => $implementor . '.php',
@@ -160,7 +159,7 @@ abstract class ClassBuilder implements IClassBuilder
                             '\\%s\\%s\\%s',
                             $this->buildNamespace(),
                             $this->buildPackage(),
-                            $module_option->getValue()
+                            $module_option->getValue() . 'Module'
                         )
                     );
                 }

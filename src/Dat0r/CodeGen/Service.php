@@ -8,6 +8,7 @@ use Dat0r\CodeGen\Parser;
 use Dat0r\CodeGen\Schema;
 use Dat0r\CodeGen\Builder;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Console\Output;
 
 class Service extends Dat0r\Object
 {
@@ -20,6 +21,8 @@ class Service extends Dat0r\Object
     protected $schema_parser;
 
     protected $filesystem;
+
+    protected $output;
 
     public function __construct()
     {
@@ -53,7 +56,7 @@ class Service extends Dat0r\Object
         $this->writeCache($class_list);
     }
 
-    public function deployBuild()
+    public function deployBuild(Output\OutputInterface $output)
     {
         $cache_dir = realpath($this->config->getCachedir());
         if (!is_dir($cache_dir)) {
@@ -67,6 +70,7 @@ class Service extends Dat0r\Object
 
         $deploy_dir = $this->config->getDeployDir();
         if (!is_dir($deploy_dir)) {
+            $output->writeln('<info>Creating directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->mkdir($deploy_dir, self::DIR_MODE);
         }
 
@@ -81,8 +85,10 @@ class Service extends Dat0r\Object
 
         $method = $this->config->getDeployMethod();
         if ($method === 'move') {
+            $output->writeln('<info>Moving generated files to directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->rename($cache_dir, $deploy_dir, true);
         } else {
+            $output->writeln('<info>Copying generated files to directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->mirror($cache_dir, $deploy_dir, null, array('override' => true));
         }
     }

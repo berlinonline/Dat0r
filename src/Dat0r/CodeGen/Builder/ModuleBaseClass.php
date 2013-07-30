@@ -22,9 +22,9 @@ class ModuleBaseClass extends ModuleClass
     {
         $parent_implementor = $this->module_definition->getImplementor();
 
-        if (!$parent_implementor) {
+        if ($parent_implementor === null) {
             $parent_implementor = sprintf(
-                '\\%s\\%s',
+                '%s\\%s',
                 ModuleBaseClass::NS_MODULE,
                 ($this->module_definition instanceof Schema\AggregateDefinition)
                 ? 'AggregateModule'
@@ -40,12 +40,15 @@ class ModuleBaseClass extends ModuleClass
         return array_merge(
             parent::getTemplateVars(),
             array(
-                'document_implementor' => var_export(sprintf(
-                    '\\%s\\%s\\%sDocument',
-                    $this->buildNamespace(),
-                    parent::buildPackage(),
-                    $this->module_definition->getName()
-                ), true)
+                'document_implementor' => var_export(
+                    sprintf(
+                        '\\%s\\%s\\%sDocument',
+                        $this->buildNamespace(),
+                        parent::buildPackage(),
+                        $this->module_definition->getName()
+                    ),
+                    true
+                )
             )
         );
     }
