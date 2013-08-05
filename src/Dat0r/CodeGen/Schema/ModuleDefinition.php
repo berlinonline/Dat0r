@@ -24,32 +24,6 @@ class ModuleDefinition extends Dat0r\Object
         $this->options = OptionDefinitionList::create();
     }
 
-    public function getAggregateDefinitions(ModuleSchema $module_schema)
-    {
-        $aggregate_names = array();
-        foreach ($this->fields as $field) {
-            if ($field->getShortName() === 'aggregate') {
-                foreach ($field->getOptions() as $option) {
-                    if ($option->getName() === 'modules') {
-                        $aggregate_names = array_merge(
-                            $aggregate_names,
-                            $option->getValue()->toArray()
-                        );
-                    }
-                }
-            }
-        }
-
-        $aggregates_set = ModuleDefinitionSet::create();
-        foreach ($module_schema->getAggregateDefinitions() as $aggregate) {
-            if (in_array($aggregate->getName(), $aggregate_names)) {
-                $aggregates_set->add($aggregate);
-            }
-        }
-
-        return $aggregates_set;
-    }
-
     public function getName()
     {
         return $this->name;

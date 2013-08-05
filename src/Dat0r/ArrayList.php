@@ -93,6 +93,28 @@ class ArrayList extends Object implements ICollection
         return $this->getKey($item) !== false;
     }
 
+    public function filter($callback) {
+        $filtered_list = static::create();
+
+        foreach ($this->items as $item) {
+            if ($callback($item) === true) {
+                $filtered_list->add($item);
+            }
+        }
+
+        return $filtered_list;
+    }
+
+    public function filterOne($callback) {
+        foreach ($this->items as $item) {
+            if ($callback($item) === true) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @see http://php.net/manual/en/class.countable.php
      */

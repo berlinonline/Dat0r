@@ -32,7 +32,12 @@ class ReferenceValidator extends Validator
         $referenceMap = array();
         foreach ($this->getField()->getOption(ReferenceField::OPT_REFERENCES) as $reference)
         {
-            $referenceMap[$reference[ReferenceField::OPT_MODULE]] = $reference[ReferenceField::OPT_IDENTITY_FIELD];
+            $implementor = $reference[ReferenceField::OPT_MODULE];
+            if ($implementor{0} === '\\') {
+                $replace_count = 1;
+                $implementor = substr($implementor, 1);
+            }
+            $referenceMap[$implementor] = $reference[ReferenceField::OPT_IDENTITY_FIELD];
         }
 
         foreach ($value as $document)
@@ -42,6 +47,7 @@ class ReferenceValidator extends Validator
 
             if (! isset($referenceMap[$moduleImplementor]))
             {
+                var_dump($referenceMap, $moduleImplementor);
                 return FALSE;
             }
 

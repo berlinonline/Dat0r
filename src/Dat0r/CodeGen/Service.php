@@ -107,7 +107,7 @@ class Service extends Dat0r\Object
         $root_module = $module_schema->getModuleDefinition();
         $class_builders = $create_builders($root_module);
 
-        foreach ($root_module->getAggregateDefinitions($module_schema) as $aggregate_module) {
+        foreach ($module_schema->getUsedAggregateDefinitions($root_module) as $aggregate_module) {
             $class_builders = array_merge($class_builders, $create_builders($aggregate_module));
         }
 

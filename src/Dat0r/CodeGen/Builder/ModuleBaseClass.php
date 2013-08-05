@@ -52,4 +52,22 @@ class ModuleBaseClass extends ModuleClass
             )
         );
     }
+
+    protected function expandAggregateNamespaces(Schema\FieldDefinition $field_definition)
+    {
+        foreach ($field_definition->getOptions() as $option) {
+            if ($option->getName() === 'modules') {
+                foreach ($option->getValue() as $module_option) {
+                    $module_option->setValue(
+                        sprintf(
+                            '\\%s\\%s\\%s',
+                            $this->buildNamespace(),
+                            parent::buildPackage(),
+                            $module_option->getValue() . 'Module'
+                        )
+                    );
+                }
+            }
+        }
+    }
 }

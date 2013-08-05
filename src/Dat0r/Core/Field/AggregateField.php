@@ -32,14 +32,14 @@ class AggregateField extends Field
      *
      * @return AggregateModule
      */
-    public function getAggregateModule()
+    public function getAggregateModules()
     {
-        if (!$this->hasOption(self::OPT_MODULES))
-        {
+        if (!$this->hasOption(self::OPT_MODULES)) {
             throw new Error\LogicException(
                 "AggregateField instances must be provided an 'modules' option."
             );
         }
+
         $aggregated_modules = $this->getOption(self::OPT_MODULES);
         foreach ($aggregated_modules as $aggregated_module) {
             if (! class_exists($aggregated_module)) {
@@ -47,6 +47,9 @@ class AggregateField extends Field
                     "Invalid implementor: '$aggregated_module' given to aggregate field."
                 );
             }
+            $this->aggregated_modules[] = $aggregated_module::getInstance();
         }
+
+        return $this->aggregated_modules;
     }
 }

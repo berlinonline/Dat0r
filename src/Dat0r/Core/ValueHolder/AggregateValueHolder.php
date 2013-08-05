@@ -71,7 +71,9 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function setValue($value)
     {
-        $module = $this->getField()->getAggregateModule();
+        $modules = $this->getField()->getAggregateModules();
+        $module = reset($modules);
+
         $aggregateDocument = $module->createDocument($value);
         $aggregateDocument->addDocumentChangedListener($this);
 
