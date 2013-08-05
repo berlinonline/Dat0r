@@ -14,8 +14,8 @@ use Dat0r\Core\Field\ReferenceField;
  */
 class ReferenceValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,14 +24,14 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        
-        return (! empty($leftVal) && empty($rightVal));
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+
+        return (!empty($lefthand_value) && empty($righthand_value));
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -40,13 +40,13 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
 
-        return (empty($leftVal) && ! empty($rightVal));
+        return (empty($lefthand_value) && !empty($righthand_value));
     }
 
-    /** 
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -72,13 +72,12 @@ class ReferenceValueHolder extends ValueHolder
     /**
      * Contructs a new ReferenceValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof ReferenceField))
-        {
+        if (!($field instanceof ReferenceField)) {
             throw new Error\BadValueException(
                 "Only instances of ReferenceField my be associated with ReferenceValueHolder."
             );

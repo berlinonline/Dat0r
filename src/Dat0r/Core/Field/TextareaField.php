@@ -11,5 +11,4 @@ namespace Dat0r\Core\Field;
  */
 class TextareaField extends TextField
 {
-    
 }

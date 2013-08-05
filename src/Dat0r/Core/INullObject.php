@@ -10,5 +10,4 @@ namespace Dat0r\Core;
  */
 interface INullObject
 {
-    
 }

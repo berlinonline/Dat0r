@@ -14,8 +14,8 @@ use Dat0r\Core\Field\KeyValueField;
  */
 class KeyValueValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,25 +24,23 @@ class KeyValueValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        return $leftCount > $rightCount;
+        return $lefthand_count > $righthand_count;
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -51,24 +49,22 @@ class KeyValueValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        return $leftCount > $rightCount;
+        return $lefthand_count > $righthand_count;
     }
 
-    /** 
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -78,37 +74,30 @@ class KeyValueValueHolder extends ValueHolder
      */
     public function isEqualTo(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
-        $areEqual = TRUE;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
+        $are_equal = true;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        if (0 < $leftCount && $leftCount === $rightCount)
-        {
-            foreach ($leftVal as $key => $value)
-            {
-                if ($rightVal[$key] !== $value)
-                {
-                    $areEqual = FALSE;
+        if (0 < $lefthand_count && $lefthand_count === $righthand_count) {
+            foreach ($lefthand_value as $key => $value) {
+                if ($righthand_value[$key] !== $value) {
+                    $are_equal = false;
                 }
             }
-        }
-        else
-        {
-            $areEqual = FALSE;
+        } else {
+            $are_equal = false;
         }
 
-        return $areEqual;
+        return $are_equal;
     }
 
     /**
@@ -121,60 +110,50 @@ class KeyValueValueHolder extends ValueHolder
         $attributes = array();
         $value = empty($value) ? array() : $value;
 
-        foreach ($value as $key => $value)
-        {
+        foreach ($value as $key => $value) {
             $key = trim($key);
-            if (! empty($key))
-            {
+            if (!empty($key)) {
                 $attributes[$key] = $this->castValue($value);
             }
         }
-        
+
         parent::setValue($attributes);
     }
 
     /**
      * Contructs a new TextValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof KeyValueField))
-        {
+        if (! ($field instanceof KeyValueField)) {
             throw new Error\BadValueException(
                 "Only instances of KeyValueField my be associated with KeyValueValueHolder."
             );
         }
-        
+
         parent::__construct($field, $value);
     }
 
     protected function castValue($value)
     {
-        $valueType = $this->getField()->getValueTypeConstraint();
-        $validValues = TRUE;
+        $value_type = $this->getField()->getValueTypeConstraint();
+        $valid_values = true;
 
-        switch ($valueType) 
-        {
+        switch ($value_type) {
             case 'integer':
-            {
                 $value = (int)$value;
                 break;
-            }
 
             case 'string':
-            {
-                 $value = (string)$value;
+                $value = (string)$value;
                 break;
-            }
 
             case 'boolean':
-            {
-                 $value = (bool)$value;
+                $value = (bool)$value;
                 break;
-            }
         }
 
         return $value;

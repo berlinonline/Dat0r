@@ -14,8 +14,8 @@ use Dat0r\Core\Field\IntegerField;
  */
 class IntegerValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,14 +24,14 @@ class IntegerValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
 
-        return $leftVal > $rightVal;
+        return $lefthand_value > $righthand_value;
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -40,13 +40,13 @@ class IntegerValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
 
-        return $leftVal < $rightVal;
+        return $lefthand_value < $righthand_value;
     }
-    
-    /** 
+
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -66,12 +66,9 @@ class IntegerValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        if ($this->getField()->getOption('precision') === 'float')
-        {
+        if ($this->getField()->getOption('precision') === 'float') {
             parent::setValue((float)$value);
-        }
-        else
-        {
+        } else {
             parent::setValue((int)$value);
         }
     }
@@ -79,18 +76,17 @@ class IntegerValueHolder extends ValueHolder
     /**
      * Contructs a new IntegerValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof IntegerField))
-        {
+        if (!($field instanceof IntegerField)) {
             throw new Error\BadValueException(
                 "Only instances of NumberField my be associated with NumberValueHolder."
             );
         }
-        
+
         parent::__construct($field, $value);
     }
 }

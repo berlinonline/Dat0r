@@ -10,6 +10,4 @@ namespace Dat0r\Core\Error;
  */
 class Exception extends \Exception
 {
-
 }
-

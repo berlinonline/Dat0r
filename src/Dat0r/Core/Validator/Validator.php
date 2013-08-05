@@ -10,7 +10,7 @@ use Dat0r\Core\Field\IField;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  *
- * @todo Will probally be responseable for implementing validation reports 
+ * @todo Will probally be responseable for implementing validation reports
  * and other validation related basic functionalities.
  */
 abstract class Validator implements IValidator
@@ -28,7 +28,7 @@ abstract class Validator implements IValidator
      * @param IField $field
      *
      * @return IValidator
-     */     
+     */
     public static function create(IField $field)
     {
         return new static($field);

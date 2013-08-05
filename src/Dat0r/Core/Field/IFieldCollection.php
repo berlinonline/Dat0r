@@ -10,7 +10,7 @@ use Dat0r\Core\IFreezable;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IFieldCollection extends \Iterator, IFreezable, \Countable, \ArrayAccess 
+interface IFieldCollection extends \Iterator, IFreezable, \Countable, \ArrayAccess
 {
     /**
      * Creates a new field collection passing in an initial set of fields.
@@ -24,7 +24,7 @@ interface IFieldCollection extends \Iterator, IFreezable, \Countable, \ArrayAcce
     /**
      * Adds a field to the collection.
      *
-     * @param IField $field 
+     * @param IField $field
      */
     public function add(IField $field);
 
@@ -37,7 +37,7 @@ interface IFieldCollection extends \Iterator, IFreezable, \Countable, \ArrayAcce
 
     /**
      * Tells if a given field is allready inside the collection.
-     * 
+     *
      * @param IField $field
      *
      * @return boolean

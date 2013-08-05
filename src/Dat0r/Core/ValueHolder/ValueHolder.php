@@ -32,7 +32,7 @@ abstract class ValueHolder extends Freezable implements IValueHolder
      *
      * @return IValueHolder
      */
-    public static function create(IField $field, $value = NULL)
+    public static function create(IField $field, $value = null)
     {
         return new static($field, $value);
     }
@@ -54,8 +54,7 @@ abstract class ValueHolder extends Freezable implements IValueHolder
      */
     public function setValue($value)
     {
-        if ($this->isFrozen())
-        {
+        if ($this->isFrozen()) {
             throw new Error\ObjectImmutableException(
                 "Trying to set value on a frozen IValueHolder instance."
             );
@@ -73,41 +72,36 @@ abstract class ValueHolder extends Freezable implements IValueHolder
         $value = $this->getValue();
         $string = '';
 
-        if (is_object($value))
-        {
-            if (is_callable(array($value, '__toString')))
-            {
+        if (is_object($value)) {
+            if (is_callable(array($value, '__toString'))) {
                 $string = $value->__toString();
-            }
-            else if (is_callable(array($value, 'toArray')))
-            {
-                $string = sprintf('(%s) as %s', get_class($value), print_r($value->toArray(), TRUE));
-            }
-            else
-            {
+            } elseif (is_callable(array($value, 'toArray'))) {
+                $string = sprintf(
+                    '(%s) as %s',
+                    get_class($value),
+                    print_r($value->toArray(), true)
+                );
+            } else {
                 $string = sprintf('(%s)', get_class($value));
             }
+        } else {
+            $string = print_r($value, true);
         }
-        else
-        {
-            $string = print_r($value, TRUE);
-        }
-        
+
         return $string;
     }
 
     /**
      * Contructs a new ValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
         $this->field = $field;
-        
-        if (NULL !== $value)
-        {
+
+        if (null !== $value) {
             $this->setValue($value);
         }
     }

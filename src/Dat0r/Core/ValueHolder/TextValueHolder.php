@@ -14,8 +14,8 @@ use Dat0r\Core\Field\TextField;
  */
 class TextValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,14 +24,14 @@ class TextValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
 
-        return 0 < strcmp($leftVal, $rightVal);
+        return 0 < strcmp($lefthand_value, $righthand_value);
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -40,13 +40,13 @@ class TextValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
 
-        return 0 > strcmp($leftVal, $rightVal);
+        return 0 > strcmp($lefthand_value, $righthand_value);
     }
 
-    /** 
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -72,18 +72,17 @@ class TextValueHolder extends ValueHolder
     /**
      * Contructs a new TextValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof TextField))
-        {
+        if (!($field instanceof TextField)) {
             throw new Error\BadValueException(
                 "Only instances of TextField my be associated with TextValueHolder."
             );
         }
-        
+
         parent::__construct($field, $value);
     }
 }

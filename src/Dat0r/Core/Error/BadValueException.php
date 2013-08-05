@@ -10,40 +10,37 @@ namespace Dat0r\Core\Error;
  */
 class BadValueException extends Exception
 {
-    protected $moduleName;
+    protected $module_name;
 
-    protected $fieldName;
+    protected $field_name;
 
     protected $value;
 
-    public function setFieldName($fieldName)
+    public function setFieldName($field_name)
     {
-        $this->fieldName = $fieldName;
+        $this->field_name = $field_name;
     }
 
     public function getFieldName()
     {
-        return $this->fieldName;
+        return $this->field_name;
     }
 
-    public function setModuleName($moduleName)
+    public function setModuleName($module_name)
     {
-        $this->moduleName = $moduleName;
+        $this->module_name = $module_name;
     }
 
     public function getModuleName()
     {
-        return $this->moduleName;
+        return $this->module_name;
     }
 
     public function setValue($value)
     {
-        if (is_scalar($value))
-        {
+        if (is_scalar($value)) {
             $this->value = $value;
-        }
-        else
-        {
+        } else {
             $this->value = get_class($value);
         }
     }

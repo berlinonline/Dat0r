@@ -20,21 +20,16 @@ class IntegerCollectionValidator extends IntegerValidator
      */
     public function validate($value)
     {
-        if (is_array($value))
-        {   
-            foreach ($value as $int)
-            {
-                if (! parent::validate($int))
-                {
-                    return FALSE;
+        if (is_array($value)) {
+            foreach ($value as $int) {
+                if (! parent::validate($int)) {
+                    return false;
                 }
             }
-        }
-        else if (! empty($value))
-        {
-            return FALSE;
+        } elseif (!empty($value)) {
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }

@@ -24,7 +24,7 @@ interface IModule extends IFreezable
 
     /**
      * Returns the name of the module.
-     * 
+     *
      * @return string
      */
     public function getName();
@@ -62,5 +62,5 @@ interface IModule extends IFreezable
      *
      * @return IField
      */
-    public function getIdentifierField();   
+    public function getIdentifierField();
 }

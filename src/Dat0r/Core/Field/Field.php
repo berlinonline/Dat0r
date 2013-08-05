@@ -54,10 +54,14 @@ abstract class Field extends Freezable implements IField
      */
     protected function getValueHolderImplementor()
     {
-        return preg_replace_callback('/(.*)\\Field(.*)Field$/is', function($matches)
-        {
-            return sprintf('%sValueHolder%sValueHolder', $matches[1], $matches[2]);
-        }, get_class($this));
+        return preg_replace_callback(
+            '/(.*)\\Field(.*)Field$/is',
+            function ($matches) {
+                $impl_pattern = '%sValueHolder%sValueHolder';
+                return sprintf($impl_pattern, $matches[1], $matches[2]);
+            },
+            get_class($this)
+        );
     }
 
     /**
@@ -68,10 +72,14 @@ abstract class Field extends Freezable implements IField
      */
     protected function getValidationImplementor()
     {
-        return preg_replace_callback('/(.*)\\Field(.*)Field$/is', function($matches)
-        {
-            return sprintf('%sValidator%sValidator', $matches[1], $matches[2]);
-        }, get_class($this));
+        return preg_replace_callback(
+            '/(.*)\\Field(.*)Field$/is',
+            function ($matches) {
+                $impl_pattern = '%sValidator%sValidator';
+                return sprintf($impl_pattern, $matches[1], $matches[2]);
+            },
+            get_class($this)
+        );
     }
 
     /**
@@ -89,7 +97,7 @@ abstract class Field extends Freezable implements IField
 
     /**
      * Returns the name of the field.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -101,20 +109,21 @@ abstract class Field extends Freezable implements IField
      * Validates a given value with a strategy dedicated to the field.
      *
      * @param mixed $value
-     * 
+     *
      * @return boolean
      */
     public function validate($value)
     {
-        $implementor = $this->hasOption(self::OPT_VALIDATOR) 
+        $implementor = $this->hasOption(self::OPT_VALIDATOR)
             ? $this->getOption(self::OPT_VALIDATOR)
             : $this->getValidationImplementor();
-        if (! class_exists($implementor))
-        {
+
+        if (!class_exists($implementor)) {
             throw new Error\InvalidImplementorException(
                 "Invalid field validator given upon validate request."
             );
         }
+
         $validator = $implementor::create($this);
         // @todo check against instanceof IValidator
         return $validator->validate($value);
@@ -127,12 +136,11 @@ abstract class Field extends Freezable implements IField
      */
     public function getDefaultValue()
     {
-        if ($this->hasOption(self::OPT_VALUE_DEFAULT))
-        {
+        if ($this->hasOption(self::OPT_VALUE_DEFAULT)) {
             return $this->getOption(self::OPT_VALUE_DEFAULT);
         }
-        
-        return NULL;
+
+        return null;
     }
 
     /**
@@ -144,7 +152,7 @@ abstract class Field extends Freezable implements IField
      *
      * @return mixed
      */
-    public function getOption($name, $default = NULL)
+    public function getOption($name, $default = null)
     {
         return $this->hasOption($name) ? $this->options[$name] : $default;
     }
@@ -170,32 +178,30 @@ abstract class Field extends Freezable implements IField
      */
     public function createValueHolder($value)
     {
-        $implementor = $this->hasOption(self::OPT_VALUE_HOLDER) 
+        $implementor = $this->hasOption(self::OPT_VALUE_HOLDER)
             ? $this->getOption(self::OPT_VALUE_HOLDER)
             : $this->getValueHolderImplementor();
 
-        if (! class_exists($implementor))
-        {
+        if (!class_exists($implementor)) {
             throw new Error\InvalidImplementorException(
                 "Invalid field value-holder given upon createValueHolder request."
             );
         }
-        $valueHolder = $implementor::create($this, $value);
+        $value_holder = $implementor::create($this, $value);
         // @todo check against instanceof IValueHolder?
-        return $valueHolder;
+        return $value_holder;
     }
 
     public function getValueTypeConstraint()
     {
         $constraints = $this->getOption(self::OPT_VALUE_CONSTRAINT);
-        $valueType = 'dynamic';
+        $value_type = 'dynamic';
 
-        if (isset($constraints['value_type']))
-        {
-            $valueType = $constraints['value_type'];
+        if (isset($constraints['value_type'])) {
+            $value_type = $constraints['value_type'];
         }
 
-        return $valueType; 
+        return $value_type;
     }
 
     /**

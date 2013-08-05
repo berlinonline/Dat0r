@@ -26,16 +26,16 @@ class ValueChangedEvent implements IEvent
     /**
      * Holds the previous value of our field origin.
      *
-     * @var mixed $oldValue
+     * @var mixed $old_value
      */
-    private $oldValue;
+    private $old_value;
 
     /**
      * Holds the new value of our field origin.
      *
-     * @var mixed $newValue
+     * @var mixed $new_value
      */
-    private $newValue;
+    private $new_value;
 
     /**
      * Holds the time at which the event was created.
@@ -47,9 +47,9 @@ class ValueChangedEvent implements IEvent
     /**
      * Holds a possibly underlying aggrgate's value changed event.
      *
-     * @var DocumentChangedEvent $aggregateEvent
+     * @var DocumentChangedEvent $aggregate_event
      */
-    private $aggregateEvent;
+    private $aggregate_event;
 
     /**
      * Creates a new ValueChangedEvent instance.
@@ -57,15 +57,17 @@ class ValueChangedEvent implements IEvent
      * @param IField $field
      * @param IValueHolder $old
      * @param IValueHolder $new
-     * @param DocumentChangedEvent $aggregateEvent
+     * @param DocumentChangedEvent $aggregate_event
      *
      * @return ValueChangedEvent
      */
     public static function create(
-        IField $field, IValueHolder $old, IValueHolder $new, DocumentChangedEvent $aggregateEvent = NULL
-    )
-    {
-        return new static($field, $old, $new, $aggregateEvent);
+        IField $field,
+        IValueHolder $old,
+        IValueHolder $new,
+        DocumentChangedEvent $aggregate_event = null
+    ) {
+        return new static($field, $old, $new, $aggregate_event);
     }
 
     /**
@@ -85,7 +87,7 @@ class ValueChangedEvent implements IEvent
      */
     public function getOldValue()
     {
-        return $this->oldValue;
+        return $this->old_value;
     }
 
     /**
@@ -95,7 +97,7 @@ class ValueChangedEvent implements IEvent
      */
     public function getNewValue()
     {
-        return $this->newValue;
+        return $this->new_value;
     }
 
     /**
@@ -116,7 +118,7 @@ class ValueChangedEvent implements IEvent
      */
     public function getAggregateEvent()
     {
-        return $this->aggregateEvent;
+        return $this->aggregate_event;
     }
 
     /**
@@ -126,20 +128,19 @@ class ValueChangedEvent implements IEvent
      */
     public function __toString()
     {
-        $stringRep = sprintf(
+        $string_representation = sprintf(
             "The `%s` field's value changed from '%s' to '%s'",
             $this->getField()->getName(),
             $this->getOldValue(),
             $this->getNewValue()
         );
 
-        if (($aggregateEvent = $this->getAggregateEvent()))
-        {
-            $stringRep .= PHP_EOL . "The actual changed occured upon the field's aggregate though.";
-            $stringRep .= PHP_EOL . $aggregateEvent;
+        if (($aggregate_event = $this->getAggregateEvent())) {
+            $string_representation .= PHP_EOL . "The actual changed occured upon the field's aggregate though.";
+            $string_representation .= PHP_EOL . $aggregate_event;
         }
 
-        return $stringRep;
+        return $string_representation;
     }
 
     /**
@@ -148,16 +149,18 @@ class ValueChangedEvent implements IEvent
      * @param IField $field
      * @param IValueHolder $old
      * @param IValueHolder $new
-     * @param DocumentChangedEvent $aggregateEvent
+     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
      */
-    protected function __construct(
-        IField $field, IValueHolder $old, IValueHolder $new, DocumentChangedEvent $aggregateEvent = NULL
-    )
-    {
+    protected function __construct (
+        IField $field,
+        IValueHolder $old,
+        IValueHolder $new,
+        DocumentChangedEvent $aggregate_event = null
+    ) {
         $this->field = $field;
         $this->timestamp = \time();
-        $this->oldValue = $old;
-        $this->newValue = $new;
-        $this->aggregateEvent = $aggregateEvent;
+        $this->old_value = $old;
+        $this->new_value = $new;
+        $this->aggregate_event = $aggregate_event;
     }
 }

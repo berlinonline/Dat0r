@@ -19,7 +19,7 @@ abstract class Module extends Freezable implements IModule
     /**
      * Holds a list of IModule implementations that are pooled by type.
      *
-     * @var array $instances 
+     * @var array $instances
      */
     private static $instances = array();
 
@@ -44,35 +44,36 @@ abstract class Module extends Freezable implements IModule
      */
     private $options = array();
 
-    /** 
+    /**
      * Returns the class(name) to use when creating new entries for this module.
      *
      * @return string
      */
-    protected abstract function getDocumentImplementor();
+    abstract protected function getDocumentImplementor();
 
     /**
      * Returns the pooled instance of a specific module.
      * Each module is pooled exactly once, making this a singleton style (factory)method.
      * This method is used to provide a convenient access to generated domain module instances.
-     * 
+     *
      * @return IModule
      */
     public static function getInstance()
     {
         $class = get_called_class();
-        if (! isset(self::$instances[$class]))
-        {
+
+        if (!isset(self::$instances[$class])) {
             $module = new static();
             $module->freeze();
             self::$instances[$class] = $module;
         }
+
         return self::$instances[$class];
     }
 
     /**
      * Returns the name of the module.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -80,7 +81,7 @@ abstract class Module extends Freezable implements IModule
         return $this->name;
     }
 
-   /**
+    /**
      * Returns the module's field collection.
      *
      * @param array $fieldnames A list of fieldnames to filter for.
@@ -90,28 +91,27 @@ abstract class Module extends Freezable implements IModule
     public function getFields(array $fieldnames = array(), $types = array())
     {
         $fields = array();
-        if (empty($fieldnames))
-        {
+
+        if (empty($fieldnames)) {
             $fields = $this->fields->toArray();
-        }
-        else
-        {
-            foreach ($fieldnames as $fieldname)
-            {
+        } else {
+            foreach ($fieldnames as $fieldname) {
                 $fields[$fieldname] = $this->getField($fieldname);
             }
         }
 
-        if (! empty($types))
-        {
-            $fields = array_filter($fields, function($field) use($types)
-            {
-                return in_array(get_class($field), $types);
-            });
+        if (!empty($types)) {
+            $fields = array_filter(
+                $fields,
+                function ($field) use ($types) {
+                    return in_array(get_class($field), $types);
+                }
+            );
         }
 
         $collection = FieldCollection::create($fields);
         $collection->freeze();
+
         return $collection;
     }
 
@@ -126,12 +126,9 @@ abstract class Module extends Freezable implements IModule
      */
     public function getField($name)
     {
-        if (($field = $this->fields->get($name)))
-        {
+        if (($field = $this->fields->get($name))) {
             return $field;
-        }
-        else
-        {
+        } else {
             throw new InvalidFieldException("Module has no field: " . $name);
         }
     }
@@ -144,9 +141,7 @@ abstract class Module extends Freezable implements IModule
      */
     public function getIdentifierField()
     {
-        return $this->getField(
-            $this->getOption('identifier_field')
-        );
+        return $this->getField($this->getOption('identifier_field'));
     }
 
     /**
@@ -162,8 +157,7 @@ abstract class Module extends Freezable implements IModule
     {
         $implementor = $this->getDocumentImplementor();
 
-        if (! class_exists($implementor, TRUE))
-        {
+        if (!class_exists($implementor, true)) {
             throw new Error\InvalidImplementorException(
                 "Unable to resolve the given document implementor upon document creation request."
             );
@@ -181,7 +175,7 @@ abstract class Module extends Freezable implements IModule
      *
      * @return mixed
      */
-    public function getOption($name, $default = NULL)
+    public function getOption($name, $default = null)
     {
         return $this->hasOption($name) ? $this->options[$name] : $default;
     }
@@ -218,10 +212,10 @@ abstract class Module extends Freezable implements IModule
     {
         $this->name = $name;
         $this->options = $options;
-        
+
         $this->fields = FieldCollection::create($this->getDefaultFields());
-        if (! empty($fields))
-        {
+
+        if (!empty($fields)) {
             $this->fields->addMore($fields);
         }
     }

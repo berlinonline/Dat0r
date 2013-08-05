@@ -24,42 +24,37 @@ class ReferenceValidator extends Validator
      */
     public function validate($value)
     {
-        if (! ($value instanceof DocumentCollection))
-        {
-            return FALSE;
+        if (!($value instanceof DocumentCollection)) {
+            return false;
         }
 
-        $referenceMap = array();
-        foreach ($this->getField()->getOption(ReferenceField::OPT_REFERENCES) as $reference)
-        {
+        $reference_map = array();
+        $references = $this->getField()->getOption(ReferenceField::OPT_REFERENCES);
+        foreach ($references as $reference) {
             $implementor = $reference[ReferenceField::OPT_MODULE];
             if ($implementor{0} === '\\') {
                 $replace_count = 1;
                 $implementor = substr($implementor, 1);
             }
-            $referenceMap[$implementor] = $reference[ReferenceField::OPT_IDENTITY_FIELD];
+            $reference_map[$implementor] = $reference[ReferenceField::OPT_IDENTITY_FIELD];
         }
 
-        foreach ($value as $document)
-        {
+        foreach ($value as $document) {
             $module = $document->getModule();
             $moduleImplementor = get_class($module);
 
-            if (! isset($referenceMap[$moduleImplementor]))
-            {
-                var_dump($referenceMap, $moduleImplementor);
-                return FALSE;
+            if (!isset($reference_map[$moduleImplementor])) {
+                return false;
             }
 
-            $identifierField = $referenceMap[$moduleImplementor];
+            $identifierField = $reference_map[$moduleImplementor];
             $identifier = $document->getValue($identifierField);
 
-            if (empty($identifier))
-            {
-                return FALSE;
+            if (empty($identifier)) {
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     }
 }

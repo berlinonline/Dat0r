@@ -18,8 +18,10 @@ class FieldDefinitionSet extends Dat0r\Set
 
     public function filterByType($type)
     {
-        return $this->filter(function($field) use ($type) {
-            return $field->getShortName() === $type;
-        });
+        return $this->filter(
+            function ($field) use ($type) {
+                return $field->getShortName() === $type;
+            }
+        );
     }
 }

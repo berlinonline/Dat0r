@@ -93,7 +93,8 @@ class ArrayList extends Object implements ICollection
         return $this->getKey($item) !== false;
     }
 
-    public function filter($callback) {
+    public function filter($callback)
+    {
         $filtered_list = static::create();
 
         foreach ($this->items as $item) {
@@ -105,7 +106,8 @@ class ArrayList extends Object implements ICollection
         return $filtered_list;
     }
 
-    public function filterOne($callback) {
+    public function filterOne($callback)
+    {
         foreach ($this->items as $item) {
             if ($callback($item) === true) {
                 return $item;

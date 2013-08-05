@@ -20,25 +20,18 @@ class BooleanValidator extends Validator
      */
     public function validate($value)
     {
-        $castValue = $value;
-        
-        if (is_bool($castValue)) 
-        {
+        $casted_value = $value;
+
+        if (is_bool($casted_value)) {
             // noop
-        } 
-        else if (1 === $castValue || '1' === $castValue) 
-        {
-            $castValue = TRUE;
-        } 
-        else if (0 === $castValue || '0' === $castValue) 
-        {
-            $castValue = FALSE;
-        } 
-        else if (empty($castValue)) 
-        {
-            $castValue = FALSE;
+        } elseif (1 === $casted_value || '1' === $casted_value) {
+            $casted_value = true;
+        } elseif (0 === $casted_value || '0' === $casted_value) {
+            $casted_value = false;
+        } elseif (empty($casted_value)) {
+            $casted_value = false;
         }
 
-        return is_bool($castValue);
+        return is_bool($casted_value);
     }
 }

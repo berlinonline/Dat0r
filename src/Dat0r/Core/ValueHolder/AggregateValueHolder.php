@@ -21,12 +21,12 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     /**
      * Holds a list of listeners to our aggregate changed event.
      *
-     * @var array $aggregateChangedListeners
+     * @var array $aggregate_changed_listeners
      */
-    private $aggregateChangedListeners = array();
+    private $aggregate_changed_listeners = array();
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -35,11 +35,11 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        return FALSE;
+        return false;
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -48,11 +48,11 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function isLessThan(IValueHolder $other)
     {
-        return FALSE;
+        return false;
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered equal to 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -74,10 +74,10 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
         $modules = $this->getField()->getAggregateModules();
         $module = reset($modules);
 
-        $aggregateDocument = $module->createDocument($value);
-        $aggregateDocument->addDocumentChangedListener($this);
+        $aggregate_document = $module->createDocument($value);
+        $aggregate_document->addDocumentChangedListener($this);
 
-        parent::setValue($aggregateDocument);
+        parent::setValue($aggregate_document);
     }
 
     /**
@@ -87,8 +87,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function notifyAggregateChanged(DocumentChangedEvent $event)
     {
-        foreach ($this->aggregateChangedListeners as $listener)
-        {
+        foreach ($this->aggregate_changed_listeners as $listener) {
             $listener->onAggregateChanged($this->getField(), $event);
         }
     }
@@ -96,13 +95,12 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     /**
      * Registers a given listener as a recipient of aggregate changed events.
      *
-     * @param IAggregateChangedListener $aggregateChangedListener
+     * @param IAggregateChangedListener $aggregate_changed_listener
      */
-    public function addAggregateChangedListener(IAggregateChangedListener $aggregateChangedListener)
+    public function addAggregateChangedListener(IAggregateChangedListener $aggregate_changed_listener)
     {
-        if (! in_array($aggregateChangedListener, $this->aggregateChangedListeners))
-        {
-            $this->aggregateChangedListeners[] = $aggregateChangedListener;
+        if (!in_array($aggregate_changed_listener, $this->aggregate_changed_listeners)) {
+            $this->aggregate_changed_listeners[] = $aggregate_changed_listener;
         }
     }
 
@@ -119,18 +117,17 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     /**
      * Contructs a new AggregateValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof AggregateField))
-        {
+        if (!($field instanceof AggregateField)) {
             throw new Error\BadValueException(
                 "Only instances of AggregateField my be associated with AggregateValueHolder."
             );
         }
-        
+
         parent::__construct($field, $value);
     }
 }

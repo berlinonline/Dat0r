@@ -18,11 +18,10 @@ class TextareaValueHolder extends TextValueHolder
     {
         $value = (string)$value;
 
-        if ($this->getField()->getOption('use_richtext', FALSE))
-        {
+        if ($this->getField()->getOption('use_richtext', false)) {
             $value = html_entity_decode(
-                htmlspecialchars_decode($value, ENT_COMPAT), 
-                ENT_COMPAT, 
+                htmlspecialchars_decode($value, ENT_COMPAT),
+                ENT_COMPAT,
                 'UTF-8'
             );
         }

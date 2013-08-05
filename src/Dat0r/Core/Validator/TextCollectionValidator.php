@@ -20,21 +20,16 @@ class TextCollectionValidator extends TextValidator
      */
     public function validate($value)
     {
-        if (is_array($value))
-        {   
-            foreach ($value as $text)
-            {
-                if (! parent::validate($text))
-                {
-                    return FALSE;
+        if (is_array($value)) {
+            foreach ($value as $text) {
+                if (! parent::validate($text)) {
+                    return false;
                 }
             }
-        }
-        else if (! is_null($value))
-        {
-            return FALSE;
+        } elseif (!is_null($value)) {
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }

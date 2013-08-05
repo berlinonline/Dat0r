@@ -18,7 +18,7 @@ class TextField
      * @param string $name name to use for guessing a provider.
      * @param \Faker\Generator $generator instance with fake data providers to use for fake data generation
      *
-     * @return Callable closure or NULL if guessing failed.
+     * @return Callable closure or null if guessing failed.
      */
     public static function guess($name, \Faker\Generator $generator)
     {
@@ -30,19 +30,17 @@ class TextField
             case 'firstname':
             case 'given_name':
             case 'givenname':
-            {
-                return function() use ($generator) { return $generator->firstName; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->firstName;
+                };
             case 'last_name':
             case 'lastname':
             case 'surname':
             case 'family_name':
             case 'familyname':
-            {
-                return function() use ($generator) { return $generator->lastName; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->lastName;
+                };
             case 'name':
             case 'author':
             case 'creator':
@@ -93,10 +91,9 @@ class TextField
             case 'tv_host':
             case 'tvhost':
             case 'quizmaster':
-            {
-                return function() use ($generator) { return $generator->name; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->name;
+                };
             case 'alias':
             case 'moniker':
             case 'handle':
@@ -107,17 +104,15 @@ class TextField
             case 'nick':
             case 'nickname':
             case 'nick_name':
-            {
-                return function() use ($generator) { return $generator->userName; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->userName;
+                };
             case 'email':
             case 'e_mail':
             case 'e-mail':
-            {
-                return function() use ($generator) { return $generator->email; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->email;
+                };
             case 'iso6801':
             case 'birthdate':
             case 'birthday':
@@ -127,10 +122,9 @@ class TextField
             case 'inserted_at':
             case 'created_at':
             case 'deleted_at':
-            {
-                return function() use ($generator) { return $generator->iso8601; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->iso8601;
+                };
             case 'phone':
             case 'fax':
             case 'telefax':
@@ -144,38 +138,33 @@ class TextField
             case 'cell_phone':
             case 'cellular':
             case 'cellular_phone':
-            {
-                return function() use ($generator) { return $generator->phoneNumber; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->phoneNumber;
+                };
             case 'address':
             case 'adress':
-            {
-                return function() use ($generator) { return $generator->address; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->address;
+                };
             case 'city':
-            {
-                return function() use ($generator) { return $generator->city; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->city;
+                };
             case 'streetaddress':
             case 'street_address':
             case 'street':
             case 'street_number':
             case 'road':
-            {
-                return function() use ($generator) { return $generator->streetAddress; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->streetAddress;
+                };
             case 'house_number':
             case 'housenumber':
             case 'building_number':
             case 'buildingnumber':
-            {
-                return function() use ($generator) { return $generator->buildingNumber; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->buildingNumber;
+                };
             case 'postcode':
             case 'post_code':
             case 'postal_code':
@@ -185,61 +174,51 @@ class TextField
             case 'zip_code':
             case 'zipcode':
             case 'zip':
-            {
-                return function() use ($generator) { return $generator->postcode; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->postcode;
+                };
             case 'country':
             case 'nation':
-            {
-                return function() use ($generator) { return $generator->country; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->country;
+                };
             case 'state':
             case 'federal_state':
             case 'federalstate':
             case 'federate_state':
             case 'federatestate':
             case 'province':
-            {
-                return function() use ($generator) { return $generator->state; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->state;
+                };
             case 'title':
             case 'headline':
             case 'subheadline':
-            {
-                return function() use ($generator) { return $generator->sentence; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->sentence;
+                };
             case 'url':
             case 'website':
             case 'web':
             case 'homepage':
-            {
-                return function() use ($generator) { return $generator->url; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->url;
+                };
             case 'lon':
             case 'lng':
             case 'longitude':
-            {
-                return function() use ($generator) { return $generator->longitude; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->longitude;
+                };
             case 'lat':
             case 'latitude':
-            {
-                return function() use ($generator) { return $generator->longitude; };
-                break;
-            }
+                return function () use ($generator) {
+                    return $generator->longitude;
+                };
             default:
-            {
-                return NULL;
-                break;
-            }
+                return null;
         }
 
-        return NULL;
+        return null;
     }
 }

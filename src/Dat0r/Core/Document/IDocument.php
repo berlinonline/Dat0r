@@ -47,7 +47,7 @@ interface IDocument
      *
      * @return IValueHolder
      */
-    public function getValue($fieldname, $raw = TRUE);
+    public function getValue($fieldname, $raw = true);
 
     /**
      * Returns the values of either all fields or a specific field subset
@@ -58,7 +58,7 @@ interface IDocument
      *
      * @return array A list of IValueHolder.
      */
-    public function getValues(array $fieldnames = array(), $raw = TRUE);
+    public function getValues(array $fieldnames = array(), $raw = true);
 
     /**
      * Returns a list of unhandled changes.

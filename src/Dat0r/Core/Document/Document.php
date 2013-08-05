@@ -44,9 +44,9 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Holds a list of listeners regisered to our document changed event.
      *
-     * @var array $documentChangedListeners
+     * @var array $document_changed_listeners
      */
-    private $documentChangedListeners = array();
+    private $document_changed_listeners = array();
 
     /**
      * Creates a new Document.
@@ -81,12 +81,9 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $field = $this->module->getField($fieldname);
 
-        if ($field->validate($value))
-        {
+        if ($field->validate($value)) {
             $this->values->set($field, $value);
-        }
-        else
-        {
+        } else {
             $error = new InvalidValueException();
 
             $error->setFieldname($fieldname);
@@ -105,21 +102,20 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @return IValueHolder
      */
-    public function getValue($fieldname, $raw = TRUE)
+    public function getValue($fieldname, $raw = true)
     {
         $field = $this->module->getField($fieldname);
-        $value = NULL;
+        $value = null;
 
-        if ($this->hasValue($fieldname))
-        {
-            $valueHolder = $this->values->get($field);
-        }
-        else
-        {
-            throw new InvalidValueException("Field $fieldname has not been corretly initialized during initial hydrate.");
+        if ($this->hasValue($fieldname)) {
+            $value_holder = $this->values->get($field);
+        } else {
+            throw new InvalidValueException(
+                "Field $fieldname has not been corretly initialized during initial hydrate."
+            );
         }
 
-        return (TRUE === $raw) ? $valueHolder->getValue() : $valueHolder;
+        return ($raw === true) ? $value_holder->getValue() : $value_holder;
     }
 
     public function hasValue($fieldname)
@@ -137,23 +133,20 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @return array A list of IValueHolder or raw values depending on the $raw flag.
      */
-    public function getValues(array $fieldnames = array(), $raw = TRUE)
+    public function getValues(array $fieldnames = array(), $raw = true)
     {
         $values = array();
-        if (! empty($fieldnames))
-        {
-            foreach ($fieldnames as $fieldname)
-            {
+
+        if (!empty($fieldnames)) {
+            foreach ($fieldnames as $fieldname) {
                 $values[$fieldname] = $this->getValue($fieldname, $raw);
             }
-        }
-        else
-        {
-            foreach ($this->getModule()->getFields() as $field)
-            {
+        } else {
+            foreach ($this->getModule()->getFields() as $field) {
                 $values[$field->getName()] = $this->getValue($field->getName(), $raw);
             }
         }
+
         return $values;
     }
 
@@ -166,39 +159,30 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $values = array();
 
-        foreach ($this->getModule()->getFields() as $field)
-        {
+        foreach ($this->getModule()->getFields() as $field) {
             $value = $this->getValue($field->getName());
-            if ($field instanceof ReferenceField)
-            {
-                if (! empty($value))
-                {
+            if ($field instanceof ReferenceField) {
+                if (! empty($value)) {
                     $refMap = array();
                     $references = $field->getOption(ReferenceField::OPT_REFERENCES);
-                    $identityField = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
-                    $refIdentifiers = array();
+                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
+                    $reference_identifiers = array();
 
-                    foreach ($value as $document)
-                    {
+                    foreach ($value as $document) {
                         $refModule = $document->getModule();
-                        $refIdentifiers[] = array(
-                            'id' => $document->getValue($identityField),
+                        $reference_identifiers[] = array(
+                            'id' => $document->getValue($identity_field),
                             'module' => $refModule->getOption('prefix', strtolower($refModule->getName()))
                         );
                     }
 
-                    $values[$field->getName()] = $refIdentifiers;
+                    $values[$field->getName()] = $reference_identifiers;
                 }
-            }
-            else if ($field instanceof AggregateField)
-            {
-                if ($value instanceof IDocument)
-                {
+            } elseif ($field instanceof AggregateField) {
+                if ($value instanceof IDocument) {
                     $values[$field->getName()] = $value->toArray();
                 }
-            }
-            else
-            {
+            } else {
                 $values[$field->getName()] = $value;
             }
         }
@@ -255,25 +239,24 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function isEqualTo(IDocument $other)
     {
-        if ($other->getModule() !== $this->getModule())
-        {
+        $is_equal = true;
+
+        if ($other->getModule() !== $this->getModule()) {
             throw new Error\BadValueException(
                 "Only IDocument instances of the same module may be compared."
             );
         }
 
-        $isEqual = TRUE;
-        foreach ($this->getModule()->getFields() as $field)
-        {
-            $lValueHolder = $this->getValue($field->getName(), FALSE);
-            $rValueHolder = $other->getValue($field->getName(), FALSE);
-            if (! $lValueHolder->isEqualTo($rValueHolder))
-            {
-                $isEqual = FALSE;
+        foreach ($this->getModule()->getFields() as $field) {
+            $lefthand_value = $this->getValue($field->getName(), false);
+            $righthand_value = $other->getValue($field->getName(), false);
+            if (!$lefthand_value->isEqualTo($righthand_value)) {
+                $is_equal = false;
                 break;
             }
         }
-        return $isEqual;
+
+        return $is_equal;
     }
 
     /**
@@ -285,8 +268,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function notifyDocumentChanged(ValueChangedEvent $event)
     {
         $event = DocumentChangedEvent::create($this, $event);
-        foreach ($this->documentChangedListeners as $listener)
-        {
+        foreach ($this->document_changed_listeners as $listener) {
             $listener->onDocumentChanged($event);
         }
     }
@@ -294,13 +276,12 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Registers a given document changed listener.
      *
-     * @param IDocumentChangedListener $documentChangedListener
+     * @param IDocumentChangedListener $document_changed_listener
      */
-    public function addDocumentChangedListener(IDocumentChangedListener $documentChangedListener)
+    public function addDocumentChangedListener(IDocumentChangedListener $document_changed_listener)
     {
-        if (! in_array($documentChangedListener, $this->documentChangedListeners))
-        {
-            $this->documentChangedListeners[] = $documentChangedListener;
+        if (!in_array($document_changed_listener, $this->document_changed_listeners)) {
+            $this->document_changed_listeners[] = $document_changed_listener;
         }
     }
 
@@ -319,13 +300,11 @@ abstract class Document implements IDocument, IValueChangedListener
 
     public function checkMandatoryFields()
     {
-        foreach ($this->getModule()->getFields() as $field)
-        {
+        foreach ($this->getModule()->getFields() as $field) {
             $value = $this->getValue($field->getName());
-            $isMandatory = ($field->getOption('mandatory') == TRUE);
+            $is_mandatory = ($field->getOption('mandatory') == true);
 
-            if ($isMandatory && empty($value))
-            {
+            if ($is_mandatory && empty($value)) {
                 $error = new MandatoryValueMissingException();
                 $error->setFieldName($field->getName());
                 $error->setModuleName($this->module->getName());
@@ -345,7 +324,7 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $this->module = $module;
         $this->values = ValueHolderCollection::create($this->getModule());
-        $this->hydrate($data, TRUE);
+        $this->hydrate($data, true);
         $this->values->addValueChangedListener($this);
     }
 
@@ -354,36 +333,26 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @param array $values
      */
-    protected function hydrate(array $values = array(), $applyDefaults = FALSE)
+    protected function hydrate(array $values = array(), $apply_defaults = false)
     {
-        $nonHydratedFields =  array();
+        $non_hydrated_fields =  array();
 
-        if (! empty($values))
-        {
-            foreach ($this->module->getFields() as $fieldname => $field)
-            {
-                if (array_key_exists($fieldname, $values))
-                {
+        if (!empty($values)) {
+            foreach ($this->module->getFields() as $fieldname => $field) {
+                if (array_key_exists($fieldname, $values)) {
                     $this->setValue($field->getName(), $values[$fieldname]);
-                }
-                else
-                {
-                    $nonHydratedFields[] = $field;
+                } else {
+                    $non_hydrated_fields[] = $field;
                 }
             }
-        }
-        else
-        {
-            foreach ($this->module->getFields() as $fieldname => $field)
-            {
-                $nonHydratedFields[] = $field;
+        } else {
+            foreach ($this->module->getFields() as $fieldname => $field) {
+                $non_hydrated_fields[] = $field;
             }
         }
 
-        if ($applyDefaults)
-        {
-            foreach ($nonHydratedFields as $field)
-            {
+        if ($apply_defaults) {
+            foreach ($non_hydrated_fields as $field) {
                 $this->setValue($field->getName(), $field->getDefaultValue());
             }
         }

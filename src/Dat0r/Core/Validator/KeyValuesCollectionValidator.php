@@ -20,21 +20,16 @@ class KeyValuesCollectionValidator extends KeyValueValidator
      */
     public function validate($value)
     {
-        if (is_array($value))
-        {   
-            foreach ($value as $key => $values)
-            {
-                if (! $this->hasValidValues($values))
-                {
-                    return FALSE;
+        if (is_array($value)) {
+            foreach ($value as $key => $values) {
+                if (! $this->hasValidValues($values)) {
+                    return false;
                 }
             }
-        }
-        else if (! is_null($value))
-        {
-            return FALSE;
+        } elseif (!is_null($value)) {
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }

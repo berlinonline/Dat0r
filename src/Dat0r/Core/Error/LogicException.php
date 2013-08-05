@@ -11,5 +11,4 @@ namespace Dat0r\Core\Error;
  */
 class LogicException extends Exception
 {
-
 }

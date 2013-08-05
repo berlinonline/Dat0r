@@ -153,11 +153,7 @@ abstract class ClassBuilder implements IClassBuilder
     {
     }
 
-    protected function preRenderOptions(
-        Schema\OptionDefinitionList $options,
-        $initial_indent = 0,
-        $indent_size = 4
-    )
+    protected function preRenderOptions(Schema\OptionDefinitionList $options, $initial_indent = 0, $indent_size = 4)
     {
         if ($options->getSize() === 0) {
             return 'array()';

@@ -12,5 +12,4 @@ use Dat0r\Core\Field\TextField;
  */
 abstract class RootModule extends Module
 {
-    
 }

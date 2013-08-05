@@ -36,9 +36,9 @@ class ValueHolderCollection implements IAggregateChangedListener
     /**
      * Holds a list of listeners regisered to our value changed event.
      *
-     * @var array $valueChangedListeners
+     * @var array $value_changed_listeners
      */
-    private $valueChangedListeners = array();
+    private $value_changed_listeners = array();
 
     /**
      * Creates a new ValuesHolder instance.
@@ -59,40 +59,37 @@ class ValueHolderCollection implements IAggregateChangedListener
      * @param IValueHolder $value
      * @param boolean $override
      */
-    public function set(IField $field, $value, $override = TRUE)
+    public function set(IField $field, $value, $override = true)
     {
-        if (! $this->getModule()->getFields()->has($field))
-        {
+        if (!$this->getModule()->getFields()->has($field)) {
             throw new InvalidFieldException(
                 "Trying to set value for a field which is not contained by this ValueHolder's module."
             );
         }
 
-        $newValueObject = $this->createValueHolder($field, $value);
-        $newValueObject->freeze();
-        
-        $prevValueObject = $this->has($field) ? $this->get($field) : NullValue::create($field);
+        $new_value_object = $this->createValueHolder($field, $value);
+        $new_value_object->freeze();
 
-        if (! $this->has($field) || (! $prevValueObject->isEqualTo($newValueObject) && TRUE === $override))
-        {
-            $this->values[$field->getName()] = $newValueObject;
+        $prev_value_object = $this->has($field) ? $this->get($field) : NullValue::create($field);
+        $override_existing = !$prev_value_object->isEqualTo($new_value_object) && true === $override;
+        if (!$this->has($field) || $override_existing) {
+            $this->values[$field->getName()] = $new_value_object;
             $this->notifyValueChanged(
-                ValueChangedEvent::create($field, $prevValueObject, $newValueObject)
+                ValueChangedEvent::create($field, $prev_value_object, $new_value_object)
             );
         }
     }
 
-    /** 
+    /**
      * Returns the value for a specific field.
      *
      * @param IField $field
      *
      * @return IValueHolder
-     */ 
+     */
     public function get(IField $field)
     {
-        if (! $this->has($field))
-        {
+        if (!$this->has($field)) {
             throw new InvalidFieldException(
                 sprintf("The given field %s is not set on the current ValuesHolder instance.", $field->getName())
             );
@@ -107,8 +104,7 @@ class ValueHolderCollection implements IAggregateChangedListener
      */
     public function reset(IField $field)
     {
-        if ($this->has($field))
-        {
+        if ($this->has($field)) {
             unset($this->values[$field->getName()]);
         }
     }
@@ -125,7 +121,7 @@ class ValueHolderCollection implements IAggregateChangedListener
         return isset($this->values[$field->getName()]);
     }
 
-    /** 
+    /**
      * Returns an array representation of the ValueHolder's present state.
      *
      * @return array
@@ -142,8 +138,7 @@ class ValueHolderCollection implements IAggregateChangedListener
      */
     public function notifyValueChanged(ValueChangedEvent $event)
     {
-        foreach ($this->valueChangedListeners as $listener)
-        {
+        foreach ($this->value_changed_listeners as $listener) {
             $listener->onValueChanged($event);
         }
     }
@@ -151,13 +146,12 @@ class ValueHolderCollection implements IAggregateChangedListener
     /**
      * Registers a given listener as a recipient of value changed events.
      *
-     * @param IValueChangedListener $valueChangedListener
+     * @param IValueChangedListener $value_changed_listener
      */
-    public function addValueChangedListener(IValueChangedListener $valueChangedListener)
+    public function addValueChangedListener(IValueChangedListener $value_changed_listener)
     {
-        if (! in_array($valueChangedListener, $this->valueChangedListeners))
-        {
-            $this->valueChangedListeners[] = $valueChangedListener;
+        if (!in_array($value_changed_listener, $this->value_changed_listeners)) {
+            $this->value_changed_listeners[] = $value_changed_listener;
         }
     }
 
@@ -171,12 +165,14 @@ class ValueHolderCollection implements IAggregateChangedListener
     {
         $valueChangedEvent = $event->getValueChangedEvent();
 
-        $this->notifyValueChanged(ValueChangedEvent::create(
-            $field, 
-            $valueChangedEvent->getOldValue(),
-            $valueChangedEvent->getNewValue(),
-            $event
-        ));
+        $this->notifyValueChanged(
+            ValueChangedEvent::create(
+                $field,
+                $valueChangedEvent->getOldValue(),
+                $valueChangedEvent->getNewValue(),
+                $event
+            )
+        );
     }
 
     /**
@@ -184,7 +180,7 @@ class ValueHolderCollection implements IAggregateChangedListener
      *
      * @param IModule $module
      */
-    protected function __construct(IModule $module) 
+    protected function __construct(IModule $module)
     {
         $this->module = $module;
     }
@@ -203,19 +199,18 @@ class ValueHolderCollection implements IAggregateChangedListener
      * Creates a IValueHolder instance for a given combination of IField and raw value.
      *
      * @param IField $field
-     * @param mixed $rawValue
+     * @param mixed $raw_value
      *
      * @return IValueHolder
      */
-    protected function createValueHolder(IField $field, $rawValue)
+    protected function createValueHolder(IField $field, $raw_value)
     {
-        $valueHolder = $field->createValueHolder($rawValue);
-        if ($valueHolder instanceof AggregateValueHolder)
-        {
-            // Listen to all changes made to AggregateValueHolder instances corresponding to our related fields 
+        $value_holder = $field->createValueHolder($raw_value);
+        if ($value_holder instanceof AggregateValueHolder) {
+            // Listen to all changes made to AggregateValueHolder instances corresponding to our related fields
             // and propagte those changes to our listeners such as the ValuesHolder parent document.
-            $valueHolder->addAggregateChangedListener($this);
+            $value_holder->addAggregateChangedListener($this);
         }
-        return $valueHolder;
+        return $value_holder;
     }
 }

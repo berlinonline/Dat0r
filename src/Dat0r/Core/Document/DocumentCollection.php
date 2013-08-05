@@ -13,12 +13,12 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function indexOf(IDocument $document)
     {
-        return array_search($document, $this->documents, TRUE);
+        return array_search($document, $this->documents, true);
     }
 
     public function first()
     {
-        return 1 <= $this->count() ? $this->documents[0] : FALSE;
+        return ($this->count() >= 1) ? $this->documents[0] : false;
     }
 
     public function add(IDocument $document)
@@ -33,10 +33,12 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function toArray()
     {
-        $data = array_map(function($document)
-        {
-            return $document->toArray();
-        }, $this->documents);
+        $data = array_map(
+            function ($document) {
+                return $document->toArray();
+            },
+            $this->documents
+        );
 
         return $data;
     }
@@ -68,13 +70,10 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function current()
     {
-        if ($this->valid())
-        {
+        if ($this->valid()) {
             return current($this->documents);
-        }
-        else
-        {
-            return FALSE;
+        } else {
+            return false;
         }
     }
 
@@ -95,6 +94,6 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function valid()
     {
-        return NULL !== key($this->documents);
+        return (key($this->documents) !== null);
     }
 }

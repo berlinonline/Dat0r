@@ -12,7 +12,7 @@ use Dat0r\Core\Error\InvalidTypeException;
  */
 class KeyValueValidator extends Validator
 {
-    protected static $valueTypes = array('integer', 'string', 'boolean', 'date', 'dynamic');
+    protected static $value_types = array('integer', 'string', 'boolean', 'date', 'dynamic');
 
     /**
      * Validates a given value thereby considering the state of the field
@@ -24,76 +24,55 @@ class KeyValueValidator extends Validator
      */
     public function validate($value)
     {
-        if (is_array($value))
-        {   
-            if (! $this->hasValidValues($value))
-            {
-                return FALSE;
+        if (is_array($value)) {
+            if (!$this->hasValidValues($value)) {
+                return false;
             }
-        }
-        else if (! is_null($value))
-        {
-            return FALSE;
+        } elseif (!is_null($value)) {
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     protected function hasValidValues(array $arr)
     {
-        $valueType = $this->getField()->getValueTypeConstraint();
-        $validValues = TRUE;
+        $value_type = $this->getField()->getValueTypeConstraint();
+        $valid_values = true;
 
-        foreach ($arr as $key => $value)
-        {
-            switch ($valueType) 
-            {
+        foreach ($arr as $key => $value) {
+            switch ($value_type) {
                 case 'integer':
-                {
-                    if (! is_numeric($value))
-                    {
-                        $validValues = FALSE;
+                    if (!is_numeric($value)) {
+                        $valid_values = false;
                     }
                     break;
-                }
 
                 case 'string':
-                {
-                    if (! is_string($value))
-                    {
-                        $validValues = FALSE;
+                    if (!is_string($value)) {
+                        $valid_values = false;
                     }
                     break;
-                }
 
                 case 'boolean':
-                {
-                    if (! is_bool($value))
-                    {
-                        $validValues = FALSE;
+                    if (!is_bool($value)) {
+                        $valid_values = false;
                     }
                     break;
-                }
 
                 case 'date':
-                {
-                    if (! ($value instanceof DateTime))
-                    {
-                        $validValues = FALSE;
+                    if (! ($value instanceof DateTime)) {
+                        $valid_values = false;
                     }
                     break;
-                }
 
                 default:
-                {
-                    if (! is_scalar($value) && ! ($value instanceof DateTime))
-                    {
-                        $validValues = FALSE;
+                    if (!is_scalar($value) && !($value instanceof DateTime)) {
+                        $valid_values = false;
                     }
-                }
             }
         }
 
-        return $validValues;
+        return $valid_values;
     }
 }

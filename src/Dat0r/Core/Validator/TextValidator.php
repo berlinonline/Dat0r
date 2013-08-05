@@ -20,15 +20,13 @@ class TextValidator extends Validator
      */
     public function validate($value)
     {
-        if (! is_string($value) && !empty($value))
-        {
+        if (!is_string($value) && !empty($value)) {
             return false;
         }
 
         $success = is_string($value) && !empty($value);
 
-        if ($success && $this->getField()->hasOption('pattern'))
-        {
+        if ($success && $this->getField()->hasOption('pattern')) {
             $pattern = $this->getField()->getOption('pattern');
             $success = (bool)preg_match($pattern, $value);
         }

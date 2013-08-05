@@ -22,11 +22,11 @@ abstract class Freezable
      */
     public function freeze()
     {
-        $this->frozen = TRUE;
+        $this->frozen = true;
     }
 
     /**
-     * Tells whether a specific IFreezable instance is frozen or not. 
+     * Tells whether a specific IFreezable instance is frozen or not.
      *
      * @return boolean
      */

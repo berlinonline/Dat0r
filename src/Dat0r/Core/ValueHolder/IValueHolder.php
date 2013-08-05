@@ -18,7 +18,7 @@ interface IValueHolder extends IFreezable
      *
      * @return IValueHolder
      */
-    public static function create(IField $field, $value = NULL);
+    public static function create(IField $field, $value = null);
 
     /**
      * Returns the value holder's aggregated value.
@@ -34,7 +34,7 @@ interface IValueHolder extends IFreezable
      */
     public function setValue($value);
 
-    /** 
+    /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
      * @param IValueHolder $other
@@ -43,7 +43,7 @@ interface IValueHolder extends IFreezable
      */
     public function isGreaterThan(IValueHolder $other);
 
-    /** 
+    /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
      * @param IValueHolder $other
@@ -52,7 +52,7 @@ interface IValueHolder extends IFreezable
      */
     public function isLessThan(IValueHolder $other);
 
-    /** 
+    /**
      * Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.
      *
      * @param IValueHolder $other

@@ -12,8 +12,7 @@ class DocumentSet extends DocumentCollection
 
         $this->ids = array();
 
-        foreach ($this as $document)
-        {
+        foreach ($this as $document) {
             $this->ids[] = $this->getDocumentIdentifier($document);
         }
     }
@@ -22,8 +21,7 @@ class DocumentSet extends DocumentCollection
     {
         $identitfier = $this->getDocumentIdentifier($document);
 
-        if (! in_array($identitfier, $this->ids))
-        {
+        if (!in_array($identitfier, $this->ids)) {
             parent::add($document);
         }
     }

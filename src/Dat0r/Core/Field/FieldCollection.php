@@ -17,7 +17,7 @@ class FieldCollection extends Freezable implements IFieldCollection
      * Holds a list of IField.
      *
      * @var array $fields
-     */ 
+     */
     private $fields = array();
 
     /**
@@ -35,29 +35,27 @@ class FieldCollection extends Freezable implements IFieldCollection
     /**
      * Adds a field to the collection.
      *
-     * @param IField $field 
+     * @param IField $field
      */
     public function add(IField $field)
     {
-        if (TRUE === $this->isFrozen())
-        {
+        if ($this->isFrozen()) {
             throw new Error\ObjectImmutableException(
                 "This FieldCollection instance is closed to modifications."
             );
         }
 
-        if (! ($field instanceof IField))
-        {
+        if (!($field instanceof IField)) {
             throw new Error\InvalidImplementorException(
-                "Fields passed to this method must be relate to the IField interface." . 
-                get_class($field) . " instance given instead."
+                "Fields passed to this method must be relate to the IField interface."
+                . get_class($field) . " instance given instead."
             );
         }
-        if ($this->has($field))
-        {
+
+        if ($this->has($field)) {
             throw new Error\BadValueException(
-                "Field '". $field->getName() ."' already exists in this collection. " . 
-                "Fieldnames are required to be unique per collection."
+                "Field '". $field->getName() ."' already exists in this collection. "
+                . "Fieldnames are required to be unique per collection."
             );
         }
         $this->fields[$field->getName()] = $field;
@@ -70,15 +68,14 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function addMore(array $fields)
     {
-        foreach ($fields as $field)
-        {
+        foreach ($fields as $field) {
             $this->add($field);
         }
     }
 
     /**
      * Tells if a given field is allready inside the collection.
-     * 
+     *
      * @param IField $field
      *
      * @return boolean
@@ -98,7 +95,7 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function get($name)
     {
-        return isset($this->fields[$name]) ? $this->fields[$name] : NULL;
+        return isset($this->fields[$name]) ? $this->fields[$name] : null;
     }
 
     /**
@@ -118,8 +115,7 @@ class FieldCollection extends Freezable implements IFieldCollection
     {
         parent::freeze();
 
-        foreach ($this->fields as $field)
-        {
+        foreach ($this->fields as $field) {
             $field->freeze();
         }
     }
@@ -145,15 +141,14 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     protected function __construct(array $fields = array())
     {
-        foreach ($fields as $field)
-        {
+        foreach ($fields as $field) {
             $this->add($field);
         }
     }
 
     public function count()
     {
-        return \count($this->fields);
+        return count($this->fields);
     }
 
     public function offsetExists($offset)
@@ -173,7 +168,7 @@ class FieldCollection extends Freezable implements IFieldCollection
 
     public function offsetUnset($offset)
     {
-        \array_splice($this->fields, $offset, 1);
+        array_splice($this->fields, $offset, 1);
     }
 
     /**
@@ -183,13 +178,10 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function current()
     {
-        if ($this->valid())
-        {
-            return \current($this->fields);
-        }
-        else
-        {
-            return FALSE;
+        if ($this->valid()) {
+            return current($this->fields);
+        } else {
+            return false;
         }
     }
 
@@ -200,18 +192,18 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function key()
     {
-        return \key($this->fields);
+        return key($this->fields);
     }
 
     /**
-     * Returns the next field in our collection, 
+     * Returns the next field in our collection,
      * thereby forwarding the collection cursor's position.
      *
      * @return IField
      */
     public function next()
     {
-        return \next($this->fields);
+        return next($this->fields);
     }
 
     /**
@@ -221,7 +213,7 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function rewind()
     {
-        \reset($this->fields);
+        reset($this->fields);
     }
 
     /**
@@ -231,6 +223,6 @@ class FieldCollection extends Freezable implements IFieldCollection
      */
     public function valid()
     {
-        return NULL !== \key($this->fields);
+        return key($this->fields) !== null;
     }
 }

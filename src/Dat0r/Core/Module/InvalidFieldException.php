@@ -12,5 +12,4 @@ use Dat0r\Core\Error;
  */
 class InvalidFieldException extends Error\Exception
 {
-        
 }

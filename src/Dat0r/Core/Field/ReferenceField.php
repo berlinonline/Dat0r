@@ -30,14 +30,13 @@ class ReferenceField extends Field
 
     public function getReferencedModules()
     {
-        $referencedModules = array();
+        $referenced_modules = array();
 
-        foreach ($this->getOption(self::OPT_REFERENCES) as $reference)
-        {
+        foreach ($this->getOption(self::OPT_REFERENCES) as $reference) {
             $moduleClass = $reference[self::OPT_MODULE];
-            $referencedModules[] = $moduleClass::getInstance();
+            $referenced_modules[] = $moduleClass::getInstance();
         }
-        
-        return $referencedModules;
+
+        return $referenced_modules;
     }
 }

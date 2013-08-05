@@ -42,7 +42,7 @@ class AggregateField extends Field
 
         $aggregated_modules = $this->getOption(self::OPT_MODULES);
         foreach ($aggregated_modules as $aggregated_module) {
-            if (! class_exists($aggregated_module)) {
+            if (!class_exists($aggregated_module)) {
                 throw new Error\InvalidImplementorException(
                     "Invalid implementor: '$aggregated_module' given to aggregate field."
                 );

@@ -21,7 +21,7 @@ class OptionDefinitionList extends Dat0r\ArrayList
     public function filterByName($name)
     {
         return $this->filterOne(
-            function($option) use ($name) {
+            function ($option) use ($name) {
                 return $option->getName() === $name;
             }
         );

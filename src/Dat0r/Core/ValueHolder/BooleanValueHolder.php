@@ -14,8 +14,8 @@ use Dat0r\Core\Field\BooleanField;
  */
 class BooleanValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,11 +24,11 @@ class BooleanValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        return TRUE === $this->getValue() && FALSE === $other->getValue();
+        return true === $this->getValue() && false === $other->getValue();
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -37,10 +37,10 @@ class BooleanValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        return FALSE === $this->getValue() && TRUE === $other->getValue();
+        return false === $this->getValue() && true === $other->getValue();
     }
-    
-    /** 
+
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -66,13 +66,12 @@ class BooleanValueHolder extends ValueHolder
     /**
      * Contructs a new BooleanValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof BooleanField))
-        {
+        if (!($field instanceof BooleanField)) {
             throw new Error\BadValueException(
                 "Only instances of BooleanField my be associated with BooleanValueHolder only."
             );

@@ -26,7 +26,7 @@ interface IField extends IFreezable
 
     /**
      * Returns the name of the field.
-     * 
+     *
      * @return string
      */
     public function getName();
@@ -35,7 +35,7 @@ interface IField extends IFreezable
      * Validates a given value with a strategy dedicated to the field.
      *
      * @param mixed $value
-     * 
+     *
      * @return boolean
      */
     public function validate($value);
@@ -56,7 +56,7 @@ interface IField extends IFreezable
      *
      * @return mixed
      */
-    public function getOption($name, $default = NULL);
+    public function getOption($name, $default = null);
 
     /**
      * Tells if a field currently owns a specific option.

@@ -14,8 +14,8 @@ use Dat0r\Core\Field\IntegerCollectionField;
  */
 class IntegerCollectionValueHolder extends ValueHolder
 {
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered greater than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -24,25 +24,23 @@ class IntegerCollectionValueHolder extends ValueHolder
      */
     public function isGreaterThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        return $leftCount > $rightCount;
+        return $lefthand_count > $righthand_count;
     }
 
-    /** 
-     * Tells whether a spefic IValueHolder instance's value is considered less than 
+    /**
+     * Tells whether a spefic IValueHolder instance's value is considered less than
      * the value of an other given IValueHolder.
      *
      * @param IValueHolder $other
@@ -51,24 +49,22 @@ class IntegerCollectionValueHolder extends ValueHolder
      */
     public function isLessThan(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        return $leftCount > $rightCount;
+        return $lefthand_count > $righthand_count;
     }
 
-    /** 
+    /**
      * Tells whether a spefic IValueHolder instance's value is considered equal to
      * the value of an other given IValueHolder.
      *
@@ -78,37 +74,30 @@ class IntegerCollectionValueHolder extends ValueHolder
      */
     public function isEqualTo(IValueHolder $other)
     {
-        $leftVal = $this->getValue();
-        $rightVal = $other->getValue();
-        $leftCount = 0;
-        $rightCount = 0;
-        $areEqual = TRUE;
+        $lefthand_value = $this->getValue();
+        $righthand_value = $other->getValue();
+        $lefthand_count = 0;
+        $righthand_count = 0;
+        $are_equal = true;
 
-        if (is_array($leftVal))
-        {
-            $leftCount = count($leftVal);
+        if (is_array($lefthand_value)) {
+            $lefthand_count = count($lefthand_value);
         }
-        if (is_array($rightVal))
-        {
-            $rightCount = count($rightVal);
+        if (is_array($righthand_value)) {
+            $righthand_count = count($righthand_value);
         }
 
-        if (0 < $leftCount && $leftCount === $rightCount)
-        {
-            foreach ($leftVal as $idx => $text)
-            {
-                if ($rightVal[$idx] !== $text)
-                {
-                    $areEqual = FALSE;
+        if (0 < $lefthand_count && $lefthand_count === $righthand_count) {
+            foreach ($lefthand_value as $idx => $text) {
+                if ($righthand_value[$idx] !== $text) {
+                    $are_equal = false;
                 }
             }
-        }
-        else if ($leftCount !== $rightCount)
-        {
-            $areEqual = FALSE;
+        } elseif ($lefthand_count !== $righthand_count) {
+            $are_equal = false;
         }
 
-        return $areEqual;
+        return $are_equal;
     }
 
     /**
@@ -120,28 +109,25 @@ class IntegerCollectionValueHolder extends ValueHolder
     {
         $values = array();
         $value = empty($value) ? array() : $value;
-        
-        foreach ($value as $int)
-        {
-            if (! empty($int))
-            {
+
+        foreach ($value as $int) {
+            if (! empty($int)) {
                 $values[] = (int)$int;
             }
         }
-        
+
         parent::setValue($values);
     }
 
     /**
      * Contructs a new TextValueHolder instance from a given value.
      *
-     * @param IField $field 
-     * @param mixed $value 
+     * @param IField $field
+     * @param mixed $value
      */
-    protected function __construct(IField $field, $value = NULL)
+    protected function __construct(IField $field, $value = null)
     {
-        if (! ($field instanceof IntegerCollectionField))
-        {
+        if (!($field instanceof IntegerCollectionField)) {
             throw new Error\BadValueException(
                 "Only instances of IntegerCollectionField may be associated with IntegerCollectionValueHolder."
             );

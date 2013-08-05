@@ -17,7 +17,7 @@ interface IFreezable
     public function freeze();
 
     /**
-     * Tells whether a concrete object instance is frozen or not. 
+     * Tells whether a concrete object instance is frozen or not.
      *
      * @return boolean
      */

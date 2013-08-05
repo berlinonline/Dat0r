@@ -23,21 +23,21 @@ class DocumentChangedEvent implements IEvent
     /**
      * Holds the value changed event that reflects our change origin.
      *
-     * @var ValueChangedEvent $valueChangedEvent
+     * @var ValueChangedEvent $value_changed_event
      */
-    private $valueChangedEvent;
+    private $value_changed_event;
 
     /**
      * Creates a new document changed event instance.
      *
      * @param IDocument $document
-     * @param ValueChangedEvent $valueChangedEvent
+     * @param ValueChangedEvent $value_changed_event
      *
      * @return DocumentChangedEvent
      */
-    public static function create(IDocument $document, ValueChangedEvent $valueChangedEvent)
+    public static function create(IDocument $document, ValueChangedEvent $value_changed_event)
     {
-        return new static($document, $valueChangedEvent);
+        return new static($document, $value_changed_event);
     }
 
     /**
@@ -57,7 +57,7 @@ class DocumentChangedEvent implements IEvent
      */
     public function getValueChangedEvent()
     {
-        return $this->valueChangedEvent;
+        return $this->value_changed_event;
     }
 
      /**
@@ -67,25 +67,23 @@ class DocumentChangedEvent implements IEvent
      */
     public function __toString()
     {
-        $stringRep = sprintf(
+        return sprintf(
             "[%s] A %s module's document field value has changed: \n %s",
             get_class($this),
             $this->getDocument()->getModule()->getName(),
             $this->getValueChangedEvent()
         );
-
-        return $stringRep;
     }
 
     /**
      * Constructs a new DocumentChangedEvent instance.
      *
      * @param IDocument $document
-     * @param ValueChangedEvent $valueChangedEvent
+     * @param ValueChangedEvent $value_changed_event
      */
-    protected function __construct(IDocument $document, ValueChangedEvent $valueChangedEvent)
+    protected function __construct(IDocument $document, ValueChangedEvent $value_changed_event)
     {
         $this->document = $document;
-        $this->valueChangedEvent = $valueChangedEvent;
+        $this->value_changed_event = $value_changed_event;
     }
 }
