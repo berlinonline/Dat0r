@@ -46,7 +46,7 @@ code-sniffer:
 
 	@if [ -d ./build/reports ]; then rm -rf ./build/reports; fi
 	@mkdir ./build/reports
-	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/reports/checkstyle.xml --standard=psr2 ./src
+	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/reports/checkstyle.xml --standard=psr2 ./src ./tests/src
 
 code-sniffer-cli:
 

@@ -1,8 +1,8 @@
 <?php
 
 namespace Dat0r\Tests\Core\Module;
-use Dat0r\Tests\Core\BaseTest;
 
+use Dat0r\Tests\Core\BaseTest;
 use Dat0r\Core\Module\IModule;
 use Dat0r\Core\Field;
 
@@ -34,8 +34,7 @@ class ModuleTest extends BaseTest
         $this->assertTrue($module->isFrozen());
         $this->assertTrue($fields->isFrozen());
 
-        foreach ($fields as $field)
-        {
+        foreach ($fields as $field) {
             $this->assertTrue($field->isFrozen());
         }
     }

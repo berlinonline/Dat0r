@@ -67,8 +67,8 @@ class IniFileConfigReaderTest extends Tests\TestCase
         $reader = Config\IniFileConfigReader::create();
 
         $reader->read($this->fixtures_dir . 'this_config_does_not_exist.ini');
-    // @codeCoverageIgnoreStart
-    } // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+    }   // @codeCoverageIgnoreEnd
 
     /**
      * @expectedException Dat0r\CodeGen\Config\Exception
@@ -78,6 +78,6 @@ class IniFileConfigReaderTest extends Tests\TestCase
         $reader = Config\IniFileConfigReader::create();
 
         $reader->read($this->fixtures_dir . self::FIXTURE_NON_PARSEABLE_CONFIG);
-    // @codeCoverageIgnoreStart
-    } // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+    }   // @codeCoverageIgnoreEnd
 }

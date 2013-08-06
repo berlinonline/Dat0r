@@ -115,8 +115,8 @@ class ConfigTest extends Tests\TestCase
         );
 
         $config->validate();
-    // @codeCoverageIgnoreStart
-    } // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+    }   // @codeCoverageIgnoreEnd
 
 
     /**
@@ -129,8 +129,8 @@ class ConfigTest extends Tests\TestCase
         );
 
         $config->validate();
-    // @codeCoverageIgnoreStart
-    } // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+    }   // @codeCoverageIgnoreEnd
 
     /**
      * @expectedException Dat0r\CodeGen\Config\Exception
@@ -144,6 +144,6 @@ class ConfigTest extends Tests\TestCase
                 'deploy_dir' => self::FIX_DEPLOY_DIR
             )
         );
-    // @codeCoverageIgnoreStart
-    } // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+    }   // @codeCoverageIgnoreEnd
 }

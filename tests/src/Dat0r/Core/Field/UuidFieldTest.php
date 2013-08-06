@@ -1,8 +1,8 @@
 <?php
 
 namespace Dat0r\Tests\Core\Field;
-use Dat0r\Tests\Core;
 
+use Dat0r\Tests\Core;
 use Dat0r\Core\Field;
 use Dat0r\Core\ValueHolder\UuidValueHolder;
 
@@ -23,11 +23,13 @@ class UuidFieldTest extends Core\BaseTest
 
         $this->assertFalse(empty($defaultValue));
         $this->assertTrue(is_string($defaultValue));
-        $this->assertTrue((1 === preg_match(
+
+        $match_count = preg_match(
             '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
-            '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', 
+            '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',
             $defaultValue
-        )));
+        );
+        $this->assertTrue(1 === $match_count);
     }
 
     /**
@@ -40,8 +42,7 @@ class UuidFieldTest extends Core\BaseTest
         $this->assertEquals($uuidField->getName(), self::FIELDNAME);
         $this->assertFalse($uuidField->hasOption('snafu_flag'));
 
-        foreach ($options as $optName => $optValue)
-        {
+        foreach ($options as $optName => $optValue) {
             $this->assertTrue($uuidField->hasOption($optName));
             $this->assertEquals($uuidField->getOption($optName), $optValue);
         }

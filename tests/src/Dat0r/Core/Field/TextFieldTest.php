@@ -1,8 +1,8 @@
 <?php
 
 namespace Dat0r\Tests\Core\Field;
-use Dat0r\Tests\Core;
 
+use Dat0r\Tests\Core;
 use Dat0r\Core\Field;
 
 class TextFieldTest extends Core\BaseTest
@@ -24,8 +24,7 @@ class TextFieldTest extends Core\BaseTest
 
         $this->assertEquals($textField->getName(), self::FIELDNAME);
         $this->assertFalse($textField->hasOption('snafu_flag'));
-        foreach ($options as $optName => $optValue)
-        {
+        foreach ($options as $optName => $optValue) {
             $this->assertTrue($textField->hasOption($optName));
             $this->assertEquals($textField->getOption($optName), $optValue);
         }

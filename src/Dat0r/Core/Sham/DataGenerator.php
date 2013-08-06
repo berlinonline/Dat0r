@@ -130,8 +130,7 @@ class DataGenerator
             }
         }
 
-        if (
-            array_key_exists(self::OPTION_MARK_CLEAN, $options)
+        if (array_key_exists(self::OPTION_MARK_CLEAN, $options)
             && true === $options[self::OPTION_MARK_CLEAN]
         ) {
             $document->markClean();
@@ -487,8 +486,7 @@ class DataGenerator
     protected function addAggregate(IDocument $document, IField $field, array $options = array())
     {
         $recursion_level = 1;
-        if (
-            !empty($options[self::OPTION_RECURSION_LEVEL])
+        if (!empty($options[self::OPTION_RECURSION_LEVEL])
             && is_int($options[self::OPTION_RECURSION_LEVEL])
         ) {
             $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
@@ -519,8 +517,7 @@ class DataGenerator
     protected function addReference(IDocument $document, IField $field, array $options = array())
     {
         $recursion_level = 1;
-        if (
-            !empty($options[self::OPTION_RECURSION_LEVEL])
+        if (!empty($options[self::OPTION_RECURSION_LEVEL])
             && is_int($options[self::OPTION_RECURSION_LEVEL])
         ) {
             $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
@@ -578,8 +575,7 @@ class DataGenerator
         $fieldname = $field->getName();
         $fieldoptions = array();
 
-        if (
-            !empty($options[self::OPTION_FIELD_VALUES])
+        if (!empty($options[self::OPTION_FIELD_VALUES])
             && is_array($options[self::OPTION_FIELD_VALUES])
         ) {
             $fieldoptions = $options[self::OPTION_FIELD_VALUES];
@@ -608,8 +604,7 @@ class DataGenerator
      */
     protected function shouldGuessByName(array $options = array())
     {
-        if (
-            array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options)
+        if (array_key_exists(self::OPTION_GUESS_PROVIDER_BY_NAME, $options)
             && false === $options[self::OPTION_GUESS_PROVIDER_BY_NAME]
         ) {
             return false;

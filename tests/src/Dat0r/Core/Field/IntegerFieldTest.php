@@ -1,8 +1,8 @@
 <?php
 
 namespace Dat0r\Tests\Core\Field;
-use Dat0r\Tests\Core;
 
+use Dat0r\Tests\Core;
 use Dat0r\Core\Field;
 
 class IntegerFieldTest extends Core\BaseTest
@@ -25,8 +25,7 @@ class IntegerFieldTest extends Core\BaseTest
 
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
         $this->assertFalse($integerField->hasOption('snafu_flag'));
-        foreach ($options as $optName => $optValue)
-        {
+        foreach ($options as $optName => $optValue) {
             $this->assertTrue($integerField->hasOption($optName));
             $this->assertEquals($integerField->getOption($optName), $optValue);
         }

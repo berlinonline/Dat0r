@@ -1,8 +1,8 @@
 <?php
 
 namespace Dat0r\Tests\Core\Field;
-use Dat0r\Tests\Core;
 
+use Dat0r\Tests\Core;
 use Dat0r\Core\Field;
 
 class AggregateFieldTest extends Core\BaseTest
@@ -11,9 +11,12 @@ class AggregateFieldTest extends Core\BaseTest
 
     public function testCreate()
     {
-        $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
-        ));
+        $aggregateField = Field\AggregateField::create(
+            self::FIELDNAME,
+            array(
+                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+            )
+        );
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
     }
 
@@ -22,16 +25,18 @@ class AggregateFieldTest extends Core\BaseTest
      */
     public function testCreateWithOptions(array $options)
     {
-        $options = array_merge(array(
-            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
-        ), $options);
+        $options = array_merge(
+            array(
+                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+            ),
+            $options
+        );
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, $options);
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
 
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
         $this->assertFalse($aggregateField->hasOption('snafu_flag'));
-        foreach ($options as $optName => $optValue)
-        {
+        foreach ($options as $optName => $optValue) {
             $this->assertTrue($aggregateField->hasOption($optName));
             $this->assertEquals($aggregateField->getOption($optName), $optValue);
         }
@@ -42,17 +47,19 @@ class AggregateFieldTest extends Core\BaseTest
      */
     public function testCreateValueHolder(array $aggregateData)
     {
-        $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
-        ));
+        $aggregateField = Field\AggregateField::create(
+            self::FIELDNAME,
+            array(
+                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+            )
+        );
         $valueHolder = $aggregateField->createValueHolder($aggregateData);
         $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $valueHolder);
 
         $document = $valueHolder->getValue();
         $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\DocumentTestProxy', $document);
 
-        foreach ($aggregateData as $fieldname => $value)
-        {
+        foreach ($aggregateData as $fieldname => $value) {
             $this->assertEquals($value, $document->getValue($fieldname));
         }
     }
@@ -62,9 +69,12 @@ class AggregateFieldTest extends Core\BaseTest
      */
     public function testValidate(array $aggregateData)
     {
-        $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
-        ));
+        $aggregateField = Field\AggregateField::create(
+            self::FIELDNAME,
+            array(
+                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+            )
+        );
 
         $this->assertTrue($aggregateField->validate($aggregateData));
     }
@@ -102,10 +112,12 @@ class AggregateFieldTest extends Core\BaseTest
         // @todo generate random (utf-8) text
         $fixtures = array();
 
-        $fixtures[] = array(array(
-            'title' => 'This is a paragraph test title.',
-            'content' => 'And this is some paragraph test content.'
-        ));
+        $fixtures[] = array(
+            array(
+                'title' => 'This is a paragraph test title.',
+                'content' => 'And this is some paragraph test content.'
+            )
+        );
 
         return $fixtures;
     }
