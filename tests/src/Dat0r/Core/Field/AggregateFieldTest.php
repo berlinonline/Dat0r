@@ -12,7 +12,7 @@ class AggregateFieldTest extends Core\BaseTest
     public function testCreate()
     {
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_AGGREGATE_MODULE => 'Dat0r\\Tests\\Core\\Module\\AggregateModule'
+            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
         ));
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
     }
@@ -23,7 +23,7 @@ class AggregateFieldTest extends Core\BaseTest
     public function testCreateWithOptions(array $options)
     {
         $options = array_merge(array(
-            Field\AggregateField::OPT_AGGREGATE_MODULE => 'Dat0r\\Tests\\Core\\Module\\AggregateModule'
+            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
         ), $options);
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, $options);
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
@@ -43,14 +43,14 @@ class AggregateFieldTest extends Core\BaseTest
     public function testCreateValueHolder(array $aggregateData)
     {
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_AGGREGATE_MODULE => 'Dat0r\\Tests\\Core\\Module\\AggregateModule'
+            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
         ));
         $valueHolder = $aggregateField->createValueHolder($aggregateData);
         $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $valueHolder);
 
         $document = $valueHolder->getValue();
         $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\DocumentTestProxy', $document);
-        
+
         foreach ($aggregateData as $fieldname => $value)
         {
             $this->assertEquals($value, $document->getValue($fieldname));
@@ -63,9 +63,9 @@ class AggregateFieldTest extends Core\BaseTest
     public function testValidate(array $aggregateData)
     {
         $aggregateField = Field\AggregateField::create(self::FIELDNAME, array(
-            Field\AggregateField::OPT_AGGREGATE_MODULE => 'Dat0r\\Tests\\Core\\Module\\AggregateModule'
+            Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
         ));
-        
+
         $this->assertTrue($aggregateField->validate($aggregateData));
     }
 

@@ -56,7 +56,7 @@ class Service extends Dat0r\Object
         $this->writeCache($class_list);
     }
 
-    public function deployBuild(Output\OutputInterface $output)
+    public function deployBuild()
     {
         $cache_dir = realpath($this->config->getCachedir());
         if (!is_dir($cache_dir)) {
@@ -70,7 +70,7 @@ class Service extends Dat0r\Object
 
         $deploy_dir = $this->config->getDeployDir();
         if (!is_dir($deploy_dir)) {
-            $output->writeln('<info>Creating directory: ' . $deploy_dir . ' ...</info>');
+            $this->writeMessage('<info>Creating directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->mkdir($deploy_dir, self::DIR_MODE);
         }
 
@@ -85,10 +85,10 @@ class Service extends Dat0r\Object
 
         $method = $this->config->getDeployMethod();
         if ($method === 'move') {
-            $output->writeln('<info>Moving generated files to directory: ' . $deploy_dir . ' ...</info>');
+            $this->writeMessage('<info>Moving generated files to directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->rename($cache_dir, $deploy_dir, true);
         } else {
-            $output->writeln('<info>Copying generated files to directory: ' . $deploy_dir . ' ...</info>');
+            $this->writeMessage('<info>Copying generated files to directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->mirror($cache_dir, $deploy_dir, null, array('override' => true));
         }
     }
@@ -145,6 +145,13 @@ class Service extends Dat0r\Object
                 $class_container->getSourceCode(),
                 self::FILE_MODE
             );
+        }
+    }
+
+    protected function writeMessage($message)
+    {
+        if ($this->output) {
+            $this->output->writeln($message);
         }
     }
 }

@@ -57,7 +57,7 @@ class GenerateCodeCommand extends Command\Command
     {
         $this->validateInput($input);
 
-        $service = $this->fetchService($input);
+        $service = $this->fetchService($input, $output);
         $service->setConfig(
             $this->createConfig($input)->validate()
         );
@@ -72,7 +72,7 @@ class GenerateCodeCommand extends Command\Command
 
         $diff_count = count(array_diff(self::$deploy_action_aliases, $actions));
         if ($diff_count < count(self::$deploy_action_aliases)) {
-            $service->deployBuild($output);
+            $service->deployBuild();
         }
     }
 
@@ -107,11 +107,14 @@ class GenerateCodeCommand extends Command\Command
         return $schema_path;
     }
 
-    protected function fetchService(Input\InputInterface $input)
+    protected function fetchService(Input\InputInterface $input, Output\OutputInterface $output)
     {
         if (!$this->service) {
             $this->service = CodeGen\Service::create(
-                array('schema_parser' => Parser\ModuleSchemaXmlParser::create())
+                array(
+                    'schema_parser' => Parser\ModuleSchemaXmlParser::create(),
+                    'output' => $output
+                )
             );
         }
 

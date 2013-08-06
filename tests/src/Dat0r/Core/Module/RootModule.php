@@ -19,7 +19,7 @@ class RootModule extends Module\RootModule
             Field\TextCollectionField::create('keywords'),
             Field\BooleanField::create('enabled'),
             Field\AggregateField::create('paragraph', array(
-                'aggregate_module' => '\Dat0r\Tests\Core\Module\AggregateModule',
+                'modules' => array('\Dat0r\Tests\Core\Module\AggregateModule'),
             )),
             Field\ReferenceField::create('references', array(
                 Field\ReferenceField::OPT_REFERENCES => array(

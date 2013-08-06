@@ -500,8 +500,9 @@ class DataGenerator
 
         $options_clone = $options;
         $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
-        $aggregateModule = $field->getAggregateModule();
-        $data = $this->fakeData($aggregateModule, $options_clone);
+        $aggregate_modules = $field->getAggregateModules();
+        $aggregate_module = reset($aggregate_modules);
+        $data = $this->fakeData($aggregate_module, $options_clone);
 
         $this->setValue($document, $field, $data, $options);
     }
