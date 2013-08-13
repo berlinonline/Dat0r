@@ -71,6 +71,11 @@ abstract class Module extends Freezable implements IModule
         return self::$instances[$class];
     }
 
+    public function getDocumentType()
+    {
+        return $this->getDocumentImplementor();
+    }
+
     /**
      * Returns the name of the module.
      *

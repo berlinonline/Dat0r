@@ -35,7 +35,9 @@ class DocumentCollection implements \Countable, \ArrayAccess, \Iterator
     {
         $data = array_map(
             function ($document) {
-                return $document->toArray();
+                $data = $document->toArray();
+                $data['type'] = get_class($document);
+                return $data;
             },
             $this->documents
         );

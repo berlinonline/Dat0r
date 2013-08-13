@@ -72,7 +72,9 @@ class ValueHolderCollection implements IAggregateChangedListener
 
         $prev_value_object = $this->has($field) ? $this->get($field) : NullValue::create($field);
         $override_existing = !$prev_value_object->isEqualTo($new_value_object) && true === $override;
+
         if (!$this->has($field) || $override_existing) {
+
             $this->values[$field->getName()] = $new_value_object;
             $this->notifyValueChanged(
                 ValueChangedEvent::create($field, $prev_value_object, $new_value_object)

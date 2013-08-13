@@ -5,6 +5,7 @@ namespace Dat0r\Core\ValueHolder;
 use Dat0r\Core\Error;
 use Dat0r\Core\Field\IField;
 use Dat0r\Core\Field\AggregateField;
+use Dat0r\Core\Document\DocumentCollection;
 use Dat0r\Core\Document\IDocumentChangedListener;
 use Dat0r\Core\Document\IAggregateChangedListener;
 use Dat0r\Core\Document\DocumentChangedEvent;
@@ -61,7 +62,21 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function isEqualTo(IValueHolder $other)
     {
-        return $this->getValue()->isEqualTo($other->getValue());
+        $lefthand_docs = $this->getValue();
+        $righthand_docs = $other->getValue();
+        $equal = true;
+
+        if (count($lefthand_docs) !== count($righthand_docs)) {
+            $equal = false;
+        } else {
+            foreach ($lefthand_docs as $index => $document) {
+                if ($index !== $righthand_docs->indexOf($document)) {
+                    $equal = false;
+                }
+            }
+        }
+
+        return $equal;
     }
 
     /**
@@ -71,13 +86,37 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function setValue($value)
     {
-        $modules = $this->getField()->getAggregateModules();
-        $module = reset($modules);
+        $module_map = array();
+        ksort($value);
 
-        $aggregate_document = $module->createDocument($value);
-        $aggregate_document->addDocumentChangedListener($this);
+        foreach ($this->getField()->getAggregateModules() as $module) {
+            $module_map[$module->getDocumentType()] = $module;
+        }
 
-        parent::setValue($aggregate_document);
+        $documents = array();
+        foreach ($value as $document_data) {
+
+            if (!isset($document_data['type'])) {
+                continue;
+                //throw new Exception("Missing type information for aggregate data.");
+            }
+
+            $aggregate_type = $document_data['type'];
+            if ($aggregate_type{0} !== '\\') {
+                $aggregate_type = '\\' . $aggregate_type;
+            }
+
+            if (!isset($module_map[$aggregate_type])) {
+                continue;
+                //throw new Exception("Unable to find related module for aggregate data.");
+            }
+            $aggregate_module = $module_map[$aggregate_type];
+            $aggregate_document = $aggregate_module->createDocument($document_data);
+            $aggregate_document->addDocumentChangedListener($this);
+            $documents[] = $aggregate_document;
+        }
+        $collection = new DocumentCollection($documents);
+        parent::setValue($collection);
     }
 
     /**

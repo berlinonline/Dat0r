@@ -20,7 +20,7 @@ class AggregateField extends Field
      */
     const OPT_MODULES = 'modules';
 
-    protected $aggregated_modules = array();
+    protected $aggregated_modules = null;
 
     public function getDefaultValue()
     {
@@ -34,6 +34,10 @@ class AggregateField extends Field
      */
     public function getAggregateModules()
     {
+        if ($this->aggregated_modules) {
+            return $this->aggregated_modules;
+        }
+
         if (!$this->hasOption(self::OPT_MODULES)) {
             throw new Error\LogicException(
                 "AggregateField instances must be provided an 'modules' option."
