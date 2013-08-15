@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module_schema namespace="Example\Domain">
+
+    <module_definition name="SimpleSchema">
+        <description>Example schema describing a simple module.</description>
+        <fields>
+            <field name="title" type="text">
+                <description>A title field.</description>
+                <option name="mandatory">true</option>
+            </field>
+
+            <field name="content" type="textarea">
+                <description>A textarea with richtext holding some content.</description>
+                <option name="use_richtext">yes</option>
+            </field>
+
+            <field name="keywords" type="text-collection">
+                <description>Some keywords that can reflect the content.</description>
+            </field>
+        </fields>
+    </module_definition>
+
+</module_schema>

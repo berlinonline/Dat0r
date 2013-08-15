@@ -2,8 +2,6 @@
 
 namespace Dat0r;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'AutoloadException.php';
-
 /**
  * Provides autoloading for all classes inside the Dat0r namespace
  * along with support for registering additional namespaces for psr-0 autoloading
@@ -17,54 +15,62 @@ class Autoloader
     /**
      * Holds a list of domain namespaces mapped to corresponding base dirs for autoloading.
      *
-     * @var array $domainPackages
+     * @var array $domain_packages
      */
-    private static $domainPackages;
+    static private $domain_packages;
 
     /**
      * Maps Dat0r package namespaces to their corresponding base dir to use for autloading.
      *
-     * @var array $corePackages
+     * @var array $core_packages
      */
-    private static $corePackages;
+    static private $core_packages;
 
     /**
      * Registers the autoloader to be used by the current process.
      * You may provide the base locations of any generated modules
      * in order to have them autoloaded accordingly.
      *
-     * @param array $domainPackages
+     * @param array $domain_packages
+     *
+     * @codeCoverageIgnoreStart
      */
-    static public function register(array $domainPackages = array())
+    public static function register(array $domain_packages = array())
     {
-        if (! self::$corePackages)
-        {
+        if (! self::$core_packages) {
             $here = __DIR__;
-            self::$corePackages = array(
+            self::$core_packages = array(
                 'Dat0r\\Core' => $here . DIRECTORY_SEPARATOR . 'Core',
-                'Dat0r\\Composer' => $here . DIRECTORY_SEPARATOR . 'Composer',
-                'Dat0r\\Tests' => dirname(dirname($here)) . '/test/src/Dat0r'
+                'Dat0r\\Tests' => dirname(dirname($here)) . '/tests/src/Dat0r'
             );
 
-            self::$domainPackages = array();
+            self::$domain_packages = array();
 
             ini_set('unserialize_callback_func', 'spl_autoload_call');
             spl_autoload_register(array(new self, 'autoload'));
         }
-        
-        self::$domainPackages = array_merge(self::$domainPackages, $domainPackages);
+
+        self::$domain_packages = array_merge(self::$domain_packages, $domain_packages);
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Autoloads a given class.
      *
      * @param string $class
      */
-    static public function autoload($class)
+    public static function autoload($class)
     {
-        if (($filePath = (0 === strpos($class, 'Dat0r')) ? self::buildCorePath($class) : self::buildDomainPath($class)))
-        {
-            self::tryRequire($filePath);
+        $file_path = null;
+
+        if (0 === strpos($class, 'Dat0r')) {
+            $file_path = self::buildCorePath($class);
+        } else {
+            $file_path = self::buildDomainPath($class);
+        }
+
+        if ($file_path) {
+            self::tryRequire($file_path);
         }
     }
 
@@ -77,16 +83,14 @@ class Autoloader
      */
     private static function buildCorePath($class)
     {
-        $filePath = NULL;
-        foreach (self::$corePackages as $rootNs => $baseDir)
-        {
-            if (0 === strpos($class, $rootNs))
-            {
-                $filePath = self::buildPath($class, $rootNs, $baseDir);
+        $file_path = null;
+        foreach (self::$core_packages as $namespace => $base_dir) {
+            if (0 === strpos($class, $namespace)) {
+                $file_path = self::buildPath($class, $namespace, $base_dir);
                 break;
             }
         }
-        return $filePath;
+        return $file_path;
     }
 
     /**
@@ -98,16 +102,16 @@ class Autoloader
      */
     private static function buildDomainPath($class)
     {
-        $filePath = NULL;
-        foreach (self::$domainPackages as $rootNs => $baseDir)
-        {
-            if (0 === strpos($class, $rootNs))
-            {
-                $filePath = self::buildPath($class, $rootNs, $baseDir);
+        $file_path = null;
+
+        foreach (self::$domain_packages as $namespace => $base_dir) {
+            if (0 === strpos($class, $namespace)) {
+                $file_path = self::buildPath($class, $namespace, $base_dir);
                 break;
             }
         }
-        return $filePath;
+
+        return $file_path;
     }
 
     /**
@@ -117,32 +121,34 @@ class Autoloader
      *
      * @return string
      */
-    private static function buildPath($class, $rootNs, $baseDir)
+    private static function buildPath($class, $namespace, $base_dir)
     {
-        $baseName = str_replace(
-            array($rootNs, '\\'),
+        $base_name = str_replace(
+            array($namespace, '\\'),
             array('', DIRECTORY_SEPARATOR),
             $class
         );
-        return $baseDir . DIRECTORY_SEPARATOR . $baseName . '.php';
+
+        return $base_dir . DIRECTORY_SEPARATOR . $base_name . '.php';
     }
 
-   /**
-    * Tries to require a given file.
-    *
-    * @param string $filePath
-    *
-    * @return mixed
-    */
-    private static function tryRequire($filePath)
+    /**
+     * Tries to require a given file.
+     *
+     * @param string $file_path
+     *
+     * @return mixed
+     */
+    private static function tryRequire($file_path)
     {
-        if (! is_readable($filePath))
-        {
+        if (! is_readable($file_path)) {
+            require_once __DIR__ . DIRECTORY_SEPARATOR . 'AutoloadException.php';
+
             throw new AutoloadException(
-                "Unable to autoload demanded class at location: $filePath."
+                "Unable to autoload demanded class at location: $file_path."
             );
         }
 
-        require $filePath;
+        require $file_path;
     }
 }

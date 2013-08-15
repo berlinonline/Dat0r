@@ -8,7 +8,6 @@ namespace Dat0r;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class AutoloadException extends \Exception 
+class AutoloadException extends \Exception
 {
-
 }
