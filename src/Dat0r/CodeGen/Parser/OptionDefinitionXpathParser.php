@@ -9,8 +9,16 @@ class OptionDefinitionXpathParser extends BaseXpathParser
     public function parseXpath(\DOMXPath $xpath, array $options = array())
     {
         $options_list = Schema\OptionDefinitionList::create();
+        $options_nodelist = $xpath->query('./options', $options['context']);
 
-        foreach ($xpath->query('./option', $options['context']) as $option_element) {
+        $option_nodes = null;
+        if ($options_nodelist->length > 0) {
+            $option_nodes = $xpath->query('./option', $options_nodelist->item(0));
+        } else {
+            $option_nodes = $xpath->query('./option', $options['context']);
+        }
+
+        foreach ($option_nodes as $option_element) {
             $options_list->add(
                 $this->parseOption($xpath, $option_element)
             );

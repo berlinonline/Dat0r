@@ -41,9 +41,8 @@ class Service extends Dat0r\Object
 
     public function buildSchema($module_schema_path)
     {
-        $class_builders = $this->createClassBuilders(
-            $this->schema_parser->parseSchema($module_schema_path)
-        );
+        $module_schema = $this->schema_parser->parseSchema($module_schema_path);
+        $class_builders = $this->createClassBuilders($module_schema);
 
         $execute_build = function ($builder) {
             return $builder->build();
@@ -54,6 +53,7 @@ class Service extends Dat0r\Object
         );
 
         $this->writeCache($class_list);
+        $this->executePlugins($module_schema);
     }
 
     public function deployBuild()
@@ -145,6 +145,16 @@ class Service extends Dat0r\Object
                 $class_container->getSourceCode(),
                 self::FILE_MODE
             );
+        }
+    }
+
+    protected function executePlugins(Schema\ModuleSchema $module_schema)
+    {
+        foreach ($this->config->getPluginSettings() as $plugin_settings) {
+            $plugin_class = $plugin_settings['implementor'];
+            require_once $plugin_settings['path'];
+            $plugin = new $plugin_class($plugin_settings['options']);
+            $plugin->execute($module_schema);
         }
     }
 
