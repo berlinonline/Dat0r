@@ -20,6 +20,6 @@ class AggregateModule extends Module\AggregateModule
 
     protected function getDocumentImplementor()
     {
-        return 'Dat0r\Tests\Core\Document\DocumentTestProxy';
+        return '\Dat0r\Tests\Core\Document\DocumentTestProxy';
     }
 }

@@ -86,37 +86,57 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      */
     public function setValue($value)
     {
-        $module_map = array();
-        ksort($value);
+        $collection = null;
 
-        foreach ($this->getField()->getAggregateModules() as $module) {
-            $module_map[$module->getDocumentType()] = $module;
+        if ($value instanceof DocumentCollection) {
+            $collection = $value;
+        } elseif (null === $value) {
+            $collection = array();
+        } elseif (is_array($value)) {
+            $module_map = array();
+            ksort($value);
+
+            foreach ($this->getField()->getAggregateModules() as $module) {
+                $module_map[$module->getDocumentType()] = $module;
+            }
+
+            $documents = array();
+            foreach ($value as $document_data) {
+                if (!isset($document_data['type'])) {
+                    continue;
+                    //throw new Exception("Missing type information for aggregate data.");
+                }
+                $aggregate_type = $document_data['type'];
+                if ($aggregate_type{0} !== '\\') {
+                    $aggregate_type = '\\' . $aggregate_type;
+                }
+
+                if (!isset($module_map[$aggregate_type])) {
+                    continue;
+                    //throw new Exception("Unable to find related module for aggregate data.");
+                }
+
+                $aggregate_module = $module_map[$aggregate_type];
+                $aggregate_document = $aggregate_module->createDocument($document_data);
+                $aggregate_document->addDocumentChangedListener($this);
+                $documents[] = $aggregate_document;
+            }
+
+            $collection = new DocumentCollection($documents);
+        } else {
+            throw new InvalidValueException(
+                'Only DocumentCollections or arrays of document data or null are acceptable values for AggregateFields.'
+            );
         }
 
-        $documents = array();
-        foreach ($value as $document_data) {
-
-            if (!isset($document_data['type'])) {
-                continue;
-                //throw new Exception("Missing type information for aggregate data.");
-            }
-
-            $aggregate_type = $document_data['type'];
-            if ($aggregate_type{0} !== '\\') {
-                $aggregate_type = '\\' . $aggregate_type;
-            }
-
-            if (!isset($module_map[$aggregate_type])) {
-                continue;
-                //throw new Exception("Unable to find related module for aggregate data.");
-            }
-            $aggregate_module = $module_map[$aggregate_type];
-            $aggregate_document = $aggregate_module->createDocument($document_data);
-            $aggregate_document->addDocumentChangedListener($this);
-            $documents[] = $aggregate_document;
-        }
-        $collection = new DocumentCollection($documents);
         parent::setValue($collection);
+    }
+
+    public function addDocument($document)
+    {
+        $document_collection = $this->getValue();
+        $document->addDocumentChangedListener($this);
+        $document_collection->add($document);
     }
 
     /**

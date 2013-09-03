@@ -9,6 +9,7 @@ use Dat0r\Core\Module\IModule;
 use Dat0r\Core\Field\IField;
 use Dat0r\Core\Field;
 use Dat0r\Core\Sham\Guesser\TextField as TextFieldGuesser;
+use Dat0r\Core\Document\DocumentCollection;
 
 /**
  * Sham\DataGenerator is a class that is able to create or fill documents
@@ -485,24 +486,26 @@ class DataGenerator
      */
     protected function addAggregate(IDocument $document, IField $field, array $options = array())
     {
-        $recursion_level = 1;
-        if (!empty($options[self::OPTION_RECURSION_LEVEL])
-            && is_int($options[self::OPTION_RECURSION_LEVEL])
-        ) {
-            $recursion_level = $options[self::OPTION_RECURSION_LEVEL];
-        }
-
-        if ($recursion_level > 1) {
-            return;
-        }
-
         $options_clone = $options;
-        $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
+        $document_collection = new DocumentCollection();
         $aggregate_modules = $field->getAggregateModules();
-        $aggregate_module = reset($aggregate_modules);
-        $data = $this->fakeData($aggregate_module, $options_clone);
 
-        $this->setValue($document, $field, $data, $options);
+        $number_of_aggregate_modules = count($aggregate_modules);
+        $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
+
+        // add number of documents to reference depending on number of aggregate modules
+        for ($i = 0; $i < $number_of_aggregate_modules; $i++) {
+            $number_of_new_aggregate_entries += $this->faker->numberBetween(0, 3);
+        }
+
+        // add new documents to collection for aggregate modules
+        for ($i = 0; $i < $number_of_new_aggregate_entries; $i++) {
+            $aggregate_module = $this->faker->randomElement($aggregate_modules);
+            $new_document = $this->createFakeDocument($aggregate_module, $options_clone);
+            $document_collection->add($new_document);
+        }
+
+        $this->setValue($document, $field, $document_collection, $options);
     }
 
     /**

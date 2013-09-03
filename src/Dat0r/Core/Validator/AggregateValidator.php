@@ -2,6 +2,8 @@
 
 namespace Dat0r\Core\Validator;
 
+use Dat0r\Core\Document\DocumentCollection;
+
 /**
  * Default implementation for validators that validate aggregates.
  *
@@ -22,6 +24,6 @@ class AggregateValidator extends Validator
     {
         // aggregate data is validated during hydrate or when setValue is called on an aggregate document.
         // so a simple check for an array value is enough to start with. enhance when needed.
-        return is_array($value) || is_null($value);
+        return is_array($value) || is_null($value) || $value instanceof DocumentCollection;
     }
 }

@@ -191,9 +191,10 @@ class DataGeneratorTest extends BaseTest
     {
         $data = DataGenerator::createDataFor($this->module);
         $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
-        $this->assertArrayHasKey('title', $data['paragraph'], 'The Paragraph should have a title field.');
-        $this->assertTrue(!empty($data['paragraph']['title']), 'The title of the Paragraph should not be empty.');
-        $this->assertArrayHasKey('content', $data['paragraph'], 'The Paragraph should have a content field.');
+        $paragraph_data = $data['paragraph'][0];
+        $this->assertArrayHasKey('title', $paragraph_data, 'The Paragraph should have a title field.');
+        $this->assertTrue(!empty($paragraph_data['title']), 'The title of the Paragraph should not be empty.');
+        $this->assertArrayHasKey('content', $paragraph_data, 'The Paragraph should have a content field.');
     }
 
     public function testFillDocumentGuessTextFieldEmail()

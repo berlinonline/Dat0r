@@ -56,11 +56,15 @@ class AggregateFieldTest extends Core\BaseTest
         $valueHolder = $aggregateField->createValueHolder($aggregateData);
         $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $valueHolder);
 
-        $document = $valueHolder->getValue();
+        $document = $valueHolder->getValue()->first();
         $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\DocumentTestProxy', $document);
 
-        foreach ($aggregateData as $fieldname => $value) {
-            $this->assertEquals($value, $document->getValue($fieldname));
+        foreach ($aggregateData[0] as $fieldname => $value) {
+            if ($fieldname === 'type') {
+                $this->assertEquals($value, $document->getModule()->getDocumentType());
+            } else {
+                $this->assertEquals($value, $document->getValue($fieldname));
+            }
         }
     }
 
@@ -114,8 +118,11 @@ class AggregateFieldTest extends Core\BaseTest
 
         $fixtures[] = array(
             array(
-                'title' => 'This is a paragraph test title.',
-                'content' => 'And this is some paragraph test content.'
+                array(
+                    'title' => 'This is a paragraph test title.',
+                    'content' => 'And this is some paragraph test content.',
+                    'type' => '\\Dat0r\\Tests\\Core\\Document\\DocumentTestProxy'
+                )
             )
         );
 
