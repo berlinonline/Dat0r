@@ -22,6 +22,12 @@ class IniFileConfigReader extends ConfigReader
 
         $parsed_settings = array();
 
+        if (isset($settings['deploy_method'])) {
+            $parsed_settings['deploy_method'] = $settings['deploy_method'];
+        } else {
+            $parsed_settings['deploy_method'] = 'copy';
+        }
+
         if (isset($settings['cache_dir']) && $settings['cache_dir']{0} === '.') {
             $parsed_settings['cache_dir'] = $this->resolveRelativePath(
                 $settings['cache_dir'],

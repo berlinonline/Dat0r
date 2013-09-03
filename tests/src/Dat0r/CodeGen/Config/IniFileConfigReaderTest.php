@@ -36,7 +36,8 @@ class IniFileConfigReaderTest extends Tests\TestCase
         $expected_array = array(
             'cache_dir' => '/tmp/dat0r_cache_test_dir/',
             'deploy_dir' => '/tmp/dat0r_deploy_test_dir/',
-            'deploy_method' => 'copy'
+            'deploy_method' => 'copy',
+            'plugin_settings' => array()
         );
         $this->assertEquals($expected_array, $settings);
     }
@@ -53,7 +54,8 @@ class IniFileConfigReaderTest extends Tests\TestCase
         $expected_array = array(
             'cache_dir' => $expected_cache_dir,
             'deploy_dir' => $expected_deploy_dir,
-            'deploy_method' => 'copy'
+            'deploy_method' => 'copy',
+            'plugin_settings' => array()
         );
 
         $this->assertEquals($expected_array, $settings);
