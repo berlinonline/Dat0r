@@ -158,7 +158,6 @@ abstract class Document implements IDocument, IValueChangedListener
     public function toArray()
     {
         $values = array();
-
         foreach ($this->getModule()->getFields() as $field) {
             $value = $this->getValue($field->getName());
             if ($field instanceof ReferenceField) {
@@ -167,15 +166,27 @@ abstract class Document implements IDocument, IValueChangedListener
                     $references = $field->getOption(ReferenceField::OPT_REFERENCES);
                     $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
                     $reference_identifiers = array();
-
                     foreach ($value as $document) {
-                        $refModule = $document->getModule();
-                        $reference_identifiers[] = array(
+                        $ref_module = $document->getModule();
+                        $ref_data = array(
                             'id' => $document->getValue($identity_field),
-                            'module' => $refModule->getOption('prefix', strtolower($refModule->getName()))
+                            'module' => $ref_module->getOption('prefix', strtolower($ref_module->getName()))
                         );
+                        $reserved_index_fieldnames = array_keys($ref_data);
+                        foreach ($field->getOption('references') as $reference_options) {
+                            if ($reference_options['module'] === '\\' . get_class($ref_module)) {
+                                $index_fields = isset($reference_options['index_fields']) ? $reference_options['index_fields'] : array();
+                                foreach ($index_fields as $index_fieldname) {
+                                    if (in_array($index_fieldname, $reserved_index_fieldnames)) {
+                                        // shouldn't happen, as the code-generation raises an error for this case.
+                                        continue;
+                                    }
+                                    $ref_data[$index_fieldname] = $document->getValue($index_fieldname);
+                                }
+                            }
+                        }
+                        $reference_identifiers[] = $ref_data;
                     }
-
                     $values[$field->getName()] = $reference_identifiers;
                 }
             } elseif ($field instanceof AggregateField) {
@@ -186,7 +197,6 @@ abstract class Document implements IDocument, IValueChangedListener
                 $values[$field->getName()] = $value;
             }
         }
-
         $values['type'] = get_class($this);
 
         return $values;
