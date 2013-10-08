@@ -24,7 +24,7 @@ class SelectValidator extends TextValidator
         $allowed_options = $this->getField()->getOption('options', array());
 
         if ($multi_select_enabled) {
-            if (!is_array($value) && !is_null($value)) {
+            if (!is_array($value) && !empty($value)) {
                 return false;
             } elseif (is_array($value)) {
                 foreach ($value as $option) {
