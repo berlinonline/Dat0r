@@ -3,7 +3,6 @@
 namespace Dat0r\Tests;
 
 use Dat0r\Tests\Fixtures\TestObject;
-
 use Dat0r\ArrayList;
 
 class ArrayListTest extends TestCase

@@ -6,7 +6,6 @@ use Dat0r\Tests\Fixtures\TestObject;
 use Dat0r\Tests\Fixtures\TestObjectMap;
 use Dat0r\Tests\Fixtures\UnsupportedObject;
 
-use Dat0r\Map;
 use Faker;
 
 class TypedMapTest extends TestCase

@@ -5,6 +5,7 @@ namespace Dat0r\Tests;
 use Dat0r\Tests\Fixtures\TestObject;
 use Dat0r\Tests\Fixtures\TestObjectList;
 use Dat0r\Tests\Fixtures\UnsupportedObject;
+
 use Faker;
 
 class TypedListTest extends TestCase

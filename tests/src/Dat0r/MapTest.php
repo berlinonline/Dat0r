@@ -3,8 +3,8 @@
 namespace Dat0r\Tests;
 
 use Dat0r\Tests\Fixtures\TestObject;
-
 use Dat0r\Map;
+
 use Faker;
 
 class MapTest extends TestCase

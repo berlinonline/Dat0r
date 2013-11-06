@@ -8,8 +8,16 @@ abstract class TypedList extends ArrayList
 
     public function offsetSet($offset, $value)
     {
+        $this->ensureValidItemType($value);
+
+        parent::offsetSet($offset, $value);
+    }
+
+    protected function ensureValidItemType($item)
+    {
         $implementor = $this->getItemImplementor();
-        if (!$value instanceof $implementor) {
+
+        if (!$item instanceof $implementor) {
             throw new Exception(
                 sprintf(
                     "Items passed to the '%s' method must relate to '%s'."
@@ -17,10 +25,9 @@ abstract class TypedList extends ArrayList
                     __METHOD__,
                     $implementor,
                     PHP_EOL,
-                    @get_class($value)
+                    @get_class($item)
                 )
             );
         }
-        $this->items[$offset] = $value;
     }
 }

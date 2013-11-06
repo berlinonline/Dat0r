@@ -44,6 +44,11 @@ abstract class Collection extends Object implements ICollection
      */
     public function offsetSet($offset, $value)
     {
+        if ($this instanceof IUniqueCollection) {
+            if (false !== ($item_key = array_search($value, $this->items, true))) {
+                throw new Exception("Item allready has been added to the collection at key: " . $item_key);
+            }
+        }
         $this->items[$offset] = $value;
     }
 
