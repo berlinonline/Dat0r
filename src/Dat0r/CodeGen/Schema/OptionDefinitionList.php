@@ -3,8 +3,9 @@
 namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Type\Collection\TypedList;
+use Dat0r\Type\Collection\IUniqueCollection;
 
-class OptionDefinitionList extends TypedList
+class OptionDefinitionList extends TypedList implements IUniqueCollection
 {
     public function filterByName($name)
     {

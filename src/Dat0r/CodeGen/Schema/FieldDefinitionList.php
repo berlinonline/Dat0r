@@ -3,8 +3,9 @@
 namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Type\Collection\TypedList;
+use Dat0r\Type\Collection\IUniqueCollection;
 
-class FieldDefinitionList extends TypedList
+class FieldDefinitionList extends TypedList implements IUniqueCollection
 {
     public function filterByType($type)
     {
