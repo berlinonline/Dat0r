@@ -6,7 +6,7 @@ use Closure;
 
 /**
  * ArrayList should actually be named List, but php has this as a reserved token (T_LIST),
- * to support the $what, '$for = list($arr)' language construct.
+ * to support the '$what, $for = list($arr)' language construct.
  * Php, y U no CASE-sensitive?! (╯°□°）╯︵ ┻━┻)
  */
 class ArrayList extends Collection implements IList
