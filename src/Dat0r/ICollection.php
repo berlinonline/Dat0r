@@ -2,6 +2,8 @@
 
 namespace Dat0r;
 
+use Closure;
+
 interface ICollection extends \Iterator, \Countable, \ArrayAccess
 {
     public function getItem($key);
@@ -16,7 +18,7 @@ interface ICollection extends \Iterator, \Countable, \ArrayAccess
 
     public function getSize();
 
-    public function filter(Callable $callback);
+    public function filter(Closure $callback);
 
     public function removeItem($item);
 

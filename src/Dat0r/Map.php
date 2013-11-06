@@ -2,6 +2,8 @@
 
 namespace Dat0r;
 
+use Closure;
+
 class Map extends Collection implements IMap
 {
     public function __construct(array $items = array())
@@ -23,7 +25,7 @@ class Map extends Collection implements IMap
 
     // ICollection
 
-    public function filter(Callable $callback)
+    public function filter(Closure $callback)
     {
         $filtered_map = static::create();
 

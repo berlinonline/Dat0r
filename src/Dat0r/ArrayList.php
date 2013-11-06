@@ -2,6 +2,8 @@
 
 namespace Dat0r;
 
+use Closure;
+
 /**
  * ArrayList should actually be named List, but php has this as a reserved token (T_LIST),
  * to support the $what, '$for = list($arr)' language construct.
@@ -18,7 +20,7 @@ class ArrayList extends Collection implements IList
 
     // ICollection
 
-    public function filter(Callable $callback)
+    public function filter(Closure $callback)
     {
         $filtered_list = static::create();
 
