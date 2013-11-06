@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Fixtures;
 
-use Dat0r;
+use Dat0r\Object;
 use Faker;
 
-class TestObject extends Dat0r\Object
+class TestObject extends Object
 {
     protected $property_one;
 

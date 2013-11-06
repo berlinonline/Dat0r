@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r;
+namespace Dat0r\Type\Collection;
 
-abstract class TypedList extends ArrayList
+abstract class TypedMap extends Map
 {
     abstract protected function getItemImplementor();
 

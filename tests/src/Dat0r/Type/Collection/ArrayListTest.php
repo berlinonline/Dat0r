@@ -1,9 +1,10 @@
 <?php
 
-namespace Dat0r\Tests;
+namespace Dat0r\Tests\Type\Collection;
 
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Fixtures\TestObject;
-use Dat0r\ArrayList;
+use Dat0r\Type\Collection\ArrayList;
 
 class ArrayListTest extends TestCase
 {
@@ -12,8 +13,8 @@ class ArrayListTest extends TestCase
         $items = $this->createRandomItems();
         $list = new ArrayList($items);
 
-        $this->assertInstanceOf('\\Dat0r\\ICollection', $list);
-        $this->assertInstanceOf('\\Dat0r\\IList', $list);
+        $this->assertInstanceOf('\\Dat0r\\Type\\Collection\\ICollection', $list);
+        $this->assertInstanceOf('\\Dat0r\\Type\\Collection\\IList', $list);
         $this->assertEquals(count($items), $list->getSize());
     }
 

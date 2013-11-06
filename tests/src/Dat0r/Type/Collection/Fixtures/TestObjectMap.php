@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\Tests\Fixtures;
+namespace Dat0r\Tests\Type\Collection\Fixtures;
 
-use Dat0r\TypedMap;
+use Dat0r\Type\Collection\TypedMap;
 
 class TestObjectMap extends TypedMap
 {

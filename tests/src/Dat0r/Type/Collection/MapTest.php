@@ -1,9 +1,10 @@
 <?php
 
-namespace Dat0r\Tests;
+namespace Dat0r\Tests\Type\Collection;
 
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Fixtures\TestObject;
-use Dat0r\Map;
+use Dat0r\Type\Collection\Map;
 
 use Faker;
 
@@ -14,8 +15,8 @@ class MapTest extends TestCase
         $items = $this->createRandomItems();
         $map = new Map($items);
 
-        $this->assertInstanceOf('\\Dat0r\\ICollection', $map);
-        $this->assertInstanceOf('\\Dat0r\\IMap', $map);
+        $this->assertInstanceOf('\\Dat0r\\Type\\Collection\\ICollection', $map);
+        $this->assertInstanceOf('\\Dat0r\\Type\\Collection\\IMap', $map);
     }
 
     public function testGetItem()

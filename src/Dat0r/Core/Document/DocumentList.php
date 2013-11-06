@@ -2,7 +2,7 @@
 
 namespace Dat0r\Core\Document;
 
-use Dat0r\TypedList;
+use Dat0r\Type\Collection\TypedList;
 
 class DocumentList extends TypedList
 {

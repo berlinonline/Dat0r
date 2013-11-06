@@ -1,16 +1,17 @@
 <?php
 
-namespace Dat0r\Tests;
+namespace Dat0r\Tests\Type\Collection;
 
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Fixtures\TestObject;
-use Dat0r\Tests\Fixtures\UniqueTestObjectMap;
+use Dat0r\Tests\Type\Collection\Fixtures\UniqueTestObjectMap;
 
 use Faker;
 
 class UniqueMapTest extends TestCase
 {
     /**
-     * @expectedException Dat0r\Exception
+     * @expectedException Dat0r\Type\Collection\Exception
      */
     public function testUniqueness()
     {

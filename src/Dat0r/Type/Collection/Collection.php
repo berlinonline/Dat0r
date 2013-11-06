@@ -1,6 +1,8 @@
 <?php
 
-namespace Dat0r;
+namespace Dat0r\Type\Collection;
+
+use Dat0r\Object;
 
 abstract class Collection extends Object implements ICollection
 {

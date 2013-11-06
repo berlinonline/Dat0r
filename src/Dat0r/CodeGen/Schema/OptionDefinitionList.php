@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\TypedList;
+use Dat0r\Type\Collection\TypedList;
 
 class OptionDefinitionList extends TypedList
 {

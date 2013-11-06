@@ -6,7 +6,7 @@ use Dat0r\Tests\Core\BaseTest;
 use Dat0r\Tests\Core\Document\Fixtures\DocumentTestProxy;
 use Dat0r\Tests\Core\Module\Fixtures\RootModule;
 
-use Dat0r\ArrayList;
+use Dat0r\Type\Collection\ArrayList;
 use Dat0r\Core\Document\DocumentList;
 
 class DocumentListTest extends BaseTest
