@@ -4,8 +4,7 @@ namespace Dat0r\Tests;
 
 use Dat0r\Tests\Fixtures\TestObject;
 use Dat0r\Tests\Fixtures\TestObjectList;
-
-use Dat0r\Map;
+use Dat0r\Tests\Fixtures\UnsupportedObject;
 use Faker;
 
 class TypedListTest extends TestCase
@@ -44,9 +43,18 @@ class TypedListTest extends TestCase
     /**
      * @expectedException Dat0r\Exception
      */
-    public function testAddInvalidItem()
+    public function testAddInvalidScalar()
     {
         $list = new TestObjectList();
         $list->addItem("foobar");
+    }
+
+    /**
+     * @expectedException Dat0r\Exception
+     */
+    public function testAddInvalidObject()
+    {
+        $list = new TestObjectList();
+        $list->addItem(new UnsupportedObject());
     }
 }
