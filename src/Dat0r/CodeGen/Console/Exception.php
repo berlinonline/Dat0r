@@ -2,8 +2,8 @@
 
 namespace Dat0r\CodeGen\Console;
 
-use Dat0r\CodeGen;
+use Dat0r\CodeGen\Exception as BaseException;
 
-class Exception extends CodeGen\Exception
+class Exception extends BaseException
 {
 }

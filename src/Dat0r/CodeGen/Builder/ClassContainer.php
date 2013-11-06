@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r;
+use Dat0r\Type\Object;
 
-class ClassContainer extends Dat0r\Object implements IClassContainer
+class ClassContainer extends Object implements IClassContainer
 {
     protected $file_name;
 

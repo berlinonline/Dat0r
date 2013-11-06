@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Config;
 
-use Dat0r;
+use Dat0r\Type\Object;
 
-class Config extends Dat0r\Object implements IConfig
+class Config extends Object implements IConfig
 {
     protected $cache_dir;
 

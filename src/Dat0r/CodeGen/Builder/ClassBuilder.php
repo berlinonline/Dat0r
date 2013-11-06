@@ -2,7 +2,12 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\ModuleSchema;
+use Dat0r\CodeGen\Schema\ModuleDefinition;
+use Dat0r\CodeGen\Schema\FieldDefinition;
+use Dat0r\CodeGen\Schema\FieldDefinitionList;
+use Dat0r\CodeGen\Schema\OptionDefinition;
+use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
 abstract class ClassBuilder implements IClassBuilder
 {
@@ -18,17 +23,13 @@ abstract class ClassBuilder implements IClassBuilder
 
     abstract protected function getTemplate();
 
-    public static function create(
-        Schema\ModuleSchema $module_schema,
-        Schema\ModuleDefinition $module_definition = null
-    ) {
+    public static function create(ModuleSchema $module_schema, ModuleDefinition $module_definition = null)
+    {
         return new static($module_schema, $module_definition);
     }
 
-    public function __construct(
-        Schema\ModuleSchema $module_schema,
-        Schema\ModuleDefinition $module_definition = null
-    ) {
+    public function __construct(ModuleSchema $module_schema, ModuleDefinition $module_definition = null)
+    {
         $this->twig = new \Twig_Environment(
             new \Twig_Loader_Filesystem(
                 __DIR__ . DIRECTORY_SEPARATOR . 'templates'
@@ -45,6 +46,7 @@ abstract class ClassBuilder implements IClassBuilder
     {
         $this->module_schema->getModuleDefinition();
         $implementor = $this->getImplementor();
+
         return ClassContainer::create(
             array(
                 'file_name' => $implementor . '.php',
@@ -112,7 +114,7 @@ abstract class ClassBuilder implements IClassBuilder
         );
     }
 
-    protected function buildFieldDefinitionData(Schema\FieldDefinitionList $fields)
+    protected function buildFieldDefinitionData(FieldDefinitionList $fields)
     {
         $fields_data = array();
         $namespaces = array();
@@ -149,11 +151,11 @@ abstract class ClassBuilder implements IClassBuilder
         return array('instances' => $fields_data, 'namespaces' => $namespaces);
     }
 
-    protected function expandAggregateNamespaces(Schema\FieldDefinition $field_definition)
+    protected function expandAggregateNamespaces(FieldDefinition $field_definition)
     {
     }
 
-    protected function preRenderOptions(Schema\OptionDefinitionList $options, $initial_indent = 0, $indent_size = 4)
+    protected function preRenderOptions(OptionDefinitionList $options, $initial_indent = 0, $indent_size = 4)
     {
         if ($options->getSize() === 0) {
             return 'array()';
@@ -165,14 +167,14 @@ abstract class ClassBuilder implements IClassBuilder
         foreach ($options as $option) {
             $option_name = $option->getName();
             $option_value = $option->getValue();
-            if ($option_name && $option_value instanceof Schema\OptionDefinitionList) {
+            if ($option_name && $option_value instanceof OptionDefinitionList) {
                 $options_code[] = sprintf(
                     "%s'%s' => %s,",
                     $indent_spaces,
                     $option_name,
                     $this->preRenderOptions($option_value, $next_level_indent)
                 );
-            } elseif ($option_value instanceof Schema\OptionDefinitionList) {
+            } elseif ($option_value instanceof OptionDefinitionList) {
                 $options_code[] = sprintf(
                     "%s%s,",
                     $indent_spaces,

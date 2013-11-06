@@ -2,18 +2,14 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-abstract class BaseXpathParser implements IXpathParser
+use Dat0r\Type\Object;
+
+use DOMXPath;
+use DOMElement;
+
+abstract class BaseXpathParser extends Object implements IXpathParser
 {
-    public static function create()
-    {
-        return new static();
-    }
-
-    protected function __construct()
-    {
-    }
-
-    protected function parseDescription(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseDescription(DOMXPath $xpath, DOMElement $element)
     {
         return array_map(
             function ($line) {
@@ -23,7 +19,7 @@ abstract class BaseXpathParser implements IXpathParser
         );
     }
 
-    protected function parseOptions(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseOptions(DOMXPath $xpath, DOMElement $element)
     {
         $parser = OptionDefinitionXpathParser::create();
 

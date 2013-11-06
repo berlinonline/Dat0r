@@ -2,15 +2,19 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\FieldDefinition;
+use Dat0r\CodeGen\Schema\FieldDefinitionList;
+
+use DOMXPath;
+use DOMElement;
 
 class FieldDefinitionXpathParser extends BaseXpathParser
 {
     protected $short_names = array();
 
-    public function parseXpath(\DOMXPath $xpath, array $options = array())
+    public function parseXpath(DOMXPath $xpath, array $options = array())
     {
-        $field_set = Schema\FieldDefinitionList::create();
+        $field_set = FieldDefinitionList::create();
 
         foreach ($xpath->query('./field', $options['context']) as $element) {
             $field_set->addItem($this->parseField($xpath, $element));
@@ -19,7 +23,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
         return $field_set;
     }
 
-    protected function parseField(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseField(DOMXPath $xpath, DOMElement $element)
     {
         $description = '';
         $type = $element->getAttribute('type');
@@ -32,7 +36,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
             );
         }
 
-        return Schema\FieldDefinition::create(
+        return FieldDefinition::create(
             array(
                 'name' => $element->getAttribute('name'),
                 'short_name' => ($implementor == $type) ? null : $type,

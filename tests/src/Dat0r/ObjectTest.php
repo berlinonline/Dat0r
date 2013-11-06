@@ -14,7 +14,7 @@ class ObjectTest extends TestCase
         $object_data = $this->getRandomScalarValues();
         $test_object = Fixtures\TestObject::create($object_data);
 
-        $this->assertInstanceOf('\\Dat0r\\IObject', $test_object);
+        $this->assertInstanceOf('\\Dat0r\\Type\\IObject', $test_object);
         $this->assertInstanceOf('\\Dat0r\\Tests\\Fixtures\\TestObject', $test_object);
         $this->assertEquals($object_data['property_one'], $test_object->getPropertyOne());
         $this->assertEquals($object_data['property_two'], $test_object->getPropertyTwo());

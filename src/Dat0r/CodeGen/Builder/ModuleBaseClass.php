@@ -2,7 +2,8 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\AggregateDefinition;
+use Dat0r\CodeGen\Schema\FieldDefinition;
 
 class ModuleBaseClass extends ModuleClass
 {
@@ -26,7 +27,7 @@ class ModuleBaseClass extends ModuleClass
             $parent_implementor = sprintf(
                 '%s\\%s',
                 ModuleBaseClass::NS_MODULE,
-                ($this->module_definition instanceof Schema\AggregateDefinition)
+                ($this->module_definition instanceof AggregateDefinition)
                 ? 'AggregateModule'
                 : 'RootModule'
             );
@@ -53,7 +54,7 @@ class ModuleBaseClass extends ModuleClass
         );
     }
 
-    protected function expandAggregateNamespaces(Schema\FieldDefinition $field_definition)
+    protected function expandAggregateNamespaces(FieldDefinition $field_definition)
     {
         foreach ($field_definition->getOptions() as $option) {
             if ($option->getName() === 'modules') {

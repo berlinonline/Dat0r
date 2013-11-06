@@ -2,8 +2,6 @@
 
 namespace Dat0r\CodeGen\Config;
 
-use Dat0r;
-
 interface IConfig
 {
     const DEPLOY_COPY = 'copy';

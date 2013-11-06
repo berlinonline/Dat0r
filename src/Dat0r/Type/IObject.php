@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r;
+namespace Dat0r\Type;
 
 interface IObject
 {

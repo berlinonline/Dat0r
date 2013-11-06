@@ -2,13 +2,21 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\Type\Object;
+use Dat0r\CodeGen\Schema\ModuleSchema;
 
-class ModuleSchemaXmlParser implements IModuleSchemaParser
+class ModuleSchemaXmlParser extends Object implements IModuleSchemaParser
 {
     const BASE_DOCUMENT = '\Dat0r\Core\Document\Document';
 
     protected $xsd_schema_file;
+
+    public function __construct()
+    {
+        $config_dir = dirname(dirname(dirname(dirname(__DIR__))));
+        $path_parts = array($config_dir, 'config', 'module_schema.xsd');
+        $this->xsd_schema_file = implode(DIRECTORY_SEPARATOR, $path_parts);
+    }
 
     public function parseSchema($schema_path)
     {
@@ -19,7 +27,7 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
         $module_definition_parser = ModuleDefinitionXpathParser::create();
         $aggregates_parser = AggregateDefinitionXpathParser::create();
 
-        return Schema\ModuleSchema::create(
+        return ModuleSchema::create(
             array(
                 'namespace' => $module_schema_element->getAttribute('namespace'),
                 'package' => $module_schema_element->getAttribute('package'),
@@ -33,18 +41,6 @@ class ModuleSchemaXmlParser implements IModuleSchemaParser
                 )
             )
         );
-    }
-
-    public static function create()
-    {
-        return new static();
-    }
-
-    protected function __construct()
-    {
-        $config_dir = dirname(dirname(dirname(dirname(__DIR__))));
-        $path_parts = array($config_dir, 'config', 'module_schema.xsd');
-        $this->xsd_schema_file = implode(DIRECTORY_SEPARATOR, $path_parts);
     }
 
     protected function createDomDocument($module_schema_file)

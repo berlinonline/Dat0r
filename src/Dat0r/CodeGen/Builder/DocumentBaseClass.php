@@ -2,8 +2,6 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r\CodeGen\Schema;
-
 class DocumentBaseClass extends DocumentClass
 {
     const NS_DOCUMENT = '\\Dat0r\\Core\\Document';

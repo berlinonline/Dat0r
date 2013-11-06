@@ -2,13 +2,17 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\OptionDefinitionList;
+use Dat0r\CodeGen\Schema\OptionDefinition;
+
+use DOMXPath;
+use DOMElement;
 
 class OptionDefinitionXpathParser extends BaseXpathParser
 {
-    public function parseXpath(\DOMXPath $xpath, array $options = array())
+    public function parseXpath(DOMXPath $xpath, array $options = array())
     {
-        $options_list = Schema\OptionDefinitionList::create();
+        $options_list = OptionDefinitionList::create();
         $options_nodelist = $xpath->query('./options', $options['context']);
 
         $option_nodes = null;
@@ -27,7 +31,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
         return $options_list;
     }
 
-    protected function parseOption(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseOption(DOMXPath $xpath, DOMElement $element)
     {
         $name = null;
         $value = null;
@@ -39,7 +43,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
 
         $nested_options = $xpath->query('./option', $element);
         if ($nested_options->length > 0) {
-            $value = Schema\OptionDefinitionList::create();
+            $value = OptionDefinitionList::create();
             foreach ($nested_options as $option_element) {
                 $value->addItem(
                     $this->parseOption($xpath, $option_element)
@@ -49,7 +53,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
             $value = trim($element->nodeValue);
         }
 
-        return Schema\OptionDefinition::create(
+        return OptionDefinition::create(
             array(
                 'name' => $name,
                 'value' => $this->literalize($value),

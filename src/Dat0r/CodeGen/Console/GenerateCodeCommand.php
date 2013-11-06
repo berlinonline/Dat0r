@@ -2,12 +2,15 @@
 
 namespace Dat0r\CodeGen\Console;
 
-use Dat0r\CodeGen;
-use Dat0r\CodeGen\Config;
-use Dat0r\CodeGen\Parser;
+use Dat0r\CodeGen\Service as CodeGenService;
+use Dat0r\CodeGen\Config\IniFileConfigReader;
+use Dat0r\CodeGen\Config\Config;
+use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
+
 use Symfony\Component\Console\Command;
-use Symfony\Component\Console\Input;
-use Symfony\Component\Console\Output;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCodeCommand extends Command\Command
 {
@@ -19,7 +22,7 @@ class GenerateCodeCommand extends Command\Command
 
     protected $service;
 
-    public function setService(CodeGen\Service $service)
+    public function setService(CodeGenService $service)
     {
         $this->service = $service;
     }
@@ -33,27 +36,27 @@ class GenerateCodeCommand extends Command\Command
         )->addOption(
             'config',
             'c',
-            Input\InputArgument::OPTIONAL,
+            InputArgument::OPTIONAL,
             'Path pointing to a valid (ini) config file.'
         )->addOption(
             'schema',
             's',
-            Input\InputArgument::OPTIONAL,
+            InputArgument::OPTIONAL,
             'Path pointing to a valid (xml) module schema file.'
         )->addOption(
             'directory',
             'd',
-            Input\InputArgument::OPTIONAL,
+            InputArgument::OPTIONAL,
             'When the config or schema file are omitted, dat0r will look for standard files in this directory.'
         )->addArgument(
             'action',
-            Input\InputArgument::OPTIONAL,
+            InputArgument::OPTIONAL,
             'Tell whether to generate and or deploy code. Valid values are `gen`, `dep` and `gen+dep`.',
             'gen+dep'
         );
     }
 
-    protected function execute(Input\InputInterface $input, Output\OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->validateInput($input);
 
@@ -76,7 +79,7 @@ class GenerateCodeCommand extends Command\Command
         }
     }
 
-    protected function validateInput(Input\InputInterface $input)
+    protected function validateInput(InputInterface $input)
     {
         $valid_actions = array_merge(
             self::$generate_action_aliases,
@@ -96,7 +99,7 @@ class GenerateCodeCommand extends Command\Command
         }
     }
 
-    protected function getModuleSchemaPath(Input\InputInterface $input)
+    protected function getModuleSchemaPath(InputInterface $input)
     {
         $schema_path = $input->getOption('schema');
 
@@ -107,12 +110,12 @@ class GenerateCodeCommand extends Command\Command
         return $schema_path;
     }
 
-    protected function fetchService(Input\InputInterface $input, Output\OutputInterface $output)
+    protected function fetchService(InputInterface $input, OutputInterface $output)
     {
         if (!$this->service) {
-            $this->service = CodeGen\Service::create(
+            $this->service = CodeGenService::create(
                 array(
-                    'schema_parser' => Parser\ModuleSchemaXmlParser::create(),
+                    'schema_parser' => ModuleSchemaXmlParser::create(),
                     'output' => $output
                 )
             );
@@ -121,7 +124,7 @@ class GenerateCodeCommand extends Command\Command
         return $this->service;
     }
 
-    protected function createConfig(Input\InputInterface $input)
+    protected function createConfig(InputInterface $input)
     {
         $config_path = $input->getOption('config');
 
@@ -129,15 +132,15 @@ class GenerateCodeCommand extends Command\Command
             $config_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.ini';
         }
 
-        $config_reader = Config\IniFileConfigReader::create();
+        $config_reader = IniFileConfigReader::create();
         $settings = $config_reader->read($config_path);
 
-        $this->service_config = Config\Config::create($settings);
+        $this->service_config = Config::create($settings);
 
         return $this->service_config;
     }
 
-    protected function getLookupDir(Input\InputInterface $input)
+    protected function getLookupDir(InputInterface $input)
     {
         $lookup_dir = $input->getOption('directory');
 
@@ -148,7 +151,7 @@ class GenerateCodeCommand extends Command\Command
         return $lookup_dir;
     }
 
-    protected function displayUsage(Output\OutputInterface $output)
+    protected function displayUsage(OutputInterface $output)
     {
         $output->writeln($this->asText());
     }

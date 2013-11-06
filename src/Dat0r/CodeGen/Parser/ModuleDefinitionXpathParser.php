@@ -2,11 +2,14 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\ModuleDefinition;
+
+use DOMXPath;
+use DOMElement;
 
 class ModuleDefinitionXpathParser extends BaseXpathParser
 {
-    public function parseXpath(\DOMXPath $xpath, array $options = array())
+    public function parseXpath(DOMXPath $xpath, array $options = array())
     {
         $node_list = $xpath->query('./module_definition', $options['context']);
 
@@ -16,12 +19,12 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
             );
         }
 
-        return Schema\ModuleDefinition::create(
+        return ModuleDefinition::create(
             $this->parseModuleDefinition($xpath, $node_list->item(0))
         );
     }
 
-    protected function parseModuleDefinition(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseModuleDefinition(DOMXPath $xpath, DOMElement $element)
     {
         $implementor = null;
         $implementor_list = $xpath->query('./implementor', $element);
@@ -50,7 +53,7 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
         );
     }
 
-    protected function parseFields(\DOMXPath $xpath, \DOMElement $element)
+    protected function parseFields(DOMXPath $xpath, DOMElement $element)
     {
         $parser = FieldDefinitionXpathParser::create();
         $fields_element = $xpath->query('./fields', $element)->item(0);

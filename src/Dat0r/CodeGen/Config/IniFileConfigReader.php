@@ -2,8 +2,6 @@
 
 namespace Dat0r\CodeGen\Config;
 
-use Dat0r;
-
 class IniFileConfigReader extends ConfigReader
 {
     public function read($file_path)

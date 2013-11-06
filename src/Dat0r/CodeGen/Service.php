@@ -2,15 +2,20 @@
 
 namespace Dat0r\CodeGen;
 
-use Dat0r;
-use Dat0r\CodeGen\Config;
-use Dat0r\CodeGen\Parser;
-use Dat0r\CodeGen\Schema;
-use Dat0r\CodeGen\Builder;
-use Symfony\Component\Filesystem;
+use Dat0r\Type\Object;
+use Dat0r\CodeGen\Config\IConfig;
+use Dat0r\CodeGen\Schema\ModuleSchema;
+use Dat0r\CodeGen\Schema\ModuleDefinition;
+use Dat0r\CodeGen\Builder\ClassContainerList;
+use Dat0r\CodeGen\Builder\ModuleBaseClass;
+use Dat0r\CodeGen\Builder\ModuleClass;
+use Dat0r\CodeGen\Builder\DocumentBaseClass;
+use Dat0r\CodeGen\Builder\DocumentClass;
+
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output;
 
-class Service extends Dat0r\Object
+class Service extends Object
 {
     const DIR_MODE = 0750;
 
@@ -26,10 +31,10 @@ class Service extends Dat0r\Object
 
     public function __construct()
     {
-        $this->filesystem = new Filesystem\Filesystem();
+        $this->filesystem = new Filesystem();
     }
 
-    public function setConfig(Config\IConfig $config)
+    public function setConfig(IConfig $config)
     {
         $this->config = $config;
     }
@@ -48,7 +53,7 @@ class Service extends Dat0r\Object
             return $builder->build();
         };
 
-        $class_list = Builder\ClassContainerList::create(
+        $class_list = ClassContainerList::create(
             array_map($execute_build, $class_builders)
         );
 
@@ -93,14 +98,14 @@ class Service extends Dat0r\Object
         }
     }
 
-    protected function createClassBuilders(Schema\ModuleSchema $module_schema)
+    protected function createClassBuilders(ModuleSchema $module_schema)
     {
-        $create_builders = function (Schema\ModuleDefinition $module) use ($module_schema) {
+        $create_builders = function (ModuleDefinition $module) use ($module_schema) {
             return array(
-                Builder\ModuleBaseClass::create($module_schema, $module),
-                Builder\ModuleClass::create($module_schema, $module),
-                Builder\DocumentBaseClass::create($module_schema, $module),
-                Builder\DocumentClass::create($module_schema, $module)
+                ModuleBaseClass::create($module_schema, $module),
+                ModuleClass::create($module_schema, $module),
+                DocumentBaseClass::create($module_schema, $module),
+                DocumentClass::create($module_schema, $module)
             );
         };
 
@@ -114,7 +119,7 @@ class Service extends Dat0r\Object
         return $class_builders;
     }
 
-    protected function writeCache(Builder\ClassContainerList $class_list)
+    protected function writeCache(ClassContainerList $class_list)
     {
         $cache_dir = $this->config->getCachedir();
         if (!is_dir($cache_dir)) {
@@ -148,7 +153,7 @@ class Service extends Dat0r\Object
         }
     }
 
-    protected function executePlugins(Schema\ModuleSchema $module_schema)
+    protected function executePlugins(ModuleSchema $module_schema)
     {
         foreach ($this->config->getPluginSettings() as $plugin_settings) {
             $plugin_class = $plugin_settings['implementor'];

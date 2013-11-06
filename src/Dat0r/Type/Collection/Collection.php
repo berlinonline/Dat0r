@@ -2,7 +2,7 @@
 
 namespace Dat0r\Type\Collection;
 
-use Dat0r\Object;
+use Dat0r\Type\Object;
 
 abstract class Collection extends Object implements ICollection
 {

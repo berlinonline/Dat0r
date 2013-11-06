@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Config;
 
-use Dat0r;
+use Dat0r\Type\Object;
 
-abstract class ConfigReader extends Dat0r\Object implements IConfigReader
+abstract class ConfigReader extends Object implements IConfigReader
 {
     protected function resolveRelativePath($path, $base)
     {

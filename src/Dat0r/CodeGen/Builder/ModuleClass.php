@@ -2,8 +2,6 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r\CodeGen\Schema;
-
 class ModuleClass extends ClassBuilder
 {
     protected function getImplementor()
