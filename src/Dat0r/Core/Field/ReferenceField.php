@@ -2,7 +2,7 @@
 
 namespace Dat0r\Core\Field;
 
-use Dat0r\Core\Document\DocumentCollection;
+use Dat0r\Core\Document\DocumentList;
 
 /**
  * Concrete implementation of the Field base class.
@@ -25,7 +25,7 @@ class ReferenceField extends Field
 
     public function getDefaultValue()
     {
-        return DocumentCollection::create();
+        return DocumentList::create();
     }
 
     public function getReferencedModules()

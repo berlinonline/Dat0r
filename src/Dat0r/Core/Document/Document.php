@@ -186,7 +186,7 @@ abstract class Document implements IDocument, IValueChangedListener
                     $values[$field->getName()] = $reference_identifiers;
                 }
             } elseif ($field instanceof AggregateField) {
-                if ($value instanceof DocumentCollection) {
+                if ($value instanceof DocumentList) {
                     $values[$field->getName()] = $value->toArray();
                 }
             } else {

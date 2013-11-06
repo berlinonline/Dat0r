@@ -5,7 +5,7 @@ namespace Dat0r\Core\ValueHolder;
 use Dat0r\Core\Error;
 use Dat0r\Core\Field\IField;
 use Dat0r\Core\Field\AggregateField;
-use Dat0r\Core\Document\DocumentCollection;
+use Dat0r\Core\Document\DocumentList;
 use Dat0r\Core\Document\IDocumentChangedListener;
 use Dat0r\Core\Document\IAggregateChangedListener;
 use Dat0r\Core\Document\DocumentChangedEvent;
@@ -88,7 +88,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     {
         $collection = null;
 
-        if ($value instanceof DocumentCollection) {
+        if ($value instanceof DocumentList) {
             $collection = $value;
         } elseif (null === $value) {
             $collection = array();
@@ -122,10 +122,10 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
                 $documents[] = $aggregate_document;
             }
 
-            $collection = new DocumentCollection($documents);
+            $collection = new DocumentList($documents);
         } else {
             throw new InvalidValueException(
-                'Only DocumentCollections or arrays of document data or null are acceptable values for AggregateFields.'
+                'Only DocumentLists or arrays of document data or null are acceptable values for AggregateFields.'
             );
         }
 

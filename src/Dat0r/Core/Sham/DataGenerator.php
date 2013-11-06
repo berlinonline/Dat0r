@@ -9,7 +9,7 @@ use Dat0r\Core\Module\IModule;
 use Dat0r\Core\Field\IField;
 use Dat0r\Core\Field;
 use Dat0r\Core\Sham\Guesser\TextField as TextFieldGuesser;
-use Dat0r\Core\Document\DocumentCollection;
+use Dat0r\Core\Document\DocumentList;
 
 /**
  * Sham\DataGenerator is a class that is able to create or fill documents
@@ -487,7 +487,7 @@ class DataGenerator
     protected function addAggregate(IDocument $document, IField $field, array $options = array())
     {
         $options_clone = $options;
-        $document_collection = DocumentCollection::create();
+        $document_collection = DocumentList::create();
         $aggregate_modules = $field->getAggregateModules();
 
         $number_of_aggregate_modules = count($aggregate_modules);

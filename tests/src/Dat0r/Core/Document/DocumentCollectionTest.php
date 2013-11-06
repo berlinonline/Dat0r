@@ -7,21 +7,21 @@ use Dat0r\Tests\Core\Document\Fixtures\DocumentTestProxy;
 use Dat0r\Tests\Core\Module\Fixtures\RootModule;
 
 use Dat0r\ArrayList;
-use Dat0r\Core\Document\DocumentCollection;
+use Dat0r\Core\Document\DocumentList;
 
-class DocumentCollectionTest extends BaseTest
+class DocumentListTest extends BaseTest
 {
     public function testCreateCollection()
     {
-        $collection = new DocumentCollection();
+        $collection = new DocumentList();
 
-        $this->assertInstanceOf('Dat0r\Core\Document\DocumentCollection', $collection);
+        $this->assertInstanceOf('Dat0r\Core\Document\DocumentList', $collection);
     }
 
     public function testAddDocumentToEmptyCollection()
     {
         $module = RootModule::getInstance();
-        $collection = new DocumentCollection();
+        $collection = new DocumentList();
 
         $test_document = $module->createDocument();
         $collection->addItem($test_document);
@@ -33,7 +33,7 @@ class DocumentCollectionTest extends BaseTest
     public function testAddDocumentToNonEmptyCollection()
     {
         $module = RootModule::getInstance();
-        $collection = new DocumentCollection(
+        $collection = new DocumentList(
             array($module->createDocument())
         );
 

@@ -3,7 +3,7 @@
 namespace Dat0r\Core\Validator;
 
 use Dat0r\Core\Document\IDocument;
-use Dat0r\Core\Document\DocumentCollection;
+use Dat0r\Core\Document\DocumentList;
 use Dat0r\Core\Field\ReferenceField;
 
 /**
@@ -24,7 +24,7 @@ class ReferenceValidator extends Validator
      */
     public function validate($value)
     {
-        if (!($value instanceof DocumentCollection)) {
+        if (!($value instanceof DocumentList)) {
             return false;
         }
 

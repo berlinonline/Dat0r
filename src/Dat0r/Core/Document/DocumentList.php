@@ -4,7 +4,7 @@ namespace Dat0r\Core\Document;
 
 use Dat0r\TypedList;
 
-class DocumentCollection extends TypedList
+class DocumentList extends TypedList
 {
     public function toArray()
     {
