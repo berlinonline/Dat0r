@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r;
+use Dat0r\TypedList;
 
-class OptionDefinitionList extends Dat0r\ArrayList
+class OptionDefinitionList extends TypedList
 {
     public function filterByName($name)
     {
@@ -44,6 +44,6 @@ class OptionDefinitionList extends Dat0r\ArrayList
 
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\CodeGen\\Schema\\OptionDefinitionList';
+        return '\\Dat0r\\CodeGen\\Schema\\OptionDefinition';
     }
 }

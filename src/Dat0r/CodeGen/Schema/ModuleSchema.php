@@ -52,7 +52,7 @@ class ModuleSchema extends Dat0r\Object
 
     public function getUsedAggregateDefinitions(ModuleDefinition $module_definition)
     {
-        $aggregates_set = ModuleDefinitionSet::create();
+        $aggregates_set = ModuleDefinitionList::create();
         $aggregate_fields = $module_definition->getFields()->filterByType('aggregate');
 
         foreach ($aggregate_fields as $aggregate_field) {
@@ -77,6 +77,6 @@ class ModuleSchema extends Dat0r\Object
     protected function __construct()
     {
         $this->module_definition = ModuleDefinition::create();
-        $this->aggregate_definitions = ModuleDefinitionSet::create();
+        $this->aggregate_definitions = ModuleDefinitionList::create();
     }
 }

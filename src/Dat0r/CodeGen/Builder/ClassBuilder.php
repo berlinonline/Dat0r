@@ -112,7 +112,7 @@ abstract class ClassBuilder implements IClassBuilder
         );
     }
 
-    protected function buildFieldDefinitionData(Schema\FieldDefinitionSet $fields)
+    protected function buildFieldDefinitionData(Schema\FieldDefinitionList $fields)
     {
         $fields_data = array();
         $namespaces = array();

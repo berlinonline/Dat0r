@@ -20,7 +20,7 @@ class ModuleDefinition extends Dat0r\Object
 
     public function __construct()
     {
-        $this->fields = FieldDefinitionSet::create();
+        $this->fields = FieldDefinitionList::create();
         $this->options = OptionDefinitionList::create();
     }
 

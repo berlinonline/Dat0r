@@ -4,17 +4,8 @@ namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\TypedList;
 
-class FieldDefinitionSet extends TypedList
+class ModuleDefinitionList extends TypedList
 {
-    public function filterByType($type)
-    {
-        return $this->filter(
-            function ($field) use ($type) {
-                return $field->getShortName() === $type;
-            }
-        );
-    }
-
     public function offsetSet($offset, $value)
     {
         foreach ($this->items as $index => $item) {
@@ -29,6 +20,6 @@ class FieldDefinitionSet extends TypedList
 
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\CodeGen\\Schema\\FieldDefinition';
+        return '\\Dat0r\\CodeGen\\Schema\\ModuleDefinition';
     }
 }

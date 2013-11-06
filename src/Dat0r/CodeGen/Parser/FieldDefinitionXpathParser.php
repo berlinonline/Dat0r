@@ -10,7 +10,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
 
     public function parseXpath(\DOMXPath $xpath, array $options = array())
     {
-        $field_set = Schema\FieldDefinitionSet::create();
+        $field_set = Schema\FieldDefinitionList::create();
 
         foreach ($xpath->query('./field', $options['context']) as $element) {
             $field_set->addItem($this->parseField($xpath, $element));
