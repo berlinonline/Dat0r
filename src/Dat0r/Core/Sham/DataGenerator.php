@@ -487,7 +487,7 @@ class DataGenerator
     protected function addAggregate(IDocument $document, IField $field, array $options = array())
     {
         $options_clone = $options;
-        $document_collection = new DocumentCollection();
+        $document_collection = DocumentCollection::create();
         $aggregate_modules = $field->getAggregateModules();
 
         $number_of_aggregate_modules = count($aggregate_modules);
@@ -502,7 +502,7 @@ class DataGenerator
         for ($i = 0; $i < $number_of_new_aggregate_entries; $i++) {
             $aggregate_module = $this->faker->randomElement($aggregate_modules);
             $new_document = $this->createFakeDocument($aggregate_module, $options_clone);
-            $document_collection->add($new_document);
+            $document_collection->addItem($new_document);
         }
 
         $this->setValue($document, $field, $document_collection, $options);
@@ -548,7 +548,7 @@ class DataGenerator
         for ($i = 0; $i < $numberOfNewReferenceEntries; $i++) {
             $ref_module = $this->faker->randomElement($referencedModules);
             $new_document = $this->createFakeDocument($ref_module, $options_clone);
-            $collection->add($new_document);
+            $collection->addItem($new_document);
         }
 
         $this->setValue($document, $field, $collection, $options);

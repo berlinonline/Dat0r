@@ -2,17 +2,12 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r;
+use Dat0r\TypedList;
 
-class ClassContainerList extends Dat0r\ArrayList
+class ClassContainerList extends TypedList
 {
-    public static function create(array $items = array())
+    protected function getItemImplementor()
     {
-        return parent::create(
-            array(
-                self::KEY_ITEM_IMPLEMENTOR => sprintf('\\%s\\ClassContainer', __NAMESPACE__),
-                self::KEY_ITEMS => $items
-            )
-        );
+        return '\\Dat0r\\CodeGen\\Builder\\ClassContainer';
     }
 }

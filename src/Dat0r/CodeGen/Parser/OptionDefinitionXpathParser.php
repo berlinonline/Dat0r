@@ -19,7 +19,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
         }
 
         foreach ($option_nodes as $option_element) {
-            $options_list->add(
+            $options_list->addItem(
                 $this->parseOption($xpath, $option_element)
             );
         }
@@ -41,7 +41,7 @@ class OptionDefinitionXpathParser extends BaseXpathParser
         if ($nested_options->length > 0) {
             $value = Schema\OptionDefinitionList::create();
             foreach ($nested_options as $option_element) {
-                $value->add(
+                $value->addItem(
                     $this->parseOption($xpath, $option_element)
                 );
             }

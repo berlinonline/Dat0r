@@ -6,25 +6,15 @@ use Dat0r;
 
 class OptionDefinitionList extends Dat0r\ArrayList
 {
-    public static function create(array $items = array())
-    {
-        $item_implementor = sprintf('\\%s\\OptionDefinition', __NAMESPACE__);
-
-        return parent::create(
-            array(
-                self::KEY_ITEM_IMPLEMENTOR => $item_implementor,
-                self::KEY_ITEMS => $items
-            )
-        );
-    }
-
     public function filterByName($name)
     {
-        return $this->filterOne(
+        $options = $this->filter(
             function ($option) use ($name) {
                 return $option->getName() === $name;
             }
         );
+
+        return count($options) > 0 ? $options[0] : null;
     }
 
     public function toArray()
@@ -50,5 +40,10 @@ class OptionDefinitionList extends Dat0r\ArrayList
         }
 
         return $data;
+    }
+
+    protected function getItemImplementor()
+    {
+        return '\\Dat0r\\CodeGen\\Schema\\OptionDefinitionList';
     }
 }

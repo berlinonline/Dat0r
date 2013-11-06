@@ -36,7 +36,7 @@ update-composer: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- self-update
 
 test:
-	@$(PROJECT_BASEDIR)/vendor/bin/phpunit
+	@./vendor/bin/phpunit
 
 doc:
 	@if [ -d ./build/docs ]; then rm -rf ./build/docs; fi

@@ -2,25 +2,23 @@
 
 namespace Dat0r;
 
-interface ICollection extends IObject, \Iterator, \Countable, \ArrayAccess
+interface ICollection extends \Iterator, \Countable, \ArrayAccess
 {
-    public function add($item);
+    public function getItem($key);
 
-    public function addMore(array $items);
+    public function getItems(array $keys);
 
-    public function remove($item);
-
-    public function removeMore(array $items);
-
-    public function getFirst();
-
-    public function getLast();
-
-    public function getSize();
+    public function hasItem($item);
 
     public function hasKey($key);
 
-    public function getKey($item);
+    public function getKey($item, $return_all = false);
 
-    public function has($item);
+    public function getSize();
+
+    public function filter(Callable $callback);
+
+    public function removeItem($item);
+
+    public function removeItems(array $items);
 }

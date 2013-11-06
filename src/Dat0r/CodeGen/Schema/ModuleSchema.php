@@ -59,9 +59,9 @@ class ModuleSchema extends Dat0r\Object
             $modules_options = $aggregate_field->getOptions()->filterByName('modules');
             $aggregates = $this->getAggregateDefinitions($modules_options->getValue()->toArray());
             foreach ($aggregates as $aggregate) {
-                $aggregates_set->add($aggregate);
+                $aggregates_set->addItem($aggregate);
                 foreach ($this->getUsedAggregateDefinitions($aggregate) as $nested_aggregate) {
-                    $aggregates_set->add($nested_aggregate);
+                    $aggregates_set->addItem($nested_aggregate);
                 }
             }
         }

@@ -2,17 +2,24 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r;
+use Dat0r\TypedList;
 
-class ModuleDefinitionSet extends Dat0r\Set
+class ModuleDefinitionSet extends TypedList
 {
-    public static function create(array $items = array())
+    public function offsetSet($offset, $value)
     {
-        return parent::create(
-            array(
-                self::KEY_ITEM_IMPLEMENTOR => sprintf('\\%s\\ModuleDefinition', __NAMESPACE__),
-                self::KEY_ITEMS => $items
-            )
-        );
+        foreach ($this->items as $index => $item) {
+            if ($item === $value) {
+                $offset = $index;
+                break;
+            }
+        }
+
+        parent::offsetSet($offset, $value);
+    }
+
+    protected function getItemImplementor()
+    {
+        return '\\Dat0r\\CodeGen\\Schema\\ModuleDefinition';
     }
 }

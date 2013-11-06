@@ -10,14 +10,14 @@ class OptionDefinitionListTest extends Tests\TestCase
     public function testToArray()
     {
         $nested_options_list = Schema\OptionDefinitionList::create();
-        $nested_options_list->add(
+        $nested_options_list->addItem(
             Schema\OptionDefinition::create(
                 array('value' => 'Nested Foobar One')
             )
         );
 
         $list = Schema\OptionDefinitionList::create();
-        $list->add(
+        $list->addItem(
             Schema\OptionDefinition::create(
                 array(
                     'name' => 'Parent Foobar',

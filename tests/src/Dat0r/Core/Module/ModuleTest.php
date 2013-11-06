@@ -3,6 +3,9 @@
 namespace Dat0r\Tests\Core\Module;
 
 use Dat0r\Tests\Core\BaseTest;
+use Dat0r\Tests\Core\Module\Fixtures\RootModule;
+use Dat0r\Tests\Core\Module\Fixtures\AggregateModule;
+use Dat0r\Tests\Core\Module\Fixtures\InvalidRootModule;
 use Dat0r\Core\Module\IModule;
 use Dat0r\Core\Field;
 
@@ -88,7 +91,7 @@ class ModuleTest extends BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testCreateDocumentMethod(IModule $module)
+    public function testCreateDocument(IModule $module)
     {
         $document = $module->createDocument();
         $this->assertInstanceOf('Dat0r\\Core\\Document\\Document', $document);

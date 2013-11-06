@@ -25,7 +25,7 @@ class ReferenceField extends Field
 
     public function getDefaultValue()
     {
-        return new DocumentCollection();
+        return DocumentCollection::create();
     }
 
     public function getReferencedModules()

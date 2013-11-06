@@ -2,19 +2,19 @@
 
 namespace Dat0r\Tests\Core\Field;
 
-use Dat0r\Tests\Core;
-use Dat0r\Core\Field;
+use Dat0r\Tests\Core\BaseTest;
+use Dat0r\Core\Field\AggregateField;
 
-class AggregateFieldTest extends Core\BaseTest
+class AggregateFieldTest extends BaseTest
 {
     const FIELDNAME = 'test_aggregate_field';
 
     public function testCreate()
     {
-        $aggregateField = Field\AggregateField::create(
+        $aggregateField = AggregateField::create(
             self::FIELDNAME,
             array(
-                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
             )
         );
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
@@ -27,11 +27,11 @@ class AggregateFieldTest extends Core\BaseTest
     {
         $options = array_merge(
             array(
-                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
             ),
             $options
         );
-        $aggregateField = Field\AggregateField::create(self::FIELDNAME, $options);
+        $aggregateField = AggregateField::create(self::FIELDNAME, $options);
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
 
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
@@ -47,17 +47,17 @@ class AggregateFieldTest extends Core\BaseTest
      */
     public function testCreateValueHolder(array $aggregateData)
     {
-        $aggregateField = Field\AggregateField::create(
+        $aggregateField = AggregateField::create(
             self::FIELDNAME,
             array(
-                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\Fixtures\\AggregateModule')
             )
         );
         $valueHolder = $aggregateField->createValueHolder($aggregateData);
         $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $valueHolder);
 
-        $document = $valueHolder->getValue()->first();
-        $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\DocumentTestProxy', $document);
+        $document = $valueHolder->getValue()->getFirst();
+        $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\Fixtures\\DocumentTestProxy', $document);
 
         foreach ($aggregateData[0] as $fieldname => $value) {
             if ($fieldname === 'type') {
@@ -73,10 +73,10 @@ class AggregateFieldTest extends Core\BaseTest
      */
     public function testValidate(array $aggregateData)
     {
-        $aggregateField = Field\AggregateField::create(
+        $aggregateField = AggregateField::create(
             self::FIELDNAME,
             array(
-                Field\AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\AggregateModule')
+                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Core\\Module\\Fixtures\\AggregateModule')
             )
         );
 
@@ -121,7 +121,7 @@ class AggregateFieldTest extends Core\BaseTest
                 array(
                     'title' => 'This is a paragraph test title.',
                     'content' => 'And this is some paragraph test content.',
-                    'type' => '\\Dat0r\\Tests\\Core\\Document\\DocumentTestProxy'
+                    'type' => '\\Dat0r\\Tests\\Core\\Document\\Fixtures\\DocumentTestProxy'
                 )
             )
         );

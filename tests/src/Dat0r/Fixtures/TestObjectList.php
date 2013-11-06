@@ -2,19 +2,12 @@
 
 namespace Dat0r\Tests\Fixtures;
 
-use Dat0r;
+use Dat0r\TypedList;
 
-class TestObjectList extends Dat0r\ArrayList
+class TestObjectList extends TypedList
 {
-    const ITEM_IMPLEMENTOR = '\\Dat0r\\Tests\\Fixtures\\TestObject';
-
-    public static function create(array $items = array())
+    protected function getItemImplementor()
     {
-        return parent::create(
-            array(
-                self::KEY_ITEM_IMPLEMENTOR => self::ITEM_IMPLEMENTOR,
-                self::KEY_ITEMS => $items
-            )
-        );
+        return '\\Dat0r\\Tests\\Fixtures\\TestObject';
     }
 }
