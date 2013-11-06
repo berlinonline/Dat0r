@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Core\Field;
 
 use Dat0r\Tests\Core\BaseTest;
-use Dat0r\Core\Field\AggregateField;
+use Dat0r\Runtime\Field\AggregateField;
 
 class AggregateFieldTest extends BaseTest
 {
@@ -54,7 +54,7 @@ class AggregateFieldTest extends BaseTest
             )
         );
         $valueHolder = $aggregateField->createValueHolder($aggregateData);
-        $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\AggregateValueHolder', $valueHolder);
 
         $document = $valueHolder->getValue()->getFirst();
         $this->assertInstanceOf('Dat0r\\Tests\\Core\\Document\\Fixtures\\DocumentTestProxy', $document);

@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Core\Field;
 
 use Dat0r\Tests\Core;
-use Dat0r\Core\Field;
+use Dat0r\Runtime\Field;
 
 class IntegerFieldTest extends Core\BaseTest
 {
@@ -13,7 +13,7 @@ class IntegerFieldTest extends Core\BaseTest
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\IntegerField', $integerField);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $integerField);
     }
 
     /**
@@ -38,7 +38,7 @@ class IntegerFieldTest extends Core\BaseTest
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
         $valueHolder = $integerField->createValueHolder($intValue);
-        $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\IntegerValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\IntegerValueHolder', $valueHolder);
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
 

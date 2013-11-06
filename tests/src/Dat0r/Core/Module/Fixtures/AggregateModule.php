@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Core\Module\Fixtures;
 
-use Dat0r\Core\Field;
-use Dat0r\Core\Module;
+use Dat0r\Runtime\Field;
+use Dat0r\Runtime\Module;
 
 class AggregateModule extends Module\AggregateModule
 {

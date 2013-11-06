@@ -7,7 +7,7 @@ use Dat0r\Tests\Core\Document\Fixtures\DocumentTestProxy;
 use Dat0r\Tests\Core\Module\Fixtures\RootModule;
 
 use Dat0r\Type\Collection\ArrayList;
-use Dat0r\Core\Document\DocumentList;
+use Dat0r\Runtime\Document\DocumentList;
 
 class DocumentListTest extends BaseTest
 {
@@ -15,7 +15,7 @@ class DocumentListTest extends BaseTest
     {
         $collection = new DocumentList();
 
-        $this->assertInstanceOf('Dat0r\Core\Document\DocumentList', $collection);
+        $this->assertInstanceOf('Dat0r\Runtime\Document\DocumentList', $collection);
     }
 
     public function testAddDocumentToEmptyCollection()

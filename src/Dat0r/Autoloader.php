@@ -40,7 +40,7 @@ class Autoloader
         if (! self::$core_packages) {
             $here = __DIR__;
             self::$core_packages = array(
-                'Dat0r\\Core' => $here . DIRECTORY_SEPARATOR . 'Core',
+                'Dat0r\\Runtime' => $here . DIRECTORY_SEPARATOR . 'Core',
                 'Dat0r\\Tests' => dirname(dirname($here)) . '/tests/src/Dat0r'
             );
 

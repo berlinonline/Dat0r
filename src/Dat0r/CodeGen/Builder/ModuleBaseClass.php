@@ -7,7 +7,7 @@ use Dat0r\CodeGen\Schema\FieldDefinition;
 
 class ModuleBaseClass extends ModuleClass
 {
-    const NS_MODULE = '\\Dat0r\\Core\\Module';
+    const NS_MODULE = '\\Dat0r\\Runtime\\Module';
 
     protected function getTemplate()
     {

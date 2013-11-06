@@ -3,8 +3,8 @@
 namespace Dat0r\Tests\Core\Field;
 
 use Dat0r\Tests\Core;
-use Dat0r\Core\Field;
-use Dat0r\Core\ValueHolder\UuidValueHolder;
+use Dat0r\Runtime\Field;
+use Dat0r\Runtime\ValueHolder\UuidValueHolder;
 
 class UuidFieldTest extends Core\BaseTest
 {
@@ -55,7 +55,7 @@ class UuidFieldTest extends Core\BaseTest
     {
         $uuidField = Field\UuidField::create(self::FIELDNAME);
         $valueHolder = $uuidField->createValueHolder($uuid);
-        $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\UuidValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\UuidValueHolder', $valueHolder);
         $this->assertEquals($uuid, $valueHolder->getValue());
     }
 

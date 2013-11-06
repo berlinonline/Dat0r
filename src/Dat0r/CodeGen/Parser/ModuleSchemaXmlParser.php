@@ -7,7 +7,7 @@ use Dat0r\CodeGen\Schema\ModuleSchema;
 
 class ModuleSchemaXmlParser extends Object implements IModuleSchemaParser
 {
-    const BASE_DOCUMENT = '\Dat0r\Core\Document\Document';
+    const BASE_DOCUMENT = '\Dat0r\Runtime\Document\Document';
 
     protected $xsd_schema_file;
 

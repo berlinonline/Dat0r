@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Core\Sham;
 
-use Dat0r\Core\Sham\DataGenerator;
-use Dat0r\Core\Document\IDocument;
+use Dat0r\Runtime\Sham\DataGenerator;
+use Dat0r\Runtime\Document\IDocument;
 
 use Dat0r\Tests\Core\BaseTest;
 use Dat0r\Tests\Core\Module\Fixtures\RootModule;
@@ -21,7 +21,7 @@ class DataGeneratorTest extends BaseTest
 
     public function testDefaultDocument()
     {
-        $this->assertInstanceOf('Dat0r\\Core\\Document\\Document', $this->document);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\IDocument', $this->document);
         $this->assertEquals('Article', $this->module->getName());
         $this->assertEquals(
             11,
@@ -351,13 +351,13 @@ class DataGeneratorTest extends BaseTest
             count($excluded_fields) . ' fields should have been ignored.'
         );
 
-        $this->setExpectedException('\Dat0r\Core\Module\InvalidFieldException');
+        $this->setExpectedException('\Dat0r\Runtime\Module\InvalidFieldException');
         // @codeCoverageIgnoreStart
         $this->assertFalse($this->document->getValue('non_existant'));
     }// @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException \Dat0r\Core\Document\InvalidValueException
+     * @expectedException \Dat0r\Runtime\Document\InvalidValueException
      * @codeCoverageIgnore
      */
     public function testFillDocumentWithInvalidFieldValue()

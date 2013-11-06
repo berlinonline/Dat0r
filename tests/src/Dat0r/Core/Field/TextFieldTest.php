@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Core\Field;
 
 use Dat0r\Tests\Core;
-use Dat0r\Core\Field;
+use Dat0r\Runtime\Field;
 
 class TextFieldTest extends Core\BaseTest
 {
@@ -37,7 +37,7 @@ class TextFieldTest extends Core\BaseTest
     {
         $textField = Field\TextField::create(self::FIELDNAME);
         $valueHolder = $textField->createValueHolder($textValue);
-        $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\TextValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
         $this->assertEquals($textValue, $valueHolder->getValue());
     }
 

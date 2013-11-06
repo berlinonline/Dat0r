@@ -54,7 +54,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
         }
 
         $core_field_implementor = sprintf(
-            "\\Dat0r\\Core\\Field\\%sField",
+            "\\Dat0r\\Runtime\\Field\\%sField",
             preg_replace(
                 '/(?:^|-)(.?)/e',
                 "strtoupper('$1')",

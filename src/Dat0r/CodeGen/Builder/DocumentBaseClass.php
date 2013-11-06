@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Builder;
 
 class DocumentBaseClass extends DocumentClass
 {
-    const NS_DOCUMENT = '\\Dat0r\\Core\\Document';
+    const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
 
     protected function getTemplate()
     {

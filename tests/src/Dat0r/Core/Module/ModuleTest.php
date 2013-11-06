@@ -6,8 +6,8 @@ use Dat0r\Tests\Core\BaseTest;
 use Dat0r\Tests\Core\Module\Fixtures\RootModule;
 use Dat0r\Tests\Core\Module\Fixtures\AggregateModule;
 use Dat0r\Tests\Core\Module\Fixtures\InvalidRootModule;
-use Dat0r\Core\Module\IModule;
-use Dat0r\Core\Field;
+use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Field;
 
 class ModuleTest extends BaseTest
 {
@@ -47,8 +47,8 @@ class ModuleTest extends BaseTest
      */
     public function testGetFieldMethod(IModule $module)
     {
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $module->getField('headline'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\IntegerField', $module->getField('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $module->getField('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $module->getField('clickCount'));
     }
 
     /**
@@ -58,20 +58,20 @@ class ModuleTest extends BaseTest
     {
         $fields = $module->getFields();
 
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldCollection', $fields);
         $this->assertEquals(11, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $fields->get('content'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\IntegerField', $fields->get('clickCount'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $fields->get('author'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $fields->get('email'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextCollectionField', $fields->get('keywords'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\BooleanField', $fields->get('enabled'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\IntegerCollectionField', $fields->get('images'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\KeyValueField', $fields->get('meta'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\AggregateField', $fields->get('paragraph'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\ReferenceField', $fields->get('references'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('content'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('author'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('email'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextCollectionField', $fields->get('keywords'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\BooleanField', $fields->get('enabled'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerCollectionField', $fields->get('images'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\KeyValueField', $fields->get('meta'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\AggregateField', $fields->get('paragraph'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\ReferenceField', $fields->get('references'));
     }
 
     /**
@@ -81,11 +81,11 @@ class ModuleTest extends BaseTest
     {
         $fields = $module->getFields(array('headline', 'clickCount'));
 
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldCollection', $fields);
         $this->assertEquals(2, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\\Core\\Field\\IntegerField', $fields->get('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
     }
 
     /**
@@ -94,12 +94,12 @@ class ModuleTest extends BaseTest
     public function testCreateDocument(IModule $module)
     {
         $document = $module->createDocument();
-        $this->assertInstanceOf('Dat0r\\Core\\Document\\Document', $document);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\Document', $document);
     }
 
     /**
      * @dataProvider provideModuleInstances
-     * @expectedException Dat0r\Core\Module\InvalidFieldException
+     * @expectedException Dat0r\Runtime\Module\InvalidFieldException
      */
     public function testInvalidFieldException(IModule $module)
     {
@@ -107,7 +107,7 @@ class ModuleTest extends BaseTest
     } // @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException Dat0r\Core\Error\InvalidImplementorException
+     * @expectedException Dat0r\Runtime\Error\InvalidImplementorException
      */
     public function testInvalidDocumentImplementorException()
     {

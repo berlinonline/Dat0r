@@ -4,9 +4,9 @@ namespace Dat0r\Tests\Core\ValueHolder;
 
 use Dat0r\Tests\Core\BaseTest;
 
-use Dat0r\Core\ValueHolder\AggregateValueHolder;
-use Dat0r\Core\Field\AggregateField;
-use Dat0r\Core\Document\DocumentList;
+use Dat0r\Runtime\ValueHolder\AggregateValueHolder;
+use Dat0r\Runtime\Field\AggregateField;
+use Dat0r\Runtime\Document\DocumentList;
 
 class AggregateValueHolderTest extends BaseTest
 {
@@ -21,7 +21,7 @@ class AggregateValueHolderTest extends BaseTest
             )
         );
 
-        $this->assertInstanceOf('Dat0r\\Core\\ValueHolder\\AggregateValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\AggregateValueHolder', $value_holder);
     }
 
     public function testDefaultValue()
@@ -35,7 +35,7 @@ class AggregateValueHolderTest extends BaseTest
         $value_holder = AggregateValueHolder::create($field, $field->getDefaultValue());
         $value = $value_holder->getValue();
 
-        $this->assertInstanceOf('Dat0r\\Core\\Document\\DocumentList', $value);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\DocumentList', $value);
         $this->assertEquals(0, $value->getSize());
     }
 }

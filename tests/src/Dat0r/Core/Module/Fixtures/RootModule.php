@@ -2,15 +2,15 @@
 
 namespace Dat0r\Tests\Core\Module\Fixtures;
 
-use Dat0r\Core\Module;
-use Dat0r\Core\Field\TextField;
-use Dat0r\Core\Field\TextCollectionField;
-use Dat0r\Core\Field\IntegerField;
-use Dat0r\Core\Field\IntegerCollectionField;
-use Dat0r\Core\Field\BooleanField;
-use Dat0r\Core\Field\AggregateField;
-use Dat0r\Core\Field\ReferenceField;
-use Dat0r\Core\Field\KeyValueField;
+use Dat0r\Runtime\Module;
+use Dat0r\Runtime\Field\TextField;
+use Dat0r\Runtime\Field\TextCollectionField;
+use Dat0r\Runtime\Field\IntegerField;
+use Dat0r\Runtime\Field\IntegerCollectionField;
+use Dat0r\Runtime\Field\BooleanField;
+use Dat0r\Runtime\Field\AggregateField;
+use Dat0r\Runtime\Field\ReferenceField;
+use Dat0r\Runtime\Field\KeyValueField;
 
 class RootModule extends Module\RootModule
 {

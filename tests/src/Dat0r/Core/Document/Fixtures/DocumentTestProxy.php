@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests\Core\Document\Fixtures;
 
-use Dat0r\Core\Document;
+use Dat0r\Runtime\Document;
 
 class DocumentTestProxy extends Document\Document
 {

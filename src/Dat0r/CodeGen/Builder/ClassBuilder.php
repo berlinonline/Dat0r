@@ -11,7 +11,7 @@ use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
 abstract class ClassBuilder implements IClassBuilder
 {
-    const NS_FIELDS = '\\Dat0r\\Core\\Field';
+    const NS_FIELDS = '\\Dat0r\\Runtime\\Field';
 
     protected $twig;
 
@@ -125,7 +125,7 @@ abstract class ClassBuilder implements IClassBuilder
 
             $field_implementor = $field_definition->getImplementor();
             $class_name = $field_implementor;
-            if (strpos($field_implementor, '\\Dat0r\\Core\\Field\\') === 0) {
+            if (strpos($field_implementor, '\\Dat0r\\Runtime\\Field\\') === 0) {
                 $implementor_parts = explode('\\', $field_implementor);
                 $class_name = array_pop($implementor_parts);
                 $use = implode('\\', array_filter(explode('\\', $field_implementor)));
