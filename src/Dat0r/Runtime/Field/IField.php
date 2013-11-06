@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\Field;
 
-use Dat0r\Runtime\IFreezable;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 
 /**
@@ -12,7 +11,7 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IField extends IFreezable
+interface IField
 {
     /**
      * Creates a new field instance.

@@ -38,7 +38,10 @@ abstract class Collection extends Object implements ICollection
      */
     public function offsetGet($offset)
     {
-        return $this->items[$offset];
+        if (isset($this->items[$offset])) {
+            return $this->items[$offset];
+        }
+        return null;
     }
 
     /**

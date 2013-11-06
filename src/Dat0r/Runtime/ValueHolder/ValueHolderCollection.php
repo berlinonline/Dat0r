@@ -61,14 +61,13 @@ class ValueHolderCollection implements IAggregateChangedListener
      */
     public function set(IField $field, $value, $override = true)
     {
-        if (!$this->getModule()->getFields()->has($field)) {
+        if (!$this->getModule()->getFields()->hasKey($field->getName())) {
             throw new InvalidFieldException(
                 "Trying to set value for a field which is not contained by this ValueHolder's module."
             );
         }
 
         $new_value_object = $this->createValueHolder($field, $value);
-        $new_value_object->freeze();
 
         $prev_value_object = $this->has($field) ? $this->get($field) : NullValue::create($field);
         $override_existing = !$prev_value_object->isEqualTo($new_value_object) && true === $override;

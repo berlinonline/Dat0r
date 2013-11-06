@@ -11,7 +11,7 @@ use Dat0r\Runtime\INullObject;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-class NullValue extends ValueHolder implements INullObject
+class NullValue extends ValueHolder
 {
     /**
      * Tells whether a spefic IValueHolder instance's value is considered greater than

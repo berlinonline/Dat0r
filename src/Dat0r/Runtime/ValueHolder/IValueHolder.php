@@ -8,7 +8,7 @@ use Dat0r\Runtime\Field\IField;
 /**
  * @todo Explain what valid holders are and what they are supposed to do.
  */
-interface IValueHolder extends IFreezable
+interface IValueHolder
 {
     /**
      * Creates a new IValueHolder instance for the given value.

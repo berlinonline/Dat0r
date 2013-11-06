@@ -1,9 +1,8 @@
 <?php
 namespace Dat0r\Runtime\Module;
 
-use Dat0r\Runtime\IFreezable;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\FieldCollection;
+use Dat0r\Runtime\Field\FieldMap;
 use Dat0r\Runtime\Document\IDocument;
 
 /**
@@ -13,7 +12,7 @@ use Dat0r\Runtime\Document\IDocument;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-interface IModule extends IFreezable
+interface IModule
 {
     /**
      * Gets a module's pooled instance.
@@ -34,7 +33,7 @@ interface IModule extends IFreezable
      *
      * @param array $fieldnames A list of fieldnames to filter for.
      *
-     * @return FieldCollection
+     * @return FieldMap
      */
     public function getFields(array $fieldnames = array(), $types = array());
 

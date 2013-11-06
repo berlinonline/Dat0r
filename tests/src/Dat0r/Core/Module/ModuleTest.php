@@ -30,21 +30,6 @@ class ModuleTest extends BaseTest
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testForConsistentFrozenState(IModule $module)
-    {
-        $fields = $module->getFields();
-
-        $this->assertTrue($module->isFrozen());
-        $this->assertTrue($fields->isFrozen());
-
-        foreach ($fields as $field) {
-            $this->assertTrue($field->isFrozen());
-        }
-    }
-
-    /**
-     * @dataProvider provideModuleInstances
-     */
     public function testGetFieldMethod(IModule $module)
     {
         $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $module->getField('headline'));
@@ -58,20 +43,20 @@ class ModuleTest extends BaseTest
     {
         $fields = $module->getFields();
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
         $this->assertEquals(11, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('content'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('author'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('email'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextCollectionField', $fields->get('keywords'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\BooleanField', $fields->get('enabled'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerCollectionField', $fields->get('images'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\KeyValueField', $fields->get('meta'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\AggregateField', $fields->get('paragraph'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\ReferenceField', $fields->get('references'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('content'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('author'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('email'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextCollectionField', $fields->getItem('keywords'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\BooleanField', $fields->getItem('enabled'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerCollectionField', $fields->getItem('images'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\KeyValueField', $fields->getItem('meta'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\AggregateField', $fields->getItem('paragraph'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\ReferenceField', $fields->getItem('references'));
     }
 
     /**
@@ -81,11 +66,11 @@ class ModuleTest extends BaseTest
     {
         $fields = $module->getFields(array('headline', 'clickCount'));
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldCollection', $fields);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
         $this->assertEquals(2, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->get('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->get('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->getItem('clickCount'));
     }
 
     /**
@@ -103,7 +88,7 @@ class ModuleTest extends BaseTest
      */
     public function testInvalidFieldException(IModule $module)
     {
-        $module->getField('foobar-field-does-not-exist'); // @codeCoverageIgnoreStart
+        var_dump(var_export($module->getField('foobar-field-does-not-exist'), true)); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
     /**

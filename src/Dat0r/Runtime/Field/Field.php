@@ -3,7 +3,6 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\Error;
-use Dat0r\Runtime\Freezable;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
 
@@ -14,7 +13,7 @@ use Dat0r\Runtime\ValueHolder\NullValue;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class Field extends Freezable implements IField
+abstract class Field implements IField
 {
     /**
      * Holds the option name of the option that provides the IValueHolder implementor to use
@@ -45,42 +44,6 @@ abstract class Field extends Freezable implements IField
      * @var array $options
      */
     protected $options = array();
-
-    /**
-     * Returns the IValueHolder implementation to use when aggregating (value)data for this field.
-     * Override this method if you want inject your own implementation.
-     *
-     * @return string Fully qualified name of an IValueHolder implementation.
-     */
-    protected function getValueHolderImplementor()
-    {
-        return preg_replace_callback(
-            '/(.*)\\Field(.*)Field$/is',
-            function ($matches) {
-                $impl_pattern = '%sValueHolder%sValueHolder';
-                return sprintf($impl_pattern, $matches[1], $matches[2]);
-            },
-            get_class($this)
-        );
-    }
-
-    /**
-     * Returns the IValidator implementation to use when validating values for this field.
-     * Override this method if you want inject your own implementation.
-     *
-     * @return string Fully qualified name of an IValidator implementation.
-     */
-    protected function getValidationImplementor()
-    {
-        return preg_replace_callback(
-            '/(.*)\\Field(.*)Field$/is',
-            function ($matches) {
-                $impl_pattern = '%sValidator%sValidator';
-                return sprintf($impl_pattern, $matches[1], $matches[2]);
-            },
-            get_class($this)
-        );
-    }
 
     /**
      * Creates a new field instance.
@@ -214,5 +177,41 @@ abstract class Field extends Freezable implements IField
     {
         $this->name = $name;
         $this->options = $options;
+    }
+
+    /**
+     * Returns the IValueHolder implementation to use when aggregating (value)data for this field.
+     * Override this method if you want inject your own implementation.
+     *
+     * @return string Fully qualified name of an IValueHolder implementation.
+     */
+    protected function getValueHolderImplementor()
+    {
+        return preg_replace_callback(
+            '/(.*)\\Field(.*)Field$/is',
+            function ($matches) {
+                $impl_pattern = '%sValueHolder%sValueHolder';
+                return sprintf($impl_pattern, $matches[1], $matches[2]);
+            },
+            get_class($this)
+        );
+    }
+
+    /**
+     * Returns the IValidator implementation to use when validating values for this field.
+     * Override this method if you want inject your own implementation.
+     *
+     * @return string Fully qualified name of an IValidator implementation.
+     */
+    protected function getValidationImplementor()
+    {
+        return preg_replace_callback(
+            '/(.*)\\Field(.*)Field$/is',
+            function ($matches) {
+                $impl_pattern = '%sValidator%sValidator';
+                return sprintf($impl_pattern, $matches[1], $matches[2]);
+            },
+            get_class($this)
+        );
     }
 }

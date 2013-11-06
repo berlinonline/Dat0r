@@ -2,11 +2,10 @@
 
 namespace Dat0r\Runtime\Module;
 
-use Dat0r\Runtime\Freezable;
 use Dat0r\Runtime\Error;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\FieldCollection;
+use Dat0r\Runtime\Field\FieldMap;
 
 /**
  * Base class that all Dat0r modules should extend.
@@ -14,7 +13,7 @@ use Dat0r\Runtime\Field\FieldCollection;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class Module extends Freezable implements IModule
+abstract class Module implements IModule
 {
     /**
      * Holds a list of IModule implementations that are pooled by type.
@@ -33,7 +32,7 @@ abstract class Module extends Freezable implements IModule
     /**
      * Holds the module's fields.
      *
-     * @var FieldCollection $fields
+     * @var FieldMap $fields
      */
     private $fields;
 
@@ -64,7 +63,6 @@ abstract class Module extends Freezable implements IModule
 
         if (!isset(self::$instances[$class])) {
             $module = new static();
-            $module->freeze();
             self::$instances[$class] = $module;
         }
 
@@ -91,7 +89,7 @@ abstract class Module extends Freezable implements IModule
      *
      * @param array $fieldnames A list of fieldnames to filter for.
      *
-     * @return FieldCollection
+     * @return FieldMap
      */
     public function getFields(array $fieldnames = array(), $types = array())
     {
@@ -114,10 +112,7 @@ abstract class Module extends Freezable implements IModule
             );
         }
 
-        $collection = FieldCollection::create($fields);
-        $collection->freeze();
-
-        return $collection;
+        return new FieldMap($fields);
     }
 
     /**
@@ -131,7 +126,7 @@ abstract class Module extends Freezable implements IModule
      */
     public function getField($name)
     {
-        if (($field = $this->fields->get($name))) {
+        if (($field = $this->fields->getItem($name))) {
             return $field;
         } else {
             throw new InvalidFieldException("Module has no field: " . $name);
@@ -198,16 +193,6 @@ abstract class Module extends Freezable implements IModule
     }
 
     /**
-     * Freezes the module and all it's fields.
-     */
-    public function freeze()
-    {
-        parent::freeze();
-
-        $this->fields->freeze();
-    }
-
-    /**
      * Constructs a new Module.
      *
      * @param string $name
@@ -218,10 +203,10 @@ abstract class Module extends Freezable implements IModule
         $this->name = $name;
         $this->options = $options;
 
-        $this->fields = FieldCollection::create($this->getDefaultFields());
+        $this->fields = FieldMap::create($this->getDefaultFields());
 
-        if (!empty($fields)) {
-            $this->fields->addMore($fields);
+        foreach ($fields as $field) {
+            $this->fields->setItem($field->getName(), $field);
         }
     }
 

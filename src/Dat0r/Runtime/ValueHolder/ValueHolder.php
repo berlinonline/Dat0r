@@ -3,7 +3,6 @@
 namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Runtime\Error;
-use Dat0r\Runtime\Freezable;
 use Dat0r\Runtime\Field\IField;
 
 /**
@@ -12,7 +11,7 @@ use Dat0r\Runtime\Field\IField;
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
-abstract class ValueHolder extends Freezable implements IValueHolder
+abstract class ValueHolder implements IValueHolder
 {
     /**
      * @var IField $field Holds field which's data we are handling.
@@ -54,11 +53,6 @@ abstract class ValueHolder extends Freezable implements IValueHolder
      */
     public function setValue($value)
     {
-        if ($this->isFrozen()) {
-            throw new Error\ObjectImmutableException(
-                "Trying to set value on a frozen IValueHolder instance."
-            );
-        }
         $this->value = $value;
     }
 
