@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Tests\Fixtures;
+namespace Dat0r\Tests\Common\Fixtures;
 
 use Dat0r\Common\Object;
 use Faker;

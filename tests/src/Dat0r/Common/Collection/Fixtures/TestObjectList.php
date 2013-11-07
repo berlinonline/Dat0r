@@ -8,6 +8,6 @@ class TestObjectList extends TypedList
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Tests\\Fixtures\\TestObject';
+        return '\\Dat0r\\Tests\\Common\\Fixtures\\TestObject';
     }
 }

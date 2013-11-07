@@ -8,6 +8,6 @@ class TestObjectMap extends TypedMap
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Tests\\Fixtures\\TestObject';
+        return '\\Dat0r\\Tests\\Common\\Fixtures\\TestObject';
     }
 }

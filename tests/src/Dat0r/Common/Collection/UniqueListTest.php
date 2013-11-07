@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Common\Collection;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Fixtures\TestObject;
+use Dat0r\Tests\Common\Fixtures\TestObject;
 use Dat0r\Tests\Common\Collection\Fixtures\UniqueTestObjectList;
 
 use Faker;
