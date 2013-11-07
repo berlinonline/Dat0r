@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\Type\Object;
+use Dat0r\Common\Object;
 
 class FieldDefinition extends Object
 {

@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Builder;
 
-use Dat0r\Type\Object;
+use Dat0r\Common\Object;
 
 class ClassContainer extends Object implements IClassContainer
 {

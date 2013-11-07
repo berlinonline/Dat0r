@@ -1,0 +1,35 @@
+<?php
+
+namespace Dat0r\Tests\Common\Collection;
+
+use Dat0r\Tests\TestCase;
+use Dat0r\Tests\Fixtures\TestObject;
+use Dat0r\Tests\Common\Collection\Fixtures\UniqueTestObjectMap;
+
+use Faker;
+
+class UniqueMapTest extends TestCase
+{
+    /**
+     * @expectedException Dat0r\Common\Collection\Exception
+     */
+    public function testUniqueness()
+    {
+        $items = $this->createRandomItems();
+
+        $map = new UniqueTestObjectMap($items);
+        $keys = $map->getKeys();
+        $map->setItem('foobar', $items[$keys[0]]);
+    }
+
+    protected function createRandomItems()
+    {
+        $items = array();
+        $faker = Faker\Factory::create();
+        foreach (TestObject::createRandomInstances() as $item) {
+            $items[$faker->word(12)] = $item;
+        }
+
+        return $items;
+    }
+}

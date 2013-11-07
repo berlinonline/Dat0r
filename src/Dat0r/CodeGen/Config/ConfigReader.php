@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Config;
 
-use Dat0r\Type\Object;
+use Dat0r\Common\Object;
 
 abstract class ConfigReader extends Object implements IConfigReader
 {

@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests\Fixtures;
 
-use Dat0r\Type\Object;
+use Dat0r\Common\Object;
 use Faker;
 
 class TestObject extends Object

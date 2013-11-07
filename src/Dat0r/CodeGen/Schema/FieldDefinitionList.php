@@ -2,8 +2,8 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-use Dat0r\Type\Collection\TypedList;
-use Dat0r\Type\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\TypedList;
+use Dat0r\Common\Collection\IUniqueCollection;
 
 class FieldDefinitionList extends TypedList implements IUniqueCollection
 {

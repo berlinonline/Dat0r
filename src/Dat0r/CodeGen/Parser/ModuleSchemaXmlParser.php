@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\Type\Object;
+use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 
 class ModuleSchemaXmlParser extends Object implements IModuleSchemaParser
