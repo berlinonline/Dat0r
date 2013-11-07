@@ -2,14 +2,14 @@
 
 namespace Dat0r\Tests\Runtime\Field;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
 
 use Dat0r\Common\Collection\ArrayList;
 use Dat0r\Runtime\Document\DocumentList;
 
-class DocumentListTest extends BaseTest
+class DocumentListTest extends TestCase
 {
     public function testCreateCollection()
     {

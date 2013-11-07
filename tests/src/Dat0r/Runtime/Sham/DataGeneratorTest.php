@@ -5,10 +5,10 @@ namespace Dat0r\Tests\Runtime\Sham;
 use Dat0r\Runtime\Sham\DataGenerator;
 use Dat0r\Runtime\Document\IDocument;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
 
-class DataGeneratorTest extends BaseTest
+class DataGeneratorTest extends TestCase
 {
     protected $module;
     protected $document;

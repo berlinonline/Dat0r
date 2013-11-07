@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Field;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Field;
 
-class TextFieldTest extends BaseTest
+class TextFieldTest extends TestCase
 {
     const FIELDNAME = 'test_text_field';
 

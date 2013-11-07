@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Field;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Field\AggregateField;
 
-class AggregateFieldTest extends BaseTest
+class AggregateFieldTest extends TestCase
 {
     const FIELDNAME = 'test_aggregate_field';
 

@@ -2,14 +2,14 @@
 
 namespace Dat0r\Tests\Runtime\Module;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
 use Dat0r\Tests\Runtime\Module\Fixtures\AggregateModule;
 use Dat0r\Tests\Runtime\Module\Fixtures\InvalidRootModule;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field;
 
-class ModuleTest extends BaseTest
+class ModuleTest extends TestCase
 {
     public function testCreateRootModule()
     {

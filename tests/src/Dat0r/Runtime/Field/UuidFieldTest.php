@@ -2,11 +2,11 @@
 
 namespace Dat0r\Tests\Runtime\Field;
 
-use Dat0r\Tests\Runtime\BaseTest;
+use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Field;
 use Dat0r\Runtime\ValueHolder\UuidValueHolder;
 
-class UuidFieldTest extends BaseTest
+class UuidFieldTest extends TestCase
 {
     const FIELDNAME = 'test_uuid_field';
 
