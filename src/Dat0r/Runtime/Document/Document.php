@@ -174,9 +174,11 @@ abstract class Document implements IDocument, IValueChangedListener
                         );
                         foreach ($field->getOption('references') as $reference_options) {
                             if ($reference_options['module'] === '\\' . get_class($ref_module)) {
-                                $index_fields = isset($reference_options['index_fields']) ? $reference_options['index_fields'] : array();
+                                $index_fields = isset($reference_options['index_fields'])
+                                    ? $reference_options['index_fields']
+                                    : array();
                                 foreach ($index_fields as $index_fieldname) {
-                                    $qualified_index_fieldname = $ref_module->getOption('prefix') . '.' . $index_fieldname;
+                                    $qualified_index_fieldname = $ref_module->getOption('prefix').'.'.$index_fieldname;
                                     $ref_data[$qualified_index_fieldname] = $document->getValue($index_fieldname);
                                 }
                             }

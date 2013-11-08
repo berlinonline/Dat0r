@@ -47,7 +47,7 @@ class Map extends Collection implements IMap
 
     public function setItems(array $items)
     {
-        foreach ($items as $key =>$item) {
+        foreach ($items as $key => $item) {
             $this->setItem($key, $item);
         }
     }
