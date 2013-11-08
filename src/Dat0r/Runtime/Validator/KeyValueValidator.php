@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Validator;
 
-use Dat0r\Runtime\Error\InvalidTypeException;
+use Dat0r\Common\Error\InvalidTypeException;
 
 /**
  * Default implementation for validators that validate key-value.

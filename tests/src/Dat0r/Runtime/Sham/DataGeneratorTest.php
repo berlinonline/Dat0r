@@ -351,13 +351,13 @@ class DataGeneratorTest extends TestCase
             count($excluded_fields) . ' fields should have been ignored.'
         );
 
-        $this->setExpectedException('\Dat0r\Runtime\Module\InvalidFieldException');
+        $this->setExpectedException('\Dat0r\Common\Error\RuntimeException');
         // @codeCoverageIgnoreStart
         $this->assertFalse($this->document->getValue('non_existant'));
     }// @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException \Dat0r\Runtime\Document\InvalidValueException
+     * @expectedException Dat0r\Runtime\Document\InvalidValueException
      * @codeCoverageIgnore
      */
     public function testFillDocumentWithInvalidFieldValue()
@@ -374,7 +374,7 @@ class DataGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Dat0r\Common\Error\BadValueException
      * @codeCoverageIgnore
      */
     public function testInvalidLocaleForFill()
@@ -383,7 +383,7 @@ class DataGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Dat0r\Common\Error\BadValueException
      * @codeCoverageIgnore
      */
     public function testInvalidLocaleForFill2()
@@ -392,7 +392,7 @@ class DataGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Dat0r\Common\Error\BadValueException
      * @codeCoverageIgnore
      */
     public function testInvalidLocaleForFill3()

@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\CodeGen\Config;
 
 use Dat0r\Tests;
-use Dat0r\CodeGen\Config;
+use Dat0r\CodeGen\Config\IniFileConfigReader;
 
 class IniFileConfigReaderTest extends Tests\TestCase
 {
@@ -22,7 +22,7 @@ class IniFileConfigReaderTest extends Tests\TestCase
 
     public function testCreateConfigReader()
     {
-        $config = Config\IniFileConfigReader::create();
+        $config = IniFileConfigReader::create();
 
         $this->assertInstanceOf('Dat0r\CodeGen\Config\IniFileConfigReader', $config);
         $this->assertInstanceOf('Dat0r\CodeGen\Config\IConfigReader', $config);
@@ -30,7 +30,7 @@ class IniFileConfigReaderTest extends Tests\TestCase
 
     public function testRead()
     {
-        $reader = Config\IniFileConfigReader::create();
+        $reader = IniFileConfigReader::create();
         $settings = $reader->read($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
 
         $expected_array = array(
@@ -44,7 +44,7 @@ class IniFileConfigReaderTest extends Tests\TestCase
 
     public function testReadWithRelativePaths()
     {
-        $reader = Config\IniFileConfigReader::create();
+        $reader = IniFileConfigReader::create();
         $settings = $reader->read($this->fixtures_dir . self::FIXTURE_CONFIG_WITH_RELATIVE_PATHS);
 
         $expected_base_path = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
@@ -62,22 +62,22 @@ class IniFileConfigReaderTest extends Tests\TestCase
     }
 
     /**
-     * @expectedException Dat0r\CodeGen\Config\Exception
+     * @expectedException Dat0r\Common\Error\FilesystemException
      */
     public function testNonReadableConfig()
     {
-        $reader = Config\IniFileConfigReader::create();
+        $reader = IniFileConfigReader::create();
 
         $reader->read($this->fixtures_dir . 'this_config_does_not_exist.ini');
         // @codeCoverageIgnoreStart
     }   // @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException Dat0r\CodeGen\Config\Exception
+     * @expectedException Dat0r\Common\Error\ParseException
      */
     public function testNonParseableConfig()
     {
-        $reader = Config\IniFileConfigReader::create();
+        $reader = IniFileConfigReader::create();
 
         $reader->read($this->fixtures_dir . self::FIXTURE_NON_PARSEABLE_CONFIG);
         // @codeCoverageIgnoreStart

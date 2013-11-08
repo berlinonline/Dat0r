@@ -3,6 +3,8 @@
 namespace Dat0r\Common\Collection;
 
 use Dat0r\Common\Object;
+use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Error\BadValueException;
 
 abstract class Collection extends Object implements ICollection
 {
@@ -51,7 +53,7 @@ abstract class Collection extends Object implements ICollection
     {
         if ($this instanceof IUniqueCollection) {
             if (false !== ($item_key = array_search($value, $this->items, true))) {
-                throw new Exception("Item allready has been added to the collection at key: " . $item_key);
+                throw new RuntimeException("Item allready has been added to the collection at key: " . $item_key);
             }
         }
         $this->items[$offset] = $value;
@@ -131,7 +133,7 @@ abstract class Collection extends Object implements ICollection
     public function setItem($key, $item)
     {
         if ($key === null) {
-            throw new Exception('Key may not be null.');
+            throw new BadValueException('Key may not be null.');
         }
         $this->offsetSet($key, $item);
     }

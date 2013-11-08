@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\IntegerCollectionField;
 
@@ -128,7 +128,7 @@ class IntegerCollectionValueHolder extends ValueHolder
     protected function __construct(IField $field, $value = null)
     {
         if (!($field instanceof IntegerCollectionField)) {
-            throw new Error\BadValueException(
+            throw new BadValueException(
                 "Only instances of IntegerCollectionField may be associated with IntegerCollectionValueHolder."
             );
         }

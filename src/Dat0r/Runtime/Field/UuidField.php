@@ -4,13 +4,6 @@ namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\ValueHolder\TextValueHolder;
 
-/**
- * Concrete implementation of the Field base class.
- * Stuff in here is dedicated to handling text.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
- */
 class UuidField extends TextField
 {
     /**

@@ -84,7 +84,7 @@ class ModuleTest extends TestCase
 
     /**
      * @dataProvider provideModuleInstances
-     * @expectedException Dat0r\Runtime\Module\InvalidFieldException
+     * @expectedException Dat0r\Common\Error\RuntimeException
      */
     public function testInvalidFieldException(IModule $module)
     {
@@ -92,7 +92,7 @@ class ModuleTest extends TestCase
     } // @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException Dat0r\Runtime\Error\InvalidImplementorException
+     * @expectedException Dat0r\Common\Error\InvalidTypeException
      */
     public function testInvalidDocumentImplementorException()
     {

@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Field;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
 
@@ -82,7 +82,7 @@ abstract class Field implements IField
             : $this->getValidationImplementor();
 
         if (!class_exists($implementor)) {
-            throw new Error\InvalidImplementorException(
+            throw new RuntimeException(
                 "Invalid field validator given upon validate request."
             );
         }
@@ -146,7 +146,7 @@ abstract class Field implements IField
             : $this->getValueHolderImplementor();
 
         if (!class_exists($implementor)) {
-            throw new Error\InvalidImplementorException(
+            throw new RuntimeException(
                 "Invalid field value-holder given upon createValueHolder request."
             );
         }

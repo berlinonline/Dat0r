@@ -3,6 +3,8 @@
 namespace Dat0r\CodeGen\Config;
 
 use Dat0r\Common\Object;
+use Dat0r\Common\Error\InvalidConfigException;
+use Dat0r\Common\Error\FilesystemException;
 
 class Config extends Object implements IConfig
 {
@@ -44,7 +46,7 @@ class Config extends Object implements IConfig
         $valid_methods = array(self::DEPLOY_COPY, self::DEPLOY_MOVE);
 
         if (!in_array($deploy_method, $valid_methods)) {
-            throw new Exception(
+            throw new InvalidConfigException(
                 sprintf("Invalid deploy method '%s' passed to config.", $deploy_method)
             );
         }
@@ -60,11 +62,10 @@ class Config extends Object implements IConfig
     public function validate()
     {
         if (empty($this->cache_dir)) {
-            throw new Exception("Missing 'cache_dir' setting.");
+            throw new InvalidConfigException("Missing 'cache_dir' setting.");
         }
-
         if (empty($this->deploy_dir)) {
-            throw new Exception("Missing 'deploy_dir' setting.");
+            throw new InvalidConfigException("Missing 'deploy_dir' setting.");
         }
 
         return $this;

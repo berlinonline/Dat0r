@@ -8,8 +8,8 @@ use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
 /**
- * ValueChangedEvent(s) reflect state changes to an document's underlying ValuesHolder.
- * These events are fired everytime an document field-value actually changes and can be used
+ * ValueChangedEvent(s) reflect state changes to a document's underlying ValueHolder.
+ * These events are fired everytime a document field-value actually changes and can be used
  * to track state changes over time.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG

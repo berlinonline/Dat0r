@@ -2,8 +2,8 @@
 
 namespace Dat0r\CodeGen\Parser;
 
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\CodeGen\Schema\ModuleDefinition;
-
 use DOMXPath;
 use DOMElement;
 
@@ -14,7 +14,7 @@ class ModuleDefinitionXpathParser extends BaseXpathParser
         $node_list = $xpath->query('./module_definition', $options['context']);
 
         if ($node_list->length === 0) {
-            throw new ParseException(
+            throw new RuntimeException(
                 "Missing module_definition node. Please check the given module_schema."
             );
         }

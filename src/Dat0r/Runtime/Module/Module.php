@@ -2,7 +2,8 @@
 
 namespace Dat0r\Runtime\Module;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\InvalidTypeException;
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\FieldMap;
@@ -129,7 +130,7 @@ abstract class Module implements IModule
         if (($field = $this->fields->getItem($name))) {
             return $field;
         } else {
-            throw new InvalidFieldException("Module has no field: " . $name);
+            throw new RuntimeException("Module has no field: " . $name);
         }
     }
 
@@ -151,14 +152,14 @@ abstract class Module implements IModule
      *
      * @return IDocument
      *
-     * @throws Error\InvalidImplementorException
+     * @throws InvalidTypeException
      */
     public function createDocument(array $data = array())
     {
         $implementor = $this->getDocumentImplementor();
 
         if (!class_exists($implementor, true)) {
-            throw new Error\InvalidImplementorException(
+            throw new InvalidTypeException(
                 "Unable to resolve the given document implementor upon document creation request."
             );
         }

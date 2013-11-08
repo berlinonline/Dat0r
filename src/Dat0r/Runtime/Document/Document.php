@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\ReferenceField;
 use Dat0r\Runtime\Field\AggregateField;
@@ -250,7 +250,7 @@ abstract class Document implements IDocument, IValueChangedListener
         $is_equal = true;
 
         if ($other->getModule() !== $this->getModule()) {
-            throw new Error\BadValueException(
+            throw new BadValueException(
                 "Only IDocument instances of the same module may be compared."
             );
         }

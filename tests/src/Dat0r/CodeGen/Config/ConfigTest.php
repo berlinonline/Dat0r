@@ -3,7 +3,8 @@
 namespace Dat0r\Tests\CodeGen\Config;
 
 use Dat0r\Tests;
-use Dat0r\CodeGen\Config;
+use Dat0r\CodeGen\Config\IConfig;
+use Dat0r\CodeGen\Config\Config;
 
 class ConfigTest extends Tests\TestCase
 {
@@ -13,11 +14,11 @@ class ConfigTest extends Tests\TestCase
 
     public function testCreateConfig()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_COPY
+                'deploy_method' => IConfig::DEPLOY_COPY
             )
         );
 
@@ -26,11 +27,11 @@ class ConfigTest extends Tests\TestCase
 
     public function testConfigGetCacheDir()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_COPY
+                'deploy_method' => IConfig::DEPLOY_COPY
             )
         );
 
@@ -39,11 +40,11 @@ class ConfigTest extends Tests\TestCase
 
     public function testConfigGetDeployDir()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_COPY
+                'deploy_method' => IConfig::DEPLOY_COPY
             )
         );
 
@@ -52,38 +53,38 @@ class ConfigTest extends Tests\TestCase
 
     public function testConfigGetDefaultDeployMethod()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR
             )
         );
 
-        $this->assertEquals(Config\IConfig::DEPLOY_COPY, $config->getDeployMethod());
+        $this->assertEquals(IConfig::DEPLOY_COPY, $config->getDeployMethod());
     }
 
     public function testConfigGetDeployMethod()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_MOVE
+                'deploy_method' => IConfig::DEPLOY_MOVE
             )
         );
 
-        $this->assertEquals(Config\IConfig::DEPLOY_MOVE, $config->getDeployMethod());
+        $this->assertEquals(IConfig::DEPLOY_MOVE, $config->getDeployMethod());
     }
 
     public function testConfigGetPluginSettings()
     {
         $plugin_settings = array();
 
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_COPY,
+                'deploy_method' => IConfig::DEPLOY_COPY,
                 'plugin_settings' => $plugin_settings
             )
         );
@@ -93,11 +94,11 @@ class ConfigTest extends Tests\TestCase
 
     public function testValidateCorrectData()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array(
                 'cache_dir' => self::FIX_CACHE_DIR,
                 'deploy_dir' => self::FIX_DEPLOY_DIR,
-                'deploy_method' => Config\IConfig::DEPLOY_COPY
+                'deploy_method' => IConfig::DEPLOY_COPY
             )
         );
 
@@ -106,11 +107,11 @@ class ConfigTest extends Tests\TestCase
     }
 
     /**
-     * @expectedException Dat0r\CodeGen\Config\Exception
+     * @expectedException Dat0r\Common\Error\InvalidConfigException
      */
     public function testValidateMissingCacheDir()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array('deploy_dir' => self::FIX_DEPLOY_DIR)
         );
 
@@ -120,11 +121,11 @@ class ConfigTest extends Tests\TestCase
 
 
     /**
-     * @expectedException Dat0r\CodeGen\Config\Exception
+     * @expectedException Dat0r\Common\Error\InvalidConfigException
      */
     public function testValidateMissingDeployDir()
     {
-        $config = Config\Config::create(
+        $config = Config::create(
             array('cache_dir' => self::FIX_CACHE_DIR)
         );
 
@@ -133,11 +134,11 @@ class ConfigTest extends Tests\TestCase
     }   // @codeCoverageIgnoreEnd
 
     /**
-     * @expectedException Dat0r\CodeGen\Config\Exception
+     * @expectedException Dat0r\Common\Error\InvalidConfigException
      */
     public function testCreateWithInvalidDeployMethod()
     {
-        Config\Config::create(
+        Config::create(
             array(
                 'deploy_method' => 'invalid_deploy_method',
                 'cache_dir' => self::FIX_CACHE_DIR,

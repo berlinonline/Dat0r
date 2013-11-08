@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Field;
 
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\IUniqueCollection;
-use Dat0r\Runtime\Error\BadValueException;
+use Dat0r\Common\Error\BadValueException;
 
 class FieldMap extends TypedMap implements IUniqueCollection
 {

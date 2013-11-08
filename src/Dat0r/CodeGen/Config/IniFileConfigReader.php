@@ -2,12 +2,15 @@
 
 namespace Dat0r\CodeGen\Config;
 
+use Dat0r\Common\Error\FilesystemException;
+use Dat0r\Common\Error\ParseException;
+
 class IniFileConfigReader extends ConfigReader
 {
     public function read($file_path)
     {
         if (!is_readable(realpath($file_path))) {
-            throw new Exception(
+            throw new FilesystemException(
                 sprintf('Unable to read config at path: `%s`', $file_path)
             );
         }
@@ -15,7 +18,7 @@ class IniFileConfigReader extends ConfigReader
         $config_dir = dirname($file_path);
         $settings = @parse_ini_file($file_path, true);
         if ($settings === false) {
-            throw new Exception("Unable to parse given config file: $file_path.");
+            throw new ParseException("Unable to parse given config file: $file_path.");
         }
 
         $parsed_settings = array();

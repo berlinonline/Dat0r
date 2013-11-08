@@ -2,6 +2,7 @@
 
 namespace Dat0r\CodeGen\Console;
 
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\CodeGen\Service as CodeGenService;
 use Dat0r\CodeGen\Config\IniFileConfigReader;
 use Dat0r\CodeGen\Config\Config;
@@ -92,7 +93,7 @@ class GenerateCodeCommand extends Command\Command
 
         foreach ($actions as $action) {
             if (!in_array($action, $valid_actions)) {
-                throw new Exception(
+                throw new BadValueException(
                     sprintf('The given `action` argument value `%s` is not supported.', $action)
                 );
             }

@@ -7,7 +7,7 @@ use Dat0r\Runtime\Document\DocumentList;
 use Dat0r\Runtime\Field\ReferenceField;
 
 /**
- * Default implementation for validators that validate text.
+ * Default implementation for validators that validate reference data.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>

@@ -43,7 +43,7 @@ class TypedMapTest extends TestCase
     }
 
     /**
-     * @expectedException Dat0r\Common\Collection\Exception
+     * @expectedException Dat0r\Common\Error\InvalidTypeException
      */
     public function testSetInvalidItem()
     {

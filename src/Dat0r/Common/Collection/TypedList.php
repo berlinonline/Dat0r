@@ -2,6 +2,8 @@
 
 namespace Dat0r\Common\Collection;
 
+use Dat0r\Common\Error\InvalidTypeException;
+
 abstract class TypedList extends ArrayList
 {
     abstract protected function getItemImplementor();
@@ -18,7 +20,7 @@ abstract class TypedList extends ArrayList
         $implementor = $this->getItemImplementor();
 
         if (!$item instanceof $implementor) {
-            throw new Exception(
+            throw new InvalidTypeException(
                 sprintf(
                     "Items passed to the '%s' method must relate to '%s'."
                     . "%sAn instance of '%s' was given instead.",

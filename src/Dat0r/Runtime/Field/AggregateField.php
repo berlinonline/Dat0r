@@ -3,15 +3,9 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\Module\AggregateModule;
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Error\InvalidTypeException;
 
-/**
- * Concrete implementation of the Field base class.
- * Stuff in here is dedicated to handling aggregates (nested data structures).
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
- */
 class AggregateField extends Field
 {
     /**
@@ -39,7 +33,7 @@ class AggregateField extends Field
         }
 
         if (!$this->hasOption(self::OPT_MODULES)) {
-            throw new Error\LogicException(
+            throw new RuntimeException(
                 "AggregateField instances must be provided an 'modules' option."
             );
         }
@@ -47,7 +41,7 @@ class AggregateField extends Field
         $aggregated_modules = $this->getOption(self::OPT_MODULES);
         foreach ($aggregated_modules as $aggregated_module) {
             if (!class_exists($aggregated_module)) {
-                throw new Error\InvalidImplementorException(
+                throw new InvalidTypeException(
                     "Invalid implementor: '$aggregated_module' given to aggregate field."
                 );
             }

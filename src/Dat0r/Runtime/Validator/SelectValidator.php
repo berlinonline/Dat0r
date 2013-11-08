@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Validator;
 
 /**
- * Default implementation for validators that validate text.
+ * Default implementation for validators that validate select options.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>

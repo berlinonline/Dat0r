@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\BooleanField;
 
 /**
- * Default IValueHolder implementation used for integer value containment.
+ * Default IValueHolder implementation used for boolean value containment.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
@@ -72,7 +72,7 @@ class BooleanValueHolder extends ValueHolder
     protected function __construct(IField $field, $value = null)
     {
         if (!($field instanceof BooleanField)) {
-            throw new Error\BadValueException(
+            throw new BadValueException(
                 "Only instances of BooleanField my be associated with BooleanValueHolder only."
             );
         }

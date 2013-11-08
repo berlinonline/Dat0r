@@ -4,13 +4,6 @@ namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\Document\DocumentList;
 
-/**
- * Concrete implementation of the Field base class.
- * Stuff in here is dedicated to handling references to documents.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
- */
 class ReferenceField extends Field
 {
     const OPT_MAX_REFERENCES = 'max';

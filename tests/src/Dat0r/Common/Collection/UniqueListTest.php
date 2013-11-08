@@ -11,7 +11,7 @@ use Faker;
 class UniqueListTest extends TestCase
 {
     /**
-     * @expectedException Dat0r\Common\Collection\Exception
+     * @expectedException Dat0r\Common\Error\RuntimeException
      */
     public function testUniqueness()
     {

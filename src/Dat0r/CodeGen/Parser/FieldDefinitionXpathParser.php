@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\Parser;
 
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\CodeGen\Schema\FieldDefinition;
 use Dat0r\CodeGen\Schema\FieldDefinitionList;
-
 use DOMXPath;
 use DOMElement;
 
@@ -63,7 +63,7 @@ class FieldDefinitionXpathParser extends BaseXpathParser
         );
 
         if (!class_exists($core_field_implementor)) {
-            throw new ParseException(
+            throw new RuntimeException(
                 "Unable to resolve given type/short-name: '$type' to an existing implementor."
             );
         }

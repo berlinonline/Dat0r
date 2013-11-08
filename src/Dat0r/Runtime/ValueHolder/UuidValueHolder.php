@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\UuidField;
 
@@ -23,7 +23,7 @@ class UuidValueHolder extends TextValueHolder
     protected function __construct(IField $field, $value = null)
     {
         if (!($field instanceof UuidField)) {
-            throw new Error\BadValueException(
+            throw new BadValueException(
                 "Only instances of UuidField my be associated with UuidValueHolder."
             );
         }

@@ -3,6 +3,7 @@
 namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Object;
+use Dat0r\Common\Error\FilesystemException;
 use Dat0r\CodeGen\Config\IConfig;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\Schema\ModuleDefinition;
@@ -65,7 +66,7 @@ class Service extends Object
     {
         $cache_dir = realpath($this->config->getCachedir());
         if (!is_dir($cache_dir)) {
-            throw new Exception(
+            throw new FilesystemException(
                 sprintf(
                     "The cache directory '%s' to deploy from does not exist.",
                     $this->config->getCachedir()
@@ -80,7 +81,7 @@ class Service extends Object
         }
 
         if (!($deploy_dir = realpath($deploy_dir))) {
-            throw new Exception(
+            throw new FilesystemException(
                 sprintf(
                     "The configured deploy directory %s does not exist and could not be created.",
                     $this->config->getDeployDir()
@@ -127,7 +128,7 @@ class Service extends Object
         }
 
         if (!($cache_dir = realpath($cache_dir))) {
-            throw new Exception(
+            throw new FilesystemException(
                 sprintf(
                     "The configured cache directory %s does not exist and could not be created.",
                     $this->config->getCachedir()

@@ -43,7 +43,7 @@ class TypedListTest extends TestCase
     }
 
     /**
-     * @expectedException Dat0r\Common\Collection\Exception
+     * @expectedException Dat0r\Common\Error\InvalidTypeException
      */
     public function testAddInvalidScalar()
     {
@@ -52,7 +52,7 @@ class TypedListTest extends TestCase
     }
 
     /**
-     * @expectedException Dat0r\Common\Collection\Exception
+     * @expectedException Dat0r\Common\Error\InvalidTypeException
      */
     public function testAddInvalidObject()
     {

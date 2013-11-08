@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Sham;
 
 use Faker\Factory;
 
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\IField;
@@ -86,17 +87,15 @@ class DataGenerator
      * @return void
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public function fake(IDocument $document, array $options = array())
     {
         if (!empty($options[self::OPTION_LOCALE])) {
             $loc = $options[self::OPTION_LOCALE];
             if (!is_string($loc) || !preg_match('#[a-z]{2,6}_[A-Z]{2,6}#', $loc)) {
-                throw new \InvalidArgumentException(
+                throw new BadValueException(
                     'Given option "' . self::OPTION_LOCALE
                     . '" is not a valid string. Use "languageCode_countryCode", e.g. "de_DE" or "en_UK".'
                 );
@@ -109,7 +108,7 @@ class DataGenerator
         if (!empty($options[self::OPTION_EXCLUDED_FIELDS])) {
             $excluded = $options[self::OPTION_EXCLUDED_FIELDS];
             if (!is_array($excluded)) {
-                throw new \InvalidArgumentException(
+                throw new BadValueException(
                     'Given option "' . self::OPTION_EXCLUDED_FIELDS
                     . '" is not an array. It should be an array of fieldnames.'
                 );
@@ -147,10 +146,8 @@ class DataGenerator
      * @return array of fake data for the given module
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public function fakeData(IModule $module, array $options = array())
     {
@@ -168,10 +165,8 @@ class DataGenerator
      * @return document newly created with fake data
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public function createFakeDocument(IModule $module, array $options = array())
     {
@@ -190,10 +185,8 @@ class DataGenerator
      * @return array of new documents with fake data
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public function createFakeDocuments(IModule $module, array $options = array())
     {
@@ -203,7 +196,7 @@ class DataGenerator
         if (!empty($options[self::OPTION_COUNT])) {
             $cnt = $options[self::OPTION_COUNT];
             if (!is_int($cnt)) {
-                throw new \InvalidArgumentException(
+                throw new BadValueException(
                     'Given option "' . self::OPTION_COUNT
                     . '" is not an integer. Provide a correct value or use fallback to default count.'
                 );
@@ -242,10 +235,8 @@ class DataGenerator
      * @return void
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public static function fill(IDocument $document, array $options = array())
     {
@@ -262,10 +253,8 @@ class DataGenerator
      * @return array of fake data for the given module
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public static function createDataFor(IModule $module, array $options = array())
     {
@@ -282,10 +271,8 @@ class DataGenerator
      * @return document newly created with fake data
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public static function createDocument(IModule $module, array $options = array())
     {
@@ -302,10 +289,8 @@ class DataGenerator
      * @return array of new documents with fake data
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
-     * @throws \InvalidArgumentException in case of invalid locale option string
-     * @throws \Dat0r\Runtime\Error\LogicException on AggregateField misconfiguration
-     * @throws \Dat0r\Runtime\Error\InvalidImplementorException on various misconfigurations
-     * @throws \Dat0r\Runtime\Error\ObjectImmutableException if an instance is frozen (closed to modifications)
+     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
      */
     public static function createDocuments(IModule $module, array $options = array())
     {

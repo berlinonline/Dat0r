@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\Error;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\ReferenceField;
 
 /**
- * Default IValueHolder implementation used for reference (id) value containment.
+ * Default IValueHolder implementation used for reference value containment.
  *
  * @copyright BerlinOnline Stadtportal GmbH & Co. KG
  * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
@@ -78,7 +78,7 @@ class ReferenceValueHolder extends ValueHolder
     protected function __construct(IField $field, $value = null)
     {
         if (!($field instanceof ReferenceField)) {
-            throw new Error\BadValueException(
+            throw new BadValueException(
                 "Only instances of ReferenceField my be associated with ReferenceValueHolder."
             );
         }

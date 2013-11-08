@@ -71,7 +71,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
     }
 
     /**
-     * @expectedException Dat0r\CodeGen\Console\Exception
+     * @expectedException Dat0r\Common\Error\BadValueException
      */
     public function testInvalidAction()
     {
