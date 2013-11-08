@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Dat0r\Runtime\ValueHolder\ValueHolderCollection | Dat0r API</title>
+                <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
+                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
+            <link rel="icon" href="../../../dat0r-favicon.png">
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+                <li><a href="../../../index.html" target="_top">Frames</a></li>
+    <li><a href="#" target="_top">No Frames</a></li>
+
+        </ul>
+
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Dat0r/Runtime/ValueHolder.html">Dat0r\Runtime\ValueHolder</a>\ValueHolderCollection</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>ValueHolderCollection</strong>        implements
+        <a href="../../../Dat0r/Runtime/Document/IAggregateChangedListener.html"><abbr title="Dat0r\Runtime\Document\IAggregateChangedListener">IAggregateChangedListener</abbr></a></p>
+
+            <div class="description">
+            <p>Represents a list of IValueHolder.</p>
+            <p></p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;<abbr title="Dat0r\Runtime\ValueHolder\ValuesHolder">ValuesHolder</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module)
+                    <p>Creates a new ValuesHolder instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $value, boolean $override = true)
+                    <p>Sets a value for a given field.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)
+                    <p>Returns the value for a specific field.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_reset">reset</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)
+                    <p>Resets the value for a given field.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)
+                    <p>Tells whether a value has been set for a given field.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_toArray">toArray</a>()
+                    <p>Returns an array representation of the ValueHolder&#039;s present state.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_notifyValueChanged">notifyValueChanged</a>(<a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a> $event)
+                    <p>Propagates a given value changed event to all corresponding listeners.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addValueChangedListener">addValueChangedListener</a>(<a href="../../../Dat0r/Runtime/Document/IValueChangedListener.html"><abbr title="Dat0r\Runtime\Document\IValueChangedListener">IValueChangedListener</abbr></a> $value_changed_listener)
+                    <p>Registers a given listener as a recipient of value changed events.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_onAggregateChanged">onAggregateChanged</a>(<a href="../../../Dat0r/Runtime/Field/AggregateField.html"><abbr title="Dat0r\Runtime\Field\AggregateField">AggregateField</abbr></a> $field, <a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a> $event)
+                    <p>Handles document changed events that are sent by aggregated documents.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_create">
+        <div class="location">at line 50</div>
+        <code>        static    public            <abbr title="Dat0r\Runtime\ValueHolder\ValuesHolder">ValuesHolder</abbr>
+    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module)</code>
+    </h3>
+    <div class="details">
+        <p>Creates a new ValuesHolder instance.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></td>
+                <td>$module</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Dat0r\Runtime\ValueHolder\ValuesHolder">ValuesHolder</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 62</div>
+        <code>            public            
+    <strong>set</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $value, boolean $override = true)</code>
+    </h3>
+    <div class="details">
+        <p>Sets a value for a given field.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>boolean</td>
+                <td>$override</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 91</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+    <strong>get</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the value for a specific field.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reset">
+        <div class="location">at line 106</div>
+        <code>            public            
+    <strong>reset</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)</code>
+    </h3>
+    <div class="details">
+        <p>Resets the value for a given field.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">at line 120</div>
+        <code>            public            boolean
+    <strong>has</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)</code>
+    </h3>
+    <div class="details">
+        <p>Tells whether a value has been set for a given field.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_toArray">
+        <div class="location">at line 130</div>
+        <code>            public            array
+    <strong>toArray</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array representation of the ValueHolder&#039;s present state.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_notifyValueChanged">
+        <div class="location">at line 140</div>
+        <code>            public            
+    <strong>notifyValueChanged</strong>(<a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a> $event)</code>
+    </h3>
+    <div class="details">
+        <p>Propagates a given value changed event to all corresponding listeners.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a></td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addValueChangedListener">
+        <div class="location">at line 152</div>
+        <code>            public            
+    <strong>addValueChangedListener</strong>(<a href="../../../Dat0r/Runtime/Document/IValueChangedListener.html"><abbr title="Dat0r\Runtime\Document\IValueChangedListener">IValueChangedListener</abbr></a> $value_changed_listener)</code>
+    </h3>
+    <div class="details">
+        <p>Registers a given listener as a recipient of value changed events.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IValueChangedListener.html"><abbr title="Dat0r\Runtime\Document\IValueChangedListener">IValueChangedListener</abbr></a></td>
+                <td>$value_changed_listener</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_onAggregateChanged">
+        <div class="location">at line 165</div>
+        <code>            public            
+    <strong>onAggregateChanged</strong>(<a href="../../../Dat0r/Runtime/Field/AggregateField.html"><abbr title="Dat0r\Runtime\Field\AggregateField">AggregateField</abbr></a> $field, <a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a> $event)</code>
+    </h3>
+    <div class="details">
+        <p>Handles document changed events that are sent by aggregated documents.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/AggregateField.html"><abbr title="Dat0r\Runtime\Field\AggregateField">AggregateField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a></td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

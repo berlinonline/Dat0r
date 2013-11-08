@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Dat0r\Runtime\Module\Module | Dat0r API</title>
+                <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
+                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
+            <link rel="icon" href="../../../dat0r-favicon.png">
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+                <li><a href="../../../index.html" target="_top">Frames</a></li>
+    <li><a href="#" target="_top">No Frames</a></li>
+
+        </ul>
+
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Dat0r/Runtime/Module.html">Dat0r\Runtime\Module</a>\Module</h1>
+    </div>
+        <div class="content">
+                <p>abstract class    <strong>Module</strong>        implements
+        <a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></p>
+
+            <div class="description">
+            <p>Base class that all Dat0r modules should extend.</p>
+            <p></p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getInstance">getInstance</a>()
+                    <p>Returns the pooled instance of a specific module.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDocumentType">getDocumentType</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Returns the name of the module.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Field/FieldMap.html"><abbr title="Dat0r\Runtime\Field\FieldMap">FieldMap</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getFields">getFields</a>(array $fieldnames = array(), $types = array())
+                    <p>Returns the module&#039;s field collection.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getField">getField</a>(string $name)
+                    <p>Returns a certain module field by name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getIdentifierField">getIdentifierField</a>()
+                    <p>Returns the field to use when identitfying documents that belong to a module.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createDocument">createDocument</a>(array $data = array())
+                    <p>Creates a new IDocument instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getOption">getOption</a>(string $name, mixed $default = null)
+                    <p>Returns a module option by name if it exists.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasOption">hasOption</a>(string $name)
+                    <p>Tells if a module currently owns a specific option.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDefaultFieldnames">getDefaultFieldnames</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getInstance">
+        <div class="location">at line 61</div>
+        <code>        static    public            <a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a>
+    <strong>getInstance</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the pooled instance of a specific module.</p>
+        <p>Each module is pooled exactly once, making this a singleton style (factory)method.<br />
+ This method is used to provide a convenient access to generated domain module instances.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDocumentType">
+        <div class="location">at line 73</div>
+        <code>            public            
+    <strong>getDocumentType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getName">
+        <div class="location">at line 83</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the name of the module.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFields">
+        <div class="location">at line 95</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Field/FieldMap.html"><abbr title="Dat0r\Runtime\Field\FieldMap">FieldMap</abbr></a>
+    <strong>getFields</strong>(array $fieldnames = array(), $types = array())</code>
+    </h3>
+    <div class="details">
+        <p>Returns the module&#039;s field collection.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$fieldnames</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$types</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Field/FieldMap.html"><abbr title="Dat0r\Runtime\Field\FieldMap">FieldMap</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getField">
+        <div class="location">at line 128</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+    <strong>getField</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Returns a certain module field by name.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="InvalidFieldException">InvalidFieldException</abbr></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIdentifierField">
+        <div class="location">at line 143</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+    <strong>getIdentifierField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the field to use when identitfying documents that belong to a module.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createDocument">
+        <div class="location">at line 157</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
+    <strong>createDocument</strong>(array $data = array())</code>
+    </h3>
+    <div class="details">
+        <p>Creates a new IDocument instance.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td>Optional data for initial hydration.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="InvalidTypeException">InvalidTypeException</abbr></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOption">
+        <div class="location">at line 179</div>
+        <code>            public            mixed
+    <strong>getOption</strong>(string $name, mixed $default = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns a module option by name if it exists.</p>
+        <p>Otherwise an optional default is returned.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$default</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasOption">
+        <div class="location">at line 191</div>
+        <code>            public            boolean
+    <strong>hasOption</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Tells if a module currently owns a specific option.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDefaultFieldnames">
+        <div class="location">at line 214</div>
+        <code>            public            
+    <strong>getDefaultFieldnames</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

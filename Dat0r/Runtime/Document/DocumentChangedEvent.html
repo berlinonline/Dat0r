@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Dat0r\Runtime\Document\DocumentChangedEvent | Dat0r API</title>
+                <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
+                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
+            <link rel="icon" href="../../../dat0r-favicon.png">
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+                <li><a href="../../../index.html" target="_top">Frames</a></li>
+    <li><a href="#" target="_top">No Frames</a></li>
+
+        </ul>
+
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Dat0r/Runtime/Document.html">Dat0r\Runtime\Document</a>\DocumentChangedEvent</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>DocumentChangedEvent</strong>        implements
+        <a href="../../../Dat0r/Runtime/IEvent.html"><abbr title="Dat0r\Runtime\IEvent">IEvent</abbr></a></p>
+
+            <div class="description">
+            <p>Represents an event that occurs when a document&#039;s value changes.</p>
+            <p>Document changes are triggered on a per field base.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;<a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document, <a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a> $value_changed_event)
+                    <p>Creates a new document changed event instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDocument">getDocument</a>()
+                    <p>Returns the affected document.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getValueChangedEvent">getValueChangedEvent</a>()
+                    <p>Returns the value changed origin event.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Returns a string representation of the current event.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_create">
+        <div class="location">at line 38</div>
+        <code>        static    public            <a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a>
+    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document, <a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a> $value_changed_event)</code>
+    </h3>
+    <div class="details">
+        <p>Creates a new document changed event instance.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
+                <td>$document</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a></td>
+                <td>$value_changed_event</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDocument">
+        <div class="location">at line 48</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
+    <strong>getDocument</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the affected document.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValueChangedEvent">
+        <div class="location">at line 58</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a>
+    <strong>getValueChangedEvent</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the value changed origin event.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">at line 68</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a string representation of the current event.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

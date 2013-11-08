@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Dat0r\Runtime\ValueHolder\NullValue | Dat0r API</title>
+                <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
+                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
+            <link rel="icon" href="../../../dat0r-favicon.png">
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+                <li><a href="../../../index.html" target="_top">Frames</a></li>
+    <li><a href="#" target="_top">No Frames</a></li>
+
+        </ul>
+
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Dat0r/Runtime/ValueHolder.html">Dat0r\Runtime\ValueHolder</a>\NullValue</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>NullValue</strong>        extends <a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a></p>
+
+            <div class="description">
+            <p>NullObject implementation of the IValueHolder interface.</p>
+            <p>Represents empty, not-set, nothing-for-you-here value holder instances.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, mixed $value = null)
+                    <p>Creates a new IValueHolder instance from a given value.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_create"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getValue">getValue</a>()
+                    <p>Returns the ValueHolder&#039;s value.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_getValue"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setValue">setValue</a>(mixed $value)
+                    <p>Sets the ValueHolder&#039;s value.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_setValue"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Returns string representation of the current value.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method___toString"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isGreaterThan">isGreaterThan</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
+                    <p>Tells whether a spefic IValueHolder instance&#039;s value is considered greater than the value of an other given IValueHolder.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isLessThan">isLessThan</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
+                    <p>Tells whether a spefic IValueHolder instance&#039;s value is considered less than the value of an other given IValueHolder.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isEqualTo">isEqualTo</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
+                    <p>Tells whether a spefic IValueHolder instance&#039;s value is considered equal to the value of an other given IValueHolder.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_create">
+        <div class="location">in <a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_create"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a> at line 34</div>
+        <code>        static    public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, mixed $value = null)</code>
+    </h3>
+    <div class="details">
+        <p>Creates a new IValueHolder instance from a given value.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValue">
+        <div class="location">in <a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_getValue"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a> at line 44</div>
+        <code>            public            mixed
+    <strong>getValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the ValueHolder&#039;s value.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setValue">
+        <div class="location">in <a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method_setValue"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a> at line 54</div>
+        <code>            public            
+    <strong>setValue</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the ValueHolder&#039;s value.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">in <a href="../../../Dat0r/Runtime/ValueHolder/ValueHolder.html#method___toString"><abbr title="Dat0r\Runtime\ValueHolder\ValueHolder">ValueHolder</abbr></a> at line 64</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns string representation of the current value.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isGreaterThan">
+        <div class="location">at line 24</div>
+        <code>            public            boolean
+    <strong>isGreaterThan</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    </h3>
+    <div class="details">
+        <p>Tells whether a spefic IValueHolder instance&#039;s value is considered greater than the value of an other given IValueHolder.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+                <td>$other</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isLessThan">
+        <div class="location">at line 37</div>
+        <code>            public            boolean
+    <strong>isLessThan</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    </h3>
+    <div class="details">
+        <p>Tells whether a spefic IValueHolder instance&#039;s value is considered less than the value of an other given IValueHolder.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+                <td>$other</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isEqualTo">
+        <div class="location">at line 50</div>
+        <code>            public            boolean
+    <strong>isEqualTo</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    </h3>
+    <div class="details">
+        <p>Tells whether a spefic IValueHolder instance&#039;s value is considered equal to the value of an other given IValueHolder.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+                <td>$other</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
