@@ -3,6 +3,8 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Validation\Rule\RuleList;
+use Dat0r\Runtime\Validation\Validator\IValidator;
 
 /**
  * IFields hold meta data that is used to model document properties,
@@ -31,15 +33,6 @@ interface IField
     public function getName();
 
     /**
-     * Validates a given value with a strategy dedicated to the field.
-     *
-     * @param mixed $value
-     *
-     * @return boolean
-     */
-    public function validate($value);
-
-    /**
      * Returns the default value of the field.
      *
      * @return mixed
@@ -65,6 +58,16 @@ interface IField
      * @return boolean
      */
     public function hasOption($name);
+
+    /**
+     * @return IValidator
+     */
+    public function getValidator();
+
+    /**
+     * @return RuleList
+     */
+    public function getValidationRules();
 
     /**
      * Creates a IValueHolder instance dedicated to the current field instance.

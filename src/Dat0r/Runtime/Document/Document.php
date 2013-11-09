@@ -3,6 +3,8 @@
 namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\Error\BadValueException;
+use Dat0r\Runtime\Validation\Result\IIncident;
+use Dat0r\Runtime\Validation\Service as ValidationService;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\ReferenceField;
 use Dat0r\Runtime\Field\AggregateField;
@@ -48,6 +50,8 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     private $document_changed_listeners = array();
 
+    protected $validation_service;
+
     /**
      * Creates a new Document.
      *
@@ -80,16 +84,23 @@ abstract class Document implements IDocument, IValueChangedListener
     public function setValue($fieldname, $value)
     {
         $field = $this->module->getField($fieldname);
+        $result = $field->getValidator()->validate($value);
 
-        if ($field->validate($value)) {
-            $this->values->set($field, $value);
+        if ($result->getSeverity() === IIncident::SUCCESS) {
+            $this->values->set($field, $result->getSanitizedValue());
         } else {
-            $error = new InvalidValueException();
+            foreach ($result->getViolatedRules() as $violated_rule) {
+                foreach ($violated_rule->getIncidents() as $name => $incident) {
+                    // @todo Do something smart with the error information here.
+                    // Perhaps mark the document as invalid and return false
+                    // instead of throwing an exception.
+                }
+            }
 
+            $error = new InvalidValueException();
             $error->setFieldname($fieldname);
             $error->setModuleName($this->module->getName());
             $error->setValue($value);
-
             throw $error;
         }
     }

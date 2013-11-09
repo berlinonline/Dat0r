@@ -69,21 +69,6 @@ class AggregateFieldTest extends TestCase
     }
 
     /**
-     * @dataProvider getAggregateFixture
-     */
-    public function testValidate(array $aggregateData)
-    {
-        $aggregateField = AggregateField::create(
-            self::FIELDNAME,
-            array(
-                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule')
-            )
-        );
-
-        $this->assertTrue($aggregateField->validate($aggregateData));
-    }
-
-    /**
      * @codeCoverageIgnore
      */
     public static function getOptionsFixture()

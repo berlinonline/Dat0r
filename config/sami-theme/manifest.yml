@@ -1,4 +1,4 @@
-name: dat0r
+name: Dat0r
 parent: enhanced # "enhanced" or "default" are supplied by sami
 
 # files are copied as is (for assets like images, stylesheets, or javascript files)

@@ -139,7 +139,7 @@ class KeyValueValueHolder extends ValueHolder
 
     protected function castValue($value)
     {
-        $value_type = $this->getField()->getValueTypeConstraint();
+        $value_type = $this->getValueTypeConstraint();
         $valid_values = true;
 
         switch ($value_type) {
@@ -157,5 +157,17 @@ class KeyValueValueHolder extends ValueHolder
         }
 
         return $value;
+    }
+
+    public function getValueTypeConstraint()
+    {
+        $constraints = $this->getField()->getOption(KeyValueField::OPT_VALUE_CONSTRAINT, array());
+        $value_type = 'dynamic';
+
+        if (isset($constraints['value_type'])) {
+            $value_type = $constraints['value_type'];
+        }
+
+        return $value_type;
     }
 }

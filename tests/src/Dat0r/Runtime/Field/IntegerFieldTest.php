@@ -42,14 +42,6 @@ class IntegerFieldTest extends TestCase
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
 
-    public function testValidation()
-    {
-        $integerField = Field\IntegerField::create(self::FIELDNAME);
-        $this->assertTrue($integerField->validate(235));
-        $this->assertFalse($integerField->validate('invalid text value.'));
-        $this->assertFalse($integerField->validate(array('fnord' => 'array not acceptable')));
-    }
-
     /**
      * @codeCoverageIgnore
      */

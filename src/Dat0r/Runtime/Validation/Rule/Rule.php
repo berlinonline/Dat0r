@@ -1,0 +1,80 @@
+<?php
+
+namespace Dat0r\Runtime\Validation\Rule;
+
+use Dat0r\Runtime\Validation\Result\Incident;
+use Dat0r\Runtime\Validation\Result\IncidentMap;
+use Dat0r\Common\Object;
+
+abstract class Rule extends Object implements IRule
+{
+    protected $name;
+
+    protected $options;
+
+    protected $incidents;
+
+    protected $sanitized_value;
+
+    protected abstract function execute($value);
+
+    public function __construct($name, array $options = array())
+    {
+        $this->name = $name;
+        $this->options = $options;
+    }
+
+    public function apply($value, &$output)
+    {
+        $this->incidents = new IncidentMap();
+        $this->sanitized_value = null;
+
+        $success= false;
+        if (($success = $this->execute($value)) === true){
+            $output = $this->sanitized_value;
+        } else {
+            $output = null;
+        }
+
+        return $success;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getOption($name, $default = null)
+    {
+        if ($this->hasOption($name)) {
+            return $this->options[$name];
+        } else {
+            return $default;
+        }
+    }
+
+    public function hasOption($name)
+    {
+        return array_key_exists($name, $this->options);
+    }
+
+    public function getIncidents()
+    {
+        return $this->incidents;
+    }
+
+    protected function throwError($name, array $parameters = array(), $severity = Incident::ERROR)
+    {
+        $this->incidents->setItem($name, new Incident($name, $parameters, $severity));
+    }
+
+    protected function setSanitizedValue($sanitized_value)
+    {
+        $this->sanitized_value = $sanitized_value;
+    }
+}

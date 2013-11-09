@@ -59,15 +59,6 @@ class UuidFieldTest extends TestCase
         $this->assertEquals($uuid, $valueHolder->getValue());
     }
 
-    public function testValidate()
-    {
-        $uuidField = Field\UuidField::create(self::FIELDNAME);
-        $this->assertTrue($uuidField->validate('09b2e257-efa1-4f79-83bc-12f05a92f531'));
-        $this->assertFalse($uuidField->validate('this should not work!'));
-        $this->assertFalse($uuidField->validate(23));
-        $this->assertFalse($uuidField->validate(array('fnord' => 'array not acceptable')));
-    }
-
     /**
      * @codeCoverageIgnore
      */

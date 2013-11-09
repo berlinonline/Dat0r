@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Field;
+use Dat0r\Runtime\Field\TextField;
 
 class TextFieldTest extends TestCase
 {
@@ -11,7 +11,7 @@ class TextFieldTest extends TestCase
 
     public function testCreate()
     {
-        $textField = Field\TextField::create(self::FIELDNAME);
+        $textField = TextField::create(self::FIELDNAME);
         $this->assertEquals($textField->getName(), self::FIELDNAME);
     }
 
@@ -20,7 +20,7 @@ class TextFieldTest extends TestCase
      */
     public function testCreateWithOptions(array $options)
     {
-        $textField = Field\TextField::create(self::FIELDNAME, $options);
+        $textField = TextField::create(self::FIELDNAME, $options);
 
         $this->assertEquals($textField->getName(), self::FIELDNAME);
         $this->assertFalse($textField->hasOption('snafu_flag'));
@@ -35,18 +35,10 @@ class TextFieldTest extends TestCase
      */
     public function testCreateValueHolder($textValue)
     {
-        $textField = Field\TextField::create(self::FIELDNAME);
+        $textField = TextField::create(self::FIELDNAME);
         $valueHolder = $textField->createValueHolder($textValue);
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
         $this->assertEquals($textValue, $valueHolder->getValue());
-    }
-
-    public function testValidate()
-    {
-        $textField = Field\TextField::create(self::FIELDNAME);
-        $this->assertTrue($textField->validate('this is a valid text value.'));
-        $this->assertFalse($textField->validate(235));
-        $this->assertFalse($textField->validate(array('fnord' => 'array not acceptable')));
     }
 
     /**
