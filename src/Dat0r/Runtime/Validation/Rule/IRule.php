@@ -12,12 +12,11 @@ interface IRule
     public function getName();
 
     /**
-     * @param mixed $output On success $output will hold the validated(+sanitized) value, else holds a Message on error.
      * @param mixed $value
      *
      * @return boolean
      */
-    public function apply($value, &$output);
+    public function apply($value);
 
     /**
      * @param string $name
@@ -36,4 +35,9 @@ interface IRule
      * @return IncidentMap
      */
     public function getIncidents();
+
+    /**
+     * @return mixed
+     */
+    public function getSanitizedValue();
 }

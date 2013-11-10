@@ -8,13 +8,13 @@ use Dat0r\Common\Object;
 
 abstract class Rule extends Object implements IRule
 {
-    protected $name;
+    private $name;
 
-    protected $options;
+    private $options;
 
-    protected $incidents;
+    private $incidents;
 
-    protected $sanitized_value;
+    private $sanitized_value;
 
     protected abstract function execute($value);
 
@@ -24,14 +24,14 @@ abstract class Rule extends Object implements IRule
         $this->options = $options;
     }
 
-    public function apply($value, &$output)
+    public function apply($value)
     {
         $this->incidents = new IncidentMap();
         $this->sanitized_value = null;
 
-        $success= false;
-        if (($success = $this->execute($value)) === true){
-            $output = $this->sanitized_value;
+        $success = false;
+        if ($success = $this->execute($value)){
+            $this->sanitized_value = ($this->sanitized_value === null) ? $this->sanitized_value : $value;
         } else {
             $output = null;
         }
@@ -68,13 +68,18 @@ abstract class Rule extends Object implements IRule
         return $this->incidents;
     }
 
-    protected function throwError($name, array $parameters = array(), $severity = Incident::ERROR)
+    public function getSanitizedValue()
     {
-        $this->incidents->setItem($name, new Incident($name, $parameters, $severity));
+        return $this->sanitized_value;
     }
 
     protected function setSanitizedValue($sanitized_value)
     {
         $this->sanitized_value = $sanitized_value;
+    }
+
+    protected function throwError($name, array $parameters = array(), $severity = Incident::ERROR)
+    {
+        $this->incidents->setItem($name, new Incident($name, $parameters, $severity));
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Dat0r\Runtime\Validation\Rule;
 
-use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Validation\Report\Message;
+use Dat0r\Runtime\Validation\Result\IIncident;
 
 /**
  * Supported options: min, max, ensure_utf8, trim
@@ -14,9 +13,9 @@ class TextRule extends Rule
     {
         $success = true;
 
-        if(!is_scalar($value)) {
+        if (!is_scalar($value)) {
             // non scalar values would cause notices
-            $this->throwError('non_scalar');
+            $this->throwError('non_scalar', array(), IIncident::CRITICAL);
             return false;
         }
 

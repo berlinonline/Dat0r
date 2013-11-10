@@ -17,7 +17,7 @@ class TextField extends Field
     public function getValidationRules()
     {
         $rules = new RuleList(
-            array('text-type' => new TextRule('text-type', array('ensure_utf8' => true, 'trim' => true)))
+            array('valid-text' => new TextRule('valid-text', array('ensure_utf8' => true, 'trim' => true)))
         );
 
         $length_options = array();
@@ -29,7 +29,9 @@ class TextField extends Field
         }
 
         if (count($length_options) > 0) {
-            $rules->setItem('text-length', new TextRule('text-length', $length_options));
+            $length_options['ensure_utf8'] = false;
+            $length_options['trim'] = false;
+            $rules->setItem('valid-length', new TextRule('valid-length', $length_options));
         }
 
         return $rules;
