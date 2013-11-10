@@ -4,6 +4,7 @@ namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Field\TextField;
+use Dat0r\Runtime\Validation\Result\IIncident;
 
 class TextFieldTest extends TestCase
 {
@@ -39,6 +40,28 @@ class TextFieldTest extends TestCase
         $valueHolder = $textField->createValueHolder($textValue);
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
         $this->assertEquals($textValue, $valueHolder->getValue());
+    }
+
+    public function testValidationSuccess()
+    {
+        $text_field = TextField::create(
+            self::FIELDNAME,
+            array('min' => 3, 'max' => 10)
+        );
+
+        $result = $text_field->getValidator()->validate('erpen derp');
+        $this->assertEquals($result->getSeverity(), IIncident::SUCCESS);
+    }
+
+    public function testValidationError()
+    {
+        $text_field = TextField::create(
+            self::FIELDNAME,
+            array('min' => 3, 'max' => 5)
+        );
+
+        $result = $text_field->getValidator()->validate('erpen derp');
+        $this->assertEquals($result->getSeverity(), IIncident::ERROR);
     }
 
     /**

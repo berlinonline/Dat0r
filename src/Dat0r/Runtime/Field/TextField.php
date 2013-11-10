@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\Validation\Rule\RuleList;
-use Dat0r\Runtime\Validation\Rule\TextLengthRule;
+use Dat0r\Runtime\Validation\Rule\TextRule;
 
 class TextField extends Field
 {
@@ -16,9 +16,11 @@ class TextField extends Field
 
     public function getValidationRules()
     {
-        $rules = new RuleList();
-        $length_options = array();
+        $rules = new RuleList(
+            array('text-type' => new TextRule('text-type', array('ensure_utf8' => true, 'trim' => true)))
+        );
 
+        $length_options = array();
         if ($this->hasOption('min')) {
             $length_options['min'] = $this->getOption('min');
         }
@@ -27,9 +29,7 @@ class TextField extends Field
         }
 
         if (count($length_options) > 0) {
-            $rules->addItem(
-                new TextLengthRule('text-length', $length_options)
-            );
+            $rules->setItem('text-length', new TextRule('text-length', $length_options));
         }
 
         return $rules;
