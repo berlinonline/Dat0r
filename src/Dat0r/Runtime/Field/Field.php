@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
 use Dat0r\Runtime\Validation\Validator\IValidator;
@@ -12,25 +13,10 @@ use Dat0r\Runtime\Validation\Rule\RuleList;
  * Base class that all Dat0r IField implementations should extend.
  * Provides a pretty complete implementation for the IField interface.
  *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
+ * basic options: 'validator', 'value_holder', 'default_value', 'mandatory'
  */
 abstract class Field implements IField
 {
-    /**
-     * Holds the option name of the option that provides the IValueHolder implementor to use
-     * for managing field specific data.
-     */
-    const OPT_VALUE_HOLDER = 'value_holder';
-
-    /**
-     * Holds the option name of the option that provides the IValidator implementor to use
-     * when validating field specific data.
-     */
-    const OPT_VALIDATOR = 'validator';
-
-    const OPT_VALUE_DEFAULT = 'default_value';
-
     /**
      * Holds the field's name.
      *
@@ -39,12 +25,17 @@ abstract class Field implements IField
     protected $name;
 
     /**
-     * Holds the field'S options.
+     * Holds the field's options.
      *
      * @var array $options
      */
     protected $options = array();
 
+    /**
+     * Holds the field's validator instance.
+     *
+     * @var IValidator $validator
+     */
     protected $validator;
 
     /**
@@ -58,6 +49,18 @@ abstract class Field implements IField
     public static function create($name, array $options = array())
     {
         return new static($name, $options);
+    }
+
+    /**
+     * Constructs a new field instance.
+     *
+     * @param string $name
+     * @param array $options
+     */
+    public function __construct($name, array $options = array())
+    {
+        $this->name = $name;
+        $this->options = $options;
     }
 
     /**
@@ -113,7 +116,7 @@ abstract class Field implements IField
      */
     public function getDefaultValue()
     {
-        return $this->getOption(self::OPT_VALUE_DEFAULT);
+        return $this->getOption('default_value');
     }
 
     /**
@@ -125,26 +128,26 @@ abstract class Field implements IField
     public function getValidator()
     {
         if (!$this->validator) {
-            $default_implementor = '\\Dat0r\\Runtime\\Validation\\Validator\\Validator';
-            $implementor = $this->getOption('validator', $default_implementor);
+            $default_validator_class = '\\Dat0r\\Runtime\\Validation\\Validator\\Validator';
+            $validator_implementor = $this->getOption('validator', $default_validator_class);
 
-            if (!class_exists($implementor, true)) {
+            if (!class_exists($validator_implementor, true)) {
                 throw new RuntimeException(
                     sprintf(
                         "Unable to resolve validator implementor '%s' given for field: '%s'.",
-                        $implementor,
+                        $validator_implementor,
                         $this->getName()
                     )
                 );
             }
 
-            $validator = new $implementor($this->getName(), $this->getValidationRules());
+            $validator = new $validator_implementor($this->getName(), $this->buildValidationRules());
             if (!$validator instanceof IValidator) {
-                throw new RuntimeException(
+                throw new InvalidTypeException(
                     sprintf(
                         "Invalid validator implementor '%s' given for field: '%s'." .
                         "Make sure to implement 'Dat0r\Runtime\Validation\Validator\IValidator'.",
-                        $implementor,
+                        $validator_implementor,
                         $this->getName()
                     )
                 );
@@ -155,44 +158,45 @@ abstract class Field implements IField
         return $this->validator;
     }
 
-    public function getValidationRules()
-    {
-        return new RuleList();
-    }
-
     /**
-     * Creates a IValueHolder instance dedicated to the current field instance.
-     *
-     * @param mixed $value
+     * Creates a IValueHolder, that is specific to the current field instance.
      *
      * @return IValueHolder
      */
-    public function createValueHolder($value)
+    public function createValueHolder()
     {
-        $implementor = $this->hasOption(self::OPT_VALUE_HOLDER)
-            ? $this->getOption(self::OPT_VALUE_HOLDER)
-            : $this->getValueHolderImplementor();
+        $implementor = $this->hasOption('value_holder')
+            ? $this->getOption('value_holder')
+            : $this->buildDefaultValueHolderClassName();
 
         if (!class_exists($implementor)) {
             throw new RuntimeException(
                 "Invalid field value-holder given upon createValueHolder request."
             );
         }
-        $value_holder = $implementor::create($this, $value);
-        // @todo check against instanceof IValueHolder?
+        $value_holder = $implementor::create($this);
+
+        if (!$value_holder instanceof IValueHolder) {
+            throw new InvalidTypeException(
+                sprintf(
+                    "Invalid valueholder implementation '%s' given for field '%s'.",
+                    $implementor,
+                    $this->getField()->getName()
+                )
+            );
+        }
+
         return $value_holder;
     }
 
     /**
-     * Constructs a new field instance.
+     * Build a list of rules used by the field's validator to validate values for this field.
      *
-     * @param string $name
-     * @param array $options
+     * @return RuleList
      */
-    protected function __construct($name, array $options = array())
+    protected function buildValidationRules()
     {
-        $this->name = $name;
-        $this->options = $options;
+        return new RuleList();
     }
 
     /**
@@ -201,15 +205,12 @@ abstract class Field implements IField
      *
      * @return string Fully qualified name of an IValueHolder implementation.
      */
-    protected function getValueHolderImplementor()
+    protected function buildDefaultValueHolderClassName()
     {
-        return preg_replace_callback(
-            '/(.*)\\Field(.*)Field$/is',
-            function ($matches) {
-                $impl_pattern = '%sValueHolder%sValueHolder';
-                return sprintf($impl_pattern, $matches[1], $matches[2]);
-            },
-            get_class($this)
-        );
+        $valueholder_namespace = "\\Dat0r\\Runtime\\ValueHolder";
+        $field_classname_parts = explode('\\', get_class($this));
+        $valueholder_class = preg_replace('~(.*)Field$~is', '$1ValueHolder', array_pop($field_classname_parts));
+
+        return $valueholder_namespace . '\\' . $valueholder_class;
     }
 }

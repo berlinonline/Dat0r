@@ -1,9 +1,8 @@
 <?php
 
-namespace Dat0r\Runtime\Document;
+namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Runtime\IEvent;
-use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
@@ -11,9 +10,6 @@ use Dat0r\Runtime\Document\DocumentChangedEvent;
  * ValueChangedEvent(s) reflect state changes to a document's underlying ValueHolder.
  * These events are fired everytime a document field-value actually changes and can be used
  * to track state changes over time.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class ValueChangedEvent implements IEvent
 {
@@ -26,16 +22,16 @@ class ValueChangedEvent implements IEvent
     /**
      * Holds the previous value of our field origin.
      *
-     * @var mixed $old_value
+     * @var mixed $prev_value
      */
-    private $old_value;
+    private $prev_value;
 
     /**
      * Holds the new value of our field origin.
      *
-     * @var mixed $new_value
+     * @var mixed $value
      */
-    private $new_value;
+    private $value;
 
     /**
      * Holds the time at which the event was created.
@@ -52,22 +48,33 @@ class ValueChangedEvent implements IEvent
     private $aggregate_event;
 
     /**
-     * Creates a new ValueChangedEvent instance.
+     * Constructs a new ValueChangedEvent instance.
      *
      * @param IField $field
-     * @param IValueHolder $old
-     * @param IValueHolder $new
-     * @param DocumentChangedEvent $aggregate_event
-     *
-     * @return ValueChangedEvent
+     * @param mixed $prev_value
+     * @param mixed $value
+     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
      */
-    public static function create(
-        IField $field,
-        IValueHolder $old,
-        IValueHolder $new,
-        DocumentChangedEvent $aggregate_event = null
-    ) {
-        return new static($field, $old, $new, $aggregate_event);
+    public static function create(IField $field, $prev_value, $value, DocumentChangedEvent $aggregate_event = null)
+    {
+        return new static($field, $prev_value, $value, $aggregate_event);
+    }
+
+    /**
+     * Constructs a new ValueChangedEvent instance.
+     *
+     * @param IField $field
+     * @param mixed $prev_value
+     * @param mixed $value
+     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
+     */
+    protected function __construct(IField $field, $prev_value, $value, DocumentChangedEvent $aggregate_event = null)
+    {
+        $this->field = $field;
+        $this->timestamp = \time();
+        $this->prev_value = $prev_value;
+        $this->value = $value;
+        $this->aggregate_event = $aggregate_event;
     }
 
     /**
@@ -87,7 +94,7 @@ class ValueChangedEvent implements IEvent
      */
     public function getOldValue()
     {
-        return $this->old_value;
+        return $this->prev_value;
     }
 
     /**
@@ -97,7 +104,7 @@ class ValueChangedEvent implements IEvent
      */
     public function getNewValue()
     {
-        return $this->new_value;
+        return $this->value;
     }
 
     /**
@@ -141,26 +148,5 @@ class ValueChangedEvent implements IEvent
         }
 
         return $string_representation;
-    }
-
-    /**
-     * Constructs a new ValueChangedEvent instance.
-     *
-     * @param IField $field
-     * @param IValueHolder $old
-     * @param IValueHolder $new
-     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
-     */
-    protected function __construct (
-        IField $field,
-        IValueHolder $old,
-        IValueHolder $new,
-        DocumentChangedEvent $aggregate_event = null
-    ) {
-        $this->field = $field;
-        $this->timestamp = \time();
-        $this->old_value = $old;
-        $this->new_value = $new;
-        $this->aggregate_event = $aggregate_event;
     }
 }

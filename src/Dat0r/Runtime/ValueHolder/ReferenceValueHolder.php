@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\ReferenceField;
 
 /**
  * Default IValueHolder implementation used for reference value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class ReferenceValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return (!empty($lefthand_value) && empty($righthand_value));
     }
@@ -38,10 +34,9 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return (empty($lefthand_value) && !empty($righthand_value));
     }
@@ -54,35 +49,8 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
-        return $this->getValue() === $other->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        parent::setValue($value);
-    }
-
-    /**
-     * Contructs a new ReferenceValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof ReferenceField)) {
-            throw new BadValueException(
-                "Only instances of ReferenceField my be associated with ReferenceValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return $this->getValue() === $righthand_value;
     }
 }

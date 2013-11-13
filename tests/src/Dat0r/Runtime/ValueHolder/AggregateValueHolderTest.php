@@ -31,7 +31,8 @@ class AggregateValueHolderTest extends TestCase
                 'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'),
             )
         );
-        $value_holder = AggregateValueHolder::create($field, $field->getDefaultValue());
+        $value_holder = $field->createValueHolder();
+        $value_holder->setValue($field->getDefaultValue());
         $value = $value_holder->getValue();
 
         $this->assertInstanceOf('Dat0r\\Runtime\\Document\\DocumentList', $value);

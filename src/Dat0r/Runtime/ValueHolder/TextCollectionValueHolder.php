@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\TextCollectionField;
 
 /**
  * Default IValueHolder implementation used for text collection value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class TextCollectionValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class TextCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -47,10 +43,9 @@ class TextCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -72,10 +67,9 @@ class TextCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -107,6 +101,7 @@ class TextCollectionValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
+        // @todo move to validator
         $values = array();
         $value = empty($value) ? array() : $value;
         foreach ($value as $text) {
@@ -116,23 +111,6 @@ class TextCollectionValueHolder extends ValueHolder
             }
         }
 
-        parent::setValue($values);
-    }
-
-    /**
-     * Contructs a new TextValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof TextCollectionField)) {
-            throw new BadValueException(
-                "Only instances of TextCollectionField my be associated with TextCollectionValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return parent::setValue($values);
     }
 }

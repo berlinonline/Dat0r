@@ -3,22 +3,20 @@
 namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\Error\BadValueException;
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validation\Result\IIncident;
 use Dat0r\Runtime\Validation\Service as ValidationService;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\ReferenceField;
 use Dat0r\Runtime\Field\AggregateField;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
-use Dat0r\Runtime\ValueHolder\ValueHolderCollection;
+use Dat0r\Runtime\ValueHolder\ValueHolderMap;
+use Dat0r\Runtime\ValueHolder\IValueChangedListener;
+use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 
 /**
  * Document completely implements the IDocument interface
  * and serves as the parent to generated domain specific Base\Document classes.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
- *
- * @todo Add a marker interface for Repository integration.
  */
 abstract class Document implements IDocument, IValueChangedListener
 {
@@ -32,9 +30,9 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Represents a list of value holders that (surprise) hold a document's values.
      *
-     * @var ValueHolderCollection $values
+     * @var ValueHolderMap $value_holders
      */
-    private $values;
+    private $value_holders;
 
     /**
      * Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).
@@ -50,8 +48,6 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     private $document_changed_listeners = array();
 
-    protected $validation_service;
-
     /**
      * Creates a new Document.
      *
@@ -66,13 +62,43 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
+     * Constructs a new Document instance.
+     *
+     * @param IModule $module
+     * @param array $data
+     */
+    public function __construct(IModule $module, array $data = array())
+    {
+        $this->module = $module;
+
+        $this->value_holders = new ValueHolderMap();
+        foreach ($module->getFields() as $fieldname => $field) {
+            $value_holder = $field->createValueHolder();
+            $value_holder->setValue($field->getDefaultValue());
+            $this->value_holders->setItem($fieldname, $value_holder);
+        }
+
+        if (!empty($data)) {
+            $this->setValues($data);
+        }
+
+        foreach ($this->value_holders as $value_holder) {
+            $value_holder->addValueChangedListener($this);
+        }
+    }
+
+    /**
      * Sets a given list of values.
      *
      * @param array $values
      */
     public function setValues(array $values)
     {
-        $this->hydrate($values);
+        foreach ($this->module->getFields()->getKeys() as $fieldname) {
+            if (array_key_exists($fieldname, $values)) {
+                $this->setValue($fieldname, $values[$fieldname]);
+            }
+        }
     }
 
     /**
@@ -83,12 +109,15 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function setValue($fieldname, $value)
     {
-        $field = $this->module->getField($fieldname);
-        $result = $field->getValidator()->validate($value);
+        $value_holder = $this->value_holders->getItem($fieldname);
+        if (!$value_holder) {
+            throw new RuntimeException(
+                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
+            );
+        }
 
-        if ($result->getSeverity() === IIncident::SUCCESS) {
-            $this->values->set($field, $result->getSanitizedValue());
-        } else {
+        $result = $value_holder->setValue($value);
+        if ($result->getSeverity() > IIncident::SUCCESS) {
             foreach ($result->getViolatedRules() as $violated_rule) {
                 foreach ($violated_rule->getIncidents() as $name => $incident) {
                     // @todo Do something smart with the error information here.
@@ -96,7 +125,6 @@ abstract class Document implements IDocument, IValueChangedListener
                     // instead of throwing an exception.
                 }
             }
-
             $error = new InvalidValueException();
             $error->setFieldname($fieldname);
             $error->setModuleName($this->module->getName());
@@ -115,14 +143,10 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function getValue($fieldname, $raw = true)
     {
-        $field = $this->module->getField($fieldname);
-        $value = null;
-
-        if ($this->hasValue($fieldname)) {
-            $value_holder = $this->values->get($field);
-        } else {
-            throw new InvalidValueException(
-                "Field $fieldname has not been corretly initialized during initial hydrate."
+        $value_holder = $this->value_holders->getItem($fieldname);
+        if (!$value_holder) {
+            throw new RuntimeException(
+                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
             );
         }
 
@@ -131,8 +155,14 @@ abstract class Document implements IDocument, IValueChangedListener
 
     public function hasValue($fieldname)
     {
-        $field = $this->module->getField($fieldname);
-        return $this->values->has($field);
+        $value_holder = $this->value_holders->getItem($fieldname);
+        if (!$value_holder) {
+            throw new RuntimeException(
+                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
+            );
+        }
+
+        return $value_holder->hasValue();
     }
 
     /**
@@ -331,50 +361,6 @@ abstract class Document implements IDocument, IValueChangedListener
                 $error->setModuleName($this->module->getName());
 
                 throw $error;
-            }
-        }
-    }
-
-    /**
-     * Constructs a new Document instance.
-     *
-     * @param IModule $module
-     * @param array $data
-     */
-    protected function __construct(IModule $module, array $data = array())
-    {
-        $this->module = $module;
-        $this->values = ValueHolderCollection::create($this->getModule());
-        $this->hydrate($data, true);
-        $this->values->addValueChangedListener($this);
-    }
-
-    /**
-     * Hydrates the given set of values into the current IDocument instance.
-     *
-     * @param array $values
-     */
-    protected function hydrate(array $values = array(), $apply_defaults = false)
-    {
-        $non_hydrated_fields =  array();
-
-        if (!empty($values)) {
-            foreach ($this->module->getFields() as $fieldname => $field) {
-                if (array_key_exists($fieldname, $values)) {
-                    $this->setValue($field->getName(), $values[$fieldname]);
-                } else {
-                    $non_hydrated_fields[] = $field;
-                }
-            }
-        } else {
-            foreach ($this->module->getFields() as $fieldname => $field) {
-                $non_hydrated_fields[] = $field;
-            }
-        }
-
-        if ($apply_defaults) {
-            foreach ($non_hydrated_fields as $field) {
-                $this->setValue($field->getName(), $field->getDefaultValue());
             }
         }
     }

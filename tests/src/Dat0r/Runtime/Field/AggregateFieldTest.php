@@ -53,9 +53,9 @@ class AggregateFieldTest extends TestCase
                 AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule')
             )
         );
-        $valueHolder = $aggregateField->createValueHolder($aggregateData);
+        $valueHolder = $aggregateField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\AggregateValueHolder', $valueHolder);
-
+        $valueHolder->setValue($aggregateData);
         $document = $valueHolder->getValue()->getFirst();
         $this->assertInstanceOf('Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy', $document);
 

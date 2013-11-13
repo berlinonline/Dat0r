@@ -4,12 +4,10 @@ namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Common\Error;
 use Dat0r\Runtime\Field\IField;
+use Dat0r\Runtime\Validation\Result\IIncident;
 
 /**
  * Basic IValueHolder implementation that all other ValueHolders should inherit from.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 abstract class ValueHolder implements IValueHolder
 {
@@ -24,16 +22,32 @@ abstract class ValueHolder implements IValueHolder
     private $value;
 
     /**
+     * Holds a list of listeners regisered to our value changed event.
+     *
+     * @var array $value_changed_listeners
+     */
+    private $value_changed_listeners = array();
+
+    /**
      * Creates a new IValueHolder instance from a given value.
      *
      * @param IField $field
-     * @param mixed $value
      *
      * @return IValueHolder
      */
-    public static function create(IField $field, $value = null)
+    public static function create(IField $field)
     {
-        return new static($field, $value);
+        return new static($field);
+    }
+
+    /**
+     * Contructs a new ValueHolder instance from a given value.
+     *
+     * @param IField $field
+     */
+    public function __construct(IField $field)
+    {
+        $this->field = $field;
     }
 
     /**
@@ -50,53 +64,49 @@ abstract class ValueHolder implements IValueHolder
      * Sets the ValueHolder's value.
      *
      * @param mixed $value
+     *
+     * @return IResult
      */
     public function setValue($value)
     {
-        $this->value = $value;
-    }
+        $field_validator = $this->getField()->getValidator();
+        $validation_result = $field_validator->validate($value);
 
-    /**
-     * Returns string representation of the current value.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $value = $this->getValue();
-        $string = '';
+        if ($validation_result->getSeverity() === IIncident::SUCCESS) {
+            $previous_value = $this->value;
+            $this->value = $validation_result->getSanitizedValue();
 
-        if (is_object($value)) {
-            if (is_callable(array($value, '__toString'))) {
-                $string = $value->__toString();
-            } elseif (is_callable(array($value, 'toArray'))) {
-                $string = sprintf(
-                    '(%s) as %s',
-                    get_class($value),
-                    print_r($value->toArray(), true)
+            if (!$this->isEqualTo($previous_value)) {
+                $this->propagateValueChangedEvent(
+                    ValueChangedEvent::create($this->getField(), $previous_value, $this->value)
                 );
-            } else {
-                $string = sprintf('(%s)', get_class($value));
             }
-        } else {
-            $string = print_r($value, true);
         }
 
-        return $string;
+        return $validation_result;
     }
 
     /**
-     * Contructs a new ValueHolder instance from a given value.
+     * Propagates a given value changed event to all corresponding listeners.
      *
-     * @param IField $field
-     * @param mixed $value
+     * @param ValueChangedEvent $event
      */
-    protected function __construct(IField $field, $value = null)
+    public function propagateValueChangedEvent(ValueChangedEvent $event)
     {
-        $this->field = $field;
+        foreach ($this->value_changed_listeners as $listener) {
+            $listener->onValueChanged($event);
+        }
+    }
 
-        if (null !== $value) {
-            $this->setValue($value);
+    /**
+     * Registers a given listener as a recipient of value changed events.
+     *
+     * @param IValueChangedListener $value_changed_listener
+     */
+    public function addValueChangedListener(IValueChangedListener $value_changed_listener)
+    {
+        if (!in_array($value_changed_listener, $this->value_changed_listeners)) {
+            $this->value_changed_listeners[] = $value_changed_listener;
         }
     }
 

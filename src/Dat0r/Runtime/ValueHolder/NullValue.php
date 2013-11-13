@@ -7,9 +7,6 @@ use Dat0r\Runtime\INullObject;
 /**
  * NullObject implementation of the IValueHolder interface.
  * Represents empty, not-set, nothing-for-you-here value holder instances.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class NullValue extends ValueHolder
 {
@@ -21,7 +18,7 @@ class NullValue extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         return false;
     }
@@ -34,9 +31,9 @@ class NullValue extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
-        return !$this->isEqualTo($other);
+        return !$this->isEqualTo($righthand_value);
     }
 
     /**
@@ -47,8 +44,8 @@ class NullValue extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
-        return ($other instanceof NullValue);
+        return $righthand_value === null;
     }
 }

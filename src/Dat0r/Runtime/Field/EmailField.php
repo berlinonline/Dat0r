@@ -7,7 +7,7 @@ use Dat0r\Runtime\Validation\Rule\EmailRule;
 
 class EmailField extends TextField
 {
-    public function getValidationRules()
+    protected function buildValidationRules()
     {
         return new RuleList(
             array('valid-email' => new EmailRule('email-type'))

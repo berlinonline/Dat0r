@@ -65,16 +65,9 @@ interface IField
     public function getValidator();
 
     /**
-     * @return RuleList
-     */
-    public function getValidationRules();
-
-    /**
      * Creates a IValueHolder instance dedicated to the current field instance.
-     *
-     * @param mixed $value
      *
      * @return IValueHolder
      */
-    public function createValueHolder($value);
+    public function createValueHolder();
 }

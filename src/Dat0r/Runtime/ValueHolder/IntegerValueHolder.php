@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\IntegerField;
 
 /**
  * Default IValueHolder implementation used for integer value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class IntegerValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class IntegerValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return $lefthand_value > $righthand_value;
     }
@@ -38,10 +34,9 @@ class IntegerValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return $lefthand_value < $righthand_value;
     }
@@ -54,39 +49,8 @@ class IntegerValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
-        return $this->getValue() === $other->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        if ($this->getField()->getOption('precision') === 'float') {
-            parent::setValue((float)$value);
-        } else {
-            parent::setValue((int)$value);
-        }
-    }
-
-    /**
-     * Contructs a new IntegerValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof IntegerField)) {
-            throw new BadValueException(
-                "Only instances of NumberField my be associated with NumberValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return $this->getValue() === $righthand_value;
     }
 }

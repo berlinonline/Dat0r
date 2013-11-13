@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\TextField;
 
 /**
  * Default IValueHolder implementation used for text value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class TextValueHolder extends ValueHolder
 {
@@ -22,12 +19,9 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($right_value)
     {
-        $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
-
-        return 0 < strcmp($lefthand_value, $righthand_value);
+        return 0 < strcmp($this->getValue(), $right_value);
     }
 
     /**
@@ -38,12 +32,9 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($right_value)
     {
-        $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
-
-        return 0 > strcmp($lefthand_value, $righthand_value);
+        return 0 > strcmp($this->getValue(), $right_value);
     }
 
     /**
@@ -54,35 +45,8 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($right_value)
     {
-        return $this->getValue() === $other->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        parent::setValue((string)$value);
-    }
-
-    /**
-     * Contructs a new TextValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof TextField)) {
-            throw new BadValueException(
-                "Only instances of TextField my be associated with TextValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return $this->getValue() === $right_value;
     }
 }

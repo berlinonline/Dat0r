@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\KeyValuesCollectionField;
 
 /**
  * Default IValueHolder implementation used for key-values collection value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class KeyValuesCollectionValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -47,10 +43,9 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -72,10 +67,9 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -136,24 +130,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
             }
         }
 
-        parent::setValue($attributes);
-    }
-
-    /**
-     * Contructs a new TextValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof KeyValuesCollectionField)) {
-            throw new BadValueException(
-                "Only instances of KeyValuesCollectionField my be associated with KeyValuesCollectionValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return parent::setValue($attributes);
     }
 
     protected function castValue($value)
@@ -178,7 +155,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
         return $value;
     }
 
-    public function getValueTypeConstraint()
+    protected function getValueTypeConstraint()
     {
         $constraints = $this->getField()->getOption(KeyValuesCollectionField::OPT_VALUE_CONSTRAINT, array());
         $value_type = 'dynamic';

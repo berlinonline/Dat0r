@@ -9,12 +9,10 @@ class TextField extends Field
 {
     public function getDefaultValue()
     {
-        return $this->hasOption(self::OPT_VALUE_DEFAULT)
-            ? (string)$this->getOption(self::OPT_VALUE_DEFAULT)
-            : '';
+        return (string)$this->getOption('default_value', '');
     }
 
-    public function getValidationRules()
+    protected function buildValidationRules()
     {
         $rules = new RuleList(
             array('valid-text' => new TextRule('valid-text', array('ensure_utf8' => true, 'trim' => true)))

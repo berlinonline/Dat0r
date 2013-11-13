@@ -16,10 +16,9 @@ class SelectValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return $lefthand_value > $righthand_value;
     }
@@ -32,10 +31,9 @@ class SelectValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return $lefthand_value < $righthand_value;
     }
@@ -48,16 +46,16 @@ class SelectValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
 
         return $lefthand_value == $righthand_value;
     }
 
     public function setValue($value)
     {
+        // @todo move to validator
         if ($this->getField()->getOption('multiple', false)) {
             $selected_options = array();
             $value = empty($value) ? array() : $value;
@@ -70,17 +68,6 @@ class SelectValueHolder extends ValueHolder
             $value = $selected_options;
         }
 
-        parent::setValue($value);
-    }
-
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof SelectField)) {
-            throw new BadValueException(
-                "Only instances of SelectField my be associated with SelectValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return parent::setValue($value);
     }
 }

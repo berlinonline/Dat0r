@@ -14,11 +14,10 @@ interface IValueHolder
      * Creates a new IValueHolder instance for the given value.
      *
      * @param IField $field
-     * @param mixed $value
      *
      * @return IValueHolder
      */
-    public static function create(IField $field, $value = null);
+    public static function create(IField $field);
 
     /**
      * Returns the value holder's aggregated value.
@@ -31,6 +30,8 @@ interface IValueHolder
      * Sets the value holder's value.
      *
      * @param string $value
+     *
+     * @return IResult
      */
     public function setValue($value);
 
@@ -41,7 +42,7 @@ interface IValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other);
+    public function isGreaterThan($righthand_value);
 
     /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
@@ -50,7 +51,7 @@ interface IValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other);
+    public function isLessThan($righthand_value);
 
     /**
      * Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.
@@ -59,5 +60,5 @@ interface IValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other);
+    public function isEqualTo($righthand_value);
 }

@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\KeyValueField;
 
 /**
  * Default IValueHolder implementation used for key-value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class KeyValueValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class KeyValueValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -47,10 +43,9 @@ class KeyValueValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -72,10 +67,9 @@ class KeyValueValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -107,9 +101,9 @@ class KeyValueValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
+        // @todo move to validator
         $attributes = array();
         $value = empty($value) ? array() : $value;
-
         foreach ($value as $key => $value) {
             $key = trim($key);
             if (!empty($key)) {
@@ -117,24 +111,7 @@ class KeyValueValueHolder extends ValueHolder
             }
         }
 
-        parent::setValue($attributes);
-    }
-
-    /**
-     * Contructs a new TextValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (! ($field instanceof KeyValueField)) {
-            throw new BadValueException(
-                "Only instances of KeyValueField my be associated with KeyValueValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return parent::setValue($attributes);
     }
 
     protected function castValue($value)

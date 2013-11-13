@@ -37,8 +37,9 @@ class IntegerFieldTest extends TestCase
     public function testCreateValueHolder($intValue)
     {
         $integerField = Field\IntegerField::create(self::FIELDNAME);
-        $valueHolder = $integerField->createValueHolder($intValue);
+        $valueHolder = $integerField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\IntegerValueHolder', $valueHolder);
+        $valueHolder->setValue($intValue);
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
 

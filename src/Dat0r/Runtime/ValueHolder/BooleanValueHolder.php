@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\BooleanField;
 
 /**
  * Default IValueHolder implementation used for boolean value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class BooleanValueHolder extends ValueHolder
 {
@@ -22,9 +19,9 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
-        return true === $this->getValue() && false === $other->getValue();
+        return true === $this->getValue() && false === $righthand_value;
     }
 
     /**
@@ -35,9 +32,9 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
-        return false === $this->getValue() && true === $other->getValue();
+        return false === $this->getValue() && true === $righthand_value;
     }
 
     /**
@@ -48,35 +45,8 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
-        return $this->getValue() === $other->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        parent::setValue((bool)$value);
-    }
-
-    /**
-     * Contructs a new BooleanValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof BooleanField)) {
-            throw new BadValueException(
-                "Only instances of BooleanField my be associated with BooleanValueHolder only."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return $this->getValue() === $righthand_value;
     }
 }

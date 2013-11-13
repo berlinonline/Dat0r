@@ -2,14 +2,20 @@
 
 namespace Dat0r\Runtime\Field;
 
+use Dat0r\Runtime\Validation\Rule\RuleList;
+use Dat0r\Runtime\Validation\Rule\BooleanRule;
+
 class BooleanField extends Field
 {
     public function getDefaultValue()
     {
-        if ($this->hasOption(self::OPT_VALUE_DEFAULT)) {
-            return (bool)$this->getOption(self::OPT_VALUE_DEFAULT);
-        }
+        return (bool)$this->getOption('default_value', false);
+    }
 
-        return false;
+    protected function buildValidationRules()
+    {
+        return new RuleList(
+            array('valid-boolean' => new BooleanRule('valid-boolean'))
+        );
     }
 }

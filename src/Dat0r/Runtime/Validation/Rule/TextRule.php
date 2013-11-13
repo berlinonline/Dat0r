@@ -14,12 +14,10 @@ class TextRule extends Rule
         $success = true;
 
         if (!is_scalar($value)) {
-            // non scalar values would cause notices
             $this->throwError('non_scalar', array(), IIncident::CRITICAL);
             return false;
         }
 
-        // UTF-8 trimming from AgaviStringValidator
         $ensure_utf8 = $this->getOption('ensure_utf8', false);
         if ($this->getOption('trim', false)) {
             if($ensure_utf8) {
@@ -48,7 +46,7 @@ class TextRule extends Rule
                 $this->throwError('max', array('max' => $max));
             }
         }
-        // From AgaviStringValidator: "To fix the: 'non SGML character number 11' issue.""
+        // handle non-sgml characters
         $value = preg_replace('/[\x1-\x8\xB-\xC\xE-\x1F]/', '', $value);
 
         if ($success) {

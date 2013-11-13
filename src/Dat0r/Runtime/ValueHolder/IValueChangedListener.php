@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Document;
+namespace Dat0r\Runtime\ValueHolder;
 
 interface IValueChangedListener
 {

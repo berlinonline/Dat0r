@@ -7,15 +7,11 @@ use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
 use Dat0r\Runtime\Document\IDocumentChangedListener;
-use Dat0r\Runtime\Document\IAggregateChangedListener;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
 /**
  * Default IValueHolder implementation used for holding nested documents.
  * Should be use as the base to all other dat0r valueholder implementations.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class AggregateValueHolder extends ValueHolder implements IDocumentChangedListener
 {
@@ -34,7 +30,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         return false;
     }
@@ -47,7 +43,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         return false;
     }
@@ -60,17 +56,16 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_docs = $this->getValue();
-        $righthand_docs = $other->getValue();
         $equal = true;
 
-        if (count($lefthand_docs) !== count($righthand_docs)) {
+        if (count($lefthand_docs) !== count($righthand_value)) {
             $equal = false;
         } else {
             foreach ($lefthand_docs as $index => $document) {
-                if ($index !== $righthand_docs->indexOf($document)) {
+                if ($index !== $righthand_value->indexOf($document)) {
                     $equal = false;
                 }
             }
@@ -87,7 +82,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     public function setValue($value)
     {
         $collection = null;
-
+        // @todo move to validator
         if ($value instanceof DocumentList) {
             $collection = $value;
         } elseif (null === $value) {
@@ -129,7 +124,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
             );
         }
 
-        parent::setValue($collection);
+        return parent::setValue($collection);
     }
 
     public function addDocument($document)
@@ -140,53 +135,21 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
     }
 
     /**
-     * Propagates a given document changed event to all corresponding listeners.
-     *
-     * @param DocumentChangedEvent $event
-     */
-    public function notifyAggregateChanged(DocumentChangedEvent $event)
-    {
-        foreach ($this->aggregate_changed_listeners as $listener) {
-            $listener->onAggregateChanged($this->getField(), $event);
-        }
-    }
-
-    /**
-     * Registers a given listener as a recipient of aggregate changed events.
-     *
-     * @param IAggregateChangedListener $aggregate_changed_listener
-     */
-    public function addAggregateChangedListener(IAggregateChangedListener $aggregate_changed_listener)
-    {
-        if (!in_array($aggregate_changed_listener, $this->aggregate_changed_listeners)) {
-            $this->aggregate_changed_listeners[] = $aggregate_changed_listener;
-        }
-    }
-
-    /**
      * Handles document changed events that are sent by our aggregated document.
      *
      * @param DocumentChangedEvent $event
      */
     public function onDocumentChanged(DocumentChangedEvent $event)
     {
-        $this->notifyAggregateChanged($event);
-    }
+        $value_changed_event = $event->getValueChangedEvent();
 
-    /**
-     * Contructs a new AggregateValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof AggregateField)) {
-            throw new BadValueException(
-                "Only instances of AggregateField my be associated with AggregateValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        $this->propagateValueChangedEvent(
+            ValueChangedEvent::create(
+                $value_changed_event->getField(),
+                $value_changed_event->getOldValue(),
+                $value_changed_event->getNewValue(),
+                $event
+            )
+        );
     }
 }

@@ -163,7 +163,7 @@ abstract class Module implements IModule
                 "Unable to resolve the given document implementor upon document creation request."
             );
         }
-        // @todo maybe check interface before returning (ioc consistency check).
+
         return $implementor::create($this, $data);
     }
 

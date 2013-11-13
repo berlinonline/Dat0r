@@ -8,9 +8,6 @@ use Dat0r\Runtime\Field\IntegerCollectionField;
 
 /**
  * Default IValueHolder implementation used for integer collection value containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class IntegerCollectionValueHolder extends ValueHolder
 {
@@ -22,10 +19,9 @@ class IntegerCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan(IValueHolder $other)
+    public function isGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -47,10 +43,9 @@ class IntegerCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan(IValueHolder $other)
+    public function isLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
 
@@ -72,10 +67,9 @@ class IntegerCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo(IValueHolder $other)
+    public function isEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
-        $righthand_value = $other->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -107,32 +101,15 @@ class IntegerCollectionValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
+        // @todo move to validator
         $values = array();
         $value = empty($value) ? array() : $value;
-
         foreach ($value as $int) {
             if (! empty($int)) {
                 $values[] = (int)$int;
             }
         }
 
-        parent::setValue($values);
-    }
-
-    /**
-     * Contructs a new TextValueHolder instance from a given value.
-     *
-     * @param IField $field
-     * @param mixed $value
-     */
-    protected function __construct(IField $field, $value = null)
-    {
-        if (!($field instanceof IntegerCollectionField)) {
-            throw new BadValueException(
-                "Only instances of IntegerCollectionField may be associated with IntegerCollectionValueHolder."
-            );
-        }
-
-        parent::__construct($field, $value);
+        return parent::setValue($values);
     }
 }

@@ -54,8 +54,9 @@ class UuidFieldTest extends TestCase
     public function testCreateValueHolder($uuid)
     {
         $uuidField = Field\UuidField::create(self::FIELDNAME);
-        $valueHolder = $uuidField->createValueHolder($uuid);
+        $valueHolder = $uuidField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\UuidValueHolder', $valueHolder);
+        $valueHolder->setValue($uuid);
         $this->assertEquals($uuid, $valueHolder->getValue());
     }
 

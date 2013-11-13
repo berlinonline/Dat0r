@@ -8,19 +8,13 @@ class EmailRule extends Rule
 {
     protected function execute($value)
     {
-        $success = true;
-
         if (!is_scalar($value)) {
             $this->throwError('invalid_type', array(), IIncident::CRITICAL);
             return false;
         }
-        // From AgaviEmailValidator
-        $pattern = sprintf(
-            '/^[a-z0-9%1$s]+(\.[a-z0-9%1$s]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,6}$/iD',
-            preg_quote('!#$%&\'*+-/=?^_`{|}~', '/')
-        );
 
-        if (!preg_match($pattern, $value)) {
+        $success = filter_var($value, FILTER_VALIDATE_EMAIL);
+        if (!$success) {
             $this->throwError('invalid_format');
             $success = false;
         } else {

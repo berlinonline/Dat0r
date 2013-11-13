@@ -37,8 +37,9 @@ class TextFieldTest extends TestCase
     public function testCreateValueHolder($textValue)
     {
         $textField = TextField::create(self::FIELDNAME);
-        $valueHolder = $textField->createValueHolder($textValue);
+        $valueHolder = $textField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
+        $valueHolder->setValue($textValue);
         $this->assertEquals($textValue, $valueHolder->getValue());
     }
 
