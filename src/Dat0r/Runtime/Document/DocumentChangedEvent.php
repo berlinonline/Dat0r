@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document;
 
-use Dat0r\Runtime\IEvent;
+use Dat0r\Common\IEvent;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 
 /**

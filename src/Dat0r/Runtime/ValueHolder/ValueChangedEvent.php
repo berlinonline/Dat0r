@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\IEvent;
+use Dat0r\Common\IEvent;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
