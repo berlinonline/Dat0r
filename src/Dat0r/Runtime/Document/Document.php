@@ -121,15 +121,9 @@ abstract class Document implements IDocument, IValueChangedListener
             foreach ($result->getViolatedRules() as $violated_rule) {
                 foreach ($violated_rule->getIncidents() as $name => $incident) {
                     // @todo Do something smart with the error information here.
-                    // Perhaps mark the document as invalid and return false
-                    // instead of throwing an exception.
+                    // Mark the document as invalid and return false.
                 }
             }
-            $error = new InvalidValueException();
-            $error->setFieldname($fieldname);
-            $error->setModuleName($this->module->getName());
-            $error->setValue($value);
-            throw $error;
         }
     }
 
@@ -347,21 +341,5 @@ abstract class Document implements IDocument, IValueChangedListener
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes[] = $event;
         $this->notifyDocumentChanged($event);
-    }
-
-    public function checkMandatoryFields()
-    {
-        foreach ($this->getModule()->getFields() as $field) {
-            $value = $this->getValue($field->getName());
-            $is_mandatory = ($field->getOption('mandatory') == true);
-
-            if ($is_mandatory && empty($value)) {
-                $error = new MandatoryValueMissingException();
-                $error->setFieldName($field->getName());
-                $error->setModuleName($this->module->getName());
-
-                throw $error;
-            }
-        }
     }
 }
