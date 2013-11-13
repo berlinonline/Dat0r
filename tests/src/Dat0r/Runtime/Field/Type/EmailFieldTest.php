@@ -19,7 +19,7 @@ class EmailFieldTest extends TestCase
         $email = 'foo.bar@example.com';
         $email_field = EmailField::create('email');
         $value_holder = $email_field->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\EmailValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\EmailValueHolder', $value_holder);
         $value_holder->setValue($email);
         $this->assertEquals($email, $value_holder->getValue());
     }

@@ -1,15 +1,16 @@
 <?php
 
-namespace Dat0r\Runtime\ValueHolder;
+namespace Dat0r\Runtime\ValueHolder\Type;
 
+use Dat0r\Runtime\ValueHolder\ValueHolder;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\Type\IntegerField;
+use Dat0r\Runtime\Field\Type\BooleanField;
 
 /**
- * Default IValueHolder implementation used for integer value containment.
+ * Default IValueHolder implementation used for boolean value containment.
  */
-class IntegerValueHolder extends ValueHolder
+class BooleanValueHolder extends ValueHolder
 {
     /**
      * Tells whether a spefic IValueHolder instance's value is considered greater than
@@ -21,9 +22,7 @@ class IntegerValueHolder extends ValueHolder
      */
     public function isGreaterThan($righthand_value)
     {
-        $lefthand_value = $this->getValue();
-
-        return $lefthand_value > $righthand_value;
+        return true === $this->getValue() && false === $righthand_value;
     }
 
     /**
@@ -36,9 +35,7 @@ class IntegerValueHolder extends ValueHolder
      */
     public function isLessThan($righthand_value)
     {
-        $lefthand_value = $this->getValue();
-
-        return $lefthand_value < $righthand_value;
+        return false === $this->getValue() && true === $righthand_value;
     }
 
     /**

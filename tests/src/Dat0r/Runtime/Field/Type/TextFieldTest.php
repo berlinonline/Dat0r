@@ -38,7 +38,7 @@ class TextFieldTest extends TestCase
     {
         $textField = TextField::create(self::FIELDNAME);
         $valueHolder = $textField->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\TextValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\TextValueHolder', $valueHolder);
         $valueHolder->setValue($textValue);
         $this->assertEquals($textValue, $valueHolder->getValue());
     }

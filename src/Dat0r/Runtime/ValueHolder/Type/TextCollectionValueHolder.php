@@ -1,15 +1,16 @@
 <?php
 
-namespace Dat0r\Runtime\ValueHolder;
+namespace Dat0r\Runtime\ValueHolder\Type;
 
+use Dat0r\Runtime\ValueHolder\ValueHolder;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\Type\IntegerCollectionField;
+use Dat0r\Runtime\Field\Type\TextCollectionField;
 
 /**
- * Default IValueHolder implementation used for integer collection value containment.
+ * Default IValueHolder implementation used for text collection value containment.
  */
-class IntegerCollectionValueHolder extends ValueHolder
+class TextCollectionValueHolder extends ValueHolder
 {
     /**
      * Tells whether a spefic IValueHolder instance's value is considered greater than
@@ -104,9 +105,10 @@ class IntegerCollectionValueHolder extends ValueHolder
         // @todo move to validator
         $values = array();
         $value = empty($value) ? array() : $value;
-        foreach ($value as $int) {
-            if (! empty($int)) {
-                $values[] = (int)$int;
+        foreach ($value as $text) {
+            $text = trim((string)$text);
+            if (!empty($text)) {
+                $values[] = $text;
             }
         }
 

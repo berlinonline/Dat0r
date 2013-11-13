@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\IFreezable;
 use Dat0r\Runtime\Field\IField;
 
 /**

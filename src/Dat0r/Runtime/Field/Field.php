@@ -207,7 +207,7 @@ abstract class Field implements IField
      */
     protected function buildDefaultValueHolderClassName()
     {
-        $valueholder_namespace = "\\Dat0r\\Runtime\\ValueHolder";
+        $valueholder_namespace = "\\Dat0r\\Runtime\\ValueHolder\\Type";
         $field_classname_parts = explode('\\', get_class($this));
         $valueholder_class = preg_replace('~(.*)Field$~is', '$1ValueHolder', array_pop($field_classname_parts));
 

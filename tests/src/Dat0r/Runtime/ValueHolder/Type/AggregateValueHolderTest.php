@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\ValueHolder;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\ValueHolder\AggregateValueHolder;
+use Dat0r\Runtime\ValueHolder\Type\AggregateValueHolder;
 use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
 
@@ -20,7 +20,7 @@ class AggregateValueHolderTest extends TestCase
             )
         );
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\AggregateValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\AggregateValueHolder', $value_holder);
     }
 
     public function testDefaultValue()

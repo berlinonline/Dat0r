@@ -1,15 +1,16 @@
 <?php
 
-namespace Dat0r\Runtime\ValueHolder;
+namespace Dat0r\Runtime\ValueHolder\Type;
 
+use Dat0r\Runtime\ValueHolder\ValueHolder;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\Type\TextField;
+use Dat0r\Runtime\Field\Type\IntegerField;
 
 /**
- * Default IValueHolder implementation used for text value containment.
+ * Default IValueHolder implementation used for integer value containment.
  */
-class TextValueHolder extends ValueHolder
+class IntegerValueHolder extends ValueHolder
 {
     /**
      * Tells whether a spefic IValueHolder instance's value is considered greater than
@@ -19,9 +20,11 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan($right_value)
+    public function isGreaterThan($righthand_value)
     {
-        return 0 < strcmp($this->getValue(), $right_value);
+        $lefthand_value = $this->getValue();
+
+        return $lefthand_value > $righthand_value;
     }
 
     /**
@@ -32,9 +35,11 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan($right_value)
+    public function isLessThan($righthand_value)
     {
-        return 0 > strcmp($this->getValue(), $right_value);
+        $lefthand_value = $this->getValue();
+
+        return $lefthand_value < $righthand_value;
     }
 
     /**
@@ -45,8 +50,8 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo($right_value)
+    public function isEqualTo($righthand_value)
     {
-        return $this->getValue() === $right_value;
+        return $this->getValue() === $righthand_value;
     }
 }

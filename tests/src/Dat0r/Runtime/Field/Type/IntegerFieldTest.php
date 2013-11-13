@@ -38,7 +38,7 @@ class IntegerFieldTest extends TestCase
     {
         $integerField = IntegerField::create(self::FIELDNAME);
         $valueHolder = $integerField->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\IntegerValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\IntegerValueHolder', $valueHolder);
         $valueHolder->setValue($intValue);
         $this->assertEquals($intValue, $valueHolder->getValue());
     }
