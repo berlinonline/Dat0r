@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Runtime\Module\Fixtures;
 
-use Dat0r\Runtime\Field\TextField;
-use Dat0r\Runtime\Field\TextareaField;
+use Dat0r\Runtime\Field\Type\TextField;
+use Dat0r\Runtime\Field\Type\TextareaField;
 use Dat0r\Runtime\Module\AggregateModule as BaseAggregateModule;
 
 class AggregateModule extends BaseAggregateModule

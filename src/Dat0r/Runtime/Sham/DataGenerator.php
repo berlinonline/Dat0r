@@ -8,7 +8,6 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field;
 use Dat0r\Runtime\Sham\Guesser\TextField as TextFieldGuesser;
 use Dat0r\Runtime\Document\DocumentList;
 
@@ -604,8 +603,8 @@ class DataGenerator
      * Returns the name of the internal method to call when fake data should
      * be generated and added to the given field. The pattern is like this:
      *
-     * - `addText` for `\Dat0r\Runtime\Field\TextField`
-     * - `addIntegerCollection` for `\Dat0r\Runtime\Field\IntegerCollectionField`
+     * - `addText` for `\Dat0r\Runtime\Field\Type\TextField`
+     * - `addIntegerCollection` for `\Dat0r\Runtime\Field\Type\IntegerCollectionField`
      * - `addReferenceModule` for `\Dat0r\Runtime\Field\ReferenceModuleField`
      *
      * etc. pp.
@@ -619,7 +618,7 @@ class DataGenerator
         $name = null;
 
         $type = get_class($field);
-        if (preg_match('/^Dat0r\\\\Runtime\\\\Field\\\\(.*)Field$/', $type, $matches)) {
+        if (preg_match('/^Dat0r\\\\Runtime\\\\Field\\\\Type\\\\(.*)Field$/', $type, $matches)) {
             $name = 'add' . $matches[1];
         }
 

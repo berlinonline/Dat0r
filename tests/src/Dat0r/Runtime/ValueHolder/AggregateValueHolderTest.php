@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\ValueHolder;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\ValueHolder\AggregateValueHolder;
-use Dat0r\Runtime\Field\AggregateField;
+use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
 
 class AggregateValueHolderTest extends TestCase

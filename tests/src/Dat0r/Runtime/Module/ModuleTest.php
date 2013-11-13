@@ -7,7 +7,6 @@ use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
 use Dat0r\Tests\Runtime\Module\Fixtures\AggregateModule;
 use Dat0r\Tests\Runtime\Module\Fixtures\InvalidRootModule;
 use Dat0r\Runtime\Module\IModule;
-use Dat0r\Runtime\Field;
 
 class ModuleTest extends TestCase
 {
@@ -32,8 +31,8 @@ class ModuleTest extends TestCase
      */
     public function testGetFieldMethod(IModule $module)
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $module->getField('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $module->getField('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $module->getField('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $module->getField('clickCount'));
     }
 
     /**
@@ -46,17 +45,17 @@ class ModuleTest extends TestCase
         $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
         $this->assertEquals(11, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('content'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->getItem('clickCount'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('author'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('email'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextCollectionField', $fields->getItem('keywords'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\BooleanField', $fields->getItem('enabled'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerCollectionField', $fields->getItem('images'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\KeyValueField', $fields->getItem('meta'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\AggregateField', $fields->getItem('paragraph'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\ReferenceField', $fields->getItem('references'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('content'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $fields->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('author'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('email'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextCollectionField', $fields->getItem('keywords'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\BooleanField', $fields->getItem('enabled'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerCollectionField', $fields->getItem('images'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\KeyValueField', $fields->getItem('meta'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\AggregateField', $fields->getItem('paragraph'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\ReferenceField', $fields->getItem('references'));
     }
 
     /**
@@ -69,8 +68,8 @@ class ModuleTest extends TestCase
         $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
         $this->assertEquals(2, $fields->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\TextField', $fields->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $fields->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $fields->getItem('clickCount'));
     }
 
     /**

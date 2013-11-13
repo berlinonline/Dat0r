@@ -1,8 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Field;
-
-use Dat0r\Runtime\ValueHolder\TextValueHolder;
+namespace Dat0r\Runtime\Field\Type;
 
 class UuidField extends TextField
 {

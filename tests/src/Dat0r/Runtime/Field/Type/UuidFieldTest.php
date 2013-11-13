@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Field;
+use Dat0r\Runtime\Field\Type\UuidField;
 use Dat0r\Runtime\ValueHolder\UuidValueHolder;
 
 class UuidFieldTest extends TestCase
@@ -12,13 +12,13 @@ class UuidFieldTest extends TestCase
 
     public function testCreate()
     {
-        $uuidField = Field\UuidField::create(self::FIELDNAME);
+        $uuidField = UuidField::create(self::FIELDNAME);
         $this->assertEquals($uuidField->getName(), self::FIELDNAME);
     }
 
     public function testDefaultValue()
     {
-        $uuidField = Field\UuidField::create(self::FIELDNAME);
+        $uuidField = UuidField::create(self::FIELDNAME);
         $defaultValue = $uuidField->getDefaultValue();
 
         $this->assertFalse(empty($defaultValue));
@@ -37,7 +37,7 @@ class UuidFieldTest extends TestCase
      */
     public function testCreateWithOptions(array $options)
     {
-        $uuidField = Field\UuidField::create(self::FIELDNAME, $options);
+        $uuidField = UuidField::create(self::FIELDNAME, $options);
 
         $this->assertEquals($uuidField->getName(), self::FIELDNAME);
         $this->assertFalse($uuidField->hasOption('snafu_flag'));
@@ -53,7 +53,7 @@ class UuidFieldTest extends TestCase
      */
     public function testCreateValueHolder($uuid)
     {
-        $uuidField = Field\UuidField::create(self::FIELDNAME);
+        $uuidField = UuidField::create(self::FIELDNAME);
         $valueHolder = $uuidField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\UuidValueHolder', $valueHolder);
         $valueHolder->setValue($uuid);

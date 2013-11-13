@@ -3,14 +3,14 @@
 namespace Dat0r\Tests\Runtime\Module\Fixtures;
 
 use Dat0r\Runtime\Module\Module;
-use Dat0r\Runtime\Field\TextField;
-use Dat0r\Runtime\Field\TextCollectionField;
-use Dat0r\Runtime\Field\IntegerField;
-use Dat0r\Runtime\Field\IntegerCollectionField;
-use Dat0r\Runtime\Field\BooleanField;
-use Dat0r\Runtime\Field\AggregateField;
-use Dat0r\Runtime\Field\ReferenceField;
-use Dat0r\Runtime\Field\KeyValueField;
+use Dat0r\Runtime\Field\Type\TextField;
+use Dat0r\Runtime\Field\Type\TextCollectionField;
+use Dat0r\Runtime\Field\Type\IntegerField;
+use Dat0r\Runtime\Field\Type\IntegerCollectionField;
+use Dat0r\Runtime\Field\Type\BooleanField;
+use Dat0r\Runtime\Field\Type\AggregateField;
+use Dat0r\Runtime\Field\Type\ReferenceField;
+use Dat0r\Runtime\Field\Type\KeyValueField;
 
 class RootModule extends Module
 {

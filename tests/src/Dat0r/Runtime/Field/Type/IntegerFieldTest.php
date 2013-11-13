@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Field;
+use Dat0r\Runtime\Field\Type\IntegerField;
 
 class IntegerFieldTest extends TestCase
 {
@@ -11,9 +11,9 @@ class IntegerFieldTest extends TestCase
 
     public function testCreateField()
     {
-        $integerField = Field\IntegerField::create(self::FIELDNAME);
+        $integerField = IntegerField::create(self::FIELDNAME);
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\IntegerField', $integerField);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $integerField);
     }
 
     /**
@@ -21,7 +21,7 @@ class IntegerFieldTest extends TestCase
      */
     public function testCreateFieldWithOptions(array $options)
     {
-        $integerField = Field\IntegerField::create(self::FIELDNAME, $options);
+        $integerField = IntegerField::create(self::FIELDNAME, $options);
 
         $this->assertEquals($integerField->getName(), self::FIELDNAME);
         $this->assertFalse($integerField->hasOption('snafu_flag'));
@@ -36,7 +36,7 @@ class IntegerFieldTest extends TestCase
      */
     public function testCreateValueHolder($intValue)
     {
-        $integerField = Field\IntegerField::create(self::FIELDNAME);
+        $integerField = IntegerField::create(self::FIELDNAME);
         $valueHolder = $integerField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\IntegerValueHolder', $valueHolder);
         $valueHolder->setValue($intValue);

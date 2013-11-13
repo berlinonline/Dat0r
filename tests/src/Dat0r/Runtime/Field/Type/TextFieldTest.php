@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Field\TextField;
+use Dat0r\Runtime\Field\Type\TextField;
 use Dat0r\Runtime\Validation\Result\IIncident;
 
 class TextFieldTest extends TestCase

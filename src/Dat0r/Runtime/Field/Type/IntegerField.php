@@ -1,7 +1,8 @@
 <?php
 
-namespace Dat0r\Runtime\Field;
+namespace Dat0r\Runtime\Field\Type;
 
+use Dat0r\Runtime\Field\Field;
 use Dat0r\Runtime\Validation\Rule\RuleList;
 use Dat0r\Runtime\Validation\Rule\NumberRule;
 
