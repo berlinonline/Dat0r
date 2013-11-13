@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Common\Error;
 use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Validation\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
  * Basic IValueHolder implementation that all other ValueHolders should inherit from.

@@ -4,8 +4,8 @@ namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Validation\Result\IIncident;
-use Dat0r\Runtime\Validation\Service as ValidationService;
+use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Service as ValidationService;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\Type\ReferenceField;
 use Dat0r\Runtime\Field\Type\AggregateField;

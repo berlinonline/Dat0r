@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Field;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Field\Type\EmailField;
-use Dat0r\Runtime\Validation\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IIncident;
 
 class EmailFieldTest extends TestCase
 {

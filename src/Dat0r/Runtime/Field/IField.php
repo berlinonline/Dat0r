@@ -3,8 +3,8 @@
 namespace Dat0r\Runtime\Field;
 
 use Dat0r\Runtime\ValueHolder\IValueHolder;
-use Dat0r\Runtime\Validation\Rule\RuleList;
-use Dat0r\Runtime\Validation\Validator\IValidator;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Validator\IValidator;
 
 /**
  * IFields hold meta data that is used to model document properties,

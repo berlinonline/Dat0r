@@ -6,8 +6,8 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
-use Dat0r\Runtime\Validation\Validator\IValidator;
-use Dat0r\Runtime\Validation\Rule\RuleList;
+use Dat0r\Runtime\Validator\IValidator;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 
 /**
  * Base class that all Dat0r IField implementations should extend.
@@ -128,7 +128,7 @@ abstract class Field implements IField
     public function getValidator()
     {
         if (!$this->validator) {
-            $default_validator_class = '\\Dat0r\\Runtime\\Validation\\Validator\\Validator';
+            $default_validator_class = '\\Dat0r\\Runtime\\Validator\\Validator';
             $validator_implementor = $this->getOption('validator', $default_validator_class);
 
             if (!class_exists($validator_implementor, true)) {
@@ -146,7 +146,7 @@ abstract class Field implements IField
                 throw new InvalidTypeException(
                     sprintf(
                         "Invalid validator implementor '%s' given for field: '%s'." .
-                        "Make sure to implement 'Dat0r\Runtime\Validation\Validator\IValidator'.",
+                        "Make sure to implement 'Dat0r\Runtime\Validator\Validator\IValidator'.",
                         $validator_implementor,
                         $this->getName()
                     )

@@ -1,8 +1,9 @@
 <?php
 
-namespace Dat0r\Runtime\Validation\Rule;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validation\Result\IIncident;
+use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Validator\Result\IIncident;
 
 class NumberRule extends Rule
 {

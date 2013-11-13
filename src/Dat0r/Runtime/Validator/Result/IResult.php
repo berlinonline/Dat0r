@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Runtime\Validation\Result;
+namespace Dat0r\Runtime\Validator\Result;
 
-use Dat0r\Runtime\Validation\Rule\IRule;
-use Dat0r\Runtime\Validation\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\IRule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Common\Object;
 
 interface IResult

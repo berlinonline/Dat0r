@@ -3,8 +3,8 @@
 namespace Dat0r\Runtime\Field\Type;
 
 use Dat0r\Runtime\Field\Field;
-use Dat0r\Runtime\Validation\Rule\RuleList;
-use Dat0r\Runtime\Validation\Rule\TextRule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
 class TextField extends Field
 {

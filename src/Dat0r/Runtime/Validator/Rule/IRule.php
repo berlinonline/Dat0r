@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\Runtime\Validation\Rule;
+namespace Dat0r\Runtime\Validator\Rule;
 
-use Dat0r\Runtime\Validation\Result\IncidentMap;
+use Dat0r\Runtime\Validator\Result\IncidentMap;
 
 interface IRule
 {

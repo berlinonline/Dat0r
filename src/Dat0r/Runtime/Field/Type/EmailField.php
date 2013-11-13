@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Field\Type;
 
-use Dat0r\Runtime\Validation\Rule\RuleList;
-use Dat0r\Runtime\Validation\Rule\EmailRule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\EmailRule;
 
 class EmailField extends TextField
 {

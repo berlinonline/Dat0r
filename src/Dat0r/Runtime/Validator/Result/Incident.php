@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Validation\Result;
+namespace Dat0r\Runtime\Validator\Result;
 
 use Dat0r\Common\Object;
 
