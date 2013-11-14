@@ -186,6 +186,8 @@ abstract class Field implements IField
             );
         }
 
+        $value_holder->setValue($this->getDefaultValue());
+
         return $value_holder;
     }
 

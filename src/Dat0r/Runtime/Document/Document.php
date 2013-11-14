@@ -73,9 +73,7 @@ abstract class Document implements IDocument, IValueChangedListener
 
         $this->value_holders = new ValueHolderMap();
         foreach ($module->getFields() as $fieldname => $field) {
-            $value_holder = $field->createValueHolder();
-            $value_holder->setValue($field->getDefaultValue());
-            $this->value_holders->setItem($fieldname, $value_holder);
+            $this->value_holders->setItem($fieldname, $field->createValueHolder());
         }
 
         if (!empty($data)) {
