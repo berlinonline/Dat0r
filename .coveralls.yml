@@ -1,0 +1,2 @@
+coverage_clover: build/reports/coverage.xml
+json_path: build/reports/coveralls-upload.json
