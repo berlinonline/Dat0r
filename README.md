@@ -1,9 +1,8 @@
 # Dat0r
 
-* Version: dev-master (0.7.0-dev)
-* Date: 2013/xx/xx
-* Build: [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
-* PHP-FIG Support: psr-0, psr-1 and psr-2
+| Unit Tests | Coverage | Dependencies | Version | PHP-FIG |
+| ---------- | -------- | ------------ | ------- | ------- |
+| [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r) | [![Coverage Status](https://coveralls.io/repos/berlinonline/Dat0r/badge.png)](https://coveralls.io/r/berlinonline/Dat0r) | [![Dependency Status](https://www.versioneye.com/user/projects/5284ee87632bac501d00012b/badge.png)](https://www.versioneye.com/user/projects/5284ee87632bac501d00012b) | dev-master | psr-0, psr-1 and psr-2 |
 
 ## Purpose
 

@@ -9,7 +9,7 @@ help:
 	@echo "  code - Generate data-objects from a given module definition. Use 'make code conf={path} def={path}'"
 	@echo "  install - Installs composer and all dependencies for production environments."
 	@echo "  update - Updates composer and all dependencies for development environments."
-	@echo "  test - Runs all test suites and publishes a code coverage report in xml and html to build/reports."
+	@echo "  test - Runs all test suites and publishes a code coverage report in xml and html to build/logs."
 	@echo "  doc - Generates the php api documentation to the build/docs folder."
 	@echo "  help - Shows this dialog."
 	@exit 0
@@ -44,9 +44,9 @@ doc:
 
 code-sniffer:
 
-	@if [ -d ./build/reports ]; then rm -rf ./build/reports; fi
-	@mkdir ./build/reports
-	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/reports/checkstyle.xml --standard=psr2 ./src ./tests/src
+	@if [ -d ./build/logs ]; then rm -rf ./build/logs; fi
+	@mkdir ./build/logs
+	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src ./tests/src
 
 code-sniffer-cli:
 
