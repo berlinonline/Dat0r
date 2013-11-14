@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c5ddf80324079ba1df6580ec42d2bf1d",
+    "hash": "37c9af3b50328444531825eaced53412",
     "packages": [
         {
             "name": "fzaninotto/faker",
@@ -53,26 +53,32 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.2.10",
+            "version": "v2.3.7",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "ba3a0f7e18c6942f9f501be218360bffba6a9bdc"
+                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/ba3a0f7e18c6942f9f501be218360bffba6a9bdc",
-                "reference": "ba3a0f7e18c6942f9f501be218360bffba6a9bdc",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/00848d3e13cf512e77c7498c2b3b0192f61f4b18",
+                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -96,7 +102,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-08 00:49:34"
+            "time": "2013-11-13 21:27:40"
         },
         {
             "name": "symfony/filesystem",
@@ -196,6 +202,65 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "dflydev/markdown",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-markdown.git",
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/6baed9b50f29c980795b6656d43722aadb126f7e",
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "dflydev\\markdown": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                },
+                {
+                    "name": "Michel Fortin",
+                    "homepage": "http://michelf.com"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "http://daringfireball.net"
+                }
+            ],
+            "description": "PHP Markdown & Extra",
+            "homepage": "http://github.com/dflydev/dflydev-markdown",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2013-09-23 12:00:18"
+        },
         {
             "name": "guzzle/guzzle",
             "version": "v3.7.4",
@@ -785,19 +850,20 @@
         },
         {
             "name": "sami/sami",
-            "version": "v1.0",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Sami.git",
-                "reference": "a3ceda872e37d001650ad0fe67c93ac669a48d52"
+                "reference": "8d6d896c48766e0cb08b651fb5aca77a1dd788e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Sami/zipball/a3ceda872e37d001650ad0fe67c93ac669a48d52",
-                "reference": "a3ceda872e37d001650ad0fe67c93ac669a48d52",
+                "url": "https://api.github.com/repos/fabpot/Sami/zipball/8d6d896c48766e0cb08b651fb5aca77a1dd788e0",
+                "reference": "8d6d896c48766e0cb08b651fb5aca77a1dd788e0",
                 "shasum": ""
             },
             "require": {
+                "dflydev/markdown": "1.0.*",
                 "nikic/php-parser": "0.9.*",
                 "php": ">=5.3.0",
                 "pimple/pimple": "1.0.*",
@@ -814,7 +880,7 @@
             "type": "application",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -837,7 +903,7 @@
             "keywords": [
                 "phpdoc"
             ],
-            "time": "2013-04-05 13:01:32"
+            "time": "2013-09-27 17:24:21"
         },
         {
             "name": "satooshi/php-coveralls",

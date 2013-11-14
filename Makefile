@@ -44,8 +44,7 @@ doc:
 
 code-sniffer:
 
-	@if [ -d ./build/logs ]; then rm -rf ./build/logs; fi
-	@mkdir ./build/logs
+	@mkdir -p ./build/logs
 	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src ./tests/src
 
 code-sniffer-cli:
