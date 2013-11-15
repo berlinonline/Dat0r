@@ -2,6 +2,7 @@
 
 namespace Dat0r\Tests\Common\Collection;
 
+use Mockery;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Common\Fixtures\TestObject;
 use Dat0r\Common\Collection\Map;
@@ -52,12 +53,18 @@ class MapTest extends TestCase
 
     public function testSetItem()
     {
+        // test that we are receiving the correct number of expected collection changed events.
+        // in this case we are expecting only one for the single item we are adding.
+        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener->shouldReceive('onCollectionChanged')->with(
+            '\Dat0r\Common\Collection\CollectionChangedEvent'
+        )->once();
+
         $map = new Map($this->createRandomItems());
+        $map->addListener($listener);
+
         $start_size = $map->getSize();
-
-        $faker = Faker\Factory::create();
-        $key = $faker->word(17);
-
+        $key = 'Faker-does-not-have-this-charsequence-in-its-word-list-for-lorem-ipsum!';
         $item = TestObject::createRandomInstances();
         $map->setItem($key, $item);
 
@@ -72,9 +79,18 @@ class MapTest extends TestCase
         $start_size = $map->getSize();
 
         $new_items = $this->createRandomItems();
+        $new_keys = array_diff(array_keys($new_items), array_keys($start_items));
+
+        // test that we are receiving the correct number of expected collection changed events.
+        // in this case we are expecting one event for each new key/item.
+        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener->shouldReceive('onCollectionChanged')->with(
+            '\Dat0r\Common\Collection\CollectionChangedEvent'
+        )->times(count($new_items));
+
+        $map->addListener($listener);
         $map->setItems($new_items);
 
-        $new_keys = array_diff(array_keys($new_items), array_keys($start_items));
         $this->assertEquals($start_size + count($new_keys), $map->getSize());
     }
 

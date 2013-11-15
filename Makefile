@@ -45,7 +45,7 @@ doc:
 code-sniffer:
 
 	@mkdir -p ./build/logs
-	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src ./tests/src
+	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src/Dat0r ./tests/Dat0r
 
 code-sniffer-cli:
 
