@@ -16,7 +16,7 @@ abstract class Rule extends Object implements IRule
 
     private $sanitized_value;
 
-    protected abstract function execute($value);
+    abstract protected function execute($value);
 
     public function __construct($name, array $options = array())
     {
@@ -30,7 +30,7 @@ abstract class Rule extends Object implements IRule
         $this->sanitized_value = null;
 
         $success = false;
-        if ($success = $this->execute($value)){
+        if ($success = $this->execute($value)) {
             $this->sanitized_value = ($this->sanitized_value === null) ? $this->sanitized_value : $value;
         } else {
             $output = null;

@@ -21,12 +21,12 @@ class TextRule extends Rule
 
         $ensure_utf8 = $this->getOption('ensure_utf8', false);
         if ($this->getOption('trim', false)) {
-            if($ensure_utf8) {
+            if ($ensure_utf8) {
                 $pattern = '/^[\pZ\pC]*+(?P<trimmed>.*?)[\pZ\pC]*+$/usDS';
             } else {
                 $pattern = '/^\s*+(?P<trimmed>.*?)\s*+$/sDS';
             }
-            if(preg_match($pattern, $value, $matches)) {
+            if (preg_match($pattern, $value, $matches)) {
                 $value = $matches['trimmed'];
             }
         }

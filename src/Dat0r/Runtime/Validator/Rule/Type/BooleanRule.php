@@ -19,7 +19,7 @@ class BooleanRule extends Rule
             $this->throwError('invalid_type');
         }
 
-        if($success && is_bool($value)) {
+        if ($success && is_bool($value)) {
             $this->setSanitizedValue($value);
         }
 

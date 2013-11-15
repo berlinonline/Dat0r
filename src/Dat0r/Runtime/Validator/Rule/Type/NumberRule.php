@@ -25,8 +25,7 @@ class NumberRule extends Rule
 
         if ($success && $this->getOption('cast_to') === 'float') {
             $value = (float)filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
-        }
-        else if ($success && $this->getOption('cast_to') === 'int') {
+        } elseif ($success && $this->getOption('cast_to') === 'int') {
             $value = (int)filter_var($value, FILTER_SANITIZE_NUMBER_INT);
         }
 
