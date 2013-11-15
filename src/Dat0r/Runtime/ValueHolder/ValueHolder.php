@@ -76,7 +76,7 @@ abstract class ValueHolder implements IValueHolder
             $previous_value = $this->value;
             $this->value = $validation_result->getSanitizedValue();
 
-            if (!$this->isEqualTo($previous_value)) {
+            if (!$this->isValueEqualTo($previous_value)) {
                 $this->propagateValueChangedEvent(
                     ValueChangedEvent::create($this->getField(), $previous_value, $this->value)
                 );
@@ -91,7 +91,7 @@ abstract class ValueHolder implements IValueHolder
         return !$this->isNull();
     }
 
-    public function isNull()
+    public function isValueNull()
     {
         return $this->value === $this->field->getDefaultValue();
     }

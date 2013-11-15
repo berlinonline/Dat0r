@@ -43,22 +43,20 @@ interface IDocument
      * Returns the value for a specific field.
      *
      * @param string $fieldname
-     * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
      * @return IValueHolder
      */
-    public function getValue($fieldname, $raw = true);
+    public function getValue($fieldname);
 
     /**
      * Returns the values of either all fields or a specific field subset
      * defined by the optional fieldnames parameter.
      *
      * @param array $fieldnames
-     * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
      * @return array A list of IValueHolder.
      */
-    public function getValues(array $fieldnames = array(), $raw = true);
+    public function getValues(array $fieldnames = array());
 
     /**
      * Tells if the document has a value set for a given field.

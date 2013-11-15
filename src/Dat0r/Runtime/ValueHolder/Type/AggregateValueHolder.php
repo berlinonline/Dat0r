@@ -27,11 +27,11 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
      *
-     * @param IValueHolder $other
+     * @param mixed $other
      *
      * @return boolean
      */
-    public function isGreaterThan($righthand_value)
+    public function isValueGreaterThan($righthand_value)
     {
         return false;
     }
@@ -44,7 +44,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      *
      * @return boolean
      */
-    public function isLessThan($righthand_value)
+    public function isValueLessThan($righthand_value)
     {
         return false;
     }
@@ -57,7 +57,7 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
      *
      * @return boolean
      */
-    public function isEqualTo($righthand_value)
+    public function isValueEqualTo($righthand_value)
     {
         $lefthand_docs = $this->getValue();
         $equal = true;

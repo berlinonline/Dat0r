@@ -142,7 +142,7 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @return IValueHolder
      */
-    public function getValue($fieldname, $raw = true)
+    public function getValue($fieldname)
     {
         $value_holder = $this->value_holders->getItem($fieldname);
         if (!$value_holder) {
@@ -151,7 +151,7 @@ abstract class Document implements IDocument, IValueChangedListener
             );
         }
 
-        return ($raw === true) ? $value_holder->getValue() : $value_holder;
+        return $value_holder->getValue();
     }
 
     /**
@@ -182,17 +182,17 @@ abstract class Document implements IDocument, IValueChangedListener
      *
      * @return array A list of IValueHolder or raw values depending on the $raw flag.
      */
-    public function getValues(array $fieldnames = array(), $raw = true)
+    public function getValues(array $fieldnames = array())
     {
         $values = array();
 
         if (!empty($fieldnames)) {
             foreach ($fieldnames as $fieldname) {
-                $values[$fieldname] = $this->getValue($fieldname, $raw);
+                $values[$fieldname] = $this->getValue($fieldname);
             }
         } else {
             foreach ($this->getModule()->getFields() as $field) {
-                $values[$field->getName()] = $this->getValue($field->getName(), $raw);
+                $values[$field->getName()] = $this->getValue($field->getName());
             }
         }
 
@@ -266,10 +266,10 @@ abstract class Document implements IDocument, IValueChangedListener
             );
         }
 
-        foreach ($this->getModule()->getFields() as $field) {
-            $lefthand_value = $this->getValue($field->getName(), false);
-            $righthand_value = $other->getValue($field->getName(), false);
-            if (!$lefthand_value->isEqualTo($righthand_value)) {
+        foreach ($this->getModule()->getFields()->getKeys() as $fieldname) {
+            $value_holder = $this->value_holders->getItem($fieldname);
+            $righthand_value = $other->getValue($fieldname);
+            if (!$value_holder->isValueEqualTo($righthand_value)) {
                 $is_equal = false;
                 break;
             }

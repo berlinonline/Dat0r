@@ -54,17 +54,38 @@ class ArrayList extends Collection implements IList
 
     public function pop()
     {
-        return array_pop($this->items);
+        $last_item = array_pop($this->items);
+
+        if ($last_item !== null) {
+            $this->propagateCollectionChangedEvent(
+                new CollectionChangedEvent($last_item, CollectionChangedEvent::ITEM_REMOVED)
+            );
+        }
+
+        return $last_item;
     }
 
     public function shift()
     {
-        return array_shift($this->items);
+        $first_item = array_shift($this->items);
+
+        if ($first_item !== null) {
+            $this->propagateCollectionChangedEvent(
+                new CollectionChangedEvent($first_item, CollectionChangedEvent::ITEM_REMOVED)
+            );
+        }
+
+        return $first_item;
     }
 
     public function unshift($item)
     {
-        return array_unshift($this->items, $item);
+        $item_count = array_unshift($this->items, $item);
+        $this->propagateCollectionChangedEvent(
+            new CollectionChangedEvent($item, CollectionChangedEvent::ITEM_ADDED)
+        );
+
+        return $item_count;
     }
 
     public function getFirst()

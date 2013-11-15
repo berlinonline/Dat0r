@@ -20,7 +20,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan($righthand_value)
+    public function isValueGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
         $lefthand_count = 0;
@@ -44,7 +44,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan($righthand_value)
+    public function isValueLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
         $lefthand_count = 0;
@@ -68,7 +68,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo($righthand_value)
+    public function isValueEqualTo($righthand_value)
     {
         $lefthand_value = $this->getValue();
         $lefthand_count = 0;

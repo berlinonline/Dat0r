@@ -20,7 +20,7 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan($right_value)
+    public function isValueGreaterThan($right_value)
     {
         return 0 < strcmp($this->getValue(), $right_value);
     }
@@ -33,7 +33,7 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan($right_value)
+    public function isValueLessThan($right_value)
     {
         return 0 > strcmp($this->getValue(), $right_value);
     }
@@ -46,7 +46,7 @@ class TextValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo($right_value)
+    public function isValueEqualTo($right_value)
     {
         return $this->getValue() === $right_value;
     }

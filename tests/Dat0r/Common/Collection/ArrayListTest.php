@@ -2,6 +2,7 @@
 
 namespace Dat0r\Tests\Common\Collection;
 
+use Mockery;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Common\Fixtures\TestObject;
 use Dat0r\Common\Collection\ArrayList;
@@ -20,8 +21,15 @@ class ArrayListTest extends TestCase
 
     public function testPush()
     {
+        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener->shouldReceive('onCollectionChanged')->with(
+            '\Dat0r\Common\Collection\CollectionChangedEvent'
+        )->once();
+
         $items = $this->createRandomItems();
+
         $list = new ArrayList($items);
+        $list->addListener($listener);
 
         $prev_count = $list->getSize();
         $new_item = TestObject::createRandomInstance();
@@ -33,11 +41,18 @@ class ArrayListTest extends TestCase
 
     public function testPop()
     {
-        $items = $this->createRandomItems();
-        $list = new ArrayList($items);
+        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener->shouldReceive('onCollectionChanged')->with(
+            '\Dat0r\Common\Collection\CollectionChangedEvent'
+        )->once();
 
-        $last_item = $list->getLast();
+        $items = $this->createRandomItems();
+
+        $list = new ArrayList($items);
+        $list->addListener($listener);
+
         $prev_count = $list->getSize();
+        $last_item = $list->getLast();
         $popped_item = $list->pop();
 
         $this->assertEquals($prev_count - 1, $list->getSize());
@@ -337,6 +352,11 @@ class ArrayListTest extends TestCase
         $empty_list = new ArrayList();
 
         $this->assertNull($empty_list->getLast());
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
     }
 
     protected function createRandomItems()

@@ -19,7 +19,11 @@ class Map extends Collection implements IMap
     public function offsetUnset($offset)
     {
         if (isset($this->items[$offset])) {
+            $removed_item = $this->items[$offset];
             unset($this->items[$offset]);
+            $this->propagateCollectionChangedEvent(
+                new CollectionChangedEvent($removed_item, CollectionChangedEvent::ITEM_REMOVED)
+            );
         }
     }
 

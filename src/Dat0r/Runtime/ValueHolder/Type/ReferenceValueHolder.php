@@ -20,7 +20,7 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan($righthand_value)
+    public function isValueGreaterThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
 
@@ -35,7 +35,7 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan($righthand_value)
+    public function isValueLessThan($righthand_value)
     {
         $lefthand_value = $this->getValue();
 
@@ -50,7 +50,7 @@ class ReferenceValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo($righthand_value)
+    public function isValueEqualTo($righthand_value)
     {
         return $this->getValue() === $righthand_value;
     }

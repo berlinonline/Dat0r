@@ -46,32 +46,32 @@ interface IValueHolder
      *
      * @return boolean
      */
-    public function isNull();
+    public function isValueNull();
 
     /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
-     * @param IValueHolder $other
+     * @param mixed $other
      *
      * @return boolean
      */
-    public function isGreaterThan($righthand_value);
+    public function isValueGreaterThan($righthand_value);
 
     /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
-     * @param IValueHolder $other
+     * @param mixed $other
      *
      * @return boolean
      */
-    public function isLessThan($righthand_value);
+    public function isValueLessThan($righthand_value);
 
     /**
      * Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.
      *
-     * @param IValueHolder $other
+     * @param mixed $other
      *
      * @return boolean
      */
-    public function isEqualTo($righthand_value);
+    public function isValueEqualTo($righthand_value);
 }

@@ -20,7 +20,7 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isGreaterThan($righthand_value)
+    public function isValueGreaterThan($righthand_value)
     {
         return true === $this->getValue() && false === $righthand_value;
     }
@@ -33,7 +33,7 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isLessThan($righthand_value)
+    public function isValueLessThan($righthand_value)
     {
         return false === $this->getValue() && true === $righthand_value;
     }
@@ -46,7 +46,7 @@ class BooleanValueHolder extends ValueHolder
      *
      * @return boolean
      */
-    public function isEqualTo($righthand_value)
+    public function isValueEqualTo($righthand_value)
     {
         return $this->getValue() === $righthand_value;
     }
