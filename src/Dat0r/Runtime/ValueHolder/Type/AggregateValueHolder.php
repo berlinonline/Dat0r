@@ -7,22 +7,13 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
-use Dat0r\Runtime\Document\IDocumentChangedListener;
-use Dat0r\Runtime\Document\DocumentChangedEvent;
 
 /**
  * Default IValueHolder implementation used for holding nested documents.
  * Should be use as the base to all other dat0r valueholder implementations.
  */
-class AggregateValueHolder extends ValueHolder implements IDocumentChangedListener
+class AggregateValueHolder extends ValueHolder
 {
-    /**
-     * Holds a list of listeners to our aggregate changed event.
-     *
-     * @var array $aggregate_changed_listeners
-     */
-    private $aggregate_changed_listeners = array();
-
     /**
      * Tells whether a spefic IValueHolder instance's value is considered greater than
      * the value of an other given IValueHolder.
@@ -120,37 +111,11 @@ class AggregateValueHolder extends ValueHolder implements IDocumentChangedListen
 
             $collection = new DocumentList($documents);
         } else {
-            throw new InvalidValueException(
+            throw new BadValueException(
                 'Only DocumentLists or arrays of document data or null are acceptable values for AggregateFields.'
             );
         }
 
         return parent::setValue($collection);
-    }
-
-    public function addDocument($document)
-    {
-        $document_collection = $this->getValue();
-        $document->addDocumentChangedListener($this);
-        $document_collection->add($document);
-    }
-
-    /**
-     * Handles document changed events that are sent by our aggregated document.
-     *
-     * @param DocumentChangedEvent $event
-     */
-    public function onDocumentChanged(DocumentChangedEvent $event)
-    {
-        $value_changed_event = $event->getValueChangedEvent();
-
-        $this->propagateValueChangedEvent(
-            ValueChangedEvent::create(
-                $value_changed_event->getField(),
-                $value_changed_event->getOldValue(),
-                $value_changed_event->getNewValue(),
-                $event
-            )
-        );
     }
 }

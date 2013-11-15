@@ -193,20 +193,20 @@ abstract class Collection extends Object implements ICollection
 
     public function removeListener(IListener $listener)
     {
-        if (false !== (array_search($listener, $this->collection_listeners, true))) {
+        if (false !== ($pos = array_search($listener, $this->collection_listeners, true))) {
             array_splice($this->collection_listeners, $pos, 1);
-        }
-    }
-
-    public function propagateCollectionChangedEvent(CollectionChangedEvent $event)
-    {
-        foreach ($this->collection_listeners as $listener) {
-            $listener->onCollectionChanged($event);
         }
     }
 
     public function toArray()
     {
         return $this->items;
+    }
+
+    protected function propagateCollectionChangedEvent(CollectionChangedEvent $event)
+    {
+        foreach ($this->collection_listeners as $listener) {
+            $listener->onCollectionChanged($event);
+        }
     }
 }

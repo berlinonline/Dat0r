@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Common\IEvent;
+use Dat0r\Common\Object;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
@@ -11,70 +12,50 @@ use Dat0r\Runtime\Document\DocumentChangedEvent;
  * These events are fired everytime a document field-value actually changes and can be used
  * to track state changes over time.
  */
-class ValueChangedEvent implements IEvent
+class ValueChangedEvent extends Object implements IEvent
 {
     /**
      * Holds the event's field origin.
      * @var IField
      */
-    private $field;
+    protected $field;
 
     /**
      * Holds the previous value of our field origin.
      *
      * @var mixed $prev_value
      */
-    private $prev_value;
+    protected $prev_value;
 
     /**
      * Holds the new value of our field origin.
      *
      * @var mixed $value
      */
-    private $value;
+    protected $value;
 
     /**
      * Holds the time at which the event was created.
      *
      * @var int $timestamp
      */
-    private $timestamp;
+    protected $timestamp;
 
     /**
      * Holds a possibly underlying aggrgate's value changed event.
      *
      * @var DocumentChangedEvent $aggregate_event
      */
-    private $aggregate_event;
+    protected $aggregate_event;
 
     /**
      * Constructs a new ValueChangedEvent instance.
      *
-     * @param IField $field
-     * @param mixed $prev_value
-     * @param mixed $value
      * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
      */
-    public static function create(IField $field, $prev_value, $value, DocumentChangedEvent $aggregate_event = null)
+    protected function __construct()
     {
-        return new static($field, $prev_value, $value, $aggregate_event);
-    }
-
-    /**
-     * Constructs a new ValueChangedEvent instance.
-     *
-     * @param IField $field
-     * @param mixed $prev_value
-     * @param mixed $value
-     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
-     */
-    protected function __construct(IField $field, $prev_value, $value, DocumentChangedEvent $aggregate_event = null)
-    {
-        $this->field = $field;
         $this->timestamp = \time();
-        $this->prev_value = $prev_value;
-        $this->value = $value;
-        $this->aggregate_event = $aggregate_event;
     }
 
     /**

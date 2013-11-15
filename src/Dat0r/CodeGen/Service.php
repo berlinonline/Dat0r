@@ -101,12 +101,20 @@ class Service extends Object
 
     protected function createClassBuilders(ModuleSchema $module_schema)
     {
-        $create_builders = function (ModuleDefinition $module) use ($module_schema) {
+        $create_builders = function (ModuleDefinition $module_definition) use ($module_schema) {
             return array(
-                ModuleBaseClass::create($module_schema, $module),
-                ModuleClass::create($module_schema, $module),
-                DocumentBaseClass::create($module_schema, $module),
-                DocumentClass::create($module_schema, $module)
+                ModuleBaseClass::create(
+                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
+                ),
+                ModuleClass::create(
+                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
+                ),
+                DocumentBaseClass::create(
+                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
+                ),
+                DocumentClass::create(
+                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
+                )
             );
         };
 

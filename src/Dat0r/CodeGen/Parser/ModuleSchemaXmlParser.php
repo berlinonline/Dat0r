@@ -52,7 +52,7 @@ class ModuleSchemaXmlParser extends Object implements IModuleSchemaParser
                 "Unable to read file at path '$module_schema_file'."
             );
         }
-
+        // @todo more xml error handling
         $document = new \DOMDocument('1.0', 'utf-8');
 
         if (!$document->load($module_schema_file)) {

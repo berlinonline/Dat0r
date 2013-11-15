@@ -2,6 +2,7 @@
 
 namespace Dat0r\CodeGen\Builder;
 
+use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\Schema\ModuleDefinition;
 use Dat0r\CodeGen\Schema\FieldDefinition;
@@ -9,7 +10,7 @@ use Dat0r\CodeGen\Schema\FieldDefinitionList;
 use Dat0r\CodeGen\Schema\OptionDefinition;
 use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
-abstract class ClassBuilder implements IClassBuilder
+abstract class ClassBuilder extends Object implements IClassBuilder
 {
     const NS_FIELDS = '\\Dat0r\\Runtime\\Field\\Type';
 
@@ -23,23 +24,13 @@ abstract class ClassBuilder implements IClassBuilder
 
     abstract protected function getTemplate();
 
-    public static function create(ModuleSchema $module_schema, ModuleDefinition $module_definition = null)
-    {
-        return new static($module_schema, $module_definition);
-    }
-
-    public function __construct(ModuleSchema $module_schema, ModuleDefinition $module_definition = null)
+    public function __construct()
     {
         $this->twig = new \Twig_Environment(
             new \Twig_Loader_Filesystem(
                 __DIR__ . DIRECTORY_SEPARATOR . 'templates'
             )
         );
-
-        $this->module_schema = $module_schema;
-        $this->module_definition = $module_definition
-            ? $module_definition
-            : $module_schema->getModuleDefinition();
     }
 
     public function build()

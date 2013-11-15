@@ -305,6 +305,18 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
+     * Removes a given document changed listener.
+     *
+     * @param IDocumentChangedListener $document_changed_listener
+     */
+    public function removeDocumentChangedListener(IDocumentChangedListener $document_changed_listener)
+    {
+        if (false !== ($pos = array_search($document_changed_listener, $this->document_changed_listeners, true))) {
+            array_splice($this->document_changed_listeners, $pos, 1);
+        }
+    }
+
+    /**
      * Handles value changed events that are received from our value holders.
      *
      * @param ValueChangedEvent $event
