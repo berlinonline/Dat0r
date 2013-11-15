@@ -10,9 +10,12 @@ abstract class Collection extends Object implements ICollection
 {
     protected $items;
 
+    protected $collection_listeners;
+
     public function __construct()
     {
         $this->items = array();
+        $this->collection_listeners = array();
     }
 
     // PHP Interface - Countable
@@ -57,6 +60,9 @@ abstract class Collection extends Object implements ICollection
             }
         }
         $this->items[$offset] = $value;
+        $this->propagateCollectionChangedEvent(
+            new CollectionChangedEvent($value, CollectionChangedEvent::ITEM_ADDED)
+        );
     }
 
     /**
@@ -64,7 +70,10 @@ abstract class Collection extends Object implements ICollection
      */
     public function offsetUnset($offset)
     {
-        array_splice($this->items, $offset, 1);
+        $removed_items = array_splice($this->items, $offset, 1);
+        $this->propagateCollectionChangedEvent(
+            new CollectionChangedEvent($removed_items[0], CollectionChangedEvent::ITEM_REMOVED)
+        );
     }
 
     /**
@@ -173,6 +182,27 @@ abstract class Collection extends Object implements ICollection
     public function getSize()
     {
         return $this->count();
+    }
+
+    public function addListener(IListener $listener)
+    {
+        if (!in_array($listener, $this->collection_listeners, true)) {
+            $this->collection_listeners[] = $listener;
+        }
+    }
+
+    public function removeListener(IListener $listener)
+    {
+        if (false !== (array_search($listener, $this->collection_listeners, true))) {
+            array_splice($this->collection_listeners, $pos, 1);
+        }
+    }
+
+    public function propagateCollectionChangedEvent(CollectionChangedEvent $event)
+    {
+        foreach ($this->collection_listeners as $listener) {
+            $listener->onCollectionChanged($event);
+        }
     }
 
     public function toArray()

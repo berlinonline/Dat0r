@@ -23,4 +23,8 @@ interface ICollection extends \Iterator, \Countable, \ArrayAccess
     public function removeItem($item);
 
     public function removeItems(array $items);
+
+    public function addListener(IListener $listener);
+
+    public function removeListener(IListener $listener);
 }
