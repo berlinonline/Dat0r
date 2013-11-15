@@ -20,6 +20,8 @@ interface IResult
 
     public function getSanitizedValue();
 
+    public function getInputValue();
+
     public function getSeverity();
 
     public function addViolatedRule(IRule $rule);

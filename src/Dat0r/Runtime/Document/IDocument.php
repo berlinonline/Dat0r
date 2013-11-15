@@ -61,6 +61,15 @@ interface IDocument
     public function getValues(array $fieldnames = array(), $raw = true);
 
     /**
+     * Tells if the document has a value set for a given field.
+     *
+     * @param string $fieldname
+     *
+     * @return boolean
+     */
+    public function hasValue($fieldname);
+
+    /**
      * Returns a list of unhandled changes.
      *
      * @return array An list of ValueChangedEvent.

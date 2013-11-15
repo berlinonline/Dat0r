@@ -116,7 +116,17 @@ abstract class Field implements IField
      */
     public function getDefaultValue()
     {
-        return $this->getOption('default_value');
+        return $this->getOption('default_value', $this->getNullValue());
+    }
+
+    /**
+     * Returns a field's null value.
+     *
+     * @return mixed
+     */
+    public function getNullValue()
+    {
+        return $this->getOption('null_value', null);
     }
 
     /**

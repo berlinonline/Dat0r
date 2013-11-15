@@ -86,6 +86,16 @@ abstract class ValueHolder implements IValueHolder
         return $validation_result;
     }
 
+    public function hasValue()
+    {
+        return !$this->isNull();
+    }
+
+    public function isNull()
+    {
+        return $this->value === $this->field->getDefaultValue();
+    }
+
     /**
      * Propagates a given value changed event to all corresponding listeners.
      *

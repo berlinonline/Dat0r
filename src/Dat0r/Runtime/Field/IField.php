@@ -40,6 +40,13 @@ interface IField
     public function getDefaultValue();
 
     /**
+     * Returns a field's null value.
+     *
+     * @return mixed
+     */
+    public function getNullValue();
+
+    /**
      * Returns a field option by name if it exists.
      * Otherwise an optional default is returned.
      *

@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Document;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\Validator\Service as ValidationService;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\Type\ReferenceField;
@@ -48,7 +49,10 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     private $document_changed_listeners = array();
 
+    private $validation_results;
+
     /**
+     * @deprecated
      * Creates a new Document.
      *
      * @param IModule $module
@@ -62,7 +66,7 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Constructs a new Document instance.
+     * Create a document specific to the given module and hydrate it with the passed data.
      *
      * @param IModule $module
      * @param array $data
@@ -70,32 +74,19 @@ abstract class Document implements IDocument, IValueChangedListener
     public function __construct(IModule $module, array $data = array())
     {
         $this->module = $module;
-
+        // Setup a map of IValueHolder specific to our module's fields.
+        // they hold the actual document data.
         $this->value_holders = new ValueHolderMap();
         foreach ($module->getFields() as $fieldname => $field) {
             $this->value_holders->setItem($fieldname, $field->createValueHolder());
         }
-
+        // Hydrate initial data ...
         if (!empty($data)) {
             $this->setValues($data);
         }
-
+        // ... then start tracking value-changed events.
         foreach ($this->value_holders as $value_holder) {
             $value_holder->addValueChangedListener($this);
-        }
-    }
-
-    /**
-     * Sets a given list of values.
-     *
-     * @param array $values
-     */
-    public function setValues(array $values)
-    {
-        foreach ($this->module->getFields()->getKeys() as $fieldname) {
-            if (array_key_exists($fieldname, $values)) {
-                $this->setValue($fieldname, $values[$fieldname]);
-            }
         }
     }
 
@@ -107,6 +98,8 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function setValue($fieldname, $value)
     {
+        $this->validation_results = new ResultMap();
+
         $value_holder = $this->value_holders->getItem($fieldname);
         if (!$value_holder) {
             throw new RuntimeException(
@@ -114,15 +107,31 @@ abstract class Document implements IDocument, IValueChangedListener
             );
         }
 
-        $result = $value_holder->setValue($value);
-        if ($result->getSeverity() > IIncident::SUCCESS) {
-            foreach ($result->getViolatedRules() as $violated_rule) {
-                foreach ($violated_rule->getIncidents() as $name => $incident) {
-                    // @todo Do something smart with the error information here.
-                    // Mark the document as invalid and return false.
-                }
+        $this->validation_results->setItem($fieldname, $value_holder->setValue($value));
+        return $this->validation_results->worstSeverity() === IIncident::SUCCESS;
+    }
+
+    /**
+     * Sets a given list of values.
+     *
+     * @param array $values
+     */
+    public function setValues(array $values)
+    {
+        $validation_results = new ResultMap();
+
+        foreach ($this->module->getFields()->getKeys() as $fieldname) {
+            if (array_key_exists($fieldname, $values)) {
+                $this->setValue($fieldname, $values[$fieldname]);
+                $validation_results->setItem(
+                    $fieldname,
+                    $this->validation_results->getItem($fieldname)
+                );
             }
         }
+
+        $this->validation_results = $validation_results;
+        return $this->validation_results->worstSeverity() === IIncident::SUCCESS;
     }
 
     /**
@@ -145,6 +154,13 @@ abstract class Document implements IDocument, IValueChangedListener
         return ($raw === true) ? $value_holder->getValue() : $value_holder;
     }
 
+    /**
+     * Tells if the document has a value set for a given field.
+     *
+     * @param string $fieldname
+     *
+     * @return boolean
+     */
     public function hasValue($fieldname)
     {
         $value_holder = $this->value_holders->getItem($fieldname);
@@ -183,54 +199,14 @@ abstract class Document implements IDocument, IValueChangedListener
         return $values;
     }
 
-    /**
-     * Returns an array representation of an entries current value state.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function getValidationResults()
     {
-        $values = array();
-        foreach ($this->getModule()->getFields() as $field) {
-            $value = $this->getValue($field->getName());
-            if ($field instanceof ReferenceField) {
-                if (! empty($value)) {
-                    $refMap = array();
-                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
-                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
-                    $reference_identifiers = array();
-                    foreach ($value as $document) {
-                        $ref_module = $document->getModule();
-                        $ref_data = array(
-                            'id' => $document->getValue($identity_field),
-                            'module' => $ref_module->getOption('prefix', strtolower($ref_module->getName()))
-                        );
-                        foreach ($field->getOption('references') as $reference_options) {
-                            if ($reference_options['module'] === '\\' . get_class($ref_module)) {
-                                $index_fields = isset($reference_options['index_fields'])
-                                    ? $reference_options['index_fields']
-                                    : array();
-                                foreach ($index_fields as $index_fieldname) {
-                                    $qualified_index_fieldname = $ref_module->getOption('prefix').'.'.$index_fieldname;
-                                    $ref_data[$qualified_index_fieldname] = $document->getValue($index_fieldname);
-                                }
-                            }
-                        }
-                        $reference_identifiers[] = $ref_data;
-                    }
-                    $values[$field->getName()] = $reference_identifiers;
-                }
-            } elseif ($field instanceof AggregateField) {
-                if ($value instanceof DocumentList) {
-                    $values[$field->getName()] = $value->toArray();
-                }
-            } else {
-                $values[$field->getName()] = $value;
-            }
-        }
-        $values['type'] = get_class($this);
+        return $this->validation_results;
+    }
 
-        return $values;
+    public function isValid()
+    {
+        return !$this->validation_results || $this->validation_results->worstSeverity() === IIncident::SUCCESS;
     }
 
     /**
@@ -339,5 +315,44 @@ abstract class Document implements IDocument, IValueChangedListener
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes[] = $event;
         $this->notifyDocumentChanged($event);
+    }
+
+    /**
+     * Returns an array representation of an entries current value state.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $values = array();
+        foreach ($this->getModule()->getFields() as $field) {
+            $value = $this->getValue($field->getName());
+            if ($field instanceof ReferenceField) {
+                if (! empty($value)) {
+                    $refMap = array();
+                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
+                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
+                    $reference_identifiers = array();
+                    foreach ($value as $document) {
+                        $ref_module = $document->getModule();
+                        $ref_data = array(
+                            'id' => $document->getValue($identity_field),
+                            'module' => $ref_module->getName()
+                        );
+                        $reference_identifiers[] = $ref_data;
+                    }
+                    $values[$field->getName()] = $reference_identifiers;
+                }
+            } elseif ($field instanceof AggregateField) {
+                if ($value instanceof DocumentList) {
+                    $values[$field->getName()] = $value->toArray();
+                }
+            } else {
+                $values[$field->getName()] = $value;
+            }
+        }
+        $values['@type'] = get_class($this);
+
+        return $values;
     }
 }

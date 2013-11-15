@@ -35,6 +35,20 @@ interface IValueHolder
     public function setValue($value);
 
     /**
+     * Tells if a value holder has a value.
+     *
+     * @return boolean
+     */
+    public function hasValue();
+
+    /**
+     * Tells if a value holder has no value.
+     *
+     * @return boolean
+     */
+    public function isNull();
+
+    /**
      * Tells whether a given IValueHolder is considered being less than a given other IValueHolder.
      *
      * @param IValueHolder $other

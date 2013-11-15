@@ -41,7 +41,7 @@ class Autoloader
             $here = __DIR__;
             self::$core_packages = array(
                 'Dat0r\\Runtime' => $here . DIRECTORY_SEPARATOR . 'Runtime',
-                'Dat0r\\Tests' => dirname(dirname($here)) . '/tests/src/Dat0r'
+                'Dat0r\\Tests' => dirname(dirname($here)) . '/tests/Dat0r'
             );
 
             self::$domain_packages = array();

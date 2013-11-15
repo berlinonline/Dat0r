@@ -19,7 +19,7 @@ class RootModule extends Module
         parent::__construct(
             'Article',
             array(
-                TextField::create('headline'),
+                TextField::create('headline', array('min' => 4)),
                 TextField::create('content'),
                 IntegerField::create('clickCount'),
                 TextField::create('author'),

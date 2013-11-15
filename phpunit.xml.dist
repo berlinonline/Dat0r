@@ -12,20 +12,20 @@
          bootstrap="tests/bootstrap.php">
   <testsuites>
     <testsuite name="Core Testsuite">
-        <directory>tests/src/Dat0r/Core</directory>
+        <directory>tests/Dat0r/Core</directory>
     </testsuite>
     <testsuite name="CodeGen Testsuite">
-        <directory>tests/src/Dat0r/CodeGen</directory>
+        <directory>tests/Dat0r/CodeGen</directory>
     </testsuite>
     <testsuite name="Dat0r Testsuite">
-        <directory>tests/src/Dat0r/</directory>
+        <directory>tests/Dat0r/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">src</directory>
-      <directory suffix=".php">tests/src</directory>
+      <directory suffix=".php">tests/Dat0r</directory>
     </whitelist>
   </filter>
 

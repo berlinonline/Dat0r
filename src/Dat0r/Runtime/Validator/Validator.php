@@ -23,6 +23,7 @@ class Validator extends Object implements IValidator
     public function validate($value)
     {
         $result = new Result($this);
+        $result->setInputValue($value);
 
         $success = true;
         foreach ($this->rules as $rule) {

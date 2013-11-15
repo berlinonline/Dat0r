@@ -14,6 +14,8 @@ class Result implements IResult
 
     protected $severity;
 
+    protected $input_value;
+
     protected $sanitized_value;
 
     public function __construct(IValidator $subject)
@@ -32,6 +34,16 @@ class Result implements IResult
     public function getViolatedRules()
     {
         return $this->violated_rules;
+    }
+
+    public function getInputValue()
+    {
+        return $this->input_value;
+    }
+
+    public function setInputValue($input_value)
+    {
+        return $this->input_value = $input_value;
     }
 
     public function getSanitizedValue()
