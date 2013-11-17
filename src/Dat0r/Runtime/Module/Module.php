@@ -164,7 +164,7 @@ abstract class Module implements IModule
             );
         }
 
-        return $implementor::create($this, $data);
+        return new $implementor($this, $data);
     }
 
     /**

@@ -9,18 +9,20 @@ use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
 
 /**
- * Default IValueHolder implementation used for holding nested documents.
- * Should be use as the base to all other dat0r valueholder implementations.
+ * Default IValueHolder implementation for the AggregateField.
+ * Holds an aggregate field's documents in form of a DocumentList.
  */
 class AggregateValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered greater than
-     * the value of an other given IValueHolder.
+     * An  aggregate's value can not be greater than an other aggregate field's value.
      *
-     * @param mixed $other
+     * @param mixed $righthand_value
      *
-     * @return boolean
+     * @return boolean (always false)
+     *
+     * @todo Throw something like an UnsupportedOperationException instead of returning false here?
+     *       Same for the isValueLessThan method.
      */
     public function isValueGreaterThan($righthand_value)
     {
@@ -28,12 +30,11 @@ class AggregateValueHolder extends ValueHolder
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered less than
-     * the value of an other given IValueHolder.
+     * An  aggregate's value can not be less than an other aggregate field's value.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
-     * @return boolean
+     * @return boolean (always false)
      */
     public function isValueLessThan($righthand_value)
     {
@@ -41,8 +42,9 @@ class AggregateValueHolder extends ValueHolder
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered equal to
-     * the value of an other given IValueHolder.
+     * Tells if a given document list contains the same documents.
+     * The list is considered equal when documents with the same values occur in the same order
+     * as in the valueholder's local value (DocumentList).
      *
      * @param IValueHolder $other
      *
@@ -51,71 +53,18 @@ class AggregateValueHolder extends ValueHolder
     public function isValueEqualTo($righthand_value)
     {
         $lefthand_docs = $this->getValue();
-        $equal = true;
+        $is_equal = true;
 
         if (count($lefthand_docs) !== count($righthand_value)) {
-            $equal = false;
+            $is_equal = false;
         } else {
             foreach ($lefthand_docs as $index => $document) {
-                if ($index !== $righthand_value->indexOf($document)) {
-                    $equal = false;
+                if (!$document->isEqualTo($righthand_value->getItem($index))) {
+                    $is_equal = false;
                 }
             }
         }
 
-        return $equal;
-    }
-
-    /**
-     * Sets the value holder's (array) value.
-     *
-     * @param array $value
-     */
-    public function setValue($value)
-    {
-        $collection = null;
-        // @todo move to validator
-        if ($value instanceof DocumentList) {
-            $collection = $value;
-        } elseif (null === $value) {
-            $collection = array();
-        } elseif (is_array($value)) {
-            $module_map = array();
-            ksort($value);
-
-            foreach ($this->getField()->getAggregateModules() as $module) {
-                $module_map[$module->getDocumentType()] = $module;
-            }
-
-            $documents = array();
-            foreach ($value as $document_data) {
-                if (!isset($document_data['type'])) {
-                    continue;
-                    //throw new Exception("Missing type information for aggregate data.");
-                }
-                $aggregate_type = $document_data['type'];
-                if ($aggregate_type{0} !== '\\') {
-                    $aggregate_type = '\\' . $aggregate_type;
-                }
-
-                if (!isset($module_map[$aggregate_type])) {
-                    continue;
-                    //throw new Exception("Unable to find related module for aggregate data.");
-                }
-
-                $aggregate_module = $module_map[$aggregate_type];
-                $aggregate_document = $aggregate_module->createDocument($document_data);
-                $aggregate_document->addDocumentChangedListener($this);
-                $documents[] = $aggregate_document;
-            }
-
-            $collection = new DocumentList($documents);
-        } else {
-            throw new BadValueException(
-                'Only DocumentLists or arrays of document data or null are acceptable values for AggregateFields.'
-            );
-        }
-
-        return parent::setValue($collection);
+        return $is_equal;
     }
 }

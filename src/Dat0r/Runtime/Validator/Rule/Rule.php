@@ -31,7 +31,7 @@ abstract class Rule extends Object implements IRule
 
         $success = false;
         if ($success = $this->execute($value)) {
-            $this->sanitized_value = ($this->sanitized_value === null) ? $this->sanitized_value : $value;
+            $this->sanitized_value = ($this->sanitized_value === null) ? $value : $this->sanitized_value;
         } else {
             $output = null;
         }

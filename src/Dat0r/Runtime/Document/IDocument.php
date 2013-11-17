@@ -15,16 +15,6 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
 interface IDocument
 {
     /**
-     * Creates a new Document.
-     *
-     * @param IModule $module
-     * @param array $data
-     *
-     * @return IDocument
-     */
-    public static function create(IModule $module, array $data = array());
-
-    /**
      * Sets a given list of values.
      *
      * @param array $values

@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Common\Error;
 use Dat0r\Common\Collection\ICollection;
 use Dat0r\Common\Collection\IListener;
 use Dat0r\Common\Collection\CollectionChangedEvent;
@@ -18,12 +17,16 @@ use Dat0r\Runtime\Validator\Result\IIncident;
 abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedListener
 {
     /**
-     * @var IField $field Holds field which's data we are handling.
+     * Holds field which's data we are handling.
+     *
+     * @var IField $field
      */
     private $field;
 
     /**
-     * @var mixed $value Holds the ValueHolder's value.
+     * Holds the valueholder's current value.
+     *
+     * @var mixed $value
      */
     private $value;
 
@@ -47,7 +50,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     }
 
     /**
-     * Contructs a new ValueHolder instance from a given value.
+     * Contructs a new valueholder instance, that is dedicated to the given field.
      *
      * @param IField $field
      */
@@ -57,7 +60,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     }
 
     /**
-     * Returns the ValueHolder's value.
+     * Returns the valueholder's value.
      *
      * @return mixed
      */
@@ -67,7 +70,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     }
 
     /**
-     * Sets the ValueHolder's value.
+     * Sets the valueholder's value.
      *
      * @param mixed $value
      *
@@ -78,7 +81,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
         $field_validator = $this->getField()->getValidator();
         $validation_result = $field_validator->validate($value);
 
-        if ($validation_result->getSeverity() === IIncident::SUCCESS) {
+        if ($validation_result->getSeverity() <= IIncident::NOTICE) {
             $previous_value = $this->value;
             $this->value = $validation_result->getSanitizedValue();
 
@@ -99,11 +102,21 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
         return $validation_result;
     }
 
+    /**
+     * Tells if the valueholder has a (non-null)value.
+     *
+     * @return boolean
+     */
     public function hasValue()
     {
         return !$this->isNull();
     }
 
+    /**
+     * Tells if the valueholder's value is considered empty/null.
+     *
+     * @return boolean
+     */
     public function isValueNull()
     {
         return $this->value === $this->field->getNullValue();
@@ -128,7 +141,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     public function onCollectionChanged(CollectionChangedEvent $event)
     {
-        // @todo need to find what to use as the prev value here
+        // @todo need to find out what to use as the prev value here
         $this->propagateValueChangedEvent(
             $this->createValueChangedEvent($this->value)
         );

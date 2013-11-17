@@ -16,54 +16,51 @@ use Dat0r\Runtime\ValueHolder\IValueChangedListener;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 
 /**
- * Document completely implements the IDocument interface
- * and serves as the parent to generated domain specific Base\Document classes.
+ * Document generically implements the IDocument interface
+ * and serves as a parent/ancestor to all generated and domain specific document base-classes.
+ * It provides generic value access via it's getValue(s) and setValue(s) methods.
  */
 abstract class Document implements IDocument, IValueChangedListener
 {
     /**
-     * Holds the documents parent module.
+     * Holds the document's module.
      *
      * @var IModule $module
      */
     private $module;
 
     /**
-     * Represents a list of value holders that (surprise) hold a document's values.
+     * There is a IValueHolder instance for each IField of our module.
+     * The '$value_holders' property maps fieldnames to their dedicated valueholder instance
+     * and is used for lookups during setValue(s) invocations.
      *
      * @var ValueHolderMap $value_holders
      */
     private $value_holders;
 
     /**
-     * Holds a list of IEvent (ValueChangedEvent or DocumentChangedEvent).
+     * Holds a list of all events that were received since the document was instanciated
+     * or the 'markClean' method was called.
      *
      * @var array $changes
      */
     private $changes = array();
 
     /**
-     * Holds a list of listeners regisered to our document changed event.
+     * Holds all listeners that are notified about document changed.
      *
      * @var array $document_changed_listeners
      */
     private $document_changed_listeners = array();
 
-    private $validation_results;
-
     /**
-     * @deprecated
-     * Creates a new Document.
+     * Always holds the validation results for a prior setValue(s) invocation.
+     * The results are held as a map where particular results can be accessed by fieldname.
+     * There will be a result for every field affected by a setValue(s) call.
      *
-     * @param IModule $module
-     * @param array $data
-     *
-     * @return IDocument
+     * @var ResultMap $validation_results
      */
-    public static function create(IModule $module, array $data = array())
-    {
-        return new static($module, $data);
-    }
+    private $validation_results;
 
     /**
      * Create a document specific to the given module and hydrate it with the passed data.
@@ -99,27 +96,25 @@ abstract class Document implements IDocument, IValueChangedListener
     public function setValue($fieldname, $value)
     {
         $this->validation_results = new ResultMap();
-
         $value_holder = $this->value_holders->getItem($fieldname);
         if (!$value_holder) {
             throw new RuntimeException(
                 "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
             );
         }
-
         $this->validation_results->setItem($fieldname, $value_holder->setValue($value));
-        return $this->validation_results->worstSeverity() === IIncident::SUCCESS;
+
+        return $this->isValid();
     }
 
     /**
-     * Sets a given list of values.
+     * Batch set a given list of field values.
      *
      * @param array $values
      */
     public function setValues(array $values)
     {
         $validation_results = new ResultMap();
-
         foreach ($this->module->getFields()->getKeys() as $fieldname) {
             if (array_key_exists($fieldname, $values)) {
                 $this->setValue($fieldname, $values[$fieldname]);
@@ -129,18 +124,17 @@ abstract class Document implements IDocument, IValueChangedListener
                 );
             }
         }
-
         $this->validation_results = $validation_results;
-        return $this->validation_results->worstSeverity() === IIncident::SUCCESS;
+
+        return $this->isValid();
     }
 
     /**
      * Returns the value for a specific field.
      *
      * @param string $fieldname
-     * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return IValueHolder
+     * @return mixed
      */
     public function getValue($fieldname)
     {
@@ -174,13 +168,12 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Returns the values of either all fields or a specific field subset
-     * defined by the optional fieldnames parameter.
+     * Returns the values of all our fields or a just specific field subset,
+     * that can be defined by the optional '$fieldnames' parameter.
      *
      * @param array $fieldnames
-     * @param boolean $raw Whether to return the raw value or the corresponding IValueHolder instance.
      *
-     * @return array A list of IValueHolder or raw values depending on the $raw flag.
+     * @return array
      */
     public function getValues(array $fieldnames = array())
     {
@@ -199,20 +192,33 @@ abstract class Document implements IDocument, IValueChangedListener
         return $values;
     }
 
+    /**
+     * Returns the validation results of a prior call to setValue(s).
+     * There will be a result for each affected field.
+     *
+     * @return ValidationMap
+     */
     public function getValidationResults()
     {
         return $this->validation_results;
     }
 
+    /**
+     * Tells if a document is considered being in a valid/safe state.
+     * A document is considered valid if no errors have occured while consuming data.
+     *
+     * @return boolean
+     */
     public function isValid()
     {
-        return !$this->validation_results || $this->validation_results->worstSeverity() === IIncident::SUCCESS;
+        return !$this->validation_results || $this->validation_results->worstSeverity() <= IIncident::NOTICE;
     }
 
     /**
-     * Returns a list of unhandled changes.
+     * Returns a list of all events that have occured since the document was instanciated
+     * or the 'markClean' method was called.
      *
-     * @return array An list of ValueChangedEvent.
+     * @return array
      */
     public function getChanges()
     {
@@ -231,8 +237,7 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Marks the current document instance as clean,
-     * hence resets the all tracked changed.
+     * Marks the current document instance as clean, hence resets the all tracked changed.
      */
     public function markClean()
     {
@@ -240,7 +245,7 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Returns an entries module.
+     * Returns the document's module.
      *
      * @return IModule
      */
@@ -250,26 +255,25 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
+     * Tells whether a spefic IDocument instance is considered equal to an other given document.
+     * Documents are equal when they have both the same module and values.
      *
-     * @param IDocument $other
+     * @param IDocument $document
      *
      * @return boolean
      */
-    public function isEqualTo(IDocument $other)
+    public function isEqualTo(IDocument $document)
     {
-        $is_equal = true;
-
-        if ($other->getModule() !== $this->getModule()) {
+        if ($document->getModule() !== $this->getModule()) {
             throw new BadValueException(
                 "Only IDocument instances of the same module may be compared."
             );
         }
 
+        $is_equal = true;
         foreach ($this->getModule()->getFields()->getKeys() as $fieldname) {
             $value_holder = $this->value_holders->getItem($fieldname);
-            $righthand_value = $other->getValue($fieldname);
-            if (!$value_holder->isValueEqualTo($righthand_value)) {
+            if (!$value_holder->isValueEqualTo($document->getValue($fieldname))) {
                 $is_equal = false;
                 break;
             }
@@ -279,8 +283,8 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Propgates the given value changed event
-     * as a document changed event to our registered document changed listeners.
+     * Translates a given value-changed event into a corresponding document-changed event
+     * and propagates the latter to all attached document-changed listeners.
      *
      * @param ValueChangedEvent $event
      */
@@ -293,31 +297,31 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Registers a given document changed listener.
+     * Attaches the given document-changed listener.
      *
      * @param IDocumentChangedListener $document_changed_listener
      */
-    public function addDocumentChangedListener(IDocumentChangedListener $document_changed_listener)
+    public function addDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (!in_array($document_changed_listener, $this->document_changed_listeners)) {
-            $this->document_changed_listeners[] = $document_changed_listener;
+        if (!in_array($listener, $this->document_changed_listeners)) {
+            $this->document_changed_listeners[] = $listener;
         }
     }
 
     /**
-     * Removes a given document changed listener.
+     * Removes the given document-changed listener.
      *
-     * @param IDocumentChangedListener $document_changed_listener
+     * @param IDocumentChangedListener $listener
      */
-    public function removeDocumentChangedListener(IDocumentChangedListener $document_changed_listener)
+    public function removeDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (false !== ($pos = array_search($document_changed_listener, $this->document_changed_listeners, true))) {
+        if (false !== ($pos = array_search($listener, $this->document_changed_listeners, true))) {
             array_splice($this->document_changed_listeners, $pos, 1);
         }
     }
 
     /**
-     * Handles value changed events that are received from our value holders.
+     * Handles value-changed events that are received from the document's value holders.
      *
      * @param ValueChangedEvent $event
      */
@@ -330,7 +334,7 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Returns an array representation of an entries current value state.
+     * Returns an array representation of a document's current value state.
      *
      * @return array
      */

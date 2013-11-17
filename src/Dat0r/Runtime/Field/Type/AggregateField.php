@@ -3,29 +3,46 @@
 namespace Dat0r\Runtime\Field\Type;
 
 use Dat0r\Runtime\Field\Field;
-use Dat0r\Runtime\Module\AggregateModule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\AggregateRule;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 
+/**
+ * AggregateField allows to nest multiple modules below a defined fieldname.
+ * Pass in the 'OPTION_MODULES' option to define the modules you would like to nest.
+ * The corresponding value-structure is organized as a collection of documents.
+ *
+ * Supported options: OPTION_MODULES
+ */
 class AggregateField extends Field
 {
     /**
-     * Holds the option name of the option that provides the module implementor that reflects
-     * the aggregated data structure.
+     * Option that holds an array of supported aggregate-module names.
      */
-    const OPT_MODULES = 'modules';
+    const OPTION_MODULES = 'modules';
 
+    /**
+     * An array holding the aggregate-module instances supported by a specific aggregate-field instance.
+     *
+     * @var array
+     */
     protected $aggregated_modules = null;
 
+    /**
+     * Returns an aggregate-field instance's default value.
+     *
+     * @return mixed
+     */
     public function getDefaultValue()
     {
         return array();
     }
 
     /**
-     * Gets the aggregate module that has been set for the current field instance.
+     * Returns the aggregate-modules as an array.
      *
-     * @return AggregateModule
+     * @return array
      */
     public function getAggregateModules()
     {
@@ -33,13 +50,13 @@ class AggregateField extends Field
             return $this->aggregated_modules;
         }
 
-        if (!$this->hasOption(self::OPT_MODULES)) {
+        if (!$this->hasOption(self::OPTION_MODULES)) {
             throw new RuntimeException(
                 "AggregateField instances must be provided an 'modules' option."
             );
         }
 
-        $aggregated_modules = $this->getOption(self::OPT_MODULES);
+        $aggregated_modules = $this->getOption(self::OPTION_MODULES);
         foreach ($aggregated_modules as $aggregated_module) {
             if (!class_exists($aggregated_module)) {
                 throw new InvalidTypeException(
@@ -50,5 +67,22 @@ class AggregateField extends Field
         }
 
         return $this->aggregated_modules;
+    }
+
+    /**
+     * Return a list of rules used to validate a specific field instance's value.
+     *
+     * @return RuleList
+     */
+    protected function buildValidationRules()
+    {
+        return new RuleList(
+            array(
+                'valid-data' => new AggregateRule(
+                    'valid-data',
+                    array('aggregate_modules' => $this->getAggregateModules())
+                )
+            )
+        );
     }
 }

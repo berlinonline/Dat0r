@@ -14,7 +14,7 @@ class AggregateFieldTest extends TestCase
         $aggregateField = AggregateField::create(
             self::FIELDNAME,
             array(
-                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\AggregateModule')
+                AggregateField::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\AggregateModule')
             )
         );
         $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
@@ -27,7 +27,7 @@ class AggregateFieldTest extends TestCase
     {
         $options = array_merge(
             array(
-                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\AggregateModule')
+                AggregateField::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\AggregateModule')
             ),
             $options
         );
@@ -50,7 +50,7 @@ class AggregateFieldTest extends TestCase
         $aggregateField = AggregateField::create(
             self::FIELDNAME,
             array(
-                AggregateField::OPT_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule')
+                AggregateField::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule')
             )
         );
         $valueHolder = $aggregateField->createValueHolder();
