@@ -12,6 +12,14 @@ use Dat0r\Common\Error\BadValueException;
 abstract class Collection extends Object implements ICollection
 {
     /**
+     * An array of IListener that are notified upon collection changes.
+     * We can't (re)use our ICollection stuff here as this is the lowest level of it's implementation.
+     *
+     * @var array
+     */
+    private $collection_listeners;
+
+    /**
      * Holds the collection's current items.
      *
      * @var array
@@ -19,20 +27,12 @@ abstract class Collection extends Object implements ICollection
     protected $items;
 
     /**
-     * An array of IListener that are notified upon collection changes.
-     * We can't (re)use our ICollection stuff here as this is the lowest level of it's implementation.
-     *
-     * @var array
-     */
-    protected $collection_listeners;
-
-    /**
      * Creates/constructs a new collection instance.
      */
     public function __construct()
     {
-        $this->items = array();
         $this->collection_listeners = array();
+        $this->items = array();
     }
 
     // Php Interface - Countable

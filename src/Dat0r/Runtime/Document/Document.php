@@ -49,9 +49,9 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Holds all listeners that are notified about document changed.
      *
-     * @var array $document_changed_listeners
+     * @var DocumentChangedListenerList $listeners
      */
-    private $document_changed_listeners = array();
+    private $listeners = array();
 
     /**
      * Always holds the validation results for a prior setValue(s) invocation.
@@ -71,6 +71,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function __construct(IModule $module, array $data = array())
     {
         $this->module = $module;
+        $this->listeners = new DocumentChangedListenerList();
         // Setup a map of IValueHolder specific to our module's fields.
         // they hold the actual document data.
         $this->value_holders = new ValueHolderMap();
@@ -81,7 +82,7 @@ abstract class Document implements IDocument, IValueChangedListener
         if (!empty($data)) {
             $this->setValues($data);
         }
-        // ... then start tracking value-changed events.
+        // ... then start tracking value-changed events coming from our valueholders.
         foreach ($this->value_holders as $value_holder) {
             $value_holder->addValueChangedListener($this);
         }
@@ -328,7 +329,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function notifyDocumentChanged(ValueChangedEvent $event)
     {
         $event = DocumentChangedEvent::create($this, $event);
-        foreach ($this->document_changed_listeners as $listener) {
+        foreach ($this->listeners as $listener) {
             $listener->onDocumentChanged($event);
         }
     }
@@ -336,12 +337,12 @@ abstract class Document implements IDocument, IValueChangedListener
     /**
      * Attaches the given document-changed listener.
      *
-     * @param IDocumentChangedListener $document_changed_listener
+     * @param IDocumentChangedListener $listener
      */
     public function addDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (!in_array($listener, $this->document_changed_listeners)) {
-            $this->document_changed_listeners[] = $listener;
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->push($listener);
         }
     }
 
@@ -352,8 +353,8 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function removeDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (false !== ($pos = array_search($listener, $this->document_changed_listeners, true))) {
-            array_splice($this->document_changed_listeners, $pos, 1);
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->removeItem($listener);
         }
     }
 

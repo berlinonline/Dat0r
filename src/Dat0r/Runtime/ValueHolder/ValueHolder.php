@@ -33,9 +33,9 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     /**
      * Holds a list of listeners regisered to our value changed event.
      *
-     * @var array $value_changed_listeners
+     * @var ValueChangedListenerList $listeners
      */
-    private $value_changed_listeners = array();
+    private $listeners;
 
     /**
      * Creates a new IValueHolder instance from a given value.
@@ -57,6 +57,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     public function __construct(IField $field)
     {
         $this->field = $field;
+        $this->listeners = new ValueChangedListenerList();
     }
 
     /**
@@ -125,12 +126,24 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     /**
      * Registers a given listener as a recipient of value changed events.
      *
-     * @param IValueChangedListener $value_changed_listener
+     * @param IValueChangedListener $listener
      */
-    public function addValueChangedListener(IValueChangedListener $value_changed_listener)
+    public function addValueChangedListener(IValueChangedListener $listener)
     {
-        if (!in_array($value_changed_listener, $this->value_changed_listeners)) {
-            $this->value_changed_listeners[] = $value_changed_listener;
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->push($listener);
+        }
+    }
+
+    /**
+     * Removes a given listener as from our list of value-changed listeners.
+     *
+     * @param IValueChangedListener $listener
+     */
+    public function removedValueChangedListener(IValueChangedListener $listener)
+    {
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->removeItem($listener);
         }
     }
 
@@ -202,7 +215,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     protected function propagateValueChangedEvent(ValueChangedEvent $event)
     {
-        foreach ($this->value_changed_listeners as $listener) {
+        foreach ($this->listeners as $listener) {
             $listener->onValueChanged($event);
         }
     }

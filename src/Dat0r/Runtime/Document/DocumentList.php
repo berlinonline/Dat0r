@@ -15,19 +15,42 @@ class DocumentList extends TypedList implements IDocumentChangedListener
     /**
      * Holds all currently attached document-changed listeners.
      *
-     * @var array $document_changed_listeners
+     * @var DocumentChangedListenerList $listeners
      */
-    protected $document_changed_listeners = array();
+    protected $listeners = array();
 
     /**
-     * Registers a given document-changed listener.
+     * Create/construct a new document list instance.
+     */
+    public function __construct(array $documents = array())
+    {
+        parent::__construct($documents);
+
+        $this->listeners = new DocumentChangedListenerList();
+    }
+
+    /**
+     * Attaches a given document-changed listener,
+     * which will be notified about any changes on contained documents.
      *
      * @param IDocumentChangedListener $listener
      */
     public function addDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (!in_array($listener, $this->document_changed_listeners)) {
-            $this->document_changed_listeners[] = $listener;
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->push($listener);
+        }
+    }
+
+    /**
+     * Detaches the given document-changed listener.
+     *
+     * @param IDocumentChangedListener $listener
+     */
+    public function removeDocumentChangedListener(IDocumentChangedListener $listener)
+    {
+        if (!$this->listeners->hasItem($listener)) {
+            $this->listeners->removeItem($listener);
         }
     }
 
@@ -64,7 +87,7 @@ class DocumentList extends TypedList implements IDocumentChangedListener
      */
     protected function propagateDocumentChangedEvent(DocumentChangedEvent $event)
     {
-        foreach ($this->document_changed_listeners as $listener) {
+        foreach ($this->listeners as $listener) {
             $listener->onDocumentChanged($event);
         }
     }
