@@ -120,7 +120,7 @@ abstract class Document implements IDocument, IValueChangedListener
         foreach ($this->module->getFields()->getKeys() as $fieldname) {
             if (array_key_exists($fieldname, $values)) {
                 $this->setValue($fieldname, $values[$fieldname]);
-                // memoize the current field validation result, after the latter call to setValue.
+                // memoize the current field validation result, after the prior call to setValue.
                 $field_validation_results->setItem(
                     $fieldname,
                     $this->validation_results->getItem($fieldname)
@@ -196,6 +196,34 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
+     * Tells whether a spefic IDocument instance is considered equal to an other given document.
+     * Documents are equal when they have both the same module and values.
+     *
+     * @param IDocument $document
+     *
+     * @return boolean
+     */
+    public function isEqualTo(IDocument $document)
+    {
+        if ($document->getModule() !== $this->getModule()) {
+            throw new BadValueException(
+                "Only IDocument instances of the same module may be compared."
+            );
+        }
+
+        $is_equal = true;
+        foreach ($this->getModule()->getFields()->getKeys() as $fieldname) {
+            $value_holder = $this->value_holders->getItem($fieldname);
+            if (!$value_holder->isValueEqualTo($document->getValue($fieldname))) {
+                $is_equal = false;
+                break;
+            }
+        }
+
+        return $is_equal;
+    }
+
+    /**
      * Returns the validation results of a prior call to setValue(s).
      * There will be a result for each affected field.
      *
@@ -255,34 +283,6 @@ abstract class Document implements IDocument, IValueChangedListener
     public function getModule()
     {
         return $this->module;
-    }
-
-    /**
-     * Tells whether a spefic IDocument instance is considered equal to an other given document.
-     * Documents are equal when they have both the same module and values.
-     *
-     * @param IDocument $document
-     *
-     * @return boolean
-     */
-    public function isEqualTo(IDocument $document)
-    {
-        if ($document->getModule() !== $this->getModule()) {
-            throw new BadValueException(
-                "Only IDocument instances of the same module may be compared."
-            );
-        }
-
-        $is_equal = true;
-        foreach ($this->getModule()->getFields()->getKeys() as $fieldname) {
-            $value_holder = $this->value_holders->getItem($fieldname);
-            if (!$value_holder->isValueEqualTo($document->getValue($fieldname))) {
-                $is_equal = false;
-                break;
-            }
-        }
-
-        return $is_equal;
     }
 
     /**
@@ -347,25 +347,20 @@ abstract class Document implements IDocument, IValueChangedListener
         foreach ($this->getModule()->getFields() as $field) {
             $value = $this->getValue($field->getName());
             if ($field instanceof ReferenceField) {
-                if (! empty($value)) {
-                    $refMap = array();
+                if (!empty($value)) {
                     $references = $field->getOption(ReferenceField::OPT_REFERENCES);
                     $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
                     $reference_identifiers = array();
                     foreach ($value as $document) {
-                        $ref_module = $document->getModule();
-                        $ref_data = array(
+                        $reference_identifiers[] = array(
                             'id' => $document->getValue($identity_field),
-                            'module' => $ref_module->getName()
-                        );
-                        $reference_identifiers[] = $ref_data;
+                            'module' => $document->getModule()->getName()
+                        )
                     }
                     $values[$field->getName()] = $reference_identifiers;
                 }
-            } elseif ($field instanceof AggregateField) {
-                if ($value instanceof DocumentList) {
-                    $values[$field->getName()] = $value->toArray();
-                }
+            } elseif ($value instanceof DocumentList) {
+                $values[$field->getName()] = $value->toArray();
             } else {
                 $values[$field->getName()] = $value;
             }
