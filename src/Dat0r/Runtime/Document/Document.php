@@ -355,7 +355,7 @@ abstract class Document implements IDocument, IValueChangedListener
                         $reference_identifiers[] = array(
                             'id' => $document->getValue($identity_field),
                             'module' => $document->getModule()->getName()
-                        )
+                        );
                     }
                     $values[$field->getName()] = $reference_identifiers;
                 }
