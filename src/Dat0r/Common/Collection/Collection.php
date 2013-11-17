@@ -135,6 +135,8 @@ abstract class Collection extends Object implements ICollection
     /**
      * Tells if our current internal-pointer position is valid.
      *
+     * @return boolean
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function valid()
@@ -144,6 +146,8 @@ abstract class Collection extends Object implements ICollection
 
     /**
      * Returns the value for our current internal-pointer position.
+     *
+     * @return mixed
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
@@ -159,6 +163,8 @@ abstract class Collection extends Object implements ICollection
     /**
      * Forward our current internal-pointer to it's next position.
      *
+     * @return mixed
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function next()
@@ -168,6 +174,8 @@ abstract class Collection extends Object implements ICollection
 
     /**
      * (Re)set our current internal-pointer position to the start.
+     *
+     * @return mixed
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
