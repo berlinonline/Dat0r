@@ -6,21 +6,40 @@ use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\BadValueException;
 
+/**
+ * Generic base implementation of the ICollection interface.
+ */
 abstract class Collection extends Object implements ICollection
 {
+    /**
+     * Holds the collection's current items.
+     *
+     * @var array
+     */
     protected $items;
 
+    /**
+     * An array of IListener that are notified upon collection changes.
+     * We can't (re)use our ICollection stuff here as this is the lowest level of it's implementation.
+     *
+     * @var array
+     */
     protected $collection_listeners;
 
+    /**
+     * Creates/constructs a new collection instance.
+     */
     public function __construct()
     {
         $this->items = array();
         $this->collection_listeners = array();
     }
 
-    // PHP Interface - Countable
+    // Php Interface - Countable
 
     /**
+     * Implementation of php's 'countable' interface's 'count' method.
+     *
      * @see http://php.net/manual/en/class.countable.php
      */
     public function count()
@@ -28,9 +47,11 @@ abstract class Collection extends Object implements ICollection
         return count($this->items);
     }
 
-    // PHP Interface - ArrayAccess
+    // Php Interface - ArrayAccess
 
     /**
+     * Implementation of php's 'arrayaccess' interface's 'offsetExists' method.
+     *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
     public function offsetExists($offset)
@@ -39,6 +60,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'arrayaccess' interface's 'offsetGet' method.
+     *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
     public function offsetGet($offset)
@@ -50,6 +73,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'arrayaccess' interface's 'offsetSet' method.
+     *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
     public function offsetSet($offset, $value)
@@ -66,6 +91,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'arrayaccess' interface's 'offsetUnset' method.
+     *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
     public function offsetUnset($offset)
@@ -77,6 +104,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'iterator' interface's 'key' method.
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function key()
@@ -84,9 +113,11 @@ abstract class Collection extends Object implements ICollection
         return key($this->items);
     }
 
-    // PHP Interface - Iterator
+    // Php Interface - Iterator
 
     /**
+     * Implementation of php's 'iterator' interface's 'valid' method.
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function valid()
@@ -95,6 +126,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'iterator' interface's 'current' method.
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function current()
@@ -107,6 +140,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'iterator' interface's 'next' method.
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function next()
@@ -115,6 +150,8 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
+     * Implementation of php's 'iterator' interface's 'rewind' method.
+     *
      * @see http://php.net/manual/en/class.iterator.php
      */
     public function rewind()
@@ -122,13 +159,27 @@ abstract class Collection extends Object implements ICollection
         return reset($this->items);
     }
 
-    // Dat0r Interface - ICollection
+    // Interface - ICollection
 
+    /**
+     * Return a specific item from the collection for the given key.
+     *
+     * @param mixed $key
+     *
+     * @return mixed
+     */
     public function getItem($key)
     {
         return $this->offsetGet($key);
     }
 
+    /**
+     * Return a list of specific items from the collection for the given keys.
+     *
+     * @param array $keys
+     *
+     * @return mixed
+     */
     public function getItems(array $keys)
     {
         $items = array();
@@ -139,6 +190,12 @@ abstract class Collection extends Object implements ICollection
         return $items;
     }
 
+    /**
+     * Add an item for the given key to the collection.
+     *
+     * @param mixed $key
+     * @param mixed $item
+     */
     public function setItem($key, $item)
     {
         if ($key === null) {
@@ -147,11 +204,21 @@ abstract class Collection extends Object implements ICollection
         $this->offsetSet($key, $item);
     }
 
+    /**
+     * Remove the given item from the collection.
+     *
+     * @param mixed $item
+     */
     public function removeItem($item)
     {
         $this->offsetUnset($this->getKey($item));
     }
 
+    /**
+     * Remove the given items from the collection.
+     *
+     * @param array $items
+     */
     public function removeItems(array $items)
     {
         foreach ($items as $item) {
@@ -159,11 +226,29 @@ abstract class Collection extends Object implements ICollection
         }
     }
 
+    /**
+     * Tells if the collection has an item set for the given key.
+     *
+     * @param mixed $key
+     *
+     * @return boolean
+     */
     public function hasKey($key)
     {
         return $this->offsetExists($key);
     }
 
+    /**
+     * Return the key for the given item.
+     * If the collection contains the given item more than once,
+     * the first key will be returned.
+     * If you wish to receive all set the '$return_all' parameter to true.
+     *
+     * @param mixed $item
+     * @param boolean $return_true
+     *
+     * @return mixed Returns false, if the item is not contained.
+     */
     public function getKey($item, $return_all = false)
     {
         $keys = array_keys($this->items, $item, true);
@@ -174,16 +259,33 @@ abstract class Collection extends Object implements ICollection
         }
     }
 
+    /**
+     * Tells if the collection contains the given item.
+     *
+     * @param mixed $item
+     *
+     * @return boolean
+     */
     public function hasItem($item)
     {
         return $this->getKey($item) !== false;
     }
 
+    /**
+     * Returns the collection size.
+     *
+     * @return int
+     */
     public function getSize()
     {
         return $this->count();
     }
 
+    /**
+     * Attaches the given listener, so it will be informed about all future changes.
+     *
+     * @param IListener $listener
+     */
     public function addListener(IListener $listener)
     {
         if (!in_array($listener, $this->collection_listeners, true)) {
@@ -191,6 +293,11 @@ abstract class Collection extends Object implements ICollection
         }
     }
 
+    /**
+     * Removes the given listener from our list of collection-changed listeners.
+     *
+     * @param IListener $listener
+     */
     public function removeListener(IListener $listener)
     {
         if (false !== ($pos = array_search($listener, $this->collection_listeners, true))) {
@@ -198,11 +305,19 @@ abstract class Collection extends Object implements ICollection
         }
     }
 
+    /**
+     * Returns the collection's underlying array.
+     *
+     * @return array
+     */
     public function toArray()
     {
         return $this->items;
     }
 
+    /**
+     * Propagate the given collection-changed event to all currently attached listeners.
+     */
     protected function propagateCollectionChangedEvent(CollectionChangedEvent $event)
     {
         foreach ($this->collection_listeners as $listener) {
