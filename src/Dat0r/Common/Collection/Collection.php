@@ -40,6 +40,8 @@ abstract class Collection extends Object implements ICollection
     /**
      * Implementation of php's 'countable' interface's 'count' method.
      *
+     * @return int
+     *
      * @see http://php.net/manual/en/class.countable.php
      */
     public function count()
@@ -50,7 +52,11 @@ abstract class Collection extends Object implements ICollection
     // Php Interface - ArrayAccess
 
     /**
-     * Implementation of php's 'arrayaccess' interface's 'offsetExists' method.
+     * Tells whether or not an offset exists.
+     *
+     * @param mixed $offset
+     *
+     * @return boolean
      *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
@@ -60,7 +66,11 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'arrayaccess' interface's 'offsetGet' method.
+     * Returns the value at specified offset.
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
      *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
@@ -73,7 +83,10 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'arrayaccess' interface's 'offsetSet' method.
+     * Assigns a value to the specified offset.
+     *
+     * @param mixed $offset
+     * @param mixed $value
      *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
@@ -91,7 +104,9 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'arrayaccess' interface's 'offsetUnset' method.
+     * Unsets the value at the given offset.
+     *
+     * @param mixed $offset
      *
      * @see http://php.net/manual/en/class.arrayaccess.php
      */
@@ -104,7 +119,9 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'iterator' interface's 'key' method.
+     * Returns the key for our current internal-pointer position.
+     *
+     * @return mixed
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
@@ -116,7 +133,7 @@ abstract class Collection extends Object implements ICollection
     // Php Interface - Iterator
 
     /**
-     * Implementation of php's 'iterator' interface's 'valid' method.
+     * Tells if our current internal-pointer position is valid.
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
@@ -126,7 +143,7 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'iterator' interface's 'current' method.
+     * Returns the value for our current internal-pointer position.
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
@@ -140,7 +157,7 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'iterator' interface's 'next' method.
+     * Forward our current internal-pointer to it's next position.
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
@@ -150,7 +167,7 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Implementation of php's 'iterator' interface's 'rewind' method.
+     * (Re)set our current internal-pointer position to the start.
      *
      * @see http://php.net/manual/en/class.iterator.php
      */
