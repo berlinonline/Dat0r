@@ -114,17 +114,20 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function setValues(array $values)
     {
-        $validation_results = new ResultMap();
+        // '$validation_results' is used to collect all particular validation results,
+        // that are created each time we invoke '$this->setValue' for a given field value.
+        $field_validation_results = new ResultMap();
         foreach ($this->module->getFields()->getKeys() as $fieldname) {
             if (array_key_exists($fieldname, $values)) {
                 $this->setValue($fieldname, $values[$fieldname]);
-                $validation_results->setItem(
+                // memoize the current field validation result, after the latter call to setValue.
+                $field_validation_results->setItem(
                     $fieldname,
                     $this->validation_results->getItem($fieldname)
                 );
             }
         }
-        $this->validation_results = $validation_results;
+        $this->validation_results = $field_validation_results;
 
         return $this->isValid();
     }
