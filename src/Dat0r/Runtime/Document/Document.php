@@ -196,6 +196,40 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
+     * Returns an array representation of a document's current value state.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $values = array();
+        foreach ($this->getModule()->getFields() as $field) {
+            $value = $this->getValue($field->getName());
+            if ($field instanceof ReferenceField) {
+                if (!empty($value)) {
+                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
+                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
+                    $reference_identifiers = array();
+                    foreach ($value as $document) {
+                        $reference_identifiers[] = array(
+                            'id' => $document->getValue($identity_field),
+                            'module' => $document->getModule()->getName()
+                        );
+                    }
+                    $values[$field->getName()] = $reference_identifiers;
+                }
+            } elseif ($value instanceof DocumentList) {
+                $values[$field->getName()] = $value->toArray();
+            } else {
+                $values[$field->getName()] = $value;
+            }
+        }
+        $values['@type'] = get_class($this);
+
+        return $values;
+    }
+
+    /**
      * Tells whether a spefic IDocument instance is considered equal to an other given document.
      * Documents are equal when they have both the same module and values.
      *
@@ -334,39 +368,5 @@ abstract class Document implements IDocument, IValueChangedListener
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes[] = $event;
         $this->notifyDocumentChanged($event);
-    }
-
-    /**
-     * Returns an array representation of a document's current value state.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $values = array();
-        foreach ($this->getModule()->getFields() as $field) {
-            $value = $this->getValue($field->getName());
-            if ($field instanceof ReferenceField) {
-                if (!empty($value)) {
-                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
-                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
-                    $reference_identifiers = array();
-                    foreach ($value as $document) {
-                        $reference_identifiers[] = array(
-                            'id' => $document->getValue($identity_field),
-                            'module' => $document->getModule()->getName()
-                        );
-                    }
-                    $values[$field->getName()] = $reference_identifiers;
-                }
-            } elseif ($value instanceof DocumentList) {
-                $values[$field->getName()] = $value->toArray();
-            } else {
-                $values[$field->getName()] = $value;
-            }
-        }
-        $values['@type'] = get_class($this);
-
-        return $values;
     }
 }
