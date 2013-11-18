@@ -262,7 +262,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * Returns the validation results of a prior call to setValue(s).
      * There will be a result for each affected field.
      *
-     * @return ValidationMap
+     * @return ResultMap
      */
     public function getValidationResults()
     {
@@ -321,20 +321,6 @@ abstract class Document implements IDocument, IValueChangedListener
     }
 
     /**
-     * Translates a given value-changed event into a corresponding document-changed event
-     * and propagates the latter to all attached document-changed listeners.
-     *
-     * @param ValueChangedEvent $event
-     */
-    public function notifyDocumentChanged(ValueChangedEvent $event)
-    {
-        $event = DocumentChangedEvent::create($this, $event);
-        foreach ($this->listeners as $listener) {
-            $listener->onDocumentChanged($event);
-        }
-    }
-
-    /**
      * Attaches the given document-changed listener.
      *
      * @param IDocumentChangedListener $listener
@@ -368,6 +354,20 @@ abstract class Document implements IDocument, IValueChangedListener
         // @todo Possible optimization: only track events for RootModule documents,
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes[] = $event;
-        $this->notifyDocumentChanged($event);
+        $this->propagateDocumentChangedEvent($event);
+    }
+
+    /**
+     * Translates a given value-changed event into a corresponding document-changed event
+     * and propagates the latter to all attached document-changed listeners.
+     *
+     * @param ValueChangedEvent $event
+     */
+    protected function propagateDocumentChangedEvent(ValueChangedEvent $event)
+    {
+        $event = DocumentChangedEvent::create($this, $event);
+        foreach ($this->listeners as $listener) {
+            $listener->onDocumentChanged($event);
+        }
     }
 }

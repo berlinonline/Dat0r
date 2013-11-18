@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Document;
 
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Validator\Result\ResultMap;
 
 /**
  * An IDocument is a generic container for structured data.
@@ -11,13 +12,6 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
  */
 interface IDocument
 {
-    /**
-     * Sets a given list of values.
-     *
-     * @param array $values
-     */
-    public function setValues(array $values);
-
     /**
      * Sets a specific value by fieldname.
      *
@@ -27,23 +21,20 @@ interface IDocument
     public function setValue($fieldname, $value);
 
     /**
+     * Batch set a given list of field values.
+     *
+     * @param array $values
+     */
+    public function setValues(array $values);
+
+    /**
      * Returns the value for a specific field.
      *
      * @param string $fieldname
      *
-     * @return IValueHolder
+     * @return mixed
      */
     public function getValue($fieldname);
-
-    /**
-     * Returns the values of either all fields or a specific field subset
-     * defined by the optional fieldnames parameter.
-     *
-     * @param array $fieldnames
-     *
-     * @return array A list of IValueHolder.
-     */
-    public function getValues(array $fieldnames = array());
 
     /**
      * Tells if the document has a value set for a given field.
@@ -55,9 +46,53 @@ interface IDocument
     public function hasValue($fieldname);
 
     /**
-     * Returns a list of unhandled changes.
+     * Returns the values of all our fields or a just specific field subset,
+     * that can be defined by the optional '$fieldnames' parameter.
      *
-     * @return array An list of ValueChangedEvent.
+     * @param array $fieldnames
+     *
+     * @return array
+     */
+    public function getValues(array $fieldnames = array());
+
+    /**
+     * Returns an array representation of a document's current value state.
+     *
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * Tells whether a spefic IDocument instance is considered equal to an other given document.
+     * Documents are equal when they have both the same module and values.
+     *
+     * @param IDocument $document
+     *
+     * @return boolean
+     */
+    public function isEqualTo(IDocument $document);
+
+    /**
+     * Returns the validation results of a prior call to setValue(s).
+     * There will be a result for each affected field.
+     *
+     * @return ResultMap
+     */
+    public function getValidationResults();
+
+    /**
+     * Tells if a document is considered being in a valid/safe state.
+     * A document is considered valid if no errors have occured while consuming data.
+     *
+     * @return boolean
+     */
+    public function isValid();
+
+    /**
+     * Returns a list of all events that have occured since the document was instanciated
+     * or the 'markClean' method was called.
+     *
+     * @return array
      */
     public function getChanges();
 
@@ -70,24 +105,28 @@ interface IDocument
     public function isClean();
 
     /**
-     * Marks the current document instance as clean,
-     * hence resets the all tracked changed.
+     * Marks the current document instance as clean, hence resets the all tracked changed.
      */
     public function markClean();
 
     /**
-     * Returns an entries module.
+     * Returns the document's module.
      *
      * @return IModule
      */
     public function getModule();
 
     /**
-     * Tells whether a spefic IDocument instance is considered equal to an other given IDocument.
+     * Attaches the given document-changed listener.
      *
-     * @param IDocument $other
-     *
-     * @return boolean
+     * @param IDocumentChangedListener $listener
      */
-    public function isEqualTo(IDocument $other);
+    public function addDocumentChangedListener(IDocumentChangedListener $listener);
+
+    /**
+     * Removes the given document-changed listener.
+     *
+     * @param IDocumentChangedListener $listener
+     */
+    public function removeDocumentChangedListener(IDocumentChangedListener $listener);
 }

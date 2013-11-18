@@ -74,4 +74,18 @@ interface IValueHolder
      * @return boolean
      */
     public function isValueEqualTo($righthand_value);
+
+    /**
+     * Registers a given listener as a recipient of value changed events.
+     *
+     * @param IValueChangedListener $listener
+     */
+    public function addValueChangedListener(IValueChangedListener $listener);
+
+    /**
+     * Removes a given listener as from our list of value-changed listeners.
+     *
+     * @param IValueChangedListener $listener
+     */
+    public function removedValueChangedListener(IValueChangedListener $listener);
 }

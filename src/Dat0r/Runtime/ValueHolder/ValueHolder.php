@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
+use Dat0r\Common\IEvent;
 use Dat0r\Common\Collection\ICollection;
 use Dat0r\Common\Collection\IListener;
 use Dat0r\Common\Collection\CollectionChangedEvent;
@@ -196,7 +197,20 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      *
      * @param ValueChangedEvent $event
      */
-    protected function createValueChangedEvent($prev_value, $event = null)
+    protected function propagateValueChangedEvent(ValueChangedEvent $event)
+    {
+        foreach ($this->listeners as $listener) {
+            $listener->onValueChanged($event);
+        }
+    }
+
+    /**
+     * Create a new value-changed event instance from the given info.
+     *
+     * @param mixed $prev_value
+     * @param IEvent $event
+     */
+    protected function createValueChangedEvent($prev_value, IEvent $event = null)
     {
         return ValueChangedEvent::create(
             array(
@@ -206,17 +220,5 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
                 'aggregate_event' => $event
             )
         );
-    }
-
-    /**
-     * Propagates a given value changed event to all corresponding listeners.
-     *
-     * @param ValueChangedEvent $event
-     */
-    protected function propagateValueChangedEvent(ValueChangedEvent $event)
-    {
-        foreach ($this->listeners as $listener) {
-            $listener->onValueChanged($event);
-        }
     }
 }
