@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\Document\DocumentList | Dat0r API</title>
+        <title>Dat0r\Runtime\Document\DocumentList | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,14 +19,20 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../Dat0r/Runtime/Document.html">Dat0r\Runtime\Document</a>\DocumentList</h1>
     </div>
         <div class="content">
-                <p>class    <strong>DocumentList</strong>        extends <a href="../../../Dat0r/Common/Collection/TypedList.html"><abbr title="Dat0r\Common\Collection\TypedList">TypedList</abbr></a></p>
+                <p>class    <strong>DocumentList</strong>        extends <a href="../../../Dat0r/Common/Collection/TypedList.html"><abbr title="Dat0r\Common\Collection\TypedList">TypedList</abbr></a>        implements
+        <a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></p>
 
+            <div class="description">
+            <p>DocumentList is a TypedList implementation, that holds IDocuments and provides some extra convenience.</p>
+            <p>You can attach to it as an IDocumentChangedListener and will be notified
+on all events occuring from it's contained documents.</p>
+        </div>
     
     
     
@@ -41,7 +45,8 @@
                 </td>
                 <td class="last">
                     <a href="#method_offsetSet">offsetSet</a>($offset, $value)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../Dat0r/Common/Collection/TypedList.html#method_offsetSet"><abbr title="Dat0r\Common\Collection\TypedList">TypedList</abbr></a></small></td>
             </tr>
@@ -50,8 +55,48 @@
                     
                 </td>
                 <td class="last">
+                    <a href="#method___construct">__construct</a>(array $documents = array())
+                    <p>Create/construct a new document list instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addDocumentChangedListener">addDocumentChangedListener</a>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)
+                    <p>Attaches a given document-changed listener, which will be notified about any changes on contained documents.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeDocumentChangedListener">removeDocumentChangedListener</a>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)
+                    <p>Detaches the given document-changed listener.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_onDocumentChanged">onDocumentChanged</a>(<a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a> $event)
+                    <p>Handle document changed events.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
                     <a href="#method_toArray">toArray</a>()
-                    <p></p>
+                    <p>Returns an array representation of the current document list.</p>
                 </td>
                 <td></td>
             </tr>
@@ -66,8 +111,10 @@
     <strong>offsetSet</strong>($offset, $value)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -75,12 +122,122 @@
                     <tr>
                 <td></td>
                 <td>$offset</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$value</td>
-                <td></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___construct">
+        <div class="location">at line 25</div>
+        <code>            public            
+    <strong>__construct</strong>(array $documents = array())</code>
+    </h3>
+    <div class="details">
+        <p>Create/construct a new document list instance.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$documents</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addDocumentChangedListener">
+        <div class="location">at line 38</div>
+        <code>            public            
+    <strong>addDocumentChangedListener</strong>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Attaches a given document-changed listener, which will be notified about any changes on contained documents.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeDocumentChangedListener">
+        <div class="location">at line 50</div>
+        <code>            public            
+    <strong>removeDocumentChangedListener</strong>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Detaches the given document-changed listener.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_onDocumentChanged">
+        <div class="location">at line 62</div>
+        <code>            public            
+    <strong>onDocumentChanged</strong>(<a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a> $event)</code>
+    </h3>
+    <div class="details">
+        <p>Handle document changed events.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a></td>
+                <td>$event</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -91,15 +248,26 @@
     </div>
 
                 <h3 id="method_toArray">
-        <div class="location">at line 9</div>
-        <code>            public            
+        <div class="location">at line 72</div>
+        <code>            public            array
     <strong>toArray</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Returns an array representation of the current document list.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>

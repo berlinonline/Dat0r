@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\Document | Dat0r API</title>
+        <title>Dat0r\Runtime\Document | </title>
                 <link rel="stylesheet" type="text/css" href="../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../dat0r-favicon.png">
-            <link rel="icon" href="../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="overview">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Namespace</div>
     <h1>Dat0r\Runtime\Document</h1>
@@ -30,47 +28,31 @@
                         <table>
                             <tr>
                     <td><a href="../../Dat0r/Runtime/Document/Document.html"><abbr title="Dat0r\Runtime\Document\Document">Document</abbr></a></td>
-                    <td class="last">Document completely implements the IDocument interface and serves as the parent to generated domain specific Base\Document classes.</td>
+                    <td class="last">Document generically implements the IDocument interface and serves as a parent/ancestor to all generated and domain specific document base-classes.</td>
                 </tr>
                             <tr>
                     <td><a href="../../Dat0r/Runtime/Document/DocumentChangedEvent.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedEvent">DocumentChangedEvent</abbr></a></td>
-                    <td class="last">Represents an event that occurs when a document&#039;s value changes.</td>
+                    <td class="last">Represents an event that occurs when a document's value changes.</td>
+                </tr>
+                            <tr>
+                    <td><a href="../../Dat0r/Runtime/Document/DocumentChangedListenerList.html"><abbr title="Dat0r\Runtime\Document\DocumentChangedListenerList">DocumentChangedListenerList</abbr></a></td>
+                    <td class="last">Represents a list of document-changed listeners.</td>
                 </tr>
                             <tr>
                     <td><a href="../../Dat0r/Runtime/Document/DocumentList.html"><abbr title="Dat0r\Runtime\Document\DocumentList">DocumentList</abbr></a></td>
-                    <td class="last"></td>
-                </tr>
-                            <tr>
-                    <td><a href="../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
-                    <td class="last">Represents excpetions that reflect occurences of invalid values during method execution.</td>
-                </tr>
-                            <tr>
-                    <td><a href="../../Dat0r/Runtime/Document/MandatoryValueMissingException.html"><abbr title="Dat0r\Runtime\Document\MandatoryValueMissingException">MandatoryValueMissingException</abbr></a></td>
-                    <td class="last"></td>
-                </tr>
-                            <tr>
-                    <td><a href="../../Dat0r/Runtime/Document/ValueChangedEvent.html"><abbr title="Dat0r\Runtime\Document\ValueChangedEvent">ValueChangedEvent</abbr></a></td>
-                    <td class="last">ValueChangedEvent(s) reflect state changes to a document&#039;s underlying ValueHolder.</td>
+                    <td class="last">DocumentList is a TypedList implementation, that holds IDocuments and provides some extra convenience.</td>
                 </tr>
                     </table>
     
             <h2>Interfaces</h2>
         <table>
                             <tr>
-                    <td><a href="../../Dat0r/Runtime/Document/IAggregateChangedListener.html"><abbr title="Dat0r\Runtime\Document\IAggregateChangedListener">IAggregateChangedListener</abbr></a></td>
-                    <td class="last">Represents a listener to events that occur when an aggregated document changes.</td>
-                </tr>
-                            <tr>
                     <td><a href="../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
                     <td class="last">An IDocument is a generic container for structured data.</td>
                 </tr>
                             <tr>
                     <td><a href="../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></td>
-                    <td class="last">Represents a listener to events that occur when a document changes.</td>
-                </tr>
-                            <tr>
-                    <td><a href="../../Dat0r/Runtime/Document/IValueChangedListener.html"><abbr title="Dat0r\Runtime\Document\IValueChangedListener">IValueChangedListener</abbr></a></td>
-                    <td class="last"></td>
+                    <td class="last">Represents a listener to events that occur, when a document instance changes one of it's values.</td>
                 </tr>
                     </table>
     

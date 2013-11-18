@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Common\Collection\Collection | Dat0r API</title>
+        <title>Dat0r\Common\Collection\Collection | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../Dat0r/Common/Collection.html">Dat0r\Common\Collection</a>\Collection</h1>
@@ -30,6 +28,11 @@
                 <p>abstract class    <strong>Collection</strong>        extends <a href="../../../Dat0r/Common/Object.html"><abbr title="Dat0r\Common\Object">Object</abbr></a>        implements
         <a href="../../../Dat0r/Common/Collection/ICollection.html"><abbr title="Dat0r\Common\Collection\ICollection">ICollection</abbr></a></p>
 
+            <div class="description">
+            <p>Generic base implementation of the ICollection interface.</p>
+            <p>
+</p>
+        </div>
     
     
     
@@ -42,17 +45,19 @@
                 </td>
                 <td class="last">
                     <a href="#method_create">create</a>(array $data = array())
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../Dat0r/Common/Object.html#method_create"><abbr title="Dat0r\Common\Object">Object</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    array
                 </td>
                 <td class="last">
                     <a href="#method_toArray">toArray</a>()
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -62,17 +67,37 @@
                 </td>
                 <td class="last">
                     <a href="#method___construct">__construct</a>()
-                    <p></p>
+                    <p>Creates/constructs a new collection instance.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    int
                 </td>
                 <td class="last">
                     <a href="#method_count">count</a>()
-                    <p></p>
+                    <p>Implementation of php's 'countable' interface's 'count' method.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_offsetExists">offsetExists</a>(mixed $offset)
+                    <p>Tells whether or not an offset exists.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_offsetGet">offsetGet</a>(mixed $offset)
+                    <p>Returns the value at specified offset.</p>
                 </td>
                 <td></td>
             </tr>
@@ -81,8 +106,8 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_offsetExists">offsetExists</a>($offset)
-                    <p></p>
+                    <a href="#method_offsetSet">offsetSet</a>(mixed $offset, mixed $value)
+                    <p>Assigns a value to the specified offset.</p>
                 </td>
                 <td></td>
             </tr>
@@ -91,98 +116,80 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_offsetGet">offsetGet</a>($offset)
-                    <p></p>
+                    <a href="#method_offsetUnset">offsetUnset</a>(mixed $offset)
+                    <p>Unsets the value at the given offset.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_offsetSet">offsetSet</a>($offset, $value)
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_offsetUnset">offsetUnset</a>($offset)
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_key">key</a>()
-                    <p></p>
+                    <p>Returns the key for our current internal-pointer position.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    boolean
                 </td>
                 <td class="last">
                     <a href="#method_valid">valid</a>()
-                    <p></p>
+                    <p>Tells if our current internal-pointer position is valid.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_current">current</a>()
-                    <p></p>
+                    <p>Returns the value for our current internal-pointer position.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_next">next</a>()
-                    <p></p>
+                    <p>Forward our current internal-pointer to it's next position.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_rewind">rewind</a>()
-                    <p></p>
+                    <p>(Re)set our current internal-pointer position to the start.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
-                    <a href="#method_getItem">getItem</a>($key)
-                    <p></p>
+                    <a href="#method_getItem">getItem</a>(mixed $key)
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_getItems">getItems</a>(array $keys)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -191,8 +198,8 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setItem">setItem</a>($key, $item)
-                    <p></p>
+                    <a href="#method_setItem">setItem</a>(mixed $key, mixed $item)
+                    <p>Add an item for the given key to the collection.</p>
                 </td>
                 <td></td>
             </tr>
@@ -201,8 +208,9 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_removeItem">removeItem</a>($item)
-                    <p></p>
+                    <a href="#method_removeItem">removeItem</a>(mixed $item)
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -212,47 +220,74 @@
                 </td>
                 <td class="last">
                     <a href="#method_removeItems">removeItems</a>(array $items)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    boolean
                 </td>
                 <td class="last">
-                    <a href="#method_hasKey">hasKey</a>($key)
-                    <p></p>
+                    <a href="#method_hasKey">hasKey</a>(mixed $key)
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_getKey">getKey</a>($item, $return_all = false)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    boolean
                 </td>
                 <td class="last">
-                    <a href="#method_hasItem">hasItem</a>($item)
-                    <p></p>
+                    <a href="#method_hasItem">hasItem</a>(mixed $item)
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    int
                 </td>
                 <td class="last">
                     <a href="#method_getSize">getSize</a>()
-                    <p></p>
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addListener">addListener</a>(<a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a> $listener)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeListener">removeListener</a>(<a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a> $listener)
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -267,8 +302,10 @@
     <strong>create</strong>(array $data = array())</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -276,7 +313,8 @@
                     <tr>
                 <td>array</td>
                 <td>$data</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -287,28 +325,41 @@
     </div>
 
                 <h3 id="method_toArray">
-        <div class="location">at line 178</div>
-        <code>            public            
+        <div class="location">at line 338</div>
+        <code>            public            array
     <strong>toArray</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method___construct">
-        <div class="location">at line 13</div>
+        <div class="location">at line 32</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Creates/constructs a new collection instance.</p>
+        <p>
+</p>
         <div class="tags">
             
             
@@ -317,15 +368,26 @@
     </div>
 
                 <h3 id="method_count">
-        <div class="location">at line 23</div>
-        <code>            public            
+        <div class="location">at line 47</div>
+        <code>            public            int
     <strong>count</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Implementation of php's 'countable' interface's 'count' method.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -341,25 +403,37 @@
     </div>
 
                 <h3 id="method_offsetExists">
-        <div class="location">at line 33</div>
-        <code>            public            
-    <strong>offsetExists</strong>($offset)</code>
+        <div class="location">at line 63</div>
+        <code>            public            boolean
+    <strong>offsetExists</strong>(mixed $offset)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Tells whether or not an offset exists.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$offset</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -375,25 +449,37 @@
     </div>
 
                 <h3 id="method_offsetGet">
-        <div class="location">at line 41</div>
-        <code>            public            
-    <strong>offsetGet</strong>($offset)</code>
+        <div class="location">at line 77</div>
+        <code>            public            mixed
+    <strong>offsetGet</strong>(mixed $offset)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Returns the value at specified offset.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$offset</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -409,26 +495,29 @@
     </div>
 
                 <h3 id="method_offsetSet">
-        <div class="location">at line 52</div>
+        <div class="location">at line 93</div>
         <code>            public            
-    <strong>offsetSet</strong>($offset, $value)</code>
+    <strong>offsetSet</strong>(mixed $offset, mixed $value)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Assigns a value to the specified offset.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$offset</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$value</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -448,21 +537,23 @@
     </div>
 
                 <h3 id="method_offsetUnset">
-        <div class="location">at line 65</div>
+        <div class="location">at line 113</div>
         <code>            public            
-    <strong>offsetUnset</strong>($offset)</code>
+    <strong>offsetUnset</strong>(mixed $offset)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Unsets the value at the given offset.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$offset</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -482,15 +573,26 @@
     </div>
 
                 <h3 id="method_key">
-        <div class="location">at line 73</div>
-        <code>            public            
+        <div class="location">at line 128</div>
+        <code>            public            mixed
     <strong>key</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Returns the key for our current internal-pointer position.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -506,15 +608,26 @@
     </div>
 
                 <h3 id="method_valid">
-        <div class="location">at line 83</div>
-        <code>            public            
+        <div class="location">at line 142</div>
+        <code>            public            boolean
     <strong>valid</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Tells if our current internal-pointer position is valid.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -530,15 +643,26 @@
     </div>
 
                 <h3 id="method_current">
-        <div class="location">at line 91</div>
-        <code>            public            
+        <div class="location">at line 154</div>
+        <code>            public            mixed
     <strong>current</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Returns the value for our current internal-pointer position.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -554,15 +678,26 @@
     </div>
 
                 <h3 id="method_next">
-        <div class="location">at line 103</div>
-        <code>            public            
+        <div class="location">at line 170</div>
+        <code>            public            mixed
     <strong>next</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Forward our current internal-pointer to it's next position.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -578,15 +713,26 @@
     </div>
 
                 <h3 id="method_rewind">
-        <div class="location">at line 111</div>
-        <code>            public            
+        <div class="location">at line 182</div>
+        <code>            public            mixed
     <strong>rewind</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>(Re)set our current internal-pointer position to the start.</p>
+        <p>
+</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                             <h4>See also</h4>
@@ -602,38 +748,53 @@
     </div>
 
                 <h3 id="method_getItem">
-        <div class="location">at line 118</div>
-        <code>            public            
-    <strong>getItem</strong>($key)</code>
+        <div class="location">at line 196</div>
+        <code>            public            mixed
+    <strong>getItem</strong>(mixed $key)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$key</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method_getItems">
-        <div class="location">at line 123</div>
-        <code>            public            
+        <div class="location">at line 208</div>
+        <code>            public            mixed
     <strong>getItems</strong>(array $keys)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -641,37 +802,51 @@
                     <tr>
                 <td>array</td>
                 <td>$keys</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method_setItem">
-        <div class="location">at line 133</div>
+        <div class="location">at line 224</div>
         <code>            public            
-    <strong>setItem</strong>($key, $item)</code>
+    <strong>setItem</strong>(mixed $key, mixed $item)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Add an item for the given key to the collection.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$key</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$item</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -682,21 +857,24 @@
     </div>
 
                 <h3 id="method_removeItem">
-        <div class="location">at line 141</div>
+        <div class="location">at line 237</div>
         <code>            public            
-    <strong>removeItem</strong>($item)</code>
+    <strong>removeItem</strong>(mixed $item)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$item</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -707,13 +885,15 @@
     </div>
 
                 <h3 id="method_removeItems">
-        <div class="location">at line 146</div>
+        <div class="location">at line 247</div>
         <code>            public            
     <strong>removeItems</strong>(array $items)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -721,7 +901,8 @@
                     <tr>
                 <td>array</td>
                 <td>$items</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -732,38 +913,53 @@
     </div>
 
                 <h3 id="method_hasKey">
-        <div class="location">at line 153</div>
-        <code>            public            
-    <strong>hasKey</strong>($key)</code>
+        <div class="location">at line 261</div>
+        <code>            public            boolean
+    <strong>hasKey</strong>(mixed $key)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$key</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method_getKey">
-        <div class="location">at line 158</div>
-        <code>            public            
+        <div class="location">at line 277</div>
+        <code>            public            mixed
     <strong>getKey</strong>($item, $return_all = false)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -771,37 +967,116 @@
                     <tr>
                 <td></td>
                 <td>$item</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$return_all</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>Returns false, if the item is not contained.</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method_hasItem">
-        <div class="location">at line 168</div>
-        <code>            public            
-    <strong>hasItem</strong>($item)</code>
+        <div class="location">at line 294</div>
+        <code>            public            boolean
+    <strong>hasItem</strong>(mixed $item)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$item</td>
-                <td></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSize">
+        <div class="location">at line 304</div>
+        <code>            public            int
+    <strong>getSize</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addListener">
+        <div class="location">at line 314</div>
+        <code>            public            
+    <strong>addListener</strong>(<a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -811,15 +1086,28 @@
                     </div>
     </div>
 
-                <h3 id="method_getSize">
-        <div class="location">at line 173</div>
+                <h3 id="method_removeListener">
+        <div class="location">at line 326</div>
         <code>            public            
-    <strong>getSize</strong>()</code>
+    <strong>removeListener</strong>(<a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a> $listener)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Common/Collection/IListener.html"><abbr title="Dat0r\Common\Collection\IListener">IListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
             
             
             

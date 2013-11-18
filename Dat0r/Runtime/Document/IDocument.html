@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\Document\IDocument | Dat0r API</title>
+        <title>Dat0r\Runtime\Document\IDocument | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Interface</div>
     <h1><a href="../../../Dat0r/Runtime/Document.html">Dat0r\Runtime\Document</a>\IDocument</h1>
@@ -41,26 +39,6 @@
             <table>
                     <tr>
                 <td class="type">
-                    static&nbsp;<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $data = array())
-                    <p>Creates a new Document.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_setValues">setValues</a>(array $values)
-                    <p>Sets a given list of values.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
                     
                 </td>
                 <td class="last">
@@ -71,21 +49,31 @@
             </tr>
                     <tr>
                 <td class="type">
-                    <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                    
                 </td>
                 <td class="last">
-                    <a href="#method_getValue">getValue</a>(string $fieldname, boolean $raw = true)
+                    <a href="#method_setValues">setValues</a>(array $values)
+                    <p>Batch set a given list of field values.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getValue">getValue</a>(string $fieldname)
                     <p>Returns the value for a specific field.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    array
+                    boolean
                 </td>
                 <td class="last">
-                    <a href="#method_getValues">getValues</a>(array $fieldnames = array(), boolean $raw = true)
-                    <p>Returns the values of either all fields or a specific field subset defined by the optional fieldnames parameter.</p>
+                    <a href="#method_hasValue">hasValue</a>(string $fieldname)
+                    <p>Tells if the document has a value set for a given field.</p>
                 </td>
                 <td></td>
             </tr>
@@ -94,8 +82,58 @@
                     array
                 </td>
                 <td class="last">
+                    <a href="#method_getValues">getValues</a>(array $fieldnames = array())
+                    <p>Returns the values of all our fields or a just specific field subset, that can be defined by the optional '$fieldnames' parameter.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_toArray">toArray</a>()
+                    <p>Returns an array representation of a document's current value state.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isEqualTo">isEqualTo</a>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document)
+                    <p>Tells whether a spefic IDocument instance is considered equal to an other given document.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/Validator/Result/ResultMap.html"><abbr title="Dat0r\Runtime\Validator\Result\ResultMap">ResultMap</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getValidationResults">getValidationResults</a>()
+                    <p>Returns the validation results of a prior call to setValue(s).</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isValid">isValid</a>()
+                    <p>Tells if a document is considered being in a valid/safe state.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/ValueHolder/ValueChangedEventList.html"><abbr title="Dat0r\Runtime\ValueHolder\ValueChangedEventList">ValueChangedEventList</abbr></a>
+                </td>
+                <td class="last">
                     <a href="#method_getChanges">getChanges</a>()
-                    <p>Returns a list of unhandled changes.</p>
+                    <p>Returns a list of all events that have occured since the document was instanciated or the 'markClean' method was called.</p>
                 </td>
                 <td></td>
             </tr>
@@ -125,17 +163,27 @@
                 </td>
                 <td class="last">
                     <a href="#method_getModule">getModule</a>()
-                    <p>Returns an entries module.</p>
+                    <p>Returns the document's module.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    boolean
+                    
                 </td>
                 <td class="last">
-                    <a href="#method_isEqualTo">isEqualTo</a>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $other)
-                    <p>Tells whether a spefic IDocument instance is considered equal to an other given IDocument.</p>
+                    <a href="#method_addDocumentChangedListener">addDocumentChangedListener</a>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)
+                    <p>Attaches the given document-changed listener.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeDocumentChangedListener">removeDocumentChangedListener</a>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)
+                    <p>Removes the given document-changed listener.</p>
                 </td>
                 <td></td>
             </tr>
@@ -144,78 +192,15 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_create">
-        <div class="location">at line 25</div>
-        <code>        static    public            <a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a>
-    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $data = array())</code>
-    </h3>
-    <div class="details">
-        <p>Creates a new Document.</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></td>
-                <td>$module</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$data</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setValues">
-        <div class="location">at line 32</div>
-        <code>            public            
-    <strong>setValues</strong>(array $values)</code>
-    </h3>
-    <div class="details">
-        <p>Sets a given list of values.</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>array</td>
-                <td>$values</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setValue">
-        <div class="location">at line 40</div>
+                        <h3 id="method_setValue">
+        <div class="location">at line 23</div>
         <code>            public            
     <strong>setValue</strong>(string $fieldname, mixed $value)</code>
     </h3>
     <div class="details">
         <p>Sets a specific value by fieldname.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -223,12 +208,41 @@
                     <tr>
                 <td>string</td>
                 <td>$fieldname</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td>mixed</td>
                 <td>$value</td>
-                <td></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setValues">
+        <div class="location">at line 30</div>
+        <code>            public            
+    <strong>setValues</strong>(array $values)</code>
+    </h3>
+    <div class="details">
+        <p>Batch set a given list of field values.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$values</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -239,13 +253,14 @@
     </div>
 
                 <h3 id="method_getValue">
-        <div class="location">at line 50</div>
-        <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
-    <strong>getValue</strong>(string $fieldname, boolean $raw = true)</code>
+        <div class="location">at line 39</div>
+        <code>            public            mixed
+    <strong>getValue</strong>(string $fieldname)</code>
     </h3>
     <div class="details">
         <p>Returns the value for a specific field.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -253,12 +268,8 @@
                     <tr>
                 <td>string</td>
                 <td>$fieldname</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>boolean</td>
-                <td>$raw</td>
-                <td>Whether to return the raw value or the corresponding IValueHolder instance.</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -267,8 +278,46 @@
 
                     <table>
         <tr>
-            <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-            <td></td>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasValue">
+        <div class="location">at line 48</div>
+        <code>            public            boolean
+    <strong>hasValue</strong>(string $fieldname)</code>
+    </h3>
+    <div class="details">
+        <p>Tells if the document has a value set for a given field.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$fieldname</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -278,13 +327,14 @@
     </div>
 
                 <h3 id="method_getValues">
-        <div class="location">at line 61</div>
+        <div class="location">at line 58</div>
         <code>            public            array
-    <strong>getValues</strong>(array $fieldnames = array(), boolean $raw = true)</code>
+    <strong>getValues</strong>(array $fieldnames = array())</code>
     </h3>
     <div class="details">
-        <p>Returns the values of either all fields or a specific field subset defined by the optional fieldnames parameter.</p>
-        <p></p>
+        <p>Returns the values of all our fields or a just specific field subset, that can be defined by the optional '$fieldnames' parameter.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -292,12 +342,8 @@
                     <tr>
                 <td>array</td>
                 <td>$fieldnames</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>boolean</td>
-                <td>$raw</td>
-                <td>Whether to return the raw value or the corresponding IValueHolder instance.</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -307,7 +353,8 @@
                     <table>
         <tr>
             <td>array</td>
-            <td>A list of IValueHolder.</td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -316,14 +363,15 @@
                     </div>
     </div>
 
-                <h3 id="method_getChanges">
-        <div class="location">at line 68</div>
+                <h3 id="method_toArray">
+        <div class="location">at line 65</div>
         <code>            public            array
-    <strong>getChanges</strong>()</code>
+    <strong>toArray</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns a list of unhandled changes.</p>
-        <p></p>
+        <p>Returns an array representation of a document's current value state.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -331,70 +379,8 @@
                     <table>
         <tr>
             <td>array</td>
-            <td>An list of ValueChangedEvent.</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_isClean">
-        <div class="location">at line 76</div>
-        <code>            public            boolean
-    <strong>isClean</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Tells if the current document instance is clean, hence if it has any unhandled changes.</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>boolean</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_markClean">
-        <div class="location">at line 82</div>
-        <code>            public            
-    <strong>markClean</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Marks the current document instance as clean, hence resets the all tracked changed.</p>
-        <p></p>
-        <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getModule">
-        <div class="location">at line 89</div>
-        <code>            public            <a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a>
-    <strong>getModule</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Returns an entries module.</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -404,21 +390,22 @@
     </div>
 
                 <h3 id="method_isEqualTo">
-        <div class="location">at line 98</div>
+        <div class="location">at line 75</div>
         <code>            public            boolean
-    <strong>isEqualTo</strong>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $other)</code>
+    <strong>isEqualTo</strong>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document)</code>
     </h3>
     <div class="details">
-        <p>Tells whether a spefic IDocument instance is considered equal to an other given IDocument.</p>
-        <p></p>
+        <p>Tells whether a spefic IDocument instance is considered equal to an other given document.</p>
+        <p>Documents are equal when they have both the same module and values.</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
                 <td><a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a></td>
-                <td>$other</td>
-                <td></td>
+                <td>$document</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -428,10 +415,209 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValidationResults">
+        <div class="location">at line 83</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Validator/Result/ResultMap.html"><abbr title="Dat0r\Runtime\Validator\Result\ResultMap">ResultMap</abbr></a>
+    <strong>getValidationResults</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the validation results of a prior call to setValue(s).</p>
+        <p>There will be a result for each affected field.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Validator/Result/ResultMap.html"><abbr title="Dat0r\Runtime\Validator\Result\ResultMap">ResultMap</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isValid">
+        <div class="location">at line 91</div>
+        <code>            public            boolean
+    <strong>isValid</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Tells if a document is considered being in a valid/safe state.</p>
+        <p>A document is considered valid if no errors have occured while consuming data.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getChanges">
+        <div class="location">at line 99</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/ValueChangedEventList.html"><abbr title="Dat0r\Runtime\ValueHolder\ValueChangedEventList">ValueChangedEventList</abbr></a>
+    <strong>getChanges</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of all events that have occured since the document was instanciated or the 'markClean' method was called.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/ValueHolder/ValueChangedEventList.html"><abbr title="Dat0r\Runtime\ValueHolder\ValueChangedEventList">ValueChangedEventList</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isClean">
+        <div class="location">at line 107</div>
+        <code>            public            boolean
+    <strong>isClean</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Tells if the current document instance is clean, hence if it has any unhandled changes.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_markClean">
+        <div class="location">at line 112</div>
+        <code>            public            
+    <strong>markClean</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Marks the current document instance as clean, hence resets the all tracked changed.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getModule">
+        <div class="location">at line 119</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a>
+    <strong>getModule</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the document's module.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addDocumentChangedListener">
+        <div class="location">at line 126</div>
+        <code>            public            
+    <strong>addDocumentChangedListener</strong>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Attaches the given document-changed listener.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeDocumentChangedListener">
+        <div class="location">at line 133</div>
+        <code>            public            
+    <strong>removeDocumentChangedListener</strong>(<a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Removes the given document-changed listener.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/Document/IDocumentChangedListener.html"><abbr title="Dat0r\Runtime\Document\IDocumentChangedListener">IDocumentChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>

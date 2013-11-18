@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\Field\Field | Dat0r API</title>
+        <title>Dat0r\Runtime\Field\Field | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../Dat0r/Runtime/Field.html">Dat0r\Runtime\Field</a>\Field</h1>
@@ -33,41 +31,10 @@
             <div class="description">
             <p>Base class that all Dat0r IField implementations should extend.</p>
             <p>Provides a pretty complete implementation for the IField interface.</p>
+
+<p>basic options: 'validator', 'value<em>holder', 'default</em>value', 'mandatory'</p>
         </div>
     
-            <h2>Constants</h2>
-
-            <table>
-                    <tr>
-                <td>OPT_VALUE_HOLDER</td>
-                <td class="last">
-                    <p><em>Holds the option name of the option that provides the IValueHolder implementor to use for managing field specific data.</em></p>
-                    <p></p>
-                </td>
-            </tr>
-                    <tr>
-                <td>OPT_VALIDATOR</td>
-                <td class="last">
-                    <p><em>Holds the option name of the option that provides the IValidator implementor to use when validating field specific data.</em></p>
-                    <p></p>
-                </td>
-            </tr>
-                    <tr>
-                <td>OPT_VALUE_CONSTRAINT</td>
-                <td class="last">
-                    <p><em></em></p>
-                    <p></p>
-                </td>
-            </tr>
-                    <tr>
-                <td>OPT_VALUE_DEFAULT</td>
-                <td class="last">
-                    <p><em></em></p>
-                    <p></p>
-                </td>
-            </tr>
-            </table>
-
     
     
             <h2>Methods</h2>
@@ -85,6 +52,16 @@
             </tr>
                     <tr>
                 <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string $name, array $options = array())
+                    <p>Constructs a new field instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
                     string
                 </td>
                 <td class="last">
@@ -95,21 +72,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    boolean
+                    array
                 </td>
                 <td class="last">
-                    <a href="#method_validate">validate</a>(mixed $value)
-                    <p>Validates a given value with a strategy dedicated to the field.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getDefaultValue">getDefaultValue</a>()
-                    <p>Returns the default value of the field.</p>
+                    <a href="#method_getOptions">getOptions</a>()
+                    <p>Returns the field's options.</p>
                 </td>
                 <td></td>
             </tr>
@@ -138,18 +105,39 @@
                     <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_createValueHolder">createValueHolder</a>(mixed $value)
-                    <p>Creates a IValueHolder instance dedicated to the current field instance.</p>
+                    <a href="#method_getDefaultValue">getDefaultValue</a>()
+                    <p>Returns the default value of the field.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
-                    <a href="#method_getValueTypeConstraint">getValueTypeConstraint</a>()
-                    <p></p>
+                    <a href="#method_getNullValue">getNullValue</a>()
+                    <p>Returns a field's null value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getValidator">getValidator</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createValueHolder">createValueHolder</a>()
+                    <p>Creates a IValueHolder instance dedicated to the current field instance.</p>
                 </td>
                 <td></td>
             </tr>
@@ -159,13 +147,14 @@
         <h2>Details</h2>
 
                         <h3 id="method_create">
-        <div class="location">at line 56</div>
+        <div class="location">at line 49</div>
         <code>        static    public            <a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
     <strong>create</strong>(string $name, array $options = array())</code>
     </h3>
     <div class="details">
         <p>Creates a new field instance.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -173,12 +162,14 @@
                     <tr>
                 <td>string</td>
                 <td>$name</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td>array</td>
                 <td>$options</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -188,7 +179,8 @@
                     <table>
         <tr>
             <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -197,14 +189,48 @@
                     </div>
     </div>
 
+                <h3 id="method___construct">
+        <div class="location">at line 60</div>
+        <code>            public            
+    <strong>__construct</strong>(string $name, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Constructs a new field instance.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_getName">
-        <div class="location">at line 66</div>
+        <div class="location">at line 71</div>
         <code>            public            string
     <strong>getName</strong>()</code>
     </h3>
     <div class="details">
         <p>Returns the name of the field.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -212,7 +238,8 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -221,56 +248,24 @@
                     </div>
     </div>
 
-                <h3 id="method_validate">
-        <div class="location">at line 78</div>
-        <code>            public            boolean
-    <strong>validate</strong>(mixed $value)</code>
+                <h3 id="method_getOptions">
+        <div class="location">at line 81</div>
+        <code>            public            array
+    <strong>getOptions</strong>()</code>
     </h3>
     <div class="details">
-        <p>Validates a given value with a strategy dedicated to the field.</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>mixed</td>
-                <td>$value</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>boolean</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getDefaultValue">
-        <div class="location">at line 100</div>
-        <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
-    <strong>getDefaultValue</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Returns the default value of the field.</p>
-        <p></p>
+        <p>Returns the field's options.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
-            <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-            <td></td>
+            <td>array</td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -280,7 +275,7 @@
     </div>
 
                 <h3 id="method_getOption">
-        <div class="location">at line 118</div>
+        <div class="location">at line 95</div>
         <code>            public            mixed
     <strong>getOption</strong>(string $name, mixed $default = null)</code>
     </h3>
@@ -294,12 +289,14 @@
                     <tr>
                 <td>string</td>
                 <td>$name</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td>mixed</td>
                 <td>$default</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -309,7 +306,8 @@
                     <table>
         <tr>
             <td>mixed</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -319,13 +317,14 @@
     </div>
 
                 <h3 id="method_hasOption">
-        <div class="location">at line 130</div>
+        <div class="location">at line 107</div>
         <code>            public            boolean
     <strong>hasOption</strong>(string $name)</code>
     </h3>
     <div class="details">
         <p>Tells if a field currently owns a specific option.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -333,7 +332,8 @@
                     <tr>
                 <td>string</td>
                 <td>$name</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -343,7 +343,86 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDefaultValue">
+        <div class="location">at line 117</div>
+        <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+    <strong>getDefaultValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the default value of the field.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNullValue">
+        <div class="location">at line 127</div>
+        <code>            public            mixed
+    <strong>getNullValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a field's null value.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValidator">
+        <div class="location">at line 138</div>
+        <code>            public            string
+    <strong>getValidator</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Fully qualified name of an IValidator implementation.</td>
         </tr>
     </table>
 
@@ -353,49 +432,26 @@
     </div>
 
                 <h3 id="method_createValueHolder">
-        <div class="location">at line 142</div>
+        <div class="location">at line 176</div>
         <code>            public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
-    <strong>createValueHolder</strong>(mixed $value)</code>
+    <strong>createValueHolder</strong>()</code>
     </h3>
     <div class="details">
         <p>Creates a IValueHolder instance dedicated to the current field instance.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>mixed</td>
-                <td>$value</td>
-                <td></td>
-            </tr>
-            </table>
-
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
             <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getValueTypeConstraint">
-        <div class="location">at line 158</div>
-        <code>            public            
-    <strong>getValueTypeConstraint</strong>()</code>
-    </h3>
-    <div class="details">
-        <p></p>
-        <p></p>
-        <div class="tags">
-            
             
             
                     </div>

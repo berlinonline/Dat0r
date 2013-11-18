@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\ValueHolder\IValueHolder | Dat0r API</title>
+        <title>Dat0r\Runtime\ValueHolder\IValueHolder | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Interface</div>
     <h1><a href="../../../Dat0r/Runtime/ValueHolder.html">Dat0r\Runtime\ValueHolder</a>\IValueHolder</h1>
@@ -40,7 +38,7 @@
                     static&nbsp;<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, mixed $value = null)
+                    <a href="#method_create">create</a>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)
                     <p>Creates a new IValueHolder instance for the given value.</p>
                 </td>
                 <td></td>
@@ -51,7 +49,67 @@
                 </td>
                 <td class="last">
                     <a href="#method_getValue">getValue</a>()
-                    <p>Returns the value holder&#039;s aggregated value.</p>
+                    <p>Returns the value holder's aggregated value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Dat0r\Runtime\ValueHolder\IResult">IResult</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setValue">setValue</a>(string $value)
+                    <p>Sets the value holder's value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasValue">hasValue</a>()
+                    <p>Tells if a value holder has a value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isValueNull">isValueNull</a>()
+                    <p>Tells if a value holder has no value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isValueGreaterThan">isValueGreaterThan</a>($righthand_value)
+                    <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isValueLessThan">isValueLessThan</a>($righthand_value)
+                    <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isValueEqualTo">isValueEqualTo</a>($righthand_value)
+                    <p>Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.</p>
                 </td>
                 <td></td>
             </tr>
@@ -60,38 +118,18 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setValue">setValue</a>(string $value)
-                    <p>Sets the value holder&#039;s value.</p>
+                    <a href="#method_addValueChangedListener">addValueChangedListener</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a> $listener)
+                    <p>Registers a given listener as a recipient of value changed events.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    boolean
+                    
                 </td>
                 <td class="last">
-                    <a href="#method_isGreaterThan">isGreaterThan</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
-                    <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    boolean
-                </td>
-                <td class="last">
-                    <a href="#method_isLessThan">isLessThan</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
-                    <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    boolean
-                </td>
-                <td class="last">
-                    <a href="#method_isEqualTo">isEqualTo</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)
-                    <p>Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.</p>
+                    <a href="#method_removedValueChangedListener">removedValueChangedListener</a>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a> $listener)
+                    <p>Removes a given listener as from our list of value-changed listeners.</p>
                 </td>
                 <td></td>
             </tr>
@@ -101,13 +139,14 @@
         <h2>Details</h2>
 
                         <h3 id="method_create">
-        <div class="location">at line 21</div>
+        <div class="location">at line 19</div>
         <code>        static    public            <a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
-    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field, mixed $value = null)</code>
+    <strong>create</strong>(<a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a> $field)</code>
     </h3>
     <div class="details">
         <p>Creates a new IValueHolder instance for the given value.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -115,12 +154,8 @@
                     <tr>
                 <td><a href="../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
                 <td>$field</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>mixed</td>
-                <td>$value</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -130,7 +165,8 @@
                     <table>
         <tr>
             <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -140,13 +176,14 @@
     </div>
 
                 <h3 id="method_getValue">
-        <div class="location">at line 28</div>
+        <div class="location">at line 26</div>
         <code>            public            mixed
     <strong>getValue</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the value holder&#039;s aggregated value.</p>
-        <p></p>
+        <p>Returns the value holder's aggregated value.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -154,7 +191,8 @@
                     <table>
         <tr>
             <td>mixed</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -165,12 +203,13 @@
 
                 <h3 id="method_setValue">
         <div class="location">at line 35</div>
-        <code>            public            
+        <code>            public            <abbr title="Dat0r\Runtime\ValueHolder\IResult">IResult</abbr>
     <strong>setValue</strong>(string $value)</code>
     </h3>
     <div class="details">
-        <p>Sets the value holder&#039;s value.</p>
-        <p></p>
+        <p>Sets the value holder's value.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -178,32 +217,97 @@
                     <tr>
                 <td>string</td>
                 <td>$value</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Dat0r\Runtime\ValueHolder\IResult">IResult</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
-                <h3 id="method_isGreaterThan">
-        <div class="location">at line 44</div>
+                <h3 id="method_hasValue">
+        <div class="location">at line 42</div>
         <code>            public            boolean
-    <strong>isGreaterThan</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    <strong>hasValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Tells if a value holder has a value.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isValueNull">
+        <div class="location">at line 49</div>
+        <code>            public            boolean
+    <strong>isValueNull</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Tells if a value holder has no value.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isValueGreaterThan">
+        <div class="location">at line 58</div>
+        <code>            public            boolean
+    <strong>isValueGreaterThan</strong>($righthand_value)</code>
     </h3>
     <div class="details">
         <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-                <td>$other</td>
                 <td></td>
+                <td>$righthand_value</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -213,7 +317,8 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -222,22 +327,24 @@
                     </div>
     </div>
 
-                <h3 id="method_isLessThan">
-        <div class="location">at line 53</div>
+                <h3 id="method_isValueLessThan">
+        <div class="location">at line 67</div>
         <code>            public            boolean
-    <strong>isLessThan</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    <strong>isValueLessThan</strong>($righthand_value)</code>
     </h3>
     <div class="details">
         <p>Tells whether a given IValueHolder is considered being less than a given other IValueHolder.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-                <td>$other</td>
                 <td></td>
+                <td>$righthand_value</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -247,7 +354,8 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -256,22 +364,24 @@
                     </div>
     </div>
 
-                <h3 id="method_isEqualTo">
-        <div class="location">at line 62</div>
+                <h3 id="method_isValueEqualTo">
+        <div class="location">at line 76</div>
         <code>            public            boolean
-    <strong>isEqualTo</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a> $other)</code>
+    <strong>isValueEqualTo</strong>($righthand_value)</code>
     </h3>
     <div class="details">
         <p>Tells whether a given IValueHolder is considered being equal to a given other IValueHolder.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
-                <td>$other</td>
                 <td></td>
+                <td>$righthand_value</td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -281,10 +391,65 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addValueChangedListener">
+        <div class="location">at line 83</div>
+        <code>            public            
+    <strong>addValueChangedListener</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Registers a given listener as a recipient of value changed events.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removedValueChangedListener">
+        <div class="location">at line 90</div>
+        <code>            public            
+    <strong>removedValueChangedListener</strong>(<a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a> $listener)</code>
+    </h3>
+    <div class="details">
+        <p>Removes a given listener as from our list of value-changed listeners.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Dat0r/Runtime/ValueHolder/IValueChangedListener.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueChangedListener">IValueChangedListener</abbr></a></td>
+                <td>$listener</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>

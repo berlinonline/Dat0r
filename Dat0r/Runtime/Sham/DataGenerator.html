@@ -3,12 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Dat0r\Runtime\Sham\DataGenerator | Dat0r API</title>
+        <title>Dat0r\Runtime\Sham\DataGenerator | </title>
                 <link rel="stylesheet" type="text/css" href="../../../css/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../css/dat0r.css">
-                            <link rel="shortcut icon" href="../../../dat0r-favicon.png">
-            <link rel="icon" href="../../../dat0r-favicon.png">
-                    </head>
+                            </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -21,7 +19,7 @@
 
         </ul>
 
-        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview">Dat0r API</a></div>
+        <div id="title"><a href="../../../namespaces.html" title="Back to namespaces overview"></a></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../Dat0r/Runtime/Sham.html">Dat0r\Runtime\Sham</a>\DataGenerator</h1>
@@ -31,7 +29,8 @@
 
             <div class="description">
             <p>Sham\DataGenerator is a class that is able to create or fill documents containing fake data.</p>
-            <p></p>
+            <p>
+</p>
         </div>
     
             <h2>Constants</h2>
@@ -40,50 +39,57 @@
                     <tr>
                 <td>OPTION_FIELD_VALUES</td>
                 <td class="last">
-                    <p><em>name of options array key to use for an array of fieldname =&gt; value pairs</em></p>
-                    <p></p>
+                    <p><em>name of options array key to use for an array of fieldname => value pairs</em></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_EXCLUDED_FIELDS</td>
                 <td class="last">
                     <p><em>name of options array key to use to exclude certain fields from fake data generation</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_MARK_CLEAN</td>
                 <td class="last">
                     <p><em>name of options array key to use to mark changed documents as clean</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_LOCALE</td>
                 <td class="last">
                     <p><em>name of options array key to use to set the locale used for fake data generation</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_COUNT</td>
                 <td class="last">
                     <p><em>name of options array key to use to set the number of documents to generate</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_GUESS_PROVIDER_BY_NAME</td>
                 <td class="last">
                     <p><em>name of options array key to use to disable the guessing of fake data provider by fieldname</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>OPTION_RECURSION_LEVEL</td>
                 <td class="last">
                     <p><em>name of options array key to use to set the current level of recursion (for reference fields)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
             </table>
@@ -99,7 +105,8 @@
                 </td>
                 <td class="last">
                     <a href="#method___construct">__construct</a>($locale = &#039;de_DE&#039;)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -139,7 +146,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_createFakeDocuments">createFakeDocuments</a>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())
-                    <p>Creates `count` number of documents with fake data for the given module.</p>
+                    <p>Creates <code>count</code> number of documents with fake data for the given module.</p>
                 </td>
                 <td></td>
             </tr>
@@ -179,7 +186,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_createDocuments">createDocuments</a>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())
-                    <p>Creates `count` number of documents with fake data for the given module.</p>
+                    <p>Creates <code>count</code> number of documents with fake data for the given module.</p>
                 </td>
                 <td></td>
             </tr>
@@ -189,13 +196,15 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 61</div>
+        <div class="location">at line 60</div>
         <code>            public            
     <strong>__construct</strong>($locale = &#039;de_DE&#039;)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -203,7 +212,8 @@
                     <tr>
                 <td></td>
                 <td>$locale</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -214,27 +224,27 @@
     </div>
 
                 <h3 id="method_fake">
-        <div class="location">at line 93</div>
+        <div class="location">at line 92</div>
         <code>            public            void
     <strong>fake</strong>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document, array $options = array())</code>
     </h3>
     <div class="details">
         <p>This method fills the given document with fake data.</p>
-        <p>You may customize<br />
- the fake data generation used for each field by using the options array.<br />
-<br />
- Supported options:<br />
- - OPTION_LOCALE: Locale for fake data (e.g. &#039;en_UK&#039;, defaults to &#039;de_DE&#039;).<br />
- - OPTION_MARK_CLEAN: Calls `$document-&gt;markClean()` at the end to prevent<br />
-                 change events to occur after faking data. Default is false.<br />
- - OPTION_FIELD_VALUES: array of `fieldname` =&gt; `value` pairs to customize<br />
-                  fake values per field of the given document. You can<br />
-                  either specify a direct value or provide a closure. The<br />
-                  closure must return the value you want to set on that field.<br />
- - OPTION_EXCLUDED_FIELDS: Array of fieldnames to excluded from filling<br />
-                  with fake data.<br />
- - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain fieldnames<br />
-                  trigger different providers (e.g. firstname or email).</p>
+        <p>You may customize
+the fake data generation used for each field by using the options array.</p>
+
+<p>Supported options:
+- OPTION<em>LOCALE: Locale for fake data (e.g. 'en</em>UK', defaults to 'de<em>DE').
+- OPTION</em>MARK<em>CLEAN: Calls <code>$document-&gt;markClean()</code> at the end to prevent
+                change events to occur after faking data. Default is false.
+- OPTION</em>FIELD<em>VALUES: array of <code>fieldname</code> => <code>value</code> pairs to customize
+                 fake values per field of the given document. You can
+                 either specify a direct value or provide a closure. The
+                 closure must return the value you want to set on that field.
+- OPTION</em>EXCLUDED<em>FIELDS: Array of fieldnames to excluded from filling
+                 with fake data.
+- OPTION</em>GUESS<em>PROVIDER</em>BY_NAME: Boolean true by default. Certain fieldnames
+                 trigger different providers (e.g. firstname or email).</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -257,7 +267,8 @@
                     <table>
         <tr>
             <td>void</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -266,7 +277,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -284,13 +295,14 @@
     </div>
 
                 <h3 id="method_fakeData">
-        <div class="location">at line 152</div>
+        <div class="location">at line 151</div>
         <code>            public            array
     <strong>fakeData</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
         <p>Creates an array with fake data for the given module.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -322,7 +334,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -340,13 +352,14 @@
     </div>
 
                 <h3 id="method_createFakeDocument">
-        <div class="location">at line 171</div>
+        <div class="location">at line 170</div>
         <code>            public            <abbr title="Dat0r\Runtime\Sham\document">document</abbr>
     <strong>createFakeDocument</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
         <p>Creates a document with fake data for the given module.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -378,7 +391,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -396,13 +409,14 @@
     </div>
 
                 <h3 id="method_createFakeDocuments">
-        <div class="location">at line 191</div>
+        <div class="location">at line 190</div>
         <code>            public            array
     <strong>createFakeDocuments</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
-        <p>Creates `count` number of documents with fake data for the given module.</p>
-        <p></p>
+        <p>Creates <code>count</code> number of documents with fake data for the given module.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -415,7 +429,7 @@
                     <tr>
                 <td>array</td>
                 <td>$options</td>
-                <td>use `count` for number of documents to create. For other options see fake() method.</td>
+                <td>use <code>count</code> for number of documents to create. For other options see fake() method.</td>
             </tr>
             </table>
 
@@ -434,7 +448,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -452,27 +466,27 @@
     </div>
 
                 <h3 id="method_fill">
-        <div class="location">at line 241</div>
+        <div class="location">at line 240</div>
         <code>        static    public            void
     <strong>fill</strong>(<a href="../../../Dat0r/Runtime/Document/IDocument.html"><abbr title="Dat0r\Runtime\Document\IDocument">IDocument</abbr></a> $document, array $options = array())</code>
     </h3>
     <div class="details">
         <p>This method fills the document with fake data.</p>
-        <p>You may customize the<br />
- fake data used for each field by using the options array.<br />
-<br />
- Supported options:<br />
- - OPTION_LOCALE: Locale for fake data (e.g. &#039;en_UK&#039;, defaults to &#039;de_DE&#039;).<br />
- - OPTION_MARK_CLEAN: Calls `$document-&gt;markClean()` at the end to prevent<br />
-                 change events to occur after faking data. Default is false.<br />
- - OPTION_FIELD_VALUES: array of `fieldname` =&gt; `value` pairs to customize<br />
-                  fake values per field of the given document. You can<br />
-                  either specify a direct value or provide a closure. The<br />
-                  closure must return the value you want to set on that field.<br />
- - OPTION_EXCLUDED_FIELDS: Array of fieldnames to excluded from filling<br />
-                  with fake data.<br />
- - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain fieldnames<br />
-                  trigger different providers (e.g. firstname or email).</p>
+        <p>You may customize the
+fake data used for each field by using the options array.</p>
+
+<p>Supported options:
+- OPTION<em>LOCALE: Locale for fake data (e.g. 'en</em>UK', defaults to 'de<em>DE').
+- OPTION</em>MARK<em>CLEAN: Calls <code>$document-&gt;markClean()</code> at the end to prevent
+                change events to occur after faking data. Default is false.
+- OPTION</em>FIELD<em>VALUES: array of <code>fieldname</code> => <code>value</code> pairs to customize
+                 fake values per field of the given document. You can
+                 either specify a direct value or provide a closure. The
+                 closure must return the value you want to set on that field.
+- OPTION</em>EXCLUDED<em>FIELDS: Array of fieldnames to excluded from filling
+                 with fake data.
+- OPTION</em>GUESS<em>PROVIDER</em>BY_NAME: Boolean true by default. Certain fieldnames
+                 trigger different providers (e.g. firstname or email).</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -495,7 +509,8 @@
                     <table>
         <tr>
             <td>void</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -504,7 +519,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -522,13 +537,14 @@
     </div>
 
                 <h3 id="method_createDataFor">
-        <div class="location">at line 259</div>
+        <div class="location">at line 258</div>
         <code>        static    public            array
     <strong>createDataFor</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
         <p>Creates an array with fake data for the given module.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -560,7 +576,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -578,13 +594,14 @@
     </div>
 
                 <h3 id="method_createDocument">
-        <div class="location">at line 277</div>
+        <div class="location">at line 276</div>
         <code>        static    public            <abbr title="Dat0r\Runtime\Sham\document">document</abbr>
     <strong>createDocument</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
         <p>Creates a document with fake data for the given module.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -616,7 +633,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>
@@ -634,13 +651,14 @@
     </div>
 
                 <h3 id="method_createDocuments">
-        <div class="location">at line 295</div>
+        <div class="location">at line 294</div>
         <code>        static    public            array
     <strong>createDocuments</strong>(<a href="../../../Dat0r/Runtime/Module/IModule.html"><abbr title="Dat0r\Runtime\Module\IModule">IModule</abbr></a> $module, array $options = array())</code>
     </h3>
     <div class="details">
-        <p>Creates `count` number of documents with fake data for the given module.</p>
-        <p></p>
+        <p>Creates <code>count</code> number of documents with fake data for the given module.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -653,7 +671,7 @@
                     <tr>
                 <td>array</td>
                 <td>$options</td>
-                <td>use `count` for number of documents to create. For other options see fill() method.</td>
+                <td>use <code>count</code> for number of documents to create. For other options see fill() method.</td>
             </tr>
             </table>
 
@@ -672,7 +690,7 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Dat0r/Runtime/Document/InvalidValueException.html"><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></a></td>
+                <td><abbr title="Dat0r\Runtime\Document\InvalidValueException">InvalidValueException</abbr></td>
                 <td>in case of fake data being invalid for the given field</td>
             </tr>
                     <tr>

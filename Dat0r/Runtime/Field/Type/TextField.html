@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Dat0r\Runtime\Field\Type\TextField | </title>
+                <link rel="stylesheet" type="text/css" href="../../../../css/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../../css/dat0r.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+                <li><a href="../../../../index.html" target="_top">Frames</a></li>
+    <li><a href="#" target="_top">No Frames</a></li>
+
+        </ul>
+
+        <div id="title"><a href="../../../../namespaces.html" title="Back to namespaces overview"></a></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../Dat0r/Runtime/Field/Type.html">Dat0r\Runtime\Field\Type</a>\TextField</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>TextField</strong>        extends <a href="../../../../Dat0r/Runtime/Field/Field.html"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;<a href="../../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(string $name, array $options = array())
+                    <p>Creates a new field instance.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_create"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string $name, array $options = array())
+                    <p>Constructs a new field instance.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method___construct"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Returns the name of the field.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_getName"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getOptions">getOptions</a>()
+                    <p>Returns the field's options.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_getOptions"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getOption">getOption</a>(string $name, mixed $default = null)
+                    <p>Returns a field option by name if it exists.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_getOption"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasOption">hasOption</a>(string $name)
+                    <p>Tells if a field currently owns a specific option.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_hasOption"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDefaultValue">getDefaultValue</a>()
+                    <p>Returns the default value of the field.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getNullValue">getNullValue</a>()
+                    <p>Returns a field's null value.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_getNullValue"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getValidator">getValidator</a>()
+                    <p>
+</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_getValidator"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createValueHolder">createValueHolder</a>()
+                    <p>Creates a IValueHolder instance dedicated to the current field instance.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Dat0r/Runtime/Field/Field.html#method_createValueHolder"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a></small></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_create">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_create"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 49</div>
+        <code>        static    public            <a href="../../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a>
+    <strong>create</strong>(string $name, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Creates a new field instance.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Dat0r/Runtime/Field/IField.html"><abbr title="Dat0r\Runtime\Field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___construct">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method___construct"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 60</div>
+        <code>            public            
+    <strong>__construct</strong>(string $name, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Constructs a new field instance.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getName">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_getName"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 71</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the name of the field.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOptions">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_getOptions"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 81</div>
+        <code>            public            array
+    <strong>getOptions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the field's options.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOption">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_getOption"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 95</div>
+        <code>            public            mixed
+    <strong>getOption</strong>(string $name, mixed $default = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns a field option by name if it exists.</p>
+        <p>Otherwise an optional default is returned.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$default</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasOption">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_hasOption"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 107</div>
+        <code>            public            boolean
+    <strong>hasOption</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Tells if a field currently owns a specific option.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDefaultValue">
+        <div class="location">at line 11</div>
+        <code>            public            <a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+    <strong>getDefaultValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the default value of the field.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNullValue">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_getNullValue"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 127</div>
+        <code>            public            mixed
+    <strong>getNullValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a field's null value.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValidator">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_getValidator"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 138</div>
+        <code>            public            string
+    <strong>getValidator</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Fully qualified name of an IValidator implementation.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createValueHolder">
+        <div class="location">in <a href="../../../../Dat0r/Runtime/Field/Field.html#method_createValueHolder"><abbr title="Dat0r\Runtime\Field\Field">Field</abbr></a> at line 176</div>
+        <code>            public            <a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a>
+    <strong>createValueHolder</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Creates a IValueHolder instance dedicated to the current field instance.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Dat0r/Runtime/ValueHolder/IValueHolder.html"><abbr title="Dat0r\Runtime\ValueHolder\IValueHolder">IValueHolder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
