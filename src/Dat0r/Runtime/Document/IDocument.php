@@ -5,6 +5,8 @@ namespace Dat0r\Runtime\Document;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Result\ResultMap;
+use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 
 /**
  * An IDocument is a generic container for structured data.
@@ -92,7 +94,7 @@ interface IDocument
      * Returns a list of all events that have occured since the document was instanciated
      * or the 'markClean' method was called.
      *
-     * @return array
+     * @return ValueChangedEventList
      */
     public function getChanges();
 

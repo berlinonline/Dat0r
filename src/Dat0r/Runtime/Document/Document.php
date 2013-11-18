@@ -6,7 +6,6 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\Validator\Service as ValidationService;
 use Dat0r\Runtime\Module\IModule;
 use Dat0r\Runtime\Field\Type\ReferenceField;
 use Dat0r\Runtime\Field\Type\AggregateField;
@@ -14,6 +13,7 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\ValueHolderMap;
 use Dat0r\Runtime\ValueHolder\IValueChangedListener;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 
 /**
  * Document generically implements the IDocument interface
@@ -42,16 +42,16 @@ abstract class Document implements IDocument, IValueChangedListener
      * Holds a list of all events that were received since the document was instanciated
      * or the 'markClean' method was called.
      *
-     * @var array $changes
+     * @var ValueChangedEventList $changes
      */
-    private $changes = array();
+    private $changes;
 
     /**
      * Holds all listeners that are notified about document changed.
      *
      * @var DocumentChangedListenerList $listeners
      */
-    private $listeners = array();
+    private $listeners;
 
     /**
      * Always holds the validation results for a prior setValue(s) invocation.
@@ -72,6 +72,7 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         $this->module = $module;
         $this->listeners = new DocumentChangedListenerList();
+        $this->changes = new ValueChangedEventList();
         // Setup a map of IValueHolder specific to our module's fields.
         // they hold the actual document data.
         $this->value_holders = new ValueHolderMap();
@@ -182,7 +183,6 @@ abstract class Document implements IDocument, IValueChangedListener
     public function getValues(array $fieldnames = array())
     {
         $values = array();
-
         if (!empty($fieldnames)) {
             foreach ($fieldnames as $fieldname) {
                 $values[$fieldname] = $this->getValue($fieldname);
@@ -284,7 +284,7 @@ abstract class Document implements IDocument, IValueChangedListener
      * Returns a list of all events that have occured since the document was instanciated
      * or the 'markClean' method was called.
      *
-     * @return array
+     * @return ValueChangedEventList
      */
     public function getChanges()
     {
@@ -299,7 +299,7 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function isClean()
     {
-        return empty($this->changes);
+        return $this->changes->getSize() === 0;
     }
 
     /**
@@ -307,7 +307,7 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function markClean()
     {
-        $this->changes = array();
+        $this->changes = new ValueChangedEventList();
     }
 
     /**
@@ -353,7 +353,7 @@ abstract class Document implements IDocument, IValueChangedListener
     {
         // @todo Possible optimization: only track events for RootModule documents,
         // what will save some memory when dealing with deeply nested aggregate structures.
-        $this->changes[] = $event;
+        $this->changes->push($event);
         $this->propagateDocumentChangedEvent($event);
     }
 
