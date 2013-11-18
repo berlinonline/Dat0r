@@ -6,7 +6,7 @@ use Dat0r\Common\Collection\TypedList;
 use Dat0r\Common\Collection\CollectionChangedEvent;
 
 /**
- * DocumentList is a TypedList implementation, that holds IDocuments.
+ * DocumentList is a TypedList implementation, that holds IDocuments and provides some extra convenience.
  * You can attach to it as an IDocumentChangedListener and will be notified
  * on all events occuring from it's contained documents.
  */

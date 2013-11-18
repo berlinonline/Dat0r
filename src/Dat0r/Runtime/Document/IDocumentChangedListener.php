@@ -7,4 +7,10 @@ namespace Dat0r\Runtime\Document;
  */
 interface IDocumentChangedListener
 {
+    /**
+     * Handle document changed events.
+     *
+     * @param DocumentChangedEvent $event
+     */
+    public function onDocumentChanged(DocumentChangedEvent $event);
 }
