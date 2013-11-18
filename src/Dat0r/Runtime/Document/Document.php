@@ -353,7 +353,7 @@ abstract class Document implements IDocument, IValueChangedListener
      */
     public function removeDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (!$this->listeners->hasItem($listener)) {
+        if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);
         }
     }

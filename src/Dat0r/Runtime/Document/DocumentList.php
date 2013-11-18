@@ -49,7 +49,7 @@ class DocumentList extends TypedList implements IDocumentChangedListener
      */
     public function removeDocumentChangedListener(IDocumentChangedListener $listener)
     {
-        if (!$this->listeners->hasItem($listener)) {
+        if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);
         }
     }
@@ -109,7 +109,7 @@ class DocumentList extends TypedList implements IDocumentChangedListener
     }
 
     /**
-     * Returns the IDocument interfacename to the TypeList parent-class,
+     * Returns the IDocument interface-name to the TypeList parent-class,
      * which uses this info to implement it's type/instanceof strategy.
      *
      * @return string

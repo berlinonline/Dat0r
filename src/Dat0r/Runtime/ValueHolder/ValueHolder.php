@@ -142,7 +142,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     public function removedValueChangedListener(IValueChangedListener $listener)
     {
-        if (!$this->listeners->hasItem($listener)) {
+        if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);
         }
     }

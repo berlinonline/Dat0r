@@ -8,9 +8,6 @@ use Dat0r\Runtime\Document\IDocument;
 /**
  * IModules define data structures by composing property related strategies named IField,
  * to derive concrete instances of the defined data structures in form of IDocument's.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 interface IModule
 {

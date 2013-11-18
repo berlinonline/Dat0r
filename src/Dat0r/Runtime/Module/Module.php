@@ -10,9 +10,6 @@ use Dat0r\Runtime\Field\FieldMap;
 
 /**
  * Base class that all Dat0r modules should extend.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 abstract class Module implements IModule
 {

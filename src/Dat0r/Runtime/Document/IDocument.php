@@ -8,9 +8,6 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
 /**
  * An IDocument is a generic container for structured data.
  * It provides access to values on a per field base.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 interface IDocument
 {

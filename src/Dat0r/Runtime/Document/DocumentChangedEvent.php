@@ -8,9 +8,6 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 /**
  * Represents an event that occurs when a document's value changes.
  * Document changes are triggered on a per field base.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class DocumentChangedEvent implements IEvent
 {

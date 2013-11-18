@@ -9,9 +9,6 @@ use Dat0r\Runtime\Validator\Validator\IValidator;
 /**
  * IFields hold meta data that is used to model document properties,
  * hence your data's behaviour concerning consistent containment.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 interface IField
 {

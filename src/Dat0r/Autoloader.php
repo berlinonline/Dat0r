@@ -6,9 +6,6 @@ namespace Dat0r;
  * Provides autoloading for all classes inside the Dat0r namespace
  * along with support for registering additional namespaces for psr-0 autoloading
  * relative to corresponding base paths.
- *
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
- * @author Thorsten Schmitt-Rink <tschmittrink@gmail.com>
  */
 class Autoloader
 {
