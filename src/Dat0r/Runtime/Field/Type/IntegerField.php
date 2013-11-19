@@ -23,8 +23,9 @@ class IntegerField extends Field
             $options['max'] = $this->getOption('max');
         }
 
-        return new RuleList(
-            array('valid-number' => new NumberRule('valid-number', $options))
-        );
+        $rules = new RuleList();
+        $rules->push(new NumberRule('valid-number', $options));
+
+        return $rules;
     }
 }

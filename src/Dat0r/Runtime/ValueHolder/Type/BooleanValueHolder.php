@@ -13,10 +13,10 @@ use Dat0r\Runtime\Field\Type\BooleanField;
 class BooleanValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered greater than
-     * the value of an other given IValueHolder.
+     * Tells if a given boolean value is greater than an other given boolean.
+     * With 'true' being greater than 'false'.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
      * @return boolean
      */
@@ -26,10 +26,10 @@ class BooleanValueHolder extends ValueHolder
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered less than
-     * the value of an other given IValueHolder.
+     * Tells if a given boolean value is less than an other given boolean.
+     * With 'true' being greater than 'false'.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
      * @return boolean
      */
@@ -39,10 +39,9 @@ class BooleanValueHolder extends ValueHolder
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered equal to
-     * the value of an other given IValueHolder.
+     * Tells if a given boolean value is equal to an other given boolean.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
      * @return boolean
      */

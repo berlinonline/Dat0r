@@ -15,8 +15,9 @@ class BooleanField extends Field
 
     protected function buildValidationRules()
     {
-        return new RuleList(
-            array('valid-boolean' => new BooleanRule('valid-boolean'))
-        );
+        $rules = new RuleList();
+        $rules->push(new BooleanRule('valid-boolean'));
+
+        return $rules;
     }
 }

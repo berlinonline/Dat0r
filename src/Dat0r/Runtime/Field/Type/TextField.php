@@ -15,9 +15,8 @@ class TextField extends Field
 
     protected function buildValidationRules()
     {
-        $rules = new RuleList(
-            array('valid-text' => new TextRule('valid-text', array('ensure_utf8' => true, 'trim' => true)))
-        );
+        $rules = new RuleList();
+        $rules->push(new TextRule('valid-text', array('ensure_utf8' => true, 'trim' => true)));
 
         $length_options = array();
         if ($this->hasOption('min')) {
@@ -30,7 +29,7 @@ class TextField extends Field
         if (count($length_options) > 0) {
             $length_options['ensure_utf8'] = false;
             $length_options['trim'] = false;
-            $rules->setItem('valid-length', new TextRule('valid-length', $length_options));
+            $rules->push(new TextRule('valid-length', $length_options));
         }
 
         return $rules;

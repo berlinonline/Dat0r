@@ -10,40 +10,33 @@ use Dat0r\Runtime\Field\Type\SelectField;
 class SelectValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered greater than
-     * the value of an other given IValueHolder.
+     * Can't compare selecr values by less or greater than clause.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
-     * @return boolean
+     * @return boolean (always false)
      */
     public function isValueGreaterThan($righthand_value)
     {
-        $lefthand_value = $this->getValue();
-
-        return $lefthand_value > $righthand_value;
+        return false;
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered less than
-     * the value of an other given IValueHolder.
+     * Can't compare selecr values by less or bigger.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
-     * @return boolean
+     * @return boolean (always false)
      */
     public function isValueLessThan($righthand_value)
     {
-        $lefthand_value = $this->getValue();
-
-        return $lefthand_value < $righthand_value;
+        return false;
     }
 
     /**
-     * Tells whether a spefic IValueHolder instance's value is considered equal to
-     * the value of an other given IValueHolder.
+     * Tells if a given select value(list) is equal to the valueholder's current value.
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
      * @return boolean
      */
@@ -52,23 +45,5 @@ class SelectValueHolder extends ValueHolder
         $lefthand_value = $this->getValue();
 
         return $lefthand_value == $righthand_value;
-    }
-
-    public function setValue($value)
-    {
-        // @todo move to validator
-        if ($this->getField()->getOption('multiple', false)) {
-            $selected_options = array();
-            $value = empty($value) ? array() : $value;
-            foreach ($value as $option) {
-                $option = trim((string)$option);
-                if (!empty($option)) {
-                    $selected_options[] = $option;
-                }
-            }
-            $value = $selected_options;
-        }
-
-        return parent::setValue($value);
     }
 }

@@ -9,8 +9,9 @@ class EmailField extends TextField
 {
     protected function buildValidationRules()
     {
-        return new RuleList(
-            array('valid-email' => new EmailRule('email-type'))
-        );
+        $rules = new RuleList();
+        $rules->push(new EmailRule('email-type'));
+
+        return $rules;
     }
 }

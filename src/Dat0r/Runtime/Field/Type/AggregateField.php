@@ -76,13 +76,14 @@ class AggregateField extends Field
      */
     protected function buildValidationRules()
     {
-        return new RuleList(
-            array(
-                'valid-data' => new AggregateRule(
-                    'valid-data',
-                    array('aggregate_modules' => $this->getAggregateModules())
-                )
+        $rules = new RuleList();
+        $rules->push(
+            new AggregateRule(
+                'valid-data',
+                array('aggregate_modules' => $this->getAggregateModules())
             )
         );
+
+        return $rules;
     }
 }

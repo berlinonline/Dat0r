@@ -46,7 +46,7 @@ class AggregateValueHolder extends ValueHolder
      * The list is considered equal when documents with the same values occur in the same order
      * as in the valueholder's local value (DocumentList).
      *
-     * @param IValueHolder $other
+     * @param mixed $righthand_value
      *
      * @return boolean
      */
