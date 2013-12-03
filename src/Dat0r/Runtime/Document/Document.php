@@ -80,9 +80,7 @@ abstract class Document implements IDocument, IValueChangedListener
             $this->value_holders->setItem($fieldname, $field->createValueHolder());
         }
         // Hydrate initial data ...
-        if (!empty($data)) {
-            $this->setValues($data);
-        }
+        $this->hydrate($data);
         // ... then start tracking value-changed events coming from our valueholders.
         foreach ($this->value_holders as $value_holder) {
             $value_holder->addValueChangedListener($this);
@@ -355,6 +353,16 @@ abstract class Document implements IDocument, IValueChangedListener
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes->push($event);
         $this->propagateDocumentChangedEvent($event);
+    }
+
+    /**
+     * Initially hydrate the document.
+     *
+     * @param array $values
+     */
+    protected function hydrate(array $values)
+    {
+        $this->setValues($values);
     }
 
     /**

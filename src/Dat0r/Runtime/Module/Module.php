@@ -201,7 +201,7 @@ abstract class Module implements IModule
         $this->name = $name;
         $this->options = $options;
 
-        $this->fields = FieldMap::create($this->getDefaultFields());
+        $this->fields = new FieldMap($this->getDefaultFields());
 
         foreach ($fields as $field) {
             $this->fields->setItem($field->getName(), $field);
