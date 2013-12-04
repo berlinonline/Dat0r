@@ -111,7 +111,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     public function hasValue()
     {
-        return !$this->isNull();
+        return !$this->isValueNull();
     }
 
     /**
