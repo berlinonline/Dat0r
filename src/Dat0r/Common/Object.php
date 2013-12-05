@@ -30,7 +30,7 @@ class Object implements IObject
 
     public function toArray()
     {
-        $data = array();
+        $data = array('@type' => get_class($this));
 
         foreach (get_object_vars($this) as $prop => $value) {
             if ($value instanceof IObject) {

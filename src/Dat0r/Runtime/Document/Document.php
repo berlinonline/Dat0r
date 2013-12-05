@@ -14,13 +14,14 @@ use Dat0r\Runtime\ValueHolder\ValueHolderMap;
 use Dat0r\Runtime\ValueHolder\IValueChangedListener;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
+use Dat0r\Common\Object;
 
 /**
  * Document generically implements the IDocument interface
  * and serves as a parent/ancestor to all generated and domain specific document base-classes.
  * It provides generic value access via it's getValue(s) and setValue(s) methods.
  */
-abstract class Document implements IDocument, IValueChangedListener
+abstract class Document extends Object implements IDocument, IValueChangedListener
 {
     /**
      * Holds the document's module.
@@ -217,7 +218,7 @@ abstract class Document implements IDocument, IValueChangedListener
                     }
                     $values[$field->getName()] = $reference_identifiers;
                 }
-            } elseif ($value instanceof DocumentList) {
+            } elseif ($value instanceof Object) {
                 $values[$field->getName()] = $value->toArray();
             } else {
                 $values[$field->getName()] = $value;
