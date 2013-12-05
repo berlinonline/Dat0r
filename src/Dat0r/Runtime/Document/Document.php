@@ -212,7 +212,7 @@ abstract class Document implements IDocument, IValueChangedListener
                     foreach ($value as $document) {
                         $reference_identifiers[] = array(
                             'id' => $document->getValue($identity_field),
-                            'module' => $document->getModule()->getName()
+                            'module' => $document->getModule()->getPrefix()
                         );
                     }
                     $values[$field->getName()] = $reference_identifiers;
@@ -239,9 +239,7 @@ abstract class Document implements IDocument, IValueChangedListener
     public function isEqualTo(IDocument $document)
     {
         if ($document->getModule() !== $this->getModule()) {
-            throw new BadValueException(
-                "Only IDocument instances of the same module may be compared."
-            );
+            return false;
         }
 
         $is_equal = true;

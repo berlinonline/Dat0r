@@ -3,6 +3,7 @@
 namespace Dat0r\Common\Collection;
 
 use Dat0r\Common\Error\InvalidTypeException;
+use Dat0r\Common\Error\BadValueException;
 
 abstract class TypedMap extends Map
 {

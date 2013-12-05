@@ -42,6 +42,13 @@ abstract class Module implements IModule
     private $options = array();
 
     /**
+     * Holds the module's prefix.
+     *
+     * @var string $prefix
+     */
+    private $prefix;
+
+    /**
      * Returns the class(name) to use when creating new entries for this module.
      *
      * @return string
@@ -58,7 +65,6 @@ abstract class Module implements IModule
     public static function getInstance()
     {
         $class = get_called_class();
-
         if (!isset(self::$instances[$class])) {
             $module = new static();
             self::$instances[$class] = $module;
@@ -80,6 +86,25 @@ abstract class Module implements IModule
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the module's prefix (techn. identifier).
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        if (!$this->prefix) {
+            preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $this->getName(), $match_results);
+            $matches = $match_results[0];
+            foreach ($matches as &$match) {
+                $match = ($match == strtoupper($match)) ? strtolower($match) : lcfirst($match);
+            }
+            $this->prefix = implode('_', $matches);
+        }
+
+        return $this->prefix;
     }
 
     /**

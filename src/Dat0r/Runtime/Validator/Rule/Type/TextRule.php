@@ -31,7 +31,7 @@ class TextRule extends Rule
             }
         }
         if ($ensure_utf8) {
-            $value = utf8_decode($value);
+            // $value = utf8_decode($value);
         }
 
         if ($min = $this->getOption('min', false)) {
