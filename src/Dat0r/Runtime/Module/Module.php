@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Module;
 
+use Dat0r\Common\Object;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Document\IDocument;
@@ -11,7 +12,7 @@ use Dat0r\Runtime\Field\FieldMap;
 /**
  * Base class that all Dat0r modules should extend.
  */
-abstract class Module implements IModule
+abstract class Module extends Object implements IModule
 {
     /**
      * Holds a list of IModule implementations that are pooled by type.

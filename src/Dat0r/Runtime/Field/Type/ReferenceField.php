@@ -4,6 +4,8 @@ namespace Dat0r\Runtime\Field\Type;
 
 use Dat0r\Runtime\Field\Field;
 use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Validator\Rule\Type\ReferenceRule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 
 class ReferenceField extends Field
 {
@@ -32,5 +34,18 @@ class ReferenceField extends Field
         }
 
         return $referenced_modules;
+    }
+
+    protected function buildValidationRules()
+    {
+        $rules = new RuleList();
+        $rules->push(
+            new ReferenceRule(
+                'valid-reference',
+                array('reference_mappings' => $this->getOption(self::OPT_REFERENCES))
+            )
+        );
+
+        return $rules;
     }
 }

@@ -5,8 +5,9 @@ namespace Dat0r\Runtime\Validator\Result;
 use Dat0r\Runtime\Validator\IValidator;
 use Dat0r\Runtime\Validator\Rule\IRule;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Common\Object;
 
-class Result implements IResult
+class Result extends Object implements IResult
 {
     protected $subject;
 

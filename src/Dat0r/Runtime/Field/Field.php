@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Field;
 
+use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
@@ -14,6 +15,7 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
  * Provides a pretty complete implementation for the IField interface.
  *
  * basic options: 'validator', 'value_holder', 'default_value', 'mandatory'
+ * @todo extends Object; which introduces a breaking change to the create method.
  */
 abstract class Field implements IField
 {

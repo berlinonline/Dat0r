@@ -2,6 +2,8 @@
 
 namespace Dat0r;
 
+require_once 'AutoloadException.php';
+
 /**
  * Provides autoloading for all classes inside the Dat0r namespace
  * along with support for registering additional namespaces for psr-0 autoloading
