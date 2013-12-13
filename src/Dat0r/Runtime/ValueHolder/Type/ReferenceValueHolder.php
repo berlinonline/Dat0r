@@ -52,6 +52,19 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isValueEqualTo($righthand_value)
     {
-        return $this->getValue() === $righthand_value;
+        if ($righthand_value === null) {
+            return false;
+        }
+        if ($this->getValue()->getSize() !== $righthand_value->getSize()) {
+            return false;
+        }
+
+        foreach ($this->getValue() as $index => $document) {
+            if (!$document->isEqualTo($righthand_value->getItem($index))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
