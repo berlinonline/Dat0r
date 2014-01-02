@@ -54,9 +54,8 @@ class Service extends Object
             return $builder->build();
         };
 
-        $class_list = ClassContainerList::create(
-            array_map($execute_build, $class_builders)
-        );
+        $class_list = ClassContainerList::create();
+        $class_list->addItems(array_map($execute_build, $class_builders));
 
         $this->writeCache($class_list);
         $this->executePlugins($module_schema);
@@ -153,7 +152,6 @@ class Service extends Object
             }
 
             $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-
             $this->filesystem->dumpFile(
                 $class_filepath,
                 $class_container->getSourceCode(),
