@@ -46,14 +46,14 @@ class Transformer extends Object implements ITransformer
     }
 
     /**
-     * @param mixed $field_spec_set Either 'IFieldSpecifications' instance or array suitable for creating one.
+     * @param mixed $field_specifications Either 'IFieldSpecifications' instance or array suitable for creating one.
      */
     protected function setFieldSpecifications($field_specifications)
     {
         if ($field_specifications instanceof IFieldSpecifications) {
             $this->field_specifications = $field_specifications;
         } else if (is_array($field_specifications)) {
-            $this->field_specifications = FieldSpecSet::create($field_specifications);
+            $this->field_specifications = FieldSpecifications::create($field_specifications);
         } else {
             throw new BadValueException(
                 "Invalid argument given. Only the types 'IFieldSpecifications' and 'array' are supported."
