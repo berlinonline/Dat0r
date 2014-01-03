@@ -20,7 +20,15 @@ interface ITransformer
     /**
      * @param IDocument $document
      *
-     * @return mixed
+     * @return array
      */
     public function transform(IDocument $document);
+
+    /**
+     * @param array $data
+     * @param IDocument $document
+     *
+     * @return void
+     */
+    public function transformBack(array $data, IDocument $document);
 }

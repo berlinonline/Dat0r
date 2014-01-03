@@ -38,11 +38,55 @@ class Transformer extends Object implements ITransformer
     /**
      * @param IDocument $document
      *
-     * @return mixed
+     * @return array
      */
     public function transform(IDocument $document)
     {
-        // @todo transform stuff based on fieldset information
+        $field_specification_map = $this->getFieldSpecifications()->getFieldSpecificationMap();
+
+        $transformed_data = array();
+        foreach ($field_specification_map as $fieldname => $field_specification) {
+            $output_key = $field_specification->getOption('output_key', $fieldname);
+            $transformed_data[$output_key] = $this->transformValue($field_specification, $document);
+        }
+
+        return $transformed_data;
+    }
+
+    /**
+     * @param array $data
+     * @param IDocument $document
+     *
+     * @return void
+     */
+    public function transformBack(array $data, IDocument $document)
+    {
+        $field_specification_map = $this->getFieldSpecifications()->getFieldSpecificationMap();
+
+        $transformed_data = array();
+        foreach ($field_specification_map as $fieldname => $field_specification) {
+            $output_key = $field_specification->getOption('output_key', $fieldname);
+            if (array_key_exists($data, $output_key)) {
+                $incoming_value = $data[$output_key];
+                $transformed_data[$fieldname] = $this->transformValueBack($field_specification, $document, $incoming_value);
+            }
+        }
+
+        $document->setValues($transformed_data);
+    }
+
+    protected function transformValue(IFieldSpecification $field_specification, IDocument $document)
+    {
+        // @todo Implement!
+        $document_value = $document->getValue($field_specification->getName());
+
+        return $document_value;
+    }
+
+    protected function transformValueBack(IFieldSpecification $field_specification, IDocument $document, $value)
+    {
+        // @todo Implement!
+        return $value;
     }
 
     /**
