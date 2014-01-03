@@ -261,6 +261,8 @@ class DataGeneratorTest extends TestCase
         );
 
         if (count($name_parts) > 1) {
+            // @todo this fails as Faker has ONE last name as "van der Dussen"
+            // that leads to trying to match "van" to "van der Dussen" and fails
             $this->assertContains(
                 $name_parts[1],
                 $available_name_parts,
