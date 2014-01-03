@@ -25,6 +25,8 @@ class ObjectTest extends TestCase
     public function testToArray()
     {
         $object_data = $this->getRandomScalarValues();
+        $object_data['@type'] = 'Dat0r\\Tests\\Common\\Fixtures\\TestObject';
+
         $test_object = TestObject::create($object_data);
 
         $this->assertEquals($object_data, $test_object->toArray());

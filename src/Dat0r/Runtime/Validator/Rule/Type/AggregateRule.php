@@ -71,6 +71,8 @@ class AggregateRule extends Rule
             }
 
             $aggregate_type = $document_data['@type'];
+            unset($document_data['@type']);
+
             if ($aggregate_type{0} !== '\\') {
                 $aggregate_type = '\\' . $aggregate_type;
             }

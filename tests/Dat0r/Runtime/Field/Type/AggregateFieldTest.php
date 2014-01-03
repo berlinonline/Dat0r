@@ -11,13 +11,13 @@ class AggregateFieldTest extends TestCase
 
     public function testCreate()
     {
-        $aggregateField = AggregateField::create(
+        $aggregate_field = AggregateField::create(
             self::FIELDNAME,
             array(
                 AggregateField::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\AggregateModule')
             )
         );
-        $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
+        $this->assertEquals($aggregate_field->getName(), self::FIELDNAME);
     }
 
     /**
@@ -31,36 +31,36 @@ class AggregateFieldTest extends TestCase
             ),
             $options
         );
-        $aggregateField = AggregateField::create(self::FIELDNAME, $options);
-        $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
+        $aggregate_field = AggregateField::create(self::FIELDNAME, $options);
+        $this->assertEquals($aggregate_field->getName(), self::FIELDNAME);
 
-        $this->assertEquals($aggregateField->getName(), self::FIELDNAME);
-        $this->assertFalse($aggregateField->hasOption('snafu_flag'));
+        $this->assertEquals($aggregate_field->getName(), self::FIELDNAME);
+        $this->assertFalse($aggregate_field->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue) {
-            $this->assertTrue($aggregateField->hasOption($optName));
-            $this->assertEquals($aggregateField->getOption($optName), $optValue);
+            $this->assertTrue($aggregate_field->hasOption($optName));
+            $this->assertEquals($aggregate_field->getOption($optName), $optValue);
         }
     }
 
     /**
      * @dataProvider getAggregateFixture
      */
-    public function testCreateValueHolder(array $aggregateData)
+    public function testCreateValueHolder(array $aggregate_data)
     {
-        $aggregateField = AggregateField::create(
+        $aggregate_field = AggregateField::create(
             self::FIELDNAME,
             array(
                 AggregateField::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule')
             )
         );
-        $valueHolder = $aggregateField->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\AggregateValueHolder', $valueHolder);
-        $valueHolder->setValue($aggregateData);
-        $document = $valueHolder->getValue()->getFirst();
-        $this->assertInstanceOf('Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy', $document);
+        $value_holder = $aggregate_field->createValueHolder();
+        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\AggregateValueHolder', $value_holder);
+        $value_holder->setValue($aggregate_data);
+        $document = $value_holder->getValue()->getFirst();
+        $this->assertInstanceOf('\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy', $document);
 
-        foreach ($aggregateData[0] as $fieldname => $value) {
-            if ($fieldname === 'type') {
+        foreach ($aggregate_data[0] as $fieldname => $value) {
+            if ($fieldname === '@type') {
                 $this->assertEquals($value, $document->getModule()->getDocumentType());
             } else {
                 $this->assertEquals($value, $document->getValue($fieldname));
@@ -106,7 +106,7 @@ class AggregateFieldTest extends TestCase
                 array(
                     'title' => 'This is a paragraph test title.',
                     'content' => 'And this is some paragraph test content.',
-                    'type' => '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy'
+                    '@type' => '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy'
                 )
             )
         );
