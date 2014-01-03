@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Document\Transform;
 use Dat0r\Common\Object;
 use Dat0r\Common\Options;
 
-interface IFieldSpec
+interface IFieldSpecification
 {
     /**
      * @return string

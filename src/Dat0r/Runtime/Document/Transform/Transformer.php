@@ -10,9 +10,9 @@ use Dat0r\Runtime\Document\IDocument;
 class Transformer extends Object implements ITransformer
 {
     /**
-     * @var IFieldSpecSet $field_spec_set
+     * @var IFieldSpecifications $field_specifications
      */
-    protected $field_spec_set;
+    protected $field_specifications;
 
     /**
      * @var Options $options
@@ -20,11 +20,11 @@ class Transformer extends Object implements ITransformer
     protected $options;
 
     /**
-     * @return IFieldSpecSet
+     * @return IFieldSpecifications
      */
-    public function getFieldSpecSet()
+    public function getFieldSpecifications()
     {
-        return $this->field_spec_set;
+        return $this->field_specifications;
     }
 
     /**
@@ -46,17 +46,17 @@ class Transformer extends Object implements ITransformer
     }
 
     /**
-     * @param mixed $field_spec_set Either 'IFieldSpecSet' instance or array suitable for creating one.
+     * @param mixed $field_spec_set Either 'IFieldSpecifications' instance or array suitable for creating one.
      */
-    protected function setFieldSpecSet($field_spec_set)
+    protected function setFieldSpecifications($field_specifications)
     {
-        if ($field_spec_set instanceof IFieldSpecSet) {
-            $this->field_spec_set = $field_spec_set;
-        } else if (is_array($field_spec_set)) {
-            $this->field_spec_set = FieldSpecSet::create($field_spec_set);
+        if ($field_specifications instanceof IFieldSpecifications) {
+            $this->field_specifications = $field_specifications;
+        } else if (is_array($field_specifications)) {
+            $this->field_specifications = FieldSpecSet::create($field_specifications);
         } else {
             throw new BadValueException(
-                "Invalid argument given. Only the types 'IFieldSpecSet' and 'array' are supported."
+                "Invalid argument given. Only the types 'IFieldSpecifications' and 'array' are supported."
             );
         }
     }

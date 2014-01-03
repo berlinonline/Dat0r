@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Document\Transform;
 
 use Dat0r\Common\Options;
 
-interface IFieldSpecSet
+interface IFieldSpecifications
 {
     /**
      * @return string
@@ -17,7 +17,7 @@ interface IFieldSpecSet
     public function getOptions();
 
     /**
-     * @return FieldSpecMap
+     * @return FieldSpecificationMap
      */
-    public function getFieldSpecs();
+    public function getFieldSpecificationMap();
 }

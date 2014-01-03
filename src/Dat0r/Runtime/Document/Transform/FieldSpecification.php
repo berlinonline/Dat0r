@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Document\Transform;
 use Dat0r\Common\Object;
 use Dat0r\Common\Options;
 
-class FieldSpec extends Object implements IFieldSpec
+class FieldSpecification extends Object implements IFieldSpecification
 {
     /**
      * @var string $name

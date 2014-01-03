@@ -8,9 +8,9 @@ use Dat0r\Runtime\Document\IDocument;
 interface ITransformer
 {
     /**
-     * @return IFieldSpecSet
+     * @return IFieldSpecifications
      */
-    public function getFieldSpecSet();
+    public function getFieldSpecifications();
 
     /**
      * @return Options

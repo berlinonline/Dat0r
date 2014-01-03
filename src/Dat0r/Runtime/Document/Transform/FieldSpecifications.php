@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Document\Transform;
 use Dat0r\Common\Object;
 use Dat0r\Common\Options;
 
-class FieldSpecSet extends Object implements IFieldSpecSet
+class FieldSpecifications extends Object implements IFieldSpecifications
 {
     /**
      * @var string $name
@@ -18,9 +18,9 @@ class FieldSpecSet extends Object implements IFieldSpecSet
     protected $options;
 
     /**
-     * @var FieldSpecMap $field_specs
+     * @var FieldSpecificationMap $field_specification_map
      */
-    protected $field_specs;
+    protected $field_specification_map;
 
     /**
      * @return string
@@ -41,30 +41,30 @@ class FieldSpecSet extends Object implements IFieldSpecSet
     /**
      * @return FieldSpecMap
      */
-    public function getFieldSpecs()
+    public function getFieldSpecificationMap()
     {
-        return $this->field_specs;
+        return $this->field_specification_map;
     }
 
     /**
-     * @param mixed $field_specs Either 'FieldSpecMap' instance or array suitable for creating one.
+     * @param mixed $field_specification_map Either 'FieldSpecMap' instance or array suitable for creating one.
      */
-    protected function setFieldSpecs($field_specs)
+    protected function setFieldSpecificationMap($field_specification_map)
     {
-        if ($field_specs instanceof FieldSpecMap) {
-            $this->field_specs = $field_specs;
-        } else if (is_array($field_specs)) {
-            $this->field_specs = FieldSpecMap::create();
-            foreach ($field_specs as $spec_key => $field_spec) {
-                if ($field_spec instanceof IFieldSpec) {
-                    $this->field_specs->setItem($spec_key, $field_spec);
+        if ($field_specification_map instanceof FieldSpecificationMap) {
+            $this->field_specification_map = $field_specification_map;
+        } else if (is_array($field_specification_map)) {
+            $this->field_specification_map = FieldSpecificationMap::create();
+            foreach ($field_specification_map as $spec_key => $field_specification) {
+                if ($field_specification instanceof IFieldSpecification) {
+                    $this->field_specification_map->setItem($spec_key, $field_specification);
                 } else {
-                    $this->field_specs->setItem($spec_key, FieldSpec::create($field_spec));
+                    $this->field_specification_map->setItem($spec_key, FieldSpecification::create($field_specification));
                 }
             }
         } else {
             throw new BadValueException(
-                "Invalid argument given. Only the types 'FieldSpecMap' and 'array' are supported."
+                "Invalid argument given. Only the types 'FieldSpecificationMap' and 'array' are supported."
             );
         }
     }
