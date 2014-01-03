@@ -4,6 +4,7 @@ namespace Dat0r\Tests\Runtime\Document;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
+use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedFieldSpecifications;
 use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 
@@ -14,11 +15,8 @@ class TransformerTest extends TestCase
         $transformer = TestTransformer::create();
 
         $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ITransformer', $transformer);
-
         $this->assertInstanceOf('\\Dat0r\\Common\\Options', $transformer->getOptions());
-        $this->assertEquals('bar', $transformer->getOptions()->get('foo', 'default'));
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecifications', $transformer->getFieldSpecifications());
-        $this->assertEquals('embed', $transformer->getFieldSpecifications()->getName());
+        $this->assertEquals('bar', $transformer->getOption('foo'));
     }
 
     /**
@@ -27,7 +25,8 @@ class TransformerTest extends TestCase
     public function testTransform(DocumentTestProxy $document)
     {
         $transformer = TestTransformer::create();
-        $transformed_data = $transformer->transform($document);
+        $field_specifications = EmbedFieldSpecifications::create();
+        $transformed_data = $transformer->transform($document, $field_specifications);
 
         $this->assertEquals($document->getValue('headline'), $transformed_data['title']);
         $this->assertEquals($document->getValue('author'), $transformed_data['author']);

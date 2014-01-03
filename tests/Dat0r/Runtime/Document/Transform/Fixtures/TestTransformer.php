@@ -10,7 +10,7 @@ use Dat0r\Runtime\Document\Transform\FieldSpecificationMap;
 use Dat0r\Runtime\Document\Transform\FieldSpecification;
 
 /**
- * An ITransformer base implementation as would be created by the code-generation.
+ * An Transformer base implementation as would be created by the code-generation.
  */
 class TestTransformer extends Transformer
 {
@@ -21,33 +21,6 @@ class TestTransformer extends Transformer
                 'options' => new Options(
                     array(
                         'foo' => 'bar',
-                    )
-                ),
-                'field_specifications' => FieldSpecifications::create(
-                    array(
-                        'name' => 'embed',
-                        'options' => new Options(),
-                        'field_specification_map' => FieldSpecificationMap::create(
-                            array(
-                                'items' => array(
-                                    'title' => FieldSpecification::create(
-                                        array(
-                                            'name' => 'title',
-                                            'options' => new Options(
-                                                array(
-                                                    'field' => 'headline'
-                                                )
-                                            )
-                                        )
-                                    ),
-                                    'author' => FieldSpecification::create(
-                                        array(
-                                            'name' => 'author'
-                                        )
-                                    )
-                                )
-                            )
-                        )
                     )
                 )
             )

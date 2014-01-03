@@ -12,12 +12,12 @@ interface IFieldSpecifications
     public function getName();
 
     /**
-     * @return Options
-     */
-    public function getOptions();
-
-    /**
      * @return FieldSpecificationMap
      */
     public function getFieldSpecificationMap();
+
+    /**
+     * @return Options
+     */
+    public function getOptions();
 }
