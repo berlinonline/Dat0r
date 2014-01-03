@@ -9,13 +9,14 @@ class FieldSpecificationTest extends TestCase
 {
     public function testCreate()
     {
-        $fs = FieldSpecification::create($this->getExampleFieldSpec());
+        $field_specification = FieldSpecification::create($this->getExampleFieldSpec());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecification', $fs);
-        $this->assertEquals('bar', $fs->getName());
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecification', $field_specification);
+        $this->assertEquals('bar', $field_specification->getName());
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $fs->getOptions());
-        $this->assertEquals('foo', $fs->getOptions()->get('map_as', 'default'));
+        $options = $field_specification->getOptions();
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
+        $this->assertEquals('foo', $options->get('map_as', 'default'));
     }
 
     protected function getExampleFieldSpec()

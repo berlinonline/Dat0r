@@ -216,20 +216,6 @@ abstract class Collection extends Object implements ICollection
     }
 
     /**
-     * Add an item for the given key to the collection.
-     *
-     * @param mixed $key
-     * @param mixed $item
-     */
-    public function setItem($key, $item)
-    {
-        if ($key === null) {
-            throw new BadValueException('Key may not be null.');
-        }
-        $this->offsetSet($key, $item);
-    }
-
-    /**
      * Remove the given item from the collection.
      *
      * @param mixed $item

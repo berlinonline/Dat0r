@@ -5,12 +5,24 @@ namespace Dat0r\Common;
 /**
  * Class that wraps an associative array for convenience reasons.
  */
-class Options
+class Options implements IObject
 {
     /**
      * @var array
      */
     protected $options = array();
+
+    /**
+     * Returns a new Options instance hydrated with the given initial options.
+     *
+     * @param array $options Initial options.
+     *
+     * @return Options
+     */
+    public static function create(array $options = array())
+    {
+        return new static($options);
+    }
 
     /**
      * Create a new instance with the given options as initial value set.

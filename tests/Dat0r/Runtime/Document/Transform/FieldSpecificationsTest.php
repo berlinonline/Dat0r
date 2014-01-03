@@ -9,19 +9,19 @@ class FieldSpecificationsTest extends TestCase
 {
     public function testCreate()
     {
-        $fs = FieldSpecifications::create($this->getExampleFieldSpec());
+        $field_specifications = FieldSpecifications::create($this->getExampleFieldSpec());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecifications', $fs);
-        $this->assertEquals('embed', $fs->getName());
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecifications', $field_specifications);
+        $this->assertEquals('embed', $field_specifications->getName());
 
-        $options = $fs->getOptions();
+        $options = $field_specifications->getOptions();
         $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
         $this->assertEquals(array('foo' => 'bar', 'blah' => 'blub'), $options->toArray());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\FieldSpecificationMap', $fs->getFieldSpecificationMap());
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\FieldSpecificationMap', $field_specifications->getFieldSpecificationMap());
     }
 
-    public static function getExampleFieldSpec()
+    protected function getExampleFieldSpec()
     {
         return array(
             'name' => 'embed',

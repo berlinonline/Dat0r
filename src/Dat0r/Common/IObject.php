@@ -4,7 +4,7 @@ namespace Dat0r\Common;
 
 interface IObject
 {
-    public static function create(array $data = array());
+    public static function create(array $state = array());
 
     public function toArray();
 }

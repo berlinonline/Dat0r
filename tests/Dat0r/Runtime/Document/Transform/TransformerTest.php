@@ -3,49 +3,60 @@
 namespace Dat0r\Tests\Runtime\Document;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Document\Transform\Transformer;
+use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
+use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
+use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 
 class TransformerTest extends TestCase
 {
     public function testCreate()
     {
-        $t = Transformer::create($this->getExampleTransform());
+        $transformer = TestTransformer::create();
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ITransformer', $t);
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ITransformer', $transformer);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $t->getOptions());
-        $this->assertEquals('bar', $t->getOptions()->get('foo', 'default'));
-
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecifications', $t->getFieldSpecifications());
-        $this->assertEquals('embed', $t->getFieldSpecifications()->getName());
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $transformer->getOptions());
+        $this->assertEquals('bar', $transformer->getOptions()->get('foo', 'default'));
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\IFieldSpecifications', $transformer->getFieldSpecifications());
+        $this->assertEquals('embed', $transformer->getFieldSpecifications()->getName());
     }
 
-    protected function getExampleTransform()
+    /**
+     * @dataProvider provideTestDocument
+     */
+    public function testTransform(DocumentTestProxy $document)
     {
-        return array(
-            'options' => array(
-                'foo' => 'bar'
-            ),
-            'field_specifications' => array(
-                'name' => 'embed',
-                'options' => array(
-                    'foo' => 'bar',
-                    'blah' => 'blub'
-                ),
-                'field_specification_map' => array(
-                    'voting_stats' => array(
-                        'name' => 'voting_stats',
-                        'options' => array(
-                            'map_as' => 'voting_average',
-                            'value' => 'expression:"foo" ~ "BAR"',
-                            'getter' => 'getVotingAverage',
-                            'setter' => 'setVotingAverage',
-                            'input' => false,
-                            'output' => true
-                        )
+        $transformer = TestTransformer::create();
+        $transformed_data = $transformer->transform($document);
+
+        $this->assertEquals($document->getValue('headline'), $transformed_data['title']);
+        $this->assertEquals($document->getValue('author'), $transformed_data['author']);
+    }
+
+    public function provideTestDocument()
+    {
+        $module = RootModule::getInstance();
+        $test_document = $module->createDocument(
+            array(
+                'headline' => 'This is incredible stuff!',
+                'author' => 'Thorsten Schmitt-Rink',
+                'email' => 'thorsten.schmitt-rink@example.com',
+                'content' => 'This is some kind of very valueable and incredible content.',
+                'enabled' => true,
+                'clickCount' => 23,
+                'images' => array(5, 23, 42),
+                'keywords' => array('incredible', 'valueable'),
+                'meta' => array('state' => 'edit'),
+                'paragraphs' => array(
+                    array(
+                        'title' => 'This is an amazing paragraph',
+                        'content' => 'Bob! This is just in incredible! If you read one line now you can read the next three right afterwards for free.',
+                        '@type' => '\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'
                     )
                 )
             )
         );
+
+        return array(array($test_document));
     }
 }
