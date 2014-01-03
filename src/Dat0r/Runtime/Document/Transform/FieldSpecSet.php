@@ -55,7 +55,13 @@ class FieldSpecSet extends Object implements IFieldSpecSet
             $this->field_specs = $field_specs;
         } else if (is_array($field_specs)) {
             $this->field_specs = FieldSpecMap::create();
-            $this->field_specs->setItems($field_specs);
+            foreach ($field_specs as $spec_key => $field_spec) {
+                if ($field_spec instanceof IFieldSpec) {
+                    $this->field_specs->setItem($spec_key, $field_spec);
+                } else {
+                    $this->field_specs->setItem($spec_key, FieldSpec::create($field_spec));
+                }
+            }
         } else {
             throw new BadValueException(
                 "Invalid argument given. Only the types 'FieldSpecMap' and 'array' are supported."
