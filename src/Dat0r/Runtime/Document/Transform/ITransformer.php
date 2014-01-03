@@ -2,14 +2,20 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
+use Dat0r\Common\Options;
 use Dat0r\Runtime\Document\IDocument;
 
 interface ITransformer
 {
     /**
-     * @return IFieldSpecificationSet
+     * @return IFieldSpecSet
      */
-    public function getFieldSpecificationSet();
+    public function getFieldSpecSet();
+
+    /**
+     * @return Options
+     */
+    public function getOptions();
 
     /**
      * @param IDocument $document

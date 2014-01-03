@@ -4,15 +4,13 @@ namespace Dat0r\Runtime\Document\Transform;
 
 use Dat0r\Common\Object;
 use Dat0r\Common\Options;
-use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Document\IDocument;
 
-class Transformer extends Object implements ITransformer
+class FieldSpecSet extends Object implements IFieldSpecSet
 {
     /**
-     * @var IFieldSpecSet $field_spec_set
+     * @var string $name
      */
-    protected $field_spec_set;
+    protected $name;
 
     /**
      * @var Options $options
@@ -20,11 +18,16 @@ class Transformer extends Object implements ITransformer
     protected $options;
 
     /**
-     * @return IFieldSpecSet
+     * @var FieldSpecMap $field_specs
      */
-    public function getFieldSpecSet()
+    protected $field_specs;
+
+    /**
+     * @return string
+     */
+    public function getName()
     {
-        return $this->field_spec_set;
+        return $this->name;
     }
 
     /**
@@ -36,27 +39,26 @@ class Transformer extends Object implements ITransformer
     }
 
     /**
-     * @param IDocument $document
-     *
-     * @return mixed
+     * @return FieldSpecMap
      */
-    public function transform(IDocument $document)
+    public function getFieldSpecs()
     {
-        // @todo transform stuff based on fieldset information
+        return $this->field_specs;
     }
 
     /**
-     * @param mixed $field_spec_set Either 'IFieldSpecSet' instance or array suitable for creating one.
+     * @param mixed $field_specs Either 'FieldSpecMap' instance or array suitable for creating one.
      */
-    protected function setFieldSpecSet($field_spec_set)
+    protected function setFieldSpecs($field_specs)
     {
-        if ($field_spec_set instanceof IFieldSpecSet) {
-            $this->field_spec_set = $field_spec_set;
-        } else if (is_array($field_spec_set)) {
-            $this->field_spec_set = FieldSpecSet::create($field_spec_set);
+        if ($field_specs instanceof FieldSpecMap) {
+            $this->field_specs = $field_specs;
+        } else if (is_array($field_specs)) {
+            $this->field_specs = FieldSpecMap::create();
+            $this->field_specs->setItems($field_specs);
         } else {
             throw new BadValueException(
-                "Invalid argument given. Only the types 'IFieldSpecSet' and 'array' are supported."
+                "Invalid argument given. Only the types 'FieldSpecMap' and 'array' are supported."
             );
         }
     }
