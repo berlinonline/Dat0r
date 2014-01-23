@@ -25,6 +25,13 @@
                     <option>VotingStats</option>
                 </option>
             </field>
+
+            <field name="categories" type="reference">
+                <description>Represents categories.</description>
+                <option name="references">
+                    <option>Category</option>
+                </option>
+            </field>
         </fields>
     </module_definition>
 
@@ -45,5 +52,13 @@
             </field>
         </fields>
     </aggregate_definition>
+
+    <reference_definition name="Category">
+        <option name="module">\Honeybee\Domain\Category\CategoryModule</option>
+        <option name="id_field">identifier</option>
+        <fields>
+            <field name="name" type="text" />
+        </fields>
+    </reference_definition>
 
 </module_schema>

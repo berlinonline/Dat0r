@@ -3,9 +3,9 @@
 namespace Dat0r\Tests\CodeGen;
 
 use Dat0r\Tests;
-use Dat0r\CodeGen;
+use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Config;
-use Dat0r\CodeGen\Parser;
+use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
 use Symfony\Component\Filesystem;
 
 class ServiceTest extends Tests\TestCase
@@ -16,10 +16,10 @@ class ServiceTest extends Tests\TestCase
 
     public function testBuildSchema()
     {
-        $codegen_service = CodeGen\Service::create(
+        $codegen_service = Service::create(
             array(
                 'config' => $this->config,
-                'schema_parser' => Parser\ModuleSchemaXmlParser::create()
+                'schema_parser' => ModuleSchemaXmlParser::create()
             )
         );
 
@@ -29,12 +29,12 @@ class ServiceTest extends Tests\TestCase
 
     public function testDeployMethodMove()
     {
-        $this->config->setDeployMethod(Config\IConfig::DEPLOY_MOVE);
+        $this->config->setDeployMethod('move');
 
-        $codegen_service = CodeGen\Service::create(
+        $codegen_service = Service::create(
             array(
                 'config' => $this->config,
-                'schema_parser' => Parser\ModuleSchemaXmlParser::create()
+                'schema_parser' => ModuleSchemaXmlParser::create()
             )
         );
 
@@ -45,12 +45,12 @@ class ServiceTest extends Tests\TestCase
 
     public function testDeployMethodCopy()
     {
-        $this->config->setDeployMethod(Config\IConfig::DEPLOY_COPY);
+        $this->config->setDeployMethod('copy');
 
-        $codegen_service = CodeGen\Service::create(
+        $codegen_service = Service::create(
             array(
                 'config' => $this->config,
-                'schema_parser' => Parser\ModuleSchemaXmlParser::create()
+                'schema_parser' => ModuleSchemaXmlParser::create()
             )
         );
 
@@ -65,7 +65,7 @@ class ServiceTest extends Tests\TestCase
         $tmp_cache_path = $tmp_dir . 'testing_cache_' . mt_rand() . DIRECTORY_SEPARATOR;
         $tmp_deploy_path = $tmp_dir . 'testing_deploy_' . mt_rand() . DIRECTORY_SEPARATOR;
 
-        $this->config = Config\Config::create(
+        $this->config = Config::create(
             array(
                 'cache_dir' => $tmp_cache_path,
                 'deploy_dir' => $tmp_deploy_path,
@@ -80,8 +80,8 @@ class ServiceTest extends Tests\TestCase
 
     protected function tearDown()
     {
-        $filesystem = new Filesystem\Filesystem();
+       /* $filesystem = new Filesystem\Filesystem();
         $filesystem->remove($this->config->getCacheDir());
-        $filesystem->remove($this->config->getDeployDir());
+        $filesystem->remove($this->config->getDeployDir()); */
     }
 }

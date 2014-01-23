@@ -4,15 +4,10 @@ namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\FilesystemException;
-use Dat0r\CodeGen\Config\IConfig;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\Schema\ModuleDefinition;
-use Dat0r\CodeGen\Builder\ClassContainerList;
-use Dat0r\CodeGen\Builder\ModuleBaseClass;
-use Dat0r\CodeGen\Builder\ModuleClass;
-use Dat0r\CodeGen\Builder\DocumentBaseClass;
-use Dat0r\CodeGen\Builder\DocumentClass;
-
+use Dat0r\CodeGen\ClassBuilder\Factory;
+use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output;
 
@@ -26,16 +21,19 @@ class Service extends Object
 
     protected $schema_parser;
 
+    protected $class_builder_factory;
+
     protected $filesystem;
 
     protected $output;
 
     public function __construct()
     {
+        $this->class_builder_factory = Factory::create();
         $this->filesystem = new Filesystem();
     }
 
-    public function setConfig(IConfig $config)
+    public function setConfig(Config $config)
     {
         $this->config = $config;
     }
@@ -47,7 +45,7 @@ class Service extends Object
 
     public function buildSchema($module_schema_path)
     {
-        $module_schema = $this->schema_parser->parseSchema($module_schema_path);
+        $module_schema = $this->schema_parser->parse($module_schema_path);
         $class_builders = $this->createClassBuilders($module_schema);
 
         $execute_build = function ($builder) {
@@ -100,28 +98,17 @@ class Service extends Object
 
     protected function createClassBuilders(ModuleSchema $module_schema)
     {
-        $create_builders = function (ModuleDefinition $module_definition) use ($module_schema) {
-            return array(
-                ModuleBaseClass::create(
-                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
-                ),
-                ModuleClass::create(
-                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
-                ),
-                DocumentBaseClass::create(
-                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
-                ),
-                DocumentClass::create(
-                    array('module_schema' => $module_schema, 'module_definition' => $module_definition)
-                )
-            );
-        };
+        $this->class_builder_factory->setModuleSchema($module_schema);
 
         $root_module = $module_schema->getModuleDefinition();
-        $class_builders = $create_builders($root_module);
-
-        foreach ($module_schema->getUsedAggregateDefinitions($root_module) as $aggregate_module) {
-            $class_builders = array_merge($class_builders, $create_builders($aggregate_module));
+        $class_builders = $this->class_builder_factory->createClassBuildersForModule($root_module);
+        foreach ($module_schema->getUsedAggregateDefinitions($root_module) as $aggregate) {
+            $aggregate_builders = $this->class_builder_factory->createClassBuildersForModule($aggregate);
+            $class_builders = array_merge($class_builders, $aggregate_builders);
+        }
+        foreach ($module_schema->getUsedReferenceDefinitions($root_module) as $reference) {
+            $reference_builders = $this->class_builder_factory->createClassBuildersForModule($reference);
+            $class_builders = array_merge($class_builders, $reference_builders);
         }
 
         return $class_builders;

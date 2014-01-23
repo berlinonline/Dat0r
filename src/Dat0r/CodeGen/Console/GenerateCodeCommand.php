@@ -4,9 +4,9 @@ namespace Dat0r\CodeGen\Console;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\CodeGen\Service as CodeGenService;
-use Dat0r\CodeGen\Config\IniFileConfigReader;
-use Dat0r\CodeGen\Config\Config;
-use Dat0r\CodeGen\Parser\ModuleSchemaXmlParser;
+use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
+use Dat0r\CodeGen\Config;
+use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
 
 use Symfony\Component\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -103,7 +103,6 @@ class GenerateCodeCommand extends Command\Command
     protected function getModuleSchemaPath(InputInterface $input)
     {
         $schema_path = $input->getOption('schema');
-
         if (empty($schema_path)) {
             $schema_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.xml';
         }
@@ -128,15 +127,13 @@ class GenerateCodeCommand extends Command\Command
     protected function createConfig(InputInterface $input)
     {
         $config_path = $input->getOption('config');
-
         if (empty($config_path)) {
             $config_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.ini';
         }
 
-        $config_reader = IniFileConfigReader::create();
-        $settings = $config_reader->read($config_path);
-
-        $this->service_config = Config::create($settings);
+        $this->service_config = Config::create(
+            ConfigIniParser::create()->parse($config_path)
+        );
 
         return $this->service_config;
     }
@@ -144,7 +141,6 @@ class GenerateCodeCommand extends Command\Command
     protected function getLookupDir(InputInterface $input)
     {
         $lookup_dir = $input->getOption('directory');
-
         if (empty($lookup_dir)) {
             $lookup_dir = getcwd();
         }
