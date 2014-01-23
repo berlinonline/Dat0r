@@ -3,13 +3,11 @@
 namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Object;
-use Dat0r\Common\Error\FilesystemException;
 use Dat0r\CodeGen\Schema\ModuleSchema;
-use Dat0r\CodeGen\Schema\ModuleDefinition;
 use Dat0r\CodeGen\ClassBuilder\Factory;
 use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
+use Dat0r\Common\Error\FilesystemException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Output;
 
 class Service extends Object
 {

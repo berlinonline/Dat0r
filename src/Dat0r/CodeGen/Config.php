@@ -8,64 +8,59 @@ use Dat0r\Common\Error\FilesystemException;
 
 class Config extends Configurable
 {
-    protected $cache_dir;
-
-    protected $deploy_dir;
-
-    protected $deploy_method = 'copy';
-
-    protected $plugin_settings = array();
-
     public function getCacheDir()
     {
-        return $this->cache_dir;
+        return $this->getOption('cache_dir');
     }
 
     public function setCacheDir($cache_dir)
     {
-        $this->cache_dir = trim($cache_dir);
+        $this->setOption('cache_dir', $cache_dir);
     }
 
     public function getDeployDir()
     {
-        return $this->deploy_dir;
+        return $this->getOption('deploy_dir');
     }
 
     public function setDeployDir($deploy_dir)
     {
-        $this->deploy_dir = trim($deploy_dir);
+        $this->setOption('deploy_dir', $deploy_dir);
     }
 
     public function getDeployMethod()
     {
-        return $this->deploy_method;
+        return $this->getOption('deploy_method', 'copy');
     }
 
     public function setDeployMethod($deploy_method)
     {
-        $valid_methods = array('copy', 'move');
-
-        if (!in_array($deploy_method, $valid_methods)) {
-            throw new InvalidConfigException(
-                sprintf("Invalid deploy method '%s' passed to config.", $deploy_method)
-            );
-        }
-
-        $this->deploy_method = $deploy_method;
+        $this->setOption('deploy_method', $deploy_method);
     }
 
     public function getPluginSettings()
     {
-        return $this->plugin_settings;
+        return $this->getOption('plugin_settings', array());
     }
 
     public function validate()
     {
-        if (empty($this->cache_dir)) {
+        $cache_directory = $this->getCacheDir();
+        if (empty($cache_directory)) {
             throw new InvalidConfigException("Missing 'cache_dir' setting.");
         }
-        if (empty($this->deploy_dir)) {
+
+        $deploy_directory = $this->getDeployDir();
+        if (empty($deploy_directory)) {
             throw new InvalidConfigException("Missing 'deploy_dir' setting.");
+        }
+
+        $deploy_method = $this->getDeployMethod();
+        $valid_methods = array('copy', 'move');
+        if (!in_array($deploy_method, $valid_methods)) {
+            throw new InvalidConfigException(
+                sprintf("Invalid deploy method '%s' passed to config.", $deploy_method)
+            );
         }
 
         return $this;

@@ -67,9 +67,11 @@ class ServiceTest extends Tests\TestCase
 
         $this->config = Config::create(
             array(
-                'cache_dir' => $tmp_cache_path,
-                'deploy_dir' => $tmp_deploy_path,
-                'plugin_settings' => array()
+                'options' => array(
+                    'cache_dir' => $tmp_cache_path,
+                    'deploy_dir' => $tmp_deploy_path,
+                    'plugin_settings' => array()
+                )
             )
         );
 

@@ -72,7 +72,7 @@ class Configurable extends Object
      */
     public function setOption($name, $value)
     {
-        return $this->option->set($name, $value);
+        return $this->options->set($name, $value);
     }
 
     /**

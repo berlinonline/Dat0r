@@ -3,7 +3,7 @@
 namespace Dat0r\CodeGen\Console;
 
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\CodeGen\Service as CodeGenService;
+use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
 use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
@@ -23,7 +23,7 @@ class GenerateCodeCommand extends Command\Command
 
     protected $service;
 
-    public function setService(CodeGenService $service)
+    public function setService(Service $service)
     {
         $this->service = $service;
     }
@@ -113,7 +113,7 @@ class GenerateCodeCommand extends Command\Command
     protected function fetchService(InputInterface $input, OutputInterface $output)
     {
         if (!$this->service) {
-            $this->service = CodeGenService::create(
+            $this->service = Service::create(
                 array(
                     'schema_parser' => ModuleSchemaXmlParser::create(),
                     'output' => $output
@@ -132,7 +132,7 @@ class GenerateCodeCommand extends Command\Command
         }
 
         $this->service_config = Config::create(
-            ConfigIniParser::create()->parse($config_path)
+            array('options' => ConfigIniParser::create()->parse($config_path))
         );
 
         return $this->service_config;
