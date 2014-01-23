@@ -130,10 +130,7 @@ class GenerateCodeCommand extends Command\Command
         if (empty($config_path)) {
             $config_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.ini';
         }
-
-        $this->service_config = Config::create(
-            array('options' => ConfigIniParser::create()->parse($config_path))
-        );
+        $this->service_config = ConfigIniParser::create()->parse($config_path);
 
         return $this->service_config;
     }

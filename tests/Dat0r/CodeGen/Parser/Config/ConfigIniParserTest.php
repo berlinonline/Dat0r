@@ -30,7 +30,7 @@ class ConfigIniParserTest extends TestCase
     public function testRead()
     {
         $parser = ConfigIniParser::create();
-        $settings = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
+        $config = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
 
         $expected_array = array(
             'cache_dir' => '/tmp/dat0r_cache_test_dir/',
@@ -38,13 +38,13 @@ class ConfigIniParserTest extends TestCase
             'deploy_method' => 'copy',
             'plugin_settings' => array()
         );
-        $this->assertEquals($expected_array, $settings);
+        $this->assertEquals($expected_array, $config->getOptions()->toArray());
     }
 
     public function testReadWithRelativePaths()
     {
         $parser = ConfigIniParser::create();
-        $settings = $parser->parse($this->fixtures_dir . self::FIXTURE_CONFIG_WITH_RELATIVE_PATHS);
+        $config = $parser->parse($this->fixtures_dir . self::FIXTURE_CONFIG_WITH_RELATIVE_PATHS);
 
         $expected_base_path = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
         $expected_cache_dir = $expected_base_path . DIRECTORY_SEPARATOR . 'dat0r_cache_dir';
@@ -57,7 +57,7 @@ class ConfigIniParserTest extends TestCase
             'plugin_settings' => array()
         );
 
-        $this->assertEquals($expected_array, $settings);
+        $this->assertEquals($expected_array, $config->getOptions()->toArray());
     }
 
     /**

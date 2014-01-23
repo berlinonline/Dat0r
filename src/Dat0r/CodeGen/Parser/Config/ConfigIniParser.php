@@ -2,6 +2,7 @@
 
 namespace Dat0r\CodeGen\Parser\Config;
 
+use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser\IParser;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\FilesystemException;
@@ -15,11 +16,15 @@ class ConfigIniParser extends Object implements IParser
         $config_dir = dirname($ini_file);
         $settings = $this->loadIniFile($ini_file);
 
-        return array(
-            'deploy_method' => $this->determineDeployMethod($settings),
-            'deploy_dir' => $this->determineDeployDirectory($settings, $config_dir),
-            'cache_dir' => $this->determineCacheDirectory($settings, $config_dir),
-            'plugin_settings' => $this->createPluginData($settings, $config_dir)
+        return Config::create(
+            array(
+                'options' => array(
+                    'deploy_method' => $this->determineDeployMethod($settings),
+                    'deploy_dir' => $this->determineDeployDirectory($settings, $config_dir),
+                    'cache_dir' => $this->determineCacheDirectory($settings, $config_dir),
+                    'plugin_settings' => $this->createPluginData($settings, $config_dir)
+                )
+            )
         );
     }
 
