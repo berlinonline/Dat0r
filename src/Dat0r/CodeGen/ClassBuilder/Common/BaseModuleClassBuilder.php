@@ -75,24 +75,34 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
 
     protected function expandAggregateNamespaces(FieldDefinition $field_definition)
     {
-        foreach ($field_definition->getOptions() as $option) {
-            if ($option->getName() === 'modules') {
-                foreach ($option->getValue() as $module_option) {
-                    $class_name = $module_option->getValue() . 'Module';
-                    $module_option->setValue(sprintf('\\%s\\Aggregate\\%s', $this->getRootNamespace(), $class_name));
-                }
+        $module_options = $field_definition->getOptions()->filterByName('modules');
+        if ($module_options) {
+            foreach ($module_options->getValue() as $module_option) {
+                $module_option->setValue(
+                    sprintf(
+                        '\\%s\\%s\\Reference\\%sDocument',
+                        $this->getRootNamespace(),
+                        $this->module_definition->getName(),
+                        $module_option->getValue() . 'Module'
+                    )
+                );
             }
         }
     }
 
     protected function expandReferenceNamespaces(FieldDefinition $field_definition)
     {
-        foreach ($field_definition->getOptions() as $option) {
-            if ($option->getName() === 'references') {
-                foreach ($option->getValue() as $module_option) {
-                    $class_name = $module_option->getValue() . 'Module';
-                    $module_option->setValue(sprintf('\\%s\\Reference\\%s', $this->getRootNamespace(), $class_name));
-                }
+        $reference_options = $field_definition->getOptions()->filterByName('references');
+        if ($reference_options) {
+            foreach ($reference_options->getValue() as $reference_option) {
+                $reference_option->setValue(
+                    sprintf(
+                        '\\%s\\%s\\Reference\\%sDocument',
+                        $this->getRootNamespace(),
+                        $this->module_definition->getName(),
+                        $reference_option->getValue() . 'Module'
+                    )
+                );
             }
         }
     }
