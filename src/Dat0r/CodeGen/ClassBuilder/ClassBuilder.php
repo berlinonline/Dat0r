@@ -3,21 +3,12 @@
 namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Object;
+use Twig_Environment;
 use Twig_Loader_Filesystem;
 
 abstract class ClassBuilder extends Object implements IClassBuilder
 {
-    const NS_FIELDS = '\\Dat0r\\Runtime\\Field\\Type';
-
-    const NS_MODULE = '\\Dat0r\\Runtime\\Module';
-
-    const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
-
     protected $twig;
-
-    protected $module_schema;
-
-    protected $module_definition;
 
     abstract protected function getImplementor();
 
@@ -29,12 +20,12 @@ abstract class ClassBuilder extends Object implements IClassBuilder
 
     abstract protected function getPackage();
 
+    abstract protected function getDescription();
+
     public function __construct()
     {
-        $this->twig = new \Twig_Environment(
-            new Twig_Loader_Filesystem(
-                __DIR__ . DIRECTORY_SEPARATOR . 'templates'
-            )
+        $this->twig = new Twig_Environment(
+            new Twig_Loader_Filesystem($this->getTemplateBaseDirectory())
         );
     }
 
@@ -61,7 +52,7 @@ abstract class ClassBuilder extends Object implements IClassBuilder
         $parent_class_parts = array_filter(explode('\\', $parent_class));
 
         $template_vars = array(
-            'description' => $this->module_definition->getDescription(),
+            'description' => $this->getDescription(),
             'namespace' => $this->getNamespace(),
             'class_name' => $this->getImplementor(),
             'parent_class_name' => array_pop($parent_class_parts),
@@ -74,5 +65,10 @@ abstract class ClassBuilder extends Object implements IClassBuilder
     protected function getNamespace()
     {
         return $this->getRootNamespace() . '\\' . $this->getPackage();
+    }
+
+    protected function getTemplateBaseDirectory()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'templates';
     }
 }

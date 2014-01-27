@@ -4,16 +4,9 @@ namespace Dat0r\CodeGen\ClassBuilder\Common;
 
 class BaseDocumentClassBuilder extends DocumentClassBuilder
 {
-    const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
-
     protected function getTemplate()
     {
         return 'Document/BaseDocument.twig';
-    }
-
-    protected function getRootNamespace()
-    {
-        return $this->module_schema->getNamespace();
     }
 
     protected function getPackage()

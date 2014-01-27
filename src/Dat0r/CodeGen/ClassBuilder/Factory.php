@@ -3,7 +3,6 @@
 namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Config\IConfig;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\Schema\ModuleDefinition;
 

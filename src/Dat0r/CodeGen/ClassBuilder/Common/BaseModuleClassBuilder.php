@@ -2,11 +2,7 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Common;
 
-use Dat0r\CodeGen\Schema\ModuleSchema;
-use Dat0r\CodeGen\Schema\ModuleDefinition;
 use Dat0r\CodeGen\Schema\FieldDefinition;
-use Dat0r\CodeGen\Schema\FieldDefinitionList;
-use Dat0r\CodeGen\Schema\OptionDefinition;
 use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
 class BaseModuleClassBuilder extends ModuleClassBuilder
@@ -16,32 +12,9 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         return 'Module/BaseModule.twig';
     }
 
-    protected function getTemplateVars()
-    {
-        $fields_data = $this->prepareFieldsData();
-        $document_implementor = var_export(
-            sprintf('\\%s\\%sDocument', $this->getNamespace(), $this->module_definition->getName()),
-            true
-        );
-        $module_class_vars = array(
-            'module_name' => $this->module_definition->getName(),
-            'fields' => $fields_data['instances'],
-            'extra_namespaces' => $fields_data['namespaces'],
-            'options' => $this->preRenderOptions($this->module_definition->getOptions(), 12),
-            'document_implementor' => $document_implementor
-        );
-
-        return array_merge(parent::getTemplateVars(), $module_class_vars);
-    }
-
-    protected function getRootNamespace()
-    {
-        return $this->module_schema->getNamespace();
-    }
-
     protected function getPackage()
     {
-        return $this->module_schema->getPackage() . '\\Base';
+        return parent::getPackage() . '\\Base';
     }
 
     protected function getParentImplementor()
@@ -54,22 +27,28 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         return $parent_implementor;
     }
 
+    protected function getTemplateVars()
+    {
+        $document_implementor = var_export(
+            sprintf('\\%s\\%sDocument', $this->getNamespace(), $this->module_definition->getName()),
+            true
+        );
+        $module_class_vars = array(
+            'fields' => $this->prepareFieldsData(),
+            'document_implementor' => $document_implementor,
+            'module_name' => $this->module_definition->getName(),
+            'options' => $this->preRenderOptions($this->module_definition->getOptions(), 12)
+        );
+
+        return array_merge(parent::getTemplateVars(), $module_class_vars);
+    }
+
     protected function prepareFieldsData()
     {
         $fields_data = array();
-        $namespaces = array();
 
         foreach ($this->module_definition->getFields() as $field_definition) {
             $field_implementor = $field_definition->getImplementor();
-            $class_name = $field_implementor;
-            if (strpos($field_implementor, self::NS_FIELDS.'\\Type\\') === 0) {
-                $implementor_parts = explode('\\', $field_implementor);
-                $class_name = array_pop($implementor_parts);
-                $use = implode('\\', array_filter(explode('\\', $field_implementor)));
-                if (!in_array($use, $namespaces)) {
-                    $namespaces[] = $use;
-                }
-            }
 
             if ($field_definition->getShortName() === 'aggregate') {
                 $this->expandAggregateNamespaces($field_definition);
@@ -85,7 +64,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
 
             $fields_data[] = array(
                 'implementor' => var_export($field_implementor, true),
-                'class_name' => $class_name,
+                'class_name' => $field_implementor,
                 'name' => $fieldname,
                 'setter' => $field_setter,
                 'getter' => $field_getter,
@@ -93,7 +72,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             );
         }
 
-        return array('instances' => $fields_data, 'namespaces' => $namespaces);
+        return $fields_data;
     }
 
     protected function expandAggregateNamespaces(FieldDefinition $field_definition)
@@ -102,7 +81,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             if ($option->getName() === 'modules') {
                 foreach ($option->getValue() as $module_option) {
                     $class_name = $module_option->getValue() . 'Module';
-                    $module_option->setValue(sprintf('\\%s\\%s', $this->getNamespace(), $class_name));
+                    $module_option->setValue(sprintf('\\%s\\Aggregate\\%s', $this->getRootNamespace(), $class_name));
                 }
             }
         }
@@ -114,7 +93,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             if ($option->getName() === 'references') {
                 foreach ($option->getValue() as $module_option) {
                     $class_name = $module_option->getValue() . 'Module';
-                    $module_option->setValue(sprintf('\\%s\\%s', $this->getNamespace(), $class_name));
+                    $module_option->setValue(sprintf('\\%s\\Reference\\%s', $this->getRootNamespace(), $class_name));
                 }
             }
         }
