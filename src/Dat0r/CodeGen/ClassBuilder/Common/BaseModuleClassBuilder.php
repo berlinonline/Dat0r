@@ -30,7 +30,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
     protected function getTemplateVars()
     {
         $document_implementor = var_export(
-            sprintf('\\%s\\%sDocument', $this->getNamespace(), $this->module_definition->getName()),
+            sprintf('\\%1$s\\%2$s\\%2$sDocument', $this->getRootNamespace(), $this->module_definition->getName()),
             true
         );
         $module_class_vars = array(
