@@ -23,4 +23,32 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
 
         return $parent_class;
     }
+
+    protected function getTemplateVars()
+    {
+        $document_class_vars = array('fields' => $this->prepareFieldsData());
+
+        return array_merge(parent::getTemplateVars(), $document_class_vars);
+    }
+
+    protected function prepareFieldsData()
+    {
+        $fields_data = array();
+
+        foreach ($this->module_definition->getFields() as $field_definition) {
+            $fieldname = $field_definition->getName();
+            $fieldname_studlycaps = preg_replace('/(?:^|_)(.?)/e', "strtoupper('$1')", $fieldname);
+            $field_getter = 'get' . $fieldname_studlycaps;
+            $field_setter = 'set' . $fieldname_studlycaps;
+
+            $fields_data[] = array(
+                'name' => $fieldname,
+                'setter' => $field_setter,
+                'getter' => $field_getter,
+                'php_type' => '' // @todo map to php-type
+            );
+        }
+
+        return $fields_data;
+    }
 }

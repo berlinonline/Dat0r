@@ -66,8 +66,6 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
                 'implementor' => var_export($field_implementor, true),
                 'class_name' => $field_implementor,
                 'name' => $fieldname,
-                'setter' => $field_setter,
-                'getter' => $field_getter,
                 'options' => $this->preRenderOptions($field_definition->getOptions(), 20)
             );
         }
