@@ -98,7 +98,7 @@ class ConfigIniParser extends Object implements IParser
         return $cache_directory;
     }
 
-    protected function createPluginData(array $settings)
+    protected function createPluginData(array $settings, $config_dir)
     {
         $plugin_settings = array();
         if (!isset($settings['plugins']) || !is_array($settings['plugins'])) {
