@@ -2,7 +2,12 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Common;
 
+use Dat0r\CodeGen\Schema\ModuleSchema;
+use Dat0r\CodeGen\Schema\ModuleDefinition;
 use Dat0r\CodeGen\Schema\FieldDefinition;
+use Dat0r\CodeGen\Schema\FieldDefinitionList;
+use Dat0r\CodeGen\Schema\OptionDefinition;
+use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
 class BaseModuleClassBuilder extends ModuleClassBuilder
 {
@@ -11,9 +16,32 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         return 'Module/BaseModule.twig';
     }
 
-    protected function buildPackage()
+    protected function getTemplateVars()
     {
-        return parent::buildPackage() . '\\Base';
+        $fields_data = $this->prepareFieldsData();
+        $document_implementor = var_export(
+            sprintf('\\%s\\%sDocument', $this->getNamespace(), $this->module_definition->getName()),
+            true
+        );
+        $module_class_vars = array(
+            'module_name' => $this->module_definition->getName(),
+            'fields' => $fields_data['instances'],
+            'extra_namespaces' => $fields_data['namespaces'],
+            'options' => $this->preRenderOptions($this->module_definition->getOptions(), 12),
+            'document_implementor' => $document_implementor
+        );
+
+        return array_merge(parent::getTemplateVars(), $module_class_vars);
+    }
+
+    protected function getRootNamespace()
+    {
+        return $this->module_schema->getNamespace();
+    }
+
+    protected function getPackage()
+    {
+        return $this->module_schema->getPackage() . '\\Base';
     }
 
     protected function getParentImplementor()
@@ -26,22 +54,46 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         return $parent_implementor;
     }
 
-    protected function getTemplateVars()
+    protected function prepareFieldsData()
     {
-        return array_merge(
-            parent::getTemplateVars(),
-            array(
-                'document_implementor' => var_export(
-                    sprintf(
-                        '\\%s\\%s\\%sDocument',
-                        $this->buildNamespace(),
-                        parent::buildPackage(),
-                        $this->module_definition->getName()
-                    ),
-                    true
-                )
-            )
-        );
+        $fields_data = array();
+        $namespaces = array();
+
+        foreach ($this->module_definition->getFields() as $field_definition) {
+            $field_implementor = $field_definition->getImplementor();
+            $class_name = $field_implementor;
+            if (strpos($field_implementor, self::NS_FIELDS.'\\Type\\') === 0) {
+                $implementor_parts = explode('\\', $field_implementor);
+                $class_name = array_pop($implementor_parts);
+                $use = implode('\\', array_filter(explode('\\', $field_implementor)));
+                if (!in_array($use, $namespaces)) {
+                    $namespaces[] = $use;
+                }
+            }
+
+            if ($field_definition->getShortName() === 'aggregate') {
+                $this->expandAggregateNamespaces($field_definition);
+            }
+            if ($field_definition->getShortName() === 'reference') {
+                $this->expandReferenceNamespaces($field_definition);
+            }
+
+            $fieldname = $field_definition->getName();
+            $fieldname_studlycaps = preg_replace('/(?:^|_)(.?)/e', "strtoupper('$1')", $fieldname);
+            $field_getter = 'get' . $fieldname_studlycaps;
+            $field_setter = 'set' . $fieldname_studlycaps;
+
+            $fields_data[] = array(
+                'implementor' => var_export($field_implementor, true),
+                'class_name' => $class_name,
+                'name' => $fieldname,
+                'setter' => $field_setter,
+                'getter' => $field_getter,
+                'options' => $this->preRenderOptions($field_definition->getOptions(), 20)
+            );
+        }
+
+        return array('instances' => $fields_data, 'namespaces' => $namespaces);
     }
 
     protected function expandAggregateNamespaces(FieldDefinition $field_definition)
@@ -49,16 +101,63 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         foreach ($field_definition->getOptions() as $option) {
             if ($option->getName() === 'modules') {
                 foreach ($option->getValue() as $module_option) {
-                    $module_option->setValue(
-                        sprintf(
-                            '\\%s\\%s\\%s',
-                            $this->buildNamespace(),
-                            parent::buildPackage(),
-                            $module_option->getValue() . 'Module'
-                        )
-                    );
+                    $class_name = $module_option->getValue() . 'Module';
+                    $module_option->setValue(sprintf('\\%s\\%s', $this->getNamespace(), $class_name));
                 }
             }
         }
+    }
+
+    protected function expandReferenceNamespaces(FieldDefinition $field_definition)
+    {
+        foreach ($field_definition->getOptions() as $option) {
+            if ($option->getName() === 'references') {
+                foreach ($option->getValue() as $module_option) {
+                    $class_name = $module_option->getValue() . 'Module';
+                    $module_option->setValue(sprintf('\\%s\\%s', $this->getNamespace(), $class_name));
+                }
+            }
+        }
+    }
+
+    protected function preRenderOptions(OptionDefinitionList $options, $initial_indent = 0, $indent_size = 4)
+    {
+        if ($options->getSize() === 0) {
+            return 'array()';
+        }
+
+        $options_code = array('array(');
+        $indent_spaces = str_repeat(" ", $initial_indent + $indent_size);
+        $next_level_indent = $initial_indent + $indent_size;
+        foreach ($options as $option) {
+            $option_name = $option->getName();
+            $option_value = $option->getValue();
+            if ($option_name && $option_value instanceof OptionDefinitionList) {
+                $options_code[] = sprintf(
+                    "%s'%s' => %s,",
+                    $indent_spaces,
+                    $option_name,
+                    $this->preRenderOptions($option_value, $next_level_indent)
+                );
+            } elseif ($option_value instanceof OptionDefinitionList) {
+                $options_code[] = sprintf(
+                    "%s%s,",
+                    $indent_spaces,
+                    $this->preRenderOptions($option_value, $next_level_indent)
+                );
+            } elseif ($option_name) {
+                $options_code[] = sprintf(
+                    "%s'%s' => %s,",
+                    $indent_spaces,
+                    $option_name,
+                    var_export($option_value, true)
+                );
+            } else {
+                $options_code[] = sprintf("%s%s,", $indent_spaces, var_export($option_value, true));
+            }
+        }
+        $options_code[] = sprintf('%s)', str_repeat(" ", $initial_indent));
+
+        return implode(PHP_EOL, $options_code);
     }
 }

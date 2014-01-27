@@ -26,7 +26,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
     public function testValidConfigHandling()
     {
         $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->service_mock->expects($this->never())->method('deployBuildCache');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -36,14 +36,12 @@ class GenerateCodeCommandTest extends Tests\TestCase
                 '--schema' => $this->fixtures_dir . self::FIXTURE_SCHEMA
             )
         );
-
-        $this->assertNotNull($this->service_mock->getConfig());
     }
 
     public function testGenerateAction()
     {
         $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->service_mock->expects($this->never())->method('deployBuildCache');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -58,7 +56,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
     public function testDeployAction()
     {
         $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->once())->method('deployBuild');
+        $this->service_mock->expects($this->once())->method('deployBuildCache');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -76,7 +74,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
     public function testInvalidAction()
     {
         $this->service_mock->expects($this->never())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuild');
+        $this->service_mock->expects($this->never())->method('deployBuildCache');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -95,11 +93,11 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
         $this->application = new SymfonyConsole\Application();
         $this->application->add(new Dat0rConsole\GenerateCodeCommand());
-        $this->command = $this->application->find(Dat0rConsole\GenerateCodeCommand::NAME);
+        $this->command = $this->application->find('generate_code');
 
         $this->service_mock = $this->getMock(
             'Dat0r\\CodeGen\\Service',
-            array('buildSchema', 'deployBuild')
+            array('buildSchema', 'deployBuildCache')
         );
     }
 

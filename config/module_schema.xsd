@@ -14,7 +14,6 @@
       <xsd:group ref="referenceDefinitionGroup" minOccurs="0" />
     </xsd:sequence>
     <xsd:attribute name="namespace" type="xsd:string" use="required" />
-    <xsd:attribute name="package" type="xsd:string" />
   </xsd:complexType>
 
   <xsd:complexType name="moduleDefinitionType">

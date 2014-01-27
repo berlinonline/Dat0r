@@ -2,18 +2,13 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Aggregate;
 
-use Dat0r\CodeGen\Schema\FieldDefinition;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseModuleClassBuilder as CommonBaseModuleClassBuilder;
 
-class BaseModuleClassBuilder extends ModuleClassBuilder
+class BaseModuleClassBuilder extends CommonBaseModuleClassBuilder
 {
-    protected function getTemplate()
+    protected function getPackage()
     {
-        return 'Module/BaseModule.twig';
-    }
-
-    protected function buildPackage()
-    {
-        return parent::buildPackage() . '\\Base';
+        return $this->module_schema->getPackage() . '\\Aggregate\\Base';
     }
 
     protected function getParentImplementor()
@@ -24,41 +19,5 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         }
 
         return $parent_implementor;
-    }
-
-    protected function getTemplateVars()
-    {
-        return array_merge(
-            parent::getTemplateVars(),
-            array(
-                'document_implementor' => var_export(
-                    sprintf(
-                        '\\%s\\%s\\%sDocument',
-                        $this->buildNamespace(),
-                        parent::buildPackage(),
-                        $this->module_definition->getName()
-                    ),
-                    true
-                )
-            )
-        );
-    }
-
-    protected function expandAggregateNamespaces(FieldDefinition $field_definition)
-    {
-        foreach ($field_definition->getOptions() as $option) {
-            if ($option->getName() === 'modules') {
-                foreach ($option->getValue() as $module_option) {
-                    $module_option->setValue(
-                        sprintf(
-                            '\\%s\\%s\\%s',
-                            $this->buildNamespace(),
-                            parent::buildPackage(),
-                            $module_option->getValue() . 'Module'
-                        )
-                    );
-                }
-            }
-        }
     }
 }

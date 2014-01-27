@@ -2,26 +2,12 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Aggregate;
 
-class BaseDocumentClassBuilder extends DocumentClassBuilder
+use Dat0r\CodeGen\ClassBuilder\Common\BaseDocumentClassBuilder as CommonBaseDocumentClassBuilder;
+
+class BaseDocumentClassBuilder extends CommonBaseDocumentClassBuilder
 {
-    protected function getTemplate()
+    protected function getPackage()
     {
-        return 'Document/BaseDocument.twig';
-    }
-
-    protected function buildPackage()
-    {
-        return parent::buildPackage() . '\\Base';
-    }
-
-    protected function getParentImplementor()
-    {
-        $parent_class = $this->module_definition->getDocumentImplementor();
-
-        if (!$parent_class) {
-            $parent_class = sprintf('\\%s\\Document', self::NS_DOCUMENT);
-        }
-
-        return $parent_class;
+        return $this->module_schema->getPackage() . '\\Aggregate\\Base';
     }
 }

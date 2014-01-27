@@ -2,21 +2,18 @@
 
 namespace Dat0r\CodeGen\Console;
 
-use Dat0r\Common\Error\BadValueException;
 use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
-use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
+use Dat0r\Common\Error\BadValueException;
 
-use Symfony\Component\Console\Command;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateCodeCommand extends Command\Command
+class GenerateCodeCommand extends Command
 {
-    const NAME = 'generate_code';
-
     protected static $generate_action_aliases = array('generate', 'gen', 'g');
 
     protected static $deploy_action_aliases = array('deploy', 'dep', 'd');
@@ -30,91 +27,57 @@ class GenerateCodeCommand extends Command\Command
 
     protected function configure()
     {
-        $this->setName(
-            self::NAME
-        )->setDescription(
-            'Generate and/or deploy code for a given module schema_path.'
-        )->addOption(
-            'config',
-            'c',
-            InputArgument::OPTIONAL,
-            'Path pointing to a valid (ini) config file.'
-        )->addOption(
-            'schema',
-            's',
-            InputArgument::OPTIONAL,
-            'Path pointing to a valid (xml) module schema file.'
-        )->addOption(
-            'directory',
-            'd',
-            InputArgument::OPTIONAL,
-            'When the config or schema file are omitted, dat0r will look for standard files in this directory.'
-        )->addArgument(
-            'action',
-            InputArgument::OPTIONAL,
-            'Tell whether to generate and or deploy code. Valid values are `gen`, `dep` and `gen+dep`.',
-            'gen+dep'
-        );
+        $this->setName('generate_code')
+            ->setDescription('Generate and/or deploy code for a given module schema_path.')
+            ->addOption('config', 'c', InputArgument::OPTIONAL, 'Path pointing to a valid (ini) config file.')
+            ->addOption('schema', 's', InputArgument::OPTIONAL, 'Path pointing to a valid (xml) module schema file.')
+            ->addOption('directory', 'd', InputArgument::OPTIONAL, 'When the config or schema file are omitted, dat0r will look for standard files in this directory.')
+            ->addArgument('action', InputArgument::OPTIONAL, 'Tell whether to generate and or deploy code. Valid values are `gen`, `dep` and `gen+dep`.', 'gen+dep');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->validateInput($input);
+        $input_actions = $this->validateInputAction($input);
+        $service = $this->fetchConfiguredService($input, $output);
 
-        $service = $this->fetchService($input, $output);
-        $service->setConfig(
-            $this->createConfig($input)->validate()
-        );
-
-        $module_schema = $this->getModuleSchemaPath($input);
-        $actions = explode('+', $input->getArgument('action'));
-
-        $diff_count = count(array_diff(self::$generate_action_aliases, $actions));
-        if ($diff_count < count(self::$generate_action_aliases)) {
-            $service->buildSchema($module_schema);
+        if (in_array('generate', $input_actions)) {
+            $service->buildSchema($this->getModuleSchemaPath($input));
         }
-
-        $diff_count = count(array_diff(self::$deploy_action_aliases, $actions));
-        if ($diff_count < count(self::$deploy_action_aliases)) {
-            $service->deployBuild();
+        if (in_array('deploy', $input_actions)) {
+            $service->deployBuildCache();
         }
     }
 
-    protected function validateInput(InputInterface $input)
+    protected function validateInputAction(InputInterface $input)
     {
-        $valid_actions = array_merge(
-            self::$generate_action_aliases,
-            self::$deploy_action_aliases
-        );
-
-        $config = $input->getOption('config');
-        $schema_path = $input->getOption('schema');
-        $actions = explode('+', $input->getArgument('action'));
-
-        foreach ($actions as $action) {
-            if (!in_array($action, $valid_actions)) {
+        $valid_actions = array_merge(self::$generate_action_aliases, self::$deploy_action_aliases);
+        $input_actions = explode('+', $input->getArgument('action'));
+        foreach ($input_actions as $input_action) {
+            if (!in_array($input_action, $valid_actions)) {
                 throw new BadValueException(
-                    sprintf('The given `action` argument value `%s` is not supported.', $action)
+                    sprintf('The given `action` argument value `%s` is not supported.', $input_action)
                 );
             }
         }
-    }
 
-    protected function getModuleSchemaPath(InputInterface $input)
-    {
-        $schema_path = $input->getOption('schema');
-        if (empty($schema_path)) {
-            $schema_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.xml';
+        $diff_count = count(array_diff(self::$generate_action_aliases, $input_actions));
+        if ($diff_count < count(self::$generate_action_aliases)) {
+            $sanitized_actions[] = 'generate';
+        }
+        $diff_count = count(array_diff(self::$deploy_action_aliases, $input_actions));
+        if ($diff_count < count(self::$deploy_action_aliases)) {
+            $sanitized_actions[] = 'deploy';
         }
 
-        return $schema_path;
+        return $sanitized_actions;
     }
 
-    protected function fetchService(InputInterface $input, OutputInterface $output)
+    protected function fetchConfiguredService(InputInterface $input, OutputInterface $output)
     {
         if (!$this->service) {
             $this->service = Service::create(
                 array(
+                    'config' => $this->createConfig($input)->validate(),
                     'schema_parser' => ModuleSchemaXmlParser::create(),
                     'output' => $output
                 )
@@ -143,6 +106,16 @@ class GenerateCodeCommand extends Command\Command
         }
 
         return $lookup_dir;
+    }
+
+    protected function getModuleSchemaPath(InputInterface $input)
+    {
+        $schema_path = $input->getOption('schema');
+        if (empty($schema_path)) {
+            $schema_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.xml';
+        }
+
+        return $schema_path;
     }
 
     protected function displayUsage(OutputInterface $output)

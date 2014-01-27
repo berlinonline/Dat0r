@@ -46,43 +46,43 @@ class Factory extends Object
 
     protected function createDefaultClassBuilders(ModuleDefinition $module)
     {
-        $class_builder_params = array(
+        $builder_properties = array(
             'module_schema' => $this->module_schema,
             'module_definition' => $module
         );
         return array(
-            Common\BaseModuleClassBuilder::create($class_builder_params),
-            Common\ModuleClassBuilder::create($class_builder_params),
-            Common\BaseDocumentClassBuilder::create($class_builder_params),
-            Common\DocumentClassBuilder::create($class_builder_params)
+            Common\BaseModuleClassBuilder::create($builder_properties),
+            Common\ModuleClassBuilder::create($builder_properties),
+            Common\BaseDocumentClassBuilder::create($builder_properties),
+            Common\DocumentClassBuilder::create($builder_properties)
         );
     }
 
     protected function createAggregateClassBuilders(ModuleDefinition $aggregate)
     {
-        $class_builder_params = array(
+        $builder_properties = array(
             'module_schema' => $this->module_schema,
             'module_definition' => $aggregate
         );
         return array(
-            Aggregate\BaseModuleClassBuilder::create($class_builder_params),
-            Aggregate\ModuleClassBuilder::create($class_builder_params),
-            Aggregate\BaseDocumentClassBuilder::create($class_builder_params),
-            Aggregate\DocumentClassBuilder::create($class_builder_params)
+            Aggregate\BaseModuleClassBuilder::create($builder_properties),
+            Aggregate\ModuleClassBuilder::create($builder_properties),
+            Aggregate\BaseDocumentClassBuilder::create($builder_properties),
+            Aggregate\DocumentClassBuilder::create($builder_properties)
         );
     }
 
     protected function createReferenceClassBuilders(ModuleDefinition $reference)
     {
-        $class_builder_params = array(
+        $builder_properties = array(
             'module_schema' => $this->module_schema,
             'module_definition' => $reference
         );
         return array(
-            Reference\BaseModuleClassBuilder::create($class_builder_params),
-            Reference\ModuleClassBuilder::create($class_builder_params),
-            Reference\BaseDocumentClassBuilder::create($class_builder_params),
-            Reference\DocumentClassBuilder::create($class_builder_params)
+            Reference\BaseModuleClassBuilder::create($builder_properties),
+            Reference\ModuleClassBuilder::create($builder_properties),
+            Reference\BaseDocumentClassBuilder::create($builder_properties),
+            Reference\DocumentClassBuilder::create($builder_properties)
         );
     }
 }

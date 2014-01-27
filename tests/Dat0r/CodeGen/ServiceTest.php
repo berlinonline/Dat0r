@@ -39,7 +39,7 @@ class ServiceTest extends Tests\TestCase
         );
 
         $codegen_service->buildSchema($this->schema_path);
-        $codegen_service->deployBuild();
+        $codegen_service->deployBuildCache();
         // @todo assert validity of the generated code inside the configured deploy directory.
     }
 
@@ -55,7 +55,7 @@ class ServiceTest extends Tests\TestCase
         );
 
         $codegen_service->buildSchema($this->schema_path);
-        $codegen_service->deployBuild();
+        $codegen_service->deployBuildCache();
         // @todo assert validity of the generated code inside the configured deploy directory.
     }
 

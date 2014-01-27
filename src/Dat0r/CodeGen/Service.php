@@ -27,13 +27,8 @@ class Service extends Object
 
     public function __construct()
     {
-        $this->class_builder_factory = Factory::create();
+        $this->class_builder_factory = new Factory();
         $this->filesystem = new Filesystem();
-    }
-
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
     }
 
     public function getConfig()
@@ -44,20 +39,23 @@ class Service extends Object
     public function buildSchema($module_schema_path)
     {
         $module_schema = $this->schema_parser->parse($module_schema_path);
-        $class_builders = $this->createClassBuilders($module_schema);
 
-        $execute_build = function ($builder) {
-            return $builder->build();
-        };
+        $class_container_list = new ClassContainerList();
+        $class_container_list->addItems(
+            array_map(
+                function ($builder)
+                {
+                    return $builder->build();
+                },
+                $this->createClassBuilders($module_schema)
+            )
+        );
 
-        $class_list = ClassContainerList::create();
-        $class_list->addItems(array_map($execute_build, $class_builders));
-
-        $this->writeCache($class_list);
+        $this->writeCache($class_container_list);
         $this->executePlugins($module_schema);
     }
 
-    public function deployBuild()
+    public function deployBuildCache()
     {
         $cache_dir = realpath($this->config->getCachedir());
         if (!is_dir($cache_dir)) {
@@ -112,25 +110,19 @@ class Service extends Object
         return $class_builders;
     }
 
-    protected function writeCache(ClassContainerList $class_list)
+    /**
+     * @throws Symfony\Component\Filesystem\Exception\IOExceptionInterface
+     */
+    protected function writeCache(ClassContainerList $class_container_list)
     {
         $cache_dir = $this->config->getCachedir();
         if (!is_dir($cache_dir)) {
             $this->filesystem->mkdir($cache_dir, self::DIR_MODE);
         }
 
-        if (!($cache_dir = realpath($cache_dir))) {
-            throw new FilesystemException(
-                sprintf(
-                    "The configured cache directory %s does not exist and could not be created.",
-                    $this->config->getCachedir()
-                )
-            );
-        }
-
-        foreach ($class_list as $class_container) {
-            $rel_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $rel_path;
+        foreach ($class_container_list as $class_container) {
+            $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
+            $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $relative_path;
 
             if (!is_dir($package_dir)) {
                 $this->filesystem->mkdir($package_dir, self::DIR_MODE);

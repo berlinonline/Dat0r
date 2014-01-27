@@ -2,17 +2,12 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Aggregate;
 
-use Dat0r\CodeGen\ClassBuilder\ClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\DocumentClassBuilder as CommonDocumentClassBuilder;
 
-class DocumentClassBuilder extends ClassBuilder
+class DocumentClassBuilder extends CommonDocumentClassBuilder
 {
-    protected function getImplementor()
+    protected function getPackage()
     {
-        return $this->module_definition->getName() . 'Document';
-    }
-
-    protected function getTemplate()
-    {
-        return 'Document/Document.twig';
+        return $this->module_schema->getPackage() . '\\Aggregate';
     }
 }

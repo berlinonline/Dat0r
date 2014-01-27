@@ -29,8 +29,8 @@ class ReferenceField extends Field
         $referenced_modules = array();
 
         foreach ($this->getOption(self::OPT_REFERENCES) as $reference) {
-            $moduleClass = $reference[self::OPT_MODULE];
-            $referenced_modules[] = $moduleClass::getInstance();
+            $module_class = $reference[self::OPT_MODULE];
+            $referenced_modules[] = $module_class::getInstance();
         }
 
         return $referenced_modules;

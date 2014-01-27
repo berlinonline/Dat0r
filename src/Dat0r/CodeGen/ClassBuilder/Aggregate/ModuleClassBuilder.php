@@ -2,17 +2,12 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Aggregate;
 
-use Dat0r\CodeGen\ClassBuilder\ClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\ModuleClassBuilder as CommonModuleClassBuilder;
 
-class ModuleClassBuilder extends ClassBuilder
+class ModuleClassBuilder extends CommonModuleClassBuilder
 {
-    protected function getImplementor()
+    protected function getPackage()
     {
-        return $this->module_definition->getName() . 'Module';
-    }
-
-    protected function getTemplate()
-    {
-        return 'Module/Module.twig';
+        return $this->module_schema->getPackage() . '\\Aggregate';
     }
 }
