@@ -6,7 +6,7 @@ use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\ClassBuilder\Factory;
 use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
-use Dat0r\Common\Error\FilesystemException;
+use Dat0r\Common\Error\FileSystemException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Service extends Object
@@ -25,15 +25,12 @@ class Service extends Object
 
     protected $output;
 
+    protected $bootstrapped = false;
+
     public function __construct()
     {
         $this->class_builder_factory = new Factory();
         $this->filesystem = new Filesystem();
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
     }
 
     public function buildSchema($module_schema_path)
@@ -58,7 +55,7 @@ class Service extends Object
     {
         $cache_dir = realpath($this->config->getCachedir());
         if (!is_dir($cache_dir)) {
-            throw new FilesystemException(
+            throw new FileSystemException(
                 sprintf(
                     "The cache directory '%s' to deploy from does not exist.",
                     $this->config->getCachedir()
@@ -73,7 +70,7 @@ class Service extends Object
         }
 
         if (!($deploy_dir = realpath($deploy_dir))) {
-            throw new FilesystemException(
+            throw new FileSystemException(
                 sprintf(
                     "The configured deploy directory %s does not exist and could not be created.",
                     $this->config->getDeployDir()
@@ -88,6 +85,20 @@ class Service extends Object
         } else {
             $this->writeMessage('<info>Copying generated files to directory: ' . $deploy_dir . ' ...</info>');
             $this->filesystem->mirror($cache_dir, $deploy_dir, null, array('override' => true));
+        }
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    protected function setConfig(Config $config)
+    {
+        $this->config = $config;
+        $bootstrap_file = $config->getBootstrapFile();
+        if ($bootstrap_file) {
+            require_once $bootstrap_file;
         }
     }
 

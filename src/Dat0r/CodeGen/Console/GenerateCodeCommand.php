@@ -6,6 +6,7 @@ use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
 use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
 use Dat0r\Common\Error\BadValueException;
+use Dat0r\Common\Error\FileSystemException;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -113,9 +114,15 @@ class GenerateCodeCommand extends Command
         if (empty($config_path)) {
             $config_path = $this->getLookupDir($input) . DIRECTORY_SEPARATOR . 'dat0r.ini';
         }
-        $this->service_config = ConfigIniParser::create()->parse($config_path);
 
-        return $this->service_config;
+        if (!is_readable($config_path)) {
+            throw new NotReadableException(
+                sprintf("Config file is not readable at location: `%s`", $config_path)
+            );
+        }
+        $service_config = ConfigIniParser::create()->parse($config_path);
+
+        return $service_config;
     }
 
     protected function getLookupDir(InputInterface $input)

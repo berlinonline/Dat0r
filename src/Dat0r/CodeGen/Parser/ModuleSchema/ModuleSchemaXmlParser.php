@@ -5,7 +5,7 @@ namespace Dat0r\CodeGen\Parser\ModuleSchema;
 use Dat0r\CodeGen\Parser\IParser;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\ParseException;
-use Dat0r\Common\Error\FilesystemException;
+use Dat0r\Common\Error\FileSystemException;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use DOMDocument;
 use DOMXPath;
@@ -53,7 +53,7 @@ class ModuleSchemaXmlParser extends Object implements IParser
     protected function createDomDocument($module_schema_file)
     {
         if (!is_readable($module_schema_file)) {
-            throw new FilesystemException(
+            throw new FileSystemException(
                 "Unable to read file at path '$module_schema_file'."
             );
         }

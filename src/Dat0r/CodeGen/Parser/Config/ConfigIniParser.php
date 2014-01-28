@@ -5,9 +5,10 @@ namespace Dat0r\CodeGen\Parser\Config;
 use Dat0r\CodeGen\Config;
 use Dat0r\CodeGen\Parser\IParser;
 use Dat0r\Common\Object;
-use Dat0r\Common\Error\FilesystemException;
+use Dat0r\Common\Error\NotReadableException;
+use Dat0r\Common\Error\NotWritableException;
+use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Common\Error\ParseException;
-use Dat0r\Common\Error\RuntimeException;
 
 class ConfigIniParser extends Object implements IParser
 {
@@ -19,6 +20,7 @@ class ConfigIniParser extends Object implements IParser
         return Config::create(
             array(
                 'options' => array(
+                    'bootstrap_file' => $this->determineBootstrapFile($settings, $config_dir),
                     'deploy_method' => $this->determineDeployMethod($settings),
                     'deploy_dir' => $this->determineDeployDirectory($settings, $config_dir),
                     'cache_dir' => $this->determineCacheDirectory($settings, $config_dir),
@@ -31,14 +33,16 @@ class ConfigIniParser extends Object implements IParser
     protected function loadIniFile($ini_file)
     {
         if (!is_readable(realpath($ini_file))) {
-            throw new FilesystemException(
-                sprintf('Unable to read config at path: `%s`', $ini_file)
+            throw new NotReadableException(
+                sprintf('Unable to read config file at path: `%s`', $ini_file)
             );
         }
 
         $settings = @parse_ini_file($ini_file, true);
         if ($settings === false) {
-            throw new ParseException("Unable to parse given config file: $ini_file.");
+            throw new ParseException(
+                sprintf('Unable to parse given config file: `%s`', $ini_file)
+            );
         }
 
         return $settings;
@@ -59,7 +63,7 @@ class ConfigIniParser extends Object implements IParser
     protected function determineDeployDirectory(array $settings, $config_dir)
     {
         if (!isset($settings['deploy_dir'])) {
-            throw new RuntimeException(
+            throw new InvalidConfigException(
                 "Missing 'deploy_dir' setting within the provided config (.ini)file."
             );
         }
@@ -80,7 +84,7 @@ class ConfigIniParser extends Object implements IParser
     protected function determineCacheDirectory(array $settings, $config_dir)
     {
         if (!isset($settings['cache_dir'])) {
-            throw new RuntimeException(
+            throw new InvalidConfigException(
                 "Missing 'cache_dir' setting within the provided config (.ini)file."
             );
         }
@@ -96,6 +100,28 @@ class ConfigIniParser extends Object implements IParser
         }
 
         return $cache_directory;
+    }
+
+    protected function determineBootstrapFile(array $settings, $config_dir)
+    {
+        $bootstrap_file = null;
+        if (isset($settings['bootstrap_file'])) {
+            if ($settings['bootstrap_file']{0} === '.') {
+                $bootstrap_file = $this->resolveRelativePath(
+                    $settings['bootstrap_file'],
+                    $config_dir
+                );
+            } else {
+                $bootstrap_file = $this->fixPath($settings['bootstrap_file']);
+            }
+            if (!is_readable($bootstrap_file)) {
+                throw new NotReadableException(
+                    sprintf('Unable to read config file at path: `%s`', $ini_file)
+                );
+            }
+        }
+
+        return $bootstrap_file;
     }
 
     protected function createPluginData(array $settings, $config_dir)

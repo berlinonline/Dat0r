@@ -31,8 +31,8 @@ class ConfigIniParserTest extends TestCase
     {
         $parser = ConfigIniParser::create();
         $config = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
-
         $expected_array = array(
+            'bootstrap_file' => __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR . 'bootstrap.php',
             'cache_dir' => '/tmp/dat0r_cache_test_dir/',
             'deploy_dir' => '/tmp/dat0r_deploy_test_dir/',
             'deploy_method' => 'copy',
@@ -51,6 +51,7 @@ class ConfigIniParserTest extends TestCase
         $expected_deploy_dir = $expected_base_path . DIRECTORY_SEPARATOR . 'dat0r_deploy_dir';
 
         $expected_array = array(
+            'bootstrap_file' => null,
             'cache_dir' => $expected_cache_dir,
             'deploy_dir' => $expected_deploy_dir,
             'deploy_method' => 'copy',
@@ -61,7 +62,7 @@ class ConfigIniParserTest extends TestCase
     }
 
     /**
-     * @expectedException Dat0r\Common\Error\FilesystemException
+     * @expectedException Dat0r\Common\Error\FileSystemException
      */
     public function testNonReadableConfig()
     {

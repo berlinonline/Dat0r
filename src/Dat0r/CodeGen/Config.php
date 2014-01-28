@@ -4,10 +4,15 @@ namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Common\Error\FilesystemException;
+use Dat0r\Common\Error\FileSystemException;
 
 class Config extends Configurable
 {
+    public function getBootstrapFile()
+    {
+        return $this->getOption('bootstrap_file');
+    }
+
     public function getCacheDir()
     {
         return $this->getOption('cache_dir');
