@@ -29,10 +29,30 @@ class GenerateCodeCommand extends Command
     {
         $this->setName('generate_code')
             ->setDescription('Generate and/or deploy code for a given module schema_path.')
-            ->addOption('config', 'c', InputArgument::OPTIONAL, 'Path pointing to a valid (ini) config file.')
-            ->addOption('schema', 's', InputArgument::OPTIONAL, 'Path pointing to a valid (xml) module schema file.')
-            ->addOption('directory', 'd', InputArgument::OPTIONAL, 'When the config or schema file are omitted, dat0r will look for standard files in this directory.')
-            ->addArgument('action', InputArgument::OPTIONAL, 'Tell whether to generate and or deploy code. Valid values are `gen`, `dep` and `gen+dep`.', 'gen+dep');
+            ->addOption(
+                'config',
+                'c',
+                InputArgument::OPTIONAL,
+                'Path pointing to a valid (ini) config file.'
+            )
+            ->addOption(
+                'schema',
+                's',
+                InputArgument::OPTIONAL,
+                'Path pointing to a valid (xml) module schema file.'
+            )
+            ->addOption(
+                'directory',
+                'd',
+                InputArgument::OPTIONAL,
+                'When the config or schema file are omitted, dat0r will look for standard files in this directory.'
+            )
+            ->addArgument(
+                'action',
+                InputArgument::OPTIONAL,
+                'Tell whether to generate and or deploy code. Valid values are `gen`, `dep` and `gen+dep`.',
+                'gen+dep'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
