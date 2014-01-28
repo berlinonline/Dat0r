@@ -43,9 +43,10 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
 
             $fields_data[] = array(
                 'name' => $fieldname,
+                'description' => $field_definition->getDescription(),
                 'setter' => $field_setter,
                 'getter' => $field_getter,
-                'php_type' => '' // @todo map to php-type
+                'php_type' => 'mixed' // @todo map to php-type
             );
         }
 
