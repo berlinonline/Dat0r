@@ -18,7 +18,10 @@ class FieldSpecificationsTest extends TestCase
         $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
         $this->assertEquals(array('foo' => 'bar', 'blah' => 'blub'), $options->toArray());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\FieldSpecificationMap', $field_specifications->getFieldSpecificationMap());
+        $this->assertInstanceOf(
+            '\\Dat0r\\Runtime\\Document\\Transform\\FieldSpecificationMap',
+            $field_specifications->getFieldSpecificationMap()
+        );
     }
 
     protected function getExampleFieldSpec()

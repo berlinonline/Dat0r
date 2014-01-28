@@ -45,10 +45,10 @@ doc:
 code-sniffer:
 
 	@mkdir -p ./build/logs
-	-@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src/Dat0r ./tests/Dat0r
+	@./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src ./tests
 
 code-sniffer-cli:
 
-	-@./vendor/bin/phpcs --extensions=php --standard=psr2 ./src
+	-@./vendor/bin/phpcs --extensions=php --standard=psr2 ./src/ ./tests
 
 .PHONY: test help code doc install update

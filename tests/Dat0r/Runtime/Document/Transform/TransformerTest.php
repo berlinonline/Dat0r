@@ -49,7 +49,7 @@ class TransformerTest extends TestCase
                 'paragraphs' => array(
                     array(
                         'title' => 'This is an amazing paragraph',
-                        'content' => 'Bob! This is just in incredible! If you read one line now you can read the next three right afterwards for free.',
+                        'content' => 'Bob! This is just in incredible!',
                         '@type' => '\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'
                     )
                 )
