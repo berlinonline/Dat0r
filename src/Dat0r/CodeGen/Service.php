@@ -43,8 +43,7 @@ class Service extends Object
         $class_container_list = new ClassContainerList();
         $class_container_list->addItems(
             array_map(
-                function ($builder)
-                {
+                function ($builder) {
                     return $builder->build();
                 },
                 $this->createClassBuilders($module_schema)

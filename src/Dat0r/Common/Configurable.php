@@ -92,7 +92,7 @@ class Configurable extends Object
     {
         if ($options instanceof Options) {
             $this->options = $options;
-        } else if (is_array($options)) {
+        } elseif (is_array($options)) {
             $this->options = new Options($options);
         } else {
             throw new BadValueException(

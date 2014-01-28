@@ -39,13 +39,16 @@ class FieldSpecifications extends Configurable implements IFieldSpecifications
     {
         if ($field_specification_map instanceof FieldSpecificationMap) {
             $this->field_specification_map = $field_specification_map;
-        } else if (is_array($field_specification_map)) {
+        } elseif (is_array($field_specification_map)) {
             $this->field_specification_map = FieldSpecificationMap::create();
             foreach ($field_specification_map as $spec_key => $field_specification) {
                 if ($field_specification instanceof IFieldSpecification) {
                     $this->field_specification_map->setItem($spec_key, $field_specification);
                 } else {
-                    $this->field_specification_map->setItem($spec_key, FieldSpecification::create($field_specification));
+                    $this->field_specification_map->setItem(
+                        $spec_key,
+                        FieldSpecification::create($field_specification)
+                    );
                 }
             }
         } else {
