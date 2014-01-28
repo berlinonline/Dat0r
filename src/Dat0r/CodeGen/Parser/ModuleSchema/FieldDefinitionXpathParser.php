@@ -52,7 +52,7 @@ class FieldDefinitionXpathParser extends XpathParser
         if (isset($this->short_names[$type])) {
             return $this->short_names[$type];
         }
-
+        // @todo allow to register a custom shortname map to extend the core definitions.
         $core_field_implementor = sprintf(
             "\\Dat0r\\Runtime\\Field\\Type\\%sField",
             preg_replace(

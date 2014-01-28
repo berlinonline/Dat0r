@@ -35,4 +35,13 @@ abstract class ClassBuilder extends BaseClassBuilder
     {
         return sprintf('\\%s\\Base\\%s', $this->getNamespace(), $this->getImplementor());
     }
+
+    protected function getTemplateVars()
+    {
+        $basic_class_vars = array(
+            'module_name' => $this->module_definition->getName()
+        );
+
+        return array_merge(parent::getTemplateVars(), $basic_class_vars);
+    }
 }
