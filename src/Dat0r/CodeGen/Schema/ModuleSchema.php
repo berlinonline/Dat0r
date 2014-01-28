@@ -6,6 +6,8 @@ use Dat0r\Common\Object;
 
 class ModuleSchema extends Object
 {
+    protected $self_uri;
+
     protected $namespace;
 
     protected $package;
@@ -15,6 +17,11 @@ class ModuleSchema extends Object
     protected $aggregate_definitions;
 
     protected $reference_definitions;
+
+    public function getSelfUri()
+    {
+        return $this->self_uri;
+    }
 
     public function getNamespace()
     {

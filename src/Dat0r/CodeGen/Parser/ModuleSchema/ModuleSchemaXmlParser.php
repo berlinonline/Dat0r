@@ -34,8 +34,13 @@ class ModuleSchemaXmlParser extends Object implements IParser
         $references_parser = ReferenceDefinitionXpathParser::create();
         $parse_options = array('context' => $schema_root);
 
+        $self_uri = $schema_path;
+        if (0 !== mb_strpos($schema_path, 'file://')) {
+            $self_uri = 'file://' . $schema_path;
+        }
         return ModuleSchema::create(
             array(
+                'self_uri' => $self_uri,
                 'namespace' => $schema_root->getAttribute('namespace'),
                 'package' => $schema_root->getAttribute('package'),
                 'module_definition' => $module_definition_parser->parse($xpath, $parse_options),

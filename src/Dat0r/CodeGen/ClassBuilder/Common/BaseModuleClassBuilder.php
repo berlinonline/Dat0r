@@ -80,10 +80,10 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             foreach ($module_options->getValue() as $module_option) {
                 $module_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Reference\\%sDocument',
+                        '\\%s\\%s\\Aggregate\\%sModule',
                         $this->getRootNamespace(),
                         $this->module_definition->getName(),
-                        $module_option->getValue() . 'Module'
+                        $module_option->getValue()
                     )
                 );
             }
@@ -97,10 +97,10 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             foreach ($reference_options->getValue() as $reference_option) {
                 $reference_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Reference\\%sDocument',
+                        '\\%s\\%s\\Reference\\%sModule',
                         $this->getRootNamespace(),
                         $this->module_definition->getName(),
-                        $reference_option->getValue() . 'Module'
+                        $reference_option->getValue()
                     )
                 );
             }
