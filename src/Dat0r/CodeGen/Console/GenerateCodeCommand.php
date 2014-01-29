@@ -59,13 +59,14 @@ class GenerateCodeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $input_actions = $this->validateInputAction($input);
-        $service = $this->fetchConfiguredService($input, $output);
+        $service = $this->getService($input, $output);
+        $module_schema_path = $this->getModuleSchemaPath($input);
 
         if (in_array('generate', $input_actions)) {
-            $service->generate($this->getModuleSchemaPath($input));
+            $service->generate($module_schema_path);
         }
         if (in_array('deploy', $input_actions)) {
-            $service->deploy();
+            $service->deploy($module_schema_path);
         }
     }
 
@@ -93,7 +94,7 @@ class GenerateCodeCommand extends Command
         return $sanitized_actions;
     }
 
-    protected function fetchConfiguredService(InputInterface $input, OutputInterface $output)
+    protected function getService(InputInterface $input, OutputInterface $output)
     {
         if (!$this->service) {
             $this->service = Service::create(

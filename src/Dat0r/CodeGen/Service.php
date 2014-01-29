@@ -16,6 +16,8 @@ class Service extends Object
 
     protected $class_builder_factory;
 
+    protected $build_cache;
+
     protected $output;
 
     public function __construct()
@@ -41,24 +43,25 @@ class Service extends Object
             )
         );
 
-        $build_cache = BuildCache::create(
-            array('cache_directory' => $this->config->getCachedir())
-        );
-        $build_cache->generate($class_container_list);
-
+        $this->build_cache->generate($class_container_list);
         $this->executePlugins($module_schema);
     }
 
-    public function deploy()
+    public function deploy($module_schema_path)
     {
-        $build_cache = BuildCache::create(
-            array('cache_directory' => $this->config->getCachedir())
+        $module_schema = $this->schema_parser->parse($module_schema_path);
+
+        $class_container_list = new ClassContainerList();
+        $class_container_list->addItems(
+            array_map(
+                function ($builder) {
+                    return $builder->build();
+                },
+                $this->createClassBuilders($module_schema)
+            )
         );
 
-        $build_cache->deploy(
-            $this->config->getDeployDir(),
-            $this->config->getDeployMethod()
-        );
+        $this->build_cache->deploy($class_container_list, $this->config->getDeployMethod());
     }
 
     public function getConfig()
@@ -69,6 +72,13 @@ class Service extends Object
     protected function setConfig(Config $config)
     {
         $this->config = $config;
+
+        $this->build_cache = BuildCache::create(
+            array(
+                'cache_directory' => $this->config->getCacheDir(),
+                'deploy_directory' => $this->config->getDeployDir()
+            )
+        );
 
         if ($bootstrap_file = $this->config->getBootstrapFile()) {
             require_once $bootstrap_file;
