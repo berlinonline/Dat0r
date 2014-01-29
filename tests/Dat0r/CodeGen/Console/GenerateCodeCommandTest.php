@@ -25,8 +25,8 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testValidConfigHandling()
     {
-        $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuildCache');
+        $this->service_mock->expects($this->once())->method('generate');
+        $this->service_mock->expects($this->never())->method('deploy');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -40,8 +40,8 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testGenerateAction()
     {
-        $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuildCache');
+        $this->service_mock->expects($this->once())->method('generate');
+        $this->service_mock->expects($this->never())->method('deploy');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -55,8 +55,8 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testDeployAction()
     {
-        $this->service_mock->expects($this->once())->method('buildSchema');
-        $this->service_mock->expects($this->once())->method('deployBuildCache');
+        $this->service_mock->expects($this->once())->method('generate');
+        $this->service_mock->expects($this->once())->method('deploy');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -73,8 +73,8 @@ class GenerateCodeCommandTest extends Tests\TestCase
      */
     public function testInvalidAction()
     {
-        $this->service_mock->expects($this->never())->method('buildSchema');
-        $this->service_mock->expects($this->never())->method('deployBuildCache');
+        $this->service_mock->expects($this->never())->method('generate');
+        $this->service_mock->expects($this->never())->method('deploy');
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -97,7 +97,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
         $this->service_mock = $this->getMock(
             'Dat0r\\CodeGen\\Service',
-            array('buildSchema', 'deployBuildCache')
+            array('generate', 'deploy')
         );
     }
 

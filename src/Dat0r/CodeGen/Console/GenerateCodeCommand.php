@@ -62,10 +62,10 @@ class GenerateCodeCommand extends Command
         $service = $this->fetchConfiguredService($input, $output);
 
         if (in_array('generate', $input_actions)) {
-            $service->buildSchema($this->getModuleSchemaPath($input));
+            $service->generate($this->getModuleSchemaPath($input));
         }
         if (in_array('deploy', $input_actions)) {
-            $service->deployBuildCache();
+            $service->deploy();
         }
     }
 

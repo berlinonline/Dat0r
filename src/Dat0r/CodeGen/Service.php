@@ -6,34 +6,28 @@ use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\ModuleSchema;
 use Dat0r\CodeGen\ClassBuilder\Factory;
 use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
-use Dat0r\Common\Error\FileSystemException;
-use Symfony\Component\Filesystem\Filesystem;
+use Dat0r\CodeGen\ClassBuilder\BuildCache;
 
 class Service extends Object
 {
-    const DIR_MODE = 0750;
-
-    const FILE_MODE = 0750;
-
     protected $config;
 
     protected $schema_parser;
 
     protected $class_builder_factory;
 
-    protected $filesystem;
-
     protected $output;
-
-    protected $bootstrapped = false;
 
     public function __construct()
     {
         $this->class_builder_factory = new Factory();
-        $this->filesystem = new Filesystem();
+        // @todo use this as an adpater for message output
+        $this->output_handler = function() {
+            // noop default output handler
+        };
     }
 
-    public function buildSchema($module_schema_path)
+    public function generate($module_schema_path)
     {
         $module_schema = $this->schema_parser->parse($module_schema_path);
 
@@ -47,45 +41,24 @@ class Service extends Object
             )
         );
 
-        $this->writeCache($class_container_list);
+        $build_cache = BuildCache::create(
+            array('cache_directory' => $this->config->getCachedir())
+        );
+        $build_cache->generate($class_container_list);
+
         $this->executePlugins($module_schema);
     }
 
-    public function deployBuildCache()
+    public function deploy()
     {
-        $cache_dir = realpath($this->config->getCachedir());
-        if (!is_dir($cache_dir)) {
-            throw new FileSystemException(
-                sprintf(
-                    "The cache directory '%s' to deploy from does not exist.",
-                    $this->config->getCachedir()
-                )
-            );
-        }
+        $build_cache = BuildCache::create(
+            array('cache_directory' => $this->config->getCachedir())
+        );
 
-        $deploy_dir = $this->config->getDeployDir();
-        if (!is_dir($deploy_dir)) {
-            $this->writeMessage('<info>Creating directory: ' . $deploy_dir . ' ...</info>');
-            $this->filesystem->mkdir($deploy_dir, self::DIR_MODE);
-        }
-
-        if (!($deploy_dir = realpath($deploy_dir))) {
-            throw new FileSystemException(
-                sprintf(
-                    "The configured deploy directory %s does not exist and could not be created.",
-                    $this->config->getDeployDir()
-                )
-            );
-        }
-
-        $method = $this->config->getDeployMethod();
-        if ($method === 'move') {
-            $this->writeMessage('<info>Moving generated files to directory: ' . $deploy_dir . ' ...</info>');
-            $this->filesystem->rename($cache_dir, $deploy_dir, true);
-        } else {
-            $this->writeMessage('<info>Copying generated files to directory: ' . $deploy_dir . ' ...</info>');
-            $this->filesystem->mirror($cache_dir, $deploy_dir, null, array('override' => true));
-        }
+        $build_cache->deploy(
+            $this->config->getDeployDir(),
+            $this->config->getDeployMethod()
+        );
     }
 
     public function getConfig()
@@ -96,8 +69,8 @@ class Service extends Object
     protected function setConfig(Config $config)
     {
         $this->config = $config;
-        $bootstrap_file = $config->getBootstrapFile();
-        if ($bootstrap_file) {
+
+        if ($bootstrap_file = $this->config->getBootstrapFile()) {
             require_once $bootstrap_file;
         }
     }
@@ -120,40 +93,22 @@ class Service extends Object
         return $class_builders;
     }
 
-    /**
-     * @throws Symfony\Component\Filesystem\Exception\IOExceptionInterface
-     */
-    protected function writeCache(ClassContainerList $class_container_list)
-    {
-        $cache_dir = $this->config->getCachedir();
-        if (!is_dir($cache_dir)) {
-            $this->filesystem->mkdir($cache_dir, self::DIR_MODE);
-        }
-
-        foreach ($class_container_list as $class_container) {
-            $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $package_dir = $cache_dir . DIRECTORY_SEPARATOR . $relative_path;
-
-            if (!is_dir($package_dir)) {
-                $this->filesystem->mkdir($package_dir, self::DIR_MODE);
-            }
-
-            $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-            $this->filesystem->dumpFile(
-                $class_filepath,
-                $class_container->getSourceCode(),
-                self::FILE_MODE
-            );
-        }
-    }
-
     protected function executePlugins(ModuleSchema $module_schema)
     {
         foreach ($this->config->getPluginSettings() as $plugin_settings) {
             $plugin_class = $plugin_settings['implementor'];
-            require_once $plugin_settings['path'];
-            $plugin = new $plugin_class($plugin_settings['options']);
-            $plugin->execute($module_schema);
+            if (class_exists($plugin_class)) {
+                if (is_a('\\Dat0r\\CodeGen\\IPlugin', $plugin_class)) {
+                    $plugin = new $plugin_class($plugin_settings['options']);
+                    $plugin->execute($module_schema);
+                } else {
+                    $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
+                    $this->writeMessage(sprintf($warning, $plugin_class));
+                }
+            } else {
+                $warning = '<warning>Unable to load plugin class: `%s`</warning>';
+                $this->writeMessage(sprintf($warning, $plugin_class));
+            }
         }
     }
 
