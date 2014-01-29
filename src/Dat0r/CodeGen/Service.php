@@ -22,7 +22,7 @@ class Service extends Object
     {
         $this->class_builder_factory = new Factory();
         // @todo use this as an adpater for message output
-        $this->output_handler = function() {
+        $this->output_handler = function () {
             // noop default output handler
         };
     }
