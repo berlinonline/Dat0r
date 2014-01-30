@@ -104,7 +104,7 @@ class GenerateCodeCommand extends Command
                 array(
                     'config' => $this->createConfig($input)->validate(),
                     'schema_parser' => ModuleSchemaXmlParser::create(),
-                    'output_handler' => function($message) use ($output) {
+                    'output_handler' => function ($message) use ($output) {
                         $output->writeln($message);
                     }
                 )

@@ -9,5 +9,5 @@ use Dat0r\Common\Error\FileSystemException;
 
 interface IPlugin
 {
-    public function execute(ModuleSchema $schema, Config $config);
+    public function execute(ModuleSchema $schema);
 }

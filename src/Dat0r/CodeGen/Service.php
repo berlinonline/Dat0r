@@ -79,7 +79,7 @@ class Service extends Object
             )
         );
 
-        $bootstrap = function($bootstrap_file = null) {
+        $bootstrap = function ($bootstrap_file = null) {
             if ($bootstrap_file) {
                 require_once $bootstrap_file;
             }
