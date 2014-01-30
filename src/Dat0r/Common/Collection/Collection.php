@@ -3,6 +3,7 @@
 namespace Dat0r\Common\Collection;
 
 use Dat0r\Common\Object;
+use Dat0r\Common\IObject;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\BadValueException;
 
@@ -323,7 +324,15 @@ abstract class Collection extends Object implements ICollection
      */
     public function toArray()
     {
-        return $this->items;
+        $data = array();
+        foreach ($this->items as $key => $value) {
+            if ($value instanceof IObject) {
+                $value = $value->toArray();
+            }
+            $data[$key] = $value;
+        }
+
+        return $data;
     }
 
     /**
