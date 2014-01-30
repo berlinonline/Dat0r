@@ -29,18 +29,22 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
 
     protected function getTemplateVars()
     {
-        $document_implementor = var_export(
-            sprintf('\\%1$s\\%2$s\\%2$sDocument', $this->getRootNamespace(), $this->module_definition->getName()),
-            true
-        );
         $module_class_vars = array(
             'fields' => $this->prepareFieldsData(),
-            'document_implementor' => $document_implementor,
+            'document_implementor' => $this->getDocumentImplementor(),
             'module_name' => $this->module_definition->getName(),
             'options' => $this->preRenderOptions($this->module_definition->getOptions(), 12)
         );
 
         return array_merge(parent::getTemplateVars(), $module_class_vars);
+    }
+
+    protected function getDocumentImplementor()
+    {
+        return var_export(
+            sprintf('\\%1$s\\%2$s\\%2$sDocument', $this->getRootNamespace(), $this->module_definition->getName()),
+            true
+        );
     }
 
     protected function prepareFieldsData()

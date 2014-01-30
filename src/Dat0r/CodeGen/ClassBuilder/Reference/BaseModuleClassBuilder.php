@@ -20,4 +20,17 @@ class BaseModuleClassBuilder extends CommonBaseModuleClassBuilder
 
         return $parent_implementor;
     }
+
+    protected function getDocumentImplementor()
+    {
+        return var_export(
+            sprintf(
+                '\\%s\\%s\\Reference\\%sDocument',
+                $this->getRootNamespace(),
+                $this->module_schema->getPackage(),
+                $this->module_definition->getName()
+            ),
+            true
+        );
+    }
 }
