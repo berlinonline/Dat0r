@@ -19,11 +19,11 @@ class BuildCache extends Object
 
     protected $deploy_directory;
 
-    protected $filesystem;
+    protected $file_system;
 
     public function __construct()
     {
-        $this->filesystem = new Filesystem();
+        $this->file_system = new Filesystem();
     }
 
     /**
@@ -32,7 +32,7 @@ class BuildCache extends Object
     public function purge()
     {
         if (is_dir($this->cache_directory)) {
-            $this->filesystem->remove($this->cache_directory);
+            $this->fileSystem->remove($this->cache_directory);
         }
     }
 
@@ -45,7 +45,7 @@ class BuildCache extends Object
         $this->purge();
 
         if (!is_dir($this->cache_directory)) {
-            $this->filesystem->mkdir($this->cache_directory, self::DIR_MODE);
+            $this->fileSystem->mkdir($this->cache_directory, self::DIR_MODE);
         }
         if (!is_writable($this->cache_directory)) {
             throw new NotWritableException(
@@ -66,7 +66,7 @@ class BuildCache extends Object
         $this->validateSetup($class_containers);
 
         if (!is_dir($this->deploy_directory)) {
-            $this->filesystem->mkdir($this->deploy_directory, self::DIR_MODE);
+            $this->fileSystem->mkdir($this->deploy_directory, self::DIR_MODE);
         }
         if (!is_writable($this->deploy_directory)) {
             throw new NotWritableException(
@@ -85,15 +85,15 @@ class BuildCache extends Object
             $package_dir = $this->cache_directory . DIRECTORY_SEPARATOR . $relative_path;
 
             if (!is_dir($package_dir)) {
-                $this->filesystem->mkdir($package_dir, self::DIR_MODE);
+                $this->fileSystem->mkdir($package_dir, self::DIR_MODE);
             }
 
             $class_filepath = $package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-            $this->filesystem->dumpFile($class_filepath, $class_container->getSourceCode(), self::FILE_MODE);
+            $this->fileSystem->dumpFile($class_filepath, $class_container->getSourceCode(), self::FILE_MODE);
             $checksum .= md5_file($class_filepath);
         }
         $checksum_file = $this->cache_directory . DIRECTORY_SEPARATOR . self::CHECKSUM_FILE;
-        $this->filesystem->dumpFile($checksum_file, md5($checksum), self::FILE_MODE);
+        $this->fileSystem->dumpFile($checksum_file, md5($checksum), self::FILE_MODE);
     }
 
     protected function deployFiles(ClassContainerList $class_containers, $method = 'move')
@@ -106,15 +106,15 @@ class BuildCache extends Object
             $deploy_filepath = $deploy_package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
 
             if (!is_dir($deploy_package_dir)) {
-                $this->filesystem->mkdir($deploy_package_dir, self::DIR_MODE);
+                $this->fileSystem->mkdir($deploy_package_dir, self::DIR_MODE);
             }
 
             $package_parts = explode('\\', $class_container->getPackage());
             $override = ('Base' === end($package_parts));
             if ('move' === $method) {
-                $this->filesystem->rename($cache_filepath, $deploy_filepath, $override);
+                $this->fileSystem->rename($cache_filepath, $deploy_filepath, $override);
             } else {
-                $this->filesystem->copy($cache_filepath, $deploy_filepath, null, array('override' => $override));
+                $this->fileSystem->copy($cache_filepath, $deploy_filepath, null, array('override' => $override));
             }
         }
     }
