@@ -116,12 +116,18 @@ class Service extends Object
                     $plugin->execute($module_schema);
                 } else {
                     $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
-                    $this->output_handler(sprintf($warning, $plugin_class));
+                    $this->writeMessage(sprintf($warning, $plugin_class));
                 }
             } else {
                 $warning = '<warning>Unable to load plugin class: `%s`</warning>';
-                $this->output_handler(sprintf($warning, $plugin_class));
+                $this->writeMessage(sprintf($warning, $plugin_class));
             }
         }
+    }
+
+    protected function writeMessage($message)
+    {
+        $write_message = $this->output_handler;
+        $write_message($message);
     }
 }
