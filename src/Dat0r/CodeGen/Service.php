@@ -110,7 +110,7 @@ class Service extends Object
     {
         foreach ($this->config->getPluginSettings() as $plugin_class => $plugin_options) {
             if (class_exists($plugin_class)) {
-                if (is_a($plugin_class, '\\Dat0r\\CodeGen\\IPlugin')) {
+                if (is_a($plugin_class, '\\Dat0r\\CodeGen\\IPlugin', true)) {
                     $plugin = new $plugin_class($plugin_options);
                     $plugin->execute($module_schema);
                 } else {
