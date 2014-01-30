@@ -6,7 +6,6 @@ use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
 use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Common\Error\FileSystemException;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
