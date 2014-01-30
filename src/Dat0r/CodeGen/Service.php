@@ -18,14 +18,13 @@ class Service extends Object
 
     protected $build_cache;
 
-    protected $output;
+    protected $output_handler;
 
     public function __construct()
     {
         $this->class_builder_factory = new Factory();
-        // @todo use this as an adpater for message output
-        $this->output_handler = function () {
-            // noop default output handler
+        $this->output_handler = function ($message) {
+            echo $message . PHP_EOL;
         };
     }
 
@@ -117,19 +116,12 @@ class Service extends Object
                     $plugin->execute($module_schema);
                 } else {
                     $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
-                    $this->writeMessage(sprintf($warning, $plugin_class));
+                    $this->output_handler(sprintf($warning, $plugin_class));
                 }
             } else {
                 $warning = '<warning>Unable to load plugin class: `%s`</warning>';
-                $this->writeMessage(sprintf($warning, $plugin_class));
+                $this->output_handler(sprintf($warning, $plugin_class));
             }
-        }
-    }
-
-    protected function writeMessage($message)
-    {
-        if ($this->output) {
-            $this->output->writeln($message);
         }
     }
 }

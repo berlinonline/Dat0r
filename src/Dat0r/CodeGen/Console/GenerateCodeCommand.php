@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class GenerateCodeCommand extends Command
 {
@@ -58,6 +59,9 @@ class GenerateCodeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // define a new output style for warnings
+        $output->getFormatter()->setStyle('warning', new OutputFormatterStyle('red', 'yellow'));
+
         $input_actions = $this->validateInputAction($input);
         $service = $this->getService($input, $output);
         $module_schema_path = $this->getModuleSchemaPath($input);
@@ -101,7 +105,9 @@ class GenerateCodeCommand extends Command
                 array(
                     'config' => $this->createConfig($input)->validate(),
                     'schema_parser' => ModuleSchemaXmlParser::create(),
-                    'output' => $output
+                    'output_handler' => function($message) use ($output) {
+                        $output->writeln($message);
+                    }
                 )
             );
         }
