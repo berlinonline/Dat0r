@@ -127,31 +127,20 @@ class ConfigIniParser extends Object implements IParser
     protected function createPluginData(array $settings, $config_dir)
     {
         $plugin_settings = array();
-        if (!isset($settings['plugins']) || !is_array($settings['plugins'])) {
-            return $plugin_settings;
-        }
-
-        foreach ($settings['plugins'] as $plugin_class => $plugin_path) {
-            if ($plugin_path{0} === '.') {
-                $plugin_path = $this->resolveRelativePath($plugin_path, $config_dir);
-            } else {
-                $plugin_path = $this->fixPath($plugin_path);
+        foreach ($settings as $setting_label => $setting_data) {
+            if (!preg_match('/^plugin\:/', $setting_label)) {
+                continue;
             }
 
-            $current_settings = array();
-            if (isset($settings[$plugin_class]) && is_array($settings[$plugin_class])) {
-                $current_settings = $settings[$plugin_class];
-            }
+            $label_parts = explode(':', $setting_label);
+            $plugin_class = array_pop($label_parts);
+            $current_settings = $setting_data;
             foreach ($current_settings as $key => &$value) {
                 if (preg_match('~^(\./|\.\./)~is', $value)) {
                     $value = $this->resolveRelativePath($value, $config_dir);
                 }
             }
-            $plugin_settings[$plugin_class] = array(
-                'implementor' => $plugin_class,
-                'path' => $plugin_path,
-                'options' => $current_settings
-            );
+            $plugin_settings[$plugin_class] = $current_settings;
         }
 
         return $plugin_settings;

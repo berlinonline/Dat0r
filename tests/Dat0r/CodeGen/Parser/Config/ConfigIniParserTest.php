@@ -27,7 +27,7 @@ class ConfigIniParserTest extends TestCase
         $this->assertInstanceOf('Dat0r\CodeGen\Parser\Config\ConfigIniParser', $config);
     }
 
-    public function testRead()
+    public function testValidConfig()
     {
         $parser = ConfigIniParser::create();
         $config = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
@@ -36,7 +36,11 @@ class ConfigIniParserTest extends TestCase
             'cache_dir' => '/tmp/dat0r_cache_test_dir/',
             'deploy_dir' => '/tmp/dat0r_deploy_test_dir/',
             'deploy_method' => 'copy',
-            'plugin_settings' => array()
+            'plugin_settings' => array(
+                'MappingGeneratorPlugin' => array(
+                    'deploy_path' => '/tmp/erpen-derp/mapping.json'
+                )
+            )
         );
         $this->assertEquals($expected_array, $config->getOptions()->toArray());
     }

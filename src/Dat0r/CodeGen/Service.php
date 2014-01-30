@@ -108,11 +108,10 @@ class Service extends Object
 
     protected function executePlugins(ModuleSchema $module_schema)
     {
-        foreach ($this->config->getPluginSettings() as $plugin_settings) {
-            $plugin_class = $plugin_settings['implementor'];
+        foreach ($this->config->getPluginSettings() as $plugin_class => $plugin_options) {
             if (class_exists($plugin_class)) {
                 if (is_a('\\Dat0r\\CodeGen\\IPlugin', $plugin_class)) {
-                    $plugin = new $plugin_class($plugin_settings['options']);
+                    $plugin = new $plugin_class($plugin_options);
                     $plugin->execute($module_schema);
                 } else {
                     $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
