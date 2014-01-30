@@ -86,7 +86,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
                     sprintf(
                         '\\%s\\%s\\Aggregate\\%sModule',
                         $this->getRootNamespace(),
-                        $this->module_definition->getName(),
+                        $this->module_schema->getPackage(),
                         $module_option->getValue()
                     )
                 );
@@ -103,7 +103,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
                     sprintf(
                         '\\%s\\%s\\Reference\\%sModule',
                         $this->getRootNamespace(),
-                        $this->module_definition->getName(),
+                        $this->module_schema->getPackage(),
                         $reference_option->getValue()
                     )
                 );
