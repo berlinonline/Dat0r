@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class BuildCache extends Object
 {
-    const CHECKSUM_FILE = '.checksum.md5';
+    const CHECKSUM_FILE = '.checksum';
 
     const DIR_MODE = 0750;
 
