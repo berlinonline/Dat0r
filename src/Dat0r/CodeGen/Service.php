@@ -80,9 +80,13 @@ class Service extends Object
             )
         );
 
-        if ($bootstrap_file = $this->config->getBootstrapFile()) {
-            require_once $bootstrap_file;
-        }
+        $bootstrap = function($bootstrap_file = null) {
+            if ($bootstrap_file) {
+                require_once $bootstrap_file;
+            }
+        };
+
+        $bootstrap($this->config->getBootstrapFile());
     }
 
     protected function createClassBuilders(ModuleSchema $module_schema)

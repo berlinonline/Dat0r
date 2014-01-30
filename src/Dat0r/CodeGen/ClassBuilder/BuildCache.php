@@ -9,6 +9,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class BuildCache extends Object
 {
+    const CHECKSUM_FILE = '.checksum.md5';
+
     const DIR_MODE = 0750;
 
     const FILE_MODE = 0750;
@@ -90,7 +92,7 @@ class BuildCache extends Object
             $this->filesystem->dumpFile($class_filepath, $class_container->getSourceCode(), self::FILE_MODE);
             $checksum .= md5_file($class_filepath);
         }
-        $checksum_file = $this->cache_directory . DIRECTORY_SEPARATOR . 'cache.md5';
+        $checksum_file = $this->cache_directory . DIRECTORY_SEPARATOR . self::CHECKSUM_FILE;
         $this->filesystem->dumpFile($checksum_file, md5($checksum), self::FILE_MODE);
     }
 
@@ -125,7 +127,7 @@ class BuildCache extends Object
             );
         }
 
-        $checksum_file = $this->cache_directory . DIRECTORY_SEPARATOR . 'cache.md5';
+        $checksum_file = $this->cache_directory . DIRECTORY_SEPARATOR . self::CHECKSUM_FILE;
         if (!is_readable($checksum_file)) {
             throw new NotReadableException(
                 sprintf("The cache-checksum file '%s' does not exist or isn't readable.", $checksum_file)
@@ -135,8 +137,11 @@ class BuildCache extends Object
         $challenge = file_get_contents($checksum_file);
         if ($this->generateChecksum($class_containers) !== $challenge) {
             throw new RuntimeException(
-                "The cache checksum is corrupt, meaning that the generated code was modified. " .
-                "Regenerate the module schema's code and then deploy again."
+                sprintf(
+                    "Cache checksum didn't match. The generated code within '%s' was modified. " .
+                    "Regenerate the module's schema code and then deploy again.",
+                    $this->cache_directory
+                )
             );
         }
     }
