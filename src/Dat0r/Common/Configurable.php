@@ -16,15 +16,9 @@ class Configurable extends Object
      *
      * @return IObject
      */
-    public static function create(array $state = array())
+    public function __construct()
     {
-        $configurable = parent::create($state);
-
-        if (!$configurable->getOptions()) {
-            $configurable->options = new Options();
-        }
-
-        return $configurable;
+        $this->options = new Options();
     }
 
     /**
