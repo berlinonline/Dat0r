@@ -19,6 +19,8 @@ class ReferenceField extends Field
 
     const OPT_IDENTITY_FIELD = 'identity_field';
 
+    protected $referenced_modules;
+
     public function getDefaultValue()
     {
         return DocumentList::create();
@@ -26,14 +28,37 @@ class ReferenceField extends Field
 
     public function getReferencedModules()
     {
-        $referenced_modules = array();
-
-        foreach ($this->getOption(self::OPT_REFERENCES) as $reference) {
-            $module_class = $reference[self::OPT_MODULE];
-            $referenced_modules[] = $module_class::getInstance();
+        if (!$this->referenced_modules) {
+            $this->referenced_modules = array();
+            foreach ($this->getOption(self::OPT_REFERENCES) as $reference) {
+                $module_class = $reference[self::OPT_MODULE];
+                $this->referenced_modules[] = $module_class::getInstance();
+            }
         }
 
-        return $referenced_modules;
+        return $this->referenced_modules;
+    }
+
+    public function getReferencedModuleByPrefix($prefix)
+    {
+        foreach ($this->getReferencedModules() as $module) {
+            if ($module->getPrefix() === $prefix) {
+                return $module;
+            }
+        }
+
+        return null;
+    }
+
+    public function getReferencedModuleByName($name)
+    {
+        foreach ($this->getReferencedModules() as $module) {
+            if ($module->getName() === $name) {
+                return $module;
+            }
+        }
+
+        return null;
     }
 
     protected function buildValidationRules()

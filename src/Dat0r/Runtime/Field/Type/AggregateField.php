@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\Field\Type;
 
 use Dat0r\Runtime\Field\Field;
+use Dat0r\Runtime\Document\DocumentList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\AggregateRule;
 use Dat0r\Common\Error\RuntimeException;
@@ -36,7 +37,7 @@ class AggregateField extends Field
      */
     public function getDefaultValue()
     {
-        return array();
+        return DocumentList::create();
     }
 
     /**
@@ -46,27 +47,36 @@ class AggregateField extends Field
      */
     public function getAggregateModules()
     {
-        if ($this->aggregated_modules) {
-            return $this->aggregated_modules;
-        }
-
-        if (!$this->hasOption(self::OPTION_MODULES)) {
-            throw new RuntimeException(
-                "AggregateField instances must be provided an 'modules' option."
-            );
-        }
-
-        $aggregated_modules = $this->getOption(self::OPTION_MODULES);
-        foreach ($aggregated_modules as $aggregated_module) {
-            if (!class_exists($aggregated_module)) {
-                throw new InvalidTypeException(
-                    "Invalid implementor: '$aggregated_module' given to aggregate field."
-                );
+        if (!$this->aggregated_modules) {
+            $this->aggregated_modules = array();
+            foreach ($this->getOption(self::OPTION_MODULES) as $aggregate_module) {
+                $this->aggregated_modules[] = $aggregate_module::getInstance();
             }
-            $this->aggregated_modules[] = $aggregated_module::getInstance();
         }
 
         return $this->aggregated_modules;
+    }
+
+    public function getAggregateModuleByPrefix($prefix)
+    {
+        foreach ($this->getAggregateModules() as $module) {
+            if ($module->getPrefix() === $prefix) {
+                return $module;
+            }
+        }
+
+        return null;
+    }
+
+    public function getAggregateModuleByName($name)
+    {
+        foreach ($this->getAggregateModules() as $module) {
+            if ($module->getName() === $name) {
+                return $module;
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -106,4 +106,12 @@ class ModuleTest extends TestCase
     {
         return array(array(RootModule::getInstance()));
     }
+
+    public function testGetFieldByPath()
+    {
+        $module = RootModule::getInstance();
+        $field = $module->getField('paragraph.paragraph.title');
+
+        $this->assertEquals('title', $field->getName());
+    }
 }
