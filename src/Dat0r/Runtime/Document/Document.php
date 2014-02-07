@@ -224,7 +224,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
                 $values[$field->getName()] = $value;
             }
         }
-        $values['@type'] = get_class($this);
+        $values[self::OBJECT_TYPE] = get_class($this);
 
         return $values;
     }

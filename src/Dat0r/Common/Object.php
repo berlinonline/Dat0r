@@ -4,6 +4,8 @@ namespace Dat0r\Common;
 
 class Object implements IObject
 {
+    const OBJECT_TYPE = '@type';
+
     /**
      * Returns a new Object instance hydrated with the given state.
      *
@@ -45,7 +47,7 @@ class Object implements IObject
      */
     public function toArray()
     {
-        $data = array('@type' => get_class($this));
+        $data = array(self::OBJECT_TYPE => get_class($this));
 
         foreach (get_object_vars($this) as $prop => $value) {
             if ($value instanceof IObject) {

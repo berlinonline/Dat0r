@@ -65,19 +65,19 @@ class AggregateRule extends Rule
         $collection = new DocumentList();
         ksort($documents_data);
         foreach ($documents_data as $document_data) {
-            if (!isset($document_data['@type'])) {
+            if (!isset($document_data[self::OBJECT_TYPE])) {
                 $this->throwError('missing_doc_type', array(), IIncident::CRITICAL);
                 continue;
             }
 
-            $aggregate_type = $document_data['@type'];
+            $aggregate_type = $document_data[self::OBJECT_TYPE];
             unset($document_data['@type']);
 
             if ($aggregate_type{0} !== '\\') {
                 $aggregate_type = '\\' . $aggregate_type;
             }
             if (!isset($module_map[$aggregate_type])) {
-                $this->throwError('invalid_doc_type', array('type' => $document_data['@type']), IIncident::NOTICE);
+                $this->throwError('invalid_doc_type', array('type' => @$document_data[self::OBJECT_TYPE]), IIncident::NOTICE);
                 continue;
             }
 
