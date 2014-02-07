@@ -77,7 +77,11 @@ class AggregateRule extends Rule
                 $aggregate_type = '\\' . $aggregate_type;
             }
             if (!isset($module_map[$aggregate_type])) {
-                $this->throwError('invalid_doc_type', array('type' => @$document_data[self::OBJECT_TYPE]), IIncident::NOTICE);
+                $this->throwError(
+                    'invalid_doc_type',
+                    array('type' => @$document_data[self::OBJECT_TYPE]),
+                    IIncident::NOTICE
+                );
                 continue;
             }
 
