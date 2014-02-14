@@ -32,7 +32,7 @@ class OptionTest extends TestCase
             array(
                 'nil' => null,
                 'null_as_string' => '0',
-                'null_as_int' =>0
+                'null_as_int' => 0
             )
         );
 
@@ -77,6 +77,48 @@ class OptionTest extends TestCase
         $options->clear();
 
         $this->assertEquals(array(), $options->toArray());
+    }
+
+    public function testArrayAccessGet()
+    {
+        $options = Options::create(array('foo' => 'bar'));
+        $this->assertEquals('bar', $options['foo']);
+        $this->assertEquals(array('foo' => 'bar'), $options->toArray());
+    }
+
+    public function testArrayAccessSet()
+    {
+        $options = Options::create(array('foo' => 'bar'));
+        $options['key'] = 'trololo';
+
+        $this->assertEquals('trololo', $options['key']);
+        $this->assertEquals('trololo', $options->get('key'));
+        $this->assertTrue($options->has('key'));
+        $this->assertEquals(array('foo', 'key'), $options->keys());
+        $this->assertEquals(array('foo', 'key'), $options->getKeys());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testArrayAccessGetNonExistantThrowsException()
+    {
+        $options = Options::create();
+        $options['non-existant'];
+    }
+
+    public function testAdd()
+    {
+        $options = Options::create(array('foo' => 'bar'));
+        $new = array('foo' => 'omg', 'blah' => 'blub');
+        $options->add($new);
+        $this->assertEquals(
+            array(
+                'foo' => 'omg',
+                'blah' => 'blub'
+            ),
+            $options->toArray()
+        );
     }
 
     protected function getRandomScalarValues()

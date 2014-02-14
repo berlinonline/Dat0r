@@ -2,13 +2,16 @@
 
 namespace Dat0r\Common;
 
+use ArrayAccess;
+use InvalidArgumentException;
+
 /**
  * Class that wraps an associative array for convenience reasons.
  */
-class Options implements IObject
+class Options implements IObject, ArrayAccess
 {
     /**
-     * @var array
+     * @var array with key => value pairs
      */
     protected $options = array();
 
@@ -31,7 +34,9 @@ class Options implements IObject
      */
     public function __construct(array $options = array())
     {
-        $this->options = $options;
+        foreach ($options as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 
     /**
@@ -91,6 +96,83 @@ class Options implements IObject
     }
 
     /**
+     * @param string $key name of key
+     * @param mixed $value value to set for key
+     */
+    public function offsetSet($key, $value)
+    {
+        $this->options[$key] = $value;
+    }
+
+    /**
+     * @param string $key name of key
+     *
+     * @return mixed value of that key
+     *
+     * @throws \InvalidArgumentException if key does not exist
+     */
+    public function offsetGet($key)
+    {
+        if (!$this->has($key)) {
+            throw new InvalidArgumentException(sprintf('Key "%s" is not defined.', $key));
+        }
+
+        return $this->get($key);
+    }
+
+    /**
+     * Returns whether the key exists or not.
+     *
+     * @param string $key name of key to check
+     *
+     * @return bool true, if key exists; false otherwise
+     */
+    public function offsetExists($key)
+    {
+        return array_key_exists($key, $this->options);
+    }
+
+    /**
+     * Unsets the given key's value if it's set.
+     *
+     * @param string $key name of key to unset
+     *
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        if (isset($this->options[$key])) {
+            unset($this->options[$key]);
+        }
+    }
+
+    /**
+     * Returns all first level key names.
+     *
+     * @return array of keys
+     */
+    public function keys()
+    {
+        return array_keys($this->options);
+    }
+
+    /**
+     * Adds the given options to the current options.
+     *
+     * @param array $options array of key-value pairs to add to current options
+     *
+     * @return Options self instance for fluent API
+     */
+    public function add(array $options = array())
+    {
+        foreach ($options as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the data as an associative array.
      *
      * @return array with all data
@@ -106,5 +188,10 @@ class Options implements IObject
     public function clear()
     {
         $this->options = array();
+    }
+
+    public function __toString()
+    {
+        
     }
 }
