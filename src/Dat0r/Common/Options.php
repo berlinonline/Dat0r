@@ -189,9 +189,4 @@ class Options implements IObject, ArrayAccess
     {
         $this->options = array();
     }
-
-    public function __toString()
-    {
-        
-    }
 }
