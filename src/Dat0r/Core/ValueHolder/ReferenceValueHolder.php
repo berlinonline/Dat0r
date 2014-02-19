@@ -27,7 +27,7 @@ class ReferenceValueHolder extends ValueHolder
         $lefthand_value = $this->getValue();
         $righthand_value = $other->getValue();
 
-        return (!empty($lefthand_value) && empty($righthand_value));
+        return $lefthand_value->count() > $righthand_value->count();
     }
 
     /**
@@ -43,7 +43,7 @@ class ReferenceValueHolder extends ValueHolder
         $lefthand_value = $this->getValue();
         $righthand_value = $other->getValue();
 
-        return (empty($lefthand_value) && !empty($righthand_value));
+        return $lefthand_value->count() < $righthand_value->count();
     }
 
     /**
@@ -56,7 +56,22 @@ class ReferenceValueHolder extends ValueHolder
      */
     public function isEqualTo(IValueHolder $other)
     {
-        return $this->getValue() === $other->getValue();
+        $equal = true;
+        $other_references = $other->getValue();
+        $these_references = $this->getValue();
+        if ($these_references->count() !== $other_references->count()) {
+            return false;
+        }
+
+        foreach ($this->getValue() as $pos => $referenced_document) {
+            if (
+                !isset($other_references[$pos])
+                || $referenced_document->getIdentifier() !== $other_references[$pos]->getIdentifier()
+            ) {
+                $equal = false;
+            }
+        }
+        return $equal;
     }
 
     /**
