@@ -8,6 +8,7 @@ use Dat0r\Core\Field\ReferenceField;
 use Dat0r\Core\Field\AggregateField;
 use Dat0r\Core\ValueHolder\IValueHolder;
 use Dat0r\Core\ValueHolder\ValueHolderCollection;
+use Countable;
 
 /**
  * Document completely implements the IDocument interface
@@ -312,12 +313,20 @@ abstract class Document implements IDocument, IValueChangedListener
             $value = $this->getValue($field->getName());
             $is_mandatory = ($field->getOption('mandatory') == true);
 
-            if ($is_mandatory && empty($value)) {
+            if ($is_mandatory
+                && (empty($value) || ($value instanceof Countable && $value->count() === 0))
+            ) {
                 $error = new MandatoryValueMissingException();
                 $error->setFieldName($field->getName());
                 $error->setModuleName($this->module->getName());
 
                 throw $error;
+            }
+
+            if ($field instanceof AggregateField) {
+                foreach ($this->getValue($field->getName()) as $aggregate) {
+                    $aggregate->checkMandatoryFields();
+                }
             }
         }
     }
