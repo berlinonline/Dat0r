@@ -37,7 +37,15 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
 
         foreach ($this->module_definition->getFields() as $field_definition) {
             $fieldname = $field_definition->getName();
-            $fieldname_studlycaps = preg_replace('/(?:^|_)(.?)/e', "strtoupper('$1')", $fieldname);
+
+            $fieldname_studlycaps = preg_replace_callback(
+                '/(?:^|_)(.?)/',
+                function ($matches) {
+                    return strtoupper($matches[1]);
+                },
+                $fieldname
+            );
+
             $field_getter = 'get' . $fieldname_studlycaps;
             $field_setter = 'set' . $fieldname_studlycaps;
 

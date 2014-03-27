@@ -55,9 +55,9 @@ class FieldDefinitionXpathParser extends XpathParser
         // @todo allow to register a custom shortname map to extend the core definitions.
         $core_field_implementor = sprintf(
             "\\Dat0r\\Runtime\\Field\\Type\\%sField",
-            preg_replace(
-                '/(?:^|-)(.?)/e',
-                "strtoupper('$1')",
+            preg_replace_callback(
+                '/(?:^|-)(.?)/',
+                function($matches) { return strtoupper($matches[1]); },
                 $type
             )
         );
