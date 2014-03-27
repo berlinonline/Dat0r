@@ -57,7 +57,9 @@ class FieldDefinitionXpathParser extends XpathParser
             "\\Dat0r\\Runtime\\Field\\Type\\%sField",
             preg_replace_callback(
                 '/(?:^|-)(.?)/',
-                function($matches) { return strtoupper($matches[1]); },
+                function ($matches) {
+                    return strtoupper($matches[1]);
+                },
                 $type
             )
         );

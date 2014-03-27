@@ -64,7 +64,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
             $fieldname = $field_definition->getName();
             $fieldname_studlycaps = preg_replace_callback(
                 '/(?:^|_)(.?)/',
-                function($matches) {
+                function ($matches) {
                     return strtoupper($matches[1]);
                 },
                 $fieldname
