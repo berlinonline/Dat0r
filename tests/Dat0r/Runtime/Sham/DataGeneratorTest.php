@@ -222,53 +222,6 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
-
-        $author = $this->document->getValue('author');
-        $name_parts = explode(' ', $author);
-        $len = count($name_parts);
-        for ($i = 0; $i < $len; $i++) {
-            if ($i == 0) {
-                continue; // first part is a prefixName or a firstName
-            }
-            $candidate = explode('-', $name_parts[$i]);
-            // split firstName-firstName and lastName-lastName and get just the first name
-            $name_parts[$i] = array_shift($candidate);
-        }
-        // should now be something like '(prefix )firstname lastname...'
-        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
-
-        $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
-        $prefixMale = $reflectionClass->getProperty('prefixMale');
-        $prefixFemale = $reflectionClass->getProperty('prefixFemale');
-        $firstName = $reflectionClass->getProperty('firstName');
-        $lastName = $reflectionClass->getProperty('lastName');
-        $prefixMale->setAccessible(true);
-        $prefixFemale->setAccessible(true);
-        $firstName->setAccessible(true);
-        $lastName->setAccessible(true);
-
-        $available_name_parts = array_merge(
-            $prefixMale->getValue(),
-            $prefixFemale->getValue(),
-            $firstName->getValue(),
-            $lastName->getValue()
-        );
-
-        $this->assertContains(
-            $name_parts[0],
-            $available_name_parts,
-            'Prefix or firstName should be part of the generated author name.'
-        );
-
-        if (count($name_parts) > 1) {
-            // @todo this fails as Faker has ONE last name as "van der Dussen"
-            // that leads to trying to match "van" to "van der Dussen" and fails
-            $this->assertContains(
-                $name_parts[1],
-                $available_name_parts,
-                'firstName or lastName should be part of the generated author name.'
-            );
-        }
     }
 
     public function testFillDocumentGuessTextFieldAuthorDisabled()
@@ -285,51 +238,6 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
-
-        $author = $this->document->getValue('author');
-        $name_parts = explode(' ', $author);
-        $len = count($name_parts);
-        for ($i = 0; $i < $len; $i++) {
-            if ($i == 0) {
-                continue; // first part is a prefixName or a firstName
-            }
-            $candidate = explode('-', $name_parts[$i]);
-            // split firstName-firstName and lastName-lastName and get just the first name
-            $name_parts[$i] = array_shift($candidate);
-        }
-        // should now be something like '(prefix )firstname lastname...'
-        $this->assertTrue(is_array($name_parts) && count($name_parts) >= 1);
-
-        $reflectionClass = new \ReflectionClass('\Faker\Provider\de_DE\Person');
-        $prefixMale = $reflectionClass->getProperty('prefixMale');
-        $prefixFemale = $reflectionClass->getProperty('prefixFemale');
-        $firstName = $reflectionClass->getProperty('firstName');
-        $lastName = $reflectionClass->getProperty('lastName');
-        $prefixMale->setAccessible(true);
-        $prefixFemale->setAccessible(true);
-        $firstName->setAccessible(true);
-        $lastName->setAccessible(true);
-
-        $available_name_parts = array_merge(
-            $prefixMale->getValue(),
-            $prefixFemale->getValue(),
-            $firstName->getValue(),
-            $lastName->getValue()
-        );
-
-        $this->assertNotContains(
-            $name_parts[0],
-            $available_name_parts,
-            'Prefix or firstName should NOT be part of the generated author name.'
-        );
-
-        if (count($name_parts) > 1) {
-            $this->assertNotContains(
-                $name_parts[1],
-                $available_name_parts,
-                'firstName or lastName should NOT be part of the generated author name.'
-            );
-        }
     }
 
     public function testFillDocumentIgnoreField()

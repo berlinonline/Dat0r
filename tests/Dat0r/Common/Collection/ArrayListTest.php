@@ -171,7 +171,7 @@ class ArrayListTest extends TestCase
 
         // pick a random item from the list data to be removed
         if ($last_index > 0) {
-            $random_index = self::$faker->randomNumber(0, $last_index);
+            $random_index = self::$faker->numberBetween(0, $last_index);
         }
         $random_item = $items[$random_index];
 
@@ -203,14 +203,14 @@ class ArrayListTest extends TestCase
 
         // pick some random items to remove
         $max_remove = round($items_count / 2, 0);
-        $numof_items_to_remove = self::$faker->randomNumber(1, $max_remove);
+        $numof_items_to_remove = self::$faker->numberBetween(1, $max_remove);
         $random_items = array();
         $randomly_picked_indexes = array();
         for ($i = 0; $i < $numof_items_to_remove; $i++) {
             $random_index = 0;
             do {
                 if ($last_index > 0) {
-                    $random_index = self::$faker->randomNumber(0, $last_index);
+                    $random_index = self::$faker->numberBetween(0, $last_index);
                 }
             } while (in_array($random_index, $randomly_picked_indexes));
 
@@ -291,7 +291,7 @@ class ArrayListTest extends TestCase
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0) {
-            $random_key = self::$faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->numberBetween(0, $last_index);
         }
 
         $list = new ArrayList($items);
@@ -307,7 +307,7 @@ class ArrayListTest extends TestCase
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0) {
-            $random_key = self::$faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->numberBetween(0, $last_index);
         }
         $random_item = $items[$random_key];
 
@@ -324,7 +324,7 @@ class ArrayListTest extends TestCase
         // pick a random item from the list to test against
         $random_key = 0;
         if ($last_index > 0) {
-            $random_key = self::$faker->randomNumber(0, $last_index);
+            $random_key = self::$faker->numberBetween(0, $last_index);
         }
         $random_item = $items[$random_key];
 

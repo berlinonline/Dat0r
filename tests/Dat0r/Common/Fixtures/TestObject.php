@@ -40,7 +40,7 @@ class TestObject extends Object
         return static::create(
             array(
                 'property_one' => $faker->word(23),
-                'property_two' => $faker->randomNumber(0, 500),
+                'property_two' => $faker->numberBetween(0, 500),
                 'property_three' => $faker->boolean()
             )
         );
@@ -51,7 +51,7 @@ class TestObject extends Object
         $faker = Faker\Factory::create();
 
         $test_objects = array();
-        $max = $faker->randomNumber(1, 15);
+        $max = $faker->numberBetween(1, 15);
 
         for ($i = 0; $i < $max; $i++) {
             $test_objects[] = self::createRandomInstance();

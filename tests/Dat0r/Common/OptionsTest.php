@@ -125,7 +125,7 @@ class OptionTest extends TestCase
     {
         return array(
             'one' => self::$faker->word(),
-            'two' => self::$faker->randomNumber(0, 999),
+            'two' => self::$faker->numberBetween(0, 999),
             'three' => self::$faker->boolean()
         );
     }
