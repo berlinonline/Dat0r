@@ -10,8 +10,8 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 
 /**
- * ReferenceCollection allows to nest multiple modules below a defined attribute_name.
- * Pass in the 'OPTION_MODULES' option to define the modules you would like to nest.
+ * ReferenceCollection allows to nest multiple types below a defined attribute_name.
+ * Pass in the 'OPTION_MODULES' option to define the types you would like to nest.
  * The corresponding value-structure is organized as a collection of documents.
  *
  * Supported options: OPTION_MODULES
@@ -19,16 +19,16 @@ use Dat0r\Common\Error\InvalidTypeException;
 class ReferenceCollection extends Attribute
 {
     /**
-     * Option that holds an array of supported reference-module names.
+     * Option that holds an array of supported reference-type names.
      */
     const OPTION_MODULES = 'references';
 
     /**
-     * An array holding the reference-module instances supported by a specific reference-attribute instance.
+     * An array holding the reference-type instances supported by a specific reference-attribute instance.
      *
      * @var array
      */
-    protected $referenced_modules = null;
+    protected $referenced_types = null;
 
     /**
      * Constructs a new reference attribute instance.
@@ -40,8 +40,8 @@ class ReferenceCollection extends Attribute
     {
         parent::__construct($name, $options);
 
-        foreach ($this->getReferenceModules() as $reference_module) {
-            foreach ($reference_module->getAttributes() as $attribute) {
+        foreach ($this->getReferences() as $reference_type) {
+            foreach ($reference_type->getAttributes() as $attribute) {
                 $attribute->setParent($this);
             }
         }
@@ -58,38 +58,38 @@ class ReferenceCollection extends Attribute
     }
 
     /**
-     * Returns the reference-modules as an array.
+     * Returns the reference-types as an array.
      *
      * @return array
      */
-    public function getReferenceModules()
+    public function getReferences()
     {
-        if (!$this->referenced_modules) {
-            $this->referenced_modules = array();
-            foreach ($this->getOption(self::OPTION_MODULES) as $reference_module) {
-                $this->referenced_modules[] = new $reference_module();
+        if (!$this->referenced_types) {
+            $this->referenced_types = array();
+            foreach ($this->getOption(self::OPTION_MODULES) as $reference_type) {
+                $this->referenced_types[] = new $reference_type();
             }
         }
 
-        return $this->referenced_modules;
+        return $this->referenced_types;
     }
 
-    public function getReferenceModuleByPrefix($prefix)
+    public function getReferenceByPrefix($prefix)
     {
-        foreach ($this->getReferenceModules() as $module) {
-            if ($module->getPrefix() === $prefix) {
-                return $module;
+        foreach ($this->getReferences() as $type) {
+            if ($type->getPrefix() === $prefix) {
+                return $type;
             }
         }
 
         return null;
     }
 
-    public function getReferenceModuleByName($name)
+    public function getReferenceByName($name)
     {
-        foreach ($this->getReferenceModules() as $module) {
-            if ($module->getName() === $name) {
-                return $module;
+        foreach ($this->getReferences() as $type) {
+            if ($type->getName() === $name) {
+                return $type;
             }
         }
 
@@ -107,7 +107,7 @@ class ReferenceCollection extends Attribute
         $rules->push(
             new ReferenceRule(
                 'valid-data',
-                array('reference_modules' => $this->getReferenceModules())
+                array('reference_types' => $this->getReferences())
             )
         );
 

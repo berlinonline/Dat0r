@@ -14,7 +14,7 @@ class AggregateCollectionTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             self::FIELDNAME,
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
             )
         );
         $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
@@ -27,7 +27,7 @@ class AggregateCollectionTest extends TestCase
     {
         $options = array_merge(
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
             ),
             $options
         );
@@ -50,7 +50,7 @@ class AggregateCollectionTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             self::FIELDNAME,
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
             )
         );
         $value_holder = $aggregate_attribute->createValueHolder();
@@ -61,7 +61,7 @@ class AggregateCollectionTest extends TestCase
 
         foreach ($aggregate_data[0] as $attribute_name => $value) {
             if ($attribute_name === '@type') {
-                $this->assertEquals($value, $document->getModule()->getDocumentType());
+                $this->assertEquals($value, $document->getType()->getDocumentType());
             } else {
                 $this->assertEquals($value, $document->getValue($attribute_name));
             }

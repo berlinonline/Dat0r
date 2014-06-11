@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Common\Error\RuntimeException;
@@ -16,29 +16,29 @@ class AttributePath
         $path_parts = array($attribute->getName());
 
         $current_attribute = $attribute->getParent();
-        $current_module = $attribute->getModule();
+        $current_type = $attribute->getType();
         while (
             $current_attribute instanceof AggregateCollection
             || $current_attribute instanceof ReferenceCollection
         ) {
-            $path_parts[] = $current_module->getPrefix();
+            $path_parts[] = $current_type->getPrefix();
             $path_parts[] = $current_attribute->getName();
 
-            $current_module = $current_attribute->getModule();
+            $current_type = $current_attribute->getType();
             $current_attribute = $current_attribute->getParent();
         }
 
         return implode(self::PATH_DELIMITER, array_reverse($path_parts));
     }
 
-    public static function getAttributeByPath(IModule $module, $attribute_path)
+    public static function getAttributeByPath(IType $type, $attribute_path)
     {
         $path_parts = explode(self::PATH_DELIMITER, $attribute_path);
 
         if ($path_parts % 2 === 0) {
             throw new RuntimeException(
                 "Invalid attributepath(attribute_name) given. Path parts must be made up of " .
-                "'attribute_name.module_prefix.attribute_name' parts with a single final attribute_name."
+                "'attribute_name.type_prefix.attribute_name' parts with a single final attribute_name."
             );
         }
 
@@ -53,14 +53,14 @@ class AttributePath
         }
 
         $destination_attribute = end($path_parts);
-        $current_module = $module;
+        $current_type = $type;
 
         foreach ($path_tuples as $path_tuple) {
-            $current_attribute = $current_module->getAttribute($path_tuple[0]);
+            $current_attribute = $current_type->getAttribute($path_tuple[0]);
             if ($current_attribute instanceof AggregateCollection) {
-                $current_module = $current_attribute->getAggregateModuleByPrefix($path_tuple[1]);
+                $current_type = $current_attribute->getAggregateByPrefix($path_tuple[1]);
             } elseif ($current_attribute instanceof ReferenceCollection) {
-                $current_module = $current_attribute->getReferenceModuleByPrefix($path_tuple[1]);
+                $current_type = $current_attribute->getReferenceByPrefix($path_tuple[1]);
             } else {
                 throw new RuntimeException(
                     "Invalid attribute-type given within attribute-path. Only Reference- and AggregateCollections are supported."
@@ -68,6 +68,6 @@ class AttributePath
             }
         }
 
-        return $current_module->getAttribute($destination_attribute);
+        return $current_type->getAttribute($destination_attribute);
     }
 }

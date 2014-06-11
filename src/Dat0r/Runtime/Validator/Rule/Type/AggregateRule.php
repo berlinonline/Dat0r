@@ -9,14 +9,14 @@ use Dat0r\Runtime\Validator\Result\IIncident;
 /**
  * AggregateRule validates that a given value consistently translates to a collection of documents.
  *
- * Supported options: aggregate_modules
+ * Supported options: aggregate_types
  */
 class AggregateRule extends Rule
 {
     /**
-     * Option that holds a list of allowed modules to validate against.
+     * Option that holds a list of allowed types to validate against.
      */
-    const OPTION_AGGREGATE_MODULES = 'aggregate_modules';
+    const OPTION_AGGREGATE_MODULES = 'aggregate_types';
 
     /**
      * Valdiates and sanitizes a given value respective to the aggregate-valueholder's expectations.
@@ -57,9 +57,9 @@ class AggregateRule extends Rule
      */
     protected function createDocumentList(array $documents_data)
     {
-        $module_map = array();
-        foreach ($this->getOption(self::OPTION_AGGREGATE_MODULES, array()) as $module) {
-            $module_map[$module->getDocumentType()] = $module;
+        $type_map = array();
+        foreach ($this->getOption(self::OPTION_AGGREGATE_MODULES, array()) as $type) {
+            $type_map[$type->getDocumentType()] = $type;
         }
 
         $collection = new DocumentList();
@@ -76,7 +76,7 @@ class AggregateRule extends Rule
             if ($aggregate_type{0} !== '\\') {
                 $aggregate_type = '\\' . $aggregate_type;
             }
-            if (!isset($module_map[$aggregate_type])) {
+            if (!isset($type_map[$aggregate_type])) {
                 $this->throwError(
                     'invalid_doc_type',
                     array('type' => @$document_data[self::OBJECT_TYPE]),
@@ -85,8 +85,8 @@ class AggregateRule extends Rule
                 continue;
             }
 
-            $aggregate_module = $module_map[$aggregate_type];
-            $collection->push($aggregate_module->createDocument($document_data));
+            $aggregate_type = $type_map[$aggregate_type];
+            $collection->push($aggregate_type->createDocument($document_data));
         }
 
         return $collection;

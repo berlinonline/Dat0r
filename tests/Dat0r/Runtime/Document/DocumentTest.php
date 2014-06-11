@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Document;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
-use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
+use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
 
 use Dat0r\Common\Collection\ArrayList;
 use Dat0r\Runtime\Document\DocumentList;
@@ -13,8 +13,8 @@ class DocumentTest extends TestCase
 {
     public function testCreateDocument()
     {
-        $module = ArticleModule::getInstance();
-        $document = $module->createDocument(array(
+        $type = ArticleType::getInstance();
+        $document = $type->createDocument(array(
             'headline' => 'hello world!'
         ));
 
@@ -24,8 +24,8 @@ class DocumentTest extends TestCase
 
     public function testInvalidValue()
     {
-        $module = ArticleModule::getInstance();
-        $document = $module->createDocument(array(
+        $type = ArticleType::getInstance();
+        $document = $type->createDocument(array(
             'headline' => 'hel'
         ));
 

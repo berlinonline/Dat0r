@@ -25,7 +25,7 @@ class Autoloader
 
     /**
      * Registers the autoloader to be used by the current process.
-     * You may provide the base locations of any generated modules
+     * You may provide the base locations of any generated types
      * in order to have them autoloaded accordingly.
      *
      * @param array $domain_packages

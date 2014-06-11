@@ -11,12 +11,12 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
 
     protected function getPackage()
     {
-        return $this->module_schema->getPackage() . '\\Base';
+        return $this->type_schema->getPackage() . '\\Base';
     }
 
     protected function getParentImplementor()
     {
-        $parent_class = $this->module_definition->getDocumentImplementor();
+        $parent_class = $this->type_definition->getDocumentImplementor();
         if (!$parent_class) {
             $parent_class = sprintf('\\%s\\Document', self::NS_DOCUMENT);
         }
@@ -35,7 +35,7 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
     {
         $attributes_data = array();
 
-        foreach ($this->module_definition->getAttributes() as $attribute_definition) {
+        foreach ($this->type_definition->getAttributes() as $attribute_definition) {
             $attributename = $attribute_definition->getName();
 
             $attributename_studlycaps = preg_replace_callback(

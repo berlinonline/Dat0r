@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Console;
 
 use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
-use Dat0r\CodeGen\Parser\ModuleSchema\ModuleSchemaXmlParser;
+use Dat0r\CodeGen\Parser\TypeSchema\TypeSchemaXmlParser;
 use Dat0r\Common\Error\BadValueException;
 
 use Symfony\Component\Console\Command\Command;
@@ -29,7 +29,7 @@ class GenerateCodeCommand extends Command
     protected function configure()
     {
         $this->setName('generate_code')
-            ->setDescription('Generate and/or deploy code for a given module schema_path.')
+            ->setDescription('Generate and/or deploy code for a given type schema_path.')
             ->addOption(
                 'config',
                 'c',
@@ -40,7 +40,7 @@ class GenerateCodeCommand extends Command
                 'schema',
                 's',
                 InputArgument::OPTIONAL,
-                'Path pointing to a valid (xml) module schema file.'
+                'Path pointing to a valid (xml) type schema file.'
             )
             ->addOption(
                 'directory',
@@ -63,13 +63,13 @@ class GenerateCodeCommand extends Command
 
         $input_actions = $this->validateInputAction($input);
         $service = $this->getService($input, $output);
-        $module_schema_path = $this->getModuleSchemaPath($input);
+        $type_schema_path = $this->getTypeSchemaPath($input);
 
         if (in_array('generate', $input_actions)) {
-            $service->generate($module_schema_path);
+            $service->generate($type_schema_path);
         }
         if (in_array('deploy', $input_actions)) {
-            $service->deploy($module_schema_path);
+            $service->deploy($type_schema_path);
         }
     }
 
@@ -103,7 +103,7 @@ class GenerateCodeCommand extends Command
             $this->service = Service::create(
                 array(
                     'config' => $this->createConfig($input)->validate(),
-                    'schema_parser' => ModuleSchemaXmlParser::create(),
+                    'schema_parser' => TypeSchemaXmlParser::create(),
                     'output_handler' => function ($message) use ($output) {
                         $output->writeln($message);
                     }
@@ -141,7 +141,7 @@ class GenerateCodeCommand extends Command
         return $lookup_dir;
     }
 
-    protected function getModuleSchemaPath(InputInterface $input)
+    protected function getTypeSchemaPath(InputInterface $input)
     {
         $schema_path = $input->getOption('schema');
         if (empty($schema_path)) {

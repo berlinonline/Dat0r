@@ -139,7 +139,7 @@ class BuildCache extends Object
             throw new RuntimeException(
                 sprintf(
                     "Cache checksum didn't match. The generated code within '%s' was modified. " .
-                    "Regenerate the module's schema code and then deploy again.",
+                    "Regenerate the type's schema code and then deploy again.",
                     $this->cache_directory
                 )
             );

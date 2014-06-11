@@ -8,6 +8,6 @@ class BaseDocumentClassBuilder extends CommonBaseDocumentClassBuilder
 {
     protected function getPackage()
     {
-        return $this->module_schema->getPackage() . '\\Reference\\Base';
+        return $this->type_schema->getPackage() . '\\Reference\\Base';
     }
 }

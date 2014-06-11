@@ -6,7 +6,7 @@ use Faker\Factory;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
 use Dat0r\Runtime\Document\DocumentList;
@@ -115,8 +115,8 @@ class DataGenerator
             $attributes_to_exclude = $excluded;
         }
 
-        $module = $document->getModule();
-        foreach ($module->getAttributes() as $attribute_name => $attribute) {
+        $type = $document->getType();
+        foreach ($type->getAttributes() as $attribute_name => $attribute) {
             if (in_array($attribute_name, $attributes_to_exclude, true)) {
                 continue;
             }
@@ -137,28 +137,28 @@ class DataGenerator
     }
 
     /**
-     * Creates an array with fake data for the given module.
+     * Creates an array with fake data for the given type.
      *
-     * @param IModule $module module to create fake data for
+     * @param IType $type type to create fake data for
      * @param array $options For valid options see fake() method
      *
-     * @return array of fake data for the given module
+     * @return array of fake data for the given type
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fakeData(IModule $module, array $options = array())
+    public function fakeData(IType $type, array $options = array())
     {
-        $document = $module->createDocument();
+        $document = $type->createDocument();
         $this->fake($document, $options);
         return $document->toArray();
     }
 
     /**
-     * Creates a document with fake data for the given module.
+     * Creates a document with fake data for the given type.
      *
-     * @param IModule $module module to create documents for
+     * @param IType $type type to create documents for
      * @param array $options For valid options see fake() method
      *
      * @return document newly created with fake data
@@ -167,18 +167,18 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocument(IModule $module, array $options = array())
+    public function createFakeDocument(IType $type, array $options = array())
     {
         $options[self::OPTION_MARK_CLEAN] = true;
-        $document = $module->createDocument();
+        $document = $type->createDocument();
         $this->fake($document, $options);
         return $document;
     }
 
     /**
-     * Creates `count` number of documents with fake data for the given module.
+     * Creates `count` number of documents with fake data for the given type.
      *
-     * @param IModule $module module to create documents for
+     * @param IType $type type to create documents for
      * @param array $options use `count` for number of documents to create. For other options see fake() method.
      *
      * @return array of new documents with fake data
@@ -187,7 +187,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocuments(IModule $module, array $options = array())
+    public function createFakeDocuments(IType $type, array $options = array())
     {
         $documents = array();
 
@@ -205,7 +205,7 @@ class DataGenerator
         }
 
         for ($i = 0; $i < $count; $i++) {
-             $documents[] = $this->createFakeDocument($module, $options);
+             $documents[] = $this->createFakeDocument($type, $options);
         }
 
         return $documents;
@@ -244,27 +244,27 @@ class DataGenerator
     }
 
     /**
-     * Creates an array with fake data for the given module.
+     * Creates an array with fake data for the given type.
      *
-     * @param IModule $module module to create fake data for
+     * @param IType $type type to create fake data for
      * @param array $options For valid options see fill() method
      *
-     * @return array of fake data for the given module
+     * @return array of fake data for the given type
      *
      * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDataFor(IModule $module, array $options = array())
+    public static function createDataFor(IType $type, array $options = array())
     {
         $data_generator = new static();
-        return $data_generator->fakeData($module, $options);
+        return $data_generator->fakeData($type, $options);
     }
 
     /**
-     * Creates a document with fake data for the given module.
+     * Creates a document with fake data for the given type.
      *
-     * @param IModule $module module to create documents for
+     * @param IType $type type to create documents for
      * @param array $options For valid options see fill() method
      *
      * @return document newly created with fake data
@@ -273,16 +273,16 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocument(IModule $module, array $options = array())
+    public static function createDocument(IType $type, array $options = array())
     {
         $data_generator = new static();
-        return $data_generator->createFakeDocument($module, $options);
+        return $data_generator->createFakeDocument($type, $options);
     }
 
     /**
-     * Creates `count` number of documents with fake data for the given module.
+     * Creates `count` number of documents with fake data for the given type.
      *
-     * @param IModule $module module to create documents for
+     * @param IType $type type to create documents for
      * @param array $options use `count` for number of documents to create. For other options see fill() method.
      *
      * @return array of new documents with fake data
@@ -291,10 +291,10 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocuments(IModule $module, array $options = array())
+    public static function createDocuments(IType $type, array $options = array())
     {
         $data_generator = new DataGenerator();
-        return $data_generator->createFakeDocuments($module, $options);
+        return $data_generator->createFakeDocuments($type, $options);
     }
 
     /**
@@ -472,20 +472,20 @@ class DataGenerator
     {
         $options_clone = $options;
         $document_collection = DocumentList::create();
-        $aggregate_modules = $attribute->getAggregateModules();
+        $aggregate_types = $attribute->getAggregates();
 
-        $number_of_aggregate_modules = count($aggregate_modules);
+        $number_of_aggregate_types = count($aggregate_types);
         $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
 
-        // add number of documents to reference depending on number of aggregate modules
-        for ($i = 0; $i < $number_of_aggregate_modules; $i++) {
+        // add number of documents to reference depending on number of aggregate types
+        for ($i = 0; $i < $number_of_aggregate_types; $i++) {
             $number_of_new_aggregate_entries += $this->faker->numberBetween(0, 3);
         }
 
-        // add new documents to collection for aggregate modules
+        // add new documents to collection for aggregate types
         for ($i = 0; $i < $number_of_new_aggregate_entries; $i++) {
-            $aggregate_module = $this->faker->randomElement($aggregate_modules);
-            $new_document = $this->createFakeDocument($aggregate_module, $options_clone);
+            $aggregate_type = $this->faker->randomElement($aggregate_types);
+            $new_document = $this->createFakeDocument($aggregate_type, $options_clone);
             $document_collection->addItem($new_document);
         }
 
@@ -517,21 +517,21 @@ class DataGenerator
         $options_clone = $options;
         $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
 
-        $referencedModules = $attribute->getReferenceModules();
+        $referencedTypes = $attribute->getReferences();
         $collection = $attribute->getDefaultValue();
 
-        $numberOfReferencedModules = count($referencedModules);
+        $numberOfReferencedTypes = count($referencedTypes);
         $numberOfNewReferenceEntries = $this->faker->numberBetween(1, 3);
 
-        // add number of documents to reference depending on number of referenced modules
-        for ($i = 0; $i < $numberOfReferencedModules; $i++) {
+        // add number of documents to reference depending on number of referenced types
+        for ($i = 0; $i < $numberOfReferencedTypes; $i++) {
             $numberOfNewReferenceEntries += $this->faker->numberBetween(0, 3);
         }
 
-        // add new documents to collection for referenced modules
+        // add new documents to collection for referenced types
         for ($i = 0; $i < $numberOfNewReferenceEntries; $i++) {
-            $ref_module = $this->faker->randomElement($referencedModules);
-            $new_document = $this->createFakeDocument($ref_module, $options_clone);
+            $ref_type = $this->faker->randomElement($referencedTypes);
+            $new_document = $this->createFakeDocument($ref_type, $options_clone);
             $collection->addItem($new_document);
         }
 
@@ -582,7 +582,7 @@ class DataGenerator
 
     /**
      * Returns whether or not the fake data generation should be dependant on
-     * the attribute_names the used modules have.
+     * the attribute_names the used types have.
      *
      * @param array $options array of options to customize fake data creation.
      *
@@ -605,7 +605,7 @@ class DataGenerator
      *
      * - `addText` for `\Dat0r\Runtime\Attribute\Type\Text`
      * - `addNumberCollection` for `\Dat0r\Runtime\Attribute\Type\NumberCollection`
-     * - `addReferenceModule` for `\Dat0r\Runtime\Attribute\Type\ReferenceCollection`
+     * - `addReference` for `\Dat0r\Runtime\Attribute\Type\ReferenceCollection`
      *
      * etc. pp.
      *

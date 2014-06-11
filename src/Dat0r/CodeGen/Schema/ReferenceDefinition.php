@@ -2,6 +2,6 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class ReferenceDefinition extends ModuleDefinition
+class ReferenceDefinition extends TypeDefinition
 {
 }

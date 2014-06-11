@@ -11,6 +11,6 @@ class DocumentClassBuilder extends ClassBuilder
 
     protected function getImplementor()
     {
-        return $this->module_definition->getName() . 'Document';
+        return $this->type_definition->getName() . 'Document';
     }
 }

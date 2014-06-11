@@ -4,8 +4,8 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\AttributePath;
-use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
-use Dat0r\Tests\Runtime\Module\Fixtures\ParagraphModule;
+use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
+use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
 
 class AttributePathTest extends TestCase
 {
@@ -14,8 +14,8 @@ class AttributePathTest extends TestCase
      */
     public function testGetAttributeByPath($attribute_path, $expected_name)
     {
-        $module = ArticleModule::getInstance();
-        $attribute = AttributePath::getAttributeByPath($module, $attribute_path);
+        $type = ArticleType::getInstance();
+        $attribute = AttributePath::getAttributeByPath($type, $attribute_path);
         $this->assertEquals($expected_name, $attribute->getName());
     }
 
@@ -24,7 +24,7 @@ class AttributePathTest extends TestCase
      */
     public function testGetAttributePath($attribute, $expected_path)
     {
-        $module = ArticleModule::getInstance();
+        $type = ArticleType::getInstance();
         $attribute_path = AttributePath::getAttributePath($attribute);
 
         $this->assertEquals($expected_path, $attribute_path);
@@ -41,16 +41,16 @@ class AttributePathTest extends TestCase
 
     public function attributePathProvider()
     {
-        $article_module = ArticleModule::getInstance();
-        $headline_attribute = $article_module->getAttribute('headline');
+        $article_type = ArticleType::getInstance();
+        $headline_attribute = $article_type->getAttribute('headline');
 
-        $paragraph_attribute = $article_module->getAttribute('paragraph');
-        $paragraph_module = $paragraph_attribute->getAggregateModuleByPrefix('paragraph');
-        $title_attribute = $paragraph_module->getAttribute('title');
+        $paragraph_attribute = $article_type->getAttribute('paragraph');
+        $paragraph_type = $paragraph_attribute->getAggregateByPrefix('paragraph');
+        $title_attribute = $paragraph_type->getAttribute('title');
 
-        $references_attribute = $article_module->getAttribute('references');
-        $category_module = $references_attribute->getReferenceModuleByPrefix('category');
-        $description_attribute = $category_module->getAttribute('description');
+        $references_attribute = $article_type->getAttribute('references');
+        $category_type = $references_attribute->getReferenceByPrefix('category');
+        $description_attribute = $category_type->getAttribute('description');
 
         return array(
             array($headline_attribute, 'headline'),

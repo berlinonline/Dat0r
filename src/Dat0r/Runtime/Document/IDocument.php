@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document;
 
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
@@ -80,7 +80,7 @@ interface IDocument
 
     /**
      * Tells whether a spefic IDocument instance is considered equal to an other given document.
-     * Documents are equal when they have both the same module and values.
+     * Documents are equal when they have both the same type and values.
      *
      * @param IDocument $document
      *
@@ -126,11 +126,11 @@ interface IDocument
     public function markClean();
 
     /**
-     * Returns the document's module.
+     * Returns the document's type.
      *
-     * @return IModule
+     * @return IType
      */
-    public function getModule();
+    public function getType();
 
     /**
      * Attaches the given document-changed listener.

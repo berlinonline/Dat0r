@@ -8,27 +8,27 @@ abstract class ClassBuilder extends BaseClassBuilder
 {
     const NS_FIELDS = '\\Dat0r\\Runtime\\Attribute\\Type';
 
-    const NS_MODULE = '\\Dat0r\\Runtime\\Module';
+    const NS_MODULE = '\\Dat0r\\Runtime\\Type';
 
     const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
 
-    protected $module_schema;
+    protected $type_schema;
 
-    protected $module_definition;
+    protected $type_definition;
 
     protected function getDescription()
     {
-        return $this->module_definition->getDescription();
+        return $this->type_definition->getDescription();
     }
 
     protected function getRootNamespace()
     {
-        return $this->module_schema->getNamespace();
+        return $this->type_schema->getNamespace();
     }
 
     protected function getPackage()
     {
-        return $this->module_schema->getPackage();
+        return $this->type_schema->getPackage();
     }
 
     protected function getParentImplementor()
@@ -39,7 +39,7 @@ abstract class ClassBuilder extends BaseClassBuilder
     protected function getTemplateVars()
     {
         $basic_class_vars = array(
-            'module_name' => $this->module_definition->getName()
+            'type_name' => $this->type_definition->getName()
         );
 
         return array_merge(parent::getTemplateVars(), $basic_class_vars);

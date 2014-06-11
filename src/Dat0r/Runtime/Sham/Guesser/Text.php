@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Sham\Guesser;
 
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Attribute;
 

@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\ValueHolder;
 
 use Mockery;
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Module\Fixtures\ParagraphModule;
+use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
 use Dat0r\Runtime\ValueHolder\Type\AggregateCollectionValueHolder;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Document\DocumentList;
@@ -17,7 +17,7 @@ class AggregateCollectionValueHolderTest extends TestCase
             new AggregateCollection(
                 'paragraph',
                 array(
-                    'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
+                    'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
                 )
             )
         );
@@ -30,7 +30,7 @@ class AggregateCollectionValueHolderTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
+                'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
             )
         );
 
@@ -48,15 +48,15 @@ class AggregateCollectionValueHolderTest extends TestCase
             '\Dat0r\Runtime\ValueHolder\ValueChangedEvent'
         )->twice();
 
-        $aggregate_module = new ParagraphModule();
-        $aggregated_document = $aggregate_module->createDocument(
+        $aggregate_type = new ParagraphType();
+        $aggregated_document = $aggregate_type->createDocument(
             array('title' => 'Hello world', 'content' => 'Foobar lorem ipsum...')
         );
 
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
+                'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
             )
         );
 

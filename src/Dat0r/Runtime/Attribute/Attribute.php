@@ -9,7 +9,7 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
 use Dat0r\Runtime\Validator\IValidator;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 
 /**
  * Base class that all Dat0r IAttribute implementations should extend.
@@ -21,11 +21,11 @@ use Dat0r\Runtime\Module\IModule;
 abstract class Attribute implements IAttribute
 {
     /**
-     * Holds a reference to the attribute's module.
+     * Holds a reference to the attribute's type.
      *
-     * @var IModule $module;
+     * @var IType $type;
      */
-    protected $module;
+    protected $type;
 
     /**
      * Holds a reference to the parent attribute, if there is one.
@@ -78,27 +78,27 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Returns the attribute's module.
+     * Returns the attribute's type.
      *
-     * @return IModule
+     * @return IType
      */
-    public function getModule()
+    public function getType()
     {
-        return $this->module;
+        return $this->type;
     }
 
     /**
-     * Sets the attribute's module once, if it isn't assigned.
+     * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IModule $module
+     * @param IType $type
      */
-    public function setModule(IModule $module)
+    public function setType(IType $type)
     {
-        if (!$this->module) {
-            $this->module = $module;
+        if (!$this->type) {
+            $this->type = $type;
         }
         // @todo else throw an exception,
-        // as a second call to setModule might imply a logic error?
+        // as a second call to setType might imply a logic error?
     }
 
     /**

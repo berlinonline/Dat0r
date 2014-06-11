@@ -9,14 +9,14 @@ use Dat0r\Runtime\Validator\Result\IIncident;
 /**
  * ReferenceRule validates that a given value consistently translates to a collection of documents.
  *
- * Supported options: reference_modules
+ * Supported options: reference_types
  */
 class ReferenceRule extends Rule
 {
     /**
-     * Option that holds a list of allowed modules to validate against.
+     * Option that holds a list of allowed types to validate against.
      */
-    const OPTION_REFERENCE_MODULES = 'reference_modules';
+    const OPTION_REFERENCE_MODULES = 'reference_types';
 
     /**
      * Valdiates and sanitizes a given value respective to the reference-valueholder's expectations.
@@ -57,9 +57,9 @@ class ReferenceRule extends Rule
      */
     protected function createDocumentList(array $documents_data)
     {
-        $module_map = array();
-        foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, array()) as $module) {
-            $module_map[$module->getDocumentType()] = $module;
+        $type_map = array();
+        foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, array()) as $type) {
+            $type_map[$type->getDocumentType()] = $type;
         }
 
         $collection = new DocumentList();
@@ -76,7 +76,7 @@ class ReferenceRule extends Rule
             if ($reference_type{0} !== '\\') {
                 $reference_type = '\\' . $reference_type;
             }
-            if (!isset($module_map[$reference_type])) {
+            if (!isset($type_map[$reference_type])) {
                 $this->throwError(
                     'invalid_doc_type',
                     array('type' => @$document_data[self::OBJECT_TYPE]),
@@ -85,8 +85,8 @@ class ReferenceRule extends Rule
                 continue;
             }
 
-            $reference_module = $module_map[$reference_type];
-            $collection->push($reference_module->createDocument($document_data));
+            $reference_type = $type_map[$reference_type];
+            $collection->push($reference_type->createDocument($document_data));
         }
 
         return $collection;

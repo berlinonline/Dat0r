@@ -13,7 +13,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     const FIXTURE_CONFIG_MOVE_DEPLOYMENT = 'deploy_move.ini';
 
-    const FIXTURE_SCHEMA = 'module_schema.xml';
+    const FIXTURE_SCHEMA = 'type_schema.xml';
 
     protected $application;
 

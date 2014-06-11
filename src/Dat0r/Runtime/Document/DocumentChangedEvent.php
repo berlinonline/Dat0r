@@ -66,9 +66,9 @@ class DocumentChangedEvent implements IEvent
     public function __toString()
     {
         return sprintf(
-            "[%s] A %s module's document attribute value has changed: \n %s",
+            "[%s] A %s type's document attribute value has changed: \n %s",
             get_class($this),
-            $this->getDocument()->getModule()->getName(),
+            $this->getDocument()->getType()->getName(),
             $this->getValueChangedEvent()
         );
     }

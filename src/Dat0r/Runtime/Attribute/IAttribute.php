@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\IValidator;
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 
 /**
  * IAttributes hold meta data that is used to model document properties,
@@ -21,18 +21,18 @@ interface IAttribute
     public function getName();
 
     /**
-     * Returns the attribute's module.
+     * Returns the attribute's type.
      *
-     * @return IModule
+     * @return IType
      */
-    public function getModule();
+    public function getType();
 
     /**
-     * Sets the attribute's module once, if it isn't assigned.
+     * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IModule $module
+     * @param IType $type
      */
-    public function setModule(IModule $module);
+    public function setType(IType $type);
 
     /**
      * Returns the attribute's parent, if it has one.

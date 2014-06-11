@@ -2,21 +2,21 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\IUniqueCollection;
 
 /**
  * AttributeMap is a associative collection container, that maps attribute names to correspondig attribute instances.
- * As attributes must be unique by name, it is not recommended using this class outside of a module's scope.
+ * As attributes must be unique by name, it is not recommended using this class outside of a type's scope.
  */
 class AttributeMap extends TypedMap implements IUniqueCollection
 {
-    protected $module;
+    protected $type;
 
-    public function __construct(IModule $module, array $items = array())
+    public function __construct(IType $type, array $items = array())
     {
-        $this->module = $module;
+        $this->type = $type;
 
         parent::__construct($items);
     }
@@ -25,7 +25,7 @@ class AttributeMap extends TypedMap implements IUniqueCollection
     {
         parent::offsetSet($offset, $value);
 
-        $value->setModule($this->module);
+        $value->setType($this->type);
     }
 
     /**

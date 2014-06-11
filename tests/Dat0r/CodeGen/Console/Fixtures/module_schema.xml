@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module_schema namespace="Example\Domain">
+<type_schema namespace="Example\Domain">
 
-    <module_definition name="SimpleSchema">
-        <description>Example schema describing a simple module.</description>
+    <type_definition name="SimpleSchema">
+        <description>Example schema describing a simple type.</description>
         <option name="some_option">with_some_value</option>
         <attributes>
             <attribute name="title" type="text">
@@ -21,12 +21,12 @@
 
             <attribute name="voting_stats" type="aggregate">
                 <description>Keeps track of the votes a topic has received.</description>
-                <option name="modules">
+                <option name="types">
                     <option>VotingStats</option>
                 </option>
             </attribute>
         </attributes>
-    </module_definition>
+    </type_definition>
 
     <aggregate_definition name="VotingStats">
         <description>
@@ -46,4 +46,4 @@
         </attributes>
     </aggregate_definition>
 
-</module_schema>
+</type_schema>

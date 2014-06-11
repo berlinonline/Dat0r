@@ -8,6 +8,6 @@ class DocumentClassBuilder extends CommonDocumentClassBuilder
 {
     protected function getPackage()
     {
-        return $this->module_schema->getPackage() . '\\Reference';
+        return $this->type_schema->getPackage() . '\\Reference';
     }
 }

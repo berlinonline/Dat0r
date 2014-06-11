@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module_schema namespace="Example\Domain">
+<type_schema namespace="Example\Domain">
 
-    <module_definition name="SimpleSchema">
-        <description>Example schema describing a simple module.</description>
+    <type_definition name="SimpleSchema">
+        <description>Example schema describing a simple type.</description>
         <attributes>
             <attribute name="title" type="text">
                 <description>A title attribute.</description>
@@ -18,6 +18,6 @@
                 <description>Some keywords that can reflect the content.</description>
             </attribute>
         </attributes>
-    </module_definition>
+    </type_definition>
 
-</module_schema>
+</type_schema>

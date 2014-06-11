@@ -3,83 +3,83 @@
 namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Schema\ModuleSchema;
-use Dat0r\CodeGen\Schema\ModuleDefinition;
+use Dat0r\CodeGen\Schema\TypeSchema;
+use Dat0r\CodeGen\Schema\TypeDefinition;
 
 class Factory extends Object
 {
-    protected $module_schema;
+    protected $type_schema;
 
-    public function __construct(ModuleSchema $schema = null)
+    public function __construct(TypeSchema $schema = null)
     {
-        $this->module_schema = $schema;
+        $this->type_schema = $schema;
     }
 
-    public function getModuleSchema()
+    public function getTypeSchema()
     {
-        return $this->module_schema;
+        return $this->type_schema;
     }
 
-    public function setModuleSchema(ModuleSchema $module_schema)
+    public function setTypeSchema(TypeSchema $type_schema)
     {
-        $this->module_schema = $module_schema;
+        $this->type_schema = $type_schema;
     }
 
-    public function createClassBuildersForModule(ModuleDefinition $module)
+    public function createClassBuildersForType(TypeDefinition $type)
     {
         $class_builders = array();
-        switch (get_class($module)) {
+        switch (get_class($type)) {
             case 'Dat0r\CodeGen\Schema\AggregateDefinition':
-                $class_builders = $this->createAggregateClassBuilders($module);
+                $class_builders = $this->createAggregateClassBuilders($type);
                 break;
             case 'Dat0r\CodeGen\Schema\ReferenceDefinition':
-                $class_builders = $this->createReferenceClassBuilders($module);
+                $class_builders = $this->createReferenceClassBuilders($type);
                 break;
             default:
-                $class_builders = $this->createDefaultClassBuilders($module);
+                $class_builders = $this->createDefaultClassBuilders($type);
                 break;
         }
 
         return $class_builders;
     }
 
-    protected function createDefaultClassBuilders(ModuleDefinition $module)
+    protected function createDefaultClassBuilders(TypeDefinition $type)
     {
         $builder_properties = array(
-            'module_schema' => $this->module_schema,
-            'module_definition' => $module
+            'type_schema' => $this->type_schema,
+            'type_definition' => $type
         );
         return array(
-            Common\BaseModuleClassBuilder::create($builder_properties),
-            Common\ModuleClassBuilder::create($builder_properties),
+            Common\BaseTypeClassBuilder::create($builder_properties),
+            Common\TypeClassBuilder::create($builder_properties),
             Common\BaseDocumentClassBuilder::create($builder_properties),
             Common\DocumentClassBuilder::create($builder_properties)
         );
     }
 
-    protected function createAggregateClassBuilders(ModuleDefinition $aggregate)
+    protected function createAggregateClassBuilders(TypeDefinition $aggregate)
     {
         $builder_properties = array(
-            'module_schema' => $this->module_schema,
-            'module_definition' => $aggregate
+            'type_schema' => $this->type_schema,
+            'type_definition' => $aggregate
         );
         return array(
-            Aggregate\BaseModuleClassBuilder::create($builder_properties),
-            Aggregate\ModuleClassBuilder::create($builder_properties),
+            Aggregate\BaseTypeClassBuilder::create($builder_properties),
+            Aggregate\TypeClassBuilder::create($builder_properties),
             Aggregate\BaseDocumentClassBuilder::create($builder_properties),
             Aggregate\DocumentClassBuilder::create($builder_properties)
         );
     }
 
-    protected function createReferenceClassBuilders(ModuleDefinition $reference)
+    protected function createReferenceClassBuilders(TypeDefinition $reference)
     {
         $builder_properties = array(
-            'module_schema' => $this->module_schema,
-            'module_definition' => $reference
+            'type_schema' => $this->type_schema,
+            'type_definition' => $reference
         );
         return array(
-            Reference\BaseModuleClassBuilder::create($builder_properties),
-            Reference\ModuleClassBuilder::create($builder_properties),
+            Reference\BaseTypeClassBuilder::create($builder_properties),
+            Reference\TypeClassBuilder::create($builder_properties),
             Reference\BaseDocumentClassBuilder::create($builder_properties),
             Reference\DocumentClassBuilder::create($builder_properties)
         );

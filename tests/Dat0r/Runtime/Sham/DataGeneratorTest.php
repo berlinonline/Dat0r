@@ -6,31 +6,31 @@ use Dat0r\Runtime\Sham\DataGenerator;
 use Dat0r\Runtime\Document\IDocument;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
+use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
 
 class DataGeneratorTest extends TestCase
 {
-    protected $module;
+    protected $type;
     protected $document;
 
     public function setUp()
     {
-        $this->module = ArticleModule::getInstance();
-        $this->document = $this->module->createDocument();
+        $this->type = ArticleType::getInstance();
+        $this->document = $this->type->createDocument();
     }
 
     public function testDefaultDocument()
     {
         $this->assertInstanceOf('Dat0r\\Runtime\\Document\\IDocument', $this->document);
-        $this->assertEquals('Article', $this->module->getName());
+        $this->assertEquals('Article', $this->type->getName());
         $this->assertEquals(
             11,
-            $this->module->getAttributes()->getSize(),
+            $this->type->getAttributes()->getSize(),
             'Number of attributes is unexpected. Please adjust tests if new attributes were introduced.'
         );
         $this->assertEquals(
-            $this->module->getAttributes()->getSize(),
-            count($this->module->getAttributes()),
+            $this->type->getAttributes()->getSize(),
+            count($this->type->getAttributes()),
             'Number of attributes should be equal independant of used count method.'
         );
         $this->assertTrue(
@@ -189,7 +189,7 @@ class DataGeneratorTest extends TestCase
 
     public function testFillDocumentAggregate()
     {
-        $data = DataGenerator::createDataFor($this->module);
+        $data = DataGenerator::createDataFor($this->type);
         $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
         $paragraph_data = $data['paragraph'][0];
 
@@ -242,7 +242,7 @@ class DataGeneratorTest extends TestCase
 
     public function testFillDocumentIgnoreAttribute()
     {
-        $this->assertEquals(11, $this->module->getAttributes()->getSize());
+        $this->assertEquals(11, $this->type->getAttributes()->getSize());
         $excluded_attributes = array('author', 'clickCount', 'enabled', 'references');
         DataGenerator::fill(
             $this->document,
@@ -256,7 +256,7 @@ class DataGeneratorTest extends TestCase
             'Document has no changes, but should have been filled with fake data.'
         );
         $this->assertEquals(
-            $this->module->getAttributes()->getSize() - count($excluded_attributes),
+            $this->type->getAttributes()->getSize() - count($excluded_attributes),
             count($this->document->getChanges()),
             count($excluded_attributes) . ' attributes should have been ignored.'
         );
@@ -296,7 +296,7 @@ class DataGeneratorTest extends TestCase
     public function testCreateDataFor()
     {
         $data = DataGenerator::createDataFor(
-            $this->module,
+            $this->type,
             array(
                 DataGenerator::OPTION_FIELD_VALUES => array(
                     'non_existant' => 'trololo'
@@ -319,7 +319,7 @@ class DataGeneratorTest extends TestCase
 
     public function testCreateDocument()
     {
-        $document = DataGenerator::createDocument($this->module);
+        $document = DataGenerator::createDocument($this->type);
 
         $this->assertTrue($document->isClean(), 'New document should have no changes.');
         $this->assertTrue(0 === count($document->getChanges()), 'New document should have no changes.');
@@ -329,7 +329,7 @@ class DataGeneratorTest extends TestCase
     {
         $num_documents = 30;
         $documents = DataGenerator::createDocuments(
-            $this->module,
+            $this->type,
             array(
                 DataGenerator::OPTION_COUNT => $num_documents,
                 DataGenerator::OPTION_LOCALE => 'fr_FR'

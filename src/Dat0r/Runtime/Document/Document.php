@@ -6,7 +6,7 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\Module\IModule;
+use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
@@ -24,11 +24,11 @@ use Dat0r\Common\Object;
 abstract class Document extends Object implements IDocument, IValueChangedListener
 {
     /**
-     * Holds the document's module.
+     * Holds the document's type.
      *
-     * @var IModule $module
+     * @var IType $type
      */
-    protected $module;
+    protected $type;
 
     /**
      * Holds a reference to the parent document, if there is one.
@@ -38,7 +38,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     protected $parent;
 
     /**
-     * There is a IValueHolder instance for each IAttribute of our module.
+     * There is a IValueHolder instance for each IAttribute of our type.
      * The '$value_holders' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
@@ -71,20 +71,20 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     protected $validation_results;
 
     /**
-     * Create a document specific to the given module and hydrate it with the passed data.
+     * Create a document specific to the given type and hydrate it with the passed data.
      *
-     * @param IModule $module
+     * @param IType $type
      * @param array $data
      */
-    public function __construct(IModule $module, array $data = array())
+    public function __construct(IType $type, array $data = array())
     {
-        $this->module = $module;
+        $this->type = $type;
         $this->listeners = new DocumentChangedListenerList();
         $this->changes = new ValueChangedEventList();
-        // Setup a map of IValueHolder specific to our module's attributes.
+        // Setup a map of IValueHolder specific to our type's attributes.
         // they hold the actual document data.
         $this->value_holders = new ValueHolderMap();
-        foreach ($module->getAttributes() as $attribute_name => $attribute) {
+        foreach ($type->getAttributes() as $attribute_name => $attribute) {
             $this->value_holders->setItem($attribute_name, $attribute->createValueHolder());
         }
         // Hydrate initial data ...
@@ -149,7 +149,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         // '$validation_results' is used to collect all particular validation results,
         // that are created each time we invoke '$this->setValue' for a given attribute value.
         $attribute_validation_results = new ResultMap();
-        foreach ($this->module->getAttributes()->getKeys() as $attribute_name) {
+        foreach ($this->type->getAttributes()->getKeys() as $attribute_name) {
             if (array_key_exists($attribute_name, $values)) {
                 $this->setValue($attribute_name, $values[$attribute_name]);
                 // memoize the current attribute validation result, after the prior call to setValue.
@@ -218,7 +218,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
                 $values[$attribute_name] = $this->getValue($attribute_name);
             }
         } else {
-            foreach ($this->getModule()->getAttributes() as $attribute) {
+            foreach ($this->getType()->getAttributes() as $attribute) {
                 $values[$attribute->getName()] = $this->getValue($attribute->getName());
             }
         }
@@ -234,7 +234,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     public function toArray()
     {
         $values = array();
-        foreach ($this->getModule()->getAttributes() as $attribute) {
+        foreach ($this->getType()->getAttributes() as $attribute) {
             $value = $this->getValue($attribute->getName());
             if ($value instanceof Object) {
                 $values[$attribute->getName()] = $value->toArray();
@@ -249,7 +249,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
 
     /**
      * Tells whether a spefic IDocument instance is considered equal to an other given document.
-     * Documents are equal when they have both the same module and values.
+     * Documents are equal when they have both the same type and values.
      *
      * @param IDocument $document
      *
@@ -257,12 +257,12 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     public function isEqualTo(IDocument $document)
     {
-        if ($document->getModule() !== $this->getModule()) {
+        if ($document->getType() !== $this->getType()) {
             return false;
         }
 
         $is_equal = true;
-        foreach ($this->getModule()->getAttributes()->getKeys() as $attribute_name) {
+        foreach ($this->getType()->getAttributes()->getKeys() as $attribute_name) {
             $value_holder = $this->value_holders->getItem($attribute_name);
             if (!$value_holder->isValueEqualTo($document->getValue($attribute_name))) {
                 $is_equal = false;
@@ -326,13 +326,13 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     }
 
     /**
-     * Returns the document's module.
+     * Returns the document's type.
      *
-     * @return IModule
+     * @return IType
      */
-    public function getModule()
+    public function getType()
     {
-        return $this->module;
+        return $this->type;
     }
 
     /**
@@ -366,7 +366,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     public function onValueChanged(ValueChangedEvent $event)
     {
-        // @todo Possible optimization: only track events for RootModule documents,
+        // @todo Possible optimization: only track events for AggregateRoot documents,
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes->push($event);
         $this->propagateDocumentChangedEvent($event);

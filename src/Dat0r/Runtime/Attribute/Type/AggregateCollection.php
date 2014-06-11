@@ -10,8 +10,8 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 
 /**
- * AggregateCollection allows to nest multiple modules below a defined attribute_name.
- * Pass in the 'OPTION_MODULES' option to define the modules you would like to nest.
+ * AggregateCollection allows to nest multiple types below a defined attribute_name.
+ * Pass in the 'OPTION_MODULES' option to define the types you would like to nest.
  * The corresponding value-structure is organized as a collection of documents.
  *
  * Supported options: OPTION_MODULES
@@ -19,16 +19,16 @@ use Dat0r\Common\Error\InvalidTypeException;
 class AggregateCollection extends Attribute
 {
     /**
-     * Option that holds an array of supported aggregate-module names.
+     * Option that holds an array of supported aggregate-type names.
      */
-    const OPTION_MODULES = 'modules';
+    const OPTION_MODULES = 'types';
 
     /**
-     * An array holding the aggregate-module instances supported by a specific aggregate-attribute instance.
+     * An array holding the aggregate-type instances supported by a specific aggregate-attribute instance.
      *
      * @var array
      */
-    protected $aggregated_modules = null;
+    protected $aggregated_types = null;
 
     /**
      * Constructs a new aggregate attribute instance.
@@ -40,8 +40,8 @@ class AggregateCollection extends Attribute
     {
         parent::__construct($name, $options);
 
-        foreach ($this->getAggregateModules() as $aggregate_module) {
-            foreach ($aggregate_module->getAttributes() as $attribute) {
+        foreach ($this->getAggregates() as $aggregate_type) {
+            foreach ($aggregate_type->getAttributes() as $attribute) {
                 $attribute->setParent($this);
             }
         }
@@ -58,38 +58,38 @@ class AggregateCollection extends Attribute
     }
 
     /**
-     * Returns the aggregate-modules as an array.
+     * Returns the aggregate-types as an array.
      *
      * @return array
      */
-    public function getAggregateModules()
+    public function getAggregates()
     {
-        if (!$this->aggregated_modules) {
-            $this->aggregated_modules = array();
-            foreach ($this->getOption(self::OPTION_MODULES) as $aggregate_module) {
-                $this->aggregated_modules[] = new $aggregate_module();
+        if (!$this->aggregated_types) {
+            $this->aggregated_types = array();
+            foreach ($this->getOption(self::OPTION_MODULES) as $aggregate_type) {
+                $this->aggregated_types[] = new $aggregate_type();
             }
         }
 
-        return $this->aggregated_modules;
+        return $this->aggregated_types;
     }
 
-    public function getAggregateModuleByPrefix($prefix)
+    public function getAggregateByPrefix($prefix)
     {
-        foreach ($this->getAggregateModules() as $module) {
-            if ($module->getPrefix() === $prefix) {
-                return $module;
+        foreach ($this->getAggregates() as $type) {
+            if ($type->getPrefix() === $prefix) {
+                return $type;
             }
         }
 
         return null;
     }
 
-    public function getAggregateModuleByName($name)
+    public function getAggregateByName($name)
     {
-        foreach ($this->getAggregateModules() as $module) {
-            if ($module->getName() === $name) {
-                return $module;
+        foreach ($this->getAggregates() as $type) {
+            if ($type->getName() === $name) {
+                return $type;
             }
         }
 
@@ -107,7 +107,7 @@ class AggregateCollection extends Attribute
         $rules->push(
             new AggregateRule(
                 'valid-data',
-                array('aggregate_modules' => $this->getAggregateModules())
+                array('aggregate_types' => $this->getAggregates())
             )
         );
 

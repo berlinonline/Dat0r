@@ -3,7 +3,7 @@
 namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Schema\ModuleSchema;
+use Dat0r\CodeGen\Schema\TypeSchema;
 use Dat0r\CodeGen\ClassBuilder\Factory;
 use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
 use Dat0r\CodeGen\ClassBuilder\BuildCache;
@@ -28,9 +28,9 @@ class Service extends Object
         };
     }
 
-    public function generate($module_schema_path)
+    public function generate($type_schema_path)
     {
-        $module_schema = $this->schema_parser->parse($module_schema_path);
+        $type_schema = $this->schema_parser->parse($type_schema_path);
 
         $class_container_list = new ClassContainerList();
         $class_container_list->addItems(
@@ -38,17 +38,17 @@ class Service extends Object
                 function ($builder) {
                     return $builder->build();
                 },
-                $this->createClassBuilders($module_schema)
+                $this->createClassBuilders($type_schema)
             )
         );
 
         $this->build_cache->generate($class_container_list);
-        $this->executePlugins($module_schema);
+        $this->executePlugins($type_schema);
     }
 
-    public function deploy($module_schema_path)
+    public function deploy($type_schema_path)
     {
-        $module_schema = $this->schema_parser->parse($module_schema_path);
+        $type_schema = $this->schema_parser->parse($type_schema_path);
 
         $class_container_list = new ClassContainerList();
         $class_container_list->addItems(
@@ -56,7 +56,7 @@ class Service extends Object
                 function ($builder) {
                     return $builder->build();
                 },
-                $this->createClassBuilders($module_schema)
+                $this->createClassBuilders($type_schema)
             )
         );
 
@@ -88,31 +88,31 @@ class Service extends Object
         $bootstrap($this->config->getBootstrapFile());
     }
 
-    protected function createClassBuilders(ModuleSchema $module_schema)
+    protected function createClassBuilders(TypeSchema $type_schema)
     {
-        $this->class_builder_factory->setModuleSchema($module_schema);
+        $this->class_builder_factory->setTypeSchema($type_schema);
 
-        $root_module = $module_schema->getModuleDefinition();
-        $class_builders = $this->class_builder_factory->createClassBuildersForModule($root_module);
-        foreach ($module_schema->getUsedAggregateDefinitions($root_module) as $aggregate) {
-            $aggregate_builders = $this->class_builder_factory->createClassBuildersForModule($aggregate);
+        $aggregate_root = $type_schema->getTypeDefinition();
+        $class_builders = $this->class_builder_factory->createClassBuildersForType($aggregate_root);
+        foreach ($type_schema->getUsedAggregateDefinitions($aggregate_root) as $aggregate) {
+            $aggregate_builders = $this->class_builder_factory->createClassBuildersForType($aggregate);
             $class_builders = array_merge($class_builders, $aggregate_builders);
         }
-        foreach ($module_schema->getUsedReferenceDefinitions($root_module) as $reference) {
-            $reference_builders = $this->class_builder_factory->createClassBuildersForModule($reference);
+        foreach ($type_schema->getUsedReferenceDefinitions($aggregate_root) as $reference) {
+            $reference_builders = $this->class_builder_factory->createClassBuildersForType($reference);
             $class_builders = array_merge($class_builders, $reference_builders);
         }
 
         return $class_builders;
     }
 
-    protected function executePlugins(ModuleSchema $module_schema)
+    protected function executePlugins(TypeSchema $type_schema)
     {
         foreach ($this->config->getPluginSettings() as $plugin_class => $plugin_options) {
             if (class_exists($plugin_class)) {
                 if (is_a($plugin_class, '\\Dat0r\\CodeGen\\IPlugin', true)) {
                     $plugin = new $plugin_class($plugin_options);
-                    $plugin->execute($module_schema);
+                    $plugin->execute($type_schema);
                 } else {
                     $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
                     $this->writeMessage(sprintf($warning, $plugin_class));

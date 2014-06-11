@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema\ModuleDefinitionList;
+use Dat0r\CodeGen\Schema\TypeDefinitionList;
 use Dat0r\CodeGen\Schema\AggregateDefinition;
 
 interface IParser
