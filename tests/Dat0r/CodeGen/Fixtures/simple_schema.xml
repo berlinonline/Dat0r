@@ -3,21 +3,21 @@
 
     <module_definition name="SimpleSchema">
         <description>Example schema describing a simple module.</description>
-        <fields>
-            <field name="title" type="text">
-                <description>A title field.</description>
+        <attributes>
+            <attribute name="title" type="text">
+                <description>A title attribute.</description>
                 <option name="mandatory">true</option>
-            </field>
+            </attribute>
 
-            <field name="content" type="textarea">
+            <attribute name="content" type="textarea">
                 <description>A textarea with richtext holding some content.</description>
                 <option name="use_richtext">yes</option>
-            </field>
+            </attribute>
 
-            <field name="keywords" type="text-collection">
+            <attribute name="keywords" type="text-collection">
                 <description>Some keywords that can reflect the content.</description>
-            </field>
-        </fields>
+            </attribute>
+        </attributes>
     </module_definition>
 
 </module_schema>

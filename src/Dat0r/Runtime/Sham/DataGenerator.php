@@ -7,8 +7,8 @@ use Faker\Factory;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\Module\IModule;
-use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Sham\Guesser\TextField as TextFieldGuesser;
+use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
 use Dat0r\Runtime\Document\DocumentList;
 
 /**
@@ -23,14 +23,14 @@ class DataGenerator
     protected $faker;
 
     /**
-     * name of options array key to use for an array of fieldname => value pairs
+     * name of options array key to use for an array of attribute_name => value pairs
      */
-    const OPTION_FIELD_VALUES = 'field_values';
+    const OPTION_FIELD_VALUES = 'attribute_values';
 
     /**
-     * name of options array key to use to exclude certain fields from fake data generation
+     * name of options array key to use to exclude certain attributes from fake data generation
      */
-    const OPTION_EXCLUDED_FIELDS = 'excluded_fields';
+    const OPTION_EXCLUDED_FIELDS = 'excluded_attributes';
 
     /**
      * name of options array key to use to mark changed documents as clean
@@ -48,12 +48,12 @@ class DataGenerator
     const OPTION_COUNT = 'count';
 
     /**
-     * name of options array key to use to disable the guessing of fake data provider by fieldname
+     * name of options array key to use to disable the guessing of fake data provider by attribute_name
      */
     const OPTION_GUESS_PROVIDER_BY_NAME = 'guess_provider_by_name';
 
     /**
-     * name of options array key to use to set the current level of recursion (for reference fields)
+     * name of options array key to use to set the current level of recursion (for reference attributes)
      */
     const OPTION_RECURSION_LEVEL = 'recursion_level';
 
@@ -65,19 +65,19 @@ class DataGenerator
 
     /**
      * This method fills the given document with fake data. You may customize
-     * the fake data generation used for each field by using the options array.
+     * the fake data generation used for each attribute by using the options array.
      *
      * Supported options:
      * - OPTION_LOCALE: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
      * - OPTION_MARK_CLEAN: Calls `$document->markClean()` at the end to prevent
      *                 change events to occur after faking data. Default is false.
-     * - OPTION_FIELD_VALUES: array of `fieldname` => `value` pairs to customize
-     *                  fake values per field of the given document. You can
+     * - OPTION_FIELD_VALUES: array of `attribute_name` => `value` pairs to customize
+     *                  fake values per attribute of the given document. You can
      *                  either specify a direct value or provide a closure. The
-     *                  closure must return the value you want to set on that field.
-     * - OPTION_EXCLUDED_FIELDS: Array of fieldnames to excluded from filling
+     *                  closure must return the value you want to set on that attribute.
+     * - OPTION_EXCLUDED_FIELDS: Array of attribute_names to excluded from filling
      *                  with fake data.
-     * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain fieldnames
+     * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
      * @param IDocument $document an instance of the document to fill with fake data.
@@ -85,9 +85,9 @@ class DataGenerator
      *
      * @return void
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public function fake(IDocument $document, array $options = array())
     {
@@ -103,29 +103,29 @@ class DataGenerator
             $this->faker = Factory::create($this->locale);
         }
 
-        $fields_to_exclude = array();
+        $attributes_to_exclude = array();
         if (!empty($options[self::OPTION_EXCLUDED_FIELDS])) {
             $excluded = $options[self::OPTION_EXCLUDED_FIELDS];
             if (!is_array($excluded)) {
                 throw new BadValueException(
                     'Given option "' . self::OPTION_EXCLUDED_FIELDS
-                    . '" is not an array. It should be an array of fieldnames.'
+                    . '" is not an array. It should be an array of attribute_names.'
                 );
             }
-            $fields_to_exclude = $excluded;
+            $attributes_to_exclude = $excluded;
         }
 
         $module = $document->getModule();
-        foreach ($module->getFields() as $fieldname => $field) {
-            if (in_array($fieldname, $fields_to_exclude, true)) {
+        foreach ($module->getAttributes() as $attribute_name => $attribute) {
+            if (in_array($attribute_name, $attributes_to_exclude, true)) {
                 continue;
             }
 
-            $name = $this->getMethodNameFor($field);
+            $name = $this->getMethodNameFor($attribute);
             if (null !== $name && is_callable(array($this, $name))) {
-                $this->$name($document, $field, $options);
+                $this->$name($document, $attribute, $options);
             } else {
-                $this->setValue($document, $field, $field->getDefaultValue(), $options);
+                $this->setValue($document, $attribute, $attribute->getDefaultValue(), $options);
             }
         }
 
@@ -144,9 +144,9 @@ class DataGenerator
      *
      * @return array of fake data for the given module
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public function fakeData(IModule $module, array $options = array())
     {
@@ -163,9 +163,9 @@ class DataGenerator
      *
      * @return document newly created with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public function createFakeDocument(IModule $module, array $options = array())
     {
@@ -183,9 +183,9 @@ class DataGenerator
      *
      * @return array of new documents with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public function createFakeDocuments(IModule $module, array $options = array())
     {
@@ -213,19 +213,19 @@ class DataGenerator
 
     /**
      * This method fills the document with fake data. You may customize the
-     * fake data used for each field by using the options array.
+     * fake data used for each attribute by using the options array.
      *
      * Supported options:
      * - OPTION_LOCALE: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
      * - OPTION_MARK_CLEAN: Calls `$document->markClean()` at the end to prevent
      *                 change events to occur after faking data. Default is false.
-     * - OPTION_FIELD_VALUES: array of `fieldname` => `value` pairs to customize
-     *                  fake values per field of the given document. You can
+     * - OPTION_FIELD_VALUES: array of `attribute_name` => `value` pairs to customize
+     *                  fake values per attribute of the given document. You can
      *                  either specify a direct value or provide a closure. The
-     *                  closure must return the value you want to set on that field.
-     * - OPTION_EXCLUDED_FIELDS: Array of fieldnames to excluded from filling
+     *                  closure must return the value you want to set on that attribute.
+     * - OPTION_EXCLUDED_FIELDS: Array of attribute_names to excluded from filling
      *                  with fake data.
-     * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain fieldnames
+     * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
      * @param IDocument $document an instance of the document to fill with fake data.
@@ -233,9 +233,9 @@ class DataGenerator
      *
      * @return void
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public static function fill(IDocument $document, array $options = array())
     {
@@ -251,9 +251,9 @@ class DataGenerator
      *
      * @return array of fake data for the given module
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public static function createDataFor(IModule $module, array $options = array())
     {
@@ -269,9 +269,9 @@ class DataGenerator
      *
      * @return document newly created with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public static function createDocument(IModule $module, array $options = array())
     {
@@ -287,9 +287,9 @@ class DataGenerator
      *
      * @return array of new documents with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given field
+     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
-     * @throws \Dat0r\Common\Error\RuntimeException on AggregateField misconfiguration
+     * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
     public static function createDocuments(IModule $module, array $options = array())
     {
@@ -298,38 +298,38 @@ class DataGenerator
     }
 
     /**
-     * Generates and adds fake data for a TextField on a document.
+     * Generates and adds fake data for a Text on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the TextField to fill with fake data.
+     * @param IAttribute $attribute an instance of the Text to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addText(IDocument $document, IField $field, array $options = array())
+    protected function addText(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
 
         if ($this->shouldGuessByName($options)) {
-            $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
+            $closure = TextGuesser::guess($attribute->getName(), $this->faker);
             if (!empty($closure) && is_callable($closure)) {
                 $value = call_user_func($closure);
             }
         }
 
-        $this->setValue($document, $field, $value, $options);
+        $this->setValue($document, $attribute, $value, $options);
     }
 
     /**
-     * Generates and adds fake data for a TextCollectionField on a document.
+     * Generates and adds fake data for a TextCollection on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the TextCollectionField to fill with fake data.
+     * @param IAttribute $attribute an instance of the TextCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextCollection(IDocument $document, IField $field, array $options = array())
+    protected function addTextCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -337,7 +337,7 @@ class DataGenerator
         for ($i = 0; $i < $number_of_values; $i++) {
             $text = $this->faker->words($this->faker->numberBetween(1, 3), true);
             if ($this->shouldGuessByName($options)) {
-                $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
+                $closure = TextGuesser::guess($attribute->getName(), $this->faker);
                 if (!empty($closure) && is_callable($closure)) {
                     $text = call_user_func($closure);
                 }
@@ -345,48 +345,48 @@ class DataGenerator
             $values[] = $text;
         }
 
-        $this->setValue($document, $field, $values, $options);
+        $this->setValue($document, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a TextareaField on a document.
+     * Generates and adds fake data for a Textarea on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the TextareaField to fill with fake data.
+     * @param IAttribute $attribute an instance of the Textarea to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextarea(IDocument $document, IField $field, array $options = array())
+    protected function addTextarea(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $text = $this->faker->paragraphs($this->faker->numberBetween(1, 5));
-        $this->setValue($document, $field, implode(PHP_EOL . PHP_EOL, $text), $options);
+        $this->setValue($document, $attribute, implode(PHP_EOL . PHP_EOL, $text), $options);
     }
 
     /**
-     * Generates and adds fake data for an IntegerField on a document.
+     * Generates and adds fake data for an Number on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the IntegerField to fill with fake data.
+     * @param IAttribute $attribute an instance of the Number to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addInteger(IDocument $document, IField $field, array $options = array())
+    protected function addNumber(IDocument $document, IAttribute $attribute, array $options = array())
     {
-        $this->setValue($document, $field, $this->faker->numberBetween(1, 99999), $options);
+        $this->setValue($document, $attribute, $this->faker->numberBetween(1, 99999), $options);
     }
 
     /**
-     * Generates and adds fake data for an IntegerCollectionField on a document.
+     * Generates and adds fake data for an NumberCollection on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the IntegerCollectionField to fill with fake data.
+     * @param IAttribute $attribute an instance of the NumberCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addIntegerCollection(IDocument $document, IField $field, array $options = array())
+    protected function addNumberCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -395,19 +395,19 @@ class DataGenerator
             $values[] = $this->faker->numberBetween(1, 99999);
         }
 
-        $this->setValue($document, $field, $values, $options);
+        $this->setValue($document, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a KeyValueField on a document.
+     * Generates and adds fake data for a KeyValue on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the KeyValueField to fill with fake data.
+     * @param IAttribute $attribute an instance of the KeyValue to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValue(IDocument $document, IField $field, array $options = array())
+    protected function addKeyValue(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -416,19 +416,19 @@ class DataGenerator
             $values[$this->faker->word] = $this->faker->sentence;
         }
 
-        $this->setValue($document, $field, $values, $options);
+        $this->setValue($document, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a KeyValuesCollectionField on a document.
+     * Generates and adds fake data for a KeyValuesCollection on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the KeyValuesCollectionField to fill with fake data.
+     * @param IAttribute $attribute an instance of the KeyValuesCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValuesCollection(IDocument $document, IField $field, array $options = array())
+    protected function addKeyValuesCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $collection = array();
 
@@ -442,37 +442,37 @@ class DataGenerator
             $collection[$this->faker->word] = $values;
         }
 
-        $this->setValue($document, $field, $collection, $options);
+        $this->setValue($document, $attribute, $collection, $options);
     }
 
     /**
-     * Generates and adds fake data for a BooleanField on a document.
+     * Generates and adds fake data for a Boolean on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the BooleanField to fill with fake data.
+     * @param IAttribute $attribute an instance of the Boolean to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addBoolean(IDocument $document, IField $field, array $options = array())
+    protected function addBoolean(IDocument $document, IAttribute $attribute, array $options = array())
     {
-        $this->setValue($document, $field, $this->faker->boolean, $options);
+        $this->setValue($document, $attribute, $this->faker->boolean, $options);
     }
 
     /**
-     * Generates and adds fake data for an AggregateModuleField on a document.
+     * Generates and adds fake data for a aggregate documents.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the AggregateModuleField to fill with fake data.
+     * @param IAttribute $attribute an instance of the AggregateCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addAggregate(IDocument $document, IField $field, array $options = array())
+    protected function addAggregateCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $options_clone = $options;
         $document_collection = DocumentList::create();
-        $aggregate_modules = $field->getAggregateModules();
+        $aggregate_modules = $attribute->getAggregateModules();
 
         $number_of_aggregate_modules = count($aggregate_modules);
         $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
@@ -489,19 +489,19 @@ class DataGenerator
             $document_collection->addItem($new_document);
         }
 
-        $this->setValue($document, $field, $document_collection, $options);
+        $this->setValue($document, $attribute, $document_collection, $options);
     }
 
     /**
-     * Generates and adds fake data for a ReferenceField on a document.
+     * Generates and adds fake data for a ReferenceCollection on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IField $field an instance of the ReferenceField to fill with fake data.
+     * @param IAttribute $attribute an instance of the ReferenceCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addReference(IDocument $document, IField $field, array $options = array())
+    protected function addReferenceCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL])
@@ -517,8 +517,8 @@ class DataGenerator
         $options_clone = $options;
         $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
 
-        $referencedModules = $field->getReferenceModules();
-        $collection = $field->getDefaultValue();
+        $referencedModules = $attribute->getReferenceModules();
+        $collection = $attribute->getDefaultValue();
 
         $numberOfReferencedModules = count($referencedModules);
         $numberOfNewReferenceEntries = $this->faker->numberBetween(1, 3);
@@ -535,16 +535,16 @@ class DataGenerator
             $collection->addItem($new_document);
         }
 
-        $this->setValue($document, $field, $collection, $options);
+        $this->setValue($document, $attribute, $collection, $options);
     }
 
     /**
-     * Sets either given default value or value from option to the given field.
+     * Sets either given default value or value from option to the given attribute.
      *
      * @param Document $document the document to modify
-     * @param string $fieldname the name of the field to set a value for
+     * @param string $attribute_name the name of the attribute to set a value for
      * @param mixed $default_value Default value to set.
-     * @param array $options Array containing a `fieldname => $mixed` entry.
+     * @param array $options Array containing a `attribute_name => $mixed` entry.
      *                       $mixed is set as value instead of $default_value.
      *                       If $mixed is a closure it will be called and used.
      *                       $mixed may also be another callable like an array
@@ -555,38 +555,38 @@ class DataGenerator
      */
     protected function setValue(
         IDocument $document,
-        IField $field,
+        IAttribute $attribute,
         $default_value,
         array $options = array()
     ) {
-        $fieldname = $field->getName();
-        $fieldoptions = array();
+        $attribute_name = $attribute->getName();
+        $attribute_options = array();
 
         if (!empty($options[self::OPTION_FIELD_VALUES])
             && is_array($options[self::OPTION_FIELD_VALUES])
         ) {
-            $fieldoptions = $options[self::OPTION_FIELD_VALUES];
+            $attribute_options = $options[self::OPTION_FIELD_VALUES];
         }
 
-        if (empty($fieldoptions[$fieldname])) {
-            $document->setValue($fieldname, $default_value);
+        if (empty($attribute_options[$attribute_name])) {
+            $document->setValue($attribute_name, $default_value);
         } else {
-            $option = $fieldoptions[$fieldname];
+            $option = $attribute_options[$attribute_name];
             if (is_callable($option)) {
-                $document->setValue($fieldname, call_user_func($option));
+                $document->setValue($attribute_name, call_user_func($option));
             } else {
-                $document->setValue($fieldname, $option);
+                $document->setValue($attribute_name, $option);
             }
         }
     }
 
     /**
      * Returns whether or not the fake data generation should be dependant on
-     * the fieldnames the used modules have.
+     * the attribute_names the used modules have.
      *
      * @param array $options array of options to customize fake data creation.
      *
-     * @return bool true if the fake data provider should be guessed by fieldname.
+     * @return bool true if the fake data provider should be guessed by attribute_name.
      *                   False if specified self::OPTION_GUESS_PROVIDER_BY_NAME is set to false.
      */
     protected function shouldGuessByName(array $options = array())
@@ -601,24 +601,24 @@ class DataGenerator
 
     /**
      * Returns the name of the internal method to call when fake data should
-     * be generated and added to the given field. The pattern is like this:
+     * be generated and added to the given attribute. The pattern is like this:
      *
-     * - `addText` for `\Dat0r\Runtime\Field\Type\TextField`
-     * - `addIntegerCollection` for `\Dat0r\Runtime\Field\Type\IntegerCollectionField`
-     * - `addReferenceModule` for `\Dat0r\Runtime\Field\ReferenceModuleField`
+     * - `addText` for `\Dat0r\Runtime\Attribute\Type\Text`
+     * - `addNumberCollection` for `\Dat0r\Runtime\Attribute\Type\NumberCollection`
+     * - `addReferenceModule` for `\Dat0r\Runtime\Attribute\Type\ReferenceCollection`
      *
      * etc. pp.
      *
-     * @param IField $field field instance to generate fake data for
+     * @param IAttribute $attribute attribute instance to generate fake data for
      *
-     * @return string method name to use for fake data addition for given field
+     * @return string method name to use for fake data addition for given attribute
      */
-    protected function getMethodNameFor(IField $field)
+    protected function getMethodNameFor(IAttribute $attribute)
     {
         $name = null;
 
-        $type = get_class($field);
-        if (preg_match('/^Dat0r\\\\Runtime\\\\Field\\\\Type\\\\(.*)Field$/', $type, $matches)) {
+        $type = get_class($attribute);
+        if (preg_match('/^Dat0r\\\\Runtime\\\\Attribute\\\\Type\\\\(.*)$/', $type, $matches)) {
             $name = 'add' . $matches[1];
         }
 

@@ -15,61 +15,61 @@ class ModuleTest extends TestCase
         $module = ArticleModule::getInstance();
 
         $this->assertEquals('Article', $module->getName());
-        $this->assertEquals(11, $module->getFields()->getSize());
+        $this->assertEquals(11, $module->getAttributes()->getSize());
     }
 
     public function testCreateAggegateModule()
     {
         $module = new ParagraphModule();
 
-        $this->assertEquals(2, $module->getFields()->getSize());
+        $this->assertEquals(2, $module->getAttributes()->getSize());
         $this->assertEquals('Paragraph', $module->getName());
     }
 
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldMethod(IModule $module)
+    public function testGetAttributeMethod(IModule $module)
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $module->getField('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $module->getField('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $module->getAttribute('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $module->getAttribute('clickCount'));
     }
 
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldsMethodPlain(IModule $module)
+    public function testGetAttributesMethodPlain(IModule $module)
     {
-        $fields = $module->getFields();
+        $attributes = $module->getAttributes();
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
-        $this->assertEquals(11, $fields->getSize());
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
+        $this->assertEquals(11, $attributes->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('content'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $fields->getItem('clickCount'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('author'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('email'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextCollectionField', $fields->getItem('keywords'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\BooleanField', $fields->getItem('enabled'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerCollectionField', $fields->getItem('images'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\KeyValueField', $fields->getItem('meta'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\AggregateField', $fields->getItem('paragraph'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\ReferenceField', $fields->getItem('references'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('content'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('author'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('email'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\TextCollection', $attributes->getItem('keywords'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Boolean', $attributes->getItem('enabled'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\NumberCollection', $attributes->getItem('images'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\KeyValue', $attributes->getItem('meta'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\AggregateCollection', $attributes->getItem('paragraph'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\ReferenceCollection', $attributes->getItem('references'));
     }
 
     /**
      * @dataProvider provideModuleInstances
      */
-    public function testGetFieldsMethodFiltered(IModule $module)
+    public function testGetAttributesMethodFiltered(IModule $module)
     {
-        $fields = $module->getFields(array('headline', 'clickCount'));
+        $attributes = $module->getAttributes(array('headline', 'clickCount'));
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\FieldMap', $fields);
-        $this->assertEquals(2, $fields->getSize());
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
+        $this->assertEquals(2, $attributes->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\TextField', $fields->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Field\\Type\\IntegerField', $fields->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('clickCount'));
     }
 
     /**
@@ -85,9 +85,9 @@ class ModuleTest extends TestCase
      * @dataProvider provideModuleInstances
      * @expectedException Dat0r\Common\Error\RuntimeException
      */
-    public function testInvalidFieldException(IModule $module)
+    public function testInvalidAttributeException(IModule $module)
     {
-        $module->getField('foobar-field-does-not-exist'); // @codeCoverageIgnoreStart
+        $module->getAttribute('foobar-attribute-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
     /**
@@ -107,11 +107,11 @@ class ModuleTest extends TestCase
         return array(array(ArticleModule::getInstance()));
     }
 
-    public function testGetFieldByPath()
+    public function testGetAttributeByPath()
     {
         $module = ArticleModule::getInstance();
-        $field = $module->getField('paragraph.paragraph.title');
+        $attribute = $module->getAttribute('paragraph.paragraph.title');
 
-        $this->assertEquals('title', $field->getName());
+        $this->assertEquals('title', $attribute->getName());
     }
 }

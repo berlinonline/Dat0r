@@ -12,7 +12,7 @@
  * class '{{ class_name }}'. Modifications to the skeleton
  * file will prevail any subsequent class generation runs.
  *
- * To define new fields or adjust existing fields and their
+ * To define new attributes or adjust existing attributes and their
  * default options modify the schema definition file of
  * the '{{ module_name }}' module.
  *
@@ -39,17 +39,17 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
         parent::__construct(
             '{{ module_name }}',
             array(
-            {%- for field in fields %}
-                {%- if field.options|length > 0 %}
+            {%- for attribute in attributes %}
+                {%- if attribute.options|length > 0 %}
 
-                {{ field.class_name }}::create(
-                    '{{ field.name }}',
-                    {{ field.options|raw }}
+                new {{ attribute.class_name }}(
+                    '{{ attribute.name }}',
+                    {{ attribute.options|raw }}
                 ),
 
                 {%- else %}
 
-                {{ field.class_name }}::create('{{ field.name }}'),
+                new {{ attribute.class_name }}('{{ attribute.name }}'),
 
                 {%- endif %}
             {%- endfor %}

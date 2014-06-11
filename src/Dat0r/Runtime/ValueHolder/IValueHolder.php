@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
-use Dat0r\Runtime\Field\IField;
+use Dat0r\Runtime\Attribute\IAttribute;
 
 /**
  * @todo Explain what valid holders are and what they are supposed to do.
@@ -12,11 +12,11 @@ interface IValueHolder
     /**
      * Creates a new IValueHolder instance for the given value.
      *
-     * @param IField $field
+     * @param IAttribute $attribute
      *
      * @return IValueHolder
      */
-    public static function create(IField $field);
+    public static function create(IAttribute $attribute);
 
     /**
      * Returns the value holder's aggregated value.

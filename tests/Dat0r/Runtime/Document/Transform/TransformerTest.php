@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Document;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
-use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedFieldSpecifications;
+use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedSpecifications;
 use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 
@@ -25,8 +25,8 @@ class TransformerTest extends TestCase
     public function testTransform(DocumentTestProxy $document)
     {
         $transformer = TestTransformer::create();
-        $field_specifications = EmbedFieldSpecifications::create();
-        $transformed_data = $transformer->transform($document, $field_specifications);
+        $spec_container = EmbedSpecifications::create();
+        $transformed_data = $transformer->transform($document, $spec_container);
 
         $this->assertEquals($document->getValue('headline'), $transformed_data['title']);
         $this->assertEquals($document->getValue('author'), $transformed_data['author']);

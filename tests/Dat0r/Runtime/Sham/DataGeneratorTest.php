@@ -25,13 +25,13 @@ class DataGeneratorTest extends TestCase
         $this->assertEquals('Article', $this->module->getName());
         $this->assertEquals(
             11,
-            $this->module->getFields()->getSize(),
-            'Number of fields is unexpected. Please adjust tests if new fields were introduced.'
+            $this->module->getAttributes()->getSize(),
+            'Number of attributes is unexpected. Please adjust tests if new attributes were introduced.'
         );
         $this->assertEquals(
-            $this->module->getFields()->getSize(),
-            count($this->module->getFields()),
-            'Number of fields should be equal independant of used count method.'
+            $this->module->getAttributes()->getSize(),
+            count($this->module->getAttributes()),
+            'Number of attributes should be equal independant of used count method.'
         );
         $this->assertTrue(
             $this->document->isClean(),
@@ -163,7 +163,7 @@ class DataGeneratorTest extends TestCase
     {
         DataGenerator::fill($this->document);
 
-        $this->assertTrue(is_bool($this->document->getValue('enabled')), 'Enabled field should have a boolean value.');
+        $this->assertTrue(is_bool($this->document->getValue('enabled')), 'Enabled attribute should have a boolean value.');
     }
 
     public function testFillDocumentTextCollection()
@@ -177,7 +177,7 @@ class DataGeneratorTest extends TestCase
 
         $this->assertTrue(
             is_array($this->document->getValue('keywords')),
-            'Keywords value should be an array as that field is an instance of TextCollectionField'
+            'Keywords value should be an array as that attribute is an instance of TextCollection'
         );
 
         $this->assertGreaterThanOrEqual(
@@ -193,12 +193,12 @@ class DataGeneratorTest extends TestCase
         $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
         $paragraph_data = $data['paragraph'][0];
 
-        $this->assertArrayHasKey('title', $paragraph_data, 'The Paragraph should have a title field.');
+        $this->assertArrayHasKey('title', $paragraph_data, 'The Paragraph should have a title attribute.');
         $this->assertTrue(!empty($paragraph_data['title']), 'The title of the Paragraph should not be empty.');
-        $this->assertArrayHasKey('content', $paragraph_data, 'The Paragraph should have a content field.');
+        $this->assertArrayHasKey('content', $paragraph_data, 'The Paragraph should have a content attribute.');
     }
 
-    public function testFillDocumentGuessTextFieldEmail()
+    public function testFillDocumentGuessTextEmail()
     {
         DataGenerator::fill($this->document);
 
@@ -211,7 +211,7 @@ class DataGeneratorTest extends TestCase
         $this->assertEquals($email, filter_var($email, FILTER_VALIDATE_EMAIL));
     }
 
-    public function testFillDocumentGuessTextFieldAuthor()
+    public function testFillDocumentGuessTextAuthor()
     {
         DataGenerator::fill(
             $this->document,
@@ -224,7 +224,7 @@ class DataGeneratorTest extends TestCase
         );
     }
 
-    public function testFillDocumentGuessTextFieldAuthorDisabled()
+    public function testFillDocumentGuessTextAuthorDisabled()
     {
         DataGenerator::fill(
             $this->document,
@@ -240,14 +240,14 @@ class DataGeneratorTest extends TestCase
         );
     }
 
-    public function testFillDocumentIgnoreField()
+    public function testFillDocumentIgnoreAttribute()
     {
-        $this->assertEquals(11, $this->module->getFields()->getSize());
-        $excluded_fields = array('author', 'clickCount', 'enabled', 'references');
+        $this->assertEquals(11, $this->module->getAttributes()->getSize());
+        $excluded_attributes = array('author', 'clickCount', 'enabled', 'references');
         DataGenerator::fill(
             $this->document,
             array(
-                DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_fields, array('non_existant'))
+                DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_attributes, array('non_existant'))
             )
         );
 
@@ -256,9 +256,9 @@ class DataGeneratorTest extends TestCase
             'Document has no changes, but should have been filled with fake data.'
         );
         $this->assertEquals(
-            $this->module->getFields()->getSize() - count($excluded_fields),
+            $this->module->getAttributes()->getSize() - count($excluded_attributes),
             count($this->document->getChanges()),
-            count($excluded_fields) . ' fields should have been ignored.'
+            count($excluded_attributes) . ' attributes should have been ignored.'
         );
 
         $this->setExpectedException('\Dat0r\Common\Error\RuntimeException');
@@ -313,7 +313,7 @@ class DataGeneratorTest extends TestCase
         $this->assertArrayHasKey('content', $data);
         $this->assertFalse(
             isset($data['non_existant']),
-            'Returned array should not have a value for the non_existant field.'
+            'Returned array should not have a value for the non_existant attribute.'
         );
     }
 

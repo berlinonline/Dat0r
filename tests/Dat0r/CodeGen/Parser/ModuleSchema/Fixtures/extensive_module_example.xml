@@ -5,58 +5,58 @@
         <document_implementor>\Honeybee\Core\Dat0r\Module</document_implementor>
         <description>The "Topic" module describes an "article like" entity.</description>
         <option name="slug_pattern">{title}-{shortIdentifier}</option>
-        <fields>
-            <field name="title" type="text">
+        <attributes>
+            <attribute name="title" type="text">
                 <description>A "Topic"s title.</description>
                 <option name="mandatory">true</option>
-            </field>
+            </attribute>
 
-            <field name="description" type="textarea">
+            <attribute name="description" type="textarea">
                 <description>A "Topic"s description.</description>
                 <option name="use_richtext">yes</option>
-            </field>
+            </attribute>
 
-            <field name="keywords" type="text-collection">
+            <attribute name="keywords" type="text-collection">
                 <description>Holds a topic's "synonyms" (text-collection)attribute.</description>
-            </field>
+            </attribute>
 
-            <field name="categories" type="reference">
+            <attribute name="categories" type="reference-collection">
                 <description>A "Topic"s category references.</description>
                 <option name="references">
                     <option>Category</option>
                 </option>
-            </field>
+            </attribute>
 
-            <field name="voting_stats" type="aggregate">
+            <attribute name="voting_stats" type="aggregate-collection">
                 <description>Keeps track of the votes a topic has received.</description>
                 <option name="max">1</option>
                 <option name="modules">
                     <option>VotingStats</option>
                 </option>
-            </field>
+            </attribute>
 
-            <field name="location" type="aggregate">
+            <attribute name="location" type="aggregate-collection">
                 <description>Holds an topic's location.</description>
                 <option name="max">1</option>
                 <option name="aggregates">
                     <option>Location</option>
                 </option>
-            </field>
+            </attribute>
 
-            <field name="meta" type="key-value">
+            <attribute name="meta" type="key-value">
                 <description>Holds a set of generic attributes.</description>
                 <option name="constraints">
                     <option name="value_type">dynamic</option>
                 </option>
-            </field>
+            </attribute>
 
-            <field name="workflow_ticket" type="aggregate">
+            <attribute name="workflow_ticket" type="aggregate-collection">
                 <description>Holds the current workflow state.</description>
                 <option name="aggregates">
                     <option>WorkflowTicket</option>
                 </option>
-            </field>
-        </fields>
+            </attribute>
+        </attributes>
     </module_definition>
 
     <aggregate_definitions>
@@ -65,46 +65,46 @@
                 A "Location" describes a concrete adress
                 together with a corresponding geo-point.
             </description>
-            <fields>
-                <field name="street" type="text">
+            <attributes>
+                <attribute name="street" type="text">
                     <description>Holds a location's street.</description>
-                </field>
-                <field name="housenumber" type="text">
+                </attribute>
+                <attribute name="housenumber" type="text">
                     <description>Holds a location's housenumber.</description>
-                </field>
-                <field name="postal_code" type="text">
+                </attribute>
+                <attribute name="postal_code" type="text">
                     <description>Holds a location's postal code.</description>
-                </field>
-                <field name="city" type="text">
+                </attribute>
+                <attribute name="city" type="text">
                     <description>Holds a location's city.</description>
-                </field>
-                <field name="lon" type="integer">
+                </attribute>
+                <attribute name="lon" type="number">
                     <description>Holds a location's longitude value.</description>
                     <option name="precision">float</option>
-                </field>
-                <field name="lat" type="integer">
+                </attribute>
+                <attribute name="lat" type="number">
                     <description>Holds a location's latitude value.</description>
                     <option name="precision">float</option>
-                </field>
-            </fields>
+                </attribute>
+            </attributes>
         </aggregate_definition>
 
         <aggregate_definition name="VotingStats">
             <description>
                 Aggregates information on the number of votes, a max(global) score and average voting.
             </description>
-            <fields>
-                <field name="average_score" type="integer">
+            <attributes>
+                <attribute name="average_score" type="number">
                     <description>Holds an average voting score ('global score' / 'number of votes').</description>
                     <option name="precision">float</option>
-                </field>
-                <field name="global_score" type="integer">
+                </attribute>
+                <attribute name="global_score" type="number">
                     <description>Holds the sum of all votings that have taken place.</description>
-                </field>
-                <field name="voting_count" type="integer">
+                </attribute>
+                <attribute name="voting_count" type="number">
                     <description>Holds the number of votes that have taken place.</description>
-                </field>
-            </fields>
+                </attribute>
+            </attributes>
         </aggregate_definition>
 
         <aggregate_definition name="WorkflowTicket">
@@ -112,60 +112,60 @@
             <description>
                 A "WorkflowTicket" reflects the current state of an document's workflow.
             </description>
-            <fields>
-                <field name="workflow_name" type="text">
+            <attributes>
+                <attribute name="workflow_name" type="text">
                     <description>Holds the name of the related workflow.</description>
-                </field>
-                <field name="workflow_step" type="text">
+                </attribute>
+                <attribute name="workflow_step" type="text">
                     <description>Holds the current step's name, being the cursor for the workflow execution.</description>
-                </field>
-                <field name="owner" type="text">
+                </attribute>
+                <attribute name="owner" type="text">
                     <description>Holds the name of the user currently owning the item.</description>
-                </field>
-                <field name="blocked" type="boolean">
+                </attribute>
+                <attribute name="blocked" type="boolean">
                     <description>Tells whether we are currently open to workflow executions or not.</description>
-                </field>
-                <field name="step_counts" type="key-value">
+                </attribute>
+                <attribute name="step_counts" type="key-value">
                     <description>Tracks the number of executions of workflow steps.</description>
                     <option name="constraints">
                         <option name="value_type">integer</option>
                     </option>
-                </field>
-                <field name="wait_until" type="text">
+                </attribute>
+                <attribute name="wait_until" type="text">
                     <description>Holds a iso8601 date at which the workflow will be continued.</description>
-                </field>
-                <field name="last_result" type="aggregate">
+                </attribute>
+                <attribute name="last_result" type="aggregate-collection">
                     <description>Holds the result of the latest workflow execution.</description>
                     <option name="aggregate_modules">
                         <option>PluginResult</option>
                     </option>
-                </field>
-            </fields>
+                </attribute>
+            </attributes>
         </aggregate_definition>
 
         <aggregate_definition name="PluginResult">
             <description>
                 A "PluginResult" reflects the result of the latest workflow execution.
             </description>
-            <fields>
-                <field name="state" type="integer">
+            <attributes>
+                <attribute name="state" type="number">
                     <description>Holds a success/error code representing a certain state.</description>
-                </field>
-                <field name="gate" type="text">
+                </attribute>
+                <attribute name="gate" type="text">
                     <description>Holds the name of the gate to use when proceeding.</description>
-                </field>
-                <field name="message" type="text">
+                </attribute>
+                <attribute name="message" type="text">
                     <description>Holds an optional message that accompanies the state code.</description>
-                </field>
-            </fields>
+                </attribute>
+            </attributes>
         </aggregate_definition>
     </aggregate_definitions>
 
     <reference_definition name="Category">
         <option name="module">\Honeybee\Domain\Category\CategoryModule</option>
-        <option name="id_field">identifier</option>
-        <fields>
-            <field name="name" type="text" />
-        </fields>
+        <option name="id_attribute">identifier</option>
+        <attributes>
+            <attribute name="name" type="text" />
+        </attributes>
     </reference_definition>
 </module_schema>

@@ -4,8 +4,8 @@ namespace Dat0r\Runtime\ValueHolder\Type;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\Type\KeyValuesCollectionField;
+use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\Type\KeyValuesCollection;
 
 /**
  * Default IValueHolder implementation used for key-values collection value containment.
@@ -158,7 +158,7 @@ class KeyValuesCollectionValueHolder extends ValueHolder
 
     protected function getValueTypeConstraint()
     {
-        $constraints = $this->getField()->getOption(KeyValuesCollectionField::OPT_VALUE_CONSTRAINT, array());
+        $constraints = $this->getAttribute()->getOption(KeyValuesCollection::OPT_VALUE_CONSTRAINT, array());
         $value_type = 'dynamic';
 
         if (isset($constraints['value_type'])) {

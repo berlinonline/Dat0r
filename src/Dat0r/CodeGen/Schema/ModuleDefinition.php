@@ -16,11 +16,11 @@ class ModuleDefinition extends Object
 
     protected $options;
 
-    protected $fields;
+    protected $attributes;
 
     public function __construct()
     {
-        $this->fields = FieldDefinitionList::create();
+        $this->attributes = AttributeDefinitionList::create();
         $this->options = OptionDefinitionList::create();
     }
 
@@ -49,8 +49,8 @@ class ModuleDefinition extends Object
         return $this->options;
     }
 
-    public function getFields()
+    public function getAttributes()
     {
-        return $this->fields;
+        return $this->attributes;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Runtime\Module\Fixtures;
 
-use Dat0r\Runtime\Field\Type\TextField;
-use Dat0r\Runtime\Field\Type\TextareaField;
+use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Type\Textarea;
 use Dat0r\Runtime\Module\ReferenceModule;
 
 class CategoryModule extends ReferenceModule
@@ -13,8 +13,8 @@ class CategoryModule extends ReferenceModule
         parent::__construct(
             'Category',
             array(
-                new TextField('title'),
-                new TextareaField('description')
+                new Text('title'),
+                new Textarea('description')
             )
         );
     }

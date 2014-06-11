@@ -9,7 +9,7 @@ use Dat0r\Common\Collection\CollectionChangedEvent;
 use Dat0r\Runtime\Document\DocumentList;
 use Dat0r\Runtime\Document\IDocumentChangedListener;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
-use Dat0r\Runtime\Field\IField;
+use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
@@ -18,11 +18,11 @@ use Dat0r\Runtime\Validator\Result\IIncident;
 abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedListener
 {
     /**
-     * Holds field which's data we are handling.
+     * Holds attribute which's data we are handling.
      *
-     * @var IField $field
+     * @var IAttribute $attribute
      */
-    private $field;
+    private $attribute;
 
     /**
      * Holds the valueholder's current value.
@@ -41,23 +41,23 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     /**
      * Creates a new IValueHolder instance from a given value.
      *
-     * @param IField $field
+     * @param IAttribute $attribute
      *
      * @return IValueHolder
      */
-    public static function create(IField $field)
+    public static function create(IAttribute $attribute)
     {
-        return new static($field);
+        return new static($attribute);
     }
 
     /**
-     * Contructs a new valueholder instance, that is dedicated to the given field.
+     * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
-     * @param IField $field
+     * @param IAttribute $attribute
      */
-    public function __construct(IField $field)
+    public function __construct(IAttribute $attribute)
     {
-        $this->field = $field;
+        $this->attribute = $attribute;
         $this->listeners = new ValueChangedListenerList();
     }
 
@@ -80,8 +80,8 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     public function setValue($value)
     {
-        $field_validator = $this->getField()->getValidator();
-        $validation_result = $field_validator->validate($value);
+        $attribute_validator = $this->getAttribute()->getValidator();
+        $validation_result = $attribute_validator->validate($value);
 
         if ($validation_result->getSeverity() <= IIncident::NOTICE) {
             $previous_value = $this->value;
@@ -121,7 +121,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     public function isValueNull()
     {
-        return $this->value === $this->field->getNullValue();
+        return $this->value === $this->attribute->getNullValue();
     }
 
     /**
@@ -173,7 +173,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
         $this->propagateValueChangedEvent(
             ValueChangedEvent::create(
                 array(
-                    'field' => $value_changed_event->getField(),
+                    'attribute' => $value_changed_event->getAttribute(),
                     'prev_value' => $value_changed_event->getOldValue(),
                     'value' => $value_changed_event->getNewValue(),
                     'aggregate_event' => $event
@@ -183,13 +183,13 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     }
 
     /**
-     * Returns the field that we are handling the data for.
+     * Returns the attribute that we are handling the data for.
      *
-     * @return IField
+     * @return IAttribute
      */
-    protected function getField()
+    protected function getAttribute()
     {
-        return $this->field;
+        return $this->attribute;
     }
 
     /**
@@ -214,7 +214,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     {
         return ValueChangedEvent::create(
             array(
-                'field' => $this->getField(),
+                'attribute' => $this->getAttribute(),
                 'prev_value' => $prev_value,
                 'value' => $this->value,
                 'aggregate_event' => $event

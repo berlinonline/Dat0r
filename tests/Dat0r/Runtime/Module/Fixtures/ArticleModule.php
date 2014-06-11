@@ -3,14 +3,14 @@
 namespace Dat0r\Tests\Runtime\Module\Fixtures;
 
 use Dat0r\Runtime\Module\RootModule;
-use Dat0r\Runtime\Field\Type\TextField;
-use Dat0r\Runtime\Field\Type\TextCollectionField;
-use Dat0r\Runtime\Field\Type\IntegerField;
-use Dat0r\Runtime\Field\Type\IntegerCollectionField;
-use Dat0r\Runtime\Field\Type\BooleanField;
-use Dat0r\Runtime\Field\Type\AggregateField;
-use Dat0r\Runtime\Field\Type\ReferenceField;
-use Dat0r\Runtime\Field\Type\KeyValueField;
+use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Type\TextCollection;
+use Dat0r\Runtime\Attribute\Type\Number;
+use Dat0r\Runtime\Attribute\Type\NumberCollection;
+use Dat0r\Runtime\Attribute\Type\Boolean;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\Type\KeyValue;
 
 class ArticleModule extends RootModule
 {
@@ -19,27 +19,27 @@ class ArticleModule extends RootModule
         parent::__construct(
             'Article',
             array(
-                new TextField('headline', array('min' => 4)),
-                new TextField('content'),
-                new IntegerField('clickCount'),
-                new TextField('author'),
-                new TextField('email'),
-                new IntegerCollectionField('images'),
-                new TextCollectionField('keywords'),
-                new BooleanField('enabled'),
-                new AggregateField(
+                new Text('headline', array('min' => 4)),
+                new Text('content'),
+                new Number('clickCount'),
+                new Text('author'),
+                new Text('email'),
+                new NumberCollection('images'),
+                new TextCollection('keywords'),
+                new Boolean('enabled'),
+                new AggregateCollection(
                     'paragraph',
                     array(
                         'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
                     )
                 ),
-                new ReferenceField(
+                new ReferenceCollection(
                     'references',
                     array(
                         'references' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\CategoryModule'),
                     )
                 ),
-                new KeyValueField(
+                new KeyValue(
                     'meta',
                     array(
                         'constraints' => array('value_type' => 'dynamic',),

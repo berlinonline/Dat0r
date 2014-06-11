@@ -6,11 +6,11 @@ use Dat0r\Common\Object;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Document\IDocument;
-use Dat0r\Runtime\Field\Type\AggregateField;
-use Dat0r\Runtime\Field\Type\ReferenceField;
-use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\FieldMap;
-use Dat0r\Runtime\Field\FieldPath;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeMap;
+use Dat0r\Runtime\Attribute\AttributePath;
 
 /**
  * Base class that all Dat0r modules should extend.
@@ -32,14 +32,14 @@ abstract class Module extends Object implements IModule
     protected $parent;
 
     /**
-     * Holds the module's fields.
+     * Holds the module's attribute map.
      *
-     * @var FieldMap $fields
+     * @var AttributeMap $attribute_map
      */
-    protected $fields;
+    protected $attribute_map;
 
     /**
-     * Holds the field'S options.
+     * Holds the module's options.
      *
      * @var array $options
      */
@@ -63,17 +63,17 @@ abstract class Module extends Object implements IModule
      * Constructs a new Module.
      *
      * @param string $name
-     * @param array $fields
+     * @param array $attribute_map
      */
-    public function __construct($name, array $fields = array(), array $options = array())
+    public function __construct($name, array $attribute_map = array(), array $options = array())
     {
         $this->name = $name;
         $this->options = $options;
 
-        $this->fields = new FieldMap($this, $this->getDefaultFields());
+        $this->attribute_map = new AttributeMap($this, $this->getDefaultAttributes());
 
-        foreach ($fields as $field) {
-            $this->fields->setItem($field->getName(), $field);
+        foreach ($attribute_map as $attribute) {
+            $this->attribute_map->setItem($attribute->getName(), $attribute);
         }
     }
 
@@ -136,54 +136,54 @@ abstract class Module extends Object implements IModule
     }
 
     /**
-     * Returns the module's field collection.
+     * Returns the module's attribute collection.
      *
-     * @param array $fieldnames A list of fieldnames to filter for.
+     * @param array $attribute_names A list of attribute_names to filter for.
      *
-     * @return FieldMap
+     * @return AttributeMap
      */
-    public function getFields(array $fieldnames = array(), array $types = array())
+    public function getAttributes(array $attribute_names = array(), array $types = array())
     {
-        $fields = array();
+        $attribute_map = array();
 
-        if (empty($fieldnames)) {
-            $fields = $this->fields->toArray();
+        if (empty($attribute_names)) {
+            $attribute_map = $this->attribute_map->toArray();
         } else {
-            foreach ($fieldnames as $fieldname) {
-                $fields[$fieldname] = $this->getField($fieldname);
+            foreach ($attribute_names as $attribute_name) {
+                $attribute_map[$attribute_name] = $this->getAttribute($attribute_name);
             }
         }
 
         if (!empty($types)) {
-            $fields = array_filter(
-                $fields,
-                function ($field) use ($types) {
-                    return in_array(get_class($field), $types);
+            $attribute_map = array_filter(
+                $attribute_map,
+                function ($attribute) use ($types) {
+                    return in_array(get_class($attribute), $types);
                 }
             );
         }
 
-        return new FieldMap($this, $fields);
+        return new AttributeMap($this, $attribute_map);
     }
 
     /**
-     * Returns a certain module field by name.
+     * Returns a certain module attribute by name.
      *
      * @param string $name
      *
-     * @return IField
+     * @return IAttribute
      *
-     * @throws InvalidFieldException
+     * @throws RuntimeException
      */
-    public function getField($name)
+    public function getAttribute($name)
     {
         if (mb_strpos($name, '.')) {
-            return $this->getFieldByPath($name);
+            return $this->getAttributeByPath($name);
         }
-        if (($field = $this->fields->getItem($name))) {
-            return $field;
+        if (($attribute = $this->attribute_map->getItem($name))) {
+            return $attribute;
         } else {
-            throw new RuntimeException("Module has no field: " . $name);
+            throw new RuntimeException("Module has no attribute: " . $name);
         }
     }
 
@@ -235,18 +235,18 @@ abstract class Module extends Object implements IModule
         return array_key_exists($name, $this->options);
     }
 
-    public function getDefaultFieldnames()
+    public function getDefaultAttributeNames()
     {
-        return array_keys($this->getDefaultFields());
+        return array_keys($this->getDefaultAttributes());
     }
 
-    protected function getDefaultFields()
+    protected function getDefaultAttributes()
     {
         return array();
     }
 
-    protected function getFieldByPath($field_path)
+    protected function getAttributeByPath($attribute_path)
     {
-        return FieldPath::getFieldByPath($this, $field_path);
+        return AttributePath::getAttributeByPath($this, $attribute_path);
     }
 }

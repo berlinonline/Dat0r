@@ -1,12 +1,12 @@
 <?php
 namespace Dat0r\Runtime\Module;
 
-use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\FieldMap;
+use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Document\IDocument;
 
 /**
- * IModules define data structures by composing property related strategies named IField,
+ * IModules define data structures by composing property related strategies named IAttribute,
  * to derive concrete instances of the defined data structures in form of IDocument's.
  */
 interface IModule
@@ -33,22 +33,23 @@ interface IModule
     public function setParent(IModule $parent);
 
     /**
-     * Returns the module's field collection.
+     * Returns the module's attribute map.
      *
-     * @param array $fieldnames A list of fieldnames to filter for.
+     * @param array $attribute_names Optional list of attribute names to filter for.
+     * @param array $types Optional list of attribute types to filter for.
      *
-     * @return FieldMap
+     * @return AttributeMap
      */
-    public function getFields(array $fieldnames = array(), array $types = array());
+    public function getAttributes(array $attribute_names = array(), array $types = array());
 
     /**
-     * Returns a certain module field by name.
+     * Returns a certain module attribute by name.
      *
      * @param string $name
      *
-     * @return IField
+     * @return IAttribute
      */
-    public function getField($name);
+    public function getAttribute($name);
 
     /**
      * Creates a new IDocument instance.

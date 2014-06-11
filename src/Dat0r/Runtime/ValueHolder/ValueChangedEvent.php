@@ -4,31 +4,31 @@ namespace Dat0r\Runtime\ValueHolder;
 
 use Dat0r\Common\IEvent;
 use Dat0r\Common\Object;
-use Dat0r\Runtime\Field\IField;
+use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 
 /**
  * ValueChangedEvent(s) reflect state changes to a document's underlying ValueHolder.
- * These events are fired everytime a document field-value actually changes and can be used
+ * These events are fired everytime a document attribute-value actually changes and can be used
  * to track state changes over time.
  */
 class ValueChangedEvent extends Object implements IEvent
 {
     /**
-     * Holds the event's field origin.
-     * @var IField
+     * Holds the event's attribute origin.
+     * @var IAttribute
      */
-    protected $field;
+    protected $attribute;
 
     /**
-     * Holds the previous value of our field origin.
+     * Holds the previous value of our attribute origin.
      *
      * @var mixed $prev_value
      */
     protected $prev_value;
 
     /**
-     * Holds the new value of our field origin.
+     * Holds the new value of our attribute origin.
      *
      * @var mixed $value
      */
@@ -51,7 +51,7 @@ class ValueChangedEvent extends Object implements IEvent
     /**
      * Constructs a new ValueChangedEvent instance.
      *
-     * @param DocumentChangedEvent $aggregate_event If the origin field is an aggregate, the bubbled event is passed
+     * @param DocumentChangedEvent $aggregate_event If the origin attribute is an aggregate, the bubbled event is passed
      */
     protected function __construct()
     {
@@ -59,17 +59,17 @@ class ValueChangedEvent extends Object implements IEvent
     }
 
     /**
-     * Returns the event's affected field.
+     * Returns the event's affected attribute.
      *
-     * @return IField
+     * @return IAttribute
      */
-    public function getField()
+    public function getAttribute()
     {
-        return $this->field;
+        return $this->attribute;
     }
 
     /**
-     * Returns the previous value of the event's related field.
+     * Returns the previous value of the event's related attribute.
      *
      * @return IValueHolder
      */
@@ -79,7 +79,7 @@ class ValueChangedEvent extends Object implements IEvent
     }
 
     /**
-     * Returns the new value of the event's related field.
+     * Returns the new value of the event's related attribute.
      *
      * @return IValueHolder
      */
@@ -99,7 +99,7 @@ class ValueChangedEvent extends Object implements IEvent
     }
 
     /**
-     * If the originating field is an aggregate field,
+     * If the originating attribute is an aggregate attribute,
      * this method returns an aggregated document's underlying value changed event.
      *
      * @return ValueChangedEvent
@@ -117,14 +117,14 @@ class ValueChangedEvent extends Object implements IEvent
     public function __toString()
     {
         $string_representation = sprintf(
-            "The `%s` field's value changed from '%s' to '%s'",
-            $this->getField()->getName(),
+            "The `%s` attribute's value changed from '%s' to '%s'",
+            $this->getAttribute()->getName(),
             $this->getOldValue(),
             $this->getNewValue()
         );
 
         if (($aggregate_event = $this->getAggregateEvent())) {
-            $string_representation .= PHP_EOL . "The actual changed occured upon the field's aggregate though.";
+            $string_representation .= PHP_EOL . "The actual changed occured upon the attribute's aggregate though.";
             $string_representation .= PHP_EOL . $aggregate_event;
         }
 

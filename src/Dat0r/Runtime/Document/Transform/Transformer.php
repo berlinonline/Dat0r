@@ -13,14 +13,14 @@ class Transformer extends Configurable implements ITransformer
      *
      * @return array
      */
-    public function transform(IDocument $document, IFieldSpecifications $field_specs)
+    public function transform(IDocument $document, ISpecificationContainer $spec_container)
     {
-        $specifications_map = $field_specs->getFieldSpecificationMap();
+        $specification_map = $spec_container->getSpecificationMap();
         $transformation = Transformation::create();
 
         $transformed_data = array();
-        foreach ($specifications_map as $output_key => $field_specification) {
-            $transformed_data[$output_key] = $transformation->apply($document, $field_specification);
+        foreach ($specification_map as $output_key => $specification) {
+            $transformed_data[$output_key] = $transformation->apply($document, $specification);
         }
 
         return $transformed_data;
@@ -32,15 +32,15 @@ class Transformer extends Configurable implements ITransformer
      *
      * @return void
      */
-    public function transformBack(array $data, IDocument $document, IFieldSpecifications $field_specs)
+    public function transformBack(array $data, IDocument $document, ISpecificationContainer $spec_container)
     {
-        $field_specification_map = $field_specs->getFieldSpecificationMap();
+        $specification_map = $spec_container->getSpecificationMap();
         $transformation = Transformation::create();
 
         $transformed_data = array();
-        foreach ($field_specification_map as $output_key => $field_specification) {
+        foreach ($specification_map as $output_key => $specification) {
             if (array_key_exists($data, $output_key)) {
-                $transformation->revert($document, $field_specification, $data[$output_key]);
+                $transformation->revert($document, $specification, $data[$output_key]);
             }
         }
     }

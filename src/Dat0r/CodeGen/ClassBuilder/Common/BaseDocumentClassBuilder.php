@@ -26,38 +26,38 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
 
     protected function getTemplateVars()
     {
-        $document_class_vars = array('fields' => $this->prepareFieldsData());
+        $document_class_vars = array('attributes' => $this->prepareAttributeData());
 
         return array_merge(parent::getTemplateVars(), $document_class_vars);
     }
 
-    protected function prepareFieldsData()
+    protected function prepareAttributeData()
     {
-        $fields_data = array();
+        $attributes_data = array();
 
-        foreach ($this->module_definition->getFields() as $field_definition) {
-            $fieldname = $field_definition->getName();
+        foreach ($this->module_definition->getAttributes() as $attribute_definition) {
+            $attributename = $attribute_definition->getName();
 
-            $fieldname_studlycaps = preg_replace_callback(
+            $attributename_studlycaps = preg_replace_callback(
                 '/(?:^|_)(.?)/',
                 function ($matches) {
                     return strtoupper($matches[1]);
                 },
-                $fieldname
+                $attributename
             );
 
-            $field_getter = 'get' . $fieldname_studlycaps;
-            $field_setter = 'set' . $fieldname_studlycaps;
+            $attribute_getter = 'get' . $attributename_studlycaps;
+            $attribute_setter = 'set' . $attributename_studlycaps;
 
-            $fields_data[] = array(
-                'name' => $fieldname,
-                'description' => $field_definition->getDescription(),
-                'setter' => $field_setter,
-                'getter' => $field_getter,
+            $attributes_data[] = array(
+                'name' => $attributename,
+                'description' => $attribute_definition->getDescription(),
+                'setter' => $attribute_setter,
+                'getter' => $attribute_getter,
                 'php_type' => 'mixed' // @todo map to php-type
             );
         }
 
-        return $fields_data;
+        return $attributes_data;
     }
 }

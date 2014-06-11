@@ -10,7 +10,7 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 
 /**
  * An IDocument is a generic container for structured data.
- * It provides access to values on a per field base.
+ * It provides access to values on a per attribute base.
  */
 interface IDocument
 {
@@ -29,47 +29,47 @@ interface IDocument
     public function setParent(IDocument $parent);
 
     /**
-     * Sets a specific value by fieldname.
+     * Sets a specific value by attribute_name.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      * @param mixed $value
      */
-    public function setValue($fieldname, $value);
+    public function setValue($attribute_name, $value);
 
     /**
-     * Batch set a given list of field values.
+     * Batch set a given list of attribute values.
      *
      * @param array $values
      */
     public function setValues(array $values);
 
     /**
-     * Returns the value for a specific field.
+     * Returns the value for a specific attribute.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      *
      * @return mixed
      */
-    public function getValue($fieldname);
+    public function getValue($attribute_name);
 
     /**
-     * Tells if the document has a value set for a given field.
+     * Tells if the document has a value set for a given attribute.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      *
      * @return boolean
      */
-    public function hasValue($fieldname);
+    public function hasValue($attribute_name);
 
     /**
-     * Returns the values of all our fields or a just specific field subset,
-     * that can be defined by the optional '$fieldnames' parameter.
+     * Returns the values of all our attributes or a just specific attribute subset,
+     * that can be defined by the optional '$attribute_names' parameter.
      *
-     * @param array $fieldnames
+     * @param array $attribute_names
      *
      * @return array
      */
-    public function getValues(array $fieldnames = array());
+    public function getValues(array $attribute_names = array());
 
     /**
      * Returns an array representation of a document's current value state.
@@ -90,7 +90,7 @@ interface IDocument
 
     /**
      * Returns the validation results of a prior call to setValue(s).
-     * There will be a result for each affected field.
+     * There will be a result for each affected attribute.
      *
      * @return ResultMap
      */

@@ -7,8 +7,8 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\Module\IModule;
-use Dat0r\Runtime\Field\Type\ReferenceField;
-use Dat0r\Runtime\Field\Type\AggregateField;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\ValueHolderMap;
 use Dat0r\Runtime\ValueHolder\IValueChangedListener;
@@ -38,8 +38,8 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     protected $parent;
 
     /**
-     * There is a IValueHolder instance for each IField of our module.
-     * The '$value_holders' property maps fieldnames to their dedicated valueholder instance
+     * There is a IValueHolder instance for each IAttribute of our module.
+     * The '$value_holders' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
      * @var ValueHolderMap $value_holders
@@ -63,8 +63,8 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
 
     /**
      * Always holds the validation results for a prior setValue(s) invocation.
-     * The results are held as a map where particular results can be accessed by fieldname.
-     * There will be a result for every field affected by a setValue(s) call.
+     * The results are held as a map where particular results can be accessed by attribute_name.
+     * There will be a result for every attribute affected by a setValue(s) call.
      *
      * @var ResultMap $validation_results
      */
@@ -81,11 +81,11 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         $this->module = $module;
         $this->listeners = new DocumentChangedListenerList();
         $this->changes = new ValueChangedEventList();
-        // Setup a map of IValueHolder specific to our module's fields.
+        // Setup a map of IValueHolder specific to our module's attributes.
         // they hold the actual document data.
         $this->value_holders = new ValueHolderMap();
-        foreach ($module->getFields() as $fieldname => $field) {
-            $this->value_holders->setItem($fieldname, $field->createValueHolder());
+        foreach ($module->getAttributes() as $attribute_name => $attribute) {
+            $this->value_holders->setItem($attribute_name, $attribute->createValueHolder());
         }
         // Hydrate initial data ...
         $this->hydrate($data);
@@ -120,63 +120,63 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     }
 
     /**
-     * Sets a specific value by fieldname.
+     * Sets a specific value by attribute_name.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      * @param mixed $value
      */
-    public function setValue($fieldname, $value)
+    public function setValue($attribute_name, $value)
     {
         $this->validation_results = new ResultMap();
-        $value_holder = $this->value_holders->getItem($fieldname);
+        $value_holder = $this->value_holders->getItem($attribute_name);
         if (!$value_holder) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
+                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
-        $this->validation_results->setItem($fieldname, $value_holder->setValue($value));
+        $this->validation_results->setItem($attribute_name, $value_holder->setValue($value));
 
         return $this->isValid();
     }
 
     /**
-     * Batch set a given list of field values.
+     * Batch set a given list of attribute values.
      *
      * @param array $values
      */
     public function setValues(array $values)
     {
         // '$validation_results' is used to collect all particular validation results,
-        // that are created each time we invoke '$this->setValue' for a given field value.
-        $field_validation_results = new ResultMap();
-        foreach ($this->module->getFields()->getKeys() as $fieldname) {
-            if (array_key_exists($fieldname, $values)) {
-                $this->setValue($fieldname, $values[$fieldname]);
-                // memoize the current field validation result, after the prior call to setValue.
-                $field_validation_results->setItem(
-                    $fieldname,
-                    $this->validation_results->getItem($fieldname)
+        // that are created each time we invoke '$this->setValue' for a given attribute value.
+        $attribute_validation_results = new ResultMap();
+        foreach ($this->module->getAttributes()->getKeys() as $attribute_name) {
+            if (array_key_exists($attribute_name, $values)) {
+                $this->setValue($attribute_name, $values[$attribute_name]);
+                // memoize the current attribute validation result, after the prior call to setValue.
+                $attribute_validation_results->setItem(
+                    $attribute_name,
+                    $this->validation_results->getItem($attribute_name)
                 );
             }
         }
-        $this->validation_results = $field_validation_results;
+        $this->validation_results = $attribute_validation_results;
 
         return $this->isValid();
     }
 
     /**
-     * Returns the value for a specific field.
+     * Returns the value for a specific attribute.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      *
      * @return mixed
      */
-    public function getValue($fieldname)
+    public function getValue($attribute_name)
     {
-        $value_holder = $this->value_holders->getItem($fieldname);
+        $value_holder = $this->value_holders->getItem($attribute_name);
         if (!$value_holder) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
+                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
@@ -184,18 +184,18 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     }
 
     /**
-     * Tells if the document has a value set for a given field.
+     * Tells if the document has a value set for a given attribute.
      *
-     * @param string $fieldname
+     * @param string $attribute_name
      *
      * @return boolean
      */
-    public function hasValue($fieldname)
+    public function hasValue($attribute_name)
     {
-        $value_holder = $this->value_holders->getItem($fieldname);
+        $value_holder = $this->value_holders->getItem($attribute_name);
         if (!$value_holder) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for field: '" . $fieldname . "'. Invalid fieldname?"
+                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
@@ -203,23 +203,23 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     }
 
     /**
-     * Returns the values of all our fields or a just specific field subset,
-     * that can be defined by the optional '$fieldnames' parameter.
+     * Returns the values of all our attributes or a just specific attribute subset,
+     * that can be defined by the optional '$attribute_names' parameter.
      *
-     * @param array $fieldnames
+     * @param array $attribute_names
      *
      * @return array
      */
-    public function getValues(array $fieldnames = array())
+    public function getValues(array $attribute_names = array())
     {
         $values = array();
-        if (!empty($fieldnames)) {
-            foreach ($fieldnames as $fieldname) {
-                $values[$fieldname] = $this->getValue($fieldname);
+        if (!empty($attribute_names)) {
+            foreach ($attribute_names as $attribute_name) {
+                $values[$attribute_name] = $this->getValue($attribute_name);
             }
         } else {
-            foreach ($this->getModule()->getFields() as $field) {
-                $values[$field->getName()] = $this->getValue($field->getName());
+            foreach ($this->getModule()->getAttributes() as $attribute) {
+                $values[$attribute->getName()] = $this->getValue($attribute->getName());
             }
         }
 
@@ -234,12 +234,12 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     public function toArray()
     {
         $values = array();
-        foreach ($this->getModule()->getFields() as $field) {
-            $value = $this->getValue($field->getName());
+        foreach ($this->getModule()->getAttributes() as $attribute) {
+            $value = $this->getValue($attribute->getName());
             if ($value instanceof Object) {
-                $values[$field->getName()] = $value->toArray();
+                $values[$attribute->getName()] = $value->toArray();
             } else {
-                $values[$field->getName()] = $value;
+                $values[$attribute->getName()] = $value;
             }
         }
         $values[self::OBJECT_TYPE] = get_class($this);
@@ -262,9 +262,9 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         }
 
         $is_equal = true;
-        foreach ($this->getModule()->getFields()->getKeys() as $fieldname) {
-            $value_holder = $this->value_holders->getItem($fieldname);
-            if (!$value_holder->isValueEqualTo($document->getValue($fieldname))) {
+        foreach ($this->getModule()->getAttributes()->getKeys() as $attribute_name) {
+            $value_holder = $this->value_holders->getItem($attribute_name);
+            if (!$value_holder->isValueEqualTo($document->getValue($attribute_name))) {
                 $is_equal = false;
                 break;
             }
@@ -275,7 +275,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
 
     /**
      * Returns the validation results of a prior call to setValue(s).
-     * There will be a result for each affected field.
+     * There will be a result for each affected attribute.
      *
      * @return ResultMap
      */

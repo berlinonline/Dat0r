@@ -13,7 +13,7 @@ abstract class TypedMap extends Map
     {
         if ($this instanceof IUniqueCollection && $this->hasKey($offset)) {
             throw new BadValueException(
-                "Field '". $offset ."' already exists in this collection. "
+                "Attribute '". $offset ."' already exists in this collection. "
                 . "Rule-names are required to be unique per map instance."
             );
         }

@@ -12,7 +12,7 @@
  * class '{{ class_name }}'. Modifications to the skeleton
  * file will prevail any subsequent class generation runs.
  *
- * To define new fields or adjust existing fields and their
+ * To define new attributes or adjust existing attributes and their
  * default options modify the schema definition file of
  * the '{{ module_name }}' module.
  *
@@ -26,12 +26,12 @@ use {{ parent_implementor }};
 /**
  * Serves as the base class to the '{{ module_name }}' document skeleton.
  *
- * This class contains definitions for fields and their options available
+ * This class contains definitions for attributes and their options available
  * on '{{ class_name }}' instances. Modifications to getters and setters
  * as well as new additional helper methods should not be placed in here,
  * but be implemented within the skeleton class '{{ class_name }}'.
  *
- * Fields can have default and null values set via their options. The keys
+ * Attributes can have default and null values set via their options. The keys
  * are named 'default_value' and 'null_value' respectively.
  *
  * This class extends the '{{ parent_class_name }}' class to get the change events and
@@ -39,34 +39,34 @@ use {{ parent_implementor }};
  */
 abstract class {{ class_name }} extends {{ parent_class_name }}
 {
-{%- for field in fields %}
+{%- for attribute in attributes %}
 
     /**
-     * Returns the current value of the '{{ field.name }}' field on this
+     * Returns the current value of the '{{ attribute.name }}' attribute on this
      * '{{ module_name }}' document. The 'default_value' option set for
-     * this field is returned if no value was set. If neither a value nor
+     * this attribute is returned if no value was set. If neither a value nor
      * default value was set the 'null_value' option value is returned.
      *
-     * @return {{ field.php_type }} Value or default value of field '{{ field.name }}'. Null value otherwise (defaults to NULL).
+     * @return {{ attribute.php_type }} Value or default value of attribute '{{ attribute.name }}'. Null value otherwise (defaults to NULL).
      */
-    public function {{ field.getter }}()
+    public function {{ attribute.getter }}()
     {
-        return $this->getValue('{{ field.name }}');
+        return $this->getValue('{{ attribute.name }}');
     }
 
     /**
-     * Sets the value of the '{{ field.name }}' field on
+     * Sets the value of the '{{ attribute.name }}' attribute on
      * this '{{ module_name }}' document and returns whether
      * this document is still valid after setting the given
      * value on it.
      *
-     * @param {{ field.php_type }} ${{ field.name }} {{ field.description|join(' ') }}
+     * @param {{ attribute.php_type }} ${{ attribute.name }} {{ attribute.description|join(' ') }}
      *
      * @return boolean True, if the '{{ module_name }}' document instance is still valid. False otherwise.
      */
-    public function {{ field.setter }}(${{ field.name }})
+    public function {{ attribute.setter }}(${{ attribute.name }})
     {
-        return $this->setValue('{{ field.name }}', ${{ field.name }});
+        return $this->setValue('{{ attribute.name }}', ${{ attribute.name }});
     }
 {% endfor %}
 }

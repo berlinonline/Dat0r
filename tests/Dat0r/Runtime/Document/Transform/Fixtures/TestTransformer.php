@@ -5,9 +5,6 @@ namespace Dat0r\Tests\Runtime\Document\Transform\Fixtures;
 use Dat0r\Tests\TestCase;
 use Dat0r\Common\Options;
 use Dat0r\Runtime\Document\Transform\Transformer;
-use Dat0r\Runtime\Document\Transform\FieldSpecifications;
-use Dat0r\Runtime\Document\Transform\FieldSpecificationMap;
-use Dat0r\Runtime\Document\Transform\FieldSpecification;
 
 /**
  * An Transformer base implementation as would be created by the code-generation.

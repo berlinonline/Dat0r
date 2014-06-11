@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Common;
 
-use Dat0r\CodeGen\Schema\FieldDefinition;
+use Dat0r\CodeGen\Schema\AttributeDefinition;
 use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
 class BaseModuleClassBuilder extends ModuleClassBuilder
@@ -30,7 +30,7 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
     protected function getTemplateVars()
     {
         $module_class_vars = array(
-            'fields' => $this->prepareFieldsData(),
+            'attributes' => $this->prepareAttributeData(),
             'document_implementor' => $this->getDocumentImplementor(),
             'module_name' => $this->module_definition->getName(),
             'options' => $this->preRenderOptions($this->module_definition->getOptions(), 12)
@@ -47,46 +47,46 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         );
     }
 
-    protected function prepareFieldsData()
+    protected function prepareAttributeData()
     {
-        $fields_data = array();
+        $attributes_data = array();
 
-        foreach ($this->module_definition->getFields() as $field_definition) {
-            $field_implementor = $field_definition->getImplementor();
+        foreach ($this->module_definition->getAttributes() as $attribute_definition) {
+            $attribute_implementor = $attribute_definition->getImplementor();
 
-            if ($field_definition->getShortName() === 'aggregate') {
-                $this->expandAggregateNamespaces($field_definition);
+            if ($attribute_definition->getShortName() === 'aggregate') {
+                $this->expandAggregateNamespaces($attribute_definition);
             }
-            if ($field_definition->getShortName() === 'reference') {
-                $this->expandReferenceNamespaces($field_definition);
+            if ($attribute_definition->getShortName() === 'reference') {
+                $this->expandReferenceNamespaces($attribute_definition);
             }
 
-            $fieldname = $field_definition->getName();
-            $fieldname_studlycaps = preg_replace_callback(
+            $attributename = $attribute_definition->getName();
+            $attributename_studlycaps = preg_replace_callback(
                 '/(?:^|_)(.?)/',
                 function ($matches) {
                     return strtoupper($matches[1]);
                 },
-                $fieldname
+                $attributename
             );
 
-            $field_getter = 'get' . $fieldname_studlycaps;
-            $field_setter = 'set' . $fieldname_studlycaps;
+            $attribute_getter = 'get' . $attributename_studlycaps;
+            $attribute_setter = 'set' . $attributename_studlycaps;
 
-            $fields_data[] = array(
-                'implementor' => var_export($field_implementor, true),
-                'class_name' => $field_implementor,
-                'name' => $fieldname,
-                'options' => $this->preRenderOptions($field_definition->getOptions(), 20)
+            $attributes_data[] = array(
+                'implementor' => var_export($attribute_implementor, true),
+                'class_name' => $attribute_implementor,
+                'name' => $attributename,
+                'options' => $this->preRenderOptions($attribute_definition->getOptions(), 20)
             );
         }
 
-        return $fields_data;
+        return $attributes_data;
     }
 
-    protected function expandAggregateNamespaces(FieldDefinition $field_definition)
+    protected function expandAggregateNamespaces(AttributeDefinition $attribute_definition)
     {
-        $module_options = $field_definition->getOptions()->filterByName('modules');
+        $module_options = $attribute_definition->getOptions()->filterByName('modules');
         if ($module_options) {
             foreach ($module_options->getValue() as $module_option) {
                 $module_option->setValue(
@@ -101,9 +101,9 @@ class BaseModuleClassBuilder extends ModuleClassBuilder
         }
     }
 
-    protected function expandReferenceNamespaces(FieldDefinition $field_definition)
+    protected function expandReferenceNamespaces(AttributeDefinition $attribute_definition)
     {
-        $reference_options = $field_definition->getOptions()->filterByName('references');
+        $reference_options = $attribute_definition->getOptions()->filterByName('references');
         if ($reference_options) {
             foreach ($reference_options->getValue() as $reference_option) {
                 $reference_option->setValue(

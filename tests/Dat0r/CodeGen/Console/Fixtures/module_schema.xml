@@ -4,46 +4,46 @@
     <module_definition name="SimpleSchema">
         <description>Example schema describing a simple module.</description>
         <option name="some_option">with_some_value</option>
-        <fields>
-            <field name="title" type="text">
-                <description>A title field.</description>
+        <attributes>
+            <attribute name="title" type="text">
+                <description>A title attribute.</description>
                 <option name="mandatory">true</option>
-            </field>
+            </attribute>
 
-            <field name="content" type="textarea">
+            <attribute name="content" type="textarea">
                 <description>A textarea with richtext holding some content.</description>
                 <option name="use_richtext">yes</option>
-            </field>
+            </attribute>
 
-            <field name="keywords" type="text-collection">
+            <attribute name="keywords" type="text-collection">
                 <description>Some keywords that can reflect the content.</description>
-            </field>
+            </attribute>
 
-            <field name="voting_stats" type="aggregate">
+            <attribute name="voting_stats" type="aggregate">
                 <description>Keeps track of the votes a topic has received.</description>
                 <option name="modules">
                     <option>VotingStats</option>
                 </option>
-            </field>
-        </fields>
+            </attribute>
+        </attributes>
     </module_definition>
 
     <aggregate_definition name="VotingStats">
         <description>
             Aggregates information on the number of votes, a max(global) score and average voting.
         </description>
-        <fields>
-            <field name="average_score" type="integer">
+        <attributes>
+            <attribute name="average_score" type="integer">
                 <description>Holds an average voting score ('global score' / 'number of votes').</description>
                 <option name="precision">float</option>
-            </field>
-            <field name="global_score" type="integer">
+            </attribute>
+            <attribute name="global_score" type="integer">
                 <description>Holds the sum of all votings that have taken place.</description>
-            </field>
-            <field name="voting_count" type="integer">
+            </attribute>
+            <attribute name="voting_count" type="integer">
                 <description>Holds the number of votes that have taken place.</description>
-            </field>
-        </fields>
+            </attribute>
+        </attributes>
     </aggregate_definition>
 
 </module_schema>

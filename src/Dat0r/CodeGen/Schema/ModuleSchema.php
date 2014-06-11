@@ -61,9 +61,9 @@ class ModuleSchema extends Object
     public function getUsedAggregateDefinitions(ModuleDefinition $module_definition)
     {
         $aggregates_definitions_list = ModuleDefinitionList::create();
-        $aggregate_fields = $module_definition->getFields()->filterByType('aggregate');
-        foreach ($aggregate_fields as $aggregate_field) {
-            $modules_options = $aggregate_field->getOptions()->filterByName('modules');
+        $aggregate_attributes = $module_definition->getAttributes()->filterByType('aggregate');
+        foreach ($aggregate_attributes as $aggregate_attribute) {
+            $modules_options = $aggregate_attribute->getOptions()->filterByName('modules');
             $aggregates = $this->getAggregateDefinitions($modules_options->getValue()->toArray());
             foreach ($aggregates as $aggregate) {
                 $aggregates_definitions_list->addItem($aggregate);
@@ -95,9 +95,9 @@ class ModuleSchema extends Object
     public function getUsedReferenceDefinitions(ModuleDefinition $module_definition)
     {
         $reference_definitions_list = ModuleDefinitionList::create();
-        $reference_fields = $module_definition->getFields()->filterByType('reference');
-        foreach ($reference_fields as $reference_field) {
-            $references_option = $reference_field->getOptions()->filterByName('references');
+        $reference_attributes = $module_definition->getAttributes()->filterByType('reference');
+        foreach ($reference_attributes as $reference_attribute) {
+            $references_option = $reference_attribute->getOptions()->filterByName('references');
             $references = $this->getReferenceDefinitions($references_option->getValue()->toArray());
             foreach ($references as $reference) {
                 $reference_definitions_list->addItem($reference);

@@ -7,7 +7,7 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 
 /**
  * Represents an event that occurs when a document's value changes.
- * Document changes are triggered on a per field base.
+ * Document changes are triggered on a per attribute base.
  */
 class DocumentChangedEvent implements IEvent
 {
@@ -66,7 +66,7 @@ class DocumentChangedEvent implements IEvent
     public function __toString()
     {
         return sprintf(
-            "[%s] A %s module's document field value has changed: \n %s",
+            "[%s] A %s module's document attribute value has changed: \n %s",
             get_class($this),
             $this->getDocument()->getModule()->getName(),
             $this->getValueChangedEvent()

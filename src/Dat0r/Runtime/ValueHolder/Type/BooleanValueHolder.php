@@ -4,8 +4,8 @@ namespace Dat0r\Runtime\ValueHolder\Type;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Field\IField;
-use Dat0r\Runtime\Field\Type\BooleanField;
+use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\Type\Boolean;
 
 /**
  * Default IValueHolder implementation used for boolean value containment.

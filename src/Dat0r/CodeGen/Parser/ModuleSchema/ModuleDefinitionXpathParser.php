@@ -54,15 +54,15 @@ class ModuleDefinitionXpathParser extends XpathParser
             'document_implementor' => $document_implementor,
             'description' => $description,
             'options' => $this->parseOptions($xpath, $element),
-            'fields' => $this->parseFields($xpath, $element)
+            'attributes' => $this->parseAttributes($xpath, $element)
         );
     }
 
-    protected function parseFields(DOMXPath $xpath, DOMElement $element)
+    protected function parseAttributes(DOMXPath $xpath, DOMElement $element)
     {
-        $parser = FieldDefinitionXpathParser::create();
-        $fields_element = $xpath->query('./fields', $element)->item(0);
+        $parser = AttributeDefinitionXpathParser::create();
+        $attributes_element = $xpath->query('./attributes', $element)->item(0);
 
-        return $parser->parseXpath($xpath, $fields_element);
+        return $parser->parseXpath($xpath, $attributes_element);
     }
 }
