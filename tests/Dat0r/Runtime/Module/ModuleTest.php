@@ -3,16 +3,16 @@
 namespace Dat0r\Tests\Runtime\Module;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
-use Dat0r\Tests\Runtime\Module\Fixtures\AggregateModule;
-use Dat0r\Tests\Runtime\Module\Fixtures\InvalidRootModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ParagraphModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\InvalidModule;
 use Dat0r\Runtime\Module\IModule;
 
 class ModuleTest extends TestCase
 {
-    public function testCreateRootModule()
+    public function testCreateArticleModule()
     {
-        $module = RootModule::getInstance();
+        $module = ArticleModule::getInstance();
 
         $this->assertEquals('Article', $module->getName());
         $this->assertEquals(11, $module->getFields()->getSize());
@@ -20,7 +20,7 @@ class ModuleTest extends TestCase
 
     public function testCreateAggegateModule()
     {
-        $module = AggregateModule::getInstance();
+        $module = new ParagraphModule();
 
         $this->assertEquals(2, $module->getFields()->getSize());
         $this->assertEquals('Paragraph', $module->getName());
@@ -87,7 +87,7 @@ class ModuleTest extends TestCase
      */
     public function testInvalidFieldException(IModule $module)
     {
-        var_dump(var_export($module->getField('foobar-field-does-not-exist'), true)); // @codeCoverageIgnoreStart
+        $module->getField('foobar-field-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
     /**
@@ -95,7 +95,7 @@ class ModuleTest extends TestCase
      */
     public function testInvalidDocumentImplementorException()
     {
-        $module = InvalidRootModule::getInstance();
+        $module = InvalidModule::getInstance();
         $module->createDocument(); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
@@ -104,12 +104,12 @@ class ModuleTest extends TestCase
      */
     public static function provideModuleInstances()
     {
-        return array(array(RootModule::getInstance()));
+        return array(array(ArticleModule::getInstance()));
     }
 
     public function testGetFieldByPath()
     {
-        $module = RootModule::getInstance();
+        $module = ArticleModule::getInstance();
         $field = $module->getField('paragraph.paragraph.title');
 
         $this->assertEquals('title', $field->getName());

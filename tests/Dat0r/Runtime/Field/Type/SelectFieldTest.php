@@ -43,7 +43,7 @@ class SelectFieldTest extends TestCase
 
     protected function createField()
     {
-        return SelectField::create(
+        return new SelectField(
             'city',
             array(
                 'select_options' => array('new-york' => 'New York', 'berlin' => 'Berlin', 'boston' => 'Boston')

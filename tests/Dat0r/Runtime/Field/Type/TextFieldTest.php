@@ -12,7 +12,7 @@ class TextFieldTest extends TestCase
 
     public function testCreate()
     {
-        $textField = TextField::create(self::FIELDNAME);
+        $textField = new TextField(self::FIELDNAME);
         $this->assertEquals($textField->getName(), self::FIELDNAME);
     }
 
@@ -21,7 +21,7 @@ class TextFieldTest extends TestCase
      */
     public function testCreateWithOptions(array $options)
     {
-        $textField = TextField::create(self::FIELDNAME, $options);
+        $textField = new TextField(self::FIELDNAME, $options);
 
         $this->assertEquals($textField->getName(), self::FIELDNAME);
         $this->assertFalse($textField->hasOption('snafu_flag'));
@@ -36,7 +36,7 @@ class TextFieldTest extends TestCase
      */
     public function testCreateValueHolder($textValue)
     {
-        $textField = TextField::create(self::FIELDNAME);
+        $textField = new TextField(self::FIELDNAME);
         $valueHolder = $textField->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\TextValueHolder', $valueHolder);
         $valueHolder->setValue($textValue);
@@ -45,7 +45,7 @@ class TextFieldTest extends TestCase
 
     public function testValidationSuccess()
     {
-        $text_field = TextField::create(
+        $text_field = new TextField(
             self::FIELDNAME,
             array('min' => 3, 'max' => 10)
         );
@@ -56,7 +56,7 @@ class TextFieldTest extends TestCase
 
     public function testValidationError()
     {
-        $text_field = TextField::create(
+        $text_field = new TextField(
             self::FIELDNAME,
             array('min' => 3, 'max' => 5)
         );

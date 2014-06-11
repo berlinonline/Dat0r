@@ -517,7 +517,7 @@ class DataGenerator
         $options_clone = $options;
         $options_clone[self::OPTION_RECURSION_LEVEL] = $recursion_level + 1;
 
-        $referencedModules = $field->getReferencedModules();
+        $referencedModules = $field->getReferenceModules();
         $collection = $field->getDefaultValue();
 
         $numberOfReferencedModules = count($referencedModules);

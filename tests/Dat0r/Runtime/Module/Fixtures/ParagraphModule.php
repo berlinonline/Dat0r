@@ -4,17 +4,17 @@ namespace Dat0r\Tests\Runtime\Module\Fixtures;
 
 use Dat0r\Runtime\Field\Type\TextField;
 use Dat0r\Runtime\Field\Type\TextareaField;
-use Dat0r\Runtime\Module\AggregateModule as BaseAggregateModule;
+use Dat0r\Runtime\Module\AggregateModule;
 
-class AggregateModule extends BaseAggregateModule
+class ParagraphModule extends AggregateModule
 {
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct(
             'Paragraph',
             array(
-                TextField::create('title'),
-                TextareaField::create('content')
+                new TextField('title'),
+                new TextareaField('content')
             )
         );
     }

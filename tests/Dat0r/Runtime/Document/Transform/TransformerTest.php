@@ -5,7 +5,7 @@ namespace Dat0r\Tests\Runtime\Document;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedFieldSpecifications;
-use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 
 class TransformerTest extends TestCase
@@ -34,7 +34,7 @@ class TransformerTest extends TestCase
 
     public function provideTestDocument()
     {
-        $module = RootModule::getInstance();
+        $module = ArticleModule::getInstance();
         $test_document = $module->createDocument(
             array(
                 'headline' => 'This is incredible stuff!',
@@ -50,7 +50,7 @@ class TransformerTest extends TestCase
                     array(
                         'title' => 'This is an amazing paragraph',
                         'content' => 'Bob! This is just in incredible!',
-                        '@type' => '\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'
+                        '@type' => '\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'
                     )
                 )
             )

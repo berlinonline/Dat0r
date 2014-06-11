@@ -10,6 +10,7 @@ use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Field\Type\ReferenceField;
 use Dat0r\Runtime\Field\IField;
 use Dat0r\Runtime\Field\FieldMap;
+use Dat0r\Runtime\Field\FieldPath;
 
 /**
  * Base class that all Dat0r modules should extend.
@@ -17,39 +18,39 @@ use Dat0r\Runtime\Field\FieldMap;
 abstract class Module extends Object implements IModule
 {
     /**
-     * Holds a list of IModule implementations that are pooled by type.
-     *
-     * @var array $instances
-     */
-    private static $instances = array();
-
-    /**
      * Holds the module's name.
      *
      * @var string $name
      */
-    private $name;
+    protected $name;
+
+    /**
+     * Holds a reference to the parent module, if there is one.
+     *
+     * @var IModule $parent;
+     */
+    protected $parent;
 
     /**
      * Holds the module's fields.
      *
      * @var FieldMap $fields
      */
-    private $fields;
+    protected $fields;
 
     /**
      * Holds the field'S options.
      *
      * @var array $options
      */
-    private $options = array();
+    protected $options = array();
 
     /**
      * Holds the module's prefix.
      *
      * @var string $prefix
      */
-    private $prefix;
+    protected $prefix;
 
     /**
      * Returns the class(name) to use when creating new entries for this module.
@@ -59,21 +60,21 @@ abstract class Module extends Object implements IModule
     abstract protected function getDocumentImplementor();
 
     /**
-     * Returns the pooled instance of a specific module.
-     * Each module is pooled exactly once, making this a singleton style (factory)method.
-     * This method is used to provide a convenient access to generated domain module instances.
+     * Constructs a new Module.
      *
-     * @return IModule
+     * @param string $name
+     * @param array $fields
      */
-    public static function getInstance()
+    public function __construct($name, array $fields = array(), array $options = array())
     {
-        $class = get_called_class();
-        if (!isset(self::$instances[$class])) {
-            $module = new static();
-            self::$instances[$class] = $module;
-        }
+        $this->name = $name;
+        $this->options = $options;
 
-        return self::$instances[$class];
+        $this->fields = new FieldMap($this, $this->getDefaultFields());
+
+        foreach ($fields as $field) {
+            $this->fields->setItem($field->getName(), $field);
+        }
     }
 
     public function getDocumentType()
@@ -89,6 +90,30 @@ abstract class Module extends Object implements IModule
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the module's parent, if it has one.
+     *
+     * @return IModule
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Sets the module's parent once, if it isn't yet assigned.
+     *
+     * @param IModule $parent
+     */
+    public function setParent(IModule $parent)
+    {
+        if (!$this->parent) {
+            $this->parent = $parent;
+        }
+        // @todo else throw an exception,
+        // as a second call to setParent might imply a logic error?
     }
 
     /**
@@ -117,7 +142,7 @@ abstract class Module extends Object implements IModule
      *
      * @return FieldMap
      */
-    public function getFields(array $fieldnames = array(), $types = array())
+    public function getFields(array $fieldnames = array(), array $types = array())
     {
         $fields = array();
 
@@ -138,7 +163,7 @@ abstract class Module extends Object implements IModule
             );
         }
 
-        return new FieldMap($fields);
+        return new FieldMap($this, $fields);
     }
 
     /**
@@ -210,24 +235,6 @@ abstract class Module extends Object implements IModule
         return array_key_exists($name, $this->options);
     }
 
-    /**
-     * Constructs a new Module.
-     *
-     * @param string $name
-     * @param array $fields
-     */
-    protected function __construct($name, array $fields = array(), array $options = array())
-    {
-        $this->name = $name;
-        $this->options = $options;
-
-        $this->fields = new FieldMap($this->getDefaultFields());
-
-        foreach ($fields as $field) {
-            $this->fields->setItem($field->getName(), $field);
-        }
-    }
-
     public function getDefaultFieldnames()
     {
         return array_keys($this->getDefaultFields());
@@ -240,39 +247,6 @@ abstract class Module extends Object implements IModule
 
     protected function getFieldByPath($field_path)
     {
-        $path_parts = explode('.', $field_path);
-        if ($path_parts % 2 === 0) {
-            throw new RuntimeException(
-                "Invalid fieldpath(fieldname) given. Fieldparts must be made up of " .
-                "'fieldname.module_prefix.fieldname' parts with a single final fieldname."
-            );
-        }
-
-        $path_tuples = array();
-        $next_tuple = array();
-        for ($i = 1; $i <= count($path_parts); $i++) {
-            $next_tuple[] = $path_parts[$i - 1];
-            if ($i % 2 === 0) {
-                $path_tuples[] = $next_tuple;
-                $next_tuple = array();
-            }
-        }
-
-        $destination_field = end($path_parts);
-        $current_module = $this;
-        foreach ($path_tuples as $path_tuple) {
-            $current_field = $current_module->getField($path_tuple[0]);
-            if ($current_field instanceof AggregateField) {
-                $current_module = $current_field->getAggregateModuleByPrefix($path_tuple[1]);
-            } elseif ($current_field instanceof ReferenceField) {
-                $current_module = $current_field->getReferencedModuleByPrefix($path_tuple[1]);
-            } else {
-                throw new RuntimeException(
-                    "Invalid field-type given within field-path. Only Reference- and AggregateFields are supported."
-                );
-            }
-        }
-
-        return $current_module->getField($destination_field);
+        return FieldPath::getFieldByPath($this, $field_path);
     }
 }

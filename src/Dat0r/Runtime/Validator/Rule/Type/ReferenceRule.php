@@ -3,13 +3,21 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Document\DocumentList;
-use Dat0r\Runtime\Module\PartialModule;
-use Dat0r\Runtime\Document\PartialDocument;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
+/**
+ * ReferenceRule validates that a given value consistently translates to a collection of documents.
+ *
+ * Supported options: reference_modules
+ */
 class ReferenceRule extends Rule
 {
+    /**
+     * Option that holds a list of allowed modules to validate against.
+     */
+    const OPTION_REFERENCE_MODULES = 'reference_modules';
+
     /**
      * Valdiates and sanitizes a given value respective to the reference-valueholder's expectations.
      *
@@ -24,10 +32,12 @@ class ReferenceRule extends Rule
 
         if ($value instanceof DocumentList) {
             $collection = $value;
-        } elseif (empty($value)) {
+        } elseif (null === $value) {
             $collection = new DocumentList();
+        } elseif (is_array($value)) {
+            $collection = $this->createDocumentList($value);
         } else {
-            $this->throwError('invalid_structure');
+            $this->throwError('invalid_type');
             $success = false;
         }
 
@@ -36,5 +46,49 @@ class ReferenceRule extends Rule
         }
 
         return $success;
+    }
+
+    /**
+     * Create a DocumentList from a given array of document data.
+     *
+     * @param array $documents_data
+     *
+     * @return DocumentList
+     */
+    protected function createDocumentList(array $documents_data)
+    {
+        $module_map = array();
+        foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, array()) as $module) {
+            $module_map[$module->getDocumentType()] = $module;
+        }
+
+        $collection = new DocumentList();
+        ksort($documents_data);
+        foreach ($documents_data as $document_data) {
+            if (!isset($document_data[self::OBJECT_TYPE])) {
+                $this->throwError('missing_doc_type', array(), IIncident::CRITICAL);
+                continue;
+            }
+
+            $reference_type = $document_data[self::OBJECT_TYPE];
+            unset($document_data['@type']);
+
+            if ($reference_type{0} !== '\\') {
+                $reference_type = '\\' . $reference_type;
+            }
+            if (!isset($module_map[$reference_type])) {
+                $this->throwError(
+                    'invalid_doc_type',
+                    array('type' => @$document_data[self::OBJECT_TYPE]),
+                    IIncident::NOTICE
+                );
+                continue;
+            }
+
+            $reference_module = $module_map[$reference_type];
+            $collection->push($reference_module->createDocument($document_data));
+        }
+
+        return $collection;
     }
 }

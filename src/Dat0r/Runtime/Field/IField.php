@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Field;
 use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\IValidator;
+use Dat0r\Runtime\Module\IModule;
 
 /**
  * IFields hold meta data that is used to model document properties,
@@ -13,21 +14,39 @@ use Dat0r\Runtime\Validator\Validator\IValidator;
 interface IField
 {
     /**
-     * Creates a new field instance.
-     *
-     * @param string $name
-     * @param array $options
-     *
-     * @return IField
-     */
-    public static function create($name, array $options = array());
-
-    /**
      * Returns the name of the field.
      *
      * @return string
      */
     public function getName();
+
+    /**
+     * Returns the field's module.
+     *
+     * @return IModule
+     */
+    public function getModule();
+
+    /**
+     * Sets the field's module once, if it isn't assigned.
+     *
+     * @param IModule $module
+     */
+    public function setModule(IModule $module);
+
+    /**
+     * Returns the field's parent, if it has one.
+     *
+     * @return IField
+     */
+    public function getParent();
+
+    /**
+     * Sets the field's parent once, if it isn't yet assigned.
+     *
+     * @param IField $parent
+     */
+    public function setParent(IField $parent);
 
     /**
      * Returns the default value of the field.

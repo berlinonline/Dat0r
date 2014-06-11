@@ -10,14 +10,14 @@ class EmailFieldTest extends TestCase
 {
     public function testCreate()
     {
-        $email_field = EmailField::create('email');
+        $email_field = new EmailField('email');
         $this->assertEquals($email_field->getName(), 'email');
     }
 
     public function testCreateValueHolder()
     {
         $email = 'foo.bar@example.com';
-        $email_field = EmailField::create('email');
+        $email_field = new EmailField('email');
         $value_holder = $email_field->createValueHolder();
         $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\EmailValueHolder', $value_holder);
         $value_holder->setValue($email);
@@ -26,14 +26,14 @@ class EmailFieldTest extends TestCase
 
     public function testValidationSuccess()
     {
-        $email_field = EmailField::create('email');
+        $email_field = new EmailField('email');
         $result = $email_field->getValidator()->validate('foo.bar@example.com');
         $this->assertEquals($result->getSeverity(), IIncident::SUCCESS);
     }
 
     public function testValidationError()
     {
-        $email_field = EmailField::create('email');
+        $email_field = new EmailField('email');
         $result = $email_field->getValidator()->validate('foo.bar.com');
         $this->assertEquals($result->getSeverity(), IIncident::ERROR);
     }

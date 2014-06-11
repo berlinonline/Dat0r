@@ -31,6 +31,23 @@ class AggregateField extends Field
     protected $aggregated_modules = null;
 
     /**
+     * Constructs a new aggregate field instance.
+     *
+     * @param string $name
+     * @param array $options
+     */
+    public function __construct($name, array $options = array())
+    {
+        parent::__construct($name, $options);
+
+        foreach ($this->getAggregateModules() as $aggregate_module) {
+            foreach ($aggregate_module->getFields() as $field) {
+                $field->setParent($this);
+            }
+        }
+    }
+
+    /**
      * Returns an aggregate-field instance's default value.
      *
      * @return mixed
@@ -50,7 +67,7 @@ class AggregateField extends Field
         if (!$this->aggregated_modules) {
             $this->aggregated_modules = array();
             foreach ($this->getOption(self::OPTION_MODULES) as $aggregate_module) {
-                $this->aggregated_modules[] = $aggregate_module::getInstance();
+                $this->aggregated_modules[] = new $aggregate_module();
             }
         }
 

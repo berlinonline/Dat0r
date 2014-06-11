@@ -9,6 +9,7 @@ use Dat0r\Runtime\ValueHolder\IValueHolder;
 use Dat0r\Runtime\ValueHolder\NullValue;
 use Dat0r\Runtime\Validator\IValidator;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Module\IModule;
 
 /**
  * Base class that all Dat0r IField implementations should extend.
@@ -19,6 +20,20 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
  */
 abstract class Field implements IField
 {
+    /**
+     * Holds a reference to the field's module.
+     *
+     * @var IModule $module;
+     */
+    protected $module;
+
+    /**
+     * Holds a reference to the parent field, if there is one.
+     *
+     * @var IField $parent;
+     */
+    protected $parent;
+
     /**
      * Holds the field's name.
      *
@@ -41,19 +56,6 @@ abstract class Field implements IField
     protected $validator;
 
     /**
-     * Creates a new field instance.
-     *
-     * @param string $name
-     * @param array $options
-     *
-     * @return IField
-     */
-    public static function create($name, array $options = array())
-    {
-        return new static($name, $options);
-    }
-
-    /**
      * Constructs a new field instance.
      *
      * @param string $name
@@ -73,6 +75,54 @@ abstract class Field implements IField
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the field's module.
+     *
+     * @return IModule
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    /**
+     * Sets the field's module once, if it isn't assigned.
+     *
+     * @param IModule $module
+     */
+    public function setModule(IModule $module)
+    {
+        if (!$this->module) {
+            $this->module = $module;
+        }
+        // @todo else throw an exception,
+        // as a second call to setModule might imply a logic error?
+    }
+
+    /**
+     * Returns the field's parent, if it has one.
+     *
+     * @return IField
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Sets the field's parent once, if it isn't yet assigned.
+     *
+     * @param IField $parent
+     */
+    public function setParent(IField $parent)
+    {
+        if (!$this->parent) {
+            $this->parent = $parent;
+        }
+        // @todo else throw an exception,
+        // as a second call to setParent might imply a logic error?
     }
 
     /**

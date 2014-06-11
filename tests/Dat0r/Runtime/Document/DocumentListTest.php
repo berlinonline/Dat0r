@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Document;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
-use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
 
 use Dat0r\Common\Collection\ArrayList;
 use Dat0r\Runtime\Document\DocumentList;
@@ -20,7 +20,7 @@ class DocumentListTest extends TestCase
 
     public function testAddDocumentToEmptyCollection()
     {
-        $module = RootModule::getInstance();
+        $module = ArticleModule::getInstance();
         $collection = new DocumentList();
 
         $test_document = $module->createDocument();
@@ -32,7 +32,7 @@ class DocumentListTest extends TestCase
 
     public function testAddDocumentToNonEmptyCollection()
     {
-        $module = RootModule::getInstance();
+        $module = ArticleModule::getInstance();
         $collection = new DocumentList(
             array($module->createDocument())
         );

@@ -6,7 +6,7 @@ use Dat0r\Runtime\Sham\DataGenerator;
 use Dat0r\Runtime\Document\IDocument;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Module\Fixtures\RootModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ArticleModule;
 
 class DataGeneratorTest extends TestCase
 {
@@ -15,7 +15,7 @@ class DataGeneratorTest extends TestCase
 
     public function setUp()
     {
-        $this->module = RootModule::getInstance();
+        $this->module = ArticleModule::getInstance();
         $this->document = $this->module->createDocument();
     }
 

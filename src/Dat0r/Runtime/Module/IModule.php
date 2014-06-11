@@ -12,18 +12,25 @@ use Dat0r\Runtime\Document\IDocument;
 interface IModule
 {
     /**
-     * Gets a module's pooled instance.
-     *
-     * @return IModule
-     */
-    public static function getInstance();
-
-    /**
      * Returns the name of the module.
      *
      * @return string
      */
     public function getName();
+
+    /**
+     * Returns the module's parent, if it has one.
+     *
+     * @return IModule
+     */
+    public function getParent();
+
+    /**
+     * Sets the module's parent once, if it isn't yet assigned.
+     *
+     * @param IModule $parent
+     */
+    public function setParent(IModule $parent);
 
     /**
      * Returns the module's field collection.
@@ -32,7 +39,7 @@ interface IModule
      *
      * @return FieldMap
      */
-    public function getFields(array $fieldnames = array(), $types = array());
+    public function getFields(array $fieldnames = array(), array $types = array());
 
     /**
      * Returns a certain module field by name.

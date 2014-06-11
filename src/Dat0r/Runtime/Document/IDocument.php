@@ -15,6 +15,20 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 interface IDocument
 {
     /**
+     * Returns the document's parent, if it has one.
+     *
+     * @return IDocument
+     */
+    public function getParent();
+
+    /**
+     * Sets the document's parent once, if it isn't yet assigned.
+     *
+     * @param IDocument $parent
+     */
+    public function setParent(IDocument $parent);
+
+    /**
      * Sets a specific value by fieldname.
      *
      * @param string $fieldname

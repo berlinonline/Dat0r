@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\ValueHolder;
 
 use Mockery;
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Module\Fixtures\AggregateModule;
+use Dat0r\Tests\Runtime\Module\Fixtures\ParagraphModule;
 use Dat0r\Runtime\ValueHolder\Type\AggregateValueHolder;
 use Dat0r\Runtime\Field\Type\AggregateField;
 use Dat0r\Runtime\Document\DocumentList;
@@ -14,10 +14,10 @@ class AggregateValueHolderTest extends TestCase
     public function testCreate()
     {
         $value_holder = AggregateValueHolder::create(
-            AggregateField::create(
+            new AggregateField(
                 'paragraph',
                 array(
-                    'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'),
+                    'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
                 )
             )
         );
@@ -27,10 +27,10 @@ class AggregateValueHolderTest extends TestCase
 
     public function testDefaultValue()
     {
-        $aggregate_field = AggregateField::create(
+        $aggregate_field = new AggregateField(
             'paragraph',
             array(
-                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'),
+                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
             )
         );
 
@@ -48,15 +48,15 @@ class AggregateValueHolderTest extends TestCase
             '\Dat0r\Runtime\ValueHolder\ValueChangedEvent'
         )->twice();
 
-        $aggregate_module = AggregateModule::getInstance();
+        $aggregate_module = new ParagraphModule();
         $aggregated_document = $aggregate_module->createDocument(
             array('title' => 'Hello world', 'content' => 'Foobar lorem ipsum...')
         );
 
-        $aggregate_field = AggregateField::create(
+        $aggregate_field = new AggregateField(
             'paragraph',
             array(
-                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\AggregateModule'),
+                'modules' => array('\\Dat0r\\Tests\\Runtime\\Module\\Fixtures\\ParagraphModule'),
             )
         );
 

@@ -28,7 +28,14 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      *
      * @var IModule $module
      */
-    private $module;
+    protected $module;
+
+    /**
+     * Holds a reference to the parent document, if there is one.
+     *
+     * @var IDocument $parent;
+     */
+    protected $parent;
 
     /**
      * There is a IValueHolder instance for each IField of our module.
@@ -37,7 +44,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      *
      * @var ValueHolderMap $value_holders
      */
-    private $value_holders;
+    protected $value_holders;
 
     /**
      * Holds a list of all events that were received since the document was instanciated
@@ -45,14 +52,14 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      *
      * @var ValueChangedEventList $changes
      */
-    private $changes;
+    protected $changes;
 
     /**
      * Holds all listeners that are notified about document changed.
      *
      * @var DocumentChangedListenerList $listeners
      */
-    private $listeners;
+    protected $listeners;
 
     /**
      * Always holds the validation results for a prior setValue(s) invocation.
@@ -61,7 +68,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      *
      * @var ResultMap $validation_results
      */
-    private $validation_results;
+    protected $validation_results;
 
     /**
      * Create a document specific to the given module and hydrate it with the passed data.
@@ -86,6 +93,30 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         foreach ($this->value_holders as $value_holder) {
             $value_holder->addValueChangedListener($this);
         }
+    }
+
+    /**
+     * Returns the document's parent, if it has one.
+     *
+     * @return IDocument
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Sets the document's parent once, if it isn't yet assigned.
+     *
+     * @param IDocument $parent
+     */
+    public function setParent(IDocument $parent)
+    {
+        if (!$this->parent) {
+            $this->parent = $parent;
+        }
+        // @todo else throw an exception,
+        // as a second call to setParent might imply a logic error?
     }
 
     /**
@@ -205,20 +236,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         $values = array();
         foreach ($this->getModule()->getFields() as $field) {
             $value = $this->getValue($field->getName());
-            if ($field instanceof ReferenceField) {
-                if (!empty($value)) {
-                    $references = $field->getOption(ReferenceField::OPT_REFERENCES);
-                    $identity_field = $references[0][ReferenceField::OPT_IDENTITY_FIELD];
-                    $reference_identifiers = array();
-                    foreach ($value as $document) {
-                        $reference_identifiers[] = array(
-                            'id' => $document->getValue($identity_field),
-                            'module' => $document->getModule()->getPrefix()
-                        );
-                    }
-                    $values[$field->getName()] = $reference_identifiers;
-                }
-            } elseif ($value instanceof Object) {
+            if ($value instanceof Object) {
                 $values[$field->getName()] = $value->toArray();
             } else {
                 $values[$field->getName()] = $value;
