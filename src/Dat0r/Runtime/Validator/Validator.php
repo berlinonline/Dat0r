@@ -1,12 +1,12 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Validator;
+namespace Dat0r\Runtime\Validator;
 
 use Dat0r\Common\Object;
-use Dat0r\Runtime\Attribute\Validator\Result\Result;
-use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
-use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
-use Dat0r\Runtime\Attribute\Validator\Rule\Rule;
+use Dat0r\Runtime\Validator\Result\Result;
+use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Rule;
 
 class Validator extends Object implements IValidator
 {

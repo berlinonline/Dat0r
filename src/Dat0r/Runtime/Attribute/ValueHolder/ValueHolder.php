@@ -10,7 +10,7 @@ use Dat0r\Runtime\Document\DocumentList;
 use Dat0r\Runtime\Document\IDocumentChangedListener;
 use Dat0r\Runtime\Document\DocumentChangedEvent;
 use Dat0r\Runtime\Attribute\IAttribute;
-use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
  * Basic IValueHolder implementation that all other ValueHolders should inherit from.

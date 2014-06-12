@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Validator;
+namespace Dat0r\Runtime\Validator;
 
-use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
-use Dat0r\Runtime\Attribute\Validator\Result\IResult;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Result\IResult;
 
 interface IValidator
 {

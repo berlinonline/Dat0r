@@ -4,8 +4,8 @@ namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
-use Dat0r\Runtime\Attribute\Validator\Result\ResultMap;
+use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;

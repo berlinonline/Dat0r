@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Attribute\Type;
 
-use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
-use Dat0r\Runtime\Attribute\Validator\Rule\Type\InArrayRule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\InArrayRule;
 
 class Choice extends Text
 {

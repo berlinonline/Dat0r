@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\ValueHolder;
+namespace Dat0r\Tests\Runtime\Attribute\ValueHolder\Type;
 
 use Mockery;
 use Dat0r\Tests\TestCase;

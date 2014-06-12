@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Validator\Result;
+namespace Dat0r\Runtime\Validator\Result;
 
 interface IIncident
 {

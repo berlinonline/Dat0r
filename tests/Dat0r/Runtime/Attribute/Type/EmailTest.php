@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Email;
-use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IIncident;
 
 class EmailTest extends TestCase
 {
