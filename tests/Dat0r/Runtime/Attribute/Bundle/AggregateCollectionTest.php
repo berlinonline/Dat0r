@@ -31,6 +31,7 @@ class AggregateCollectionTest extends TestCase
             ),
             $options
         );
+
         $aggregate_attribute = new AggregateCollection(self::FIELDNAME, $options);
         $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
 
@@ -53,11 +54,19 @@ class AggregateCollectionTest extends TestCase
                 AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
             )
         );
+
         $value_holder = $aggregate_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\AggregateCollectionValueHolder', $value_holder);
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\AggregateCollectionValueHolder',
+            $value_holder
+        );
+
         $value_holder->setValue($aggregate_data);
         $document = $value_holder->getValue()->getFirst();
-        $this->assertInstanceOf('\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy', $document);
+        $this->assertInstanceOf(
+            '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy',
+            $document
+        );
 
         foreach ($aggregate_data[0] as $attribute_name => $value) {
             if ($attribute_name === '@type') {

@@ -37,8 +37,9 @@ class AttributePath
 
         if ($path_parts % 2 === 0) {
             throw new RuntimeException(
-                "Invalid attributepath(attribute_name) given. Path parts must be made up of " .
-                "'attribute_name.type_prefix.attribute_name' parts with a single final attribute_name."
+                'Invalid attributepath(attribute_name) given.' .
+                'Path parts must be made up of ' .
+                '"{attribute_name}.{type_prefix}.{attribute_name}" parts with a single final attribute_name.'
             );
         }
 
@@ -63,7 +64,8 @@ class AttributePath
                 $current_type = $current_attribute->getReferenceByPrefix($path_tuple[1]);
             } else {
                 throw new RuntimeException(
-                    "Invalid attribute-type given within attribute-path. Only Reference- and AggregateCollections are supported."
+                    'Invalid attribute-type given within attribute-path.' .
+                    'Only Reference- and AggregateCollections are supported.'
                 );
             }
         }

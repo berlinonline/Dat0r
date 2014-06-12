@@ -22,7 +22,10 @@ class AggregateCollectionValueHolderTest extends TestCase
             )
         );
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\AggregateCollectionValueHolder', $value_holder);
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\AggregateCollectionValueHolder',
+            $value_holder
+        );
     }
 
     public function testDefaultValue()

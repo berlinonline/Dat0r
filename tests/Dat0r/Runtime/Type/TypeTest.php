@@ -42,20 +42,60 @@ class TypeTest extends TestCase
     {
         $attributes = $type->getAttributes();
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\AttributeMap',
+            $attributes
+        );
+
         $this->assertEquals(11, $attributes->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $attributes->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $attributes->getItem('content'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Number', $attributes->getItem('clickCount'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $attributes->getItem('author'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $attributes->getItem('email'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\TextCollection', $attributes->getItem('keywords'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Boolean', $attributes->getItem('enabled'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\NumberCollection', $attributes->getItem('images'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\KeyValue', $attributes->getItem('meta'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\AggregateCollection', $attributes->getItem('paragraph'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\ReferenceCollection', $attributes->getItem('references'));
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            $attributes->getItem('headline')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            $attributes->getItem('content')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Number',
+            $attributes->getItem('clickCount')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            $attributes->getItem('author')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            $attributes->getItem('email')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\TextCollection',
+            $attributes->getItem('keywords')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\Boolean',
+            $attributes->getItem('enabled')
+        );
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\NumberCollection',
+            $attributes->getItem('images')
+        );
+
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\KeyValue',
+            $attributes->getItem('meta')
+        );
+
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\AggregateCollection',
+            $attributes->getItem('paragraph')
+        );
+
+        $this->assertInstanceOf(
+            'Dat0r\\Runtime\\Attribute\\Bundle\\ReferenceCollection',
+            $attributes->getItem('references')
+        );
     }
 
     /**

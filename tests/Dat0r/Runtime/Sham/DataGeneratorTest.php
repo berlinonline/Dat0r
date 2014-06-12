@@ -82,7 +82,8 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
-        $this->assertTrue($this->document->getValue('author') === 'trololo');
+
+        $this->assertEquals($this->document->getValue('author'), 'trololo');
     }
 
     public function testFillDocumentWithCallable()
@@ -101,6 +102,7 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
+
         $this->assertTrue($this->document->getValue('author') === 'trololo');
     }
 
@@ -120,7 +122,8 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
-        $this->assertTrue($this->document->getValue('author') === 'trololo');
+
+        $this->assertEquals($this->document->getValue('author'), 'trololo');
     }
 
     public function testFillDocumentWithMultipleClosures()
@@ -155,15 +158,23 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
-        $this->assertTrue(count($this->document->getValue('images')) === 4);
-        $this->assertTrue($this->document->getValue('clickCount') === 1337);
+
+        $expected_image_count = 4;
+        $image_count = count($this->document->getValue('images'));
+        $this->assertEquals($expected_image_count, $image_count);
+
+        $expected_click_count = 1337;
+        $this->assertEquals($expected_click_count, 1337);
     }
 
     public function testFillDocumentBoolean()
     {
         DataGenerator::fill($this->document);
 
-        $this->assertTrue(is_bool($this->document->getValue('enabled')), 'Enabled attribute should have a boolean value.');
+        $this->assertTrue(
+            is_bool($this->document->getValue('enabled')),
+            'Enabled attribute should have a boolean value.'
+        );
     }
 
     public function testFillDocumentTextCollection()
@@ -244,6 +255,7 @@ class DataGeneratorTest extends TestCase
     {
         $this->assertEquals(11, $this->type->getAttributes()->getSize());
         $excluded_attributes = array('author', 'clickCount', 'enabled', 'references');
+
         DataGenerator::fill(
             $this->document,
             array(
@@ -255,6 +267,7 @@ class DataGeneratorTest extends TestCase
             $this->document->isClean(),
             'Document has no changes, but should have been filled with fake data.'
         );
+
         $this->assertEquals(
             $this->type->getAttributes()->getSize() - count($excluded_attributes),
             count($this->document->getChanges()),
