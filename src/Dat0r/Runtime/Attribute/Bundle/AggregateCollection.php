@@ -21,14 +21,14 @@ class AggregateCollection extends Attribute
     /**
      * Option that holds an array of supported aggregate-type names.
      */
-    const OPTION_MODULES = 'types';
+    const OPTION_MODULES = 'aggregates';
 
     /**
      * An array holding the aggregate-type instances supported by a specific aggregate-attribute instance.
      *
      * @var array
      */
-    protected $aggregated_types = null;
+    protected $aggregate_types = null;
 
     /**
      * Constructs a new aggregate attribute instance.
@@ -64,14 +64,14 @@ class AggregateCollection extends Attribute
      */
     public function getAggregates()
     {
-        if (!$this->aggregated_types) {
-            $this->aggregated_types = array();
+        if (!$this->aggregate_types) {
+            $this->aggregate_types = array();
             foreach ($this->getOption(self::OPTION_MODULES) as $aggregate_type) {
-                $this->aggregated_types[] = new $aggregate_type();
+                $this->aggregate_types[] = new $aggregate_type();
             }
         }
 
-        return $this->aggregated_types;
+        return $this->aggregate_types;
     }
 
     public function getAggregateByPrefix($prefix)

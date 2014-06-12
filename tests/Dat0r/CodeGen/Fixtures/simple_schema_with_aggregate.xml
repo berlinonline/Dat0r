@@ -21,7 +21,7 @@
 
             <attribute name="voting_stats" type="aggregate-collection">
                 <description>Keeps track of the votes a topic has received.</description>
-                <option name="types">
+                <option name="aggregates">
                     <option>VotingStats</option>
                 </option>
             </attribute>

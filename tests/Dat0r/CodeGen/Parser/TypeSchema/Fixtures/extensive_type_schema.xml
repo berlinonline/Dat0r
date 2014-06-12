@@ -30,7 +30,7 @@
             <attribute name="voting_stats" type="aggregate-collection">
                 <description>Keeps track of the votes a topic has received.</description>
                 <option name="max">1</option>
-                <option name="types">
+                <option name="aggregates">
                     <option>VotingStats</option>
                 </option>
             </attribute>
@@ -136,7 +136,7 @@
                 </attribute>
                 <attribute name="last_result" type="aggregate-collection">
                     <description>Holds the result of the latest workflow execution.</description>
-                    <option name="aggregate_types">
+                    <option name="aggregates">
                         <option>PluginResult</option>
                     </option>
                 </attribute>

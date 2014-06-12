@@ -30,7 +30,7 @@ class ArticleType extends AggregateRoot
                 new AggregateCollection(
                     'paragraph',
                     array(
-                        'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                        'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
                     )
                 ),
                 new ReferenceCollection(

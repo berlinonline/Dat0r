@@ -17,7 +17,7 @@ class AggregateCollectionValueHolderTest extends TestCase
             new AggregateCollection(
                 'paragraph',
                 array(
-                    'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                    'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
                 )
             )
         );
@@ -33,7 +33,7 @@ class AggregateCollectionValueHolderTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
             )
         );
 
@@ -59,7 +59,7 @@ class AggregateCollectionValueHolderTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'types' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
             )
         );
 
