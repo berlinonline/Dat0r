@@ -603,9 +603,9 @@ class DataGenerator
      * Returns the name of the internal method to call when fake data should
      * be generated and added to the given attribute. The pattern is like this:
      *
-     * - `addText` for `\Dat0r\Runtime\Attribute\Type\Text`
-     * - `addNumberCollection` for `\Dat0r\Runtime\Attribute\Type\NumberCollection`
-     * - `addReference` for `\Dat0r\Runtime\Attribute\Type\ReferenceCollection`
+     * - `addText` for `\Dat0r\Runtime\Attribute\Bundle\Text`
+     * - `addNumberCollection` for `\Dat0r\Runtime\Attribute\Bundle\NumberCollection`
+     * - `addReference` for `\Dat0r\Runtime\Attribute\Bundle\ReferenceCollection`
      *
      * etc. pp.
      *
@@ -618,7 +618,7 @@ class DataGenerator
         $name = null;
 
         $type = get_class($attribute);
-        if (preg_match('/^Dat0r\\\\Runtime\\\\Attribute\\\\Type\\\\(.*)$/', $type, $matches)) {
+        if (preg_match('/^Dat0r\\\\Runtime\\\\Attribute\\\\Bundle\\\\(.*)$/', $type, $matches)) {
             $name = 'add' . $matches[1];
         }
 

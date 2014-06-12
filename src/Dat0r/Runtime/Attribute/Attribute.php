@@ -271,7 +271,7 @@ abstract class Attribute implements IAttribute
      */
     protected function buildDefaultValueHolderClassName()
     {
-        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\ValueHolder\\Type";
+        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle";
         $attribute_classname_parts = explode('\\', get_class($this));
         $valueholder_class = array_pop($attribute_classname_parts) . 'ValueHolder';
 

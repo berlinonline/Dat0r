@@ -3,8 +3,8 @@
 namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Runtime\Type\IType;
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
+use Dat0r\Runtime\Attribute\Bundle\ReferenceCollection;
 use Dat0r\Common\Error\RuntimeException;
 
 class AttributePath

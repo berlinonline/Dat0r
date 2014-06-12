@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Type;
 
-use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Bundle\Text;
 
 /**
  * Provides behaviour in the context of being a top-level (aggregate root) type.
