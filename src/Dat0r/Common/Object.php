@@ -2,9 +2,18 @@
 
 namespace Dat0r\Common;
 
+use ReflectionClass;
+
 class Object implements IObject
 {
     const OBJECT_TYPE = '@type';
+
+    const ANNOTATION_HIDDEN_PROPERTY = 'hiddenProperty';
+
+    /**
+     * @hiddenProperty
+     */
+    protected $_hidden_properties;
 
     /**
      * Returns a new Object instance hydrated with the given state.
@@ -48,8 +57,13 @@ class Object implements IObject
     public function toArray()
     {
         $data = array(self::OBJECT_TYPE => get_class($this));
+        $hidden_properties = $this->getHiddenProperties();
 
         foreach (get_object_vars($this) as $prop => $value) {
+            if (in_array($prop, $hidden_properties)) {
+                continue;
+            }
+
             if ($value instanceof IObject) {
                 $data[$prop] = $value->toArray();
             } else {
@@ -58,5 +72,39 @@ class Object implements IObject
         }
 
         return $data;
+    }
+
+    protected function getHiddenProperties()
+    {
+        if (!$this->_hidden_properties) {
+            $this->_hidden_properties = array();
+            $class = new ReflectionClass($this);
+
+            foreach ($class->getProperties() as $property) {
+                $annotations = $this->parseDocBlockAnnotations(
+                    $property->getDocComment()
+                );
+
+                if (in_array(self::ANNOTATION_HIDDEN_PROPERTY, $annotations)) {
+                    $this->_hidden_properties[] = $property->getName();
+                }
+            }
+        }
+
+        return $this->_hidden_properties;
+    }
+
+    protected function parseDocBlockAnnotations($doc_block)
+    {
+        $annotation_pattern = '~\*\s+@(\w+)~';
+        $annotations = array();
+
+        preg_match($annotation_pattern, $doc_block, $matches);
+
+        if (count($matches) === 2) {
+            $annotations[] = $matches[1];
+        }
+
+        return $annotations;
     }
 }

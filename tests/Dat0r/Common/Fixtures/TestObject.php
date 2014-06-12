@@ -13,6 +13,11 @@ class TestObject extends Object
 
     protected $property_three;
 
+    /**
+     * @hiddenProperty
+     */
+    protected $invisible;
+
     public function setPropertyOne($property_one)
     {
         $this->property_one = $property_one;
