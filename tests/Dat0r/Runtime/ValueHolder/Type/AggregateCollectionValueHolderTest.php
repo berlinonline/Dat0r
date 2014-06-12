@@ -5,7 +5,7 @@ namespace Dat0r\Tests\Runtime\ValueHolder;
 use Mockery;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
-use Dat0r\Runtime\ValueHolder\Type\AggregateCollectionValueHolder;
+use Dat0r\Runtime\Attribute\ValueHolder\Type\AggregateCollectionValueHolder;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Document\DocumentList;
 
@@ -22,7 +22,7 @@ class AggregateCollectionValueHolderTest extends TestCase
             )
         );
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\AggregateCollectionValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\AggregateCollectionValueHolder', $value_holder);
     }
 
     public function testDefaultValue()
@@ -43,9 +43,9 @@ class AggregateCollectionValueHolderTest extends TestCase
 
     public function testValueChangedEvents()
     {
-        $listener = Mockery::mock('\Dat0r\Runtime\ValueHolder\IValueChangedListener');
+        $listener = Mockery::mock('\Dat0r\Runtime\Attribute\ValueHolder\IValueChangedListener');
         $listener->shouldReceive('onValueChanged')->with(
-            '\Dat0r\Runtime\ValueHolder\ValueChangedEvent'
+            '\Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent'
         )->twice();
 
         $aggregate_type = new ParagraphType();

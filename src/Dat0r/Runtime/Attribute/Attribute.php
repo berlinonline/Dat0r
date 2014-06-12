@@ -5,10 +5,10 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Runtime\ValueHolder\IValueHolder;
-use Dat0r\Runtime\ValueHolder\NullValue;
-use Dat0r\Runtime\Validator\IValidator;
-use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Attribute\ValueHolder\NullValue;
+use Dat0r\Runtime\Attribute\Validator\IValidator;
+use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
 use Dat0r\Runtime\Type\IType;
 
 /**
@@ -190,7 +190,7 @@ abstract class Attribute implements IAttribute
     public function getValidator()
     {
         if (!$this->validator) {
-            $default_validator_class = '\\Dat0r\\Runtime\\Validator\\Validator';
+            $default_validator_class = '\\Dat0r\\Runtime\\Attribute\\Validator\\Validator';
             $validator_implementor = $this->getOption('validator', $default_validator_class);
 
             if (!class_exists($validator_implementor, true)) {
@@ -208,7 +208,7 @@ abstract class Attribute implements IAttribute
                 throw new InvalidTypeException(
                     sprintf(
                         "Invalid validator implementor '%s' given for attribute: '%s'." .
-                        "Make sure to implement 'Dat0r\Runtime\Validator\Validator\IValidator'.",
+                        "Make sure to implement 'Dat0r\Runtime\Attribute\Validator\Validator\IValidator'.",
                         $validator_implementor,
                         $this->getName()
                     )
@@ -271,7 +271,7 @@ abstract class Attribute implements IAttribute
      */
     protected function buildDefaultValueHolderClassName()
     {
-        $valueholder_namespace = "\\Dat0r\\Runtime\\ValueHolder\\Type";
+        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\ValueHolder\\Type";
         $attribute_classname_parts = explode('\\', get_class($this));
         $valueholder_class = array_pop($attribute_classname_parts) . 'ValueHolder';
 

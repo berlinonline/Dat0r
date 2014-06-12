@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Choice;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
 
 class ChoiceTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ChoiceTest extends TestCase
     {
         $select_attribute = $this->createAttribute();
         $value_holder = $select_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\ChoiceValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\ChoiceValueHolder', $value_holder);
     }
 
     public function testValidationSuccess()

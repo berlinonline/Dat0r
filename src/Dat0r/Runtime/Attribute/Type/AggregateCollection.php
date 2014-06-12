@@ -4,8 +4,8 @@ namespace Dat0r\Runtime\Attribute\Type;
 
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Document\DocumentList;
-use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Rule\Type\AggregateRule;
+use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
+use Dat0r\Runtime\Attribute\Validator\Rule\Type\AggregateRule;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 

@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Uuid;
-use Dat0r\Runtime\ValueHolder\UuidValueHolder;
+use Dat0r\Runtime\Attribute\ValueHolder\UuidValueHolder;
 
 class UuidTest extends TestCase
 {
@@ -55,7 +55,7 @@ class UuidTest extends TestCase
     {
         $uuidAttribute = new Uuid(self::FIELDNAME);
         $valueHolder = $uuidAttribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\UuidValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\UuidValueHolder', $valueHolder);
         $valueHolder->setValue($uuid);
         $this->assertEquals($uuid, $valueHolder->getValue());
     }

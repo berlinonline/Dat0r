@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Text;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
 
 class TextTest extends TestCase
 {
@@ -38,7 +38,7 @@ class TextTest extends TestCase
     {
         $text_attribute = new Text(self::FIELDNAME);
         $valueHolder = $text_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\TextValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\TextValueHolder', $valueHolder);
         $valueHolder->setValue($textValue);
         $this->assertEquals($textValue, $valueHolder->getValue());
     }

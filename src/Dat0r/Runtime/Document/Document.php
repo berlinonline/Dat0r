@@ -4,16 +4,16 @@ namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Validator\Result\IIncident;
-use Dat0r\Runtime\Validator\Result\ResultMap;
+use Dat0r\Runtime\Attribute\Validator\Result\IIncident;
+use Dat0r\Runtime\Attribute\Validator\Result\ResultMap;
 use Dat0r\Runtime\Type\IType;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\ValueHolder\IValueHolder;
-use Dat0r\Runtime\ValueHolder\ValueHolderMap;
-use Dat0r\Runtime\ValueHolder\IValueChangedListener;
-use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
-use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
+use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Attribute\ValueHolder\ValueHolderMap;
+use Dat0r\Runtime\Attribute\ValueHolder\IValueChangedListener;
+use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEventList;
 use Dat0r\Common\Object;
 
 /**

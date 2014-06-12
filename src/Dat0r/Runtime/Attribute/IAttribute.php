@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\ValueHolder\IValueHolder;
-use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Validator\IValidator;
+use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Attribute\Validator\Rule\RuleList;
+use Dat0r\Runtime\Attribute\Validator\Validator\IValidator;
 use Dat0r\Runtime\Type\IType;
 
 /**

@@ -38,7 +38,7 @@ class NumberTest extends TestCase
     {
         $number_attribute = new Number(self::FIELDNAME);
         $valueHolder = $number_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\NumberValueHolder', $valueHolder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\NumberValueHolder', $valueHolder);
         $valueHolder->setValue($intValue);
         $this->assertEquals($intValue, $valueHolder->getValue());
     }

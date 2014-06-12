@@ -54,7 +54,7 @@ class AggregateCollectionTest extends TestCase
             )
         );
         $value_holder = $aggregate_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\ValueHolder\\Type\\AggregateCollectionValueHolder', $value_holder);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Type\\AggregateCollectionValueHolder', $value_holder);
         $value_holder->setValue($aggregate_data);
         $document = $value_holder->getValue()->getFirst();
         $this->assertInstanceOf('\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy', $document);
