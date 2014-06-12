@@ -11,7 +11,7 @@ class OptionDefinitionXpathParser extends XpathParser
 {
     protected function parseXpath(DOMXPath $xpath, DOMElement $context)
     {
-        $options_list = OptionDefinitionList::create();
+        $options_list = new OptionDefinitionList();
         $options_nodelist = $xpath->query('./options', $context);
 
         $option_nodes = null;
@@ -42,7 +42,7 @@ class OptionDefinitionXpathParser extends XpathParser
 
         $nested_options = $xpath->query('./option', $element);
         if ($nested_options->length > 0) {
-            $value = OptionDefinitionList::create();
+            $value = new OptionDefinitionList();
             foreach ($nested_options as $option_element) {
                 $value->addItem(
                     $this->parseOption($xpath, $option_element)
@@ -52,7 +52,7 @@ class OptionDefinitionXpathParser extends XpathParser
             $value = trim($element->nodeValue);
         }
 
-        return OptionDefinition::create(
+        return new OptionDefinition(
             array(
                 'name' => $name,
                 'value' => $this->literalize($value),

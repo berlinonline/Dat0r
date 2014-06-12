@@ -21,9 +21,11 @@ class BuildCache extends Object
 
     protected $file_system;
 
-    public function __construct()
+    public function __construct(array $state = array())
     {
         $this->file_system = new Filesystem();
+
+        parent::__construct($state);
     }
 
     /**

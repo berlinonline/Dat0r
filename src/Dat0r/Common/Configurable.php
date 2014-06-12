@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\Common\Entity;
+namespace Dat0r\Common;
 
-class Configurable extends Entity
+class Configurable extends Object
 {
     /**
      * @var Options $options
@@ -16,9 +16,11 @@ class Configurable extends Entity
      *
      * @return IObject
      */
-    public function __construct()
+    public function __construct(array $state = array())
     {
         $this->options = new Options();
+
+        parent::__construct($state);
     }
 
     /**

@@ -14,7 +14,7 @@ class AttributeDefinitionXpathParser extends XpathParser
 
     protected function parseXpath(DOMXPath $xpath, DOMElement $context)
     {
-        $attribute_set = AttributeDefinitionList::create();
+        $attribute_set = new AttributeDefinitionList();
 
         foreach ($xpath->query('./attribute', $context) as $element) {
             $attribute_set->addItem($this->parseAttribute($xpath, $element));
@@ -36,7 +36,7 @@ class AttributeDefinitionXpathParser extends XpathParser
             );
         }
 
-        return AttributeDefinition::create(
+        return new AttributeDefinition(
             array(
                 'name' => $element->getAttribute('name'),
                 'short_name' => ($implementor == $type) ? null : $type,

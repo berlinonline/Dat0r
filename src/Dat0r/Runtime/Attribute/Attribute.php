@@ -236,7 +236,7 @@ abstract class Attribute implements IAttribute
                 "Invalid attribute value-holder given upon createValueHolder request."
             );
         }
-        $value_holder = $implementor::create($this);
+        $value_holder = new $implementor($this);
 
         if (!$value_holder instanceof IValueHolder) {
             throw new InvalidTypeException(

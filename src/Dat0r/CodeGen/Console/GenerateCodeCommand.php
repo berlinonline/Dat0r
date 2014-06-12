@@ -100,10 +100,10 @@ class GenerateCodeCommand extends Command
     protected function getService(InputInterface $input, OutputInterface $output)
     {
         if (!$this->service) {
-            $this->service = Service::create(
+            $this->service = new Service(
                 array(
                     'config' => $this->createConfig($input)->validate(),
-                    'schema_parser' => TypeSchemaXmlParser::create(),
+                    'schema_parser' => new TypeSchemaXmlParser(),
                     'output_handler' => function ($message) use ($output) {
                         $output->writeln($message);
                     }
@@ -126,7 +126,8 @@ class GenerateCodeCommand extends Command
                 sprintf("Config file is not readable at location: `%s`", $config_path)
             );
         }
-        $service_config = ConfigIniParser::create()->parse($config_path);
+        $config_parser = new ConfigIniParser();
+        $service_config = $config_parser->parse($config_path);
 
         return $service_config;
     }

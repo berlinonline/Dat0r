@@ -22,14 +22,14 @@ class ConfigIniParserTest extends TestCase
 
     public function testCreateConfigReader()
     {
-        $config = ConfigIniParser::create();
+        $config = new ConfigIniParser();
 
         $this->assertInstanceOf('Dat0r\CodeGen\Parser\Config\ConfigIniParser', $config);
     }
 
     public function testValidConfig()
     {
-        $parser = ConfigIniParser::create();
+        $parser = new ConfigIniParser();
         $config = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
         $expected_array = array(
             'bootstrap_file' => __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR . 'bootstrap.php',
@@ -47,7 +47,7 @@ class ConfigIniParserTest extends TestCase
 
     public function testReadWithRelativePaths()
     {
-        $parser = ConfigIniParser::create();
+        $parser = new ConfigIniParser();
         $config = $parser->parse($this->fixtures_dir . self::FIXTURE_CONFIG_WITH_RELATIVE_PATHS);
 
         $expected_base_path = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
@@ -70,7 +70,7 @@ class ConfigIniParserTest extends TestCase
      */
     public function testNonReadableConfig()
     {
-        $parser = ConfigIniParser::create();
+        $parser = new ConfigIniParser();
 
         $parser->parse($this->fixtures_dir . 'this_config_does_not_exist.ini');
         // @codeCoverageIgnoreStart
@@ -81,7 +81,7 @@ class ConfigIniParserTest extends TestCase
      */
     public function testNonParseableConfig()
     {
-        $parser = ConfigIniParser::create();
+        $parser = new ConfigIniParser();
 
         $parser->parse($this->fixtures_dir . self::FIXTURE_NON_PARSEABLE_CONFIG);
         // @codeCoverageIgnoreStart

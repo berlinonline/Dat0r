@@ -13,19 +13,10 @@ class Object implements IObject
     /**
      * @hiddenProperty
      */
-    protected $_hidden_properties;
+    protected $hidden_properties_;
 
-    /**
-     * Returns a new Object instance hydrated with the given state.
-     *
-     * @param array $state An array with property names as keys and property values as array values.
-     *
-     * @return IObject
-     */
-    public static function create(array $state = array())
+    public function __construct(array $state = array())
     {
-        $object = new static();
-
         foreach ($state as $property_name => $property_value) {
             $camelcased_property = preg_replace_callback(
                 '/_(.)/',
@@ -35,15 +26,13 @@ class Object implements IObject
                 $property_name
             );
 
-            $setter_method = 'set' . $camelcased_property;
-            if (is_callable(array($object, $setter_method))) {
-                $object->$setter_method($property_value);
-            } elseif (property_exists($object, $property_name)) {
-                $object->$property_name = $property_value;
+            $setter_method = 'set' . ucfirst($camelcased_property);
+            if (is_callable(array($this, $setter_method))) {
+                $this->$setter_method($property_value);
+            } elseif (property_exists($this, $property_name)) {
+                $this->$property_name = $property_value;
             }
         }
-
-        return $object;
     }
 
     /**
@@ -76,8 +65,8 @@ class Object implements IObject
 
     protected function getHiddenProperties()
     {
-        if (!$this->_hidden_properties) {
-            $this->_hidden_properties = array();
+        if (!$this->hidden_properties_) {
+            $this->hidden_properties_ = array();
             $class = new ReflectionClass($this);
 
             foreach ($class->getProperties() as $property) {
@@ -86,12 +75,12 @@ class Object implements IObject
                 );
 
                 if (in_array(self::ANNOTATION_HIDDEN_PROPERTY, $annotations)) {
-                    $this->_hidden_properties[] = $property->getName();
+                    $this->hidden_properties_[] = $property->getName();
                 }
             }
         }
 
-        return $this->_hidden_properties;
+        return $this->hidden_properties_;
     }
 
     protected function parseDocBlockAnnotations($doc_block)

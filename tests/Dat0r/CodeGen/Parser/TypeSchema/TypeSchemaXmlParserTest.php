@@ -13,7 +13,7 @@ class TypeSchemaXmlParserTest extends TestCase
             DIRECTORY_SEPARATOR . 'Fixtures' .
             DIRECTORY_SEPARATOR . 'extensive_type_schema.xml';
 
-        $parser = TypeSchemaXmlParser::create();
+        $parser = new TypeSchemaXmlParser();
         $type_schema = $parser->parse($type_schema_path);
 
         $this->assertInstanceOf('\Dat0r\CodeGen\Schema\TypeSchema', $type_schema);

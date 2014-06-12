@@ -3,22 +3,23 @@
 namespace Dat0r\Tests\CodeGen\Parser;
 
 use Dat0r\Tests;
-use Dat0r\CodeGen\Schema;
+use Dat0r\CodeGen\Schema\OptionDefinitionList;
+use Dat0r\CodeGen\Schema\OptionDefinition;
 
 class OptionDefinitionListTest extends Tests\TestCase
 {
     public function testToArray()
     {
-        $nested_options_list = Schema\OptionDefinitionList::create();
+        $nested_options_list = new OptionDefinitionList();
         $nested_options_list->addItem(
-            Schema\OptionDefinition::create(
+            new OptionDefinition(
                 array('value' => 'Nested Foobar One')
             )
         );
 
-        $list = Schema\OptionDefinitionList::create();
+        $list = new OptionDefinitionList();
         $list->addItem(
-            Schema\OptionDefinition::create(
+            new OptionDefinition(
                 array(
                     'name' => 'Parent Foobar',
                     'value' => $nested_options_list

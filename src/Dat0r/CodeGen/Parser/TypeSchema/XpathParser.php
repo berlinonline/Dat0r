@@ -69,7 +69,7 @@ abstract class XpathParser extends Object implements IParser
 
     protected function parseOptions(DOMXPath $xpath, DOMElement $element)
     {
-        $parser = OptionDefinitionXpathParser::create();
+        $parser = new OptionDefinitionXpathParser();
 
         return $parser->parseXpath($xpath, $element);
     }

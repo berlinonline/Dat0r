@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Common\Fixtures;
 
 use Dat0r\Common\Object;
-use Faker;
+use Faker\Factory as FakerFactory;
 
 class TestObject extends Object
 {
@@ -40,9 +40,9 @@ class TestObject extends Object
 
     public static function createRandomInstance()
     {
-        $faker = Faker\Factory::create();
+        $faker = FakerFactory::create();
 
-        return static::create(
+        return new static(
             array(
                 'property_one' => $faker->word(23),
                 'property_two' => $faker->numberBetween(0, 500),
@@ -53,7 +53,7 @@ class TestObject extends Object
 
     public static function createRandomInstances()
     {
-        $faker = Faker\Factory::create();
+        $faker = FakerFactory::create();
 
         $test_objects = array();
         $max = $faker->numberBetween(1, 15);

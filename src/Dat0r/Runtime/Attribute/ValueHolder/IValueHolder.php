@@ -10,15 +10,6 @@ use Dat0r\Runtime\Attribute\IAttribute;
 interface IValueHolder
 {
     /**
-     * Creates a new IValueHolder instance for the given value.
-     *
-     * @param IAttribute $attribute
-     *
-     * @return IValueHolder
-     */
-    public static function create(IAttribute $attribute);
-
-    /**
      * Returns the value holder's aggregated value.
      *
      * @return mixed

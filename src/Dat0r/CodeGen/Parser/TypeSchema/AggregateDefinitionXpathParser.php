@@ -11,14 +11,13 @@ class AggregateDefinitionXpathParser extends TypeDefinitionXpathParser
 {
     protected function parseXpath(DOMXPath $xpath, DOMElement $context)
     {
-        $aggregate_definitions_list = TypeDefinitionList::create();
+        $aggregate_definitions_list = new TypeDefinitionList();
         $node_list = $xpath->query('//aggregate_definition', $context);
+
         foreach ($node_list as $element) {
-            $aggregate_definitions_list->addItem(
-                AggregateDefinition::create(
-                    $this->parseTypeDefinition($xpath, $element)
-                )
-            );
+            $aggregate_data = $this->parseTypeDefinition($xpath, $element);
+            $aggregate_definition = new AggregateDefinition($aggregate_data);
+            $aggregate_definitions_list->addItem($aggregate_definition);
         }
 
         return $aggregate_definitions_list;

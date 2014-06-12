@@ -26,16 +26,15 @@ class DocumentChangedEvent implements IEvent
     private $value_changed_event;
 
     /**
-     * Creates a new document changed event instance.
+     * Constructs a new DocumentChangedEvent instance.
      *
      * @param IDocument $document
      * @param ValueChangedEvent $value_changed_event
-     *
-     * @return DocumentChangedEvent
      */
-    public static function create(IDocument $document, ValueChangedEvent $value_changed_event)
+    public function __construct(IDocument $document, ValueChangedEvent $value_changed_event)
     {
-        return new static($document, $value_changed_event);
+        $this->document = $document;
+        $this->value_changed_event = $value_changed_event;
     }
 
     /**
@@ -71,17 +70,5 @@ class DocumentChangedEvent implements IEvent
             $this->getDocument()->getType()->getName(),
             $this->getValueChangedEvent()
         );
-    }
-
-    /**
-     * Constructs a new DocumentChangedEvent instance.
-     *
-     * @param IDocument $document
-     * @param ValueChangedEvent $value_changed_event
-     */
-    protected function __construct(IDocument $document, ValueChangedEvent $value_changed_event)
-    {
-        $this->document = $document;
-        $this->value_changed_event = $value_changed_event;
     }
 }

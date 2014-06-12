@@ -29,16 +29,16 @@ class TypeSchemaXmlParser extends Object implements IParser
         $schema_root = $document->documentElement;
         $xpath = new DOMXPath($document);
 
-        $type_definition_parser = TypeDefinitionXpathParser::create();
-        $aggregates_parser = AggregateDefinitionXpathParser::create();
-        $references_parser = ReferenceDefinitionXpathParser::create();
+        $type_definition_parser = new TypeDefinitionXpathParser();
+        $aggregates_parser = new AggregateDefinitionXpathParser();
+        $references_parser = new ReferenceDefinitionXpathParser();
         $parse_options = array('context' => $schema_root);
 
         $self_uri = $schema_path;
         if (0 !== mb_strpos($schema_path, 'file://')) {
             $self_uri = 'file://' . $schema_path;
         }
-        return TypeSchema::create(
+        return new TypeSchema(
             array(
                 'self_uri' => $self_uri,
                 'namespace' => $schema_root->getAttribute('namespace'),

@@ -17,7 +17,7 @@ class ConfigIniParser extends Object implements IParser
         $config_dir = dirname($ini_file);
         $settings = $this->loadIniFile($ini_file);
 
-        return Config::create(
+        return new Config(
             array(
                 'options' => array(
                     'bootstrap_file' => $this->determineBootstrapFile($settings, $config_dir),

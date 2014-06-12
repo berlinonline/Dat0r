@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Document\Transform\Fixtures;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Common\Entity\Options;
+use Dat0r\Common\Options;
 use Dat0r\Runtime\Document\Transform\Transformer;
 
 /**
@@ -11,13 +11,16 @@ use Dat0r\Runtime\Document\Transform\Transformer;
  */
 class TestTransformer extends Transformer
 {
-    public static function create(array $data = array())
+    public function __construct(array $state = array())
     {
-        return parent::create(
-            array(
-                'options' => new Options(
-                    array(
-                        'foo' => 'bar',
+        parent::__construct(
+            array_merge(
+                $state,
+                array(
+                    'options' => new Options(
+                        array(
+                            'foo' => 'bar',
+                        )
                     )
                 )
             )

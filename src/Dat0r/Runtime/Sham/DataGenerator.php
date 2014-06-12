@@ -471,7 +471,7 @@ class DataGenerator
     protected function addAggregateCollection(IDocument $document, IAttribute $attribute, array $options = array())
     {
         $options_clone = $options;
-        $document_collection = DocumentList::create();
+        $document_collection = new DocumentList();
         $aggregate_types = $attribute->getAggregates();
 
         $number_of_aggregate_types = count($aggregate_types);

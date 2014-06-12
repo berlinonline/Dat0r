@@ -6,6 +6,21 @@ use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\TypeSchema;
 use Dat0r\CodeGen\Schema\TypeDefinition;
 
+use Dat0r\CodeGen\ClassBuilder\Common\BaseTypeClassBuilder as CommonBaseTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\TypeClassBuilder as CommonTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseDocumentClassBuilder as CommonBaseDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\DocumentClassBuilder as CommonDocumentClassBuilder;
+
+use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseTypeClassBuilder as AggregateBaseTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Aggregate\TypeClassBuilder as AggregateTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseDocumentClassBuilder as AggregateBaseDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Aggregate\DocumentClassBuilder as AggregateDocumentClassBuilder;
+
+use Dat0r\CodeGen\ClassBuilder\Reference\BaseTypeClassBuilder as ReferenceBaseTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\TypeClassBuilder as ReferenceTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\BaseDocumentClassBuilder as ReferenceBaseDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\DocumentClassBuilder as ReferenceDocumentClassBuilder;
+
 class Factory extends Object
 {
     protected $type_schema;
@@ -28,6 +43,7 @@ class Factory extends Object
     public function createClassBuildersForType(TypeDefinition $type)
     {
         $class_builders = array();
+
         switch (get_class($type)) {
             case 'Dat0r\CodeGen\Schema\AggregateDefinition':
                 $class_builders = $this->createAggregateClassBuilders($type);
@@ -50,10 +66,10 @@ class Factory extends Object
             'type_definition' => $type
         );
         return array(
-            Common\BaseTypeClassBuilder::create($builder_properties),
-            Common\TypeClassBuilder::create($builder_properties),
-            Common\BaseDocumentClassBuilder::create($builder_properties),
-            Common\DocumentClassBuilder::create($builder_properties)
+            new CommonBaseTypeClassBuilder($builder_properties),
+            new CommonTypeClassBuilder($builder_properties),
+            new CommonBaseDocumentClassBuilder($builder_properties),
+            new CommonDocumentClassBuilder($builder_properties)
         );
     }
 
@@ -64,10 +80,10 @@ class Factory extends Object
             'type_definition' => $aggregate
         );
         return array(
-            Aggregate\BaseTypeClassBuilder::create($builder_properties),
-            Aggregate\TypeClassBuilder::create($builder_properties),
-            Aggregate\BaseDocumentClassBuilder::create($builder_properties),
-            Aggregate\DocumentClassBuilder::create($builder_properties)
+            new AggregateBaseTypeClassBuilder($builder_properties),
+            new AggregateTypeClassBuilder($builder_properties),
+            new AggregateBaseDocumentClassBuilder($builder_properties),
+            new AggregateDocumentClassBuilder($builder_properties)
         );
     }
 
@@ -78,10 +94,10 @@ class Factory extends Object
             'type_definition' => $reference
         );
         return array(
-            Reference\BaseTypeClassBuilder::create($builder_properties),
-            Reference\TypeClassBuilder::create($builder_properties),
-            Reference\BaseDocumentClassBuilder::create($builder_properties),
-            Reference\DocumentClassBuilder::create($builder_properties)
+            new ReferenceBaseTypeClassBuilder($builder_properties),
+            new ReferenceTypeClassBuilder($builder_properties),
+            new ReferenceBaseDocumentClassBuilder($builder_properties),
+            new ReferenceDocumentClassBuilder($builder_properties)
         );
     }
 }

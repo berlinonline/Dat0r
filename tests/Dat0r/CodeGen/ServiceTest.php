@@ -16,10 +16,10 @@ class ServiceTest extends Tests\TestCase
 
     public function testBuildSchema()
     {
-        $codegen_service = Service::create(
+        $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => TypeSchemaXmlParser::create()
+                'schema_parser' => new TypeSchemaXmlParser()
             )
         );
 
@@ -31,10 +31,10 @@ class ServiceTest extends Tests\TestCase
     {
         $this->config->setDeployMethod('move');
 
-        $codegen_service = Service::create(
+        $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => TypeSchemaXmlParser::create()
+                'schema_parser' => new TypeSchemaXmlParser()
             )
         );
 
@@ -47,10 +47,10 @@ class ServiceTest extends Tests\TestCase
     {
         $this->config->setDeployMethod('copy');
 
-        $codegen_service = Service::create(
+        $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => TypeSchemaXmlParser::create()
+                'schema_parser' => new TypeSchemaXmlParser()
             )
         );
 
@@ -65,7 +65,7 @@ class ServiceTest extends Tests\TestCase
         $tmp_cache_path = $tmp_dir . 'testing_cache_' . mt_rand() . DIRECTORY_SEPARATOR;
         $tmp_deploy_path = $tmp_dir . 'testing_deploy_' . mt_rand() . DIRECTORY_SEPARATOR;
 
-        $this->config = Config::create(
+        $this->config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => $tmp_cache_path,
@@ -82,8 +82,8 @@ class ServiceTest extends Tests\TestCase
 
     protected function tearDown()
     {
-       /* $filesystem = new Filesystem\Filesystem();
+        $filesystem = new Filesystem\Filesystem();
         $filesystem->remove($this->config->getCacheDir());
-        $filesystem->remove($this->config->getDeployDir()); */
+        $filesystem->remove($this->config->getDeployDir());
     }
 }

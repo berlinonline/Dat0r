@@ -22,7 +22,7 @@ class ArrayList extends Collection implements IList
 
     public function filter(Closure $callback)
     {
-        $filtered_list = static::create();
+        $filtered_list = new static();
 
         foreach ($this->items as $item) {
             if ($callback($item) === true) {

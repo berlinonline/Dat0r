@@ -19,7 +19,7 @@ class TypeDefinitionXpathParser extends XpathParser
             );
         }
 
-        return TypeDefinition::create(
+        return new TypeDefinition(
             $this->parseTypeDefinition($xpath, $node_list->item(0))
         );
     }
@@ -60,7 +60,7 @@ class TypeDefinitionXpathParser extends XpathParser
 
     protected function parseAttributes(DOMXPath $xpath, DOMElement $element)
     {
-        $parser = AttributeDefinitionXpathParser::create();
+        $parser = new AttributeDefinitionXpathParser();
         $attributes_element = $xpath->query('./attributes', $element)->item(0);
 
         return $parser->parseXpath($xpath, $attributes_element);

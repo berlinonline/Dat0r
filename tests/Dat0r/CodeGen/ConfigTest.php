@@ -13,7 +13,7 @@ class ConfigTest extends TestCase
 
     public function testCreateConfig()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -28,7 +28,7 @@ class ConfigTest extends TestCase
 
     public function testConfigGetCacheDir()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -43,7 +43,7 @@ class ConfigTest extends TestCase
 
     public function testConfigGetDeployDir()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -57,7 +57,7 @@ class ConfigTest extends TestCase
 
     public function testConfigGetDefaultDeployMethod()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -71,7 +71,7 @@ class ConfigTest extends TestCase
 
     public function testConfigGetDeployMethod()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -87,7 +87,7 @@ class ConfigTest extends TestCase
     {
         $plugin_settings = array();
 
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -102,7 +102,7 @@ class ConfigTest extends TestCase
 
     public function testValidateCorrectData()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'cache_dir' => self::FIX_CACHE_DIR,
@@ -120,7 +120,7 @@ class ConfigTest extends TestCase
      */
     public function testValidateMissingCacheDir()
     {
-        $config = Config::create(
+        $config = new Config(
             array('opitons' => array('deploy_dir' => self::FIX_DEPLOY_DIR))
         );
         $config->validate();
@@ -133,7 +133,7 @@ class ConfigTest extends TestCase
      */
     public function testValidateMissingDeployDir()
     {
-        $config = Config::create(
+        $config = new Config(
             array('options' => array('cache_dir' => self::FIX_CACHE_DIR))
         );
         $config->validate();
@@ -145,7 +145,7 @@ class ConfigTest extends TestCase
      */
     public function testCreateWithInvalidDeployMethod()
     {
-        $config = Config::create(
+        $config = new Config(
             array(
                 'options' => array(
                     'deploy_method' => 'invalid_deploy_method',

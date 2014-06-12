@@ -54,7 +54,7 @@ class AggregateCollection extends Attribute
      */
     public function getDefaultValue()
     {
-        return DocumentList::create();
+        return new DocumentList();
     }
 
     /**

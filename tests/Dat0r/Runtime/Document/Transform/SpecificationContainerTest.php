@@ -9,13 +9,13 @@ class SpecificationContainerTest extends TestCase
 {
     public function testCreate()
     {
-        $spec_container = SpecificationContainer::create($this->getExampleSpec());
+        $spec_container = new SpecificationContainer($this->getExampleSpec());
 
         $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ISpecificationContainer', $spec_container);
         $this->assertEquals('embed', $spec_container->getName());
 
         $options = $spec_container->getOptions();
-        $this->assertInstanceOf('\\Dat0r\\Common\\Entity\\Options', $options);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
         $this->assertEquals(array('foo' => 'bar', 'blah' => 'blub'), $options->toArray());
 
         $this->assertInstanceOf(

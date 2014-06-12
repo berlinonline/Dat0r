@@ -53,9 +53,11 @@ class ValueChangedEvent extends Object implements IEvent
      *
      * @param DocumentChangedEvent $aggregate_event If the origin attribute is an aggregate, the bubbled event is passed
      */
-    protected function __construct()
+    public function __construct(array $state = array())
     {
-        $this->timestamp = \time();
+        $this->timestamp = time();
+
+        parent::__construct($state);
     }
 
     /**

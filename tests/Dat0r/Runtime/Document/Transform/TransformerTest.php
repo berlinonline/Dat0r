@@ -12,10 +12,10 @@ class TransformerTest extends TestCase
 {
     public function testCreate()
     {
-        $transformer = TestTransformer::create();
+        $transformer = new TestTransformer();
 
         $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ITransformer', $transformer);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Entity\\Options', $transformer->getOptions());
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $transformer->getOptions());
         $this->assertEquals('bar', $transformer->getOption('foo'));
     }
 
@@ -24,8 +24,8 @@ class TransformerTest extends TestCase
      */
     public function testTransform(DocumentTestProxy $document)
     {
-        $transformer = TestTransformer::create();
-        $spec_container = EmbedSpecifications::create();
+        $transformer = new TestTransformer();
+        $spec_container = new EmbedSpecifications();
         $transformed_data = $transformer->transform($document, $spec_container);
 
         $this->assertEquals($document->getValue('headline'), $transformed_data['title']);

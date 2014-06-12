@@ -13,7 +13,7 @@ class AggregateCollectionValueHolderTest extends TestCase
 {
     public function testCreate()
     {
-        $value_holder = AggregateCollectionValueHolder::create(
+        $value_holder = new AggregateCollectionValueHolder(
             new AggregateCollection(
                 'paragraph',
                 array(

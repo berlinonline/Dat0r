@@ -22,8 +22,10 @@ abstract class ClassBuilder extends Object implements IClassBuilder
 
     abstract protected function getDescription();
 
-    public function __construct()
+    public function __construct(array $state = array())
     {
+        parent::__construct($state);
+
         $this->twig = new Twig_Environment(
             new Twig_Loader_Filesystem($this->getTemplateBaseDirectory())
         );
@@ -32,7 +34,8 @@ abstract class ClassBuilder extends Object implements IClassBuilder
     public function build()
     {
         $implementor = $this->getImplementor();
-        return ClassContainer::create(
+
+        return new ClassContainer(
             array(
                 'file_name' => $implementor . '.php',
                 'class_name' => $implementor,

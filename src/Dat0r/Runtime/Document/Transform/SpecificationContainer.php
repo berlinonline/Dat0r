@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
-use Dat0r\Common\Entity\Configurable;
+use Dat0r\Common\Configurable;
 
 class SpecificationContainer extends Configurable implements ISpecificationContainer
 {
@@ -40,14 +40,14 @@ class SpecificationContainer extends Configurable implements ISpecificationConta
         if ($specification_map instanceof SpecificationMap) {
             $this->specification_map = $specification_map;
         } elseif (is_array($specification_map)) {
-            $this->specification_map = SpecificationMap::create();
+            $this->specification_map = new SpecificationMap();
             foreach ($specification_map as $spec_key => $specification) {
                 if ($specification instanceof ISpecification) {
                     $this->specification_map->setItem($spec_key, $specification);
                 } else {
                     $this->specification_map->setItem(
                         $spec_key,
-                        Specification::create($specification)
+                        new Specification($specification)
                     );
                 }
             }

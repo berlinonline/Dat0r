@@ -18,10 +18,12 @@ class TypeDefinition extends Object
 
     protected $attributes;
 
-    public function __construct()
+    public function __construct(array $state = array())
     {
-        $this->attributes = AttributeDefinitionList::create();
-        $this->options = OptionDefinitionList::create();
+        $this->attributes = new AttributeDefinitionList();
+        $this->options = new OptionDefinitionList();
+
+        parent::__construct($state);
     }
 
     public function getName()

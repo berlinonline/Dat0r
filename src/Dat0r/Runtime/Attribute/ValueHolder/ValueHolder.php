@@ -39,18 +39,6 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
     private $listeners;
 
     /**
-     * Creates a new IValueHolder instance from a given value.
-     *
-     * @param IAttribute $attribute
-     *
-     * @return IValueHolder
-     */
-    public static function create(IAttribute $attribute)
-    {
-        return new static($attribute);
-    }
-
-    /**
      * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
      * @param IAttribute $attribute
@@ -171,7 +159,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
         $value_changed_event = $event->getValueChangedEvent();
 
         $this->propagateValueChangedEvent(
-            ValueChangedEvent::create(
+            new ValueChangedEvent(
                 array(
                     'attribute' => $value_changed_event->getAttribute(),
                     'prev_value' => $value_changed_event->getOldValue(),
@@ -212,7 +200,7 @@ abstract class ValueHolder implements IValueHolder, IListener, IDocumentChangedL
      */
     protected function createValueChangedEvent($prev_value, IEvent $event = null)
     {
-        return ValueChangedEvent::create(
+        return new ValueChangedEvent(
             array(
                 'attribute' => $this->getAttribute(),
                 'prev_value' => $prev_value,

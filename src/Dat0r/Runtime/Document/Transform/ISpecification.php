@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Document\Transform;
 
 use Dat0r\Common\Object;
-use Dat0r\Common\Entity\Options;
+use Dat0r\Common\Options;
 
 interface ISpecification
 {

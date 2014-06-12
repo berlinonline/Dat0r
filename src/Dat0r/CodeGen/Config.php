@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen;
 
-use Dat0r\Common\Entity\Configurable;
+use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Common\Error\FileSystemException;
 

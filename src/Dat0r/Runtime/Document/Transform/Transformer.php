@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
-use Dat0r\Common\Entity\Configurable;
+use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
 
@@ -16,7 +16,7 @@ class Transformer extends Configurable implements ITransformer
     public function transform(IDocument $document, ISpecificationContainer $spec_container)
     {
         $specification_map = $spec_container->getSpecificationMap();
-        $transformation = Transformation::create();
+        $transformation = new Transformation();
 
         $transformed_data = array();
         foreach ($specification_map as $output_key => $specification) {
@@ -35,7 +35,7 @@ class Transformer extends Configurable implements ITransformer
     public function transformBack(array $data, IDocument $document, ISpecificationContainer $spec_container)
     {
         $specification_map = $spec_container->getSpecificationMap();
-        $transformation = Transformation::create();
+        $transformation = new Transformation();
 
         $transformed_data = array();
         foreach ($specification_map as $output_key => $specification) {

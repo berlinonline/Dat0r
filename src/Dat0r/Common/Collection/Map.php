@@ -31,7 +31,7 @@ class Map extends Collection implements IMap
 
     public function filter(Closure $callback)
     {
-        $filtered_map = static::create();
+        $filtered_map = new static();
 
         foreach ($this->items as $key => $item) {
             if ($callback($item) === true) {

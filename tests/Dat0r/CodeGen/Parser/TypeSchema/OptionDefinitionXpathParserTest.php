@@ -20,7 +20,7 @@ class OptionDefinitionXpathParserTest extends TestCase
         );
 
         $xpath = new DOMXPath($dom_document);
-        $parser = OptionDefinitionXpathParser::create();
+        $parser = new OptionDefinitionXpathParser();
         $option_definitions = $parser->parse(
             $xpath,
             array('context' => $dom_document->documentElement)

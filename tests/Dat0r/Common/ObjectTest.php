@@ -13,7 +13,7 @@ class ObjectTest extends TestCase
     public function testCreate()
     {
         $object_data = $this->getRandomScalarValues();
-        $test_object = TestObject::create($object_data);
+        $test_object = new TestObject($object_data);
 
         $this->assertInstanceOf('\\Dat0r\\Common\\IObject', $test_object);
         $this->assertInstanceOf('\\Dat0r\\Tests\\Common\\Fixtures\\TestObject', $test_object);
@@ -27,7 +27,7 @@ class ObjectTest extends TestCase
         $object_data = $this->getRandomScalarValues();
         $object_data['@type'] = 'Dat0r\\Tests\\Common\\Fixtures\\TestObject';
 
-        $test_object = TestObject::create($object_data);
+        $test_object = new TestObject($object_data);
 
         $this->assertEquals($object_data, $test_object->toArray());
     }

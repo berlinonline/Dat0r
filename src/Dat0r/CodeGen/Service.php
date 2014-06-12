@@ -20,8 +20,10 @@ class Service extends Object
 
     protected $output_handler;
 
-    public function __construct()
+    public function __construct(array $state = array())
     {
+        parent::__construct($state);
+
         $this->class_builder_factory = new Factory();
         $this->output_handler = function ($message) {
             echo $message . PHP_EOL;
@@ -72,7 +74,7 @@ class Service extends Object
     {
         $this->config = $config;
 
-        $this->build_cache = BuildCache::create(
+        $this->build_cache = new BuildCache(
             array(
                 'cache_directory' => $this->config->getCacheDir(),
                 'deploy_directory' => $this->config->getDeployDir()
@@ -94,10 +96,12 @@ class Service extends Object
 
         $aggregate_root = $type_schema->getTypeDefinition();
         $class_builders = $this->class_builder_factory->createClassBuildersForType($aggregate_root);
+
         foreach ($type_schema->getUsedAggregateDefinitions($aggregate_root) as $aggregate) {
             $aggregate_builders = $this->class_builder_factory->createClassBuildersForType($aggregate);
             $class_builders = array_merge($class_builders, $aggregate_builders);
         }
+
         foreach ($type_schema->getUsedReferenceDefinitions($aggregate_root) as $reference) {
             $reference_builders = $this->class_builder_factory->createClassBuildersForType($reference);
             $class_builders = array_merge($class_builders, $reference_builders);

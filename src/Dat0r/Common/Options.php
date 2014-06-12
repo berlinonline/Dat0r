@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Common\Entity;
+namespace Dat0r\Common;
 
 use ArrayAccess;
 use InvalidArgumentException;
@@ -8,24 +8,12 @@ use InvalidArgumentException;
 /**
  * Class that wraps an associative array for convenience reasons.
  */
-class Options extends Entity implements ArrayAccess
+class Options extends Object implements ArrayAccess
 {
     /**
      * @var array with key => value pairs
      */
     protected $options = array();
-
-    /**
-     * Returns a new Options instance hydrated with the given initial options.
-     *
-     * @param array $options Initial options.
-     *
-     * @return Options
-     */
-    public static function create(array $options = array())
-    {
-        return new static($options);
-    }
 
     /**
      * Create a new instance with the given options as initial value set.

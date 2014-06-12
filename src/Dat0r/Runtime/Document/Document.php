@@ -390,7 +390,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     protected function propagateDocumentChangedEvent(ValueChangedEvent $event)
     {
-        $event = DocumentChangedEvent::create($this, $event);
+        $event = new DocumentChangedEvent($this, $event);
         foreach ($this->listeners as $listener) {
             $listener->onDocumentChanged($event);
         }
