@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Common;
+namespace Dat0r\Common\Entity;
 
 use ArrayAccess;
 use InvalidArgumentException;
@@ -8,7 +8,7 @@ use InvalidArgumentException;
 /**
  * Class that wraps an associative array for convenience reasons.
  */
-class Options implements IObject, ArrayAccess
+class Options extends Entity implements ArrayAccess
 {
     /**
      * @var array with key => value pairs

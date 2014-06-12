@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
-use Dat0r\Common\Configurable;
+use Dat0r\Common\Entity\Configurable;
 
 class SpecificationContainer extends Configurable implements ISpecificationContainer
 {

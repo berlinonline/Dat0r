@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\Common;
+namespace Dat0r\Common\Entity;
 
-class Configurable extends Object
+class Configurable extends Entity
 {
     /**
      * @var Options $options

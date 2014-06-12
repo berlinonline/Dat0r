@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
-use Dat0r\Common\Configurable;
+use Dat0r\Common\Entity\Configurable;
 use Dat0r\Runtime\Document\IDocument;
 
 class Transformation extends Configurable implements ITransformation

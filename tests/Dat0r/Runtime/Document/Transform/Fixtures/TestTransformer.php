@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Document\Transform\Fixtures;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Common\Options;
+use Dat0r\Common\Entity\Options;
 use Dat0r\Runtime\Document\Transform\Transformer;
 
 /**

@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Common;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Common\Options;
+use Dat0r\Common\Entity\Options;
 
 class OptionTest extends TestCase
 {
@@ -12,7 +12,7 @@ class OptionTest extends TestCase
         $data = $this->getRandomScalarValues();
         $options = new Options($data);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Entity\\Options', $options);
         $this->assertEquals($data['one'], $options->get('one'));
         $this->assertEquals($data['two'], $options->get('two'));
         $this->assertEquals($data['three'], $options->get('three'));
