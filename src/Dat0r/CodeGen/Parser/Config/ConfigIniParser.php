@@ -116,7 +116,7 @@ class ConfigIniParser extends Object implements IParser
             }
             if (!is_readable($bootstrap_file)) {
                 throw new NotReadableException(
-                    sprintf('Unable to read config file at path: `%s`', $ini_file)
+                    sprintf('Unable to read bootstrap file at path: `%s`', $bootstrap_file)
                 );
             }
         }
