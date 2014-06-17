@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document;
 
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Runtime\IDocumentType;
 use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent;
@@ -128,7 +128,7 @@ interface IDocument
     /**
      * Returns the document's type.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getType();
 

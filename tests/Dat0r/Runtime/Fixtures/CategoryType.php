@@ -1,12 +1,12 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Type\Fixtures;
+namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Runtime\Attribute\Bundle\Text;
 use Dat0r\Runtime\Attribute\Bundle\Textarea;
-use Dat0r\Runtime\Type\Reference;
+use Dat0r\Runtime\DocumentType;
 
-class CategoryType extends Reference
+class CategoryType extends DocumentType
 {
     public function __construct()
     {

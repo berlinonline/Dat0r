@@ -9,7 +9,7 @@ use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Attribute\ValueHolder\NullValue;
 use Dat0r\Runtime\Validator\IValidator;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Runtime\IDocumentType;
 
 /**
  * Base class that all Dat0r IAttribute implementations should extend.
@@ -23,7 +23,7 @@ abstract class Attribute implements IAttribute
     /**
      * Holds a reference to the attribute's type.
      *
-     * @var IType $type;
+     * @var IDocumentType $type;
      */
     protected $type;
 
@@ -80,7 +80,7 @@ abstract class Attribute implements IAttribute
     /**
      * Returns the attribute's type.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getType()
     {
@@ -90,9 +90,9 @@ abstract class Attribute implements IAttribute
     /**
      * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IType $type
+     * @param IDocumentType $type
      */
-    public function setType(IType $type)
+    public function setType(IDocumentType $type)
     {
         if (!$this->type) {
             $this->type = $type;

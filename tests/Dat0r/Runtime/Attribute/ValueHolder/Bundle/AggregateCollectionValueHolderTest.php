@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\ValueHolder\Bundle;
 
 use Mockery;
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
+use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Runtime\Attribute\ValueHolder\Bundle\AggregateCollectionValueHolder;
 use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
 use Dat0r\Runtime\Document\DocumentList;
@@ -17,7 +17,7 @@ class AggregateCollectionValueHolderTest extends TestCase
             new AggregateCollection(
                 'paragraph',
                 array(
-                    'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                    'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
                 )
             )
         );
@@ -33,7 +33,7 @@ class AggregateCollectionValueHolderTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
             )
         );
 
@@ -59,7 +59,7 @@ class AggregateCollectionValueHolderTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             'paragraph',
             array(
-                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
             )
         );
 

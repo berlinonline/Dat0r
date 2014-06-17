@@ -5,7 +5,7 @@ namespace Dat0r\Tests\Runtime\Document;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedSpecifications;
-use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
 
 class TransformerTest extends TestCase
@@ -34,7 +34,7 @@ class TransformerTest extends TestCase
 
     public function provideTestDocument()
     {
-        $type = ArticleType::getInstance();
+        $type = new ArticleType();
         $test_document = $type->createDocument(
             array(
                 'headline' => 'This is incredible stuff!',
@@ -50,7 +50,7 @@ class TransformerTest extends TestCase
                     array(
                         'title' => 'This is an amazing paragraph',
                         'content' => 'Bob! This is just in incredible!',
-                        '@type' => '\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'
+                        '@type' => '\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'
                     )
                 )
             )

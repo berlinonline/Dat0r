@@ -1,18 +1,18 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Type;
+namespace Dat0r\Tests\Runtime;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
-use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
-use Dat0r\Tests\Runtime\Type\Fixtures\InvalidType;
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
+use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
+use Dat0r\Tests\Runtime\Fixtures\InvalidType;
+use Dat0r\Runtime\IDocumentType;
 
-class TypeTest extends TestCase
+class DocumentTypeTest extends TestCase
 {
     public function testCreateArticleType()
     {
-        $type = ArticleType::getInstance();
+        $type = new ArticleType();
 
         $this->assertEquals('Article', $type->getName());
         $this->assertEquals(11, $type->getAttributes()->getSize());
@@ -29,7 +29,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributeMethod(IType $type)
+    public function testGetAttributeMethod(IDocumentType $type)
     {
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $type->getAttribute('headline'));
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Number', $type->getAttribute('clickCount'));
@@ -38,7 +38,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributesMethodPlain(IType $type)
+    public function testGetAttributesMethodPlain(IDocumentType $type)
     {
         $attributes = $type->getAttributes();
 
@@ -101,7 +101,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributesMethodFiltered(IType $type)
+    public function testGetAttributesMethodFiltered(IDocumentType $type)
     {
         $attributes = $type->getAttributes(array('headline', 'clickCount'));
 
@@ -115,7 +115,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testCreateDocument(IType $type)
+    public function testCreateDocument(IDocumentType $type)
     {
         $document = $type->createDocument();
         $this->assertInstanceOf('Dat0r\\Runtime\\Document\\Document', $document);
@@ -125,7 +125,7 @@ class TypeTest extends TestCase
      * @dataProvider provideTypeInstances
      * @expectedException Dat0r\Common\Error\RuntimeException
      */
-    public function testInvalidAttributeException(IType $type)
+    public function testInvalidAttributeException(IDocumentType $type)
     {
         $type->getAttribute('foobar-attribute-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
@@ -135,7 +135,7 @@ class TypeTest extends TestCase
      */
     public function testInvalidDocumentImplementorException()
     {
-        $type = InvalidType::getInstance();
+        $type = new InvalidType();
         $type->createDocument(); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
@@ -144,12 +144,12 @@ class TypeTest extends TestCase
      */
     public static function provideTypeInstances()
     {
-        return array(array(ArticleType::getInstance()));
+        return array(array(new ArticleType()));
     }
 
     public function testGetAttributeByPath()
     {
-        $type = ArticleType::getInstance();
+        $type = new ArticleType();
         $attribute = $type->getAttribute('paragraph.paragraph.title');
 
         $this->assertEquals('title', $attribute->getName());

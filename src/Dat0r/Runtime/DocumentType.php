@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Type;
+namespace Dat0r\Runtime;
 
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\InvalidTypeException;
@@ -15,7 +15,7 @@ use Dat0r\Runtime\Attribute\AttributePath;
 /**
  * Base class that all Dat0r types should extend.
  */
-abstract class Type extends Object implements IType
+abstract class DocumentType extends Object implements IDocumentType
 {
     /**
      * Holds the type's name.
@@ -27,7 +27,7 @@ abstract class Type extends Object implements IType
     /**
      * Holds a reference to the parent type, if there is one.
      *
-     * @var IType $parent;
+     * @var IDocumentType $parent;
      */
     protected $parent;
 
@@ -95,7 +95,7 @@ abstract class Type extends Object implements IType
     /**
      * Returns the type's parent, if it has one.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getParent()
     {
@@ -105,9 +105,9 @@ abstract class Type extends Object implements IType
     /**
      * Sets the type's parent once, if it isn't yet assigned.
      *
-     * @param IType $parent
+     * @param IDocumentType $parent
      */
-    public function setParent(IType $parent)
+    public function setParent(IDocumentType $parent)
     {
         if (!$this->parent) {
             $this->parent = $parent;

@@ -14,7 +14,7 @@ class AggregateCollectionTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             self::FIELDNAME,
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType')
             )
         );
         $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
@@ -27,7 +27,7 @@ class AggregateCollectionTest extends TestCase
     {
         $options = array_merge(
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType')
             ),
             $options
         );
@@ -51,7 +51,7 @@ class AggregateCollectionTest extends TestCase
         $aggregate_attribute = new AggregateCollection(
             self::FIELDNAME,
             array(
-                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType')
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType')
             )
         );
 

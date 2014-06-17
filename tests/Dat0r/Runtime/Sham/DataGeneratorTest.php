@@ -6,7 +6,7 @@ use Dat0r\Runtime\Sham\DataGenerator;
 use Dat0r\Runtime\Document\IDocument;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 
 class DataGeneratorTest extends TestCase
 {
@@ -15,7 +15,7 @@ class DataGeneratorTest extends TestCase
 
     public function setUp()
     {
-        $this->type = ArticleType::getInstance();
+        $this->type = new ArticleType();
         $this->document = $this->type->createDocument();
     }
 

@@ -21,7 +21,7 @@ class BaseTypeClassBuilder extends TypeClassBuilder
     {
         $parent_implementor = $this->type_definition->getImplementor();
         if ($parent_implementor === null) {
-            $parent_implementor = sprintf('%s\\AggregateRoot', self::NS_MODULE);
+            $parent_implementor = sprintf('%s\\DocumentType', self::NS_MODULE);
         }
 
         return $parent_implementor;

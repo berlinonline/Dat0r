@@ -6,7 +6,7 @@ use Faker\Factory;
 
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Runtime\IDocumentType;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
 use Dat0r\Runtime\Document\DocumentList;
@@ -139,7 +139,7 @@ class DataGenerator
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IType $type type to create fake data for
+     * @param IDocumentType $type type to create fake data for
      * @param array $options For valid options see fake() method
      *
      * @return array of fake data for the given type
@@ -148,7 +148,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fakeData(IType $type, array $options = array())
+    public function fakeData(IDocumentType $type, array $options = array())
     {
         $document = $type->createDocument();
         $this->fake($document, $options);
@@ -158,7 +158,7 @@ class DataGenerator
     /**
      * Creates a document with fake data for the given type.
      *
-     * @param IType $type type to create documents for
+     * @param IDocumentType $type type to create documents for
      * @param array $options For valid options see fake() method
      *
      * @return document newly created with fake data
@@ -167,7 +167,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocument(IType $type, array $options = array())
+    public function createFakeDocument(IDocumentType $type, array $options = array())
     {
         $options[self::OPTION_MARK_CLEAN] = true;
         $document = $type->createDocument();
@@ -178,7 +178,7 @@ class DataGenerator
     /**
      * Creates `count` number of documents with fake data for the given type.
      *
-     * @param IType $type type to create documents for
+     * @param IDocumentType $type type to create documents for
      * @param array $options use `count` for number of documents to create. For other options see fake() method.
      *
      * @return array of new documents with fake data
@@ -187,7 +187,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocuments(IType $type, array $options = array())
+    public function createFakeDocuments(IDocumentType $type, array $options = array())
     {
         $documents = array();
 
@@ -246,7 +246,7 @@ class DataGenerator
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IType $type type to create fake data for
+     * @param IDocumentType $type type to create fake data for
      * @param array $options For valid options see fill() method
      *
      * @return array of fake data for the given type
@@ -255,7 +255,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDataFor(IType $type, array $options = array())
+    public static function createDataFor(IDocumentType $type, array $options = array())
     {
         $data_generator = new static();
         return $data_generator->fakeData($type, $options);
@@ -264,7 +264,7 @@ class DataGenerator
     /**
      * Creates a document with fake data for the given type.
      *
-     * @param IType $type type to create documents for
+     * @param IDocumentType $type type to create documents for
      * @param array $options For valid options see fill() method
      *
      * @return document newly created with fake data
@@ -273,7 +273,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocument(IType $type, array $options = array())
+    public static function createDocument(IDocumentType $type, array $options = array())
     {
         $data_generator = new static();
         return $data_generator->createFakeDocument($type, $options);
@@ -282,7 +282,7 @@ class DataGenerator
     /**
      * Creates `count` number of documents with fake data for the given type.
      *
-     * @param IType $type type to create documents for
+     * @param IDocumentType $type type to create documents for
      * @param array $options use `count` for number of documents to create. For other options see fill() method.
      *
      * @return array of new documents with fake data
@@ -291,7 +291,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocuments(IType $type, array $options = array())
+    public static function createDocuments(IDocumentType $type, array $options = array())
     {
         $data_generator = new DataGenerator();
         return $data_generator->createFakeDocuments($type, $options);

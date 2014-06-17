@@ -4,8 +4,8 @@ namespace Dat0r\Tests\Runtime\Attribute;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\AttributePath;
-use Dat0r\Tests\Runtime\Type\Fixtures\ArticleType;
-use Dat0r\Tests\Runtime\Type\Fixtures\ParagraphType;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
+use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 
 class AttributePathTest extends TestCase
 {
@@ -14,7 +14,7 @@ class AttributePathTest extends TestCase
      */
     public function testGetAttributeByPath($attribute_path, $expected_name)
     {
-        $type = ArticleType::getInstance();
+        $type = new ArticleType();
         $attribute = AttributePath::getAttributeByPath($type, $attribute_path);
         $this->assertEquals($expected_name, $attribute->getName());
     }
@@ -24,7 +24,7 @@ class AttributePathTest extends TestCase
      */
     public function testGetAttributePath($attribute, $expected_path)
     {
-        $type = ArticleType::getInstance();
+        $type = new ArticleType();
         $attribute_path = AttributePath::getAttributePath($attribute);
 
         $this->assertEquals($expected_path, $attribute_path);
@@ -41,7 +41,7 @@ class AttributePathTest extends TestCase
 
     public function attributePathProvider()
     {
-        $article_type = ArticleType::getInstance();
+        $article_type = new ArticleType();
         $headline_attribute = $article_type->getAttribute('headline');
 
         $paragraph_attribute = $article_type->getAttribute('paragraph');

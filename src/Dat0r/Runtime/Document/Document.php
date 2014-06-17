@@ -6,7 +6,7 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Runtime\IDocumentType;
 use Dat0r\Runtime\Attribute\Bundle\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
 use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
@@ -26,7 +26,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     /**
      * Holds the document's type.
      *
-     * @var IType $type
+     * @var IDocumentType $type
      */
     protected $type;
 
@@ -73,10 +73,10 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     /**
      * Create a document specific to the given type and hydrate it with the passed data.
      *
-     * @param IType $type
+     * @param IDocumentType $type
      * @param array $data
      */
-    public function __construct(IType $type, array $data = array())
+    public function __construct(IDocumentType $type, array $data = array())
     {
         $this->type = $type;
         $this->listeners = new DocumentChangedListenerList();
@@ -328,7 +328,7 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     /**
      * Returns the document's type.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getType()
     {

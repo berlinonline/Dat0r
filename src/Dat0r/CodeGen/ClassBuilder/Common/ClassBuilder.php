@@ -8,7 +8,7 @@ abstract class ClassBuilder extends BaseClassBuilder
 {
     const NS_FIELDS = '\\Dat0r\\Runtime\\Attribute\\Bundle';
 
-    const NS_MODULE = '\\Dat0r\\Runtime\\Type';
+    const NS_MODULE = '\\Dat0r\\Runtime';
 
     const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
 

@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\IValidator;
-use Dat0r\Runtime\Type\IType;
+use Dat0r\Runtime\IDocumentType;
 
 /**
  * IAttributes hold meta data that is used to model document properties,
@@ -23,16 +23,16 @@ interface IAttribute
     /**
      * Returns the attribute's type.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getType();
 
     /**
      * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IType $type
+     * @param IDocumentType $type
      */
-    public function setType(IType $type);
+    public function setType(IDocumentType $type);
 
     /**
      * Returns the attribute's parent, if it has one.

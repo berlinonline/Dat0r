@@ -1,15 +1,15 @@
 <?php
-namespace Dat0r\Runtime\Type;
+namespace Dat0r\Runtime;
 
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Document\IDocument;
 
 /**
- * ITypes define data structures by composing property related strategies named IAttribute,
+ * IDocumentTypes define data structures by composing property related strategies named IAttribute,
  * to derive concrete instances of the defined data structures in form of IDocument's.
  */
-interface IType
+interface IDocumentType
 {
     /**
      * Returns the name of the type.
@@ -21,16 +21,16 @@ interface IType
     /**
      * Returns the type's parent, if it has one.
      *
-     * @return IType
+     * @return IDocumentType
      */
     public function getParent();
 
     /**
      * Sets the type's parent once, if it isn't yet assigned.
      *
-     * @param IType $parent
+     * @param IDocumentType $parent
      */
-    public function setParent(IType $parent);
+    public function setParent(IDocumentType $parent);
 
     /**
      * Returns the type's attribute map.

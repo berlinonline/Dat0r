@@ -1,8 +1,8 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Type\Fixtures;
+namespace Dat0r\Tests\Runtime\Fixtures;
 
-use Dat0r\Runtime\Type\AggregateRoot;
+use Dat0r\Runtime\DocumentType;
 use Dat0r\Runtime\Attribute\Bundle\Text;
 use Dat0r\Runtime\Attribute\Bundle\TextCollection;
 use Dat0r\Runtime\Attribute\Bundle\Number;
@@ -12,7 +12,7 @@ use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
 use Dat0r\Runtime\Attribute\Bundle\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Bundle\KeyValue;
 
-class ArticleType extends AggregateRoot
+class ArticleType extends DocumentType
 {
     public function __construct()
     {
@@ -30,13 +30,13 @@ class ArticleType extends AggregateRoot
                 new AggregateCollection(
                     'paragraph',
                     array(
-                        'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\ParagraphType'),
+                        'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
                     )
                 ),
                 new ReferenceCollection(
                     'references',
                     array(
-                        'references' => array('\\Dat0r\\Tests\\Runtime\\Type\\Fixtures\\CategoryType'),
+                        'references' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\CategoryType'),
                     )
                 ),
                 new KeyValue(
