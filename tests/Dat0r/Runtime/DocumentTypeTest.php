@@ -31,8 +31,8 @@ class DocumentTypeTest extends TestCase
      */
     public function testGetAttributeMethod(IDocumentType $type)
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $type->getAttribute('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Number', $type->getAttribute('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $type->getAttribute('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $type->getAttribute('clickCount'));
     }
 
     /**
@@ -50,50 +50,50 @@ class DocumentTypeTest extends TestCase
         $this->assertEquals(11, $attributes->getSize());
 
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            'Dat0r\\Runtime\\Attribute\\Type\\Text',
             $attributes->getItem('headline')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            'Dat0r\\Runtime\\Attribute\\Type\\Text',
             $attributes->getItem('content')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Number',
+            'Dat0r\\Runtime\\Attribute\\Type\\Number',
             $attributes->getItem('clickCount')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            'Dat0r\\Runtime\\Attribute\\Type\\Text',
             $attributes->getItem('author')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Text',
+            'Dat0r\\Runtime\\Attribute\\Type\\Text',
             $attributes->getItem('email')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\TextCollection',
+            'Dat0r\\Runtime\\Attribute\\Type\\TextCollection',
             $attributes->getItem('keywords')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\Boolean',
+            'Dat0r\\Runtime\\Attribute\\Type\\Boolean',
             $attributes->getItem('enabled')
         );
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\NumberCollection',
+            'Dat0r\\Runtime\\Attribute\\Type\\NumberCollection',
             $attributes->getItem('images')
         );
 
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\KeyValue',
+            'Dat0r\\Runtime\\Attribute\\Type\\KeyValue',
             $attributes->getItem('meta')
         );
 
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\AggregateCollection',
+            'Dat0r\\Runtime\\Attribute\\Type\\AggregateCollection',
             $attributes->getItem('paragraph')
         );
 
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Bundle\\ReferenceCollection',
+            'Dat0r\\Runtime\\Attribute\\Type\\ReferenceCollection',
             $attributes->getItem('references')
         );
     }
@@ -108,8 +108,8 @@ class DocumentTypeTest extends TestCase
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
         $this->assertEquals(2, $attributes->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Text', $attributes->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Number', $attributes->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('headline'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('clickCount'));
     }
 
     /**

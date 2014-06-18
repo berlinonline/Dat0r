@@ -3,10 +3,10 @@
 namespace Dat0r\Runtime\Document;
 
 use Dat0r\Runtime\IDocumentType;
-use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Attribute\Value\IValue;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEventList;
+use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
+use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
 
 /**
  * An IDocument is a generic container for structured data.

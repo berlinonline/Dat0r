@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Bundle;
+namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Attribute\Bundle\Number;
+use Dat0r\Runtime\Attribute\Type\Number;
 
 class NumberTest extends TestCase
 {
@@ -13,7 +13,7 @@ class NumberTest extends TestCase
     {
         $number_attribute = new Number(self::FIELDNAME);
         $this->assertEquals($number_attribute->getName(), self::FIELDNAME);
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Bundle\\Number', $number_attribute);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $number_attribute);
     }
 
     /**
@@ -34,13 +34,13 @@ class NumberTest extends TestCase
     /**
      * @dataProvider getIntegerFixture
      */
-    public function testCreateValueHolder($intValue)
+    public function testCreateValue($intValue)
     {
         $number_attribute = new Number(self::FIELDNAME);
-        $valueHolder = $number_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\NumberValueHolder', $valueHolder);
-        $valueHolder->setValue($intValue);
-        $this->assertEquals($intValue, $valueHolder->getValue());
+        $value = $number_attribute->createValue();
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Value\\Type\\NumberValue', $value);
+        $value->set($intValue);
+        $this->assertEquals($intValue, $value->get());
     }
 
     /**

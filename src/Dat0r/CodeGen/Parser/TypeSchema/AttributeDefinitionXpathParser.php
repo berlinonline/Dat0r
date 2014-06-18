@@ -54,7 +54,7 @@ class AttributeDefinitionXpathParser extends XpathParser
         }
         // @todo allow to register a custom shortname map to extend the core definitions.
         $core_attribute_implementor = sprintf(
-            "\\Dat0r\\Runtime\\Attribute\\Bundle\\%s",
+            "\\Dat0r\\Runtime\\Attribute\\Type\\%s",
             preg_replace_callback(
                 '/(?:^|-)(.?)/',
                 function ($matches) {

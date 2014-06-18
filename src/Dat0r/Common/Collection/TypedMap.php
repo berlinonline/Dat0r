@@ -11,13 +11,6 @@ abstract class TypedMap extends Map
 
     public function offsetSet($offset, $value)
     {
-        if ($this instanceof IUniqueCollection && $this->hasKey($offset)) {
-            throw new BadValueException(
-                "Attribute '". $offset ."' already exists in this collection. "
-                . "Rule-names are required to be unique per map instance."
-            );
-        }
-
         $this->ensureValidItemType($value);
 
         parent::offsetSet($offset, $value);

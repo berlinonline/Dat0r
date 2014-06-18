@@ -2,18 +2,17 @@
 
 namespace Dat0r\Runtime\Document;
 
-use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\IDocumentType;
-use Dat0r\Runtime\Attribute\Bundle\ReferenceCollection;
-use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
-use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueHolderMap;
-use Dat0r\Runtime\Attribute\ValueHolder\IValueChangedListener;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEventList;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
+use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\Attribute\Value\ValueMap;
+use Dat0r\Runtime\Attribute\Value\IValueChangedListener;
+use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
+use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
 use Dat0r\Common\Object;
 
 /**
@@ -38,13 +37,13 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
     protected $parent;
 
     /**
-     * There is a IValueHolder instance for each IAttribute of our type.
-     * The '$value_holders' property maps attribute_names to their dedicated valueholder instance
+     * There is a IValue instance for each IAttribute of our type.
+     * The '$values' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
-     * @var ValueHolderMap $value_holders
+     * @var ValueMap $values
      */
-    protected $value_holders;
+    protected $values;
 
     /**
      * Holds a list of all events that were received since the document was instanciated
@@ -81,17 +80,21 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         $this->type = $type;
         $this->listeners = new DocumentChangedListenerList();
         $this->changes = new ValueChangedEventList();
-        // Setup a map of IValueHolder specific to our type's attributes.
+        $this->validation_results = new ResultMap();
+
+        // Setup a map of IValue specific to our type's attributes.
         // they hold the actual document data.
-        $this->value_holders = new ValueHolderMap();
+        $this->values = new ValueMap();
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
-            $this->value_holders->setItem($attribute_name, $attribute->createValueHolder());
+            $this->values->setItem($attribute_name, $attribute->createValue());
         }
+
         // Hydrate initial data ...
-        $this->hydrate($data);
+        $this->setValues($data);
+
         // ... then start tracking value-changed events coming from our valueholders.
-        foreach ($this->value_holders as $value_holder) {
-            $value_holder->addValueChangedListener($this);
+        foreach ($this->values as $value) {
+            $value->addValueChangedListener($this);
         }
     }
 
@@ -125,16 +128,18 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      * @param string $attribute_name
      * @param mixed $value
      */
-    public function setValue($attribute_name, $value)
+    public function setValue($attribute_name, $attribute_value)
     {
-        $this->validation_results = new ResultMap();
-        $value_holder = $this->value_holders->getItem($attribute_name);
-        if (!$value_holder) {
+        $value = $this->values->getItem($attribute_name);
+
+        if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
-        $this->validation_results->setItem($attribute_name, $value_holder->setValue($value));
+
+        $value_validation_result = $value->set($attribute_value);
+        $this->validation_results->setItem($attribute_name, $value_validation_result);
 
         return $this->isValid();
     }
@@ -146,20 +151,11 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     public function setValues(array $values)
     {
-        // '$validation_results' is used to collect all particular validation results,
-        // that are created each time we invoke '$this->setValue' for a given attribute value.
-        $attribute_validation_results = new ResultMap();
         foreach ($this->type->getAttributes()->getKeys() as $attribute_name) {
             if (array_key_exists($attribute_name, $values)) {
                 $this->setValue($attribute_name, $values[$attribute_name]);
-                // memoize the current attribute validation result, after the prior call to setValue.
-                $attribute_validation_results->setItem(
-                    $attribute_name,
-                    $this->validation_results->getItem($attribute_name)
-                );
             }
         }
-        $this->validation_results = $attribute_validation_results;
 
         return $this->isValid();
     }
@@ -173,14 +169,15 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     public function getValue($attribute_name)
     {
-        $value_holder = $this->value_holders->getItem($attribute_name);
-        if (!$value_holder) {
+        $value = $this->values->getItem($attribute_name);
+
+        if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
-        return $value_holder->getValue();
+        return $value->get();
     }
 
     /**
@@ -192,14 +189,15 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
      */
     public function hasValue($attribute_name)
     {
-        $value_holder = $this->value_holders->getItem($attribute_name);
-        if (!$value_holder) {
+        $value = $this->values->getItem($attribute_name);
+
+        if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValueHolder for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
-        return $value_holder->hasValue();
+        return !$value->isNull();
     }
 
     /**
@@ -263,8 +261,8 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
 
         $is_equal = true;
         foreach ($this->getType()->getAttributes()->getKeys() as $attribute_name) {
-            $value_holder = $this->value_holders->getItem($attribute_name);
-            if (!$value_holder->isValueEqualTo($document->getValue($attribute_name))) {
+            $attribute_value = $this->values->getItem($attribute_name);
+            if (!$attribute_value->isEqualTo($document->getValue($attribute_name))) {
                 $is_equal = false;
                 break;
             }
@@ -370,16 +368,6 @@ abstract class Document extends Object implements IDocument, IValueChangedListen
         // what will save some memory when dealing with deeply nested aggregate structures.
         $this->changes->push($event);
         $this->propagateDocumentChangedEvent($event);
-    }
-
-    /**
-     * Initially hydrate the document.
-     *
-     * @param array $values
-     */
-    protected function hydrate(array $values)
-    {
-        $this->setValues($values);
     }
 
     /**

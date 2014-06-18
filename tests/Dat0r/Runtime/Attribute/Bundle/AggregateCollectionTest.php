@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Bundle;
+namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 
 class AggregateCollectionTest extends TestCase
 {
@@ -46,7 +46,7 @@ class AggregateCollectionTest extends TestCase
     /**
      * @dataProvider getAggregateFixture
      */
-    public function testCreateValueHolder(array $aggregate_data)
+    public function testCreateValue(array $aggregate_data)
     {
         $aggregate_attribute = new AggregateCollection(
             self::FIELDNAME,
@@ -55,14 +55,14 @@ class AggregateCollectionTest extends TestCase
             )
         );
 
-        $value_holder = $aggregate_attribute->createValueHolder();
+        $value = $aggregate_attribute->createValue();
         $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\AggregateCollectionValueHolder',
-            $value_holder
+            'Dat0r\\Runtime\\Attribute\\Value\\Type\\AggregateCollectionValue',
+            $value
         );
 
-        $value_holder->setValue($aggregate_data);
-        $document = $value_holder->getValue()->getFirst();
+        $value->set($aggregate_data);
+        $document = $value->get()->getFirst();
         $this->assertInstanceOf(
             '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy',
             $document

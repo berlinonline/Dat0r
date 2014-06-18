@@ -6,7 +6,7 @@ use Dat0r\CodeGen\ClassBuilder\ClassBuilder as BaseClassBuilder;
 
 abstract class ClassBuilder extends BaseClassBuilder
 {
-    const NS_FIELDS = '\\Dat0r\\Runtime\\Attribute\\Bundle';
+    const NS_FIELDS = '\\Dat0r\\Runtime\\Attribute\\Type';
 
     const NS_MODULE = '\\Dat0r\\Runtime';
 

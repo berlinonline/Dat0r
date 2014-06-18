@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Bundle;
+namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Attribute\Bundle\Email;
+use Dat0r\Runtime\Attribute\Type\Email;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 class EmailTest extends TestCase
@@ -14,14 +14,14 @@ class EmailTest extends TestCase
         $this->assertEquals($email_attribute->getName(), 'email');
     }
 
-    public function testCreateValueHolder()
+    public function testCreateValue()
     {
         $email = 'foo.bar@example.com';
         $email_attribute = new Email('email');
-        $value_holder = $email_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\EmailValueHolder', $value_holder);
-        $value_holder->setValue($email);
-        $this->assertEquals($email, $value_holder->getValue());
+        $value = $email_attribute->createValue();
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Value\\Type\\EmailValue', $value);
+        $value->set($email);
+        $this->assertEquals($email, $value->get());
     }
 
     public function testValidationSuccess()

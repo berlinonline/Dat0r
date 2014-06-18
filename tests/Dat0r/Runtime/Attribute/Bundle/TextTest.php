@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Bundle;
+namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\Runtime\Attribute\Bundle\Text;
+use Dat0r\Runtime\Attribute\Type\Text;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 class TextTest extends TestCase
@@ -34,13 +34,13 @@ class TextTest extends TestCase
     /**
      * @dataProvider getTextFixture
      */
-    public function testCreateValueHolder($textValue)
+    public function testCreateValue($textValue)
     {
         $text_attribute = new Text(self::FIELDNAME);
-        $valueHolder = $text_attribute->createValueHolder();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle\\TextValueHolder', $valueHolder);
-        $valueHolder->setValue($textValue);
-        $this->assertEquals($textValue, $valueHolder->getValue());
+        $value = $text_attribute->createValue();
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Value\\Type\\TextValue', $value);
+        $value->set($textValue);
+        $this->assertEquals($textValue, $value->get());
     }
 
     public function testValidationSuccess()

@@ -3,14 +3,14 @@
 namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Runtime\DocumentType;
-use Dat0r\Runtime\Attribute\Bundle\Text;
-use Dat0r\Runtime\Attribute\Bundle\TextCollection;
-use Dat0r\Runtime\Attribute\Bundle\Number;
-use Dat0r\Runtime\Attribute\Bundle\NumberCollection;
-use Dat0r\Runtime\Attribute\Bundle\Boolean;
-use Dat0r\Runtime\Attribute\Bundle\AggregateCollection;
-use Dat0r\Runtime\Attribute\Bundle\ReferenceCollection;
-use Dat0r\Runtime\Attribute\Bundle\KeyValue;
+use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Type\TextCollection;
+use Dat0r\Runtime\Attribute\Type\Number;
+use Dat0r\Runtime\Attribute\Type\NumberCollection;
+use Dat0r\Runtime\Attribute\Type\Boolean;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\Type\KeyValue;
 
 class ArticleType extends DocumentType
 {

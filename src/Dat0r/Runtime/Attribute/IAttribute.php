@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
+use Dat0r\Runtime\Attribute\Value\IValue;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\IValidator;
 use Dat0r\Runtime\IDocumentType;
@@ -88,9 +88,9 @@ interface IAttribute
     public function getValidator();
 
     /**
-     * Creates a IValueHolder instance dedicated to the current attribute instance.
+     * Creates a IValue instance dedicated to the current attribute instance.
      *
-     * @return IValueHolder
+     * @return IValue
      */
-    public function createValueHolder();
+    public function createValue();
 }

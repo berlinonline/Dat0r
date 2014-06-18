@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Runtime\Fixtures;
 
-use Dat0r\Runtime\Attribute\Bundle\Text;
-use Dat0r\Runtime\Attribute\Bundle\Textarea;
+use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Type\Textarea;
 use Dat0r\Runtime\DocumentType;
 
 class CategoryType extends DocumentType

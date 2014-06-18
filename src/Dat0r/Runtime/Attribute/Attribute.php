@@ -5,8 +5,8 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Runtime\Attribute\ValueHolder\IValueHolder;
-use Dat0r\Runtime\Attribute\ValueHolder\NullValue;
+use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\Attribute\Value\NullValue;
 use Dat0r\Runtime\Validator\IValidator;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\IDocumentType;
@@ -15,7 +15,7 @@ use Dat0r\Runtime\IDocumentType;
  * Base class that all Dat0r IAttribute implementations should extend.
  * Provides a pretty complete implementation for the IAttribute interface.
  *
- * basic options: 'validator', 'value_holder', 'default_value', 'mandatory'
+ * basic options: 'validator', 'value', 'default_value', 'mandatory'
  * @todo extends Object; which introduces a breaking change to the create method.
  */
 abstract class Attribute implements IAttribute
@@ -164,7 +164,7 @@ abstract class Attribute implements IAttribute
     /**
      * Returns the default value of the attribute.
      *
-     * @return IValueHolder
+     * @return IValue
      */
     public function getDefaultValue()
     {
@@ -221,24 +221,24 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Creates a IValueHolder, that is specific to the current attribute instance.
+     * Creates a IValue, that is specific to the current attribute instance.
      *
-     * @return IValueHolder
+     * @return IValue
      */
-    public function createValueHolder()
+    public function createValue()
     {
-        $implementor = $this->hasOption('value_holder')
-            ? $this->getOption('value_holder')
-            : $this->buildDefaultValueHolderClassName();
+        $implementor = $this->hasOption('value')
+            ? $this->getOption('value')
+            : $this->buildDefaultValueClassName();
 
         if (!class_exists($implementor)) {
             throw new RuntimeException(
-                "Invalid attribute value-holder given upon createValueHolder request."
+                "Invalid attribute value-holder given upon createValue request."
             );
         }
-        $value_holder = new $implementor($this);
+        $value = new $implementor($this);
 
-        if (!$value_holder instanceof IValueHolder) {
+        if (!$value instanceof IValue) {
             throw new InvalidTypeException(
                 sprintf(
                     "Invalid valueholder implementation '%s' given for attribute '%s'.",
@@ -248,9 +248,9 @@ abstract class Attribute implements IAttribute
             );
         }
 
-        $value_holder->setValue($this->getDefaultValue());
+        $value->set($this->getDefaultValue());
 
-        return $value_holder;
+        return $value;
     }
 
     /**
@@ -264,16 +264,16 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Returns the IValueHolder implementation to use when aggregating (value)data for this attribute.
+     * Returns the IValue implementation to use when aggregating (value)data for this attribute.
      * Override this method if you want inject your own implementation.
      *
-     * @return string Fully qualified name of an IValueHolder implementation.
+     * @return string Fully qualified name of an IValue implementation.
      */
-    protected function buildDefaultValueHolderClassName()
+    protected function buildDefaultValueClassName()
     {
-        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\ValueHolder\\Bundle";
+        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\Value\\Type";
         $attribute_classname_parts = explode('\\', get_class($this));
-        $valueholder_class = array_pop($attribute_classname_parts) . 'ValueHolder';
+        $valueholder_class = array_pop($attribute_classname_parts) . 'Value';
 
         return $valueholder_namespace . '\\' . $valueholder_class;
     }

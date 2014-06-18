@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Document;
 
 use Dat0r\Common\IEvent;
-use Dat0r\Runtime\Attribute\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
 
 /**
  * Represents an event that occurs when a document's value changes.
