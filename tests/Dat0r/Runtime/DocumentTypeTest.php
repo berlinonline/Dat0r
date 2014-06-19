@@ -18,7 +18,7 @@ class DocumentTypeTest extends TestCase
         $this->assertEquals(11, $type->getAttributes()->getSize());
     }
 
-    public function testCreateAggegateType()
+    public function testCreateAggregateType()
     {
         $type = new ParagraphType();
 
