@@ -70,10 +70,10 @@ class TypeSchema extends Object
     public function getUsedAggregateDefinitions(TypeDefinition $type_definition)
     {
         $aggregates_definitions_list = new TypeDefinitionList();
-        $aggregate_attributes = $type_definition->getAttributes()->filterByType('aggregate');
+        $aggregate_attributes = $type_definition->getAttributes()->filterByType('aggregate-collection');
 
         foreach ($aggregate_attributes as $aggregate_attribute) {
-            $aggregated_types_opt = $aggregate_attribute->getOptions()->filterByName('types');
+            $aggregated_types_opt = $aggregate_attribute->getOptions()->filterByName('aggregates');
             $aggregates = $this->getAggregateDefinitions($aggregated_types_opt->getValue()->toArray());
 
             foreach ($aggregates as $aggregate) {
@@ -107,7 +107,7 @@ class TypeSchema extends Object
     public function getUsedReferenceDefinitions(TypeDefinition $type_definition)
     {
         $reference_definitions_list = new TypeDefinitionList();
-        $reference_attributes = $type_definition->getAttributes()->filterByType('reference');
+        $reference_attributes = $type_definition->getAttributes()->filterByType('reference-collection');
 
         foreach ($reference_attributes as $reference_attribute) {
             $references_option = $reference_attribute->getOptions()->filterByName('references');

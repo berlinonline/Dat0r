@@ -20,10 +20,10 @@ class ConfigIniParser extends Object implements IParser
         return new Config(
             array(
                 'options' => array(
-                    'bootstrap_file' => $this->determineBootstrapFile($settings, $config_dir),
-                    'deploy_method' => $this->determineDeployMethod($settings),
-                    'deploy_dir' => $this->determineDeployDirectory($settings, $config_dir),
-                    'cache_dir' => $this->determineCacheDirectory($settings, $config_dir),
+                    'bootstrap_file' => $this->resolveBootstrapFile($settings, $config_dir),
+                    'deploy_method' => $this->resolveDeployMethod($settings),
+                    'deploy_dir' => $this->resolveDeployDirectory($settings, $config_dir),
+                    'cache_dir' => $this->resolveCacheDirectory($settings, $config_dir),
                     'plugin_settings' => $this->createPluginData($settings, $config_dir)
                 )
             )
@@ -48,7 +48,7 @@ class ConfigIniParser extends Object implements IParser
         return $settings;
     }
 
-    protected function determineDeployMethod(array $settings)
+    protected function resolveDeployMethod(array $settings)
     {
         $deploy_method = null;
         if (isset($settings['deploy_method'])) {
@@ -60,7 +60,7 @@ class ConfigIniParser extends Object implements IParser
         return $deploy_method;
     }
 
-    protected function determineDeployDirectory(array $settings, $config_dir)
+    protected function resolveDeployDirectory(array $settings, $config_dir)
     {
         if (!isset($settings['deploy_dir'])) {
             throw new InvalidConfigException(
@@ -81,7 +81,7 @@ class ConfigIniParser extends Object implements IParser
         return $deploy_directory;
     }
 
-    protected function determineCacheDirectory(array $settings, $config_dir)
+    protected function resolveCacheDirectory(array $settings, $config_dir)
     {
         if (!isset($settings['cache_dir'])) {
             throw new InvalidConfigException(
@@ -102,7 +102,7 @@ class ConfigIniParser extends Object implements IParser
         return $cache_directory;
     }
 
-    protected function determineBootstrapFile(array $settings, $config_dir)
+    protected function resolveBootstrapFile(array $settings, $config_dir)
     {
         $bootstrap_file = null;
         if (isset($settings['bootstrap_file'])) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <type_schema namespace="Example\Domain">
 
-    <type_definition name="SimpleSchema">
+    <type_definition name="ComplexSchema">
         <description>Example schema describing a simple type.</description>
         <option name="some_option">with_some_value</option>
         <attributes>

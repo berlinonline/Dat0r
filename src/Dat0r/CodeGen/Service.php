@@ -65,11 +65,6 @@ class Service extends Object
         $this->build_cache->deploy($class_container_list, $this->config->getDeployMethod());
     }
 
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
     protected function setConfig(Config $config)
     {
         $this->config = $config;

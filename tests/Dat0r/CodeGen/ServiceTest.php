@@ -77,7 +77,7 @@ class ServiceTest extends Tests\TestCase
 
         $this->schema_path = __DIR__ .
             DIRECTORY_SEPARATOR . 'Fixtures' .
-            DIRECTORY_SEPARATOR . 'simple_schema_with_aggregate.xml';
+            DIRECTORY_SEPARATOR . 'complex_schema.xml';
     }
 
     protected function tearDown()

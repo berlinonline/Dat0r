@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<type_schema namespace="Example\Domain">
+
+    <type_definition name="ComplexSchema">
+        <description>Example schema describing a simple type.</description>
+        <option name="some_option">with_some_value</option>
+        <attributes>
+            <attribute name="title" type="text">
+                <description>A title attribute.</description>
+                <option name="mandatory">true</option>
+            </attribute>
+
+            <attribute name="content" type="textarea">
+                <description>A textarea with richtext holding some content.</description>
+                <option name="use_richtext">yes</option>
+            </attribute>
+
+            <attribute name="keywords" type="text-collection">
+                <description>Some keywords that can reflect the content.</description>
+            </attribute>
+
+            <attribute name="voting_stats" type="aggregate-collection">
+                <description>Keeps track of the votes a topic has received.</description>
+                <option name="aggregates">
+                    <option>VotingStats</option>
+                </option>
+            </attribute>
+
+            <attribute name="categories" type="reference-collection">
+                <description>Represents categories.</description>
+                <option name="references">
+                    <option>Category</option>
+                    <option>Tag</option>
+                </option>
+            </attribute>
+        </attributes>
+    </type_definition>
+
+    <aggregate_definition name="VotingStats">
+        <description>
+            Aggregates information on the number of votes, a max(global) score and average voting.
+        </description>
+        <attributes>
+            <attribute name="average_score" type="number">
+                <description>Holds an average voting score ('global score' / 'number of votes').</description>
+                <option name="precision">float</option>
+            </attribute>
+            <attribute name="global_score" type="number">
+                <description>Holds the sum of all votings that have taken place.</description>
+            </attribute>
+            <attribute name="voting_count" type="number">
+                <description>Holds the number of votes that have taken place.</description>
+            </attribute>
+        </attributes>
+    </aggregate_definition>
+
+    <reference_definition name="Category">
+        <option name="type">\Honeybee\Domain\Category\CategoryType</option>
+        <option name="id_attribute">identifier</option>
+        <attributes>
+            <attribute name="name" type="text" />
+        </attributes>
+    </reference_definition>
+
+    <reference_definition name="Tag">
+        <option name="type">\Honeybee\Domain\Tag\TagType</option>
+        <option name="id_attribute">identifier</option>
+        <attributes>
+            <attribute name="title" type="text" />
+        </attributes>
+    </reference_definition>
+
+</type_schema>

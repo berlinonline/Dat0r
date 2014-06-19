@@ -2,11 +2,11 @@
 
 namespace Dat0r\Tests\CodeGen\Parser;
 
-use Dat0r\Tests;
+use Dat0r\Tests\TestCase;
 use Dat0r\CodeGen\Schema\OptionDefinitionList;
 use Dat0r\CodeGen\Schema\OptionDefinition;
 
-class OptionDefinitionListTest extends Tests\TestCase
+class OptionDefinitionListTest extends TestCase
 {
     public function testToArray()
     {

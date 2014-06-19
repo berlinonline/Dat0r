@@ -9,8 +9,7 @@ php:
 before_script: make update
 
 script:
-  - make test
-  - make code-sniffer
+  - make
 
 after_script:
   - php vendor/bin/coveralls -v
