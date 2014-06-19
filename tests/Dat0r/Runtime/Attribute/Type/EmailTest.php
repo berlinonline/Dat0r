@@ -130,7 +130,7 @@ class EmailTest extends TestCase
             //     'Domain names longer than 63 characters are invalid'
             // ),
             // array(
-            //     'example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123456789012@example1example.example123example123example123example123example123.example123example123example123example123example123example123.com',
+            //     'user@' . str_repeat('example123', 20) . '@' . str_repeat('example123', 20) . '.com',
             //     '320 octets/bytes are the maximum allowed length according to RFC 5322 and RFC 5321 valid emails'
             // ),
             array(
