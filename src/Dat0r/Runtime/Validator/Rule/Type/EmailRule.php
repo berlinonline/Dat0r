@@ -4,24 +4,48 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IIncident;
+use Egulias\EmailValidator\EmailLexer;
+use Egulias\EmailValidator\EmailParser;
+use Egulias\EmailValidator\EmailValidator;
+use Exception;
+use InvalidArgumentException;
+use ReflectionClass;
 
 class EmailRule extends Rule
 {
     protected function execute($value)
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || !is_string($value)) {
             $this->throwError('invalid_type', array(), IIncident::CRITICAL);
             return false;
         }
 
-        $success = filter_var($value, FILTER_VALIDATE_EMAIL);
-        if (!$success) {
-            $this->throwError('invalid_format');
-            $success = false;
-        } else {
-            $this->setSanitizedValue($value);
+        $warnings = array();
+        $reason = null;
+
+        try {
+            $parser = new EmailParser(new EmailLexer());
+            $parser->parse($value);
+            $warnings = $parser->getWarnings();
+        } catch (InvalidArgumentException $parse_error) {
+            $error_const = $parse_error->getMessage();
+            $validator_reflection = new ReflectionClass(new EmailValidator());
+            if ($validator_reflection->hasConstant($error_const)) {
+                $reason = $error_const;
+            }
+            $this->throwError('invalid_format', array('reason' => $reason), IIncident::ERROR);
+
+            return false;
         }
 
-        return $success;
+        if (count($warnings) > 0) {
+            // @todo map warnings to errors and raise critical
+            // @todo raise critical as soon as max number of warnings reached
+            // @todo non-mapped warnings are raised as notice
+        }
+
+        $this->setSanitizedValue($value);
+
+        return true;
     }
 }

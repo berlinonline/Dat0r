@@ -20,7 +20,6 @@ class UuidTest extends TestCase
     {
         $uuid_attribute = new Uuid(self::FIELDNAME);
         $default_value = $uuid_attribute->getDefaultValue();
-
         $this->assertFalse(empty($default_value));
         $this->assertTrue(is_string($default_value));
 
@@ -29,6 +28,7 @@ class UuidTest extends TestCase
             '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',
             $default_value
         );
+
         $this->assertTrue(1 === $match_count);
     }
 

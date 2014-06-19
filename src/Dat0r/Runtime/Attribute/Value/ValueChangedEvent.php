@@ -73,7 +73,7 @@ class ValueChangedEvent extends Object implements IEvent
     /**
      * Returns the previous value of the event's related attribute.
      *
-     * @return IValue
+     * @return mixed
      */
     public function getOldValue()
     {
@@ -83,7 +83,7 @@ class ValueChangedEvent extends Object implements IEvent
     /**
      * Returns the new value of the event's related attribute.
      *
-     * @return IValue
+     * @return mixed
      */
     public function getNewValue()
     {
