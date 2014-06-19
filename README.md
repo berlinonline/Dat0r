@@ -1,8 +1,13 @@
 # Dat0r
 
-| Unit Tests | Coverage | Dependencies | Version | PHP-FIG |
-| ---------- | -------- | ------------ | ------- | ------- |
-| [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r) | [![Coverage Status](https://coveralls.io/repos/berlinonline/Dat0r/badge.png?branch=collection-refactoring)](https://coveralls.io/r/berlinonline/Dat0r?branch=collection-refactoring) | [![Dependency Status](https://www.versioneye.com/user/projects/5284ee80632bac293d0001d7/badge.png)](https://www.versioneye.com/user/projects/5284ee80632bac293d0001d7) | dev-master | psr-0, psr-1 and psr-2 |
+| Unit Tests | Coverage | Dependencies | Quality | Version | PHP-FIG |
+| ---------- | -------- | ------------ | ------- | ------- | ------- |
+| [![Build Status](https://travis-ci.org/berlinonline/Dat0r.png)](https://travis-ci.org/berlinonline/Dat0r)
+| [![Coverage Status](https://img.shields.io/coveralls/berlinonline/Dat0r.svg)](https://coveralls.io/r/berlinonline/Dat0r?branch=field_path)
+| [![Dependency Status](https://www.versioneye.com/user/projects/5284ee80632bac293d0001d7/badge.png)](https://www.versioneye.com/user/projects/5284ee80632bac293d0001d7)
+| [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/berlinonline/Dat0r/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/berlinonline/Dat0r/?branch=master)
+| dev-master
+| psr-0, psr-1 and psr-2 |
 
 ## Purpose
 
