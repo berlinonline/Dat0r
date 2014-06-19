@@ -13,14 +13,16 @@ metrics:
 	-@$(PROJECT_BASEDIR)/vendor/bin/phpmd src/ xml codesize,design,naming,unusedcode --reportfile ./build/logs/pmd.xml
 	-@$(PROJECT_BASEDIR)/vendor/bin/phpcb --log ./build/logs/ --source ./src --output ./build/codebrowser/
 
-install:
-	@if [ ! -d ./bin ]; then mkdir bin; fi
-	@if [ ! -f ./bin/composer.phar ]; then curl -s http://getcomposer.org/installer | php -d date.timezone="Europe/Berlin" -- --install-dir=./bin/; fi
+install: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- install
 
-update:
+update: install-composer
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- update
 	@php -d date.timezone="Europe/Berlin" ./bin/composer.phar -- self-update
+
+install-composer:
+	@if [ ! -d ./bin ]; then mkdir bin; fi
+	@if [ ! -f ./bin/composer.phar ]; then curl -s http://getcomposer.org/installer | php -d date.timezone="Europe/Berlin" -- --install-dir=./bin/; fi
 
 api-doc:
 	@if [ -d ./build/docs ]; then rm -rf ./build/docs; fi
@@ -32,4 +34,4 @@ code-sniffer:
 test:
 	@$(PROJECT_BASEDIR)/vendor/bin/phpunit --bootstrap ./tests/bootstrap.php --no-configuration tests/Dat0r
 
-.PHONY: test api-doc install update metrics code-sniffer
+.PHONY: test api-doc install install-composer update metrics code-sniffer
