@@ -33,7 +33,7 @@ class AttributePathTest extends TestCase
     public function attributeByPathProvider()
     {
         return array(
-            array('paragraph.paragraph.title', 'title'),
+            array('content_objects.paragraph.title', 'title'),
             array('references.category.description', 'description'),
             array('headline', 'headline')
         );
@@ -44,8 +44,8 @@ class AttributePathTest extends TestCase
         $article_type = new ArticleType();
         $headline_attribute = $article_type->getAttribute('headline');
 
-        $paragraph_attribute = $article_type->getAttribute('paragraph');
-        $paragraph_type = $paragraph_attribute->getAggregateByPrefix('paragraph');
+        $content_objects_attribute = $article_type->getAttribute('content_objects');
+        $paragraph_type = $content_objects_attribute->getAggregateByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
         $references_attribute = $article_type->getAttribute('references');
@@ -54,7 +54,7 @@ class AttributePathTest extends TestCase
 
         return array(
             array($headline_attribute, 'headline'),
-            array($title_attribute, 'paragraph.paragraph.title'),
+            array($title_attribute, 'content_objects.paragraph.title'),
             array($description_attribute, 'references.category.description')
         );
     }

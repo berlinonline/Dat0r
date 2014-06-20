@@ -148,7 +148,7 @@ class DataGeneratorTest extends TestCase
                     'content' => $fake_content,
                     'author' => $fake_author,
                     'images' => array(1,2,3,4),
-                    'clickCount' => 1337,
+                    'click_count' => 1337,
                     'non_existant' => 'asdf'
                 )
             )
@@ -201,8 +201,8 @@ class DataGeneratorTest extends TestCase
     public function testFillDocumentAggregate()
     {
         $data = DataGenerator::createDataFor($this->type);
-        $this->assertTrue(is_array($data['paragraph']), 'The Article should have a paragraph.');
-        $paragraph_data = $data['paragraph'][0];
+        $this->assertTrue(is_array($data['content_objects']), 'The Article should have a content_object.');
+        $paragraph_data = $data['content_objects'][0];
 
         $this->assertArrayHasKey('title', $paragraph_data, 'The Paragraph should have a title attribute.');
         $this->assertTrue(!empty($paragraph_data['title']), 'The title of the Paragraph should not be empty.');
@@ -254,7 +254,7 @@ class DataGeneratorTest extends TestCase
     public function testFillDocumentIgnoreAttribute()
     {
         $this->assertEquals(11, $this->type->getAttributes()->getSize());
-        $excluded_attributes = array('author', 'clickCount', 'enabled', 'references');
+        $excluded_attributes = array('author', 'click_count', 'enabled', 'references');
 
         DataGenerator::fill(
             $this->document,
@@ -322,7 +322,7 @@ class DataGeneratorTest extends TestCase
         $this->assertArrayHasKey('author', $data);
         $this->assertArrayHasKey('email', $data);
         $this->assertArrayHasKey('headline', $data);
-        $this->assertArrayHasKey('clickCount', $data);
+        $this->assertArrayHasKey('click_count', $data);
         $this->assertArrayHasKey('content', $data);
         $this->assertFalse(
             isset($data['non_existant']),

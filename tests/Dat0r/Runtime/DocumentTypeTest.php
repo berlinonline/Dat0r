@@ -32,7 +32,7 @@ class DocumentTypeTest extends TestCase
     public function testGetAttributeMethod(IDocumentType $type)
     {
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $type->getAttribute('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $type->getAttribute('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $type->getAttribute('click_count'));
     }
 
     /**
@@ -59,7 +59,7 @@ class DocumentTypeTest extends TestCase
         );
         $this->assertInstanceOf(
             'Dat0r\\Runtime\\Attribute\\Type\\Number',
-            $attributes->getItem('clickCount')
+            $attributes->getItem('click_count')
         );
         $this->assertInstanceOf(
             'Dat0r\\Runtime\\Attribute\\Type\\Text',
@@ -89,7 +89,7 @@ class DocumentTypeTest extends TestCase
 
         $this->assertInstanceOf(
             'Dat0r\\Runtime\\Attribute\\Type\\AggregateCollection',
-            $attributes->getItem('paragraph')
+            $attributes->getItem('content_objects')
         );
 
         $this->assertInstanceOf(
@@ -103,13 +103,13 @@ class DocumentTypeTest extends TestCase
      */
     public function testGetAttributesMethodFiltered(IDocumentType $type)
     {
-        $attributes = $type->getAttributes(array('headline', 'clickCount'));
+        $attributes = $type->getAttributes(array('headline', 'click_count'));
 
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
         $this->assertEquals(2, $attributes->getSize());
 
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('clickCount'));
+        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('click_count'));
     }
 
     /**
@@ -150,7 +150,7 @@ class DocumentTypeTest extends TestCase
     public function testGetAttributeByPath()
     {
         $type = new ArticleType();
-        $attribute = $type->getAttribute('paragraph.paragraph.title');
+        $attribute = $type->getAttribute('content_objects.paragraph.title');
 
         $this->assertEquals('title', $attribute->getName());
     }

@@ -21,6 +21,6 @@ class ParagraphType extends DocumentType
 
     protected function getDocumentImplementor()
     {
-        return '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy';
+        return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Paragraph';
     }
 }

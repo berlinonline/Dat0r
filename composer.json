@@ -2,7 +2,7 @@
     "name": "berlinonline/dat0r",
     "type": "library",
     "bin": ["bin/dat0r.make", "bin/dat0r.console"],
-    "description": "Library for generating data-objects.",
+    "description": "Library for generating domain/data objects.",
     "keywords": ["entity", "scaffolding"],
     "homepage": "https://github.com/berlinonline/Dat0r",
     "license": "MIT",
@@ -19,21 +19,20 @@
         "symfony/console": "2.5.*",
         "symfony/filesystem": "2.5.*",
         "fzaninotto/faker": "1.*",
-        "egulias/email-validator": "1.1.1",
-        "rhumsaa/uuid": "2.7.1"
+        "egulias/email-validator": "1.1.*",
+        "rhumsaa/uuid": "2.7.*"
     },
     "require-dev": {
-        "phpmd/phpmd": "1.5.*",
-        "pdepend/pdepend": "1.1.*",
         "phpunit/phpunit": "4.1.*",
+        "phpmd/phpmd": "2.0.*",
         "sebastian/phpcpd": "2.0.*",
-        "squizlabs/php_codesniffer": "1.*",
+        "squizlabs/php_codesniffer": "1.5.*",
         "mayflower/php-codebrowser": "1.1.*",
-        "satooshi/php-coveralls": "0.6.*",
         "mockery/mockery": "0.9.*",
+        "satooshi/php-coveralls": "0.6.*",
         "sami/sami": "1.3"
     },
     "autoload": {
-        "psr-0": {"Dat0r" : "src/" }
+        "psr-0": { "Dat0r" : "src/" }
     }
 }

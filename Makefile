@@ -31,7 +31,13 @@ api-doc:
 code-sniffer:
 	-@$(PROJECT_BASEDIR)/vendor/bin/phpcs --extensions=php --standard=psr2 ./src/ ./tests
 
-test:
-	@$(PROJECT_BASEDIR)/vendor/bin/phpunit --bootstrap ./tests/bootstrap.php --no-configuration tests/Dat0r
+mess-detection:
+	@$(PROJECT_BASEDIR)/vendor/bin/phpmd src/ text codesize,design,naming,unusedcode
 
-.PHONY: test api-doc install install-composer update metrics code-sniffer
+cp-detection:
+	@$(PROJECT_BASEDIR)/vendor/bin/phpcpd --log-pmd ./build/logs/pmd-cpd.xml src/
+
+test:
+	@$(PROJECT_BASEDIR)/vendor/bin/phpunit --bootstrap ./tests/bootstrap.php --colors --no-configuration tests/Dat0r
+
+.PHONY: test api-doc install install-composer update metrics code-sniffer mess-detection cp-detection

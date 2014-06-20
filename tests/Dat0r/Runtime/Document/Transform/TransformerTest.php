@@ -42,7 +42,7 @@ class TransformerTest extends TestCase
                 'email' => 'thorsten.schmitt-rink@example.com',
                 'content' => 'This is some kind of very valueable and incredible content.',
                 'enabled' => true,
-                'clickCount' => 23,
+                'click_count' => 23,
                 'images' => array(5, 23, 42),
                 'keywords' => array('incredible', 'valueable'),
                 'meta' => array('state' => 'edit'),

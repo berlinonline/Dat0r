@@ -21,14 +21,14 @@ class ArticleType extends DocumentType
             array(
                 new Text('headline', array('min' => 4)),
                 new Text('content'),
-                new Number('clickCount'),
+                new Number('click_count'),
                 new Text('author'),
                 new Text('email'),
                 new NumberCollection('images'),
                 new TextCollection('keywords'),
                 new Boolean('enabled'),
                 new AggregateCollection(
-                    'paragraph',
+                    'content_objects',
                     array(
                         'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
                     )
@@ -51,6 +51,6 @@ class ArticleType extends DocumentType
 
     protected function getDocumentImplementor()
     {
-        return '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy';
+        return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Article';
     }
 }

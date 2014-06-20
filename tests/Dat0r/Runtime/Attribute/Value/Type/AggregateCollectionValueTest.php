@@ -15,7 +15,7 @@ class AggregateCollectionValueTest extends TestCase
     {
         $value = new AggregateCollectionValue(
             new AggregateCollection(
-                'paragraph',
+                'content_objects',
                 array(
                     'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
                 )
@@ -31,7 +31,7 @@ class AggregateCollectionValueTest extends TestCase
     public function testDefaultValue()
     {
         $aggregate_attribute = new AggregateCollection(
-            'paragraph',
+            'content_objects',
             array(
                 'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
             )
@@ -57,7 +57,7 @@ class AggregateCollectionValueTest extends TestCase
         );
 
         $aggregate_attribute = new AggregateCollection(
-            'paragraph',
+            'content_objects',
             array(
                 'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
             )

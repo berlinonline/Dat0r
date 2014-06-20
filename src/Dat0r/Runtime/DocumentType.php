@@ -240,6 +240,9 @@ abstract class DocumentType extends Object implements IDocumentType
         return array_keys($this->getDefaultAttributes());
     }
 
+    /**
+     * @todo All documents should have a uuid field by default
+     */
     protected function getDefaultAttributes()
     {
         return array();
