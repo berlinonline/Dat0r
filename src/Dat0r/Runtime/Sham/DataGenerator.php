@@ -472,8 +472,11 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addAggregateCollection(IDocument $document, AggregateCollection $attribute, array $options = array())
-    {
+    protected function addAggregateCollection(
+        IDocument $document,
+        AggregateCollection $attribute,
+        array $options = array()
+    ) {
         $options_clone = $options;
         $document_collection = new DocumentList();
         $aggregate_types = $attribute->getAggregates();
@@ -505,8 +508,11 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addReferenceCollection(IDocument $document, ReferenceCollection $attribute, array $options = array())
-    {
+    protected function addReferenceCollection(
+        IDocument $document,
+        ReferenceCollection $attribute,
+        array $options = array()
+    ) {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL])
             && is_int($options[self::OPTION_RECURSION_LEVEL])
