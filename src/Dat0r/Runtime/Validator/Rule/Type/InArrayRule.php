@@ -23,8 +23,9 @@ class InArrayRule extends Rule
         } elseif (is_scalar($value)) {
             $casted = array($value);
         } else {
-            $success = false;
+            $casted = array();
             $this->throwError('invalid_type');
+            $success = false;
         }
         // Check if the given value(s) are valid/allowed.
         foreach ($casted as $current_value) {

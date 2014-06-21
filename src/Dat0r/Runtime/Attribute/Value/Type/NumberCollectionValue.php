@@ -22,6 +22,7 @@ class NumberCollectionValue extends Value
      */
     public function isEqualTo($other_value)
     {
+        /** @var array $lefthand_value */
         $lefthand_value = $this->get();
         $lefthand_count = 0;
         $righthand_count = 0;
@@ -56,7 +57,7 @@ class NumberCollectionValue extends Value
     {
         // @todo move to validator
         $values = array();
-        $value = empty($value) ? array() : $value;
+        $value = !is_array($value) || empty($value) ? array() : $value;
         foreach ($value as $int) {
             if (! empty($int)) {
                 $values[] = (int)$int;

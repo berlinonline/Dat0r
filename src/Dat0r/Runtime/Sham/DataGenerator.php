@@ -8,6 +8,8 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Document\IDocument;
 use Dat0r\Runtime\IDocumentType;
 use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\Type\AggregateCollection;
+use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
 use Dat0r\Runtime\Document\DocumentList;
 
@@ -21,6 +23,8 @@ use Dat0r\Runtime\Document\DocumentList;
 class DataGenerator
 {
     protected $faker;
+
+    protected $locale;
 
     /**
      * name of options array key to use for an array of attribute_name => value pairs
@@ -463,12 +467,12 @@ class DataGenerator
      * Generates and adds fake data for a aggregate documents.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IAttribute $attribute an instance of the AggregateCollection to fill with fake data.
+     * @param AggregateCollection $attribute an instance of the AggregateCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addAggregateCollection(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addAggregateCollection(IDocument $document, AggregateCollection $attribute, array $options = array())
     {
         $options_clone = $options;
         $document_collection = new DocumentList();
@@ -496,12 +500,12 @@ class DataGenerator
      * Generates and adds fake data for a ReferenceCollection on a document.
      *
      * @param IDocument $document an instance of the document to fill with fake data.
-     * @param IAttribute $attribute an instance of the ReferenceCollection to fill with fake data.
+     * @param ReferenceCollection $attribute an instance of the ReferenceCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addReferenceCollection(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addReferenceCollection(IDocument $document, ReferenceCollection $attribute, array $options = array())
     {
         $recursion_level = 1;
         if (!empty($options[self::OPTION_RECURSION_LEVEL])

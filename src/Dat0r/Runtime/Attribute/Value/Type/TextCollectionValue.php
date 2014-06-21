@@ -16,12 +16,13 @@ class TextCollectionValue extends Value
      * Tells whether a spefic IValue instance's value is considered equal to
      * the value of an other given IValue.
      *
-     * @param IValue $other
+     * @param IValue $other_value
      *
      * @return boolean
      */
     public function isEqualTo($other_value)
     {
+        /** @var array $lefthand_value */
         $lefthand_value = $this->get();
         $lefthand_count = 0;
         $righthand_count = 0;
@@ -56,7 +57,7 @@ class TextCollectionValue extends Value
     {
         // @todo move to validator
         $values = array();
-        $value = empty($value) ? array() : $value;
+        $value = !is_array($value) || empty($value) ? array() : $value;
         foreach ($value as $text) {
             $text = trim((string)$text);
             if (!empty($text)) {

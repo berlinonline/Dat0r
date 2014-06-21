@@ -22,6 +22,7 @@ class KeyValueValue extends Value
      */
     public function isEqualTo($other_value)
     {
+        /** @var array $lefthand_value */
         $lefthand_value = $this->get();
         $lefthand_count = 0;
         $righthand_count = 0;
