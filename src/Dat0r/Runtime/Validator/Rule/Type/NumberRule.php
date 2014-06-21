@@ -16,9 +16,7 @@ class NumberRule extends Rule
             return false;
         }
 
-        if (is_numeric($value)) {
-            $this->setSanitizedValue($value);
-        } else {
+        if (!is_numeric($value)) {
             $this->throwError('invalid_type');
             $success = false;
         }
@@ -28,6 +26,7 @@ class NumberRule extends Rule
         } elseif ($success && $this->getOption('cast_to') === 'int') {
             $value = (int)filter_var($value, FILTER_SANITIZE_NUMBER_INT);
         }
+        $this->setSanitizedValue($value);
 
         return $success;
     }

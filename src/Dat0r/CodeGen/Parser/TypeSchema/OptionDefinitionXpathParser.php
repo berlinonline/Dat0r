@@ -14,7 +14,6 @@ class OptionDefinitionXpathParser extends XpathParser
         $options_list = new OptionDefinitionList();
         $options_nodelist = $xpath->query('./options', $context);
 
-        $option_nodes = null;
         if ($options_nodelist->length > 0) {
             $option_nodes = $xpath->query('./option', $options_nodelist->item(0));
         } else {
@@ -33,7 +32,6 @@ class OptionDefinitionXpathParser extends XpathParser
     protected function parseOption(DOMXPath $xpath, DOMElement $element)
     {
         $name = null;
-        $value = null;
         $default = null;
 
         if ($element->hasAttribute('name')) {

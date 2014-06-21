@@ -29,11 +29,8 @@ abstract class Rule extends Object implements IRule
         $this->incidents = new IncidentMap();
         $this->sanitized_value = null;
 
-        $success = false;
-        if ($success = $this->execute($value)) {
+        if (true === ($success = $this->execute($value))) {
             $this->sanitized_value = ($this->sanitized_value === null) ? $value : $this->sanitized_value;
-        } else {
-            $output = null;
         }
 
         return $success;

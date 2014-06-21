@@ -58,8 +58,6 @@ class Autoloader
      */
     public static function autoload($class)
     {
-        $file_path = null;
-
         if (0 === strpos($class, 'Dat0r')) {
             $file_path = self::buildCorePath($class);
         } else {
