@@ -63,6 +63,6 @@ class TypeDefinitionXpathParser extends XpathParser
         $parser = new AttributeDefinitionXpathParser();
         $attributes_element = $xpath->query('./attributes', $element)->item(0);
 
-        return $parser->parseXpath($xpath, $attributes_element);
+        return $parser->parse($xpath, array('context' => $attributes_element));
     }
 }

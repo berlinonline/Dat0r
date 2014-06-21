@@ -75,6 +75,8 @@ class GenerateCodeCommand extends Command
 
     protected function validateInputAction(InputInterface $input)
     {
+        $sanitized_actions = array();
+
         $valid_actions = array_merge(self::$generate_action_aliases, self::$deploy_action_aliases);
         $input_actions = explode('+', $input->getArgument('action'));
         foreach ($input_actions as $input_action) {
@@ -89,6 +91,7 @@ class GenerateCodeCommand extends Command
         if ($diff_count < count(self::$generate_action_aliases)) {
             $sanitized_actions[] = 'generate';
         }
+
         $diff_count = count(array_diff(self::$deploy_action_aliases, $input_actions));
         if ($diff_count < count(self::$deploy_action_aliases)) {
             $sanitized_actions[] = 'deploy';

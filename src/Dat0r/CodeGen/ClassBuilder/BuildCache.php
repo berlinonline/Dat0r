@@ -112,7 +112,11 @@ class BuildCache extends Object
             }
 
             $package_parts = explode('\\', $class_container->getPackage());
-            $override = ('Base' === end($package_parts));
+            $override = false;
+            if ('Base' === end($package_parts)) {
+                $override = true;
+            }
+
             if ('move' === $method) {
                 $this->file_system->rename($cache_filepath, $deploy_filepath, $override);
             } else {

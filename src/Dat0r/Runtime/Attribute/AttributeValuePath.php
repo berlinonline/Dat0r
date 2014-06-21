@@ -140,7 +140,7 @@ class AttributeValuePath
         if ($offset_spec['type'] === 'index') {
             return $offset === $offset_spec['position'];
         } else {
-            return $document->getValue($offset_spec['attribute']) === $compare_value;
+            return $document->getValue($offset_spec['attribute_name']) === $offset_spec['attribute_value'];
         }
     }
 }

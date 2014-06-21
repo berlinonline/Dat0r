@@ -71,6 +71,6 @@ abstract class XpathParser extends Object implements IParser
     {
         $parser = new OptionDefinitionXpathParser();
 
-        return $parser->parseXpath($xpath, $element);
+        return $parser->parse($xpath, array('context' => $element));
     }
 }

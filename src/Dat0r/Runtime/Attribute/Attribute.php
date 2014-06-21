@@ -243,7 +243,7 @@ abstract class Attribute implements IAttribute
                 sprintf(
                     "Invalid valueholder implementation '%s' given for attribute '%s'.",
                     $implementor,
-                    $this->getAttribute()->getName()
+                    $this->getName()
                 )
             );
         }
