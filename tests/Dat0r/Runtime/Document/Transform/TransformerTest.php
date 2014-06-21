@@ -6,7 +6,7 @@ use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\TestTransformer;
 use Dat0r\Tests\Runtime\Document\Transform\Fixtures\EmbedSpecifications;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
-use Dat0r\Tests\Runtime\Document\Fixtures\DocumentTestProxy;
+use Dat0r\Tests\Runtime\Fixtures\Article;
 
 class TransformerTest extends TestCase
 {
@@ -22,7 +22,7 @@ class TransformerTest extends TestCase
     /**
      * @dataProvider provideTestDocument
      */
-    public function testTransform(DocumentTestProxy $document)
+    public function testTransform(Article $document)
     {
         $transformer = new TestTransformer();
         $spec_container = new EmbedSpecifications();
@@ -50,7 +50,7 @@ class TransformerTest extends TestCase
                     array(
                         'title' => 'This is an amazing paragraph',
                         'content' => 'Bob! This is just in incredible!',
-                        '@type' => '\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'
+                        '@type' => '\\Dat0r\\Tests\\Runtime\\Fixtures\\Paragraph'
                     )
                 )
             )

@@ -64,7 +64,7 @@ class AggregateCollectionTest extends TestCase
         $value->set($aggregate_data);
         $document = $value->get()->getFirst();
         $this->assertInstanceOf(
-            '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy',
+            '\\Dat0r\\Tests\\Runtime\\Fixtures\\Paragraph',
             $document
         );
 
@@ -115,7 +115,7 @@ class AggregateCollectionTest extends TestCase
                 array(
                     'title' => 'This is a paragraph test title.',
                     'content' => 'And this is some paragraph test content.',
-                    '@type' => '\\Dat0r\\Tests\\Runtime\\Document\\Fixtures\\DocumentTestProxy'
+                    '@type' => '\\Dat0r\\Tests\\Runtime\\Fixtures\\Paragraph'
                 )
             )
         );
