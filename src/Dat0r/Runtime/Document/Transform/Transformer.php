@@ -37,7 +37,6 @@ class Transformer extends Configurable implements ITransformer
         $specification_map = $spec_container->getSpecificationMap();
         $transformation = new Transformation();
 
-        $transformed_data = array();
         foreach ($specification_map as $output_key => $specification) {
             if (array_key_exists($data, $output_key)) {
                 $transformation->revert($document, $specification, $data[$output_key]);

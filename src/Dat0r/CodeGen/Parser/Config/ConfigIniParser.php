@@ -50,7 +50,6 @@ class ConfigIniParser extends Object implements IParser
 
     protected function resolveDeployMethod(array $settings)
     {
-        $deploy_method = null;
         if (isset($settings['deploy_method'])) {
             $deploy_method = $settings['deploy_method'];
         } else {

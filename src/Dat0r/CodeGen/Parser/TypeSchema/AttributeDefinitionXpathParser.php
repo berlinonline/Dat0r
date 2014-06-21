@@ -28,12 +28,10 @@ class AttributeDefinitionXpathParser extends XpathParser
         $description = '';
         $type = $element->getAttribute('type');
         $implementor = $this->resolveImplementor($type);
+        $description_element = $xpath->query('./description', $element)->item(0);
 
-        if (($description_element = $xpath->query('./description', $element)->item(0))) {
-            $description = $this->parseDescription(
-                $xpath,
-                $xpath->query('./description', $element)->item(0)
-            );
+        if ($description_element) {
+            $description = $this->parseDescription($xpath, $description_element);
         }
 
         return new AttributeDefinition(

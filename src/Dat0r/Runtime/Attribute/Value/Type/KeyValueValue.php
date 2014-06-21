@@ -71,7 +71,6 @@ class KeyValueValue extends Value
     protected function castValue($value)
     {
         $value_type = $this->getTypeConstraint();
-        $valid_values = true;
 
         switch ($value_type) {
             case 'integer':

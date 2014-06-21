@@ -15,7 +15,6 @@ class InArrayRule extends Rule
         $cast_to_array = $this->getOption('cast_to_array', true);
 
         $success = true;
-        $casted = null;
 
         // Cast the incoming value to an array in order to streamline the further validation strategy.
         if (is_array($value)) {

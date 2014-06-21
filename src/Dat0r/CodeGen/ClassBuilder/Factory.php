@@ -42,8 +42,6 @@ class Factory extends Object
 
     public function createClassBuildersForType(TypeDefinition $type)
     {
-        $class_builders = array();
-
         switch (get_class($type)) {
             case 'Dat0r\CodeGen\Schema\AggregateDefinition':
                 $class_builders = $this->createAggregateClassBuilders($type);

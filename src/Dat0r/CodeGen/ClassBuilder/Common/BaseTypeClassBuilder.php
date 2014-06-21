@@ -62,17 +62,6 @@ class BaseTypeClassBuilder extends TypeClassBuilder
             }
 
             $attributename = $attribute_definition->getName();
-            $attributename_studlycaps = preg_replace_callback(
-                '/(?:^|_)(.?)/',
-                function ($matches) {
-                    return strtoupper($matches[1]);
-                },
-                $attributename
-            );
-
-            $attribute_getter = 'get' . $attributename_studlycaps;
-            $attribute_setter = 'set' . $attributename_studlycaps;
-
             $attributes_data[] = array(
                 'implementor' => var_export($attribute_implementor, true),
                 'class_name' => $attribute_implementor,
