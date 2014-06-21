@@ -10,7 +10,6 @@ class AttributeValuePath
 {
     const PATH_DELIMITER = '.';
 
-    // @todo atm the index offset isn't processed in respect to a cetain aggregate-type
     public static function getAttributeValueByPath($document, $value_path)
     {
         // prepare path tuples
@@ -25,11 +24,18 @@ class AttributeValuePath
             $current_attribute = $current_type->getAttribute($path_tuple[0]);
             $document_collection = $current_document->getValue($current_attribute->getName());
             // try to find the next document that matches the current offset_spec
-            foreach ($document_collection as $offset => $next_document) {
-                if (self::documentMatchesOffsetSpec($next_document, $offset, $offset_spec)) {
+            $type_offsets = array('_all' => 0);
+            foreach ($document_collection as $next_document) {
+                $type_prefix = $next_document->getType()->getPrefix();
+                if (!isset($type_offsets[$type_prefix])) {
+                    $type_offsets[$type_prefix] = 0;
+                }
+                if (self::documentMatchesOffsetSpec($next_document, $offset_spec, $type_offsets)) {
                     $current_document = $next_document;
                     break;
                 }
+                $type_offsets['_all']++;
+                $type_offsets[$type_prefix]++;
             }
             // the value_path/offset_spec is valid, but doesn't match any documents in question
             if (!$current_document) {
@@ -117,8 +123,20 @@ class AttributeValuePath
         }
     }
 
-    protected static function documentMatchesOffsetSpec($document, $offset, $offset_spec)
+    protected static function documentMatchesOffsetSpec($document, $offset_spec, array $type_offsets)
     {
+        $type_prefix = $document->getType()->getPrefix();
+        $offset = $type_offsets['_all'];
+
+        if (
+            $offset_spec['document_type'] !== $type_prefix
+            && $offset_spec['document_type'] !== '*'
+        ) {
+            return false;
+        } elseif ($offset_spec['document_type'] === $type_prefix) {
+            $offset = $type_offsets[$type_prefix];
+        }
+
         if ($offset_spec['type'] === 'index') {
             return $offset === $offset_spec['position'];
         } else {
