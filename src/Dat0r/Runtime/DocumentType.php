@@ -202,7 +202,7 @@ abstract class DocumentType extends Object implements IDocumentType
 
         if (!class_exists($implementor, true)) {
             throw new InvalidTypeException(
-                "Unable to resolve the given document implementor upon document creation request."
+                "Unable to resolve the given document implementor '$implementor' upon document creation request."
             );
         }
 
