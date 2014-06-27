@@ -13,6 +13,11 @@ class Text extends Attribute
         return (string)$this->getOption('default_value', '');
     }
 
+    public function getNullValue()
+    {
+        return '';
+    }
+
     protected function buildValidationRules()
     {
         $rules = new RuleList();
