@@ -117,10 +117,12 @@ class BuildCache extends Object
                 $override = true;
             }
 
-            if ('move' === $method) {
-                $this->file_system->rename($cache_filepath, $deploy_filepath, $override);
-            } else {
-                $this->file_system->copy($cache_filepath, $deploy_filepath, null, array('override' => $override));
+            if (!file_exists($deploy_filepath) || $override) {
+                if ('move' === $method) {
+                    $this->file_system->rename($cache_filepath, $deploy_filepath, true);
+                } else {
+                    $this->file_system->copy($cache_filepath, $deploy_filepath, true);
+                }
             }
         }
     }

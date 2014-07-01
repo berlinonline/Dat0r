@@ -14,6 +14,11 @@ class BaseDocumentClassBuilder extends DocumentClassBuilder
         return $this->type_schema->getPackage() . '\\Base';
     }
 
+    protected function getNamespace()
+    {
+        return parent::getNamespace() . '\\Base';
+    }
+
     protected function getParentImplementor()
     {
         $parent_class = $this->type_definition->getDocumentImplementor();

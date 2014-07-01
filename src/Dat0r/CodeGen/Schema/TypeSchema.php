@@ -47,7 +47,8 @@ class TypeSchema extends Object
         $this->type_definition = $type_definition;
 
         if (!$this->package) {
-            $this->package = $type_definition->getName();
+            $namespace_parts = explode('\\', $this->namespace);
+            $this->package = end($namespace_parts);
         }
     }
 

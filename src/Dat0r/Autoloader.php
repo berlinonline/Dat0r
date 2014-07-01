@@ -136,14 +136,8 @@ class Autoloader
      */
     private static function tryRequire($file_path)
     {
-        if (! is_readable($file_path)) {
-            require_once __DIR__ . DIRECTORY_SEPARATOR . 'AutoloadException.php';
-
-            throw new AutoloadException(
-                "Unable to autoload demanded class at location: $file_path."
-            );
+        if (is_readable($file_path)) {
+            require $file_path;
         }
-
-        require $file_path;
     }
 }

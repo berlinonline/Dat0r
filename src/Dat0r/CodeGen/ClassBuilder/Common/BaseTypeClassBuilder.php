@@ -17,6 +17,11 @@ class BaseTypeClassBuilder extends TypeClassBuilder
         return parent::getPackage() . '\\Base';
     }
 
+    protected function getNamespace()
+    {
+        return parent::getNamespace() . '\\Base';
+    }
+
     protected function getParentImplementor()
     {
         $parent_implementor = $this->type_definition->getImplementor();

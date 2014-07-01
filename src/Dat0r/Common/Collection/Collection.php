@@ -18,23 +18,14 @@ abstract class Collection extends Object implements ICollection
      *
      * @var array
      */
-    private $collection_listeners;
+    private $collection_listeners = array();
 
     /**
      * Holds the collection's current items.
      *
      * @var array
      */
-    protected $items;
-
-    /**
-     * Creates/constructs a new collection instance.
-     */
-    public function __construct()
-    {
-        $this->collection_listeners = array();
-        $this->items = array();
-    }
+    protected $items = array();
 
     // Php Interface - Countable
 

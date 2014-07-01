@@ -67,7 +67,7 @@ abstract class ClassBuilder extends Object implements IClassBuilder
 
     protected function getNamespace()
     {
-        return $this->getRootNamespace() . '\\' . $this->getPackage();
+        return $this->getRootNamespace();
     }
 
     protected function getTemplateBaseDirectory()
