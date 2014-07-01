@@ -22,10 +22,8 @@ class EmbedSpecifications extends SpecificationContainer
                 'title' => new Specification(
                     array(
                         'name' => 'title',
-                        'options' => new Options(
-                            array(
-                                'attribute' => 'headline'
-                            )
+                        'options' => array(
+                            'attribute' => 'headline'
                         )
                     )
                 ),
@@ -40,7 +38,7 @@ class EmbedSpecifications extends SpecificationContainer
         return parent::__construct(
             array(
                 'name' => 'embed',
-                'options' => new Options(),
+                'options' => array(),
                 'specification_map' => $specification_map
             )
         );

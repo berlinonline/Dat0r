@@ -5,6 +5,7 @@ namespace Dat0r\CodeGen;
 use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Common\Error\FileSystemException;
+use Params\Parameters;
 
 class Config extends Configurable
 {
@@ -45,7 +46,7 @@ class Config extends Configurable
 
     public function getPluginSettings()
     {
-        return $this->getOption('plugin_settings', array());
+        return $this->getOption('plugin_settings', new Parameters());
     }
 
     public function validate()

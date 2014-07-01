@@ -15,7 +15,7 @@ class SpecificationTest extends TestCase
         $this->assertEquals('bar', $specification->getName());
 
         $options = $specification->getOptions();
-        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
+        $this->assertInstanceOf('\\Params\\Parameters', $options);
         $this->assertEquals('foo', $options->get('map_as', 'default'));
     }
 

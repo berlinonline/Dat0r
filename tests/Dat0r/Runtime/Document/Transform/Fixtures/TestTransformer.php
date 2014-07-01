@@ -17,10 +17,8 @@ class TestTransformer extends Transformer
             array_merge(
                 $state,
                 array(
-                    'options' => new Options(
-                        array(
-                            'foo' => 'bar',
-                        )
+                    'options' => array(
+                        'foo' => 'bar',
                     )
                 )
             )

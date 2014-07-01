@@ -97,7 +97,7 @@ class ConfigTest extends TestCase
                 )
             )
         );
-        $this->assertEquals($plugin_settings, $config->validate()->getPluginSettings());
+        $this->assertEquals($plugin_settings, $config->validate()->getPluginSettings()->toArray());
     }
 
     public function testValidateCorrectData()
