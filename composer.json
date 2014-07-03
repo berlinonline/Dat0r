@@ -21,7 +21,7 @@
         "fzaninotto/faker": "1.*",
         "egulias/email-validator": "1.1.*",
         "rhumsaa/uuid": "2.7.*",
-        "graste/params": "~1.1"
+        "graste/params": "~2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",

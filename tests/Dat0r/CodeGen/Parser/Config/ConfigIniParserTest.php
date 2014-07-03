@@ -42,7 +42,7 @@ class ConfigIniParserTest extends TestCase
                 )
             )
         );
-        $this->assertEquals($expected_array, $config->getOptions()->toArray());
+        $this->assertEquals($expected_array, $config->getParametersAsArray());
     }
 
     public function testReadWithRelativePaths()
@@ -62,7 +62,7 @@ class ConfigIniParserTest extends TestCase
             'plugin_settings' => array()
         );
 
-        $this->assertEquals($expected_array, $config->getOptions()->toArray());
+        $this->assertEquals($expected_array, $config->getParametersAsArray());
     }
 
     /**

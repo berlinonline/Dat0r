@@ -2,9 +2,9 @@
 
 namespace Dat0r\Common;
 
-use Params\OptionsTrait;
+use Params\ParametersTrait;
 
 class Configurable extends Object
 {
-    use OptionsTrait;
+    use ParametersTrait;
 }

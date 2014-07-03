@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime;
 
+use Dat0r\Common\IParameters;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
@@ -11,12 +12,18 @@ use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;
+use Params\Immutable\ImmutableParameters;
+use Params\Immutable\ImmutableParametersTrait;
 
 /**
  * Base class that all Dat0r types should extend.
  */
 abstract class DocumentType extends Object implements IDocumentType
 {
+    use ImmutableParametersTrait {
+        ImmutableParametersTrait::getParameters as protected;
+    }
+
     /**
      * Holds the type's name.
      *
@@ -64,11 +71,15 @@ abstract class DocumentType extends Object implements IDocumentType
      *
      * @param string $name
      * @param array $attribute_map
+     * @param IParameters $parameters
      */
-    public function __construct($name, array $attribute_map = array(), array $options = array())
+    public function __construct($name, array $attribute_map = array(), IParameters $parameters = null)
     {
         $this->name = $name;
-        $this->options = $options;
+
+        if (!is_null($parameters)) {
+            $this->parameters = new ImmutableParameters($parameters->getParametersAsArray());
+        }
 
         $this->attribute_map = new AttributeMap($this, $this->getDefaultAttributes());
 
@@ -207,32 +218,6 @@ abstract class DocumentType extends Object implements IDocumentType
         }
 
         return new $implementor($this, $data);
-    }
-
-    /**
-     * Returns a type option by name if it exists.
-     * Otherwise an optional default is returned.
-     *
-     * @param string $name
-     * @param mixed $default
-     *
-     * @return mixed
-     */
-    public function getOption($name, $default = null)
-    {
-        return $this->hasOption($name) ? $this->options[$name] : $default;
-    }
-
-    /**
-     * Tells if a type currently owns a specific option.
-     *
-     * @param string $name
-     *
-     * @return boolean
-     */
-    public function hasOption($name)
-    {
-        return array_key_exists($name, $this->options);
     }
 
     public function getDefaultAttributeNames()
