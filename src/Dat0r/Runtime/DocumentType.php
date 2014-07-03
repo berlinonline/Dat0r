@@ -124,12 +124,11 @@ abstract class DocumentType extends Object implements IDocumentType
     public function getPrefix()
     {
         if (!$this->prefix) {
-            preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $this->getName(), $match_results);
-            $matches = $match_results[0];
-            foreach ($matches as &$match) {
-                $match = ($match == strtoupper($match)) ? strtolower($match) : lcfirst($match);
+            if (ctype_lower($this->getName())) {
+                $this->prefix = $this->getName();
+            } else {
+                $this->prefix = strtolower(preg_replace('/(.)([A-Z])/', '$1_$2', $this->getName()));
             }
-            $this->prefix = implode('_', $matches);
         }
 
         return $this->prefix;

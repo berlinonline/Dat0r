@@ -24,7 +24,7 @@ class DataGeneratorTest extends TestCase
         $this->assertInstanceOf('Dat0r\\Runtime\\Document\\IDocument', $this->document);
         $this->assertEquals('Article', $this->type->getName());
         $this->assertEquals(
-            11,
+            12,
             $this->type->getAttributes()->getSize(),
             'Number of attributes is unexpected. Please adjust tests if new attributes were introduced.'
         );
@@ -253,7 +253,7 @@ class DataGeneratorTest extends TestCase
 
     public function testFillDocumentIgnoreAttribute()
     {
-        $this->assertEquals(11, $this->type->getAttributes()->getSize());
+        $this->assertEquals(12, $this->type->getAttributes()->getSize());
         $excluded_attributes = array('author', 'click_count', 'enabled', 'references');
 
         DataGenerator::fill(

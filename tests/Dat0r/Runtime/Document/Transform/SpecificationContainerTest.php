@@ -15,7 +15,7 @@ class SpecificationContainerTest extends TestCase
         $this->assertEquals('embed', $spec_container->getName());
 
         $options = $spec_container->getOptions();
-        $this->assertInstanceOf('\\Params\\Parameters', $options);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $options);
         $this->assertEquals(array('foo' => 'bar', 'blah' => 'blub'), $options->toArray());
 
         $this->assertInstanceOf(

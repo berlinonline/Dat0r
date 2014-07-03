@@ -52,10 +52,15 @@ class AttributePathTest extends TestCase
         $category_type = $references_attribute->getReferenceByPrefix('category');
         $description_attribute = $category_type->getAttribute('description');
 
+        $workflow_ticket_attribute = $article_type->getAttribute('workflow_ticket');
+        $workflow_ticket_type = $workflow_ticket_attribute->getAggregateByPrefix('workflow_ticket');
+        $workflow_step_attribute = $workflow_ticket_type->getAttribute('workflow_step');
+
         return array(
             array($headline_attribute, 'headline'),
             array($title_attribute, 'content_objects.paragraph.title'),
-            array($description_attribute, 'references.category.description')
+            array($description_attribute, 'references.category.description'),
+            array($workflow_step_attribute, 'workflow_ticket.workflow_ticket.workflow_step')
         );
     }
 }

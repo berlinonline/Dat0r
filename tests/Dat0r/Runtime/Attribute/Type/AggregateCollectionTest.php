@@ -77,6 +77,18 @@ class AggregateCollectionTest extends TestCase
         }
     }
 
+    public function testGetAggregateByPrefix()
+    {
+        $aggregate_attribute = new AggregateCollection(
+            self::FIELDNAME,
+            array(
+                AggregateCollection::OPTION_MODULES => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\WorkflowTicketType')
+            )
+        );
+        $workflow_ticket_type = $aggregate_attribute->getAggregateByPrefix('workflow_ticket');
+        $this->assertInstanceOf('\\Dat0r\\Tests\\Runtime\\Fixtures\\WorkflowTicketType', $workflow_ticket_type);
+    }
+
     /**
      * @codeCoverageIgnore
      */

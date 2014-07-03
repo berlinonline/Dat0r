@@ -45,6 +45,14 @@ class ArticleType extends DocumentType
                         'constraints' => array('value_type' => 'dynamic',),
                     )
                 ),
+                new AggregateCollection(
+                    'workflow_ticket',
+                    array(
+                        'aggregates' => array(
+                            '\\Dat0r\\Tests\\Runtime\\Fixtures\\WorkflowTicketType'
+                        )
+                    )
+                )
             )
         );
     }

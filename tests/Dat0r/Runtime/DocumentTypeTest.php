@@ -15,7 +15,7 @@ class DocumentTypeTest extends TestCase
         $type = new ArticleType();
 
         $this->assertEquals('Article', $type->getName());
-        $this->assertEquals(11, $type->getAttributes()->getSize());
+        $this->assertEquals(12, $type->getAttributes()->getSize());
     }
 
     public function testCreateAggregateType()
@@ -47,7 +47,7 @@ class DocumentTypeTest extends TestCase
             $attributes
         );
 
-        $this->assertEquals(11, $attributes->getSize());
+        $this->assertEquals(12, $attributes->getSize());
 
         $this->assertInstanceOf(
             'Dat0r\\Runtime\\Attribute\\Type\\Text',

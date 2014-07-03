@@ -15,7 +15,7 @@ class TransformerTest extends TestCase
         $transformer = new TestTransformer();
 
         $this->assertInstanceOf('\\Dat0r\\Runtime\\Document\\Transform\\ITransformer', $transformer);
-        $this->assertInstanceOf('\\Params\\Parameters', $transformer->getOptions());
+        $this->assertInstanceOf('\\Dat0r\\Common\\Options', $transformer->getOptions());
         $this->assertEquals('bar', $transformer->getOption('foo'));
     }
 
