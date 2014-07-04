@@ -25,6 +25,7 @@ use {{ parent_implementor }};
 {% for namespace in extra_namespaces %}
 use {{ namespace }};
 {% endfor %}
+use Dat0r\Common\Options;
 
 /**
  * Serves as the base class to the '{{ type_name }}' type skeleton.
@@ -56,8 +57,9 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
 
             )
             {%- if options|length > 0 %},
-            {{ options|raw }}
-            {%- endif %}
+            new Options(
+                {{ options|raw }}
+            ){%- endif %}
 
         );
     }
