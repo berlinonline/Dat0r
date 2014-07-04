@@ -19,13 +19,11 @@ class ConfigIniParser extends Object implements IParser
 
         return new Config(
             array(
-                'options' => array(
-                    'bootstrap_file' => $this->resolveBootstrapFile($settings, $config_dir),
-                    'deploy_method' => $this->resolveDeployMethod($settings),
-                    'deploy_dir' => $this->resolveDeployDirectory($settings, $config_dir),
-                    'cache_dir' => $this->resolveCacheDirectory($settings, $config_dir),
-                    'plugin_settings' => $this->createPluginData($settings, $config_dir)
-                )
+                'bootstrap_file' => $this->resolveBootstrapFile($settings, $config_dir),
+                'deploy_method' => $this->resolveDeployMethod($settings),
+                'deploy_dir' => $this->resolveDeployDirectory($settings, $config_dir),
+                'cache_dir' => $this->resolveCacheDirectory($settings, $config_dir),
+                'plugin_settings' => $this->createPluginData($settings, $config_dir)
             )
         );
     }

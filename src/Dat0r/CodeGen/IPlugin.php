@@ -2,10 +2,7 @@
 
 namespace Dat0r\CodeGen;
 
-use Dat0r\Common\Configurable;
 use Dat0r\CodeGen\Schema\TypeSchema;
-use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Common\Error\FileSystemException;
 
 interface IPlugin
 {

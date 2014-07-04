@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6d1fe76853c7325e0653a65e4e859ac5",
+    "hash": "9c2abb6e35e946ee8979a84e9c6b5e24",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -157,16 +157,16 @@
         },
         {
             "name": "graste/params",
-            "version": "v1.1.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/graste/params.git",
-                "reference": "daf86e84954c930c21341b5350d0f33db349d57e"
+                "reference": "63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/graste/params/zipball/daf86e84954c930c21341b5350d0f33db349d57e",
-                "reference": "daf86e84954c930c21341b5350d0f33db349d57e",
+                "url": "https://api.github.com/repos/graste/params/zipball/63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b",
+                "reference": "63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -212,7 +212,7 @@
                 "parameters",
                 "search"
             ],
-            "time": "2014-07-01 14:29:16"
+            "time": "2014-07-02 22:21:05"
         },
         {
             "name": "mtdowling/jmespath.php",

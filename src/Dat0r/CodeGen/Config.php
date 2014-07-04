@@ -4,49 +4,48 @@ namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Common\Error\FileSystemException;
-use Params\Parameters;
+use Dat0r\Common\Parameters;
 
 class Config extends Configurable
 {
     public function getBootstrapFile()
     {
-        return $this->getOption('bootstrap_file');
+        return $this->getParameter('bootstrap_file');
     }
 
     public function getCacheDir()
     {
-        return $this->getOption('cache_dir');
+        return $this->getParameter('cache_dir');
     }
 
     public function setCacheDir($cache_dir)
     {
-        $this->setOption('cache_dir', $cache_dir);
+        $this->setParameter('cache_dir', $cache_dir);
     }
 
     public function getDeployDir()
     {
-        return $this->getOption('deploy_dir');
+        return $this->getParameter('deploy_dir');
     }
 
     public function setDeployDir($deploy_dir)
     {
-        $this->setOption('deploy_dir', $deploy_dir);
+        $this->setParameter('deploy_dir', $deploy_dir);
     }
 
     public function getDeployMethod()
     {
-        return $this->getOption('deploy_method', 'copy');
+        return $this->getParameter('deploy_method', 'copy');
     }
 
     public function setDeployMethod($deploy_method)
     {
-        $this->setOption('deploy_method', $deploy_method);
+        $this->setParameter('deploy_method', $deploy_method);
     }
 
     public function getPluginSettings()
     {
-        return $this->getOption('plugin_settings', new Parameters());
+        return $this->getParameter('plugin_settings', new Parameters());
     }
 
     public function validate()
