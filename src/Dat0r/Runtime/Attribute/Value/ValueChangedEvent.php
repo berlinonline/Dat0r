@@ -55,9 +55,9 @@ class ValueChangedEvent extends Object implements IEvent
      */
     public function __construct(array $state = array())
     {
-        $this->timestamp = time();
-
         parent::__construct($state);
+
+        $this->timestamp = time();
     }
 
     /**

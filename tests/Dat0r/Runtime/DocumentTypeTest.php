@@ -18,6 +18,14 @@ class DocumentTypeTest extends TestCase
         $this->assertEquals(12, $type->getAttributes()->getSize());
     }
 
+    public function testAccessNestedParameters()
+    {
+        $type = new ArticleType();
+
+        $this->assertEquals('bar', $type->getOption('foo'));
+        $this->assertEquals('blub', $type->getOption('nested')->get('blah'));
+    }
+
     public function testCreateAggregateType()
     {
         $type = new ParagraphType();

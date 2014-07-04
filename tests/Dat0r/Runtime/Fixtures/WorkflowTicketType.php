@@ -2,6 +2,7 @@
 
 namespace Dat0r\Tests\Runtime\Fixtures;
 
+use Dat0r\Common\Options;
 use Dat0r\Runtime\DocumentType;
 use Dat0r\Runtime\Attribute\Type\Text;
 
@@ -14,6 +15,15 @@ class WorkflowTicketType extends DocumentType
             array(
                 new Text('workflow_name'),
                 new Text('workflow_step')
+            ),
+            new Options(
+                array(
+                    'foo' => 'bar',
+                    'nested' => array(
+                        'foo' => 'bar',
+                        'blah' => 'blub'
+                    )
+                )
             )
         );
     }

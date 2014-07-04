@@ -2,50 +2,78 @@
 
 namespace Dat0r\CodeGen;
 
+use Dat0r\Common\Options;
 use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Common\Parameters;
 
 class Config extends Configurable
 {
+    protected $bootstrap_file;
+    protected $cache_dir;
+    protected $deploy_dir;
+    protected $deploy_method;
+    protected $plugin_settings;
+
+    /**
+     * Override the Object's constructor to always initialize some properties.
+     *
+     * @param array $state data to set on the object (key-value pairs)
+     */
+    public function __construct(array $state = array())
+    {
+        parent::__construct($state);
+
+        if (empty($this->deploy_method)) {
+            $this->deploy_method = 'copy';
+        }
+
+        if (empty($this->plugin_settings)) {
+            $this->plugin_settings = new Options();
+        }
+    }
     public function getBootstrapFile()
     {
-        return $this->getParameter('bootstrap_file');
+        return $this->bootstrap_file;
     }
 
     public function getCacheDir()
     {
-        return $this->getParameter('cache_dir');
+        return $this->cache_dir;
     }
 
     public function setCacheDir($cache_dir)
     {
-        $this->setParameter('cache_dir', $cache_dir);
+        $this->cache_dir = $cache_dir;
     }
 
     public function getDeployDir()
     {
-        return $this->getParameter('deploy_dir');
+        return $this->deploy_dir;
     }
 
     public function setDeployDir($deploy_dir)
     {
-        $this->setParameter('deploy_dir', $deploy_dir);
+        $this->deploy_dir = $deploy_dir;
     }
 
     public function getDeployMethod()
     {
-        return $this->getParameter('deploy_method', 'copy');
+        return $this->deploy_method;
     }
 
     public function setDeployMethod($deploy_method)
     {
-        $this->setParameter('deploy_method', $deploy_method);
+        $this->deploy_method = $deploy_method;
     }
 
     public function getPluginSettings()
     {
-        return $this->getParameter('plugin_settings', new Parameters());
+        return $this->plugin_settings;
+    }
+
+    public function setPluginSettings($settings)
+    {
+        $this->plugin_settings = new Options($settings);
     }
 
     public function validate()

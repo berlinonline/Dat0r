@@ -40,9 +40,11 @@ class ConfigIniParserTest extends TestCase
                 'MappingGeneratorPlugin' => array(
                     'deploy_path' => '/tmp/erpen-derp/mapping.json'
                 )
-            )
+            ),
+            '@type' => 'Dat0r\CodeGen\Config',
+            'options' => array()
         );
-        $this->assertEquals($expected_array, $config->getParametersAsArray());
+        $this->assertEquals($expected_array, $config->toArray());
     }
 
     public function testReadWithRelativePaths()
@@ -59,10 +61,12 @@ class ConfigIniParserTest extends TestCase
             'cache_dir' => $expected_cache_dir,
             'deploy_dir' => $expected_deploy_dir,
             'deploy_method' => 'copy',
-            'plugin_settings' => array()
+            'plugin_settings' => array(),
+            '@type' => 'Dat0r\CodeGen\Config',
+            'options' => array()
         );
 
-        $this->assertEquals($expected_array, $config->getParametersAsArray());
+        $this->assertEquals($expected_array, $config->toArray());
     }
 
     /**

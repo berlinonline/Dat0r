@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime;
 
-use Dat0r\Common\IParameters;
-use Dat0r\Common\Object;
+use Dat0r\Common\Configurable;
+use Dat0r\Common\IOptions;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Document\IDocument;
@@ -12,18 +12,12 @@ use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;
-use Params\Immutable\ImmutableParameters;
-use Params\Immutable\ImmutableParametersTrait;
 
 /**
  * Base class that all Dat0r types should extend.
  */
-abstract class DocumentType extends Object implements IDocumentType
+abstract class DocumentType extends Configurable implements IDocumentType
 {
-    use ImmutableParametersTrait {
-        ImmutableParametersTrait::getParameters as protected;
-    }
-
     /**
      * Holds the type's name.
      *
@@ -46,18 +40,18 @@ abstract class DocumentType extends Object implements IDocumentType
     protected $attribute_map;
 
     /**
-     * Holds the type's options.
-     *
-     * @var array $options
-     */
-    protected $options = array();
-
-    /**
      * Holds the type's prefix.
      *
      * @var string $prefix
      */
     protected $prefix;
+
+    /**
+     * Holds the type's options.
+     *
+     * @var Options $options
+     */
+    protected $options;
 
     /**
      * Returns the class(name) to use when creating new entries for this type.
@@ -71,15 +65,13 @@ abstract class DocumentType extends Object implements IDocumentType
      *
      * @param string $name
      * @param array $attribute_map
-     * @param IParameters $parameters
+     * @param IOptions $options
      */
-    public function __construct($name, array $attribute_map = array(), IParameters $parameters = null)
+    public function __construct($name, array $attribute_map = array(), IOptions $options = null)
     {
         $this->name = $name;
 
-        if (!is_null($parameters)) {
-            $this->parameters = new ImmutableParameters($parameters->getParametersAsArray());
-        }
+        $this->options = $options;
 
         $this->attribute_map = new AttributeMap($this, $this->getDefaultAttributes());
 

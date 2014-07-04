@@ -15,11 +15,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'copy'
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'copy'
             )
         );
 
@@ -30,11 +28,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'copy'
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'copy'
             )
         );
 
@@ -45,11 +41,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'copy'
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'copy'
             )
         );
         $this->assertEquals(self::FIX_DEPLOY_DIR, $config->validate()->getDeployDir());
@@ -59,10 +53,8 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR
             )
         );
 
@@ -73,11 +65,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'move'
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'move'
             )
         );
         $this->assertEquals('move', $config->validate()->getDeployMethod());
@@ -89,12 +79,10 @@ class ConfigTest extends TestCase
 
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'copy',
-                    'plugin_settings' => $plugin_settings
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'copy',
+                'plugin_settings' => $plugin_settings
             )
         );
         $this->assertEquals($plugin_settings, $config->validate()->getPluginSettings()->toArray());
@@ -104,11 +92,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR,
-                    'deploy_method' => 'copy'
-                )
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR,
+                'deploy_method' => 'copy'
             )
         );
         // test fluent api, as $this is returned on success
@@ -121,7 +107,7 @@ class ConfigTest extends TestCase
     public function testValidateMissingCacheDir()
     {
         $config = new Config(
-            array('opitons' => array('deploy_dir' => self::FIX_DEPLOY_DIR))
+            array('deploy_dir' => self::FIX_DEPLOY_DIR)
         );
         $config->validate();
         // @codeCoverageIgnoreStart
@@ -134,7 +120,7 @@ class ConfigTest extends TestCase
     public function testValidateMissingDeployDir()
     {
         $config = new Config(
-            array('options' => array('cache_dir' => self::FIX_CACHE_DIR))
+            array('cache_dir' => self::FIX_CACHE_DIR)
         );
         $config->validate();
         // @codeCoverageIgnoreStart
@@ -147,11 +133,9 @@ class ConfigTest extends TestCase
     {
         $config = new Config(
             array(
-                'options' => array(
-                    'deploy_method' => 'invalid_deploy_method',
-                    'cache_dir' => self::FIX_CACHE_DIR,
-                    'deploy_dir' => self::FIX_DEPLOY_DIR
-                )
+                'deploy_method' => 'invalid_deploy_method',
+                'cache_dir' => self::FIX_CACHE_DIR,
+                'deploy_dir' => self::FIX_DEPLOY_DIR
             )
         );
         $config->validate();

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c2abb6e35e946ee8979a84e9c6b5e24",
+    "hash": "d317493c9f8154194414f463fd879978",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -154,65 +154,6 @@
                 "fixtures"
             ],
             "time": "2014-06-04 14:43:02"
-        },
-        {
-            "name": "graste/params",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/graste/params.git",
-                "reference": "63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/graste/params/zipball/63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b",
-                "reference": "63b17aa01b0ab5ca7c66b43730fbe4c8e41b360b",
-                "shasum": ""
-            },
-            "require": {
-                "mtdowling/jmespath.php": "~1.0.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phine/sami-github": "~1.0.4",
-                "phpunit/phpunit": "~4.0",
-                "sami/sami": "~1.4",
-                "satooshi/php-coveralls": "0.6.*",
-                "squizlabs/php_codesniffer": "~1.5.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Params\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "CC-BY-SA-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Steffen Gransow",
-                    "email": "params@mivesto.de",
-                    "homepage": "http://mivesto.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Array wrapper that eases the retrieval of values.",
-            "homepage": "https://github.com/graste/params",
-            "keywords": [
-                "array",
-                "library",
-                "options",
-                "parameters",
-                "search"
-            ],
-            "time": "2014-07-02 22:21:05"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -2385,7 +2326,7 @@
 
     ],
     "platform": {
-        "php": ">=5.3.0"
+        "php": ">=5.4.0"
     },
     "platform-dev": [
 

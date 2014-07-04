@@ -2,33 +2,8 @@
 
 namespace Dat0r\Common;
 
-use Dat0r\Common\IOptions;
-use Dat0r\Common\Options;
-use Dat0r\Common\Object;
-use Dat0r\Common\IConfigurable;
-
-class Configurable extends Object implements IConfigurable
+interface IConfigurable
 {
-    /**
-     * @var Options $options
-     */
-    protected $options;
-
-    /**
-     * Override the Object's constructor to always initialize options.
-     * To set options on this instance use the special key 'options'.
-     *
-     * @param array $state data to set on the object (key-value pairs)
-     */
-    public function __construct(array $state = array())
-    {
-        parent::__construct($state);
-
-        if (!$this->options instanceof IOptions) {
-            $this->options = new Options();
-        }
-    }
-
     /**
      * Returns whether the option exists or not.
      *
@@ -36,10 +11,7 @@ class Configurable extends Object implements IConfigurable
      *
      * @return bool true, if key exists; false otherwise
      */
-    public function hasOption($key)
-    {
-        return $this->options->has($key);
-    }
+    public function hasOption($key);
 
     /**
      * Returns the value for the given key.
@@ -49,10 +21,7 @@ class Configurable extends Object implements IConfigurable
      *
      * @return mixed value for that key or default given
      */
-    public function getOption($key, $default = null)
-    {
-        return $this->options->get($key, $default);
-    }
+    public function getOption($key, $default = null);
 
     /**
      * Allows to search for specific data values via JMESPath expressions.
@@ -76,38 +45,19 @@ class Configurable extends Object implements IConfigurable
      * @throws \RuntimeException e.g. if JMESPath cache directory cannot be written
      * @throws \InvalidArgumentException e.g. if JMESPath builtin functions can't be called
      */
-    public function getOptionValues($expression = '*')
-    {
-        return $this->options->getValues($expression);
-    }
+    public function getOptionValues($expression = '*');
 
     /**
      * Returns the data as an associative array.
      *
      * @return array with all data
      */
-    public function getOptionsAsArray()
-    {
-        return $this->options->toArray();
-    }
+    public function getOptionsAsArray();
 
     /**
      * Return this object's immutable options instance.
      *
      * @return Options instance used internally
      */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Sets the given options.
-     *
-     * @param array $options options to set
-     */
-    protected function setOptions($options)
-    {
-        $this->options = new Options($options);
-    }
+    public function getOptions();
 }

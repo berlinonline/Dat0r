@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Document\Transform;
 
-use Dat0r\Common\Parameters;
+use Dat0r\Common\Options;
 
 interface ISpecificationContainer
 {
@@ -17,7 +17,7 @@ interface ISpecificationContainer
     public function getSpecificationMap();
 
     /**
-     * @return Parameters
+     * @return Options
      */
-    public function getParameters();
+    public function getOptions();
 }

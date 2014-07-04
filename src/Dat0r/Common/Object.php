@@ -15,18 +15,19 @@ class Object implements IObject
      */
     protected $hidden_properties_;
 
+    /**
+     * Creates a new object instance that has the given data set on it's properties.
+     *
+     * @param array $state data to set on the object (key-value pairs)
+     */
     public function __construct(array $state = array())
     {
         foreach ($state as $property_name => $property_value) {
-            $camelcased_property = preg_replace_callback(
-                '/_(.)/',
-                function ($matches) {
-                    return strtoupper($matches[1]);
-                },
-                $property_name
-            );
+            $tmp_property_name = ucwords(str_replace(array('-', '_'), ' ', $property_name));
+            $studly_property_name = str_replace(' ', '', $tmp_property_name);
+            //$camelcased_property = lcfirst($studly_property_name);
 
-            $setter_method = 'set' . ucfirst($camelcased_property);
+            $setter_method = 'set' . ucfirst($studly_property_name);
             if (is_callable(array($this, $setter_method))) {
                 $this->$setter_method($property_value);
             } elseif (property_exists($this, $property_name)) {

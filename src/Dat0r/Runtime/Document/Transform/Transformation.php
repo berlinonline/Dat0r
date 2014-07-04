@@ -18,7 +18,7 @@ class Transformation extends Configurable implements ITransformation
      */
     public function apply(IDocument $document, ISpecification $specification)
     {
-        $attribute_name = $specification->getParameter('attribute', $specification->getName());
+        $attribute_name = $specification->getOption('attribute', $specification->getName());
         $document_value = $document->getValue($attribute_name);
 
         return $document_value;
@@ -36,7 +36,7 @@ class Transformation extends Configurable implements ITransformation
      */
     public function revert($input_value, IDocument $document, ISpecification $specification)
     {
-        $attribute_name = $specification->getParameter('attribute', $specification->getName());
+        $attribute_name = $specification->getOption('attribute', $specification->getName());
         $document->setValue($attribute_name, $input_value);
     }
 }
