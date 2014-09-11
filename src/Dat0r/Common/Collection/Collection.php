@@ -284,6 +284,11 @@ abstract class Collection extends Object implements ICollection
         return $this->count();
     }
 
+    public function clear()
+    {
+        $this->items = array();
+    }
+
     /**
      * Attaches the given listener, so it will be informed about all future changes.
      *

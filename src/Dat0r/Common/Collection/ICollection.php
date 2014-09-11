@@ -18,6 +18,10 @@ interface ICollection extends \Iterator, \Countable, \ArrayAccess
 
     public function getSize();
 
+    public function clear();
+
+    public function append(ICollection $collection);
+
     public function filter(Closure $callback);
 
     public function removeItem($item);

@@ -2,6 +2,7 @@
 
 namespace Dat0r\Common\Collection;
 
+use Dat0r\Common\Error\RuntimeException;
 use Closure;
 
 /**
@@ -103,5 +104,18 @@ class ArrayList extends Collection implements IList
             return $this->items[$item_count - 1];
         }
         return null;
+    }
+
+    public function append(ICollection $collection)
+    {
+        if (!$collection instanceof static) {
+            throw new RuntimeException(
+                sprintf("Can only append collections of the same type %s", get_class($this))
+            );
+        }
+
+        foreach ($collection as $item) {
+            $this->addItem($item);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Dat0r\Common\Collection;
 
+use Dat0r\Common\Error\RuntimeException;
 use Closure;
 
 class Map extends Collection implements IMap
@@ -64,5 +65,18 @@ class Map extends Collection implements IMap
     public function getValues()
     {
         return array_values($this->items);
+    }
+
+    public function append(ICollection $collection)
+    {
+        if (!$collection instanceof static) {
+            throw new RuntimeException(
+                sprintf("Can only append collections of the same type %s", get_class($this))
+            );
+        }
+
+        foreach ($collection as $key => $item) {
+            $this->setItem($key, $item);
+        }
     }
 }
