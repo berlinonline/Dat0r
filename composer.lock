@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e49b1cda0c08fda05d989484776bb76",
+    "hash": "c8007c8905100ee1dab3959babba9c7c",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -60,21 +60,24 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "1.1.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "f064a586114c9864da45508b1b09911643635e94"
+                "reference": "39b451bb2bb0655d83d82a38a0bba7189298cfc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/f064a586114c9864da45508b1b09911643635e94",
-                "reference": "f064a586114c9864da45508b1b09911643635e94",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/39b451bb2bb0655d83d82a38a0bba7189298cfc5",
+                "reference": "39b451bb2bb0655d83d82a38a0bba7189298cfc5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "~1.0",
                 "php": ">= 5.3.3"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
@@ -103,7 +106,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2014-01-12 23:12:24"
+            "time": "2014-09-01 22:35:48"
         },
         {
             "name": "fzaninotto/faker",
@@ -157,16 +160,16 @@
         },
         {
             "name": "mtdowling/jmespath.php",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/jmespath.php.git",
-                "reference": "6d5aaa35ca2c20d5cd27288b5d1b7f790d9b7cb5"
+                "reference": "42c26c35f124d773ba12d779d353be7058cafdc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mtdowling/jmespath.php/zipball/6d5aaa35ca2c20d5cd27288b5d1b7f790d9b7cb5",
-                "reference": "6d5aaa35ca2c20d5cd27288b5d1b7f790d9b7cb5",
+                "url": "https://api.github.com/repos/mtdowling/jmespath.php/zipball/42c26c35f124d773ba12d779d353be7058cafdc9",
+                "reference": "42c26c35f124d773ba12d779d353be7058cafdc9",
                 "shasum": ""
             },
             "require": {
@@ -205,7 +208,7 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2014-06-19 16:43:23"
+            "time": "2014-08-06 19:23:18"
         },
         {
             "name": "rhumsaa/uuid",
@@ -921,16 +924,16 @@
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "9ee0b872981d4b89002095e568cdd0b4032cb39a"
+                "reference": "5fbe4b9ec9d05057d88b898ac5ba9071f427eeb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/9ee0b872981d4b89002095e568cdd0b4032cb39a",
-                "reference": "9ee0b872981d4b89002095e568cdd0b4032cb39a",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/5fbe4b9ec9d05057d88b898ac5ba9071f427eeb0",
+                "reference": "5fbe4b9ec9d05057d88b898ac5ba9071f427eeb0",
                 "shasum": ""
             },
             "require": {
@@ -956,20 +959,20 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
-            "time": "2014-09-09 14:33:41"
+            "time": "2014-09-16 14:04:28"
         },
         {
             "name": "phpmd/phpmd",
-            "version": "2.0.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmd/phpmd.git",
-                "reference": "68ced5452910d3555a38720bd87f5f2356c5a003"
+                "reference": "0a1a12f6867d0e676718fd1ac287e0c34b956fb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmd/phpmd/zipball/68ced5452910d3555a38720bd87f5f2356c5a003",
-                "reference": "68ced5452910d3555a38720bd87f5f2356c5a003",
+                "url": "https://api.github.com/repos/phpmd/phpmd/zipball/0a1a12f6867d0e676718fd1ac287e0c34b956fb2",
+                "reference": "0a1a12f6867d0e676718fd1ac287e0c34b956fb2",
                 "shasum": ""
             },
             "require": {
@@ -998,7 +1001,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of PHPMD handled with Composer.",
-            "time": "2014-05-21 12:45:23"
+            "time": "2014-09-09 18:47:29"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1249,16 +1252,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.2.5",
+            "version": "4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7"
+                "reference": "c28a790620fe30b049bb693be1ef9cd4e0fe906c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7",
-                "reference": "c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c28a790620fe30b049bb693be1ef9cd4e0fe906c",
+                "reference": "c28a790620fe30b049bb693be1ef9cd4e0fe906c",
                 "shasum": ""
             },
             "require": {
@@ -1319,7 +1322,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-09-06 18:38:27"
+            "time": "2014-09-14 09:31:24"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2372,16 +2375,16 @@
         },
         {
             "name": "theseer/fdomdocument",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/fDOMDocument.git",
-                "reference": "137aa3b13bef05b4e301899cbabdaf7d501847d2"
+                "reference": "d08cf070350f884c63fc9078d27893c2ab6c7cef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/fDOMDocument/zipball/137aa3b13bef05b4e301899cbabdaf7d501847d2",
-                "reference": "137aa3b13bef05b4e301899cbabdaf7d501847d2",
+                "url": "https://api.github.com/repos/theseer/fDOMDocument/zipball/d08cf070350f884c63fc9078d27893c2ab6c7cef",
+                "reference": "d08cf070350f884c63fc9078d27893c2ab6c7cef",
                 "shasum": ""
             },
             "require": {
@@ -2403,12 +2406,12 @@
                 {
                     "name": "Arne Blankerts",
                     "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "lead"
                 }
             ],
             "description": "The classes contained within this repository extend the standard DOM to use exceptions at all occasions of errors instead of PHP warnings or notices. They also add various custom methods and shortcuts for convenience and to simplify the usage of DOM.",
             "homepage": "https://github.com/theseer/fDOMDocument",
-            "time": "2014-02-19 00:20:43"
+            "time": "2014-09-13 10:57:19"
         }
     ],
     "aliases": [

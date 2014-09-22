@@ -95,6 +95,10 @@ class EmailTest extends TestCase
                 'example123example123example123example123example123example1234567@example.com',
                 '64 characters are valid according to SMTP in the local part'
             ),
+            array(
+                '"Someone other" <someone@example.com>',
+                'Quoted display names with email addresses may be valid, but are not support by us'
+            ),
             array('user@localhost'),
             // This one should be supported but isn't at the moment
             // array(
@@ -125,6 +129,10 @@ class EmailTest extends TestCase
                 '<foo>@example.com',
                 'Characters < and > should not be not valid in email addresses'
             ),
+            array(
+                'Someone other <someone@example.com>',
+                 'Display names with email addresses may be valid, but are not support by us'
+            ),
             // array(
             //     'user@example123example123example123example123example123example1234567.com',
             //     'Domain names longer than 63 characters are invalid'
@@ -133,14 +141,6 @@ class EmailTest extends TestCase
             //     'user@' . str_repeat('example123', 20) . '@' . str_repeat('example123', 20) . '.com',
             //     '320 octets/bytes are the maximum allowed length according to RFC 5322 and RFC 5321 valid emails'
             // ),
-            array(
-                'Someone other <someone@example.com>',
-                 'Display names with email addresses may be valid, but are not support by us'
-            ),
-            array(
-                '"Someone other" <someone@example.com>',
-                'Quoted display names with email addresses may be valid, but are not support by us'
-            )
         );
     }
 

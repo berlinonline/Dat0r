@@ -19,13 +19,13 @@
         "symfony/console": "2.5.*",
         "symfony/filesystem": "2.5.*",
         "fzaninotto/faker": "1.*",
-        "egulias/email-validator": "1.1.*",
+        "egulias/email-validator": "1.2.*",
         "rhumsaa/uuid": "2.7.*",
-        "mtdowling/jmespath.php": "~1.0.0"
+        "mtdowling/jmespath.php": "~1.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.*",
-        "phpmd/phpmd": "2.0.*",
+        "phpmd/phpmd": "2.1.*",
         "sebastian/phpcpd": "2.0.*",
         "squizlabs/php_codesniffer": "1.5.*",
         "mayflower/php-codebrowser": "1.1.*",
