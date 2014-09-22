@@ -289,6 +289,11 @@ abstract class Collection extends Object implements ICollection
         $this->items = array();
     }
 
+    public function isEmpty()
+    {
+        return $this->getSize() === 0;
+    }
+
     /**
      * Attaches the given listener, so it will be informed about all future changes.
      *
