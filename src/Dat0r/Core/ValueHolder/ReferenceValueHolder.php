@@ -66,7 +66,7 @@ class ReferenceValueHolder extends ValueHolder
         foreach ($this->getValue() as $pos => $referenced_document) {
             if (
                 !isset($other_references[$pos])
-                || $referenced_document->getIdentifier() !== $other_references[$pos]->getIdentifier()
+                || !$referenced_document->isEqualTo($other_references[$pos])
             ) {
                 $equal = false;
             }
