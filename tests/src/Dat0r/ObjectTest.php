@@ -33,7 +33,7 @@ class ObjectTest extends TestCase
     {
         return array(
             'property_one' => self::$faker->word(23),
-            'property_two' => self::$faker->randomNumber(0, 500),
+            'property_two' => self::$faker->numberBetween(0, 500),
             'property_three' => self::$faker->boolean()
         );
     }

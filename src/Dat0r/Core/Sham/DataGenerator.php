@@ -324,7 +324,7 @@ class DataGenerator
      */
     protected function addText(IDocument $document, IField $field, array $options = array())
     {
-        $value = $this->faker->words($this->faker->randomNumber(1, 3), true);
+        $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
 
         if ($this->shouldGuessByName($options)) {
             $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
@@ -349,9 +349,9 @@ class DataGenerator
     {
         $values = array();
 
-        $number_of_values = $this->faker->randomNumber(1, 5);
+        $number_of_values = $this->faker->numberBetween(1, 5);
         for ($i = 0; $i < $number_of_values; $i++) {
-            $text = $this->faker->words($this->faker->randomNumber(1, 3), true);
+            $text = $this->faker->words($this->faker->numberBetween(1, 3), true);
             if ($this->shouldGuessByName($options)) {
                 $closure = TextFieldGuesser::guess($field->getName(), $this->faker);
                 if (!empty($closure) && is_callable($closure)) {
@@ -375,7 +375,7 @@ class DataGenerator
      */
     protected function addTextarea(IDocument $document, IField $field, array $options = array())
     {
-        $text = $this->faker->paragraphs($this->faker->randomNumber(1, 5));
+        $text = $this->faker->paragraphs($this->faker->numberBetween(1, 5));
         $this->setValue($document, $field, implode(PHP_EOL . PHP_EOL, $text), $options);
     }
 
@@ -406,7 +406,7 @@ class DataGenerator
     {
         $values = array();
 
-        $number_of_values = $this->faker->randomNumber(1, 5);
+        $number_of_values = $this->faker->numberBetween(1, 5);
         for ($i = 0; $i < $number_of_values; $i++) {
             $values[] = $this->faker->numberBetween(1, 99999);
         }
@@ -427,7 +427,7 @@ class DataGenerator
     {
         $values = array();
 
-        $number_of_values = $this->faker->randomNumber(1, 5);
+        $number_of_values = $this->faker->numberBetween(1, 5);
         for ($i = 0; $i < $number_of_values; $i++) {
             $values[$this->faker->word] = $this->faker->sentence;
         }
