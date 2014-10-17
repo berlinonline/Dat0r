@@ -119,13 +119,7 @@ abstract class ClassBuilder implements IClassBuilder
 
         foreach ($fields as $field_definition) {
             $field_name = $field_definition->getName();
-            $field_name_studlycaps = preg_replace_callback(
-                '/(?:^|-)(.?)/',
-                function ($matches) {
-                    return strtoupper($matches[1]);
-                },
-                $field_name
-            );
+            $field_name_studlycaps = str_replace(' ', '', ucwords(str_replace(array('_', '-'), ' ', $field_name)));
 
             $field_implementor = $field_definition->getImplementor();
             $class_name = $field_implementor;
