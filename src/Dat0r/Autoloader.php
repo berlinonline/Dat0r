@@ -105,6 +105,7 @@ class Autoloader
         $file_path = null;
 
         foreach (self::$domain_packages as $namespace => $base_dir) {
+            $namespace .= '\\';
             if (0 === strpos($class, $namespace)) {
                 $file_path = self::buildPath($class, $namespace, $base_dir);
                 break;
