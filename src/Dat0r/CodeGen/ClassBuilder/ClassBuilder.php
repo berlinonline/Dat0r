@@ -10,6 +10,8 @@ abstract class ClassBuilder extends Object implements IClassBuilder
 {
     protected $twig;
 
+    protected $config;
+
     abstract protected function getImplementor();
 
     abstract protected function getParentImplementor();

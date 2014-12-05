@@ -4,6 +4,7 @@ namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\NotReadableException;
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\NotWritableException;
 use Symfony\Component\Filesystem\Filesystem;
 

@@ -2,6 +2,7 @@
 
 namespace Dat0r\CodeGen\ClassBuilder;
 
+use Dat0r\CodeGen\Config;
 use Dat0r\Common\Object;
 use Dat0r\CodeGen\Schema\TypeSchema;
 use Dat0r\CodeGen\Schema\TypeDefinition;
@@ -25,9 +26,11 @@ class Factory extends Object
 {
     protected $type_schema;
 
-    public function __construct(TypeSchema $schema = null)
+    protected $config;
+
+    public function __construct(Config $config)
     {
-        $this->type_schema = $schema;
+        $this->config = $config;
     }
 
     public function getTypeSchema()
@@ -61,7 +64,8 @@ class Factory extends Object
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
-            'type_definition' => $type
+            'type_definition' => $type,
+            'config' => $this->config
         );
         return array(
             new CommonBaseTypeClassBuilder($builder_properties),
@@ -75,7 +79,8 @@ class Factory extends Object
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
-            'type_definition' => $aggregate
+            'type_definition' => $aggregate,
+            'config' => $this->config
         );
         return array(
             new AggregateBaseTypeClassBuilder($builder_properties),
@@ -89,7 +94,8 @@ class Factory extends Object
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
-            'type_definition' => $reference
+            'type_definition' => $reference,
+            'config' => $this->config
         );
         return array(
             new ReferenceBaseTypeClassBuilder($builder_properties),

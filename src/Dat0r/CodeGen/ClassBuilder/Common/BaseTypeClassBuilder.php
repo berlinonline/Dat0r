@@ -46,8 +46,15 @@ class BaseTypeClassBuilder extends TypeClassBuilder
 
     protected function getDocumentImplementor()
     {
+        $class_suffix = $this->config->getEntitySuffix('Document');
+
         return var_export(
-            sprintf('\\%1$s\\%2$s\\%2$sDocument', $this->getRootNamespace(), $this->type_definition->getName()),
+            sprintf(
+                '\\%1$s\\%2$s%3$s',
+                $this->getRootNamespace(),
+                $this->type_definition->getName(),
+                $class_suffix
+            ),
             true
         );
     }
@@ -85,10 +92,11 @@ class BaseTypeClassBuilder extends TypeClassBuilder
             foreach ($type_options->getValue() as $type_option) {
                 $type_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Aggregate\\%sType',
+                        '\\%s\\%s\\Aggregate\\%s%s',
                         $this->getRootNamespace(),
                         $this->type_schema->getPackage(),
-                        $type_option->getValue()
+                        $type_option->getValue(),
+                        $this->config->getEntitySuffix('Type')
                     )
                 );
             }

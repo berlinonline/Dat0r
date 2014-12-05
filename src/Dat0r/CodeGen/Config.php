@@ -8,6 +8,8 @@ use Dat0r\Common\Error\InvalidConfigException;
 
 class Config extends Configurable
 {
+    protected $entity_suffix;
+    protected $type_suffix;
     protected $bootstrap_file;
     protected $cache_dir;
     protected $deploy_dir;
@@ -31,6 +33,7 @@ class Config extends Configurable
             $this->plugin_settings = new Options();
         }
     }
+
     public function getBootstrapFile()
     {
         return $this->bootstrap_file;
@@ -74,6 +77,16 @@ class Config extends Configurable
     public function setPluginSettings($settings)
     {
         $this->plugin_settings = new Options($settings);
+    }
+
+    public function getEntitySuffix($default = null)
+    {
+        return $this->entity_suffix ?: $default;
+    }
+
+    public function getTypeSuffix($default = null)
+    {
+        return $this->type_suffix ?: $default;
     }
 
     public function validate()

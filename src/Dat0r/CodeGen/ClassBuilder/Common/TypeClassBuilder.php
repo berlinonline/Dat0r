@@ -11,6 +11,8 @@ class TypeClassBuilder extends ClassBuilder
 
     protected function getImplementor()
     {
-        return $this->type_definition->getName() . 'Type';
+        $class_suffix = $this->config->getTypeSuffix('Type');
+
+        return $this->type_definition->getName() . ucfirst($class_suffix);
     }
 }

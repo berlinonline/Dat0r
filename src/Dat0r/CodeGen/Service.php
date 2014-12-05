@@ -24,7 +24,7 @@ class Service extends Object
     {
         parent::__construct($state);
 
-        $this->class_builder_factory = new Factory();
+        $this->class_builder_factory = new Factory($this->config);
         $this->output_handler = function ($message) {
             echo $message . PHP_EOL;
         };

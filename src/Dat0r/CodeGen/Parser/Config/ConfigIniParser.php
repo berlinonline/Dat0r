@@ -23,7 +23,9 @@ class ConfigIniParser extends Object implements IParser
                 'deploy_method' => $this->resolveDeployMethod($settings),
                 'deploy_dir' => $this->resolveDeployDirectory($settings, $config_dir),
                 'cache_dir' => $this->resolveCacheDirectory($settings, $config_dir),
-                'plugin_settings' => $this->createPluginData($settings, $config_dir)
+                'plugin_settings' => $this->createPluginData($settings, $config_dir),
+                'entity_suffix' => $this->resolveEntitySuffix($settings),
+                'type_suffix' => $this->resolveTypeSuffix($settings)
             )
         );
     }
@@ -141,6 +143,16 @@ class ConfigIniParser extends Object implements IParser
         }
 
         return $plugin_settings;
+    }
+
+    protected function resolveEntitySuffix(array $settings)
+    {
+        return isset($settings['entity_suffix']) ? $settings['entity_suffix'] : null;
+    }
+
+    protected function resolveTypeSuffix(array $settings)
+    {
+        return isset($settings['type_suffix']) ? $settings['type_suffix'] : null;
     }
 
     protected function resolveRelativePath($path, $base)
