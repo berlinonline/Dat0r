@@ -13,7 +13,7 @@ class Number extends Attribute
         return (int)$this->getOption('default_value', 0);
     }
 
-    protected function getValidationRules()
+    protected function buildValidationRules()
     {
         $options = array();
         if ($this->hasOption('min')) {
@@ -22,7 +22,6 @@ class Number extends Attribute
         if ($this->hasOption('max')) {
             $options['max'] = $this->getOption('max');
         }
-
         $rules = new RuleList();
         $rules->push(new NumberRule('valid-number', $options));
 
