@@ -13,6 +13,11 @@ use Dat0r\Runtime\IDocumentType;
  */
 interface IAttribute
 {
+    const OPTION_DEFAULT_VALUE = 'default_value';
+    const OPTION_NULL_VALUE = 'null_value';
+    const OPTION_VALUE = 'value';
+    const OPTION_VALIDATOR = 'validator';
+
     /**
      * Returns the name of the attribute.
      *

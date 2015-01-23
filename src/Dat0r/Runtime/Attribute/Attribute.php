@@ -15,8 +15,9 @@ use Dat0r\Runtime\IDocumentType;
  * Base class that all Dat0r IAttribute implementations should extend.
  * Provides a pretty complete implementation for the IAttribute interface.
  *
- * basic options: 'validator', 'value', 'default_value', 'mandatory'
+ * basic options: 'validator', 'value', 'default_value', 'null_value', 'mandatory'
  * @todo extends Object; which introduces a breaking change to the create method.
+ * TODO introduce 'mandatory' option
  */
 abstract class Attribute implements IAttribute
 {
@@ -168,7 +169,7 @@ abstract class Attribute implements IAttribute
      */
     public function getDefaultValue()
     {
-        return $this->getOption('default_value', $this->getNullValue());
+        return $this->getOption(self::OPTION_DEFAULT_VALUE, $this->getNullValue());
     }
 
     /**
@@ -178,7 +179,7 @@ abstract class Attribute implements IAttribute
      */
     public function getNullValue()
     {
-        return $this->getOption('null_value', null);
+        return $this->getOption(self::OPTION_NULL_VALUE, null);
     }
 
     /**
@@ -191,7 +192,7 @@ abstract class Attribute implements IAttribute
     {
         if (!$this->validator) {
             $default_validator_class = '\\Dat0r\\Runtime\\Validator\\Validator';
-            $validator_implementor = $this->getOption('validator', $default_validator_class);
+            $validator_implementor = $this->getOption(self::OPTION_VALIDATOR, $default_validator_class);
 
             if (!class_exists($validator_implementor, true)) {
                 throw new RuntimeException(
@@ -227,8 +228,8 @@ abstract class Attribute implements IAttribute
      */
     public function createValue()
     {
-        $implementor = $this->hasOption('value')
-            ? $this->getOption('value')
+        $implementor = $this->hasOption(self::OPTION_VALUE)
+            ? $this->getOption(self::OPTION_VALUE)
             : $this->buildDefaultValueClassName();
 
         if (!class_exists($implementor)) {
