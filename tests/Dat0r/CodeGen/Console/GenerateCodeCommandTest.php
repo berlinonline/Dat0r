@@ -2,6 +2,7 @@
 
 namespace Dat0r\Tests\CodeGen\Console;
 
+use Mockery;
 use Dat0r\Tests;
 use Dat0r\CodeGen\Console as Dat0rConsole;
 use Symfony\Component\Console as SymfonyConsole;
@@ -25,8 +26,9 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testValidConfigHandling()
     {
-        $this->service_mock->expects($this->once())->method('generate');
-        $this->service_mock->expects($this->never())->method('deploy');
+        $this->service_mock->shouldReceive('generate')->once();
+        $this->service_mock->shouldReceive('deploy')->never();
+
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -40,8 +42,9 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testGenerateAction()
     {
-        $this->service_mock->expects($this->once())->method('generate');
-        $this->service_mock->expects($this->never())->method('deploy');
+        $this->service_mock->shouldReceive('generate')->once();
+        $this->service_mock->shouldReceive('deploy')->never();
+
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -55,8 +58,9 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     public function testDeployAction()
     {
-        $this->service_mock->expects($this->once())->method('generate');
-        $this->service_mock->expects($this->once())->method('deploy');
+        $this->service_mock->shouldReceive('generate')->once();
+        $this->service_mock->shouldReceive('deploy')->once();
+
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -73,8 +77,9 @@ class GenerateCodeCommandTest extends Tests\TestCase
      */
     public function testInvalidAction()
     {
-        $this->service_mock->expects($this->never())->method('generate');
-        $this->service_mock->expects($this->never())->method('deploy');
+        $this->service_mock->shouldReceive('generate')->never();
+        $this->service_mock->shouldReceive('deploy')->never();
+
         $this->command->setService($this->service_mock);
 
         $this->executeCommand(
@@ -95,10 +100,12 @@ class GenerateCodeCommandTest extends Tests\TestCase
         $this->application->add(new Dat0rConsole\GenerateCodeCommand());
         $this->command = $this->application->find('generate_code');
 
-        $this->service_mock = $this->getMock(
-            'Dat0r\\CodeGen\\Service',
-            array('generate', 'deploy')
-        );
+        $this->service_mock = Mockery::mock('Dat0r\\CodeGen\\Service', [ 'config' => [] ]);
+    }
+
+    protected function tearDown()
+    {
+    	Mockery::close();
     }
 
     protected function executeCommand(array $options = array())

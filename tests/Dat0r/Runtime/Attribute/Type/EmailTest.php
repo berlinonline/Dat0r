@@ -95,10 +95,6 @@ class EmailTest extends TestCase
                 'example123example123example123example123example123example1234567@example.com',
                 '64 characters are valid according to SMTP in the local part'
             ),
-            array(
-                '"Someone other" <someone@example.com>',
-                'Quoted display names with email addresses may be valid, but are not support by us'
-            ),
             array('user@localhost'),
             // This one should be supported but isn't at the moment
             // array(
@@ -133,6 +129,10 @@ class EmailTest extends TestCase
                 'Someone other <someone@example.com>',
                  'Display names with email addresses may be valid, but are not support by us'
             ),
+            array(
+                '"Someone other" <someone@example.com>',
+                'Quoted display names with email addresses may be valid, but are not support by us'
+            )
             // array(
             //     'user@example123example123example123example123example123example1234567.com',
             //     'Domain names longer than 63 characters are invalid'
