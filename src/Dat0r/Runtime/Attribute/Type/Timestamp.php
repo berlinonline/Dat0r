@@ -97,9 +97,18 @@ class Timestamp extends Attribute
             $options[self::OPTION_MAX] = $this->getOption(self::OPTION_MAX);
         }
 
-        $options[self::OPTION_ACCEPT_STRINGS] = $this->getOption(self::OPTION_ACCEPT_STRINGS, self::DEFAULT_ACCEPT_STRINGS);
-        $options[self::OPTION_FORCE_INTERNAL_TIMEZONE] = $this->getOption(self::OPTION_FORCE_INTERNAL_TIMEZONE, self::DEFAULT_FORCE_INTERNAL_TIMEZONE);
-        $options[self::OPTION_INTERNAL_TIMEZONE_NAME] = $this->getOption(self::OPTION_INTERNAL_TIMEZONE_NAME, self::DEFAULT_INTERNAL_TIMEZONE_NAME);
+        $options[self::OPTION_ACCEPT_STRINGS] = $this->getOption(
+            self::OPTION_ACCEPT_STRINGS,
+            self::DEFAULT_ACCEPT_STRINGS
+        );
+        $options[self::OPTION_FORCE_INTERNAL_TIMEZONE] = $this->getOption(
+            self::OPTION_FORCE_INTERNAL_TIMEZONE,
+            self::DEFAULT_FORCE_INTERNAL_TIMEZONE
+        );
+        $options[self::OPTION_INTERNAL_TIMEZONE_NAME] = $this->getOption(
+            self::OPTION_INTERNAL_TIMEZONE_NAME,
+            self::DEFAULT_INTERNAL_TIMEZONE_NAME
+        );
 
         $valid_datetime_rule = new TimestampRule('valid-timestamp', $options);
 

@@ -43,7 +43,11 @@ class TimestampRule extends Rule
 
         if ($this->hasOption(Timestamp::OPTION_MIN)) {
             $min = new DateTimeImmutable($this->getOption(Timestamp::OPTION_MIN));
-            if ($this->getOption(Timestamp::OPTION_FORCE_INTERNAL_TIMEZONE, Timestamp::DEFAULT_FORCE_INTERNAL_TIMEZONE)) {
+            $force_internal_timezone = $this->getOption(
+                Timestamp::OPTION_FORCE_INTERNAL_TIMEZONE,
+                Timestamp::DEFAULT_FORCE_INTERNAL_TIMEZONE
+            );
+            if ($force_internal_timezone) {
                 $min->setTimezone($default_timezone);
             }
 
@@ -56,7 +60,11 @@ class TimestampRule extends Rule
 
         if ($this->hasOption(Timestamp::OPTION_MAX)) {
             $max = new DateTimeImmutable($this->getOption('max'));
-            if ($this->getOption(Timestamp::OPTION_FORCE_INTERNAL_TIMEZONE, Timestamp::DEFAULT_FORCE_INTERNAL_TIMEZONE)) {
+            $force_internal_timezone = $this->getOption(
+                Timestamp::OPTION_FORCE_INTERNAL_TIMEZONE,
+                Timestamp::DEFAULT_FORCE_INTERNAL_TIMEZONE
+            );
+            if ($force_internal_timezone) {
                 $min->setTimezone($default_timezone);
             }
 

@@ -105,7 +105,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
 
     protected function tearDown()
     {
-    	Mockery::close();
+        Mockery::close();
     }
 
     protected function executeCommand(array $options = array())
