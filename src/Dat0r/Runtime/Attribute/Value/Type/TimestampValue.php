@@ -6,7 +6,7 @@ use Dat0r\Runtime\Attribute\Value\Value;
 use DateTimeInterface;
 
 /**
- * Default IValue implementation used for datetime/timestamp value containment.
+ * Default ValueInterface implementation used for datetime/timestamp value containment.
  */
 class TimestampValue extends Value
 {

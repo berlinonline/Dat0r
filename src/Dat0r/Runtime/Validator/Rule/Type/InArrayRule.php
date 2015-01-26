@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 class InArrayRule extends Rule
 {

@@ -9,7 +9,7 @@ class Uuid extends Text
     /**
      * Returns the default value of the attribute.
      *
-     * @return IValue
+     * @return ValueInterface
      */
     public function getDefaultValue()
     {

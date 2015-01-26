@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Email;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use stdClass;
 
 /**
@@ -40,7 +40,7 @@ class EmailTest extends TestCase
     {
         $email_attribute = new Email('email');
         $result = $email_attribute->getValidator()->validate($valid_email);
-        $this->assertEquals(IIncident::SUCCESS, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::SUCCESS, $result->getSeverity(), $assert_message);
     }
 
     /**
@@ -50,7 +50,7 @@ class EmailTest extends TestCase
     {
         $email_attribute = new Email('email');
         $result = $email_attribute->getValidator()->validate($invalid_email);
-        $this->assertEquals(IIncident::ERROR, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     /**
@@ -60,7 +60,7 @@ class EmailTest extends TestCase
     {
         $email_attribute = new Email('email');
         $result = $email_attribute->getValidator()->validate($invalid_value);
-        $this->assertEquals(IIncident::CRITICAL, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
     }
 
     public function provideValidEmails()

@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 /**
  * AggregateRule validates that a given value consistently translates to a collection of entities.
@@ -66,7 +66,7 @@ class AggregateRule extends Rule
         ksort($entities_data);
         foreach ($entities_data as $entity_data) {
             if (!isset($entity_data[self::OBJECT_TYPE])) {
-                $this->throwError('missing_doc_type', array(), IIncident::CRITICAL);
+                $this->throwError('missing_doc_type', array(), IncidentInterface::CRITICAL);
                 continue;
             }
 
@@ -80,7 +80,7 @@ class AggregateRule extends Rule
                 $this->throwError(
                     'invalid_doc_type',
                     array('type' => @$entity_data[self::OBJECT_TYPE]),
-                    IIncident::NOTICE
+                    IncidentInterface::NOTICE
                 );
                 continue;
             }

@@ -7,20 +7,20 @@ use Dat0r\Common\Collection\CollectionInterface;
 use Dat0r\Common\Collection\ListenerInterface;
 use Dat0r\Common\Collection\CollectionChangedEvent;
 use Dat0r\Runtime\Entity\EntityList;
-use Dat0r\Runtime\Entity\IEntityChangedListener;
+use Dat0r\Runtime\Entity\EntityChangedListenerInterface;
 use Dat0r\Runtime\Entity\EntityChangedEvent;
-use Dat0r\Runtime\Attribute\IAttribute;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 /**
- * Basic IValue implementation that all other Values should inherit from.
+ * Basic ValueInterface implementation that all other Values should inherit from.
  */
-abstract class Value implements IValue, ListenerInterface, IEntityChangedListener
+abstract class Value implements ValueInterface, ListenerInterface, EntityChangedListenerInterface
 {
     /**
      * Holds attribute which's data we are handling.
      *
-     * @var IAttribute $attribute
+     * @var AttributeInterface $attribute
      */
     private $attribute;
 
@@ -41,9 +41,9 @@ abstract class Value implements IValue, ListenerInterface, IEntityChangedListene
     /**
      * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
-     * @param IAttribute $attribute
+     * @param AttributeInterface $attribute
      */
-    public function __construct(IAttribute $attribute)
+    public function __construct(AttributeInterface $attribute)
     {
         $this->attribute = $attribute;
         $this->listeners = new ValueChangedListenerList();
@@ -64,14 +64,14 @@ abstract class Value implements IValue, ListenerInterface, IEntityChangedListene
      *
      * @param mixed $value
      *
-     * @return IResult
+     * @return ResultInterface
      */
     public function set($value)
     {
         $attribute_validator = $this->getAttribute()->getValidator();
         $validation_result = $attribute_validator->validate($value);
 
-        if ($validation_result->getSeverity() <= IIncident::NOTICE) {
+        if ($validation_result->getSeverity() <= IncidentInterface::NOTICE) {
             $previous_value = $this->value;
             $this->value = $validation_result->getSanitizedValue();
 
@@ -105,9 +105,9 @@ abstract class Value implements IValue, ListenerInterface, IEntityChangedListene
     /**
      * Registers a given listener as a recipient of value changed events.
      *
-     * @param IValueChangedListener $listener
+     * @param ValueChangedListenerInterface $listener
      */
-    public function addValueChangedListener(IValueChangedListener $listener)
+    public function addValueChangedListener(ValueChangedListenerInterface $listener)
     {
         if (!$this->listeners->hasItem($listener)) {
             $this->listeners->push($listener);
@@ -117,9 +117,9 @@ abstract class Value implements IValue, ListenerInterface, IEntityChangedListene
     /**
      * Removes a given listener as from our list of value-changed listeners.
      *
-     * @param IValueChangedListener $listener
+     * @param ValueChangedListenerInterface $listener
      */
-    public function removedValueChangedListener(IValueChangedListener $listener)
+    public function removedValueChangedListener(ValueChangedListenerInterface $listener)
     {
         if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);
@@ -163,7 +163,7 @@ abstract class Value implements IValue, ListenerInterface, IEntityChangedListene
     /**
      * Returns the attribute that we are handling the data for.
      *
-     * @return IAttribute
+     * @return AttributeInterface
      */
     protected function getAttribute()
     {

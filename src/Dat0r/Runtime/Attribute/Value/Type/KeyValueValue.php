@@ -4,19 +4,19 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\KeyValue;
 
 /**
- * Default IValue implementation used for key-value containment.
+ * Default ValueInterface implementation used for key-value containment.
  */
 class KeyValueValue extends Value
 {
     /**
-     * Tells whether a spefic IValue instance's value is considered equal to
-     * the value of an other given IValue.
+     * Tells whether a spefic ValueInterface instance's value is considered equal to
+     * the value of an other given ValueInterface.
      *
-     * @param IValue $other
+     * @param ValueInterface $other
      *
      * @return boolean
      */

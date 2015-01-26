@@ -2,11 +2,11 @@
 
 namespace Dat0r\Runtime\Validator\Result;
 
-use Dat0r\Runtime\Validator\Rule\IRule;
+use Dat0r\Runtime\Validator\Rule\RuleInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Common\Object;
 
-interface IResult
+interface ResultInterface
 {
     /**
      * @return Object
@@ -24,5 +24,5 @@ interface IResult
 
     public function getSeverity();
 
-    public function addViolatedRule(IRule $rule);
+    public function addViolatedRule(RuleInterface $rule);
 }

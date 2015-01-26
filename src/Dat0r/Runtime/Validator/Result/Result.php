@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\Validator\Result;
 
-use Dat0r\Runtime\Validator\IValidator;
-use Dat0r\Runtime\Validator\Rule\IRule;
+use Dat0r\Runtime\Validator\ValidatorInterface;
+use Dat0r\Runtime\Validator\Rule\RuleInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Common\Object;
 
-class Result extends Object implements IResult
+class Result extends Object implements ResultInterface
 {
     protected $subject;
 
@@ -19,10 +19,10 @@ class Result extends Object implements IResult
 
     protected $sanitized_value;
 
-    public function __construct(IValidator $subject)
+    public function __construct(ValidatorInterface $subject)
     {
         $this->subject = $subject;
-        $this->severity = IIncident::SUCCESS;
+        $this->severity = IncidentInterface::SUCCESS;
         $this->sanitized_value = null;
         $this->violated_rules = new RuleList();
     }
@@ -62,7 +62,7 @@ class Result extends Object implements IResult
         return $this->severity;
     }
 
-    public function addViolatedRule(IRule $rule)
+    public function addViolatedRule(RuleInterface $rule)
     {
         $this->violated_rules->addItem($rule);
 

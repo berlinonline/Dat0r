@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Attribute\Value;
 
 use Dat0r\Common\EventInterface;
 use Dat0r\Common\Object;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Entity\EntityChangedEvent;
 
 /**
@@ -16,7 +16,7 @@ class ValueChangedEvent extends Object implements EventInterface
 {
     /**
      * Holds the event's attribute origin.
-     * @var IAttribute
+     * @var AttributeInterface
      */
     protected $attribute;
 
@@ -63,7 +63,7 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Returns the event's affected attribute.
      *
-     * @return IAttribute
+     * @return AttributeInterface
      */
     public function getAttribute()
     {

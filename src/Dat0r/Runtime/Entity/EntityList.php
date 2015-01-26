@@ -7,10 +7,10 @@ use Dat0r\Common\Collection\CollectionChangedEvent;
 
 /**
  * EntityList is a TypedList implementation, that holds Ientities and provides some extra convenience.
- * You can attach to it as an IEntityChangedListener and will be notified
+ * You can attach to it as an EntityChangedListenerInterface and will be notified
  * on all events occuring from it's contained entities.
  */
-class EntityList extends TypedList implements IEntityChangedListener
+class EntityList extends TypedList implements EntityChangedListenerInterface
 {
     /**
      * Holds all currently attached entity-changed listeners.
@@ -33,9 +33,9 @@ class EntityList extends TypedList implements IEntityChangedListener
      * Attaches a given entity-changed listener,
      * which will be notified about any changes on contained entities.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function addEntityChangedListener(IEntityChangedListener $listener)
+    public function addEntityChangedListener(EntityChangedListenerInterface $listener)
     {
         if (!$this->listeners->hasItem($listener)) {
             $this->listeners->push($listener);
@@ -45,9 +45,9 @@ class EntityList extends TypedList implements IEntityChangedListener
     /**
      * Detaches the given entity-changed listener.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function removeEntityChangedListener(IEntityChangedListener $listener)
+    public function removeEntityChangedListener(EntityChangedListenerInterface $listener)
     {
         if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);
@@ -109,13 +109,13 @@ class EntityList extends TypedList implements IEntityChangedListener
     }
 
     /**
-     * Returns the IEntity interface-name to the TypeList parent-class,
+     * Returns the EntityInterface interface-name to the TypeList parent-class,
      * which uses this info to implement it's type/instanceof strategy.
      *
      * @return string
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Entity\\IEntity';
+        return '\\Dat0r\\Runtime\\Entity\\EntityInterface';
     }
 }

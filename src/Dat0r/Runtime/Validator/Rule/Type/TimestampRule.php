@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Attribute\Type\Timestamp;
 use DateTime;
@@ -19,13 +19,13 @@ class TimestampRule extends Rule
 
         if (is_string($value)) {
             if (!$this->getOption(Timestamp::OPTION_ACCEPT_STRINGS, Timestamp::DEFAULT_ACCEPT_STRINGS)) {
-                $this->throwError('no_strings_acceptable', array(), IIncident::CRITICAL);
+                $this->throwError('no_strings_acceptable', array(), IncidentInterface::CRITICAL);
                 return false;
             }
 
             $dt = new DateTimeImmutable($value);
             if ($dt === false) {
-                $this->throwError('invalid_string', array(), IIncident::CRITICAL);
+                $this->throwError('invalid_string', array(), IncidentInterface::CRITICAL);
                 return false;
             }
         } elseif ($value instanceof DateTime) {
@@ -33,7 +33,7 @@ class TimestampRule extends Rule
         } elseif ($value instanceof DateTimeImmutable) {
             $dt = clone $value;
         } else {
-            $this->throwError('invalid_type', array(), IIncident::CRITICAL);
+            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
             return false;
         }
 
@@ -53,7 +53,7 @@ class TimestampRule extends Rule
 
             // compare via PHP internal and then compare microseconds as well m(
             if (!( ($dt >= $min) && ((int)$dt->format('u') >= (int)$min->format('u')) )) {
-                $this->throwError('min', array(), IIncident::ERROR);
+                $this->throwError('min', array(), IncidentInterface::ERROR);
                 return false;
             }
         }
@@ -69,7 +69,7 @@ class TimestampRule extends Rule
             }
 
             if (!( ($dt <= $max) && ((int)$dt->format('u') <= (int)$max->format('u')) )) {
-                $this->throwError('max', array(), IIncident::ERROR);
+                $this->throwError('max', array(), IncidentInterface::ERROR);
                 return false;
             }
         }

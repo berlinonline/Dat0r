@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\Attribute\Value;
 
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 
 /**
  * @todo Explain what valid holders are and what they are supposed to do.
  */
-interface IValue
+interface ValueInterface
 {
     /**
      * Returns the value holder's aggregated value.
@@ -21,7 +21,7 @@ interface IValue
      *
      * @param string $value
      *
-     * @return IResult
+     * @return ResultInterface
      */
     public function set($value);
 
@@ -33,7 +33,7 @@ interface IValue
     public function isNull();
 
     /**
-     * Tells whether a given IValue is considered being equal to a given other IValue.
+     * Tells whether a given ValueInterface is considered being equal to a given other ValueInterface.
      *
      * @param mixed $other
      *
@@ -44,14 +44,14 @@ interface IValue
     /**
      * Registers a given listener as a recipient of value changed events.
      *
-     * @param IValueChangedListener $listener
+     * @param ValueChangedListenerInterface $listener
      */
-    public function addValueChangedListener(IValueChangedListener $listener);
+    public function addValueChangedListener(ValueChangedListenerInterface $listener);
 
     /**
      * Removes a given listener as from our list of value-changed listeners.
      *
-     * @param IValueChangedListener $listener
+     * @param ValueChangedListenerInterface $listener
      */
-    public function removedValueChangedListener(IValueChangedListener $listener);
+    public function removedValueChangedListener(ValueChangedListenerInterface $listener);
 }

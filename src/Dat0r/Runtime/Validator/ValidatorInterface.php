@@ -3,12 +3,12 @@
 namespace Dat0r\Runtime\Validator;
 
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Result\IResult;
+use Dat0r\Runtime\Validator\Result\ResultInterface;
 
-interface IValidator
+interface ValidatorInterface
 {
     /**
-     * @return IResult
+     * @return ResultInterface
      */
     public function validate($value);
 

@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\IEntityType;
+use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\UniqueCollectionInterface;
 
@@ -14,7 +14,7 @@ class AttributeMap extends TypedMap implements UniqueCollectionInterface
 {
     protected $type;
 
-    public function __construct(IEntityType $type, array $items = array())
+    public function __construct(EntityTypeInterface $type, array $items = array())
     {
         $this->type = $type;
 
@@ -29,13 +29,13 @@ class AttributeMap extends TypedMap implements UniqueCollectionInterface
     }
 
     /**
-     * Returns the IAttribute interface-name to the TypeMap parent-class,
+     * Returns the AttributeInterface interface-name to the TypeMap parent-class,
      * which uses this info to implement it's type/instanceof strategy.
      *
      * @return string
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Attribute\\IAttribute';
+        return '\\Dat0r\\Runtime\\Attribute\\AttributeInterface';
     }
 }

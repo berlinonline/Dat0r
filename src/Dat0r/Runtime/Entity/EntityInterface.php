@@ -2,31 +2,31 @@
 
 namespace Dat0r\Runtime\Entity;
 
-use Dat0r\Runtime\IEntityType;
-use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\Value\ValueInterface;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
 use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
 
 /**
- * An IEntity is a generic container for structured data.
+ * An EntityInterface is a generic container for structured data.
  * It provides access to values on a per attribute base.
  */
-interface IEntity
+interface EntityInterface
 {
     /**
      * Returns the entity's parent, if it has one.
      *
-     * @return IEntity
+     * @return EntityInterface
      */
     public function getParent();
 
     /**
      * Sets the entity's parent once, if it isn't yet assigned.
      *
-     * @param IEntity $parent
+     * @param EntityInterface $parent
      */
-    public function setParent(IEntity $parent);
+    public function setParent(EntityInterface $parent);
 
     /**
      * Sets a specific value by attribute_name.
@@ -79,14 +79,14 @@ interface IEntity
     public function toArray();
 
     /**
-     * Tells whether a spefic IEntity instance is considered equal to an other given entity.
+     * Tells whether a spefic EntityInterface instance is considered equal to an other given entity.
      * entities are equal when they have both the same type and values.
      *
-     * @param IEntity $entity
+     * @param EntityInterface $entity
      *
      * @return boolean
      */
-    public function isEqualTo(IEntity $entity);
+    public function isEqualTo(EntityInterface $entity);
 
     /**
      * Returns the validation results of a prior call to setValue(s).
@@ -128,21 +128,21 @@ interface IEntity
     /**
      * Returns the entity's type.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getType();
 
     /**
      * Attaches the given entity-changed listener.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function addEntityChangedListener(IEntityChangedListener $listener);
+    public function addEntityChangedListener(EntityChangedListenerInterface $listener);
 
     /**
      * Removes the given entity-changed listener.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function removeEntityChangedListener(IEntityChangedListener $listener);
+    public function removeEntityChangedListener(EntityChangedListenerInterface $listener);
 }

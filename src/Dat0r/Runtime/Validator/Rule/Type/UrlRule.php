@@ -3,14 +3,14 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 class UrlRule extends Rule
 {
     protected function execute($value)
     {
         if (!is_string($value)) {
-            $this->throwError('invalid_type', array(), IIncident::CRITICAL);
+            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
             return false;
         }
 

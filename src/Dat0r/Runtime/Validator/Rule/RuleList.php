@@ -9,6 +9,6 @@ class RuleList extends TypedList implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Validator\\Rule\\IRule';
+        return '\\Dat0r\\Runtime\\Validator\\Rule\\RuleInterface';
     }
 }

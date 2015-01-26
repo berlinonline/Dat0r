@@ -11,7 +11,7 @@ class SpecificationTest extends TestCase
     {
         $specification = new Specification($this->getExampleSpec());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Entity\\Transform\\ISpecification', $specification);
+        $this->assertInstanceOf('\\Dat0r\\Runtime\\Entity\\Transform\\SpecificationInterface', $specification);
         $this->assertEquals('bar', $specification->getName());
 
         $options = $specification->getOptions();

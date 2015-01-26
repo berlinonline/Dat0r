@@ -4,11 +4,11 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\Boolean;
 
 /**
- * Default IValue implementation used for boolean value containment.
+ * Default ValueInterface implementation used for boolean value containment.
  */
 class BooleanValue extends Value
 {

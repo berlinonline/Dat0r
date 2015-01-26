@@ -4,12 +4,12 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Entity\EntityList;
 
 /**
- * Default IValue implementation for the AggregateCollection.
+ * Default ValueInterface implementation for the AggregateCollection.
  * Holds an aggregate attribute's entities in form of a EntityList.
  */
 class AggregateCollectionValue extends Value

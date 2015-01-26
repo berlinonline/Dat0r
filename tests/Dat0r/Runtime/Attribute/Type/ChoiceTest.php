@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Choice;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 class ChoiceTest extends TestCase
 {
@@ -27,7 +27,7 @@ class ChoiceTest extends TestCase
         $value = $select_attribute->createValue();
         $result = $value->set('berlin');
 
-        $this->assertEquals($result->getSeverity(), IIncident::SUCCESS);
+        $this->assertEquals($result->getSeverity(), IncidentInterface::SUCCESS);
         $this->assertEquals(array('berlin'), $value->get());
     }
 
@@ -37,7 +37,7 @@ class ChoiceTest extends TestCase
         $value = $select_attribute->createValue();
         $result = $value->set('meh');
 
-        $this->assertEquals($result->getSeverity(), IIncident::ERROR);
+        $this->assertEquals($result->getSeverity(), IncidentInterface::ERROR);
         $this->assertEquals(null, $value->get());
     }
 

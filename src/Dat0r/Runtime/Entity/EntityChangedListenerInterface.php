@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Entity;
 /**
  * Represents a listener to events that occur, when a entity instance changes one of it's values.
  */
-interface IEntityChangedListener
+interface EntityChangedListenerInterface
 {
     /**
      * Handle entity changed events.

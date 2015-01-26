@@ -6,17 +6,17 @@ use Dat0r\Common\Configurable;
 use Dat0r\Common\OptionsInterface;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;
 
 /**
  * Base class that all Dat0r types should extend.
  */
-abstract class EntityType extends Configurable implements IEntityType
+abstract class EntityType extends Configurable implements EntityTypeInterface
 {
     /**
      * Holds the type's name.
@@ -28,7 +28,7 @@ abstract class EntityType extends Configurable implements IEntityType
     /**
      * Holds a reference to the parent type, if there is one.
      *
-     * @var IEntityType $parent;
+     * @var EntityTypeInterface $parent;
      */
     protected $parent;
 
@@ -98,7 +98,7 @@ abstract class EntityType extends Configurable implements IEntityType
     /**
      * Returns the type's parent, if it has one.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getParent()
     {
@@ -108,9 +108,9 @@ abstract class EntityType extends Configurable implements IEntityType
     /**
      * Sets the type's parent once, if it isn't yet assigned.
      *
-     * @param IEntityType $parent
+     * @param EntityTypeInterface $parent
      */
-    public function setParent(IEntityType $parent)
+    public function setParent(EntityTypeInterface $parent)
     {
         if (!$this->parent) {
             $this->parent = $parent;
@@ -173,7 +173,7 @@ abstract class EntityType extends Configurable implements IEntityType
      *
      * @param string $name
      *
-     * @return IAttribute
+     * @return AttributeInterface
      *
      * @throws RuntimeException
      */
@@ -190,11 +190,11 @@ abstract class EntityType extends Configurable implements IEntityType
     }
 
     /**
-     * Creates a new IEntity instance.
+     * Creates a new EntityInterface instance.
      *
      * @param array $data Optional data for initial hydration.
      *
-     * @return IEntity
+     * @return EntityInterface
      *
      * @throws InvalidTypeException
      */

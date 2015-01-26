@@ -5,33 +5,33 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\Attribute\Value\ValueInterface;
 use Dat0r\Runtime\Attribute\Value\NullValue;
-use Dat0r\Runtime\Validator\IValidator;
+use Dat0r\Runtime\Validator\ValidatorInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\IEntityType;
+use Dat0r\Runtime\EntityTypeInterface;
 
 /**
- * Base class that all Dat0r IAttribute implementations should extend.
- * Provides a pretty complete implementation for the IAttribute interface.
+ * Base class that all Dat0r AttributeInterface implementations should extend.
+ * Provides a pretty complete implementation for the AttributeInterface interface.
  *
  * basic options: 'validator', 'value', 'default_value', 'null_value', 'mandatory'
  * @todo extends Object; which introduces a breaking change to the create method.
  * TODO introduce 'mandatory' option
  */
-abstract class Attribute implements IAttribute
+abstract class Attribute implements AttributeInterface
 {
     /**
      * Holds a reference to the attribute's type.
      *
-     * @var IEntityType $type;
+     * @var EntityTypeInterface $type;
      */
     protected $type;
 
     /**
      * Holds a reference to the parent attribute, if there is one.
      *
-     * @var IAttribute $parent;
+     * @var AttributeInterface $parent;
      */
     protected $parent;
 
@@ -52,7 +52,7 @@ abstract class Attribute implements IAttribute
     /**
      * Holds the attribute's validator instance.
      *
-     * @var IValidator $validator
+     * @var ValidatorInterface $validator
      */
     protected $validator;
 
@@ -81,7 +81,7 @@ abstract class Attribute implements IAttribute
     /**
      * Returns the attribute's type.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getType()
     {
@@ -91,9 +91,9 @@ abstract class Attribute implements IAttribute
     /**
      * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IEntityType $type
+     * @param EntityTypeInterface $type
      */
-    public function setType(IEntityType $type)
+    public function setType(EntityTypeInterface $type)
     {
         if (!$this->type) {
             $this->type = $type;
@@ -105,7 +105,7 @@ abstract class Attribute implements IAttribute
     /**
      * Returns the attribute's parent, if it has one.
      *
-     * @return IAttribute
+     * @return AttributeInterface
      */
     public function getParent()
     {
@@ -115,9 +115,9 @@ abstract class Attribute implements IAttribute
     /**
      * Sets the attribute's parent once, if it isn't yet assigned.
      *
-     * @param IAttribute $parent
+     * @param AttributeInterface $parent
      */
-    public function setParent(IAttribute $parent)
+    public function setParent(AttributeInterface $parent)
     {
         if (!$this->parent) {
             $this->parent = $parent;
@@ -165,7 +165,7 @@ abstract class Attribute implements IAttribute
     /**
      * Returns the default value of the attribute.
      *
-     * @return IValue
+     * @return ValueInterface
      */
     public function getDefaultValue()
     {
@@ -183,10 +183,10 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Returns the IValidator implementation to use when validating values for this attribute.
+     * Returns the ValidatorInterface implementation to use when validating values for this attribute.
      * Override this method if you want inject your own implementation.
      *
-     * @return string Fully qualified name of an IValidator implementation.
+     * @return string Fully qualified name of an ValidatorInterface implementation.
      */
     public function getValidator()
     {
@@ -205,11 +205,11 @@ abstract class Attribute implements IAttribute
             }
 
             $validator = new $validator_implementor($this->getName(), $this->buildValidationRules());
-            if (!$validator instanceof IValidator) {
+            if (!$validator instanceof ValidatorInterface) {
                 throw new InvalidTypeException(
                     sprintf(
                         "Invalid validator implementor '%s' given for attribute: '%s'." .
-                        "Make sure to implement 'Dat0r\Runtime\Validator\Validator\IValidator'.",
+                        "Make sure to implement 'Dat0r\Runtime\Validator\Validator\ValidatorInterface'.",
                         $validator_implementor,
                         $this->getName()
                     )
@@ -222,9 +222,9 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Creates a IValue, that is specific to the current attribute instance.
+     * Creates a ValueInterface, that is specific to the current attribute instance.
      *
-     * @return IValue
+     * @return ValueInterface
      */
     public function createValue()
     {
@@ -239,7 +239,7 @@ abstract class Attribute implements IAttribute
         }
         $value = new $implementor($this);
 
-        if (!$value instanceof IValue) {
+        if (!$value instanceof ValueInterface) {
             throw new InvalidTypeException(
                 sprintf(
                     "Invalid valueholder implementation '%s' given for attribute '%s'.",
@@ -265,10 +265,10 @@ abstract class Attribute implements IAttribute
     }
 
     /**
-     * Returns the IValue implementation to use when aggregating (value)data for this attribute.
+     * Returns the ValueInterface implementation to use when aggregating (value)data for this attribute.
      * Override this method if you want inject your own implementation.
      *
-     * @return string Fully qualified name of an IValue implementation.
+     * @return string Fully qualified name of an ValueInterface implementation.
      */
     protected function buildDefaultValueClassName()
     {

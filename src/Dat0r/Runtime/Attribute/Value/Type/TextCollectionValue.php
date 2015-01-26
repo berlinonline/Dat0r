@@ -4,19 +4,19 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\TextCollection;
 
 /**
- * Default IValue implementation used for text collection value containment.
+ * Default ValueInterface implementation used for text collection value containment.
  */
 class TextCollectionValue extends Value
 {
     /**
-     * Tells whether a spefic IValue instance's value is considered equal to
-     * the value of an other given IValue.
+     * Tells whether a spefic ValueInterface instance's value is considered equal to
+     * the value of an other given ValueInterface.
      *
-     * @param IValue $other_value
+     * @param ValueInterface $other_value
      *
      * @return boolean
      */

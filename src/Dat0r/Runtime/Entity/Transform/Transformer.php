@@ -4,16 +4,16 @@ namespace Dat0r\Runtime\Entity\Transform;
 
 use Dat0r\Common\Configurable;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\Entity\EntityInterface;
 
-class Transformer extends Configurable implements ITransformer
+class Transformer extends Configurable implements TransformerInterface
 {
     /**
-     * @param IEntity $entity
+     * @param EntityInterface $entity
      *
      * @return array
      */
-    public function transform(IEntity $entity, ISpecificationContainer $spec_container)
+    public function transform(EntityInterface $entity, SpecificationContainerInterface $spec_container)
     {
         $specification_map = $spec_container->getSpecificationMap();
         $transformation = new Transformation();
@@ -28,11 +28,11 @@ class Transformer extends Configurable implements ITransformer
 
     /**
      * @param array $data
-     * @param IEntity $entity
+     * @param EntityInterface $entity
      *
      * @return void
      */
-    public function transformBack(array $data, IEntity $entity, ISpecificationContainer $spec_container)
+    public function transformBack(array $data, EntityInterface $entity, SpecificationContainerInterface $spec_container)
     {
         $specification_map = $spec_container->getSpecificationMap();
         $transformation = new Transformation();

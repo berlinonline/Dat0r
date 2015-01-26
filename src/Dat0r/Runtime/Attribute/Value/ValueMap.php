@@ -9,6 +9,6 @@ class ValueMap extends TypedMap implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Attribute\\Value\\IValue';
+        return '\\Dat0r\\Runtime\\Attribute\\Value\\ValueInterface';
     }
 }

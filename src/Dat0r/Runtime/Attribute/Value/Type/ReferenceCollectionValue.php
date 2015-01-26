@@ -4,19 +4,19 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 
 /**
- * Default IValue implementation used for reference value containment.
+ * Default ValueInterface implementation used for reference value containment.
  */
 class ReferenceCollectionValue extends Value
 {
     /**
-     * Tells whether a specific IValue instance's value is considered equal to
-     * the value of an other given IValue.
+     * Tells whether a specific ValueInterface instance's value is considered equal to
+     * the value of an other given ValueInterface.
      *
-     * @param IValue $other
+     * @param ValueInterface $other
      *
      * @return boolean
      */

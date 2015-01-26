@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Text;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 class TextTest extends TestCase
 {
@@ -51,7 +51,7 @@ class TextTest extends TestCase
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');
-        $this->assertEquals($result->getSeverity(), IIncident::SUCCESS);
+        $this->assertEquals($result->getSeverity(), IncidentInterface::SUCCESS);
     }
 
     public function testValidationError()
@@ -62,7 +62,7 @@ class TextTest extends TestCase
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');
-        $this->assertEquals($result->getSeverity(), IIncident::ERROR);
+        $this->assertEquals($result->getSeverity(), IncidentInterface::ERROR);
     }
 
     /**

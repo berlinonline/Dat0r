@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Entity\Transform;
 
 use Dat0r\Common\Configurable;
 
-class SpecificationContainer extends Configurable implements ISpecificationContainer
+class SpecificationContainer extends Configurable implements SpecificationContainerInterface
 {
     /**
      * @var string $name
@@ -42,7 +42,7 @@ class SpecificationContainer extends Configurable implements ISpecificationConta
         } elseif (is_array($specification_map)) {
             $this->specification_map = new SpecificationMap();
             foreach ($specification_map as $spec_key => $specification) {
-                if ($specification instanceof ISpecification) {
+                if ($specification instanceof SpecificationInterface) {
                     $this->specification_map->setItem($spec_key, $specification);
                 } else {
                     $this->specification_map->setItem(

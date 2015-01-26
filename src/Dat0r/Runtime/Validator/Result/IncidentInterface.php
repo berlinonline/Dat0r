@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Validator\Result;
 
-interface IIncident
+interface IncidentInterface
 {
     const SUCCESS = 0;
 

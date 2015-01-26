@@ -4,11 +4,11 @@ namespace Dat0r\Runtime\Validator;
 
 use Dat0r\Common\Object;
 use Dat0r\Runtime\Validator\Result\Result;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Rule;
 
-class Validator extends Object implements IValidator
+class Validator extends Object implements ValidatorInterface
 {
     protected $name;
 
@@ -32,7 +32,7 @@ class Validator extends Object implements IValidator
             } else {
                 $success = false;
                 $result->addViolatedRule($rule);
-                if ($result->getSeverity() === IIncident::CRITICAL) {
+                if ($result->getSeverity() === IncidentInterface::CRITICAL) {
                     // abort validation process for critical errors
                     break;
                 }

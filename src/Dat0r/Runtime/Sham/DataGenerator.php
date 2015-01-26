@@ -5,9 +5,9 @@ namespace Dat0r\Runtime\Sham;
 use Faker\Factory;
 
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Entity\IEntity;
-use Dat0r\Runtime\IEntityType;
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Entity\EntityInterface;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
@@ -84,7 +84,7 @@ class DataGenerator
      * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
@@ -93,7 +93,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fake(IEntity $entity, array $options = array())
+    public function fake(EntityInterface $entity, array $options = array())
     {
         if (!empty($options[self::OPTION_LOCALE])) {
             $loc = $options[self::OPTION_LOCALE];
@@ -143,7 +143,7 @@ class DataGenerator
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IEntityType $type type to create fake data for
+     * @param EntityTypeInterface $type type to create fake data for
      * @param array $options For valid options see fake() method
      *
      * @return array of fake data for the given type
@@ -152,7 +152,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fakeData(IEntityType $type, array $options = array())
+    public function fakeData(EntityTypeInterface $type, array $options = array())
     {
         $entity = $type->createEntity();
         $this->fake($entity, $options);
@@ -162,7 +162,7 @@ class DataGenerator
     /**
      * Creates a entity with fake data for the given type.
      *
-     * @param IEntityType $type type to create entities for
+     * @param EntityTypeInterface $type type to create entities for
      * @param array $options For valid options see fake() method
      *
      * @return entity newly created with fake data
@@ -171,7 +171,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeEntity(IEntityType $type, array $options = array())
+    public function createFakeEntity(EntityTypeInterface $type, array $options = array())
     {
         $options[self::OPTION_MARK_CLEAN] = true;
         $entity = $type->createEntity();
@@ -182,7 +182,7 @@ class DataGenerator
     /**
      * Creates `count` number of entities with fake data for the given type.
      *
-     * @param IEntityType $type type to create entities for
+     * @param EntityTypeInterface $type type to create entities for
      * @param array $options use `count` for number of entities to create. For other options see fake() method.
      *
      * @return array of new entities with fake data
@@ -191,7 +191,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeEntities(IEntityType $type, array $options = array())
+    public function createFakeEntities(EntityTypeInterface $type, array $options = array())
     {
         $entities = array();
 
@@ -232,7 +232,7 @@ class DataGenerator
      * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
@@ -241,7 +241,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function fill(IEntity $entity, array $options = array())
+    public static function fill(EntityInterface $entity, array $options = array())
     {
         $data_generator = new static();
         $data_generator->fake($entity, $options);
@@ -250,7 +250,7 @@ class DataGenerator
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IEntityType $type type to create fake data for
+     * @param EntityTypeInterface $type type to create fake data for
      * @param array $options For valid options see fill() method
      *
      * @return array of fake data for the given type
@@ -259,7 +259,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDataFor(IEntityType $type, array $options = array())
+    public static function createDataFor(EntityTypeInterface $type, array $options = array())
     {
         $data_generator = new static();
         return $data_generator->fakeData($type, $options);
@@ -268,7 +268,7 @@ class DataGenerator
     /**
      * Creates a entity with fake data for the given type.
      *
-     * @param IEntityType $type type to create entities for
+     * @param EntityTypeInterface $type type to create entities for
      * @param array $options For valid options see fill() method
      *
      * @return entity newly created with fake data
@@ -277,7 +277,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createEntity(IEntityType $type, array $options = array())
+    public static function createEntity(EntityTypeInterface $type, array $options = array())
     {
         $data_generator = new static();
         return $data_generator->createFakeEntity($type, $options);
@@ -286,7 +286,7 @@ class DataGenerator
     /**
      * Creates `count` number of entities with fake data for the given type.
      *
-     * @param IEntityType $type type to create entities for
+     * @param EntityTypeInterface $type type to create entities for
      * @param array $options use `count` for number of entities to create. For other options see fill() method.
      *
      * @return array of new entities with fake data
@@ -295,7 +295,7 @@ class DataGenerator
      * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createEntities(IEntityType $type, array $options = array())
+    public static function createEntities(EntityTypeInterface $type, array $options = array())
     {
         $data_generator = new DataGenerator();
         return $data_generator->createFakeEntities($type, $options);
@@ -304,13 +304,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a Text on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the Text to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the Text to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addText(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addText(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
 
@@ -327,13 +327,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a TextCollection on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the TextCollection to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the TextCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextCollection(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addTextCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $values = array();
 
@@ -355,13 +355,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a Textarea on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the Textarea to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the Textarea to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextarea(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addTextarea(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $text = $this->faker->paragraphs($this->faker->numberBetween(1, 5));
         $this->setValue($entity, $attribute, implode(PHP_EOL . PHP_EOL, $text), $options);
@@ -370,13 +370,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for an Number on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the Number to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the Number to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addNumber(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addNumber(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $this->setValue($entity, $attribute, $this->faker->numberBetween(1, 99999), $options);
     }
@@ -384,13 +384,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for an NumberCollection on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the NumberCollection to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the NumberCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addNumberCollection(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addNumberCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $values = array();
 
@@ -405,13 +405,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a KeyValue on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the KeyValue to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the KeyValue to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValue(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addKeyValue(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $values = array();
 
@@ -426,13 +426,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a KeyValuesCollection on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the KeyValuesCollection to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the KeyValuesCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValuesCollection(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addKeyValuesCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $collection = array();
 
@@ -452,13 +452,13 @@ class DataGenerator
     /**
      * Generates and adds fake data for a Boolean on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
-     * @param IAttribute $attribute an instance of the Boolean to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
+     * @param AttributeInterface $attribute an instance of the Boolean to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addBoolean(IEntity $entity, IAttribute $attribute, array $options = array())
+    protected function addBoolean(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
         $this->setValue($entity, $attribute, $this->faker->boolean, $options);
     }
@@ -466,14 +466,14 @@ class DataGenerator
     /**
      * Generates and adds fake data for a aggregate entities.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
      * @param AggregateCollection $attribute an instance of the AggregateCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
     protected function addAggregateCollection(
-        IEntity $entity,
+        EntityInterface $entity,
         AggregateCollection $attribute,
         array $options = array()
     ) {
@@ -502,14 +502,14 @@ class DataGenerator
     /**
      * Generates and adds fake data for a ReferenceCollection on a entity.
      *
-     * @param IEntity $entity an instance of the entity to fill with fake data.
+     * @param EntityInterface $entity an instance of the entity to fill with fake data.
      * @param ReferenceCollection $attribute an instance of the ReferenceCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
     protected function addReferenceCollection(
-        IEntity $entity,
+        EntityInterface $entity,
         ReferenceCollection $attribute,
         array $options = array()
     ) {
@@ -564,8 +564,8 @@ class DataGenerator
      * @return void
      */
     protected function setValue(
-        IEntity $entity,
-        IAttribute $attribute,
+        EntityInterface $entity,
+        AttributeInterface $attribute,
         $default_value,
         array $options = array()
     ) {
@@ -619,11 +619,11 @@ class DataGenerator
      *
      * etc. pp.
      *
-     * @param IAttribute $attribute attribute instance to generate fake data for
+     * @param AttributeInterface $attribute attribute instance to generate fake data for
      *
      * @return string method name to use for fake data addition for given attribute
      */
-    protected function getMethodNameFor(IAttribute $attribute)
+    protected function getMethodNameFor(AttributeInterface $attribute)
     {
         $name = null;
 

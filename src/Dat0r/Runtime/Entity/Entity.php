@@ -3,41 +3,41 @@
 namespace Dat0r\Runtime\Entity;
 
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\IEntityType;
+use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\Attribute\Value\ValueInterface;
 use Dat0r\Runtime\Attribute\Value\ValueMap;
-use Dat0r\Runtime\Attribute\Value\IValueChangedListener;
+use Dat0r\Runtime\Attribute\Value\ValueChangedListenerInterface;
 use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
 use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
 use Dat0r\Common\Object;
 
 /**
- * Entity generically implements the IEntity interface
+ * Entity generically implements the EntityInterface interface
  * and serves as a parent/ancestor to all generated and domain specific entity base-classes.
  * It provides generic value access via it's getValue(s) and setValue(s) methods.
  */
-abstract class Entity extends Object implements IEntity, IValueChangedListener
+abstract class Entity extends Object implements EntityInterface, ValueChangedListenerInterface
 {
     /**
      * Holds the entity's type.
      *
-     * @var IEntityType $type
+     * @var EntityTypeInterface $type
      */
     protected $type;
 
     /**
      * Holds a reference to the parent entity, if there is one.
      *
-     * @var IEntity $parent;
+     * @var EntityInterface $parent;
      */
     protected $parent;
 
     /**
-     * There is a IValue instance for each IAttribute of our type.
+     * There is a ValueInterface instance for each AttributeInterface of our type.
      * The '$values' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
@@ -72,17 +72,17 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Create a entity specific to the given type and hydrate it with the passed data.
      *
-     * @param IEntityType $type
+     * @param EntityTypeInterface $type
      * @param array $data
      */
-    public function __construct(IEntityType $type, array $data = array())
+    public function __construct(EntityTypeInterface $type, array $data = array())
     {
         $this->type = $type;
         $this->listeners = new EntityChangedListenerList();
         $this->changes = new ValueChangedEventList();
         $this->validation_results = new ResultMap();
 
-        // Setup a map of IValue specific to our type's attributes.
+        // Setup a map of ValueInterface specific to our type's attributes.
         // they hold the actual entity data.
         $this->values = new ValueMap();
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
@@ -101,7 +101,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Returns the entity's parent, if it has one.
      *
-     * @return IEntity
+     * @return EntityInterface
      */
     public function getParent()
     {
@@ -111,9 +111,9 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Sets the entity's parent once, if it isn't yet assigned.
      *
-     * @param IEntity $parent
+     * @param EntityInterface $parent
      */
-    public function setParent(IEntity $parent)
+    public function setParent(EntityInterface $parent)
     {
         if (!$this->parent) {
             $this->parent = $parent;
@@ -134,7 +134,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
 
         if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
@@ -173,7 +173,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
 
         if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
@@ -193,7 +193,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
 
         if (!$value) {
             throw new RuntimeException(
-                "Unable to find IValue for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
+                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
             );
         }
 
@@ -246,14 +246,14 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     }
 
     /**
-     * Tells whether a spefic IEntity instance is considered equal to an other given entity.
+     * Tells whether a spefic EntityInterface instance is considered equal to an other given entity.
      * entities are equal when they have both the same type and values.
      *
-     * @param IEntity $entity
+     * @param EntityInterface $entity
      *
      * @return boolean
      */
-    public function isEqualTo(IEntity $entity)
+    public function isEqualTo(EntityInterface $entity)
     {
         if ($entity->getType() !== $this->getType()) {
             return false;
@@ -290,7 +290,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
      */
     public function isValid()
     {
-        return !$this->validation_results || $this->validation_results->worstSeverity() <= IIncident::NOTICE;
+        return !$this->validation_results || $this->validation_results->worstSeverity() <= IncidentInterface::NOTICE;
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Returns the entity's type.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getType()
     {
@@ -336,9 +336,9 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Attaches the given entity-changed listener.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function addEntityChangedListener(IEntityChangedListener $listener)
+    public function addEntityChangedListener(EntityChangedListenerInterface $listener)
     {
         if (!$this->listeners->hasItem($listener)) {
             $this->listeners->push($listener);
@@ -348,9 +348,9 @@ abstract class Entity extends Object implements IEntity, IValueChangedListener
     /**
      * Removes the given entity-changed listener.
      *
-     * @param IEntityChangedListener $listener
+     * @param EntityChangedListenerInterface $listener
      */
-    public function removeEntityChangedListener(IEntityChangedListener $listener)
+    public function removeEntityChangedListener(EntityChangedListenerInterface $listener)
     {
         if ($this->listeners->hasItem($listener)) {
             $this->listeners->removeItem($listener);

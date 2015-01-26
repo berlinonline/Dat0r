@@ -2,16 +2,16 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Attribute\Value\IValue;
+use Dat0r\Runtime\Attribute\Value\ValueInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Validator\IValidator;
-use Dat0r\Runtime\IEntityType;
+use Dat0r\Runtime\Validator\Validator\ValidatorInterface;
+use Dat0r\Runtime\EntityTypeInterface;
 
 /**
- * IAttributes hold meta data that is used to model entity properties,
+ * AttributeInterfaces hold meta data that is used to model entity properties,
  * hence your data's behaviour concerning consistent containment.
  */
-interface IAttribute
+interface AttributeInterface
 {
     const OPTION_DEFAULT_VALUE = 'default_value';
     const OPTION_NULL_VALUE = 'null_value';
@@ -28,30 +28,30 @@ interface IAttribute
     /**
      * Returns the attribute's type.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getType();
 
     /**
      * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IEntityType $type
+     * @param EntityTypeInterface $type
      */
-    public function setType(IEntityType $type);
+    public function setType(EntityTypeInterface $type);
 
     /**
      * Returns the attribute's parent, if it has one.
      *
-     * @return IAttribute
+     * @return AttributeInterface
      */
     public function getParent();
 
     /**
      * Sets the attribute's parent once, if it isn't yet assigned.
      *
-     * @param IAttribute $parent
+     * @param AttributeInterface $parent
      */
-    public function setParent(IAttribute $parent);
+    public function setParent(AttributeInterface $parent);
 
     /**
      * Returns the default value of the attribute.
@@ -88,14 +88,14 @@ interface IAttribute
     public function hasOption($name);
 
     /**
-     * @return IValidator
+     * @return ValidatorInterface
      */
     public function getValidator();
 
     /**
-     * Creates a IValue instance dedicated to the current attribute instance.
+     * Creates a ValueInterface instance dedicated to the current attribute instance.
      *
-     * @return IValue
+     * @return ValueInterface
      */
     public function createValue();
 }

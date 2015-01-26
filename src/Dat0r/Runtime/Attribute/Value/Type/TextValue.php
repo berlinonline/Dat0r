@@ -5,15 +5,15 @@ namespace Dat0r\Runtime\Attribute\Value\Type;
 use Dat0r\Runtime\Attribute\Value\Value;
 
 /**
- * Default IValue implementation used for text value containment.
+ * Default ValueInterface implementation used for text value containment.
  */
 class TextValue extends Value
 {
     /**
-     * Tells whether a spefic IValue instance's value is considered equal to
-     * the value of an other given IValue.
+     * Tells whether a spefic ValueInterface instance's value is considered equal to
+     * the value of an other given ValueInterface.
      *
-     * @param IValue $other
+     * @param ValueInterface $other
      *
      * @return boolean
      */

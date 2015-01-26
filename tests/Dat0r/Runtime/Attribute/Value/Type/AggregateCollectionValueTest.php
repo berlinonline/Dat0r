@@ -46,7 +46,7 @@ class AggregateCollectionValueTest extends TestCase
 
     public function testValueChangedEvents()
     {
-        $listener = Mockery::mock('\Dat0r\Runtime\Attribute\Value\IValueChangedListener');
+        $listener = Mockery::mock('\Dat0r\Runtime\Attribute\Value\ValueChangedListenerInterface');
         $listener->shouldReceive('onValueChanged')->with(
             '\Dat0r\Runtime\Attribute\Value\ValueChangedEvent'
         )->twice();

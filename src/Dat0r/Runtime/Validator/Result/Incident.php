@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Validator\Result;
 
 use Dat0r\Common\Object;
 
-class Incident extends Object implements IIncident
+class Incident extends Object implements IncidentInterface
 {
     protected $name;
 

@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\Type;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Type\Timestamp;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use DateTime;
 use DateTimeImmutable;
 use stdClass;
@@ -94,7 +94,7 @@ class TimestampTest extends TestCase
     {
         $attribute = new Timestamp('publishedAt');
         $result = $attribute->getValidator()->validate($invalid_value);
-        $this->assertEquals(IIncident::CRITICAL, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()

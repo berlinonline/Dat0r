@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Result\IIncident;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Egulias\EmailValidator\EmailLexer;
 use Egulias\EmailValidator\EmailParser;
 use Egulias\EmailValidator\EmailValidator;
@@ -16,7 +16,7 @@ class EmailRule extends Rule
     protected function execute($value)
     {
         if (!is_scalar($value) || !is_string($value)) {
-            $this->throwError('invalid_type', array(), IIncident::CRITICAL);
+            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
             return false;
         }
 
@@ -33,7 +33,7 @@ class EmailRule extends Rule
             if ($validator_reflection->hasConstant($error_const)) {
                 $reason = $error_const;
             }
-            $this->throwError('invalid_format', array('reason' => $reason), IIncident::ERROR);
+            $this->throwError('invalid_format', array('reason' => $reason), IncidentInterface::ERROR);
 
             return false;
         }

@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule;
 
 use Dat0r\Runtime\Validator\Result\IncidentMap;
 
-interface IRule
+interface RuleInterface
 {
     /**
      * @return string

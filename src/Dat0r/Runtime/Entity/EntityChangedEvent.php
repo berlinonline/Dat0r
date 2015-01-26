@@ -14,7 +14,7 @@ class EntityChangedEvent implements EventInterface
     /**
      * Holds a reference to the entity instance that changed.
      *
-     * @var IEntity $entity
+     * @var EntityInterface $entity
      */
     private $entity;
 
@@ -28,10 +28,10 @@ class EntityChangedEvent implements EventInterface
     /**
      * Constructs a new EntityChangedEvent instance.
      *
-     * @param IEntity $entity
+     * @param EntityInterface $entity
      * @param ValueChangedEvent $value_changed_event
      */
-    public function __construct(IEntity $entity, ValueChangedEvent $value_changed_event)
+    public function __construct(EntityInterface $entity, ValueChangedEvent $value_changed_event)
     {
         $this->entity = $entity;
         $this->value_changed_event = $value_changed_event;
@@ -40,7 +40,7 @@ class EntityChangedEvent implements EventInterface
     /**
      * Returns the affected entity.
      *
-     * @return IEntity
+     * @return EntityInterface
      */
     public function getEntity()
     {

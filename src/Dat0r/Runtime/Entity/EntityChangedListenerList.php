@@ -11,13 +11,13 @@ use Dat0r\Common\Collection\UniqueCollectionInterface;
 class EntityChangedListenerList extends TypedList implements UniqueCollectionInterface
 {
     /**
-     * Returns the IEntityChangedListener interface-name to the TypeList parent-class,
+     * Returns the EntityChangedListenerInterface interface-name to the TypeList parent-class,
      * which uses this info to implement it's type/instanceof strategy.
      *
      * @return string
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Entity\\IEntityChangedListener';
+        return '\\Dat0r\\Runtime\\Entity\\EntityChangedListenerInterface';
     }
 }

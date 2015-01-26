@@ -1,15 +1,15 @@
 <?php
 namespace Dat0r\Runtime;
 
-use Dat0r\Runtime\Attribute\IAttribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
- * IEntityTypes define data structures by composing property related strategies named IAttribute,
- * to derive concrete instances of the defined data structures in form of IEntity's.
+ * EntityTypeInterfaces define data structures by composing property related strategies named AttributeInterface,
+ * to derive concrete instances of the defined data structures in form of EntityInterface's.
  */
-interface IEntityType
+interface EntityTypeInterface
 {
     /**
      * Returns the name of the type.
@@ -21,16 +21,16 @@ interface IEntityType
     /**
      * Returns the type's parent, if it has one.
      *
-     * @return IEntityType
+     * @return EntityTypeInterface
      */
     public function getParent();
 
     /**
      * Sets the type's parent once, if it isn't yet assigned.
      *
-     * @param IEntityType $parent
+     * @param EntityTypeInterface $parent
      */
-    public function setParent(IEntityType $parent);
+    public function setParent(EntityTypeInterface $parent);
 
     /**
      * Returns the type's attribute map.
@@ -47,16 +47,16 @@ interface IEntityType
      *
      * @param string $name
      *
-     * @return IAttribute
+     * @return AttributeInterface
      */
     public function getAttribute($name);
 
     /**
-     * Creates a new IEntity instance.
+     * Creates a new EntityInterface instance.
      *
      * @param array $data Optional data for initial hydration.
      *
-     * @return IEntity
+     * @return EntityInterface
      */
     public function createEntity(array $data = array());
 }

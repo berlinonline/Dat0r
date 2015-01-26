@@ -4,7 +4,7 @@ namespace Dat0r\Runtime\Entity\Transform;
 
 use Dat0r\Common\Options;
 
-interface ISpecificationContainer
+interface SpecificationContainerInterface
 {
     /**
      * @return string

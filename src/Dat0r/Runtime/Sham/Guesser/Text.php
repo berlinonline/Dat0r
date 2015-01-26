@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Sham\Guesser;
 
-use Dat0r\Runtime\IEntityType;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Attribute;
 
 /**

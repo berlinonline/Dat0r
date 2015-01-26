@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\Value;
 
-interface IValueChangedListener
+interface ValueChangedListenerInterface
 {
     /**
      * Handle value changed events received by emitters that we've registered to.

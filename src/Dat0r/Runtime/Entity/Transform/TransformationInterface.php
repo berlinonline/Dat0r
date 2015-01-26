@@ -3,32 +3,32 @@
 namespace Dat0r\Runtime\Entity\Transform;
 
 use Dat0r\Common\Options;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\Entity\EntityInterface;
 
-interface ITransformation
+interface TransformationInterface
 {
     /**
      * Transform the entity value, which is described by the given attributespec,
      * to it's output representation.
      *
-     * @param IEntity $entity
-     * @param ISpecification $specification
+     * @param EntityInterface $entity
+     * @param SpecificationInterface $specification
      *
      * @return mixed
      */
-    public function apply(IEntity $entity, ISpecification $specification);
+    public function apply(EntityInterface $entity, SpecificationInterface $specification);
 
     /**
      * Transform an incoming value, which is described by the given attributespec,
      * to it's input (entity compatible) representation and set result on the given entity.
      *
      * @param mixed $input_value
-     * @param IEntity $entity
-     * @param ISpecification $specification
+     * @param EntityInterface $entity
+     * @param SpecificationInterface $specification
      *
      * @return void
      */
-    public function revert($input_value, IEntity $entity, ISpecification $specification);
+    public function revert($input_value, EntityInterface $entity, SpecificationInterface $specification);
 
     /**
      * @return Options

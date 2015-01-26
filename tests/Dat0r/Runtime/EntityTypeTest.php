@@ -6,7 +6,7 @@ use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\Runtime\Fixtures\InvalidType;
-use Dat0r\Runtime\IEntityType;
+use Dat0r\Runtime\EntityTypeInterface;
 
 class EntityTypeTest extends TestCase
 {
@@ -37,7 +37,7 @@ class EntityTypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributeMethod(IEntityType $type)
+    public function testGetAttributeMethod(EntityTypeInterface $type)
     {
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $type->getAttribute('headline'));
         $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $type->getAttribute('click_count'));
@@ -46,7 +46,7 @@ class EntityTypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributesMethodPlain(IEntityType $type)
+    public function testGetAttributesMethodPlain(EntityTypeInterface $type)
     {
         $attributes = $type->getAttributes();
 
@@ -109,7 +109,7 @@ class EntityTypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testGetAttributesMethodFiltered(IEntityType $type)
+    public function testGetAttributesMethodFiltered(EntityTypeInterface $type)
     {
         $attributes = $type->getAttributes(array('headline', 'click_count'));
 
@@ -123,7 +123,7 @@ class EntityTypeTest extends TestCase
     /**
      * @dataProvider provideTypeInstances
      */
-    public function testCreateEntity(IEntityType $type)
+    public function testCreateEntity(EntityTypeInterface $type)
     {
         $entity = $type->createEntity();
         $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\Entity', $entity);
@@ -133,7 +133,7 @@ class EntityTypeTest extends TestCase
      * @dataProvider provideTypeInstances
      * @expectedException Dat0r\Common\Error\RuntimeException
      */
-    public function testInvalidAttributeException(IEntityType $type)
+    public function testInvalidAttributeException(EntityTypeInterface $type)
     {
         $type->getAttribute('foobar-attribute-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd

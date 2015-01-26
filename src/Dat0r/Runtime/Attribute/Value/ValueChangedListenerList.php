@@ -9,6 +9,6 @@ class ValueChangedListenerList extends TypedList implements UniqueCollectionInte
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Attribute\\Value\\IValueChangedListener';
+        return '\\Dat0r\\Runtime\\Attribute\\Value\\ValueChangedListenerInterface';
     }
 }
