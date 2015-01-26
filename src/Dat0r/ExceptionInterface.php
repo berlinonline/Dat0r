@@ -2,6 +2,6 @@
 
 namespace Dat0r;
 
-interface IException
+interface ExceptionInterface
 {
 }

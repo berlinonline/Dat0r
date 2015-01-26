@@ -2,9 +2,9 @@
 
 namespace Dat0r\Common\Error;
 
-use Dat0r\IException;
+use Dat0r\ExceptionInterface;
 use Exception;
 
-class ParseException extends Exception implements IException
+class ParseException extends Exception implements ExceptionInterface
 {
 }
