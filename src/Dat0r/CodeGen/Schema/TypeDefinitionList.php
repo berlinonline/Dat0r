@@ -3,9 +3,9 @@
 namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Common\Collection\TypedList;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
-class TypeDefinitionList extends TypedList implements IUniqueCollection
+class TypeDefinitionList extends TypedList implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {

@@ -2,7 +2,7 @@
 
 namespace Dat0r\Common\Collection;
 
-interface IList extends ICollection
+interface ListInterface extends CollectionInterface
 {
     public function addItem($item);
 

@@ -3,12 +3,12 @@
 namespace Dat0r\Runtime\Attribute\Value;
 
 use Dat0r\Common\Collection\TypedList;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
 /**
  * Represents a list of value-changed events.
  */
-class ValueChangedEventList extends TypedList implements IUniqueCollection
+class ValueChangedEventList extends TypedList implements UniqueCollectionInterface
 {
     /**
      * Returns the ValueChangedEvent class-name to the TypeList parent-class,

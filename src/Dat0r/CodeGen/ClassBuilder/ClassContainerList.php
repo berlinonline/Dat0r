@@ -3,9 +3,9 @@
 namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Collection\TypedList;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
-class ClassContainerList extends TypedList implements IUniqueCollection
+class ClassContainerList extends TypedList implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {

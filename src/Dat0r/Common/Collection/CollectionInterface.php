@@ -4,7 +4,7 @@ namespace Dat0r\Common\Collection;
 
 use Closure;
 
-interface ICollection extends \Iterator, \Countable, \ArrayAccess
+interface CollectionInterface extends \Iterator, \Countable, \ArrayAccess
 {
     public function getItem($key);
 
@@ -20,7 +20,7 @@ interface ICollection extends \Iterator, \Countable, \ArrayAccess
 
     public function clear();
 
-    public function append(ICollection $collection);
+    public function append(CollectionInterface $collection);
 
     public function filter(Closure $callback);
 
@@ -28,7 +28,7 @@ interface ICollection extends \Iterator, \Countable, \ArrayAccess
 
     public function removeItems(array $items);
 
-    public function addListener(IListener $listener);
+    public function addListener(ListenerInterface $listener);
 
-    public function removeListener(IListener $listener);
+    public function removeListener(ListenerInterface $listener);
 }

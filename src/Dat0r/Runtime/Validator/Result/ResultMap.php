@@ -4,9 +4,9 @@ namespace Dat0r\Runtime\Validator\Result;
 
 use Dat0r\Runtime\Validator\Result\IIncident;
 use Dat0r\Common\Collection\TypedMap;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
-class ResultMap extends TypedMap implements IUniqueCollection
+class ResultMap extends TypedMap implements UniqueCollectionInterface
 {
     public function worstSeverity()
     {

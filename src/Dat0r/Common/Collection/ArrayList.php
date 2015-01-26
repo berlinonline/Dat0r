@@ -10,7 +10,7 @@ use Closure;
  * to support the '$what, $for = list($arr)' language construct.
  * Php, y U no CASE-sensitive?! (╯°□°）╯︵ ┻━┻)
  */
-class ArrayList extends Collection implements IList
+class ArrayList extends Collection implements ListInterface
 {
     public function __construct(array $items = array())
     {
@@ -19,7 +19,7 @@ class ArrayList extends Collection implements IList
         $this->addItems($items);
     }
 
-    // ICollection
+    // CollectionInterface
 
     public function filter(Closure $callback)
     {
@@ -34,7 +34,7 @@ class ArrayList extends Collection implements IList
         return $filtered_list;
     }
 
-    // IList
+    // ListInterface
 
     public function addItem($item)
     {
@@ -106,7 +106,7 @@ class ArrayList extends Collection implements IList
         return null;
     }
 
-    public function append(ICollection $collection)
+    public function append(CollectionInterface $collection)
     {
         if (!$collection instanceof static) {
             throw new RuntimeException(

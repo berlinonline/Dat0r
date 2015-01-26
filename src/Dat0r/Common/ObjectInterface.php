@@ -2,7 +2,7 @@
 
 namespace Dat0r\Common;
 
-interface IObject
+interface ObjectInterface
 {
     public function toArray();
 }

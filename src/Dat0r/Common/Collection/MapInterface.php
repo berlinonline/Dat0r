@@ -2,7 +2,7 @@
 
 namespace Dat0r\Common\Collection;
 
-interface IMap extends ICollection
+interface MapInterface extends CollectionInterface
 {
     public function setItem($key, $item);
 

@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime;
 
 use Dat0r\Common\Configurable;
-use Dat0r\Common\IOptions;
+use Dat0r\Common\OptionsInterface;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Entity\IEntity;
@@ -65,9 +65,9 @@ abstract class EntityType extends Configurable implements IEntityType
      *
      * @param string $name
      * @param array $attribute_map
-     * @param IOptions $options
+     * @param OptionsInterface $options
      */
-    public function __construct($name, array $attribute_map = array(), IOptions $options = null)
+    public function __construct($name, array $attribute_map = array(), OptionsInterface $options = null)
     {
         $this->name = $name;
 

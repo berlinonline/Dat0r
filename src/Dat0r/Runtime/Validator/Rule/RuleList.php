@@ -3,9 +3,9 @@
 namespace Dat0r\Runtime\Validator\Rule;
 
 use Dat0r\Common\Collection\TypedList;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
-class RuleList extends TypedList implements IUniqueCollection
+class RuleList extends TypedList implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {

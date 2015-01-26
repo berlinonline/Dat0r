@@ -6,7 +6,7 @@ use Dat0r\Tests\Common\Fixtures\TestObject;
 use Dat0r\Tests\TestCase;
 
 // @todo:
-// - test IObject as nested value (recursively)
+// - test ObjectInterface as nested value (recursively)
 // - test empty objects
 class ObjectTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ObjectTest extends TestCase
         $object_data = $this->getRandomScalarValues();
         $test_object = new TestObject($object_data);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\IObject', $test_object);
+        $this->assertInstanceOf('\\Dat0r\\Common\\ObjectInterface', $test_object);
         $this->assertInstanceOf('\\Dat0r\\Tests\\Common\\Fixtures\\TestObject', $test_object);
         $this->assertEquals($object_data['property_one'], $test_object->getPropertyOne());
         $this->assertEquals($object_data['property_two'], $test_object->getPropertyTwo());

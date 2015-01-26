@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\Value;
 
-use Dat0r\Common\IEvent;
+use Dat0r\Common\EventInterface;
 use Dat0r\Common\Object;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Entity\EntityChangedEvent;
@@ -12,7 +12,7 @@ use Dat0r\Runtime\Entity\EntityChangedEvent;
  * These events are fired everytime a entity attribute-value actually changes and can be used
  * to track state changes over time.
  */
-class ValueChangedEvent extends Object implements IEvent
+class ValueChangedEvent extends Object implements EventInterface
 {
     /**
      * Holds the event's attribute origin.

@@ -16,8 +16,8 @@ class TypedMapTest extends TestCase
         $items = $this->createRandomItems();
         $map = new TestObjectMap($items);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ICollection', $map);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\IMap', $map);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\CollectionInterface', $map);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\MapInterface', $map);
         $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\TypedMap', $map);
         $this->assertEquals(count($items), $map->getSize());
     }

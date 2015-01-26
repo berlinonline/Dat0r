@@ -3,18 +3,18 @@
 namespace Dat0r\Common\Collection;
 
 use Dat0r\Common\Object;
-use Dat0r\Common\IObject;
+use Dat0r\Common\ObjectInterface;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\BadValueException;
 
 /**
- * Generic base implementation of the ICollection interface.
+ * Generic base implementation of the CollectionInterface interface.
  */
-abstract class Collection extends Object implements ICollection
+abstract class Collection extends Object implements CollectionInterface
 {
     /**
-     * An array of IListener that are notified upon collection changes.
-     * We can't (re)use our ICollection stuff here as this is the lowest level of it's implementation.
+     * An array of ListenerInterface that are notified upon collection changes.
+     * We can't (re)use our CollectionInterface stuff here as this is the lowest level of it's implementation.
      *
      * @var array
      */
@@ -84,7 +84,7 @@ abstract class Collection extends Object implements ICollection
      */
     public function offsetSet($offset, $value)
     {
-        if ($this instanceof IUniqueCollection) {
+        if ($this instanceof UniqueCollectionInterface) {
             if (false !== ($item_key = array_search($value, $this->items, true))) {
                 throw new RuntimeException("Item allready has been added to the collection at key: " . $item_key);
             }
@@ -176,7 +176,7 @@ abstract class Collection extends Object implements ICollection
         return reset($this->items);
     }
 
-    // Interface - ICollection
+    // Interface - CollectionInterface
 
     /**
      * Return a specific item from the collection for the given key.
@@ -297,9 +297,9 @@ abstract class Collection extends Object implements ICollection
     /**
      * Attaches the given listener, so it will be informed about all future changes.
      *
-     * @param IListener $listener
+     * @param ListenerInterface $listener
      */
-    public function addListener(IListener $listener)
+    public function addListener(ListenerInterface $listener)
     {
         if (!in_array($listener, $this->collection_listeners, true)) {
             $this->collection_listeners[] = $listener;
@@ -309,9 +309,9 @@ abstract class Collection extends Object implements ICollection
     /**
      * Removes the given listener from our list of collection-changed listeners.
      *
-     * @param IListener $listener
+     * @param ListenerInterface $listener
      */
-    public function removeListener(IListener $listener)
+    public function removeListener(ListenerInterface $listener)
     {
         if (false !== ($pos = array_search($listener, $this->collection_listeners, true))) {
             array_splice($this->collection_listeners, $pos, 1);
@@ -327,7 +327,7 @@ abstract class Collection extends Object implements ICollection
     {
         $data = array();
         foreach ($this->items as $key => $value) {
-            if ($value instanceof IObject) {
+            if ($value instanceof ObjectInterface) {
                 $value = $value->toArray();
             }
             $data[$key] = $value;

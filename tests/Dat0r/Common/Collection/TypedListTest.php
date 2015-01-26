@@ -16,8 +16,8 @@ class TypedListTest extends TestCase
         $items = TestObject::createRandomInstances();
         $list = new TestObjectList($items);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ICollection', $list);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\IList', $list);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\CollectionInterface', $list);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ListInterface', $list);
         $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\TypedList', $list);
         $this->assertEquals(count($items), $list->getSize());
     }

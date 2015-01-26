@@ -14,14 +14,14 @@ class ArrayListTest extends TestCase
         $items = $this->createRandomItems();
         $list = new ArrayList($items);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ICollection', $list);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\IList', $list);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\CollectionInterface', $list);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ListInterface', $list);
         $this->assertEquals(count($items), $list->getSize());
     }
 
     public function testPush()
     {
-        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
         $listener->shouldReceive('onCollectionChanged')->with(
             '\Dat0r\Common\Collection\CollectionChangedEvent'
         )->once();
@@ -41,7 +41,7 @@ class ArrayListTest extends TestCase
 
     public function testPop()
     {
-        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
         $listener->shouldReceive('onCollectionChanged')->with(
             '\Dat0r\Common\Collection\CollectionChangedEvent'
         )->once();

@@ -2,10 +2,10 @@
 
 namespace Dat0r\Common\Collection;
 
-use Dat0r\Common\IEvent;
+use Dat0r\Common\EventInterface;
 use Dat0r\Common\Object;
 
-class CollectionChangedEvent extends Object implements IEvent
+class CollectionChangedEvent extends Object implements EventInterface
 {
     const ITEM_ADDED = 'added';
 

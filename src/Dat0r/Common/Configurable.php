@@ -2,12 +2,12 @@
 
 namespace Dat0r\Common;
 
-use Dat0r\Common\IOptions;
+use Dat0r\Common\OptionsInterface;
 use Dat0r\Common\Options;
 use Dat0r\Common\Object;
-use Dat0r\Common\IConfigurable;
+use Dat0r\Common\ConfigurableInterface;
 
-class Configurable extends Object implements IConfigurable
+class Configurable extends Object implements ConfigurableInterface
 {
     /**
      * @var Options $options
@@ -24,7 +24,7 @@ class Configurable extends Object implements IConfigurable
     {
         parent::__construct($state);
 
-        if (!$this->options instanceof IOptions) {
+        if (!$this->options instanceof OptionsInterface) {
             $this->options = new Options();
         }
     }

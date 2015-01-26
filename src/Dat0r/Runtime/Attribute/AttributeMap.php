@@ -4,13 +4,13 @@ namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Runtime\IEntityType;
 use Dat0r\Common\Collection\TypedMap;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
 /**
  * AttributeMap is a associative collection container, that maps attribute names to correspondig attribute instances.
  * As attributes must be unique by name, it is not recommended using this class outside of a type's scope.
  */
-class AttributeMap extends TypedMap implements IUniqueCollection
+class AttributeMap extends TypedMap implements UniqueCollectionInterface
 {
     protected $type;
 

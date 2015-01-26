@@ -5,7 +5,7 @@ namespace Dat0r\Common\Collection;
 use Dat0r\Common\Error\RuntimeException;
 use Closure;
 
-class Map extends Collection implements IMap
+class Map extends Collection implements MapInterface
 {
     public function __construct(array $items = array())
     {
@@ -28,7 +28,7 @@ class Map extends Collection implements IMap
         }
     }
 
-    // ICollection
+    // CollectionInterface
 
     public function filter(Closure $callback)
     {
@@ -43,7 +43,7 @@ class Map extends Collection implements IMap
         return $filtered_map;
     }
 
-    // IMap
+    // MapInterface
 
     public function setItem($key, $item)
     {
@@ -67,7 +67,7 @@ class Map extends Collection implements IMap
         return array_values($this->items);
     }
 
-    public function append(ICollection $collection)
+    public function append(CollectionInterface $collection)
     {
         if (!$collection instanceof static) {
             throw new RuntimeException(

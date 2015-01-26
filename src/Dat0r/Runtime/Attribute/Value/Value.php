@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Attribute\Value;
 
-use Dat0r\Common\IEvent;
-use Dat0r\Common\Collection\ICollection;
-use Dat0r\Common\Collection\IListener;
+use Dat0r\Common\EventInterface;
+use Dat0r\Common\Collection\CollectionInterface;
+use Dat0r\Common\Collection\ListenerInterface;
 use Dat0r\Common\Collection\CollectionChangedEvent;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Entity\IEntityChangedListener;
@@ -15,7 +15,7 @@ use Dat0r\Runtime\Validator\Result\IIncident;
 /**
  * Basic IValue implementation that all other Values should inherit from.
  */
-abstract class Value implements IValue, IListener, IEntityChangedListener
+abstract class Value implements IValue, ListenerInterface, IEntityChangedListener
 {
     /**
      * Holds attribute which's data we are handling.
@@ -81,7 +81,7 @@ abstract class Value implements IValue, IListener, IEntityChangedListener
                 );
             }
 
-            if ($this->value instanceof ICollection) {
+            if ($this->value instanceof CollectionInterface) {
                 $this->value->addListener($this);
             }
             if ($this->value instanceof EntityList) {
@@ -186,9 +186,9 @@ abstract class Value implements IValue, IListener, IEntityChangedListener
      * Create a new value-changed event instance from the given info.
      *
      * @param mixed $prev_value
-     * @param IEvent $event
+     * @param EventInterface $event
      */
-    protected function createValueChangedEvent($prev_value, IEvent $event = null)
+    protected function createValueChangedEvent($prev_value, EventInterface $event = null)
     {
         return new ValueChangedEvent(
             array(

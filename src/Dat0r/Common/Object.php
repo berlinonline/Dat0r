@@ -4,7 +4,7 @@ namespace Dat0r\Common;
 
 use ReflectionClass;
 
-class Object implements IObject
+class Object implements ObjectInterface
 {
     const OBJECT_TYPE = '@type';
 
@@ -40,7 +40,7 @@ class Object implements IObject
      * Return an array representation of the current object.
      * The array will contain the object's property names as keys
      * and the property values as array values.
-     * Nested 'IObject' and 'Options' instances will also be turned into arrays.
+     * Nested 'ObjectInterface' and 'Options' instances will also be turned into arrays.
      *
      * @return array
      */
@@ -54,7 +54,7 @@ class Object implements IObject
                 continue;
             }
 
-            if ($value instanceof IObject) {
+            if ($value instanceof ObjectInterface) {
                 $data[$prop] = $value->toArray();
             } else {
                 $data[$prop] = $value;

@@ -3,9 +3,9 @@
 namespace Dat0r\Runtime\Entity\Transform;
 
 use Dat0r\Common\Object;
-use Dat0r\Common\IConfigurable;
+use Dat0r\Common\ConfigurableInterface;
 
-interface ISpecification extends IConfigurable
+interface ISpecification extends ConfigurableInterface
 {
     /**
      * @return string

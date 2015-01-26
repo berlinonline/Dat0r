@@ -16,8 +16,8 @@ class MapTest extends TestCase
         $items = $this->createRandomItems();
         $map = new Map($items);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ICollection', $map);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\IMap', $map);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\CollectionInterface', $map);
+        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\MapInterface', $map);
     }
 
     public function testGetItem()
@@ -55,7 +55,7 @@ class MapTest extends TestCase
     {
         // test that we are receiving the correct number of expected collection changed events.
         // in this case we are expecting only one for the single item we are adding.
-        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
         $listener->shouldReceive('onCollectionChanged')->with(
             '\Dat0r\Common\Collection\CollectionChangedEvent'
         )->once();
@@ -83,7 +83,7 @@ class MapTest extends TestCase
 
         // test that we are receiving the correct number of expected collection changed events.
         // in this case we are expecting one event for each new key/item.
-        $listener = Mockery::mock('\Dat0r\Common\Collection\IListener');
+        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
         $listener->shouldReceive('onCollectionChanged')->with(
             '\Dat0r\Common\Collection\CollectionChangedEvent'
         )->times(count($new_items));

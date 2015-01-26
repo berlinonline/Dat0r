@@ -2,14 +2,14 @@
 
 namespace Dat0r\Runtime\Entity;
 
-use Dat0r\Common\IEvent;
+use Dat0r\Common\EventInterface;
 use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
 
 /**
  * Represents an event that occurs when a entity's value changes.
  * Entity changes are triggered on a per attribute base.
  */
-class EntityChangedEvent implements IEvent
+class EntityChangedEvent implements EventInterface
 {
     /**
      * Holds a reference to the entity instance that changed.

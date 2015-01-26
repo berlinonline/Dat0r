@@ -8,7 +8,7 @@ use Dat0r\Common\Error\RuntimeException;
 use ArrayObject;
 use JsonSerializable;
 
-class Options extends ArrayObject implements IObject, IOptions, JsonSerializable
+class Options extends ArrayObject implements ObjectInterface, OptionsInterface, JsonSerializable
 {
     /**
      * @var string default iterator used

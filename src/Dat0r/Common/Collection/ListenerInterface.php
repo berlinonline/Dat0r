@@ -2,7 +2,7 @@
 
 namespace Dat0r\Common\Collection;
 
-interface IListener
+interface ListenerInterface
 {
     public function onCollectionChanged(CollectionChangedEvent $event);
 }

@@ -3,9 +3,9 @@
 namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Common\Collection\TypedList;
-use Dat0r\Common\Collection\IUniqueCollection;
+use Dat0r\Common\Collection\UniqueCollectionInterface;
 
-class AttributeDefinitionList extends TypedList implements IUniqueCollection
+class AttributeDefinitionList extends TypedList implements UniqueCollectionInterface
 {
     public function filterByType($type)
     {
