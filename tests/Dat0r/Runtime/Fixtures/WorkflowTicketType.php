@@ -29,9 +29,9 @@ class WorkflowTicketType extends EntityType
     }
 
     /**
-     * Returns the IEntity implementor to use when creating new documents.
+     * Returns the EntityInterface implementor to use when creating new documents.
      *
-     * @return string Fully qualified name of an IEntity implementation.
+     * @return string Fully qualified name of an EntityInterface implementation.
      */
     protected function getEntityImplementor()
     {

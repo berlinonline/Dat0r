@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Sham;
 
 use Dat0r\Runtime\Sham\DataGenerator;
-use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
@@ -21,7 +21,7 @@ class DataGeneratorTest extends TestCase
 
     public function testDefaultEntity()
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\IEntity', $this->entity);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\EntityInterface', $this->entity);
         $this->assertEquals('Article', $this->type->getName());
         $this->assertEquals(
             12,
