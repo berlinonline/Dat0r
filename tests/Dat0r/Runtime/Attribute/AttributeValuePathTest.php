@@ -29,7 +29,7 @@ class AttributeValuePathTest extends TestCase
         $category_title = 'enterprise software';
         $category_description = 'it-solutions built for medium and larger businesses';
 
-        $article = $article_type->createDocument(
+        $article = $article_type->createEntity(
             array(
                 'headline' => $headline,
                 'content' => $content,

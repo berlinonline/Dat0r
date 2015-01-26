@@ -62,17 +62,17 @@ class AggregateCollectionTest extends TestCase
         );
 
         $value->set($aggregate_data);
-        $document = $value->get()->getFirst();
+        $entity = $value->get()->getFirst();
         $this->assertInstanceOf(
             '\\Dat0r\\Tests\\Runtime\\Fixtures\\Paragraph',
-            $document
+            $entity
         );
 
         foreach ($aggregate_data[0] as $attribute_name => $value) {
             if ($attribute_name === '@type') {
-                $this->assertEquals($value, $document->getType()->getDocumentType());
+                $this->assertEquals($value, $entity->getType()->getEntityType());
             } else {
-                $this->assertEquals($value, $document->getValue($attribute_name));
+                $this->assertEquals($value, $entity->getValue($attribute_name));
             }
         }
     }

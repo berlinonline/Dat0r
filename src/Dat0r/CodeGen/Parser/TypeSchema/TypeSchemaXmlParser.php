@@ -12,7 +12,7 @@ use DOMXPath;
 
 class TypeSchemaXmlParser extends Object implements IParser
 {
-    const BASE_DOCUMENT = '\Dat0r\Runtime\Document\Document';
+    const BASE_DOCUMENT = '\Dat0r\Runtime\Entity\Entity';
 
     protected $xsd_schema_file;
 

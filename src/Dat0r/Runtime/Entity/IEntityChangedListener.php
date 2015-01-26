@@ -1,0 +1,16 @@
+<?php
+
+namespace Dat0r\Runtime\Entity;
+
+/**
+ * Represents a listener to events that occur, when a entity instance changes one of it's values.
+ */
+interface IEntityChangedListener
+{
+    /**
+     * Handle entity changed events.
+     *
+     * @param EntityChangedEvent $event
+     */
+    public function onEntityChanged(EntityChangedEvent $event);
+}

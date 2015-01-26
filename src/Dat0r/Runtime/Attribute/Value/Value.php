@@ -6,16 +6,16 @@ use Dat0r\Common\IEvent;
 use Dat0r\Common\Collection\ICollection;
 use Dat0r\Common\Collection\IListener;
 use Dat0r\Common\Collection\CollectionChangedEvent;
-use Dat0r\Runtime\Document\DocumentList;
-use Dat0r\Runtime\Document\IDocumentChangedListener;
-use Dat0r\Runtime\Document\DocumentChangedEvent;
+use Dat0r\Runtime\Entity\EntityList;
+use Dat0r\Runtime\Entity\IEntityChangedListener;
+use Dat0r\Runtime\Entity\EntityChangedEvent;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
  * Basic IValue implementation that all other Values should inherit from.
  */
-abstract class Value implements IValue, IListener, IDocumentChangedListener
+abstract class Value implements IValue, IListener, IEntityChangedListener
 {
     /**
      * Holds attribute which's data we are handling.
@@ -84,8 +84,8 @@ abstract class Value implements IValue, IListener, IDocumentChangedListener
             if ($this->value instanceof ICollection) {
                 $this->value->addListener($this);
             }
-            if ($this->value instanceof DocumentList) {
-                $this->value->addDocumentChangedListener($this);
+            if ($this->value instanceof EntityList) {
+                $this->value->addEntityChangedListener($this);
             }
         }
 
@@ -140,11 +140,11 @@ abstract class Value implements IValue, IListener, IDocumentChangedListener
     }
 
     /**
-     * Handles document changed events that are sent by our aggregated document.
+     * Handles entity changed events that are sent by our aggregated entity.
      *
-     * @param DocumentChangedEvent $event
+     * @param EntityChangedEvent $event
      */
-    public function onDocumentChanged(DocumentChangedEvent $event)
+    public function onEntityChanged(EntityChangedEvent $event)
     {
         $value_changed_event = $event->getValueChangedEvent();
 

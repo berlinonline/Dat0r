@@ -5,9 +5,9 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\Type\Text;
 use Dat0r\Runtime\Attribute\Type\Textarea;
-use Dat0r\Runtime\DocumentType;
+use Dat0r\Runtime\EntityType;
 
-class CategoryType extends DocumentType
+class CategoryType extends EntityType
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class CategoryType extends DocumentType
         );
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
         return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Category';
     }

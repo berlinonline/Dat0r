@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Common\Options;
-use Dat0r\Runtime\DocumentType;
+use Dat0r\Runtime\EntityType;
 use Dat0r\Runtime\Attribute\Type\Text;
 use Dat0r\Runtime\Attribute\Type\TextCollection;
 use Dat0r\Runtime\Attribute\Type\Number;
@@ -13,7 +13,7 @@ use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\Type\KeyValue;
 
-class ArticleType extends DocumentType
+class ArticleType extends EntityType
 {
     public function __construct()
     {
@@ -67,7 +67,7 @@ class ArticleType extends DocumentType
         );
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
         return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Article';
     }

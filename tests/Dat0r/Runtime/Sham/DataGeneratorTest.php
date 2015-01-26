@@ -3,7 +3,7 @@
 namespace Dat0r\Tests\Runtime\Sham;
 
 use Dat0r\Runtime\Sham\DataGenerator;
-use Dat0r\Runtime\Document\IDocument;
+use Dat0r\Runtime\Entity\IEntity;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
@@ -11,17 +11,17 @@ use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 class DataGeneratorTest extends TestCase
 {
     protected $type;
-    protected $document;
+    protected $entity;
 
     public function setUp()
     {
         $this->type = new ArticleType();
-        $this->document = $this->type->createDocument();
+        $this->entity = $this->type->createEntity();
     }
 
-    public function testDefaultDocument()
+    public function testDefaultEntity()
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\IDocument', $this->document);
+        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\IEntity', $this->entity);
         $this->assertEquals('Article', $this->type->getName());
         $this->assertEquals(
             12,
@@ -34,40 +34,40 @@ class DataGeneratorTest extends TestCase
             'Number of attributes should be equal independant of used count method.'
         );
         $this->assertTrue(
-            $this->document->isClean(),
-            'Document should have no changes prior filling it with fake data'
+            $this->entity->isClean(),
+            'Entity should have no changes prior filling it with fake data'
         );
         $this->assertTrue(
-            count($this->document->getChanges()) === 0,
-            'Document should not contain changes prior test.'
+            count($this->entity->getChanges()) === 0,
+            'Entity should not contain changes prior test.'
         );
     }
 
-    public function testFillDocument()
+    public function testFillEntity()
     {
-        DataGenerator::fill($this->document);
+        DataGenerator::fill($this->entity);
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
     }
 
-    public function testFillDocumentClean()
+    public function testFillEntityClean()
     {
-        DataGenerator::fill($this->document, array(DataGenerator::OPTION_MARK_CLEAN => true));
+        DataGenerator::fill($this->entity, array(DataGenerator::OPTION_MARK_CLEAN => true));
 
         $this->assertTrue(
-            $this->document->isClean(),
-            'Document has changes, but the given flag should have prevented that.'
+            $this->entity->isClean(),
+            'Entity has changes, but the given flag should have prevented that.'
         );
-        $this->assertTrue(count($this->document->getChanges()) === 0);
+        $this->assertTrue(count($this->entity->getChanges()) === 0);
     }
 
-    public function testFillDocumentWithClosure()
+    public function testFillEntityWithClosure()
     {
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_LOCALE => 'de_DE',
                 DataGenerator::OPTION_FIELD_VALUES => array(
@@ -79,17 +79,17 @@ class DataGeneratorTest extends TestCase
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
-        $this->assertEquals($this->document->getValue('author'), 'trololo');
+        $this->assertEquals($this->entity->getValue('author'), 'trololo');
     }
 
-    public function testFillDocumentWithCallable()
+    public function testFillEntityWithCallable()
     {
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_LOCALE => 'de_DE',
                 DataGenerator::OPTION_FIELD_VALUES => array(
@@ -99,17 +99,17 @@ class DataGeneratorTest extends TestCase
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
-        $this->assertTrue($this->document->getValue('author') === 'trololo');
+        $this->assertTrue($this->entity->getValue('author') === 'trololo');
     }
 
-    public function testFillDocumentWithStaticCallable()
+    public function testFillEntityWithStaticCallable()
     {
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_LOCALE => 'de_DE',
                 DataGenerator::OPTION_FIELD_VALUES => array(
@@ -119,14 +119,14 @@ class DataGeneratorTest extends TestCase
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
-        $this->assertEquals($this->document->getValue('author'), 'trololo');
+        $this->assertEquals($this->entity->getValue('author'), 'trololo');
     }
 
-    public function testFillDocumentWithMultipleClosures()
+    public function testFillEntityWithMultipleClosures()
     {
         $faker = \Faker\Factory::create('en_UK');
         $fake_author = function () use ($faker) {
@@ -140,7 +140,7 @@ class DataGeneratorTest extends TestCase
         };
 
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_LOCALE => 'de_DE',
                 DataGenerator::OPTION_FIELD_VALUES => array(
@@ -155,50 +155,50 @@ class DataGeneratorTest extends TestCase
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
         $expected_image_count = 4;
-        $image_count = count($this->document->getValue('images'));
+        $image_count = count($this->entity->getValue('images'));
         $this->assertEquals($expected_image_count, $image_count);
 
         $expected_click_count = 1337;
         $this->assertEquals($expected_click_count, 1337);
     }
 
-    public function testFillDocumentBoolean()
+    public function testFillEntityBoolean()
     {
-        DataGenerator::fill($this->document);
+        DataGenerator::fill($this->entity);
 
         $this->assertTrue(
-            is_bool($this->document->getValue('enabled')),
+            is_bool($this->entity->getValue('enabled')),
             'Enabled attribute should have a boolean value.'
         );
     }
 
-    public function testFillDocumentTextCollection()
+    public function testFillEntityTextCollection()
     {
-        DataGenerator::fill($this->document);
+        DataGenerator::fill($this->entity);
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has changes, but the given flag should have prevented that.'
+            $this->entity->isClean(),
+            'Entity has changes, but the given flag should have prevented that.'
         );
 
         $this->assertTrue(
-            is_array($this->document->getValue('keywords')),
+            is_array($this->entity->getValue('keywords')),
             'Keywords value should be an array as that attribute is an instance of TextCollection'
         );
 
         $this->assertGreaterThanOrEqual(
             1,
-            count($this->document->getValue('keywords')),
+            count($this->entity->getValue('keywords')),
             'At least one keyword should be set.'
         );
     }
 
-    public function testFillDocumentAggregate()
+    public function testFillEntityAggregate()
     {
         $data = DataGenerator::createDataFor($this->type);
         $this->assertTrue(is_array($data['content_objects']), 'The Article should have a content_object.');
@@ -209,36 +209,36 @@ class DataGeneratorTest extends TestCase
         $this->assertArrayHasKey('content', $paragraph_data, 'The Paragraph should have a content attribute.');
     }
 
-    public function testFillDocumentGuessTextEmail()
+    public function testFillEntityGuessTextEmail()
     {
-        DataGenerator::fill($this->document);
+        DataGenerator::fill($this->entity);
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
-        $email = $this->document->getValue('email');
+        $email = $this->entity->getValue('email');
         $this->assertEquals($email, filter_var($email, FILTER_VALIDATE_EMAIL));
     }
 
-    public function testFillDocumentGuessTextAuthor()
+    public function testFillEntityGuessTextAuthor()
     {
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(DataGenerator::OPTION_LOCALE => 'de_DE')
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
     }
 
-    public function testFillDocumentGuessTextAuthorDisabled()
+    public function testFillEntityGuessTextAuthorDisabled()
     {
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_LOCALE => 'de_DE',
                 DataGenerator::OPTION_GUESS_PROVIDER_BY_NAME => false
@@ -246,37 +246,37 @@ class DataGeneratorTest extends TestCase
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
     }
 
-    public function testFillDocumentIgnoreAttribute()
+    public function testFillEntityIgnoreAttribute()
     {
         $this->assertEquals(12, $this->type->getAttributes()->getSize());
         $excluded_attributes = array('author', 'click_count', 'enabled', 'references');
 
         DataGenerator::fill(
-            $this->document,
+            $this->entity,
             array(
                 DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_attributes, array('non_existant'))
             )
         );
 
         $this->assertFalse(
-            $this->document->isClean(),
-            'Document has no changes, but should have been filled with fake data.'
+            $this->entity->isClean(),
+            'Entity has no changes, but should have been filled with fake data.'
         );
 
         $this->assertEquals(
             $this->type->getAttributes()->getSize() - count($excluded_attributes),
-            count($this->document->getChanges()),
+            count($this->entity->getChanges()),
             count($excluded_attributes) . ' attributes should have been ignored.'
         );
 
         $this->setExpectedException('\Dat0r\Common\Error\RuntimeException');
         // @codeCoverageIgnoreStart
-        $this->assertFalse($this->document->getValue('non_existant'));
+        $this->assertFalse($this->entity->getValue('non_existant'));
     }// @codeCoverageIgnoreEnd
 
     /**
@@ -285,7 +285,7 @@ class DataGeneratorTest extends TestCase
      */
     public function testInvalidLocaleForFill()
     {
-        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => 'trololo'));
+        DataGenerator::fill($this->entity, array(DataGenerator::OPTION_LOCALE => 'trololo'));
     }
 
     /**
@@ -294,7 +294,7 @@ class DataGeneratorTest extends TestCase
      */
     public function testInvalidLocaleForFill2()
     {
-        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => 1));
+        DataGenerator::fill($this->entity, array(DataGenerator::OPTION_LOCALE => 1));
     }
 
     /**
@@ -303,7 +303,7 @@ class DataGeneratorTest extends TestCase
      */
     public function testInvalidLocaleForFill3()
     {
-        DataGenerator::fill($this->document, array(DataGenerator::OPTION_LOCALE => new \stdClass()));
+        DataGenerator::fill($this->entity, array(DataGenerator::OPTION_LOCALE => new \stdClass()));
     }
 
     public function testCreateDataFor()
@@ -330,31 +330,31 @@ class DataGeneratorTest extends TestCase
         );
     }
 
-    public function testCreateDocument()
+    public function testCreateEntity()
     {
-        $document = DataGenerator::createDocument($this->type);
+        $entity = DataGenerator::createEntity($this->type);
 
-        $this->assertTrue($document->isClean(), 'New document should have no changes.');
-        $this->assertTrue(0 === count($document->getChanges()), 'New document should have no changes.');
+        $this->assertTrue($entity->isClean(), 'New entity should have no changes.');
+        $this->assertTrue(0 === count($entity->getChanges()), 'New entity should have no changes.');
     }
 
-    public function testCreateDocuments()
+    public function testCreateentities()
     {
-        $num_documents = 30;
-        $documents = DataGenerator::createDocuments(
+        $num_entities = 30;
+        $entities = DataGenerator::createEntities(
             $this->type,
             array(
-                DataGenerator::OPTION_COUNT => $num_documents,
+                DataGenerator::OPTION_COUNT => $num_entities,
                 DataGenerator::OPTION_LOCALE => 'fr_FR'
             )
         );
 
-        $this->assertTrue($num_documents === count($documents));
+        $this->assertTrue($num_entities === count($entities));
 
-        for ($i = 0; $i < $num_documents; $i++) {
-            $document = $documents[$i];
-            $this->assertTrue($document->isClean(), "New document $i should have no changes.");
-            $this->assertTrue(0 === count($document->getChanges()), "New document $i should have no changes.");
+        for ($i = 0; $i < $num_entities; $i++) {
+            $entity = $entities[$i];
+            $this->assertTrue($entity->isClean(), "New entity $i should have no changes.");
+            $this->assertTrue(0 === count($entity->getChanges()), "New entity $i should have no changes.");
         }
     }
 

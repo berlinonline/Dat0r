@@ -5,10 +5,10 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Runtime\Attribute\Value\IValue;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\IValidator;
-use Dat0r\Runtime\IDocumentType;
+use Dat0r\Runtime\IEntityType;
 
 /**
- * IAttributes hold meta data that is used to model document properties,
+ * IAttributes hold meta data that is used to model entity properties,
  * hence your data's behaviour concerning consistent containment.
  */
 interface IAttribute
@@ -28,16 +28,16 @@ interface IAttribute
     /**
      * Returns the attribute's type.
      *
-     * @return IDocumentType
+     * @return IEntityType
      */
     public function getType();
 
     /**
      * Sets the attribute's type once, if it isn't assigned.
      *
-     * @param IDocumentType $type
+     * @param IEntityType $type
      */
-    public function setType(IDocumentType $type);
+    public function setType(IEntityType $type);
 
     /**
      * Returns the attribute's parent, if it has one.

@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\IDocumentType;
+use Dat0r\Runtime\IEntityType;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Common\Error\RuntimeException;
@@ -31,7 +31,7 @@ class AttributePath
         return implode(self::PATH_DELIMITER, array_reverse($path_parts));
     }
 
-    public static function getAttributeByPath(IDocumentType $type, $attribute_path)
+    public static function getAttributeByPath(IEntityType $type, $attribute_path)
     {
         $path_parts = explode(self::PATH_DELIMITER, $attribute_path);
 

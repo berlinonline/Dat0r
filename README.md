@@ -133,10 +133,10 @@ which should now correspond to the directory tree show below.
 ```
 data_objects/
 `-- Article
-    |-- ArticleDocument.php
+    |-- ArticleEntity.php
     |-- ArticleModule.php
     `-- Base
-        |-- ArticleDocument.php
+        |-- ArticleEntity.php
         `-- ArticleModule.php
 ```
 
@@ -172,7 +172,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 use Example\DataObject\Article;
 
 $module = Article\ArticleModule::getInstance();
-$article = $module->createDocument(array(
+$article = $module->createEntity(array(
     'title' => "This is an article's title.",
     'teaser' => "This is an article's teaser text.",
     'paragraph' => "This is an article's paragraph",
@@ -213,10 +213,10 @@ Array
 ```
 
 For further details on the available core level API
-consult the [documentation](https://github.com/berlinonline/Dat0r#documentation) section.
+consult the [entityation](https://github.com/berlinonline/Dat0r#entityation) section.
 An other example for integration and usage can be found at https://github.com/shrink/draftcmm
 
-## Documentation
+## Entityation
 
 The API docs can be found here: http://berlinonline.github.com/Dat0r/
 
@@ -233,14 +233,14 @@ than we could achieve when using a completely generic approach.
 
 To manage data the *core-layer* derives meta-data from your data-structure definitions.
 This meta-data is represented by the interfaces *IModule* and *IField* and
-used to create instances of your data-objects, represented by the *IDocument* interface.
-Modules hold meta-data on the *document* level and compose *fields*, that hold meta-data on the property level.
-Further more *modules* are responsable for creating *documents* based on their given meta-data.
-*Documents* are the type that actually holds the data.
+used to create instances of your data-objects, represented by the *IEntity* interface.
+Modules hold meta-data on the *entity* level and compose *fields*, that hold meta-data on the property level.
+Further more *modules* are responsable for creating *entities* based on their given meta-data.
+*entities* are the type that actually holds the data.
 They use their *module's* *fields* to define per property behaviour such as validation or comparison
 and they track state changes over time as a list of (change)events.
 In short you can say *modules* compose *fields* to realize your data-definitions
-and then use the latter to create *documents* that hold the data.
+and then use the latter to create *entities* that hold the data.
 Below you will find diagram that shows the how the core-layer's components and how they play together.
 
 *core-layer visualization:*
@@ -255,7 +255,7 @@ The *domain-layer* acts upon two levels of abstraction that we'll call *base-* a
 
 ##### Base-Level
 
-The *base-level* code connects our generated domain specific *modules* and *documents* with the *core-layer*.
+The *base-level* code connects our generated domain specific *modules* and *entities* with the *core-layer*.
 As the *core-layer* provides us with generic default implementations for a given structure definition,
 it is the *base-level's* job to define and pass these concrete definitions to the *core-layer*.
 Usually the only places you'll find *base-level* code are the auto-generated Base* classes.
@@ -282,9 +282,9 @@ abstract class ArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
         ));
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
-        return 'Example\DataObject\Article\ArticleDocument';
+        return 'Example\DataObject\Article\ArticleEntity';
     }
 }
 ```
@@ -294,9 +294,9 @@ abstract class ArticleModule extends \Dat0r\Core\Runtime\Module\RootModule
 The *custom-level's* purpose lies in providing a place for us to easily customize behaviour.
 Whenever a *core-layer* implementation doesn't fit our needs, the *custom-layer* is the place to put hands on.
 Referring to the file tree <a href="#2-generate">in the usage example section</a>,
-the ArticleModule and ArticleDocument classes would represent the *custom-level* implementations of the Article definition.
+the ArticleModule and ArticleEntity classes would represent the *custom-level* implementations of the Article definition.
 By default these are empty skeletons,
-that are ready to override or extend any default behaviour for *modules* and *documents*.
+that are ready to override or extend any default behaviour for *modules* and *entities*.
 
 ## Community
 

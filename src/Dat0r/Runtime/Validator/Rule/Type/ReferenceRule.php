@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
- * ReferenceRule validates that a given value consistently translates to a collection of documents.
+ * ReferenceRule validates that a given value consistently translates to a collection of entities.
  *
  * Supported options: reference_types
  */
@@ -21,7 +21,7 @@ class ReferenceRule extends Rule
     /**
      * Valdiates and sanitizes a given value respective to the reference-valueholder's expectations.
      *
-     * @param mixed $value The types 'array' and 'DocumentList' are accepted.
+     * @param mixed $value The types 'array' and 'EntityList' are accepted.
      *
      * @return boolean
      */
@@ -30,12 +30,12 @@ class ReferenceRule extends Rule
         $success = true;
         $collection = null;
 
-        if ($value instanceof DocumentList) {
+        if ($value instanceof EntityList) {
             $collection = $value;
         } elseif (null === $value) {
-            $collection = new DocumentList();
+            $collection = new EntityList();
         } elseif (is_array($value)) {
-            $collection = $this->createDocumentList($value);
+            $collection = $this->createEntityList($value);
         } else {
             $this->throwError('invalid_type');
             $success = false;
@@ -49,29 +49,29 @@ class ReferenceRule extends Rule
     }
 
     /**
-     * Create a DocumentList from a given array of document data.
+     * Create a EntityList from a given array of entity data.
      *
-     * @param array $documents_data
+     * @param array $entities_data
      *
-     * @return DocumentList
+     * @return EntityList
      */
-    protected function createDocumentList(array $documents_data)
+    protected function createEntityList(array $entities_data)
     {
         $type_map = array();
         foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, array()) as $type) {
-            $type_map[$type->getDocumentType()] = $type;
+            $type_map[$type->getEntityType()] = $type;
         }
 
-        $collection = new DocumentList();
-        ksort($documents_data);
-        foreach ($documents_data as $document_data) {
-            if (!isset($document_data[self::OBJECT_TYPE])) {
+        $collection = new EntityList();
+        ksort($entities_data);
+        foreach ($entities_data as $entity_data) {
+            if (!isset($entity_data[self::OBJECT_TYPE])) {
                 $this->throwError('missing_doc_type', array(), IIncident::CRITICAL);
                 continue;
             }
 
-            $reference_type = $document_data[self::OBJECT_TYPE];
-            unset($document_data['@type']);
+            $reference_type = $entity_data[self::OBJECT_TYPE];
+            unset($entity_data['@type']);
 
             if ($reference_type{0} !== '\\') {
                 $reference_type = '\\' . $reference_type;
@@ -79,14 +79,14 @@ class ReferenceRule extends Rule
             if (!isset($type_map[$reference_type])) {
                 $this->throwError(
                     'invalid_doc_type',
-                    array('type' => @$document_data[self::OBJECT_TYPE]),
+                    array('type' => @$entity_data[self::OBJECT_TYPE]),
                     IIncident::NOTICE
                 );
                 continue;
             }
 
             $reference_type = $type_map[$reference_type];
-            $collection->push($reference_type->createDocument($document_data));
+            $collection->push($reference_type->createEntity($entity_data));
         }
 
         return $collection;

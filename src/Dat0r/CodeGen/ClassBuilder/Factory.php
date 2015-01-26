@@ -9,18 +9,18 @@ use Dat0r\CodeGen\Schema\TypeDefinition;
 
 use Dat0r\CodeGen\ClassBuilder\Common\BaseTypeClassBuilder as CommonBaseTypeClassBuilder;
 use Dat0r\CodeGen\ClassBuilder\Common\TypeClassBuilder as CommonTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Common\BaseDocumentClassBuilder as CommonBaseDocumentClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Common\DocumentClassBuilder as CommonDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityClassBuilder as CommonBaseEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\EntityClassBuilder as CommonEntityClassBuilder;
 
 use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseTypeClassBuilder as AggregateBaseTypeClassBuilder;
 use Dat0r\CodeGen\ClassBuilder\Aggregate\TypeClassBuilder as AggregateTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseDocumentClassBuilder as AggregateBaseDocumentClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Aggregate\DocumentClassBuilder as AggregateDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseEntityClassBuilder as AggregateBaseEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Aggregate\EntityClassBuilder as AggregateEntityClassBuilder;
 
 use Dat0r\CodeGen\ClassBuilder\Reference\BaseTypeClassBuilder as ReferenceBaseTypeClassBuilder;
 use Dat0r\CodeGen\ClassBuilder\Reference\TypeClassBuilder as ReferenceTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Reference\BaseDocumentClassBuilder as ReferenceBaseDocumentClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Reference\DocumentClassBuilder as ReferenceDocumentClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\BaseEntityClassBuilder as ReferenceBaseEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\EntityClassBuilder as ReferenceEntityClassBuilder;
 
 class Factory extends Object
 {
@@ -70,8 +70,8 @@ class Factory extends Object
         return array(
             new CommonBaseTypeClassBuilder($builder_properties),
             new CommonTypeClassBuilder($builder_properties),
-            new CommonBaseDocumentClassBuilder($builder_properties),
-            new CommonDocumentClassBuilder($builder_properties)
+            new CommonBaseEntityClassBuilder($builder_properties),
+            new CommonEntityClassBuilder($builder_properties)
         );
     }
 
@@ -85,8 +85,8 @@ class Factory extends Object
         return array(
             new AggregateBaseTypeClassBuilder($builder_properties),
             new AggregateTypeClassBuilder($builder_properties),
-            new AggregateBaseDocumentClassBuilder($builder_properties),
-            new AggregateDocumentClassBuilder($builder_properties)
+            new AggregateBaseEntityClassBuilder($builder_properties),
+            new AggregateEntityClassBuilder($builder_properties)
         );
     }
 
@@ -100,8 +100,8 @@ class Factory extends Object
         return array(
             new ReferenceBaseTypeClassBuilder($builder_properties),
             new ReferenceTypeClassBuilder($builder_properties),
-            new ReferenceBaseDocumentClassBuilder($builder_properties),
-            new ReferenceDocumentClassBuilder($builder_properties)
+            new ReferenceBaseEntityClassBuilder($builder_properties),
+            new ReferenceEntityClassBuilder($builder_properties)
         );
     }
 }

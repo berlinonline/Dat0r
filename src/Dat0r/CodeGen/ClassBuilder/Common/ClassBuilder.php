@@ -10,7 +10,7 @@ abstract class ClassBuilder extends BaseClassBuilder
 
     const NS_MODULE = '\\Dat0r\\Runtime';
 
-    const NS_DOCUMENT = '\\Dat0r\\Runtime\\Document';
+    const NS_ENTITY = '\\Dat0r\\Runtime\\Entity';
 
     protected $type_schema;
 

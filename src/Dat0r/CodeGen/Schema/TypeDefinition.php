@@ -10,7 +10,7 @@ class TypeDefinition extends Object
 
     protected $implementor;
 
-    protected $document_implementor;
+    protected $entity_implementor;
 
     protected $description;
 
@@ -36,9 +36,9 @@ class TypeDefinition extends Object
         return $this->implementor;
     }
 
-    public function getDocumentImplementor()
+    public function getEntityImplementor()
     {
-        return $this->document_implementor;
+        return $this->entity_implementor;
     }
 
     public function getDescription()

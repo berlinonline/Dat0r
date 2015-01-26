@@ -6,18 +6,18 @@ use Dat0r\Runtime\Attribute\Value\Value;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 
 /**
  * Default IValue implementation for the AggregateCollection.
- * Holds an aggregate attribute's documents in form of a DocumentList.
+ * Holds an aggregate attribute's entities in form of a EntityList.
  */
 class AggregateCollectionValue extends Value
 {
     /**
-     * Tells if a given document list contains the same documents.
-     * The list is considered equal when documents with the same values occur in the same order
-     * as in the valueholder's local value (DocumentList).
+     * Tells if a given entity list contains the same entities.
+     * The list is considered equal when entities with the same values occur in the same order
+     * as in the valueholder's local value (EntityList).
      *
      * @param mixed $other_value
      *
@@ -31,8 +31,8 @@ class AggregateCollectionValue extends Value
         if (count($lefthand_docs) !== count($other_value)) {
             $is_equal = false;
         } else {
-            foreach ($lefthand_docs as $index => $document) {
-                if (!$document->isEqualTo($other_value->getItem($index))) {
+            foreach ($lefthand_docs as $index => $entity) {
+                if (!$entity->isEqualTo($other_value->getItem($index))) {
                     $is_equal = false;
                 }
             }

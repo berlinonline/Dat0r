@@ -2,12 +2,12 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IIncident;
 
 /**
- * AggregateRule validates that a given value consistently translates to a collection of documents.
+ * AggregateRule validates that a given value consistently translates to a collection of entities.
  *
  * Supported options: aggregate_types
  */
@@ -21,7 +21,7 @@ class AggregateRule extends Rule
     /**
      * Valdiates and sanitizes a given value respective to the aggregate-valueholder's expectations.
      *
-     * @param mixed $value The types 'array' and 'DocumentList' are accepted.
+     * @param mixed $value The types 'array' and 'EntityList' are accepted.
      *
      * @return boolean
      */
@@ -30,12 +30,12 @@ class AggregateRule extends Rule
         $success = true;
         $collection = null;
 
-        if ($value instanceof DocumentList) {
+        if ($value instanceof EntityList) {
             $collection = $value;
         } elseif (null === $value) {
-            $collection = new DocumentList();
+            $collection = new EntityList();
         } elseif (is_array($value)) {
-            $collection = $this->createDocumentList($value);
+            $collection = $this->createEntityList($value);
         } else {
             $this->throwError('invalid_type');
             $success = false;
@@ -49,29 +49,29 @@ class AggregateRule extends Rule
     }
 
     /**
-     * Create a DocumentList from a given array of document data.
+     * Create a EntityList from a given array of entity data.
      *
-     * @param array $documents_data
+     * @param array $entities_data
      *
-     * @return DocumentList
+     * @return EntityList
      */
-    protected function createDocumentList(array $documents_data)
+    protected function createEntityList(array $entities_data)
     {
         $type_map = array();
         foreach ($this->getOption(self::OPTION_AGGREGATE_MODULES, array()) as $type) {
-            $type_map[$type->getDocumentType()] = $type;
+            $type_map[$type->getEntityType()] = $type;
         }
 
-        $collection = new DocumentList();
-        ksort($documents_data);
-        foreach ($documents_data as $document_data) {
-            if (!isset($document_data[self::OBJECT_TYPE])) {
+        $collection = new EntityList();
+        ksort($entities_data);
+        foreach ($entities_data as $entity_data) {
+            if (!isset($entity_data[self::OBJECT_TYPE])) {
                 $this->throwError('missing_doc_type', array(), IIncident::CRITICAL);
                 continue;
             }
 
-            $aggregate_type = $document_data[self::OBJECT_TYPE];
-            unset($document_data['@type']);
+            $aggregate_type = $entity_data[self::OBJECT_TYPE];
+            unset($entity_data['@type']);
 
             if ($aggregate_type{0} !== '\\') {
                 $aggregate_type = '\\' . $aggregate_type;
@@ -79,14 +79,14 @@ class AggregateRule extends Rule
             if (!isset($type_map[$aggregate_type])) {
                 $this->throwError(
                     'invalid_doc_type',
-                    array('type' => @$document_data[self::OBJECT_TYPE]),
+                    array('type' => @$entity_data[self::OBJECT_TYPE]),
                     IIncident::NOTICE
                 );
                 continue;
             }
 
             $aggregate_type = $type_map[$aggregate_type];
-            $collection->push($aggregate_type->createDocument($document_data));
+            $collection->push($aggregate_type->createEntity($entity_data));
         }
 
         return $collection;

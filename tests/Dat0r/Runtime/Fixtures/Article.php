@@ -2,9 +2,9 @@
 
 namespace Dat0r\Tests\Runtime\Fixtures;
 
-use Dat0r\Runtime\Document\Document;
+use Dat0r\Runtime\Entity\Entity;
 
-class Article extends Document
+class Article extends Entity
 {
 
 }

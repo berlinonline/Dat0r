@@ -5,11 +5,11 @@ namespace Dat0r\Runtime\Attribute\Value;
 use Dat0r\Common\IEvent;
 use Dat0r\Common\Object;
 use Dat0r\Runtime\Attribute\IAttribute;
-use Dat0r\Runtime\Document\DocumentChangedEvent;
+use Dat0r\Runtime\Entity\EntityChangedEvent;
 
 /**
- * ValueChangedEvent(s) reflect state changes to a document's underlying Value.
- * These events are fired everytime a document attribute-value actually changes and can be used
+ * ValueChangedEvent(s) reflect state changes to a entity's underlying Value.
+ * These events are fired everytime a entity attribute-value actually changes and can be used
  * to track state changes over time.
  */
 class ValueChangedEvent extends Object implements IEvent
@@ -44,14 +44,14 @@ class ValueChangedEvent extends Object implements IEvent
     /**
      * Holds a possibly underlying aggrgate's value changed event.
      *
-     * @var DocumentChangedEvent $aggregate_event
+     * @var EntityChangedEvent $aggregate_event
      */
     protected $aggregate_event;
 
     /**
      * Constructs a new ValueChangedEvent instance.
      *
-     * @param DocumentChangedEvent $aggregate_event If the origin attribute is an aggregate, the bubbled event is passed
+     * @param EntityChangedEvent $aggregate_event If the origin attribute is an aggregate, the bubbled event is passed
      */
     public function __construct(array $state = array())
     {
@@ -102,7 +102,7 @@ class ValueChangedEvent extends Object implements IEvent
 
     /**
      * If the originating attribute is an aggregate attribute,
-     * this method returns an aggregated document's underlying value changed event.
+     * this method returns an aggregated entity's underlying value changed event.
      *
      * @return ValueChangedEvent
      */

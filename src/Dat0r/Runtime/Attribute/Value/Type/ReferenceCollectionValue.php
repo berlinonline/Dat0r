@@ -13,7 +13,7 @@ use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 class ReferenceCollectionValue extends Value
 {
     /**
-     * Tells whether a spefic IValue instance's value is considered equal to
+     * Tells whether a specific IValue instance's value is considered equal to
      * the value of an other given IValue.
      *
      * @param IValue $other

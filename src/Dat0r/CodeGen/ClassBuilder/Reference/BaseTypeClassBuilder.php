@@ -21,11 +21,11 @@ class BaseTypeClassBuilder extends CommonBaseTypeClassBuilder
         return $parent_implementor;
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
         return var_export(
             sprintf(
-                '\\%s\\%s\\Reference\\%sDocument',
+                '\\%s\\%s\\Reference\\%sEntity',
                 $this->getRootNamespace(),
                 $this->type_schema->getPackage(),
                 $this->type_definition->getName()

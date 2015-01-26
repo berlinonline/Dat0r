@@ -26,7 +26,7 @@ class BaseTypeClassBuilder extends TypeClassBuilder
     {
         $parent_implementor = $this->type_definition->getImplementor();
         if ($parent_implementor === null) {
-            $parent_implementor = sprintf('%s\\DocumentType', self::NS_MODULE);
+            $parent_implementor = sprintf('%s\\EntityType', self::NS_MODULE);
         }
 
         return $parent_implementor;
@@ -36,7 +36,7 @@ class BaseTypeClassBuilder extends TypeClassBuilder
     {
         $type_class_vars = array(
             'attributes' => $this->prepareAttributeData(),
-            'document_implementor' => $this->getDocumentImplementor(),
+            'entity_implementor' => $this->getEntityImplementor(),
             'type_name' => $this->type_definition->getName(),
             'options' => $this->preRenderOptions($this->type_definition->getOptions(), 12)
         );
@@ -44,9 +44,9 @@ class BaseTypeClassBuilder extends TypeClassBuilder
         return array_merge(parent::getTemplateVars(), $type_class_vars);
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
-        $class_suffix = $this->config->getEntitySuffix('Document');
+        $class_suffix = $this->config->getEntitySuffix('Entity');
 
         return var_export(
             sprintf(

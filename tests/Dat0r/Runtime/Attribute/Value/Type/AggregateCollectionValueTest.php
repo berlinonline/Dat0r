@@ -7,7 +7,7 @@ use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Runtime\Attribute\Value\Type\AggregateCollectionValue;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 
 class AggregateCollectionValueTest extends TestCase
 {
@@ -39,9 +39,9 @@ class AggregateCollectionValueTest extends TestCase
 
         $value = $aggregate_attribute->createValue();
 
-        $document_list = $value->get();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\DocumentList', $document_list);
-        $this->assertEquals(0, $document_list->getSize());
+        $entity_list = $value->get();
+        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\EntityList', $entity_list);
+        $this->assertEquals(0, $entity_list->getSize());
     }
 
     public function testValueChangedEvents()
@@ -52,7 +52,7 @@ class AggregateCollectionValueTest extends TestCase
         )->twice();
 
         $aggregate_type = new ParagraphType();
-        $aggregated_document = $aggregate_type->createDocument(
+        $aggregated_entity = $aggregate_type->createEntity(
             array('title' => 'Hello world', 'content' => 'Foobar lorem ipsum...')
         );
 
@@ -66,12 +66,12 @@ class AggregateCollectionValueTest extends TestCase
         $value = $aggregate_attribute->createValue();
         $value->addValueChangedListener($listener);
 
-        $document_list = $value->get();
-        $document_list->push($aggregated_document);
+        $entity_list = $value->get();
+        $entity_list->push($aggregated_entity);
 
-        $aggregated_document->setValue('title', 'Kthxbye');
+        $aggregated_entity->setValue('title', 'Kthxbye');
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Document\\DocumentList', $document_list);
-        $this->assertEquals(1, $document_list->getSize());
+        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\EntityList', $entity_list);
+        $this->assertEquals(1, $entity_list->getSize());
     }
 }

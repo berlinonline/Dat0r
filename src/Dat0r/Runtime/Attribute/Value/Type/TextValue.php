@@ -3,9 +3,6 @@
 namespace Dat0r\Runtime\Attribute\Value\Type;
 
 use Dat0r\Runtime\Attribute\Value\Value;
-use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\IAttribute;
-use Dat0r\Runtime\Attribute\Type\Text;
 
 /**
  * Default IValue implementation used for text value containment.

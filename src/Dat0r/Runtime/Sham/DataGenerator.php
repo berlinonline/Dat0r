@@ -5,16 +5,16 @@ namespace Dat0r\Runtime\Sham;
 use Faker\Factory;
 
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Document\IDocument;
-use Dat0r\Runtime\IDocumentType;
+use Dat0r\Runtime\Entity\IEntity;
+use Dat0r\Runtime\IEntityType;
 use Dat0r\Runtime\Attribute\IAttribute;
 use Dat0r\Runtime\Attribute\Type\AggregateCollection;
 use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Sham\Guesser\Text as TextGuesser;
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 
 /**
- * Sham\DataGenerator is a class that is able to create or fill documents
+ * Sham\DataGenerator is a class that is able to create or fill entities
  * containing fake data.
  *
  * @author Steffen Gransow <graste@mivesto.de>
@@ -37,7 +37,7 @@ class DataGenerator
     const OPTION_EXCLUDED_FIELDS = 'excluded_attributes';
 
     /**
-     * name of options array key to use to mark changed documents as clean
+     * name of options array key to use to mark changed entities as clean
      */
     const OPTION_MARK_CLEAN = 'mark_clean';
 
@@ -47,7 +47,7 @@ class DataGenerator
     const OPTION_LOCALE = 'locale';
 
     /**
-     * name of options array key to use to set the number of documents to generate
+     * name of options array key to use to set the number of entities to generate
      */
     const OPTION_COUNT = 'count';
 
@@ -68,15 +68,15 @@ class DataGenerator
     }
 
     /**
-     * This method fills the given document with fake data. You may customize
+     * This method fills the given entity with fake data. You may customize
      * the fake data generation used for each attribute by using the options array.
      *
      * Supported options:
      * - OPTION_LOCALE: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
-     * - OPTION_MARK_CLEAN: Calls `$document->markClean()` at the end to prevent
+     * - OPTION_MARK_CLEAN: Calls `$entity->markClean()` at the end to prevent
      *                 change events to occur after faking data. Default is false.
      * - OPTION_FIELD_VALUES: array of `attribute_name` => `value` pairs to customize
-     *                  fake values per attribute of the given document. You can
+     *                  fake values per attribute of the given entity. You can
      *                  either specify a direct value or provide a closure. The
      *                  closure must return the value you want to set on that attribute.
      * - OPTION_EXCLUDED_FIELDS: Array of attribute_names to excluded from filling
@@ -84,16 +84,16 @@ class DataGenerator
      * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fake(IDocument $document, array $options = array())
+    public function fake(IEntity $entity, array $options = array())
     {
         if (!empty($options[self::OPTION_LOCALE])) {
             $loc = $options[self::OPTION_LOCALE];
@@ -119,7 +119,7 @@ class DataGenerator
             $attributes_to_exclude = $excluded;
         }
 
-        $type = $document->getType();
+        $type = $entity->getType();
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
             if (in_array($attribute_name, $attributes_to_exclude, true)) {
                 continue;
@@ -127,73 +127,73 @@ class DataGenerator
 
             $name = $this->getMethodNameFor($attribute);
             if (null !== $name && is_callable(array($this, $name))) {
-                $this->$name($document, $attribute, $options);
+                $this->$name($entity, $attribute, $options);
             } else {
-                $this->setValue($document, $attribute, $attribute->getDefaultValue(), $options);
+                $this->setValue($entity, $attribute, $attribute->getDefaultValue(), $options);
             }
         }
 
         if (array_key_exists(self::OPTION_MARK_CLEAN, $options)
             && true === $options[self::OPTION_MARK_CLEAN]
         ) {
-            $document->markClean();
+            $entity->markClean();
         }
     }
 
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IDocumentType $type type to create fake data for
+     * @param IEntityType $type type to create fake data for
      * @param array $options For valid options see fake() method
      *
      * @return array of fake data for the given type
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function fakeData(IDocumentType $type, array $options = array())
+    public function fakeData(IEntityType $type, array $options = array())
     {
-        $document = $type->createDocument();
-        $this->fake($document, $options);
-        return $document->toArray();
+        $entity = $type->createEntity();
+        $this->fake($entity, $options);
+        return $entity->toArray();
     }
 
     /**
-     * Creates a document with fake data for the given type.
+     * Creates a entity with fake data for the given type.
      *
-     * @param IDocumentType $type type to create documents for
+     * @param IEntityType $type type to create entities for
      * @param array $options For valid options see fake() method
      *
-     * @return document newly created with fake data
+     * @return entity newly created with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocument(IDocumentType $type, array $options = array())
+    public function createFakeEntity(IEntityType $type, array $options = array())
     {
         $options[self::OPTION_MARK_CLEAN] = true;
-        $document = $type->createDocument();
-        $this->fake($document, $options);
-        return $document;
+        $entity = $type->createEntity();
+        $this->fake($entity, $options);
+        return $entity;
     }
 
     /**
-     * Creates `count` number of documents with fake data for the given type.
+     * Creates `count` number of entities with fake data for the given type.
      *
-     * @param IDocumentType $type type to create documents for
-     * @param array $options use `count` for number of documents to create. For other options see fake() method.
+     * @param IEntityType $type type to create entities for
+     * @param array $options use `count` for number of entities to create. For other options see fake() method.
      *
-     * @return array of new documents with fake data
+     * @return array of new entities with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public function createFakeDocuments(IDocumentType $type, array $options = array())
+    public function createFakeEntities(IEntityType $type, array $options = array())
     {
-        $documents = array();
+        $entities = array();
 
         $count = 10;
         if (!empty($options[self::OPTION_COUNT])) {
@@ -209,22 +209,22 @@ class DataGenerator
         }
 
         for ($i = 0; $i < $count; $i++) {
-             $documents[] = $this->createFakeDocument($type, $options);
+             $entities[] = $this->createFakeEntity($type, $options);
         }
 
-        return $documents;
+        return $entities;
     }
 
     /**
-     * This method fills the document with fake data. You may customize the
+     * This method fills the entity with fake data. You may customize the
      * fake data used for each attribute by using the options array.
      *
      * Supported options:
      * - OPTION_LOCALE: Locale for fake data (e.g. 'en_UK', defaults to 'de_DE').
-     * - OPTION_MARK_CLEAN: Calls `$document->markClean()` at the end to prevent
+     * - OPTION_MARK_CLEAN: Calls `$entity->markClean()` at the end to prevent
      *                 change events to occur after faking data. Default is false.
      * - OPTION_FIELD_VALUES: array of `attribute_name` => `value` pairs to customize
-     *                  fake values per attribute of the given document. You can
+     *                  fake values per attribute of the given entity. You can
      *                  either specify a direct value or provide a closure. The
      *                  closure must return the value you want to set on that attribute.
      * - OPTION_EXCLUDED_FIELDS: Array of attribute_names to excluded from filling
@@ -232,85 +232,85 @@ class DataGenerator
      * - OPTION_GUESS_PROVIDER_BY_NAME: Boolean true by default. Certain attribute_names
      *                  trigger different providers (e.g. firstname or email).
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function fill(IDocument $document, array $options = array())
+    public static function fill(IEntity $entity, array $options = array())
     {
         $data_generator = new static();
-        $data_generator->fake($document, $options);
+        $data_generator->fake($entity, $options);
     }
 
     /**
      * Creates an array with fake data for the given type.
      *
-     * @param IDocumentType $type type to create fake data for
+     * @param IEntityType $type type to create fake data for
      * @param array $options For valid options see fill() method
      *
      * @return array of fake data for the given type
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDataFor(IDocumentType $type, array $options = array())
+    public static function createDataFor(IEntityType $type, array $options = array())
     {
         $data_generator = new static();
         return $data_generator->fakeData($type, $options);
     }
 
     /**
-     * Creates a document with fake data for the given type.
+     * Creates a entity with fake data for the given type.
      *
-     * @param IDocumentType $type type to create documents for
+     * @param IEntityType $type type to create entities for
      * @param array $options For valid options see fill() method
      *
-     * @return document newly created with fake data
+     * @return entity newly created with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocument(IDocumentType $type, array $options = array())
+    public static function createEntity(IEntityType $type, array $options = array())
     {
         $data_generator = new static();
-        return $data_generator->createFakeDocument($type, $options);
+        return $data_generator->createFakeEntity($type, $options);
     }
 
     /**
-     * Creates `count` number of documents with fake data for the given type.
+     * Creates `count` number of entities with fake data for the given type.
      *
-     * @param IDocumentType $type type to create documents for
-     * @param array $options use `count` for number of documents to create. For other options see fill() method.
+     * @param IEntityType $type type to create entities for
+     * @param array $options use `count` for number of entities to create. For other options see fill() method.
      *
-     * @return array of new documents with fake data
+     * @return array of new entities with fake data
      *
-     * @throws \Dat0r\Runtime\Document\InvalidValueException in case of fake data being invalid for the given attribute
-     * @throws \Dat0r\Runtime\Document\BadValueException in case of invalid locale option string
+     * @throws \Dat0r\Runtime\Entity\InvalidValueException in case of fake data being invalid for the given attribute
+     * @throws \Dat0r\Runtime\Entity\BadValueException in case of invalid locale option string
      * @throws \Dat0r\Common\Error\RuntimeException on AggregateCollection misconfiguration
      */
-    public static function createDocuments(IDocumentType $type, array $options = array())
+    public static function createEntities(IEntityType $type, array $options = array())
     {
         $data_generator = new DataGenerator();
-        return $data_generator->createFakeDocuments($type, $options);
+        return $data_generator->createFakeEntities($type, $options);
     }
 
     /**
-     * Generates and adds fake data for a Text on a document.
+     * Generates and adds fake data for a Text on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the Text to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addText(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addText(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
 
@@ -321,19 +321,19 @@ class DataGenerator
             }
         }
 
-        $this->setValue($document, $attribute, $value, $options);
+        $this->setValue($entity, $attribute, $value, $options);
     }
 
     /**
-     * Generates and adds fake data for a TextCollection on a document.
+     * Generates and adds fake data for a TextCollection on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the TextCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextCollection(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addTextCollection(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -349,48 +349,48 @@ class DataGenerator
             $values[] = $text;
         }
 
-        $this->setValue($document, $attribute, $values, $options);
+        $this->setValue($entity, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a Textarea on a document.
+     * Generates and adds fake data for a Textarea on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the Textarea to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addTextarea(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addTextarea(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $text = $this->faker->paragraphs($this->faker->numberBetween(1, 5));
-        $this->setValue($document, $attribute, implode(PHP_EOL . PHP_EOL, $text), $options);
+        $this->setValue($entity, $attribute, implode(PHP_EOL . PHP_EOL, $text), $options);
     }
 
     /**
-     * Generates and adds fake data for an Number on a document.
+     * Generates and adds fake data for an Number on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the Number to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addNumber(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addNumber(IEntity $entity, IAttribute $attribute, array $options = array())
     {
-        $this->setValue($document, $attribute, $this->faker->numberBetween(1, 99999), $options);
+        $this->setValue($entity, $attribute, $this->faker->numberBetween(1, 99999), $options);
     }
 
     /**
-     * Generates and adds fake data for an NumberCollection on a document.
+     * Generates and adds fake data for an NumberCollection on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the NumberCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addNumberCollection(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addNumberCollection(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -399,19 +399,19 @@ class DataGenerator
             $values[] = $this->faker->numberBetween(1, 99999);
         }
 
-        $this->setValue($document, $attribute, $values, $options);
+        $this->setValue($entity, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a KeyValue on a document.
+     * Generates and adds fake data for a KeyValue on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the KeyValue to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValue(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addKeyValue(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $values = array();
 
@@ -420,19 +420,19 @@ class DataGenerator
             $values[$this->faker->word] = $this->faker->sentence;
         }
 
-        $this->setValue($document, $attribute, $values, $options);
+        $this->setValue($entity, $attribute, $values, $options);
     }
 
     /**
-     * Generates and adds fake data for a KeyValuesCollection on a document.
+     * Generates and adds fake data for a KeyValuesCollection on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the KeyValuesCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addKeyValuesCollection(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addKeyValuesCollection(IEntity $entity, IAttribute $attribute, array $options = array())
     {
         $collection = array();
 
@@ -446,70 +446,70 @@ class DataGenerator
             $collection[$this->faker->word] = $values;
         }
 
-        $this->setValue($document, $attribute, $collection, $options);
+        $this->setValue($entity, $attribute, $collection, $options);
     }
 
     /**
-     * Generates and adds fake data for a Boolean on a document.
+     * Generates and adds fake data for a Boolean on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param IAttribute $attribute an instance of the Boolean to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
-    protected function addBoolean(IDocument $document, IAttribute $attribute, array $options = array())
+    protected function addBoolean(IEntity $entity, IAttribute $attribute, array $options = array())
     {
-        $this->setValue($document, $attribute, $this->faker->boolean, $options);
+        $this->setValue($entity, $attribute, $this->faker->boolean, $options);
     }
 
     /**
-     * Generates and adds fake data for a aggregate documents.
+     * Generates and adds fake data for a aggregate entities.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param AggregateCollection $attribute an instance of the AggregateCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
     protected function addAggregateCollection(
-        IDocument $document,
+        IEntity $entity,
         AggregateCollection $attribute,
         array $options = array()
     ) {
         $options_clone = $options;
-        $document_collection = new DocumentList();
+        $entity_collection = new EntityList();
         $aggregate_types = $attribute->getAggregates();
 
         $number_of_aggregate_types = count($aggregate_types);
         $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
 
-        // add number of documents to reference depending on number of aggregate types
+        // add number of entities to reference depending on number of aggregate types
         for ($i = 0; $i < $number_of_aggregate_types; $i++) {
             $number_of_new_aggregate_entries += $this->faker->numberBetween(0, 3);
         }
 
-        // add new documents to collection for aggregate types
+        // add new entities to collection for aggregate types
         for ($i = 0; $i < $number_of_new_aggregate_entries; $i++) {
             $aggregate_type = $this->faker->randomElement($aggregate_types);
-            $new_document = $this->createFakeDocument($aggregate_type, $options_clone);
-            $document_collection->addItem($new_document);
+            $new_entity = $this->createFakeEntity($aggregate_type, $options_clone);
+            $entity_collection->addItem($new_entity);
         }
 
-        $this->setValue($document, $attribute, $document_collection, $options);
+        $this->setValue($entity, $attribute, $entity_collection, $options);
     }
 
     /**
-     * Generates and adds fake data for a ReferenceCollection on a document.
+     * Generates and adds fake data for a ReferenceCollection on a entity.
      *
-     * @param IDocument $document an instance of the document to fill with fake data.
+     * @param IEntity $entity an instance of the entity to fill with fake data.
      * @param ReferenceCollection $attribute an instance of the ReferenceCollection to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void
      */
     protected function addReferenceCollection(
-        IDocument $document,
+        IEntity $entity,
         ReferenceCollection $attribute,
         array $options = array()
     ) {
@@ -533,25 +533,25 @@ class DataGenerator
         $numberOfReferencedTypes = count($referencedTypes);
         $numberOfNewReferenceEntries = $this->faker->numberBetween(1, 3);
 
-        // add number of documents to reference depending on number of referenced types
+        // add number of entities to reference depending on number of referenced types
         for ($i = 0; $i < $numberOfReferencedTypes; $i++) {
             $numberOfNewReferenceEntries += $this->faker->numberBetween(0, 3);
         }
 
-        // add new documents to collection for referenced types
+        // add new entities to collection for referenced types
         for ($i = 0; $i < $numberOfNewReferenceEntries; $i++) {
             $ref_type = $this->faker->randomElement($referencedTypes);
-            $new_document = $this->createFakeDocument($ref_type, $options_clone);
-            $collection->addItem($new_document);
+            $new_entity = $this->createFakeEntity($ref_type, $options_clone);
+            $collection->addItem($new_entity);
         }
 
-        $this->setValue($document, $attribute, $collection, $options);
+        $this->setValue($entity, $attribute, $collection, $options);
     }
 
     /**
      * Sets either given default value or value from option to the given attribute.
      *
-     * @param Document $document the document to modify
+     * @param Entity $entity the entity to modify
      * @param string $attribute_name the name of the attribute to set a value for
      * @param mixed $default_value Default value to set.
      * @param array $options Array containing a `attribute_name => $mixed` entry.
@@ -564,7 +564,7 @@ class DataGenerator
      * @return void
      */
     protected function setValue(
-        IDocument $document,
+        IEntity $entity,
         IAttribute $attribute,
         $default_value,
         array $options = array()
@@ -579,13 +579,13 @@ class DataGenerator
         }
 
         if (empty($attribute_options[$attribute_name])) {
-            $document->setValue($attribute_name, $default_value);
+            $entity->setValue($attribute_name, $default_value);
         } else {
             $option = $attribute_options[$attribute_name];
             if (is_callable($option)) {
-                $document->setValue($attribute_name, call_user_func($option));
+                $entity->setValue($attribute_name, call_user_func($option));
             } else {
-                $document->setValue($attribute_name, $option);
+                $entity->setValue($attribute_name, $option);
             }
         }
     }

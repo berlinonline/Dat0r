@@ -2,17 +2,17 @@
 
 namespace Dat0r\Tests\Runtime\Fixtures;
 
-use Dat0r\Runtime\DocumentType;
+use Dat0r\Runtime\EntityType;
 
-class InvalidType extends DocumentType
+class InvalidType extends EntityType
 {
     public function __construct()
     {
         parent::__construct('InvalidType');
     }
 
-    protected function getDocumentImplementor()
+    protected function getEntityImplementor()
     {
-        return 'NonExistantDocumentClass';
+        return 'NonExistantEntityClass';
     }
 }

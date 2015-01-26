@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Attribute\Type;
 
 use Dat0r\Runtime\Attribute\Attribute;
-use Dat0r\Runtime\Document\DocumentList;
+use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\AggregateRule;
 use Dat0r\Common\Error\RuntimeException;
@@ -12,7 +12,7 @@ use Dat0r\Common\Error\InvalidTypeException;
 /**
  * AggregateCollection allows to nest multiple types below a defined attribute_name.
  * Pass in the 'OPTION_MODULES' option to define the types you would like to nest.
- * The corresponding value-structure is organized as a collection of documents.
+ * The corresponding value-structure is organized as a collection of entities.
  *
  * Supported options: OPTION_MODULES
  */
@@ -54,7 +54,7 @@ class AggregateCollection extends Attribute
      */
     public function getDefaultValue()
     {
-        return new DocumentList();
+        return new EntityList();
     }
 
     /**

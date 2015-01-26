@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\IDocumentType;
+use Dat0r\Runtime\IEntityType;
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\IUniqueCollection;
 
@@ -14,7 +14,7 @@ class AttributeMap extends TypedMap implements IUniqueCollection
 {
     protected $type;
 
-    public function __construct(IDocumentType $type, array $items = array())
+    public function __construct(IEntityType $type, array $items = array())
     {
         $this->type = $type;
 
