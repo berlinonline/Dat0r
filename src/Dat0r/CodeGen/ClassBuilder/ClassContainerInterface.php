@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\ClassBuilder;
 
-interface IClassContainer
+interface ClassContainerInterface
 {
     public function getFilename();
 

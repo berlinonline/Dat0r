@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\Common\Object;
 
-class ClassContainer extends Object implements IClassContainer
+class ClassContainer extends Object implements ClassContainerInterface
 {
     protected $file_name;
 

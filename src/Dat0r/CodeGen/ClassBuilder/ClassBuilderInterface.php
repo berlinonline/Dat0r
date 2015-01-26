@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\ClassBuilder;
 
-interface IClassBuilder
+interface ClassBuilderInterface
 {
     public function build();
 }

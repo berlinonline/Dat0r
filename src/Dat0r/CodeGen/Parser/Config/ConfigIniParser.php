@@ -3,14 +3,14 @@
 namespace Dat0r\CodeGen\Parser\Config;
 
 use Dat0r\CodeGen\Config;
-use Dat0r\CodeGen\Parser\IParser;
+use Dat0r\CodeGen\Parser\ParserInterface;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\NotReadableException;
 use Dat0r\Common\Error\NotWritableException;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Common\Error\ParseException;
 
-class ConfigIniParser extends Object implements IParser
+class ConfigIniParser extends Object implements ParserInterface
 {
     public function parse($ini_file, array $options = array())
     {

@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen;
 
 use Dat0r\CodeGen\Schema\TypeSchema;
 
-interface IPlugin
+interface PluginInterface
 {
     public function execute(TypeSchema $schema);
 }

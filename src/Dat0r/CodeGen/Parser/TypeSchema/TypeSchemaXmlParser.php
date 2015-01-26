@@ -2,7 +2,7 @@
 
 namespace Dat0r\CodeGen\Parser\TypeSchema;
 
-use Dat0r\CodeGen\Parser\IParser;
+use Dat0r\CodeGen\Parser\ParserInterface;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\ParseException;
 use Dat0r\Common\Error\FileSystemException;
@@ -10,7 +10,7 @@ use Dat0r\CodeGen\Schema\TypeSchema;
 use DOMDocument;
 use DOMXPath;
 
-class TypeSchemaXmlParser extends Object implements IParser
+class TypeSchemaXmlParser extends Object implements ParserInterface
 {
     const BASE_DOCUMENT = '\Dat0r\Runtime\Entity\Entity';
 

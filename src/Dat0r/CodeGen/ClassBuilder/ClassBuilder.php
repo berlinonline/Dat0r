@@ -6,7 +6,7 @@ use Dat0r\Common\Object;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
-abstract class ClassBuilder extends Object implements IClassBuilder
+abstract class ClassBuilder extends Object implements ClassBuilderInterface
 {
     protected $twig;
 

@@ -109,11 +109,11 @@ class Service extends Object
     {
         foreach ($this->config->getPluginSettings() as $plugin_class => $plugin_options) {
             if (class_exists($plugin_class)) {
-                if (is_a($plugin_class, '\\Dat0r\\CodeGen\\IPlugin', true)) {
+                if (is_a($plugin_class, '\\Dat0r\\CodeGen\\PluginInterface', true)) {
                     $plugin = new $plugin_class($plugin_options);
                     $plugin->execute($type_schema);
                 } else {
-                    $warning = '<warning>Plugin class: `%s`, does not implement the IPlugin interface.</warning>';
+                    $warning = '<warning>Plugin class: `%s`, does not implement the PluginInterface interface.</warning>';
                     $this->writeMessage(sprintf($warning, $plugin_class));
                 }
             } else {

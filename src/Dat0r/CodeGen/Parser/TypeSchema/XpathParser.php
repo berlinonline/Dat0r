@@ -3,12 +3,12 @@
 namespace Dat0r\CodeGen\Parser\TypeSchema;
 
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Parser\IParser;
+use Dat0r\CodeGen\Parser\ParserInterface;
 use Dat0r\Common\Error\InvalidTypeException;
 use DOMXPath;
 use DOMElement;
 
-abstract class XpathParser extends Object implements IParser
+abstract class XpathParser extends Object implements ParserInterface
 {
     abstract protected function parseXpath(DOMXPath $xpath, DOMElement $context);
 
