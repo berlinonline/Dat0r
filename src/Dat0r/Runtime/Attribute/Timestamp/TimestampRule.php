@@ -14,11 +14,18 @@ class TimestampRule extends Rule
     protected function execute($value)
     {
         $default_timezone = new DateTimeZone(
-            $this->getOption(TimestampAttribute::OPTION_INTERNAL_TIMEZONE_NAME, TimestampAttribute::DEFAULT_INTERNAL_TIMEZONE_NAME)
+            $this->getOption(
+                TimestampAttribute::OPTION_INTERNAL_TIMEZONE_NAME,
+                TimestampAttribute::DEFAULT_INTERNAL_TIMEZONE_NAME
+            )
         );
 
         if (is_string($value)) {
-            if (!$this->getOption(TimestampAttribute::OPTION_ACCEPT_STRINGS, TimestampAttribute::DEFAULT_ACCEPT_STRINGS)) {
+            $accept_strings = $this->getOption(
+                TimestampAttribute::OPTION_ACCEPT_STRINGS,
+                TimestampAttribute::DEFAULT_ACCEPT_STRINGS
+            );
+            if (!$accept_strings) {
                 $this->throwError('no_strings_acceptable', array(), IncidentInterface::CRITICAL);
                 return false;
             }
@@ -37,7 +44,11 @@ class TimestampRule extends Rule
             return false;
         }
 
-        if ($this->getOption(TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE, TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE)) {
+        $force_internal_timezone = $this->getOption(
+            TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE,
+            TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE
+        );
+        if ($force_internal_timezone) {
             $dt = $dt->setTimezone($default_timezone);
         }
 

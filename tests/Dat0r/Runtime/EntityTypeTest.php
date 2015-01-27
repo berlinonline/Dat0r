@@ -17,7 +17,6 @@ use Dat0r\Runtime\Attribute\Number\NumberAttribute;
 use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
 use Dat0r\Runtime\Attribute\KeyValue\KeyValueAttribute;
 
-
 class EntityTypeTest extends TestCase
 {
     public function testCreateArticleType()

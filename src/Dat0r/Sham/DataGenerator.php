@@ -472,7 +472,7 @@ class DataGenerator
      * Generates and adds fake data for a aggregate entities.
      *
      * @param EntityInterface $entity an instance of the entity to fill with fake data.
-     * @param EmbeddedEntityListAttribute $attribute an instance of the EmbeddedEntityListAttribute to fill with fake data.
+     * @param EmbeddedEntityListAttribute $attribute instance of the EmbeddedEntityListAttribute to fill with fake data.
      * @param array $options array of options to customize fake data creation.
      *
      * @return void

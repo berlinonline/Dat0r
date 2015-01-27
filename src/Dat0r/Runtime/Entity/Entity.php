@@ -386,4 +386,3 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         return $value_holder;
     }
 }
-
