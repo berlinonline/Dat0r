@@ -97,10 +97,7 @@ class AttributeValuePath
         $entity_type = $matches[1];
         $collection_offset = $matches[2];
 
-        if (
-            preg_match('~(\w+)="([\w\-_]+)"~is', $collection_offset, $matches)
-            && count($matches) === 3
-        ) {
+        if (preg_match('~(\w+)="([\w\-_]+)"~is', $collection_offset, $matches) && count($matches) === 3) {
             $compare_attribute = $matches[1];
             $compare_value = $matches[2];
         } else {
@@ -128,10 +125,7 @@ class AttributeValuePath
         $type_prefix = $entity->getType()->getPrefix();
         $offset = $type_offsets['_all'];
 
-        if (
-            $offset_spec['entity_type'] !== $type_prefix
-            && $offset_spec['entity_type'] !== '*'
-        ) {
+        if ($offset_spec['entity_type'] !== $type_prefix && $offset_spec['entity_type'] !== '*') {
             return false;
         } elseif ($offset_spec['entity_type'] === $type_prefix) {
             $offset = $type_offsets[$type_prefix];

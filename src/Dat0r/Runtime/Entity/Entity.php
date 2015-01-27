@@ -181,7 +181,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     {
         $value_holder = $this->getValueHolderFor($attribute_name);
 
-        return !$value->isNull();
+        return !$value_holder->isNull();
     }
 
     /**

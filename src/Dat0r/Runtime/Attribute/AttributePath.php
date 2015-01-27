@@ -17,8 +17,7 @@ class AttributePath
 
         $current_attribute = $attribute->getParent();
         $current_type = $attribute->getType();
-        while (
-            $current_attribute instanceof AggregateCollection
+        while ($current_attribute instanceof AggregateCollection
             || $current_attribute instanceof ReferenceCollection
         ) {
             $path_parts[] = $current_type->getPrefix();
