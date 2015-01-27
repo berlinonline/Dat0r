@@ -258,9 +258,7 @@ class DataGeneratorTest extends TestCase
 
         DataGenerator::fill(
             $this->entity,
-            array(
-                DataGenerator::OPTION_EXCLUDED_FIELDS => array_merge($excluded_attributes, array('non_existant'))
-            )
+            array(DataGenerator::OPTION_EXCLUDED_FIELDS => $excluded_attributes)
         );
 
         $this->assertFalse(
@@ -268,15 +266,14 @@ class DataGeneratorTest extends TestCase
             'Entity has no changes, but should have been filled with fake data.'
         );
 
-        $this->assertEquals(
-            $this->type->getAttributes()->getSize() - count($excluded_attributes),
-            count($this->entity->getChanges()),
-            count($excluded_attributes) . ' attributes should have been ignored.'
-        );
+        $changed_attributes = [];
+        foreach ($this->entity->getChanges() as $changed_event) {
+            $changed_attributes[] = $changed_event->getAttribute()->getName();
+        }
 
-        $this->setExpectedException(RuntimeException::CLASS);
-        // @codeCoverageIgnoreStart
-        $this->assertFalse($this->entity->getValue('non_existant'));
+        foreach ($excluded_attributes as $excluded_attribute) {
+            $this->assertFalse(in_array($excluded_attribute, $changed_attributes));
+        }
     }// @codeCoverageIgnoreEnd
 
     /**

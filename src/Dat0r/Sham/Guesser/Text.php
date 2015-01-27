@@ -2,6 +2,8 @@
 
 namespace Dat0r\Sham\Guesser;
 
+use Faker\Generator;
+
 /**
  * Guesser\Text returns a Faker provider using only a given name.
  *
@@ -10,211 +12,383 @@ namespace Dat0r\Sham\Guesser;
  */
 class Text
 {
+    protected static $generator_map = null;
+
     /**
      * @param string $name name to use for guessing a provider.
-     * @param \Faker\Generator $generator instance with fake data providers to use for fake data generation
+     * @param Generator $generator instance with fake data providers to use for fake data generation
      *
      * @return Callable closure or null if guessing failed.
      */
-    public static function guess($name, \Faker\Generator $generator)
+    public static function guess($name, Generator $generator)
     {
-        $name = mb_strtolower($name);
+        $map_key = mb_strtolower($name);
+        $generator_map = self::getGeneratorMap($generator);
 
-        switch ($name)
-        {
-            case 'first_name':
-            case 'firstname':
-            case 'given_name':
-            case 'givenname':
-                return function () use ($generator) {
-                    return $generator->firstName;
-                };
-            case 'last_name':
-            case 'lastname':
-            case 'surname':
-            case 'family_name':
-            case 'familyname':
-                return function () use ($generator) {
-                    return $generator->lastName;
-                };
-            case 'name':
-            case 'author':
-            case 'creator':
-            case 'composer':
-            case 'editor':
-            case 'user':
-            case 'writer':
-            case 'novelist':
-            case 'financier':
-            case 'participant':
-            case 'inviter':
-            case 'invitee':
-            case 'attender':
-            case 'attendee':
-            case 'attendant':
-            case 'partner':
-            case 'accomplice':
-            case 'witness':
-            case 'assistant':
-            case 'aide':
-            case 'helper':
-            case 'associate':
-            case 'colleague':
-            case 'cohort':
-            case 'fellow':
-            case 'worker':
-            case 'coworker':
-            case 'employer':
-            case 'employee':
-            case 'manager':
-            case 'boss':
-            case 'principal':
-            case 'head':
-            case 'leader':
-            case 'contributor':
-            case 'donor':
-            case 'spender':
-            case 'sponsor':
-            case 'benefactor':
-            case 'presenter':
-            case 'anchorman':
-            case 'anchorwoman':
-            case 'anchor':
-            case 'moderator':
-            case 'host':
-            case 'co_host':
-            case 'cohost':
-            case 'tv_host':
-            case 'tvhost':
-            case 'quizmaster':
-                return function () use ($generator) {
-                    return $generator->name;
-                };
-            case 'alias':
-            case 'moniker':
-            case 'handle':
-            case 'username':
-            case 'user_name':
-            case 'login':
-            case 'login_name':
-            case 'nick':
-            case 'nickname':
-            case 'nick_name':
-                return function () use ($generator) {
-                    return $generator->userName;
-                };
-            case 'email':
-            case 'e_mail':
-            case 'e-mail':
-                return function () use ($generator) {
-                    return $generator->email;
-                };
-            case 'iso6801':
-            case 'birthdate':
-            case 'birthday':
-            case 'datetime':
-            case 'date':
-            case 'updated_at':
-            case 'inserted_at':
-            case 'created_at':
-            case 'deleted_at':
-                return function () use ($generator) {
-                    return $generator->iso8601;
-                };
-            case 'phone':
-            case 'fax':
-            case 'telefax':
-            case 'telephone':
-            case 'telefon':
-            case 'phone_number':
-            case 'phonenumber':
-            case 'mobile':
-            case 'mobile_phone':
-            case 'cellphone':
-            case 'cell_phone':
-            case 'cellular':
-            case 'cellular_phone':
-                return function () use ($generator) {
-                    return $generator->phoneNumber;
-                };
-            case 'address':
-            case 'adress':
-                return function () use ($generator) {
-                    return $generator->address;
-                };
-            case 'city':
-                return function () use ($generator) {
-                    return $generator->city;
-                };
-            case 'streetaddress':
-            case 'street_address':
-            case 'street':
-            case 'street_number':
-            case 'road':
-                return function () use ($generator) {
-                    return $generator->streetAddress;
-                };
-            case 'house_number':
-            case 'housenumber':
-            case 'building_number':
-            case 'buildingnumber':
-                return function () use ($generator) {
-                    return $generator->buildingNumber;
-                };
-            case 'postcode':
-            case 'post_code':
-            case 'postal_code':
-            case 'postal_areacode':
-            case 'postal_area_code':
-            case 'postal_address':
-            case 'zip_code':
-            case 'zipcode':
-            case 'zip':
-                return function () use ($generator) {
-                    return $generator->postcode;
-                };
-            case 'country':
-            case 'nation':
-                return function () use ($generator) {
-                    return $generator->country;
-                };
-            case 'state':
-            case 'federal_state':
-            case 'federalstate':
-            case 'federate_state':
-            case 'federatestate':
-            case 'province':
-                return function () use ($generator) {
-                    return $generator->state;
-                };
-            case 'title':
-            case 'headline':
-            case 'subheadline':
-                return function () use ($generator) {
-                    return $generator->sentence;
-                };
-            case 'url':
-            case 'website':
-            case 'web':
-            case 'homepage':
-                return function () use ($generator) {
-                    return $generator->url;
-                };
-            case 'lon':
-            case 'lng':
-            case 'longitude':
-                return function () use ($generator) {
-                    return $generator->longitude;
-                };
-            case 'lat':
-            case 'latitude':
-                return function () use ($generator) {
-                    return $generator->longitude;
-                };
-            default:
-                return null;
+        if (isset($generator_map[$map_key])) {
+            return $generator_map[$map_key]();
         }
 
         return null;
+    }
+
+    protected static function getGeneratorMap(Generator $generator)
+    {
+        if (!is_array(self::$generator_map)) {
+            self::$generator_map = array_merge(
+                self::buildFirstnameMap($generator),
+                self::buildLastnameMap($generator),
+                self::buildNameMap($generator),
+                self::buildUsernameMap($generator),
+                self::buildEmailMap($generator),
+                self::buildDateMap($generator),
+                self::buildPhoneMap($generator),
+                self::buildAddressMap($generator),
+                self::buildCityMap($generator),
+                self::buildStreetAddressMap($generator),
+                self::buildHousenumberMap($generator),
+                self::buildPostcodeMap($generator),
+                self::buildCountyMap($generator),
+                self::buildFederalStateMap($generator),
+                self::buildTextMap($generator),
+                self::buildUrlMap($generator),
+                self::buildLongitudeMap($generator),
+                self::buildLatitudeMap($generator)
+            );
+        }
+
+        return self::$generator_map;
+    }
+
+    protected static function buildFirstnameMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'first_name',
+                'firstname',
+                'given_name',
+                'givenname'
+            ],
+            function () use ($generator) {
+                return $generator->firstName;
+            }
+        );
+    }
+
+    protected static function buildLastnameMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'last_name',
+                'lastname',
+                'surname',
+                'family_name',
+                'familyname'
+            ],
+            function () use ($generator) {
+                return $generator->lastName;
+            }
+        );
+    }
+
+    protected static function buildUsernameMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'alias',
+                'moniker',
+                'handle',
+                'username',
+                'user_name',
+                'login',
+                'login_name',
+                'nick',
+                'nickname',
+                'nick_name'
+            ],
+            function () use ($generator) {
+                return $generator->userName;
+            }
+        );
+    }
+
+    protected static function buildDateMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'iso6801',
+                'birthdate',
+                'birthday',
+                'datetime',
+                'date',
+                'updated_at',
+                'inserted_at',
+                'created_at',
+                'deleted_at'
+            ],
+            function () use ($generator) {
+                return $generator->iso8601;
+            }
+        );
+    }
+
+    protected static function buildPhoneMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'phone',
+                'fax',
+                'telefax',
+                'telephone',
+                'telefon',
+                'phone_number',
+                'phonenumber',
+                'mobile',
+                'mobile_phone',
+                'cellphone',
+                'cell_phone',
+                'cellular',
+                'cellular_phone'
+            ],
+            function () use ($generator) {
+                return $generator->phoneNumber;
+            }
+        );
+    }
+
+    protected static function buildEmailMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'email',
+                'e_mail',
+                'e-mail'
+            ],
+            function () use ($generator) {
+                return $generator->email;
+            }
+        );
+    }
+
+    protected static function buildNameMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'name',
+                'author',
+                'creator',
+                'composer',
+                'editor',
+                'user',
+                'writer',
+                'novelist',
+                'financier',
+                'participant',
+                'inviter',
+                'invitee',
+                'attender',
+                'attendee',
+                'attendant',
+                'partner',
+                'accomplice',
+                'witness',
+                'assistant',
+                'aide',
+                'helper',
+                'associate',
+                'colleague',
+                'cohort',
+                'fellow',
+                'worker',
+                'coworker',
+                'employer',
+                'employee',
+                'manager',
+                'boss',
+                'principal',
+                'head',
+                'leader',
+                'contributor',
+                'donor',
+                'spender',
+                'sponsor',
+                'benefactor',
+                'presenter',
+                'anchorman',
+                'anchorwoman',
+                'anchor',
+                'moderator',
+                'host',
+                'co_host',
+                'cohost',
+                'tv_host',
+                'tvhost',
+                'quizmaster'
+            ],
+            function () use ($generator) {
+                return $generator->name;
+            }
+        );
+    }
+
+    protected static function buildAddressMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'address',
+                'adress'
+            ],
+            function () use ($generator) {
+                return $generator->address;
+            }
+        );
+    }
+
+    protected static function buildCityMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'city'
+            ],
+            function () use ($generator) {
+                return $generator->city;
+            }
+        );
+    }
+
+    protected static function buildStreetAddressMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'streetaddress',
+                'street_address',
+                'street',
+                'street_number',
+                'road'
+            ],
+            function () use ($generator) {
+                return $generator->streetAddress;
+            }
+        );
+    }
+
+    protected static function buildHousenumberMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'house_number',
+                'housenumber',
+                'building_number',
+                'buildingnumber'
+            ],
+            function () use ($generator) {
+                return $generator->buildingNumber;
+            }
+        );
+    }
+
+    protected static function buildPostcodeMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'post_code',
+                'postal_code',
+                'postal_areacode',
+                'postal_area_code',
+                'postal_address',
+                'zip_code',
+                'zipcode',
+                'zip'
+            ],
+            function () use ($generator) {
+                return $generator->postcode;
+            }
+        );
+    }
+
+    protected static function buildCountyMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'country',
+                'nation'
+            ],
+            function () use ($generator) {
+                return $generator->country;
+            }
+        );
+    }
+
+    protected static function buildFederalStateMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'state',
+                'federal_state',
+                'federalstate',
+                'federate_state',
+                'federatestate',
+                'province'
+            ],
+            function () use ($generator) {
+                return $generator->state;
+            }
+        );
+    }
+
+    protected static function buildTextMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'title',
+                'headline',
+                'subheadline'
+            ],
+            function () use ($generator) {
+                return $generator->sentence;
+            }
+        );
+    }
+
+    protected static function buildUrlMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'url',
+                'website',
+                'web',
+                'homepage'
+            ],
+            function () use ($generator) {
+                return $generator->url;
+            }
+        );
+    }
+
+    protected static function buildLatitudeMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'lat',
+                'latitude'
+            ],
+            function () use ($generator) {
+                return $generator->latitude;
+            }
+        );
+    }
+
+    protected static function buildLongitudeMap(Generator $generator)
+    {
+        return array_fill_keys(
+            [
+                'lon',
+                'lng',
+                'longitude'
+            ],
+            function () use ($generator) {
+                return $generator->longitude;
+            }
+        );
     }
 }

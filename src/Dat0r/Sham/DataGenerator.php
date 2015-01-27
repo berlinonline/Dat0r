@@ -308,13 +308,10 @@ class DataGenerator
      */
     protected function addText(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
     {
-        $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
-
         if ($this->shouldGuessByName($options)) {
-            $closure = TextGuesser::guess($attribute->getName(), $this->faker);
-            if (!empty($closure) && is_callable($closure)) {
-                $value = call_user_func($closure);
-            }
+            $value = TextGuesser::guess($attribute->getName(), $this->faker);
+        } else {
+            $value = $this->faker->words($this->faker->numberBetween(1, 3), true);
         }
 
         $this->setValue($entity, $attribute, $value, $options);
