@@ -333,8 +333,11 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addTextCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
-    {
+    protected function addTextCollection(
+        EntityInterface $entity,
+        AttributeInterface $attribute,
+        array $options = array()
+    ) {
         $values = array();
 
         $number_of_values = $this->faker->numberBetween(1, 5);
@@ -390,8 +393,11 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addNumberCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
-    {
+    protected function addNumberCollection(
+        EntityInterface $entity,
+        AttributeInterface $attribute,
+        array $options = array()
+    ) {
         $values = array();
 
         $number_of_values = $this->faker->numberBetween(1, 5);
@@ -432,8 +438,11 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addKeyValuesCollection(EntityInterface $entity, AttributeInterface $attribute, array $options = array())
-    {
+    protected function addKeyValuesCollection(
+        EntityInterface $entity,
+        AttributeInterface $attribute,
+        array $options = array()
+    ) {
         $collection = array();
 
         $numberOfEntries = $this->faker->numberBetween(1, 5);

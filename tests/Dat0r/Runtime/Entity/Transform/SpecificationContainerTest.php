@@ -11,7 +11,10 @@ class SpecificationContainerTest extends TestCase
     {
         $spec_container = new SpecificationContainer($this->getExampleSpec());
 
-        $this->assertInstanceOf('\\Dat0r\\Runtime\\Entity\\Transform\\SpecificationContainerInterface', $spec_container);
+        $this->assertInstanceOf(
+            '\\Dat0r\\Runtime\\Entity\\Transform\\SpecificationContainerInterface',
+            $spec_container
+        );
         $this->assertEquals('embed', $spec_container->getName());
 
         $options = $spec_container->getOptions();

@@ -113,12 +113,20 @@ class Service extends Object
                     $plugin = new $plugin_class($plugin_options);
                     $plugin->execute($type_schema);
                 } else {
-                    $warning = '<warning>Plugin class: `%s`, does not implement the PluginInterface interface.</warning>';
-                    $this->writeMessage(sprintf($warning, $plugin_class));
+                    $this->writeMessage(
+                        sprintf(
+                            '<warning>Plugin class: `%s`, does not implement the PluginInterface interface.</warning>',
+                            $plugin_class
+                        )
+                    );
                 }
             } else {
-                $warning = '<warning>Unable to load plugin class: `%s`</warning>';
-                $this->writeMessage(sprintf($warning, $plugin_class));
+                $this->writeMessage(
+                    sprintf(
+                        '<warning>Unable to load plugin class: `%s`</warning>',
+                        $plugin_class
+                    )
+                );
             }
         }
     }

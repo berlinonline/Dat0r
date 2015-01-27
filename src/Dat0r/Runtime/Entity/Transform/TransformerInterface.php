@@ -22,7 +22,11 @@ interface TransformerInterface
      *
      * @return void
      */
-    public function transformBack(array $data, EntityInterface $entity, SpecificationContainerInterface $spec_container);
+    public function transformBack(
+        array $data,
+        EntityInterface $entity,
+        SpecificationContainerInterface $spec_container
+    );
 
     /**
      * @return Options
