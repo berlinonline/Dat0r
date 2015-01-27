@@ -305,7 +305,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function markClean()
     {
-        $this->changes = new ValueChangedEventList();
+        $this->changes->clear();
     }
 
     /**
