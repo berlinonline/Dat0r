@@ -3,8 +3,8 @@
 namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Common\Options;
-use Dat0r\Runtime\Attribute\Type\Text;
-use Dat0r\Runtime\Attribute\Type\Textarea;
+use Dat0r\Runtime\Attribute\Text\TextAttribute;
+use Dat0r\Runtime\Attribute\Textarea\TextareaAttribute;
 use Dat0r\Runtime\EntityType;
 
 class CategoryType extends EntityType
@@ -14,8 +14,8 @@ class CategoryType extends EntityType
         parent::__construct(
             'Category',
             array(
-                new Text('title'),
-                new Textarea('description')
+                new TextAttribute('title'),
+                new TextareaAttribute('description')
             ),
             new Options(
                 array(
@@ -31,6 +31,6 @@ class CategoryType extends EntityType
 
     protected function getEntityImplementor()
     {
-        return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Category';
+        return Category::CLASS;
     }
 }

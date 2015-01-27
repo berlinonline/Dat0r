@@ -3,10 +3,9 @@
 namespace Dat0r\Runtime\Entity;
 
 use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\Attribute\Value\ValueInterface;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
-use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
+use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 
 /**
  * An EntityInterface is a generic container for structured data.

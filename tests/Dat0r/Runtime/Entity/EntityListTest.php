@@ -15,7 +15,7 @@ class EntityListTest extends TestCase
     {
         $collection = new EntityList();
 
-        $this->assertInstanceOf('Dat0r\Runtime\Entity\EntityList', $collection);
+        $this->assertInstanceOf(EntityList::CLASS, $collection);
     }
 
     public function testAddEntityToEmptyCollection()

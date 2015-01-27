@@ -6,13 +6,11 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Result\ResultMap;
 use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Value\ValueInterface;
-use Dat0r\Runtime\Attribute\Value\ValueMap;
-use Dat0r\Runtime\Attribute\Value\ValueChangedListenerInterface;
-use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
-use Dat0r\Runtime\Attribute\Value\ValueChangedEventList;
+use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
+use Dat0r\Runtime\ValueHolder\ValueHolderMap;
+use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
+use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
+use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 use Dat0r\Common\Object;
 
 /**
@@ -37,11 +35,11 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     protected $parent;
 
     /**
-     * There is a ValueInterface instance for each AttributeInterface of our type.
+     * There is a ValueHolderInterface instance for each AttributeInterface of our type.
      * The '$values' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
-     * @var ValueMap $value_holder_map
+     * @var ValueHolderMap $value_holder_map
      */
     protected $value_holder_map;
 
@@ -82,9 +80,10 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         $this->changes = new ValueChangedEventList();
         $this->validation_results = new ResultMap();
 
-        // Setup a map of ValueInterface specific to our type's attributes.
+        // Setup a map of ValueHolderInterface specific to our type's attributes.
         // they hold the actual entity data.
-        $this->value_holder_map = new ValueMap();
+        $this->value_holder_map = new ValueHolderMap();
+
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
             $this->value_holder_map->setItem($attribute_name, $attribute->createValue());
         }
@@ -126,7 +125,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      * Sets a specific value by attribute_name.
      *
      * @param string $attribute_name
-     * @param mixed $value
+     * @param mixed $attribute_value
      */
     public function setValue($attribute_name, $attribute_value)
     {
@@ -382,6 +381,6 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
             );
         }
 
+}
         return $value_holder;
     }
-}

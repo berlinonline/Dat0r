@@ -2,8 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Common\Error\RuntimeException;
 
 class AttributeValuePath
@@ -42,14 +41,12 @@ class AttributeValuePath
                 return null;
             }
             // prepare for next iteration by switching the current_type to the next level
-            if ($current_attribute instanceof AggregateCollection) {
+            if ($current_attribute instanceof EmbeddedEntityListAttribute) {
                 $current_type = $current_attribute->getAggregateByPrefix($offset_spec['entity_type']);
-            } elseif ($current_attribute instanceof ReferenceCollection) {
-                $current_type = $current_attribute->getReferenceByPrefix($offset_spec['entity_type']);
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-value-path.' .
-                    'Only Reference- and AggregateCollections are supported.'
+                    'Only Reference- and EmbeddedEntityListAttributes are supported.'
                 );
             }
         }

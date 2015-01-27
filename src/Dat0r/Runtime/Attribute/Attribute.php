@@ -5,8 +5,7 @@ namespace Dat0r\Runtime\Attribute;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Runtime\Attribute\Value\ValueInterface;
-use Dat0r\Runtime\Attribute\Value\NullValue;
+use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
 use Dat0r\Runtime\Validator\ValidatorInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\EntityTypeInterface;
@@ -165,7 +164,7 @@ abstract class Attribute implements AttributeInterface
     /**
      * Returns the default value of the attribute.
      *
-     * @return ValueInterface
+     * @return ValueHolderInterface
      */
     public function getDefaultValue()
     {
@@ -222,9 +221,9 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Creates a ValueInterface, that is specific to the current attribute instance.
+     * Creates a ValueHolderInterface, that is specific to the current attribute instance.
      *
-     * @return ValueInterface
+     * @return ValueHolderInterface
      */
     public function createValue()
     {
@@ -239,7 +238,7 @@ abstract class Attribute implements AttributeInterface
         }
         $value = new $implementor($this);
 
-        if (!$value instanceof ValueInterface) {
+        if (!$value instanceof ValueHolderInterface) {
             throw new InvalidTypeException(
                 sprintf(
                     "Invalid valueholder implementation '%s' given for attribute '%s'.",
@@ -265,17 +264,17 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Returns the ValueInterface implementation to use when aggregating (value)data for this attribute.
+     * Returns the ValueHolderInterface implementation to use when aggregating (value)data for this attribute.
      * Override this method if you want inject your own implementation.
      *
-     * @return string Fully qualified name of an ValueInterface implementation.
+     * @return string Fully qualified name of an ValueHolderInterface implementation.
      */
     protected function buildDefaultValueClassName()
     {
-        $valueholder_namespace = "\\Dat0r\\Runtime\\Attribute\\Value\\Type";
-        $attribute_classname_parts = explode('\\', get_class($this));
-        $valueholder_class = array_pop($attribute_classname_parts) . 'Value';
-
-        return $valueholder_namespace . '\\' . $valueholder_class;
+        return preg_replace(
+            '#Attribute$#',
+            'ValueHolder',
+            get_class($this)
+        );
     }
 }

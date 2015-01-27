@@ -19,6 +19,13 @@ interface EntityTypeInterface
     public function getName();
 
     /**
+     * Returns the type's prefix (technical identifier).
+     *
+     * @return string
+     */
+    public function getPrefix();
+
+    /**
      * Returns the type's parent, if it has one.
      *
      * @return EntityTypeInterface

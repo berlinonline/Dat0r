@@ -7,6 +7,15 @@ use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\Runtime\Fixtures\InvalidType;
 use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\AttributeMap;
+use Dat0r\Runtime\Attribute\Text\TextAttribute;
+use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
+use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\Attribute\Number\NumberAttribute;
+use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
+use Dat0r\Runtime\Attribute\KeyValue\KeyValueAttribute;
+
 
 class EntityTypeTest extends TestCase
 {
@@ -39,8 +48,8 @@ class EntityTypeTest extends TestCase
      */
     public function testGetAttributeMethod(EntityTypeInterface $type)
     {
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $type->getAttribute('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $type->getAttribute('click_count'));
+        $this->assertInstanceOf(TextAttribute::CLASS, $type->getAttribute('headline'));
+        $this->assertInstanceOf(NumberAttribute::CLASS, $type->getAttribute('click_count'));
     }
 
     /**
@@ -50,60 +59,20 @@ class EntityTypeTest extends TestCase
     {
         $attributes = $type->getAttributes();
 
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\AttributeMap',
-            $attributes
-        );
+        $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
 
         $this->assertEquals(12, $attributes->getSize());
 
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Text',
-            $attributes->getItem('headline')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Text',
-            $attributes->getItem('content')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Number',
-            $attributes->getItem('click_count')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Text',
-            $attributes->getItem('author')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Text',
-            $attributes->getItem('email')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\TextCollection',
-            $attributes->getItem('keywords')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\Boolean',
-            $attributes->getItem('enabled')
-        );
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\NumberCollection',
-            $attributes->getItem('images')
-        );
-
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\KeyValue',
-            $attributes->getItem('meta')
-        );
-
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\AggregateCollection',
-            $attributes->getItem('content_objects')
-        );
-
-        $this->assertInstanceOf(
-            'Dat0r\\Runtime\\Attribute\\Type\\ReferenceCollection',
-            $attributes->getItem('references')
-        );
+        $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
+        $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('content'));
+        $this->assertInstanceOf(NumberAttribute::CLASS, $attributes->getItem('click_count'));
+        $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('author'));
+        $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('email'));
+        $this->assertInstanceOf(TextListAttribute::CLASS, $attributes->getItem('keywords'));
+        $this->assertInstanceOf(BooleanAttribute::CLASS, $attributes->getItem('enabled'));
+        $this->assertInstanceOf(NumberListAttribute::CLASS, $attributes->getItem('images'));
+        $this->assertInstanceOf(KeyValueAttribute::CLASS, $attributes->getItem('meta'));
+        $this->assertInstanceOf(EmbeddedEntityListAttribute::CLASS, $attributes->getItem('content_objects'));
     }
 
     /**
@@ -113,11 +82,11 @@ class EntityTypeTest extends TestCase
     {
         $attributes = $type->getAttributes(array('headline', 'click_count'));
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\AttributeMap', $attributes);
+        $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
         $this->assertEquals(2, $attributes->getSize());
 
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Text', $attributes->getItem('headline'));
-        $this->assertInstanceOf('Dat0r\\Runtime\\Attribute\\Type\\Number', $attributes->getItem('click_count'));
+        $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
+        $this->assertInstanceOf(NumberAttribute::CLASS, $attributes->getItem('click_count'));
     }
 
     /**
@@ -126,7 +95,7 @@ class EntityTypeTest extends TestCase
     public function testCreateEntity(EntityTypeInterface $type)
     {
         $entity = $type->createEntity();
-        $this->assertInstanceOf('Dat0r\\Runtime\\Entity\\Entity', $entity);
+        $this->assertInstanceOf(Entity::CLASS, $entity);
     }
 
     /**

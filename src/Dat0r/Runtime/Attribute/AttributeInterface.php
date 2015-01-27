@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\Attribute\Value\ValueInterface;
+use Dat0r\Runtime\Attribute\Value\ValueHolderInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\ValidatorInterface;
 use Dat0r\Runtime\EntityTypeInterface;
@@ -15,7 +15,7 @@ interface AttributeInterface
 {
     const OPTION_DEFAULT_VALUE = 'default_value';
     const OPTION_NULL_VALUE = 'null_value';
-    const OPTION_VALUE = 'value';
+    const OPTION_VALUE = 'value'; // TODO should this be called value_implementor?
     const OPTION_VALIDATOR = 'validator';
 
     /**
@@ -93,9 +93,9 @@ interface AttributeInterface
     public function getValidator();
 
     /**
-     * Creates a ValueInterface instance dedicated to the current attribute instance.
+     * Creates a ValueHolderInterface instance dedicated to the current attribute instance.
      *
-     * @return ValueInterface
+     * @return ValueHolderInterface
      */
     public function createValue();
 }

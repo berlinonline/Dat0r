@@ -18,6 +18,6 @@ class EntityChangedListenerList extends TypedList implements UniqueCollectionInt
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Entity\\EntityChangedListenerInterface';
+        return EntityChangedListenerInterface::CLASS;
     }
 }

@@ -3,8 +3,7 @@
 namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Common\Error\RuntimeException;
 
 class AttributePath
@@ -17,9 +16,8 @@ class AttributePath
 
         $current_attribute = $attribute->getParent();
         $current_type = $attribute->getType();
-        while ($current_attribute instanceof AggregateCollection
-            || $current_attribute instanceof ReferenceCollection
-        ) {
+
+        while ($current_attribute instanceof EmbeddedEntityListAttribute) {
             $path_parts[] = $current_type->getPrefix();
             $path_parts[] = $current_attribute->getName();
 
@@ -57,14 +55,12 @@ class AttributePath
 
         foreach ($path_tuples as $path_tuple) {
             $current_attribute = $current_type->getAttribute($path_tuple[0]);
-            if ($current_attribute instanceof AggregateCollection) {
+            if ($current_attribute instanceof EmbeddedEntityListAttribute) {
                 $current_type = $current_attribute->getAggregateByPrefix($path_tuple[1]);
-            } elseif ($current_attribute instanceof ReferenceCollection) {
-                $current_type = $current_attribute->getReferenceByPrefix($path_tuple[1]);
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-path.' .
-                    'Only Reference- and AggregateCollections are supported.'
+                    'Only EmbeddedEntityListAttributes are supported.'
                 );
             }
         }

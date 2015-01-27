@@ -4,14 +4,13 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Common\Options;
 use Dat0r\Runtime\EntityType;
-use Dat0r\Runtime\Attribute\Type\Text;
-use Dat0r\Runtime\Attribute\Type\TextCollection;
-use Dat0r\Runtime\Attribute\Type\Number;
-use Dat0r\Runtime\Attribute\Type\NumberCollection;
-use Dat0r\Runtime\Attribute\Type\Boolean;
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
-use Dat0r\Runtime\Attribute\Type\KeyValue;
+use Dat0r\Runtime\Attribute\Text\TextAttribute;
+use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
+use Dat0r\Runtime\Attribute\Number\NumberAttribute;
+use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
+use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\Attribute\KeyValue\KeyValueAttribute;
 
 class ArticleType extends EntityType
 {
@@ -20,38 +19,30 @@ class ArticleType extends EntityType
         parent::__construct(
             'Article',
             array(
-                new Text('headline', array('min' => 4)),
-                new Text('content'),
-                new Number('click_count'),
-                new Text('author'),
-                new Text('email'),
-                new NumberCollection('images'),
-                new TextCollection('keywords'),
-                new Boolean('enabled'),
-                new AggregateCollection(
+                new TextAttribute('headline', array('min' => 4)),
+                new TextAttribute('content'),
+                new NumberAttribute('click_count'),
+                new TextAttribute('author'),
+                new TextAttribute('email'),
+                new NumberListAttribute('images'),
+                new TextListAttribute('keywords'),
+                new BooleanAttribute('enabled'),
+                new EmbeddedEntityListAttribute(
                     'content_objects',
                     array(
-                        'aggregates' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\ParagraphType'),
+                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
                     )
                 ),
-                new ReferenceCollection(
-                    'references',
-                    array(
-                        'references' => array('\\Dat0r\\Tests\\Runtime\\Fixtures\\CategoryType'),
-                    )
-                ),
-                new KeyValue(
+                new KeyValueAttribute(
                     'meta',
                     array(
                         'constraints' => array('value_type' => 'dynamic',),
                     )
                 ),
-                new AggregateCollection(
+                new EmbeddedEntityListAttribute(
                     'workflow_ticket',
                     array(
-                        'aggregates' => array(
-                            '\\Dat0r\\Tests\\Runtime\\Fixtures\\WorkflowTicketType'
-                        )
+                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(WorkflowTicketType::CLASS)
                     )
                 )
             ),
@@ -69,6 +60,6 @@ class ArticleType extends EntityType
 
     protected function getEntityImplementor()
     {
-        return '\\Dat0r\\Tests\\Runtime\\Fixtures\\Article';
+        return Article::CLASS;
     }
 }

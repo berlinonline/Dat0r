@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Common\Options;
 use Dat0r\Runtime\EntityType;
-use Dat0r\Runtime\Attribute\Type\Text;
+use Dat0r\Runtime\Attribute\Text\TextAttribute;
 
 class WorkflowTicketType extends EntityType
 {
@@ -13,8 +13,8 @@ class WorkflowTicketType extends EntityType
         parent::__construct(
             'WorkflowTicket',
             array(
-                new Text('workflow_name'),
-                new Text('workflow_step')
+                new TextAttribute('workflow_name'),
+                new TextAttribute('workflow_step')
             ),
             new Options(
                 array(
@@ -35,6 +35,6 @@ class WorkflowTicketType extends EntityType
      */
     protected function getEntityImplementor()
     {
-        return '\\Dat0r\\Tests\\Runtime\\Fixtures\\WorkflowTicket';
+        return WorkflowTicket::CLASS;
     }
 }

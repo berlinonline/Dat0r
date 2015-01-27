@@ -3,7 +3,7 @@
 namespace Dat0r\Runtime\Entity;
 
 use Dat0r\Common\EventInterface;
-use Dat0r\Runtime\Attribute\Value\ValueChangedEvent;
+use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 
 /**
  * Represents an event that occurs when a entity's value changes.
