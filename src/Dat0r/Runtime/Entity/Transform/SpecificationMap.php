@@ -9,6 +9,6 @@ class SpecificationMap extends TypedMap implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Entity\\Transform\\SpecificationInterface';
+        return SpecificationInterface::CLASS;
     }
 }

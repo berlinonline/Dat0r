@@ -41,9 +41,9 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      * The '$values' property maps attribute_names to their dedicated valueholder instance
      * and is used for lookups during setValue(s) invocations.
      *
-     * @var ValueMap $values
+     * @var ValueMap $value_holder_map
      */
-    protected $values;
+    protected $value_holder_map;
 
     /**
      * Holds a list of all events that were received since the entity was instanciated
@@ -84,17 +84,17 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
 
         // Setup a map of ValueInterface specific to our type's attributes.
         // they hold the actual entity data.
-        $this->values = new ValueMap();
+        $this->value_holder_map = new ValueMap();
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
-            $this->values->setItem($attribute_name, $attribute->createValue());
+            $this->value_holder_map->setItem($attribute_name, $attribute->createValue());
         }
 
         // Hydrate initial data ...
         $this->setValues($data);
 
         // ... then start tracking value-changed events coming from our valueholders.
-        foreach ($this->values as $value) {
-            $value->addValueChangedListener($this);
+        foreach ($this->value_holder_map as $value_holder) {
+            $value_holder->addValueChangedListener($this);
         }
     }
 
@@ -130,16 +130,12 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function setValue($attribute_name, $attribute_value)
     {
-        $value = $this->values->getItem($attribute_name);
+        $value_holder = $this->getValueHolderFor($attribute_name);
 
-        if (!$value) {
-            throw new RuntimeException(
-                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
-            );
-        }
-
-        $value_validation_result = $value->set($attribute_value);
-        $this->validation_results->setItem($attribute_name, $value_validation_result);
+        $this->validation_results->setItem(
+            $attribute_name,
+            $value_holder->set($attribute_value)
+        );
 
         return $this->isValid();
     }
@@ -169,15 +165,9 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function getValue($attribute_name)
     {
-        $value = $this->values->getItem($attribute_name);
+        $value_holder = $this->getValueHolderFor($attribute_name);
 
-        if (!$value) {
-            throw new RuntimeException(
-                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
-            );
-        }
-
-        return $value->get();
+        return $value_holder->get();
     }
 
     /**
@@ -189,13 +179,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function hasValue($attribute_name)
     {
-        $value = $this->values->getItem($attribute_name);
-
-        if (!$value) {
-            throw new RuntimeException(
-                "Unable to find ValueInterface for attribute: '" . $attribute_name . "'. Invalid attribute_name?"
-            );
-        }
+        $value_holder = $this->getValueHolderFor($attribute_name);
 
         return !$value->isNull();
     }
@@ -231,18 +215,19 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function toArray()
     {
-        $values = array();
-        foreach ($this->getType()->getAttributes() as $attribute) {
-            $value = $this->getValue($attribute->getName());
-            if ($value instanceof Object) {
-                $values[$attribute->getName()] = $value->toArray();
+        $attribute_values = [ self::OBJECT_TYPE => get_class($this) ];
+
+        foreach ($this->value_holder_map->getKeys() as $attribute_name) {
+            $attribute_value = $this->getValue($attribute_name);
+
+            if (is_object($attribute_value) && is_callable([ $attribute_value, 'toArray' ])) {
+                $attribute_values[$attribute_name] = $attribute_value->toArray();
             } else {
-                $values[$attribute->getName()] = $value;
+                $attribute_values[$attribute_name] = $attribute_value;
             }
         }
-        $values[self::OBJECT_TYPE] = get_class($this);
 
-        return $values;
+        return $attribute_values;
     }
 
     /**
@@ -261,7 +246,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
 
         $is_equal = true;
         foreach ($this->getType()->getAttributes()->getKeys() as $attribute_name) {
-            $attribute_value = $this->values->getItem($attribute_name);
+            $attribute_value = $this->value_holder_map->getItem($attribute_name);
             if (!$attribute_value->isEqualTo($entity->getValue($attribute_name))) {
                 $is_equal = false;
                 break;
@@ -382,5 +367,21 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         foreach ($this->listeners as $listener) {
             $listener->onEntityChanged($event);
         }
+    }
+
+    protected function getValueHolderFor($attribute_name)
+    {
+        $value_holder = $this->value_holder_map->getItem($attribute_name);
+
+        if (!$value_holder) {
+            throw new RuntimeException(
+                sprintf(
+                    'Unable to find value-holder for attribute: "%s". Maybe an invalid attribute-name or typo?',
+                    $attribute_name
+                )
+            );
+        }
+
+        return $value_holder;
     }
 }

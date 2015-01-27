@@ -53,7 +53,10 @@ class SpecificationContainer extends Configurable implements SpecificationContai
             }
         } else {
             throw new BadValueException(
-                "Invalid argument given. Only the types 'SpecificationMap' and 'array' are supported."
+                sprintf(
+                    'Invalid argument given. Only the types "%s" and "array" are supported.',
+                    SpecificationMap::CLASS
+                )
             );
         }
     }
