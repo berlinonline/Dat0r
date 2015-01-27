@@ -116,6 +116,6 @@ class EntityList extends TypedList implements EntityChangedListenerInterface
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Entity\\EntityInterface';
+        return EntityInterface::CLASS;
     }
 }

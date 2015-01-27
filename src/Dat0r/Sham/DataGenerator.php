@@ -329,7 +329,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addTextCollection(
+    protected function addTextList(
         EntityInterface $entity,
         AttributeInterface $attribute,
         array $options = array()
@@ -389,7 +389,7 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addNumberCollection(
+    protected function addNumberList(
         EntityInterface $entity,
         AttributeInterface $attribute,
         array $options = array()
@@ -477,14 +477,14 @@ class DataGenerator
      *
      * @return void
      */
-    protected function addEmbeddedEntityListAttribute(
+    protected function addEmbeddedEntityList(
         EntityInterface $entity,
         EmbeddedEntityListAttribute $attribute,
         array $options = array()
     ) {
         $options_clone = $options;
         $entity_collection = new EntityList();
-        $aggregate_types = $attribute->getAggregates();
+        $aggregate_types = $attribute->getEntityTypes();
 
         $number_of_aggregate_types = count($aggregate_types);
         $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
@@ -500,7 +500,6 @@ class DataGenerator
             $new_entity = $this->createFakeEntity($aggregate_type, $options_clone);
             $entity_collection->addItem($new_entity);
         }
-
         $this->setValue($entity, $attribute, $entity_collection, $options);
     }
 
@@ -580,13 +579,10 @@ class DataGenerator
      */
     protected function getMethodNameFor(AttributeInterface $attribute)
     {
-        $name = null;
+        $attribute_class_parts = explode('\\', get_class($attribute));
+        $attribute_class = array_pop($attribute_class_parts);
+        $clean_type_name = preg_replace('#Attribute$#', '', $attribute_class);
 
-        $type = get_class($attribute);
-        if (preg_match('/^Dat0r\\\\Runtime\\\\Attribute\\\\Type\\\\(.*)$/', $type, $matches)) {
-            $name = 'add' . $matches[1];
-        }
-
-        return $name;
+        return 'add' . ucfirst($clean_type_name);
     }
 }

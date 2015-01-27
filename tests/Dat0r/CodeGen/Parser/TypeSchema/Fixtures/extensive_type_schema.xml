@@ -16,18 +16,18 @@
                 <option name="use_richtext">yes</option>
             </attribute>
 
-            <attribute name="keywords" type="text-collection">
-                <description>Holds a topic's "synonyms" (text-collection)attribute.</description>
+            <attribute name="keywords" type="text-list">
+                <description>Holds a topic's "synonyms" (text-list)attribute.</description>
             </attribute>
 
-            <attribute name="categories" type="reference-collection">
+            <attribute name="categories" type="entity-reference-list">
                 <description>A "Topic"s category references.</description>
                 <option name="references">
                     <option>Category</option>
                 </option>
             </attribute>
 
-            <attribute name="voting_stats" type="aggregate-collection">
+            <attribute name="voting_stats" type="embedded-entity-list">
                 <description>Keeps track of the votes a topic has received.</description>
                 <option name="max">1</option>
                 <option name="aggregates">
@@ -35,7 +35,7 @@
                 </option>
             </attribute>
 
-            <attribute name="location" type="aggregate-collection">
+            <attribute name="location" type="embedded-entity-list">
                 <description>Holds an topic's location.</description>
                 <option name="max">1</option>
                 <option name="aggregates">
@@ -50,7 +50,7 @@
                 </option>
             </attribute>
 
-            <attribute name="workflow_ticket" type="aggregate-collection">
+            <attribute name="workflow_ticket" type="embedded-entity-list">
                 <description>Holds the current workflow state.</description>
                 <option name="aggregates">
                     <option>WorkflowTicket</option>
@@ -134,7 +134,7 @@
                 <attribute name="wait_until" type="text">
                     <description>Holds a iso8601 date at which the workflow will be continued.</description>
                 </attribute>
-                <attribute name="last_result" type="aggregate-collection">
+                <attribute name="last_result" type="embedded-entity-list">
                     <description>Holds the result of the latest workflow execution.</description>
                     <option name="aggregates">
                         <option>PluginResult</option>

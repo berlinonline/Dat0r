@@ -4,7 +4,7 @@ namespace Dat0r\Tests\Runtime\Sham;
 
 use Dat0r\Sham\DataGenerator;
 use Dat0r\Runtime\Entity\EntityInterface;
-
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Tests\TestCase;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 
@@ -24,7 +24,7 @@ class DataGeneratorTest extends TestCase
         $this->assertInstanceOf(EntityInterface::CLASS, $this->entity);
         $this->assertEquals('Article', $this->type->getName());
         $this->assertEquals(
-            12,
+            11,
             $this->type->getAttributes()->getSize(),
             'Number of attributes is unexpected. Please adjust tests if new attributes were introduced.'
         );
@@ -253,7 +253,7 @@ class DataGeneratorTest extends TestCase
 
     public function testFillEntityIgnoreAttribute()
     {
-        $this->assertEquals(12, $this->type->getAttributes()->getSize());
+        $this->assertEquals(11, $this->type->getAttributes()->getSize());
         $excluded_attributes = array('author', 'click_count', 'enabled');
 
         DataGenerator::fill(
@@ -274,7 +274,7 @@ class DataGeneratorTest extends TestCase
             count($excluded_attributes) . ' attributes should have been ignored.'
         );
 
-        $this->setExpectedException('\Dat0r\Common\Error\RuntimeException');
+        $this->setExpectedException(RuntimeException::CLASS);
         // @codeCoverageIgnoreStart
         $this->assertFalse($this->entity->getValue('non_existant'));
     }// @codeCoverageIgnoreEnd

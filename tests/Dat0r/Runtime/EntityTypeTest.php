@@ -7,6 +7,7 @@ use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\Runtime\Fixtures\InvalidType;
 use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
@@ -24,7 +25,7 @@ class EntityTypeTest extends TestCase
         $type = new ArticleType();
 
         $this->assertEquals('Article', $type->getName());
-        $this->assertEquals(12, $type->getAttributes()->getSize());
+        $this->assertEquals(11, $type->getAttributes()->getSize());
     }
 
     public function testAccessNestedParameters()
@@ -61,7 +62,7 @@ class EntityTypeTest extends TestCase
 
         $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
 
-        $this->assertEquals(12, $attributes->getSize());
+        $this->assertEquals(11, $attributes->getSize());
 
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('content'));
@@ -95,7 +96,7 @@ class EntityTypeTest extends TestCase
     public function testCreateEntity(EntityTypeInterface $type)
     {
         $entity = $type->createEntity();
-        $this->assertInstanceOf(Entity::CLASS, $entity);
+        $this->assertInstanceOf(EntityInterface::CLASS, $entity);
     }
 
     /**

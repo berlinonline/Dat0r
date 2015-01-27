@@ -71,10 +71,10 @@ class TypeSchema extends Object
     public function getUsedAggregateDefinitions(TypeDefinition $type_definition)
     {
         $aggregates_definitions_list = new TypeDefinitionList();
-        $aggregate_attributes = $type_definition->getAttributes()->filterByType('aggregate-collection');
+        $aggregate_attributes = $type_definition->getAttributes()->filterByType('embedded-entity-list');
 
         foreach ($aggregate_attributes as $aggregate_attribute) {
-            $aggregated_types_opt = $aggregate_attribute->getOptions()->filterByName('aggregates');
+            $aggregated_types_opt = $aggregate_attribute->getOptions()->filterByName('entity_types');
             $aggregates = $this->getAggregateDefinitions($aggregated_types_opt->getValue()->toArray());
 
             foreach ($aggregates as $aggregate) {
@@ -108,10 +108,10 @@ class TypeSchema extends Object
     public function getUsedReferenceDefinitions(TypeDefinition $type_definition)
     {
         $reference_definitions_list = new TypeDefinitionList();
-        $reference_attributes = $type_definition->getAttributes()->filterByType('reference-collection');
+        $reference_attributes = $type_definition->getAttributes()->filterByType('entity-reference-list');
 
         foreach ($reference_attributes as $reference_attribute) {
-            $references_option = $reference_attribute->getOptions()->filterByName('references');
+            $references_option = $reference_attribute->getOptions()->filterByName('entity_types');
             $references = $this->getReferenceDefinitions($references_option->getValue()->toArray());
 
             foreach ($references as $reference) {

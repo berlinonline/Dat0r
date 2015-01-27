@@ -15,13 +15,13 @@
                 <option name="use_richtext">yes</option>
             </attribute>
 
-            <attribute name="keywords" type="text-collection">
+            <attribute name="keywords" type="text-list">
                 <description>Some keywords that can reflect the content.</description>
             </attribute>
 
-            <attribute name="voting_stats" type="aggregate">
+            <attribute name="voting_stats" type="embeded-entity-collection">
                 <description>Keeps track of the votes a topic has received.</description>
-                <option name="types">
+                <option name="entity_types">
                     <option>VotingStats</option>
                 </option>
             </attribute>

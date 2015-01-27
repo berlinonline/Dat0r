@@ -375,8 +375,10 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         if (!$value_holder) {
             throw new RuntimeException(
                 sprintf(
-                    'Unable to find value-holder for attribute: "%s". Maybe an invalid attribute-name or typo?',
-                    $attribute_name
+                    'Unable to find value-holder for attribute: "%s" on entity-type "%s".'.
+                    ' Maybe an invalid attribute-name or typo?',
+                    $attribute_name,
+                    $this->getType()->getName()
                 )
             );
         }

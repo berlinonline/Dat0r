@@ -14,7 +14,7 @@
                 <option name="use_richtext">yes</option>
             </attribute>
 
-            <attribute name="keywords" type="text-collection">
+            <attribute name="keywords" type="text-list">
                 <description>Some keywords that can reflect the content.</description>
             </attribute>
         </attributes>

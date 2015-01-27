@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
+namespace Dat0r\Runtime\Attribute\EntityReferenceList;
 
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\Rule;
@@ -11,7 +11,7 @@ use Dat0r\Runtime\Validator\Result\IncidentInterface;
  *
  * Supported options: entity_types
  */
-class EmbeddedEntityListRule extends Rule
+class EntityReferenceListRule extends Rule
 {
     /**
      * Option that holds a list of allowed types to validate against.
@@ -73,6 +73,9 @@ class EmbeddedEntityListRule extends Rule
             $aggregate_type = $entity_data[self::OBJECT_TYPE];
             unset($entity_data['@type']);
 
+            if ($aggregate_type{0} !== '\\') {
+                $aggregate_type = '\\' . $aggregate_type;
+            }
             if (!isset($type_map[$aggregate_type])) {
                 $this->throwError(
                     'invalid_doc_type',

@@ -1,10 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Sham\Guesser;
-
-use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\Entity\EntityInterface;
-use Dat0r\Runtime\Attribute;
+namespace Dat0r\Sham\Guesser;
 
 /**
  * Guesser\Text returns a Faker provider using only a given name.
