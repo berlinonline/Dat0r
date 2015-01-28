@@ -170,10 +170,21 @@ class BuildCache extends Object
     {
         $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
 
-        if (!preg_match(sprintf('~%s$~', DIRECTORY_SEPARATOR), $relative_path)) {
+        if (!$this->hasTrailingSeparator($relative_path)) {
             $relative_path .= DIRECTORY_SEPARATOR;
         }
 
+        if (!$this->hasTrailingSeparator($absolute_base_dir)) {
+            $absolute_base_dir .= DIRECTORY_SEPARATOR;
+        }
+
         return $absolute_base_dir . $relative_path;
+    }
+
+    protected function hasTrailingSeparator($path)
+    {
+        $last_pos = strlen($path) - strlen(DIRECTORY_SEPARATOR);
+
+        return strpos($path, DIRECTORY_SEPARATOR, $last_pos) !== false;
     }
 }
