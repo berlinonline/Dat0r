@@ -55,7 +55,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      *
      * @return mixed
      */
-    public function get()
+    public function getValue()
     {
         return $this->value;
     }
@@ -67,7 +67,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      *
      * @return ResultInterface
      */
-    public function set($value)
+    public function setValue($value)
     {
         $attribute_validator = $this->getAttribute()->getValidator();
         $validation_result = $attribute_validator->validate($value);

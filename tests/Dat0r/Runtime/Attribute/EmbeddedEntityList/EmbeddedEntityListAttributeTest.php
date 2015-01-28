@@ -62,8 +62,8 @@ class EmbeddedEntityListAttributeTest extends TestCase
         $value = $embed_attribute->createValueHolder();
         $this->assertInstanceOf(EmbeddedEntityListValueHolder::CLASS, $value);
 
-        $value->set($embed_data);
-        $entity = $value->get()->getFirst();
+        $value->setValue($embed_data);
+        $entity = $value->getValue()->getFirst();
         $this->assertInstanceOf(Paragraph::CLASS, $entity);
 
         foreach ($embed_data[0] as $attribute_name => $value) {

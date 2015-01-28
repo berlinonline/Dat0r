@@ -40,8 +40,8 @@ class NumberAttributeTest extends TestCase
         $number_attribute = new NumberAttribute(self::FIELDNAME);
         $value = $number_attribute->createValueHolder();
         $this->assertInstanceOf(NumberValueHolder::CLASS, $value);
-        $value->set($intValue);
-        $this->assertEquals($intValue, $value->get());
+        $value->setValue($intValue);
+        $this->assertEquals($intValue, $value->getValue());
     }
 
     /**

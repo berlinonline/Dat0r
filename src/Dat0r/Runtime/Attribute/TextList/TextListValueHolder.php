@@ -20,7 +20,7 @@ class TextListValueHolder extends ValueHolder
     public function isEqualTo($other_value)
     {
         /** @var array $lefthand_value */
-        $lefthand_value = $this->get();
+        $lefthand_value = $this->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -50,7 +50,7 @@ class TextListValueHolder extends ValueHolder
      *
      * @param string $value
      */
-    public function set($value)
+    public function setValue($value)
     {
         // @todo move to validator
         $values = array();
@@ -62,6 +62,6 @@ class TextListValueHolder extends ValueHolder
             }
         }
 
-        return parent::set($values);
+        return parent::setValue($values);
     }
 }

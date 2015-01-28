@@ -19,6 +19,6 @@ class TextValueHolder extends ValueHolder
      */
     public function isEqualTo($right_value)
     {
-        return $this->get() === $right_value;
+        return $this->getValue() === $right_value;
     }
 }

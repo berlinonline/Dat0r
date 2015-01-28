@@ -38,7 +38,7 @@ class EmbeddedEntityListValueHolderTest extends TestCase
 
         $value = $embed_attribute->createValueHolder();
 
-        $entity_list = $value->get();
+        $entity_list = $value->getValue();
         $this->assertInstanceOf(EntityList::CLASS, $entity_list);
         $this->assertEquals(0, $entity_list->getSize());
     }
@@ -63,7 +63,7 @@ class EmbeddedEntityListValueHolderTest extends TestCase
         $value = $embed_attribute->createValueHolder();
         $value->addValueChangedListener($listener);
 
-        $entity_list = $value->get();
+        $entity_list = $value->getValue();
         $entity_list->push($embedd_entity);
 
         $embedd_entity->setValue('title', 'Kthxbye');

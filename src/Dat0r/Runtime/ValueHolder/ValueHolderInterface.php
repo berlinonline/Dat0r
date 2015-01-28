@@ -14,7 +14,7 @@ interface ValueHolderInterface
      *
      * @return mixed
      */
-    public function get();
+    public function getValue();
 
     /**
      * Sets the value holder's value.
@@ -23,7 +23,7 @@ interface ValueHolderInterface
      *
      * @return ResultInterface
      */
-    public function set($value);
+    public function setValue($value);
 
     /**
      * Tells if a value holder has no value.

@@ -19,7 +19,7 @@ class TimestampValueHolder extends ValueHolder
      */
     public function isEqualTo($other_value)
     {
-        $value = $this->get();
+        $value = $this->getValue();
 
         return (
             ($value instanceof DateTimeInterface && $other_value instanceof DateTimeInterface) &&

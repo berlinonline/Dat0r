@@ -21,7 +21,7 @@ class EmbeddedEntityListValueHolder extends ValueHolder
      */
     public function isEqualTo($other_value)
     {
-        $lefthand_docs = $this->get();
+        $lefthand_docs = $this->getValue();
         $is_equal = true;
 
         if (count($lefthand_docs) !== count($other_value)) {

@@ -19,6 +19,6 @@ class BooleanValueHolder extends ValueHolder
      */
     public function isEqualTo($other_value)
     {
-        return $this->get() === $other_value;
+        return $this->getValue() === $other_value;
     }
 }

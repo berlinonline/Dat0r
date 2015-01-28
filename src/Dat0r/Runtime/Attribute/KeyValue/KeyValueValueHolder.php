@@ -20,7 +20,7 @@ class KeyValueValueHolder extends ValueHolder
     public function isEqualTo($other_value)
     {
         /** @var array $lefthand_value */
-        $lefthand_value = $this->get();
+        $lefthand_value = $this->getValue();
         $lefthand_count = 0;
         $righthand_count = 0;
         $are_equal = true;
@@ -50,7 +50,7 @@ class KeyValueValueHolder extends ValueHolder
      *
      * @param string $value
      */
-    public function set($value)
+    public function setValue($value)
     {
         // @todo move to validator
         $attributes = array();
@@ -62,7 +62,7 @@ class KeyValueValueHolder extends ValueHolder
             }
         }
 
-        return parent::set($attributes);
+        return parent::setValue($attributes);
     }
 
     protected function castValue($value)

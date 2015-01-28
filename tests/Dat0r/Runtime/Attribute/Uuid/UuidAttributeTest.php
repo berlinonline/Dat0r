@@ -56,8 +56,8 @@ class UuidAttributeTest extends TestCase
         $uuid_attribute = new UuidAttribute(self::FIELDNAME);
         $value = $uuid_attribute->createValueHolder();
         $this->assertInstanceOf(UuidValueHolder::CLASS, $value);
-        $value->set($uuid);
-        $this->assertEquals($uuid, $value->get());
+        $value->setValue($uuid);
+        $this->assertEquals($uuid, $value->getValue());
     }
 
     /**

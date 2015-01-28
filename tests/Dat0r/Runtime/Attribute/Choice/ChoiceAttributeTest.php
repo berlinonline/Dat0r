@@ -26,20 +26,20 @@ class ChoiceAttributeTest extends TestCase
     {
         $select_attribute = $this->createAttribute();
         $value = $select_attribute->createValueHolder();
-        $result = $value->set('berlin');
+        $result = $value->setValue('berlin');
 
         $this->assertEquals($result->getSeverity(), IncidentInterface::SUCCESS);
-        $this->assertEquals(array('berlin'), $value->get());
+        $this->assertEquals(array('berlin'), $value->getValue());
     }
 
     public function testValidationError()
     {
         $select_attribute = $this->createAttribute();
         $value = $select_attribute->createValueHolder();
-        $result = $value->set('meh');
+        $result = $value->setValue('meh');
 
         $this->assertEquals($result->getSeverity(), IncidentInterface::ERROR);
-        $this->assertEquals(null, $value->get());
+        $this->assertEquals(null, $value->getValue());
     }
 
     protected function createAttribute()

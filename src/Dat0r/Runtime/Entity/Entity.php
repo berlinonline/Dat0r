@@ -133,7 +133,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
 
         $this->validation_results->setItem(
             $attribute_name,
-            $value_holder->set($attribute_value)
+            $value_holder->setValue($attribute_value)
         );
 
         return $this->isValid();
@@ -166,7 +166,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     {
         $value_holder = $this->getValueHolderFor($attribute_name);
 
-        return $value_holder->get();
+        return $value_holder->getValue();
     }
 
     /**

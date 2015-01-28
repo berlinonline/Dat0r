@@ -30,8 +30,8 @@ class EmailAttributeTest extends TestCase
         $email_attribute = new EmailAttribute('email');
         $value = $email_attribute->createValueHolder();
         $this->assertInstanceOf(EmailValueHolder::CLASS, $value);
-        $value->set($email);
-        $this->assertEquals($email, $value->get());
+        $value->setValue($email);
+        $this->assertEquals($email, $value->getValue());
     }
 
     /**

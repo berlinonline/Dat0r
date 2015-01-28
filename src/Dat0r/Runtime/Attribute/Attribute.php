@@ -248,7 +248,7 @@ abstract class Attribute implements AttributeInterface
             );
         }
 
-        $value->set($this->getDefaultValue());
+        $value->setValue($this->getDefaultValue());
 
         return $value;
     }
