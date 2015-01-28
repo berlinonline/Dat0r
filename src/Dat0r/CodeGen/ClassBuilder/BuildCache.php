@@ -84,8 +84,7 @@ class BuildCache extends Object
     {
         $checksum = '';
         foreach ($class_containers as $class_container) {
-            $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $package_dir = $this->cache_directory . $relative_path;
+            $package_dir = $this->buildPackageDirPath($class_container, $this->cache_directory);
 
             if (!is_dir($package_dir)) {
                 $this->file_system->mkdir($package_dir, self::DIR_MODE);
@@ -102,10 +101,9 @@ class BuildCache extends Object
     protected function deployFiles(ClassContainerList $class_containers, $method = 'move')
     {
         foreach ($class_containers as $class_container) {
-            $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $cache_package_dir = $this->cache_directory . $relative_path;
+            $cache_package_dir = $this->buildPackageDirPath($class_container, $this->cache_directory);
             $cache_filepath = $cache_package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
-            $deploy_package_dir = $this->deploy_directory . DIRECTORY_SEPARATOR . $relative_path;
+            $deploy_package_dir = $this->buildPackageDirPath($class_container, $this->deploy_directory);
             $deploy_filepath = $deploy_package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
 
             if (!is_dir($deploy_package_dir)) {
@@ -166,5 +164,16 @@ class BuildCache extends Object
         }
 
         return md5($checksum);
+    }
+
+    protected function buildPackageDirPath(ClassContainerInterface $class_container, $absolute_base_dir)
+    {
+        $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
+
+        if (!preg_match(sprintf('~%s$~', DIRECTORY_SEPARATOR), $relative_path)) {
+            $relative_path .= DIRECTORY_SEPARATOR;
+        }
+
+        return $absolute_base_dir . $relative_path;
     }
 }
