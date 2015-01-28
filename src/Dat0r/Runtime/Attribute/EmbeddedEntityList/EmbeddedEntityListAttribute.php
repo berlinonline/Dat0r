@@ -5,9 +5,6 @@ namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Rule\Type\EmbedRule;
-use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Common\Error\InvalidTypeException;
 
 /**
  * Allows to nest multiple types below a defined attribute_name.
@@ -74,7 +71,7 @@ class EmbeddedEntityListAttribute extends Attribute
         return $this->entity_types;
     }
 
-    public function getEmbedByPrefix($prefix)
+    public function getEmbedTypeByPrefix($prefix)
     {
         foreach ($this->getEntityTypes() as $type) {
             if ($type->getPrefix() === $prefix) {
@@ -85,7 +82,7 @@ class EmbeddedEntityListAttribute extends Attribute
         return null;
     }
 
-    public function getEmbedByName($name)
+    public function getEmbedTypeByName($name)
     {
         foreach ($this->getEntityTypes() as $type) {
             if ($type->getName() === $name) {

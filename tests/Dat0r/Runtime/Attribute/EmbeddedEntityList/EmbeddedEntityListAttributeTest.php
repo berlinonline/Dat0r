@@ -83,7 +83,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(WorkflowTicketType::CLASS)
             )
         );
-        $workflow_ticket_type = $embed_attribute->getEmbedByPrefix('workflow_ticket');
+        $workflow_ticket_type = $embed_attribute->getEmbedTypeByPrefix('workflow_ticket');
         $this->assertInstanceOf(WorkflowTicketType::CLASS, $workflow_ticket_type);
     }
 
