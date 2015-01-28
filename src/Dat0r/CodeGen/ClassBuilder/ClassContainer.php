@@ -26,13 +26,6 @@ class ClassContainer extends Object implements ClassContainerInterface
         return $this->namespace;
     }
 
-    protected function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
-        $namespace_parts = explode('\\', $this->namespace);
-        $this->package = end($namespace_parts);
-    }
-
     public function getPackage()
     {
         return $this->package;
@@ -46,5 +39,10 @@ class ClassContainer extends Object implements ClassContainerInterface
     public function getSourceCode()
     {
         return $this->source_code;
+    }
+
+    protected function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
     }
 }

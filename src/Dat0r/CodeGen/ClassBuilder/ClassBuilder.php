@@ -36,7 +36,6 @@ abstract class ClassBuilder extends Object implements ClassBuilderInterface
     public function build()
     {
         $implementor = $this->getImplementor();
-
         return new ClassContainer(
             array(
                 'file_name' => $implementor . '.php',

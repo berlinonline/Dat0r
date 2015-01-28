@@ -85,7 +85,7 @@ class BuildCache extends Object
         $checksum = '';
         foreach ($class_containers as $class_container) {
             $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $package_dir = $this->cache_directory . DIRECTORY_SEPARATOR . $relative_path;
+            $package_dir = $this->cache_directory . $relative_path;
 
             if (!is_dir($package_dir)) {
                 $this->file_system->mkdir($package_dir, self::DIR_MODE);
@@ -103,7 +103,7 @@ class BuildCache extends Object
     {
         foreach ($class_containers as $class_container) {
             $relative_path = str_replace('\\', DIRECTORY_SEPARATOR, $class_container->getPackage());
-            $cache_package_dir = $this->cache_directory . DIRECTORY_SEPARATOR . $relative_path;
+            $cache_package_dir = $this->cache_directory . $relative_path;
             $cache_filepath = $cache_package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();
             $deploy_package_dir = $this->deploy_directory . DIRECTORY_SEPARATOR . $relative_path;
             $deploy_filepath = $deploy_package_dir . DIRECTORY_SEPARATOR . $class_container->getFileName();

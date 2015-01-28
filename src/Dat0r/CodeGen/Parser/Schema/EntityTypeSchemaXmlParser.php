@@ -42,7 +42,6 @@ class EntityTypeSchemaXmlParser extends Object implements ParserInterface
             array(
                 'self_uri' => $self_uri,
                 'namespace' => $schema_root->getAttribute('namespace'),
-                'package' => $schema_root->getAttribute('package'),
                 'type_definition' => $type_definition_parser->parse($xpath, $parse_options),
                 'embed_definitions' => $embed_types_parser->parse($xpath, $parse_options),
                 'reference_definitions' => $references_parser->parse($xpath, $parse_options)

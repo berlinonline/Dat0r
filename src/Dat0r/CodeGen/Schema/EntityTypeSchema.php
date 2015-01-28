@@ -10,8 +10,6 @@ class EntityTypeSchema extends Object
 
     protected $namespace;
 
-    protected $package;
-
     protected $type_definition;
 
     protected $embed_definitions;
@@ -130,6 +128,12 @@ class EntityTypeSchema extends Object
 
     public function getPackage()
     {
-        return $this->package;
+        if (!$this->namespace) {
+            return null;
+        }
+
+        $namespace_parts = explode('\\', $this->namespace);
+
+        return end($namespace_parts);
     }
 }
