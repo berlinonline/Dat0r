@@ -44,14 +44,14 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Holds a possibly underlying aggrgate's value changed event.
      *
-     * @var EntityChangedEvent $aggregate_event
+     * @var EntityChangedEvent $embed_event
      */
-    protected $aggregate_event;
+    protected $embed_event;
 
     /**
      * Constructs a new ValueChangedEvent instance.
      *
-     * @param EntityChangedEvent $aggregate_event If the origin attribute is an aggregate, the bubbled event is passed
+     * @param EntityChangedEvent $embed_event If the origin attribute is an embed, the bubbled event is passed
      */
     public function __construct(array $state = array())
     {
@@ -101,14 +101,14 @@ class ValueChangedEvent extends Object implements EventInterface
     }
 
     /**
-     * If the originating attribute is an aggregate attribute,
-     * this method returns an aggregated entity's underlying value changed event.
+     * If the originating attribute is an embed attribute,
+     * this method returns an embedd entity's underlying value changed event.
      *
      * @return ValueChangedEvent
      */
-    public function getAggregateEvent()
+    public function getEmbedEvent()
     {
-        return $this->aggregate_event;
+        return $this->embed_event;
     }
 
     /**
@@ -125,9 +125,9 @@ class ValueChangedEvent extends Object implements EventInterface
             $this->getNewValue()
         );
 
-        if (($aggregate_event = $this->getAggregateEvent())) {
-            $string_representation .= PHP_EOL . "The actual changed occured upon the attribute's aggregate though.";
-            $string_representation .= PHP_EOL . $aggregate_event;
+        if (($embed_event = $this->getEmbedEvent())) {
+            $string_representation .= PHP_EOL . "The actual changed occured upon the attribute's embed though.";
+            $string_representation .= PHP_EOL . $embed_event;
         }
 
         return $string_representation;

@@ -29,7 +29,7 @@
 
   <xsd:complexType name="aggregateDefinitionsType">
     <xsd:sequence>
-      <xsd:element name="aggregate_definition" type="aggregateDefinitionType" minOccurs="1" maxOccurs="unbounded" />
+      <xsd:element name="embed_definition" type="aggregateDefinitionType" minOccurs="1" maxOccurs="unbounded" />
     </xsd:sequence>
   </xsd:complexType>
 
@@ -46,8 +46,8 @@
 
   <xsd:group name="aggregateDefinitionGroup">
     <xsd:choice>
-      <xsd:element name="aggregate_definitions" type="aggregateDefinitionsType" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="aggregate_definition" type="aggregateDefinitionType" minOccurs="1" maxOccurs="unbounded" />
+      <xsd:element name="embed_definitions" type="aggregateDefinitionsType" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="embed_definition" type="aggregateDefinitionType" minOccurs="1" maxOccurs="unbounded" />
     </xsd:choice>
   </xsd:group>
 

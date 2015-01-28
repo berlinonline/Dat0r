@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Reference;
 
-use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityClassBuilder as CommonBaseEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityClassBuilder;
 
-class BaseEntityClassBuilder extends CommonBaseEntityClassBuilder
+class BaseReferenceEntityClassBuilder extends BaseEntityClassBuilder
 {
     protected function getPackage()
     {

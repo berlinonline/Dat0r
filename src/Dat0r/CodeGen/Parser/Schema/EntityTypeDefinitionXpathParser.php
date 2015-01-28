@@ -1,13 +1,13 @@
 <?php
 
-namespace Dat0r\CodeGen\Parser\TypeSchema;
+namespace Dat0r\CodeGen\Parser\Schema;
 
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\CodeGen\Schema\TypeDefinition;
+use Dat0r\CodeGen\Schema\EntityTypeDefinition;
 use DOMXPath;
 use DOMElement;
 
-class TypeDefinitionXpathParser extends XpathParser
+class EntityTypeDefinitionXpathParser extends XpathParser
 {
     protected function parseXpath(DOMXPath $xpath, DOMElement $context)
     {
@@ -19,12 +19,12 @@ class TypeDefinitionXpathParser extends XpathParser
             );
         }
 
-        return new TypeDefinition(
-            $this->parseTypeDefinition($xpath, $node_list->item(0))
+        return new EntityTypeDefinition(
+            $this->parseEntityTypeDefinition($xpath, $node_list->item(0))
         );
     }
 
-    protected function parseTypeDefinition(DOMXPath $xpath, DOMElement $element)
+    protected function parseEntityTypeDefinition(DOMXPath $xpath, DOMElement $element)
     {
         $implementor = null;
         $implementor_list = $xpath->query('./implementor', $element);

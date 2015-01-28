@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Common\Object;
 
-class TypeSchema extends Object
+class EntityTypeSchema extends Object
 {
     protected $self_uri;
 
@@ -14,15 +14,15 @@ class TypeSchema extends Object
 
     protected $type_definition;
 
-    protected $aggregate_definitions;
+    protected $embed_definitions;
 
     protected $reference_definitions;
 
     public function __construct(array $state = array())
     {
-        $this->type_definition = new TypeDefinition();
-        $this->aggregate_definitions = new TypeDefinitionList();
-        $this->reference_definitions = new TypeDefinitionList();
+        $this->type_definition = new EntityTypeDefinition();
+        $this->embed_definitions = new EntityTypeDefinitionList();
+        $this->reference_definitions = new EntityTypeDefinitionList();
 
         parent::__construct($state);
     }
@@ -37,12 +37,12 @@ class TypeSchema extends Object
         return $this->namespace;
     }
 
-    public function getTypeDefinition()
+    public function getEntityTypeDefinition()
     {
         return $this->type_definition;
     }
 
-    public function setTypeDefinition(TypeDefinition $type_definition)
+    public function setEntityTypeDefinition(EntityTypeDefinition $type_definition)
     {
         $this->type_definition = $type_definition;
 
@@ -52,41 +52,41 @@ class TypeSchema extends Object
         }
     }
 
-    public function getAggregateDefinitions(array $names = array())
+    public function getEmbedDefinitions(array $names = array())
     {
         if (empty($names)) {
-            return $this->aggregate_definitions;
+            return $this->embed_definitions;
         }
 
-        $aggregates = array();
-        foreach ($this->aggregate_definitions as $aggregate) {
-            if (in_array($aggregate->getName(), $names)) {
-                $aggregates[] = $aggregate;
+        $embed_types = array();
+        foreach ($this->embed_definitions as $embed_type) {
+            if (in_array($embed_type->getName(), $names)) {
+                $embed_types[] = $embed_type;
             }
         }
 
-        return $aggregates;
+        return $embed_types;
     }
 
-    public function getUsedAggregateDefinitions(TypeDefinition $type_definition)
+    public function getUsedEmbedDefinitions(EntityTypeDefinition $type_definition)
     {
-        $aggregates_definitions_list = new TypeDefinitionList();
-        $aggregate_attributes = $type_definition->getAttributes()->filterByType('embedded-entity-list');
+        $embed_types_definitions_list = new EntityTypeDefinitionList();
+        $embed_type_attributes = $type_definition->getAttributes()->filterByType('embedded-entity-list');
 
-        foreach ($aggregate_attributes as $aggregate_attribute) {
-            $aggregated_types_opt = $aggregate_attribute->getOptions()->filterByName('entity_types');
-            $aggregates = $this->getAggregateDefinitions($aggregated_types_opt->getValue()->toArray());
+        foreach ($embed_type_attributes as $embed_type_attribute) {
+            $embed_typed_types_opt = $embed_type_attribute->getOptions()->filterByName('entity_types');
+            $embed_types = $this->getEmbedDefinitions($embed_typed_types_opt->getValue()->toArray());
 
-            foreach ($aggregates as $aggregate) {
-                $aggregates_definitions_list->addItem($aggregate);
+            foreach ($embed_types as $embed_type) {
+                $embed_types_definitions_list->addItem($embed_type);
 
-                foreach ($this->getUsedAggregateDefinitions($aggregate) as $nested_aggregate) {
-                    $aggregates_definitions_list->addItem($nested_aggregate);
+                foreach ($this->getUsedEmbedDefinitions($embed_type) as $nested_embed_type) {
+                    $embed_types_definitions_list->addItem($nested_embed_type);
                 }
             }
         }
 
-        return $aggregates_definitions_list;
+        return $embed_types_definitions_list;
     }
 
     public function getReferenceDefinitions(array $names = array())
@@ -105,9 +105,9 @@ class TypeSchema extends Object
         return $references;
     }
 
-    public function getUsedReferenceDefinitions(TypeDefinition $type_definition)
+    public function getUsedReferenceDefinitions(EntityTypeDefinition $type_definition)
     {
-        $reference_definitions_list = new TypeDefinitionList();
+        $reference_definitions_list = new EntityTypeDefinitionList();
         $reference_attributes = $type_definition->getAttributes()->filterByType('entity-reference-list');
 
         foreach ($reference_attributes as $reference_attribute) {
@@ -119,8 +119,8 @@ class TypeSchema extends Object
             }
         }
 
-        foreach ($this->getUsedAggregateDefinitions($type_definition) as $aggregate) {
-            foreach ($this->getUsedReferenceDefinitions($aggregate) as $reference) {
+        foreach ($this->getUsedEmbedDefinitions($type_definition) as $embed_type) {
+            foreach ($this->getUsedReferenceDefinitions($embed_type) as $reference) {
                 $reference_definitions_list->addItem($reference);
             }
         }

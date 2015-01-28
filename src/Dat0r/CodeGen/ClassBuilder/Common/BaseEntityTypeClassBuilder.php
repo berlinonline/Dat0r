@@ -5,11 +5,11 @@ namespace Dat0r\CodeGen\ClassBuilder\Common;
 use Dat0r\CodeGen\Schema\AttributeDefinition;
 use Dat0r\CodeGen\Schema\OptionDefinitionList;
 
-class BaseTypeClassBuilder extends TypeClassBuilder
+class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 {
     protected function getTemplate()
     {
-        return 'Type/BaseType.twig';
+        return 'EntityType/BaseEntityType.twig';
     }
 
     protected function getPackage()
@@ -66,10 +66,10 @@ class BaseTypeClassBuilder extends TypeClassBuilder
         foreach ($this->type_definition->getAttributes() as $attribute_definition) {
             $attribute_implementor = $attribute_definition->getImplementor();
 
-            if ($attribute_definition->getShortName() === 'aggregate') {
-                $this->expandAggregateNamespaces($attribute_definition);
+            if ($attribute_definition->getShortName() === 'embedded-entity-list') {
+                $this->expandEmbedNamespaces($attribute_definition);
             }
-            if ($attribute_definition->getShortName() === 'reference') {
+            if ($attribute_definition->getShortName() === 'entity-reference-list') {
                 $this->expandReferenceNamespaces($attribute_definition);
             }
 
@@ -85,14 +85,14 @@ class BaseTypeClassBuilder extends TypeClassBuilder
         return $attributes_data;
     }
 
-    protected function expandAggregateNamespaces(AttributeDefinition $attribute_definition)
+    protected function expandEmbedNamespaces(AttributeDefinition $attribute_definition)
     {
         $type_options = $attribute_definition->getOptions()->filterByName('types');
         if ($type_options) {
             foreach ($type_options->getValue() as $type_option) {
                 $type_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Aggregate\\%s%s',
+                        '\\%s\\%s\\Embed\\%s%s',
                         $this->getRootNamespace(),
                         $this->type_schema->getPackage(),
                         $type_option->getValue(),

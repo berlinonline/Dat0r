@@ -198,7 +198,7 @@ class DataGeneratorTest extends TestCase
         );
     }
 
-    public function testFillEntityAggregate()
+    public function testFillEntityEmbed()
     {
         $data = DataGenerator::createDataFor($this->type);
         $this->assertTrue(is_array($data['content_objects']), 'The Article should have a content_object.');

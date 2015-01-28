@@ -3,7 +3,7 @@
 namespace Dat0r\CodeGen;
 
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Schema\TypeSchema;
+use Dat0r\CodeGen\Schema\EntityTypeSchema;
 use Dat0r\CodeGen\ClassBuilder\Factory;
 use Dat0r\CodeGen\ClassBuilder\ClassContainerList;
 use Dat0r\CodeGen\ClassBuilder\BuildCache;
@@ -85,19 +85,19 @@ class Service extends Object
         $bootstrap($this->config->getBootstrapFile());
     }
 
-    protected function createClassBuilders(TypeSchema $type_schema)
+    protected function createClassBuilders(EntityTypeSchema $type_schema)
     {
-        $this->class_builder_factory->setTypeSchema($type_schema);
+        $this->class_builder_factory->setEntityTypeSchema($type_schema);
 
-        $aggregate_root = $type_schema->getTypeDefinition();
-        $class_builders = $this->class_builder_factory->createClassBuildersForType($aggregate_root);
+        $entity_type = $type_schema->getEntityTypeDefinition();
+        $class_builders = $this->class_builder_factory->createClassBuildersForType($entity_type);
 
-        foreach ($type_schema->getUsedAggregateDefinitions($aggregate_root) as $aggregate) {
-            $aggregate_builders = $this->class_builder_factory->createClassBuildersForType($aggregate);
-            $class_builders = array_merge($class_builders, $aggregate_builders);
+        foreach ($type_schema->getUsedEmbedDefinitions($entity_type) as $embed_type) {
+            $embed_type_builders = $this->class_builder_factory->createClassBuildersForType($embed_type);
+            $class_builders = array_merge($class_builders, $embed_type_builders);
         }
 
-        foreach ($type_schema->getUsedReferenceDefinitions($aggregate_root) as $reference) {
+        foreach ($type_schema->getUsedReferenceDefinitions($entity_type) as $reference) {
             $reference_builders = $this->class_builder_factory->createClassBuildersForType($reference);
             $class_builders = array_merge($class_builders, $reference_builders);
         }
@@ -105,7 +105,7 @@ class Service extends Object
         return $class_builders;
     }
 
-    protected function executePlugins(TypeSchema $type_schema)
+    protected function executePlugins(EntityTypeSchema $type_schema)
     {
         foreach ($this->config->getPluginSettings() as $plugin_class => $plugin_options) {
             if (class_exists($plugin_class)) {

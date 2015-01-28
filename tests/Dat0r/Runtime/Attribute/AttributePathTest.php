@@ -44,11 +44,11 @@ class AttributePathTest extends TestCase
         $headline_attribute = $article_type->getAttribute('headline');
 
         $content_objects_attribute = $article_type->getAttribute('content_objects');
-        $paragraph_type = $content_objects_attribute->getAggregateByPrefix('paragraph');
+        $paragraph_type = $content_objects_attribute->getEmbedByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
         $workflow_ticket_attribute = $article_type->getAttribute('workflow_ticket');
-        $workflow_ticket_type = $workflow_ticket_attribute->getAggregateByPrefix('workflow_ticket');
+        $workflow_ticket_type = $workflow_ticket_attribute->getEmbedByPrefix('workflow_ticket');
         $workflow_step_attribute = $workflow_ticket_type->getAttribute('workflow_step');
 
         return array(

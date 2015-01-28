@@ -55,7 +55,7 @@ class EntityList extends TypedList implements EntityChangedListenerInterface
     }
 
     /**
-     * Handles entity-changed events that are sent by our aggregated entities.
+     * Handles entity-changed events that are sent by our embedd entities.
      *
      * @param EntityChangedEvent $event
      */

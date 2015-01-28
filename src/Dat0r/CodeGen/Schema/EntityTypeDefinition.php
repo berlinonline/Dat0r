@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Schema;
 
 use Dat0r\Common\Object;
 
-class TypeDefinition extends Object
+class EntityTypeDefinition extends Object
 {
     protected $name;
 

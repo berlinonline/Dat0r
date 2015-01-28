@@ -35,7 +35,7 @@ class EntityTypeTest extends TestCase
         $this->assertEquals('blub', $type->getOption('nested')->get('blah'));
     }
 
-    public function testCreateAggregateType()
+    public function testCreateEmbedType()
     {
         $type = new ParagraphType();
 

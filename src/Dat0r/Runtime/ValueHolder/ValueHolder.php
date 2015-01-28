@@ -140,7 +140,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     }
 
     /**
-     * Handles entity changed events that are sent by our aggregated entity.
+     * Handles entity changed events that are sent by our embedd entity.
      *
      * @param EntityChangedEvent $event
      */
@@ -154,7 +154,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
                     'attribute' => $value_changed_event->getAttribute(),
                     'prev_value' => $value_changed_event->getOldValue(),
                     'value' => $value_changed_event->getNewValue(),
-                    'aggregate_event' => $event
+                    'embed_event' => $event
                 )
             )
         );
@@ -195,7 +195,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
                 'attribute' => $this->getAttribute(),
                 'prev_value' => $prev_value,
                 'value' => $this->value,
-                'aggregate_event' => $event
+                'embed_event' => $event
             )
         );
     }

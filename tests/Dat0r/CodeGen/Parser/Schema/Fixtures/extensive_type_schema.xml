@@ -30,7 +30,7 @@
             <attribute name="voting_stats" type="embedded-entity-list">
                 <description>Keeps track of the votes a topic has received.</description>
                 <option name="max">1</option>
-                <option name="aggregates">
+                <option name="entity_types">
                     <option>VotingStats</option>
                 </option>
             </attribute>
@@ -38,7 +38,7 @@
             <attribute name="location" type="embedded-entity-list">
                 <description>Holds an topic's location.</description>
                 <option name="max">1</option>
-                <option name="aggregates">
+                <option name="entity_types">
                     <option>Location</option>
                 </option>
             </attribute>
@@ -52,15 +52,15 @@
 
             <attribute name="workflow_ticket" type="embedded-entity-list">
                 <description>Holds the current workflow state.</description>
-                <option name="aggregates">
+                <option name="entity_types">
                     <option>WorkflowTicket</option>
                 </option>
             </attribute>
         </attributes>
     </type_definition>
 
-    <aggregate_definitions>
-        <aggregate_definition name="Location">
+    <embed_definitions>
+        <embed_definition name="Location">
             <description>
                 A "Location" describes a concrete adress
                 together with a corresponding geo-point.
@@ -87,11 +87,11 @@
                     <option name="precision">float</option>
                 </attribute>
             </attributes>
-        </aggregate_definition>
+        </embed_definition>
 
-        <aggregate_definition name="VotingStats">
+        <embed_definition name="VotingStats">
             <description>
-                Aggregates information on the number of votes, a max(global) score and average voting.
+                Embeds information on the number of votes, a max(global) score and average voting.
             </description>
             <attributes>
                 <attribute name="average_score" type="number">
@@ -105,9 +105,9 @@
                     <description>Holds the number of votes that have taken place.</description>
                 </attribute>
             </attributes>
-        </aggregate_definition>
+        </embed_definition>
 
-        <aggregate_definition name="WorkflowTicket">
+        <embed_definition name="WorkflowTicket">
             <implementor>\Honeybee\Core\Dat0r\WorkflowTicket</implementor>
             <description>
                 A "WorkflowTicket" reflects the current state of an document's workflow.
@@ -136,14 +136,14 @@
                 </attribute>
                 <attribute name="last_result" type="embedded-entity-list">
                     <description>Holds the result of the latest workflow execution.</description>
-                    <option name="aggregates">
+                    <option name="entity_types">
                         <option>PluginResult</option>
                     </option>
                 </attribute>
             </attributes>
-        </aggregate_definition>
+        </embed_definition>
 
-        <aggregate_definition name="PluginResult">
+        <embed_definition name="PluginResult">
             <description>
                 A "PluginResult" reflects the result of the latest workflow execution.
             </description>
@@ -158,8 +158,8 @@
                     <description>Holds an optional message that accompanies the state code.</description>
                 </attribute>
             </attributes>
-        </aggregate_definition>
-    </aggregate_definitions>
+        </embed_definition>
+    </embed_definitions>
 
     <reference_definition name="Category">
         <option name="type">\Honeybee\Domain\Category\CategoryType</option>

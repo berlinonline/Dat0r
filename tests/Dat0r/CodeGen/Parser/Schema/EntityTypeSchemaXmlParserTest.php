@@ -1,11 +1,11 @@
 <?php
 
-namespace Dat0r\Tests\CodeGen\Parser\TypeSchema;
+namespace Dat0r\Tests\CodeGen\Parser\Schema;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\CodeGen\Parser\TypeSchema\TypeSchemaXmlParser;
+use Dat0r\CodeGen\Parser\Schema\EntityTypeSchemaXmlParser;
 
-class TypeSchemaXmlParserTest extends TestCase
+class EntityTypeSchemaXmlParserTest extends TestCase
 {
     public function testParseSchema()
     {
@@ -13,9 +13,9 @@ class TypeSchemaXmlParserTest extends TestCase
             DIRECTORY_SEPARATOR . 'Fixtures' .
             DIRECTORY_SEPARATOR . 'extensive_type_schema.xml';
 
-        $parser = new TypeSchemaXmlParser();
+        $parser = new EntityTypeSchemaXmlParser();
         $type_schema = $parser->parse($type_schema_path);
 
-        $this->assertInstanceOf('\Dat0r\CodeGen\Schema\TypeSchema', $type_schema);
+        $this->assertInstanceOf('\Dat0r\CodeGen\Schema\EntityTypeSchema', $type_schema);
     }
 }

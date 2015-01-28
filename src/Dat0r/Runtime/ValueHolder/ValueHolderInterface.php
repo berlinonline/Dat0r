@@ -10,7 +10,7 @@ use Dat0r\Runtime\Attribute\AttributeInterface;
 interface ValueHolderInterface
 {
     /**
-     * Returns the value holder's aggregated value.
+     * Returns the value holder's embedd value.
      *
      * @return mixed
      */

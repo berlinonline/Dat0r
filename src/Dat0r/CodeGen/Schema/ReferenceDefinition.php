@@ -2,6 +2,6 @@
 
 namespace Dat0r\CodeGen\Schema;
 
-class ReferenceDefinition extends TypeDefinition
+class ReferenceDefinition extends EntityTypeDefinition
 {
 }

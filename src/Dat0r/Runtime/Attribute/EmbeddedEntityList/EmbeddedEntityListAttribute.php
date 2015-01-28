@@ -5,7 +5,7 @@ namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\Validator\Rule\Type\AggregateRule;
+use Dat0r\Runtime\Validator\Rule\Type\EmbedRule;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 
@@ -24,14 +24,14 @@ class EmbeddedEntityListAttribute extends Attribute
     const OPTION_ENTITY_TYPES = 'entity_types';
 
     /**
-     * An array holding the aggregate-type instances supported by a specific aggregate-attribute instance.
+     * An array holding the embed-type instances supported by a specific embed-attribute instance.
      *
      * @var array
      */
     protected $entity_types = null;
 
     /**
-     * Constructs a new aggregate attribute instance.
+     * Constructs a new embed attribute instance.
      *
      * @param string $name
      * @param array $options
@@ -40,15 +40,15 @@ class EmbeddedEntityListAttribute extends Attribute
     {
         parent::__construct($name, $options);
 
-        foreach ($this->getEntityTypes() as $aggregate_type) {
-            foreach ($aggregate_type->getAttributes() as $attribute) {
+        foreach ($this->getEntityTypes() as $embed_type) {
+            foreach ($embed_type->getAttributes() as $attribute) {
                 $attribute->setParent($this);
             }
         }
     }
 
     /**
-     * Returns an aggregate-attribute instance's default value.
+     * Returns an embed-attribute instance's default value.
      *
      * @return mixed
      */
@@ -58,7 +58,7 @@ class EmbeddedEntityListAttribute extends Attribute
     }
 
     /**
-     * Returns the aggregate-types as an array.
+     * Returns the embed-types as an array.
      *
      * @return array
      */
@@ -66,15 +66,15 @@ class EmbeddedEntityListAttribute extends Attribute
     {
         if (!$this->entity_types) {
             $this->entity_types = array();
-            foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $aggregate_type) {
-                $this->entity_types[] = new $aggregate_type();
+            foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
+                $this->entity_types[] = new $embed_type();
             }
         }
 
         return $this->entity_types;
     }
 
-    public function getAggregateByPrefix($prefix)
+    public function getEmbedByPrefix($prefix)
     {
         foreach ($this->getEntityTypes() as $type) {
             if ($type->getPrefix() === $prefix) {
@@ -85,7 +85,7 @@ class EmbeddedEntityListAttribute extends Attribute
         return null;
     }
 
-    public function getAggregateByName($name)
+    public function getEmbedByName($name)
     {
         foreach ($this->getEntityTypes() as $type) {
             if ($type->getName() === $name) {

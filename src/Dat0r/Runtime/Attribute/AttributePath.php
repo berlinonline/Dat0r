@@ -56,7 +56,7 @@ class AttributePath
         foreach ($path_tuples as $path_tuple) {
             $current_attribute = $current_type->getAttribute($path_tuple[0]);
             if ($current_attribute instanceof EmbeddedEntityListAttribute) {
-                $current_type = $current_attribute->getAggregateByPrefix($path_tuple[1]);
+                $current_type = $current_attribute->getEmbedByPrefix($path_tuple[1]);
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-path.' .

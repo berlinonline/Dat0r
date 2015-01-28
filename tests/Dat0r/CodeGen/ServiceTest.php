@@ -5,7 +5,7 @@ namespace Dat0r\Tests\CodeGen;
 use Dat0r\Tests;
 use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Config;
-use Dat0r\CodeGen\Parser\TypeSchema\TypeSchemaXmlParser;
+use Dat0r\CodeGen\Parser\Schema\EntityTypeSchemaXmlParser;
 use Symfony\Component\Filesystem;
 
 class ServiceTest extends Tests\TestCase
@@ -19,7 +19,7 @@ class ServiceTest extends Tests\TestCase
         $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => new TypeSchemaXmlParser()
+                'schema_parser' => new EntityTypeSchemaXmlParser()
             )
         );
 
@@ -34,7 +34,7 @@ class ServiceTest extends Tests\TestCase
         $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => new TypeSchemaXmlParser()
+                'schema_parser' => new EntityTypeSchemaXmlParser()
             )
         );
 
@@ -50,7 +50,7 @@ class ServiceTest extends Tests\TestCase
         $codegen_service = new Service(
             array(
                 'config' => $this->config,
-                'schema_parser' => new TypeSchemaXmlParser()
+                'schema_parser' => new EntityTypeSchemaXmlParser()
             )
         );
 

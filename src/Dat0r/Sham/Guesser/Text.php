@@ -5,10 +5,7 @@ namespace Dat0r\Sham\Guesser;
 use Faker\Generator;
 
 /**
- * Guesser\Text returns a Faker provider using only a given name.
- *
- * @author Steffen Gransow <graste@mivesto.de>
- * @copyright BerlinOnline Stadtportal GmbH & Co. KG
+ * Generates text data by guessing suitable content based on a given property/attribute name.
  */
 class Text
 {
@@ -18,7 +15,7 @@ class Text
      * @param string $name name to use for guessing a provider.
      * @param Generator $generator instance with fake data providers to use for fake data generation
      *
-     * @return Callable closure or null if guessing failed.
+     * @return mixed || null if guessing failed
      */
     public static function guess($name, Generator $generator)
     {
@@ -48,7 +45,7 @@ class Text
                 self::buildStreetAddressMap($generator),
                 self::buildHousenumberMap($generator),
                 self::buildPostcodeMap($generator),
-                self::buildCountyMap($generator),
+                self::buildCountryMap($generator),
                 self::buildFederalStateMap($generator),
                 self::buildTextMap($generator),
                 self::buildUrlMap($generator),
@@ -306,7 +303,7 @@ class Text
         );
     }
 
-    protected static function buildCountyMap(Generator $generator)
+    protected static function buildCountryMap(Generator $generator)
     {
         return array_fill_keys(
             [

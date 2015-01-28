@@ -2,11 +2,11 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Common;
 
-class TypeClassBuilder extends ClassBuilder
+class EntityTypeClassBuilder extends ClassBuilder
 {
     protected function getTemplate()
     {
-        return 'Type/Type.twig';
+        return 'EntityType/EntityType.twig';
     }
 
     protected function getImplementor()

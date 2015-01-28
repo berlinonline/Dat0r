@@ -70,13 +70,13 @@ class EntityReferenceListRule extends Rule
                 continue;
             }
 
-            $aggregate_type = $entity_data[self::OBJECT_TYPE];
+            $embed_type = $entity_data[self::OBJECT_TYPE];
             unset($entity_data['@type']);
 
-            if ($aggregate_type{0} !== '\\') {
-                $aggregate_type = '\\' . $aggregate_type;
+            if ($embed_type{0} !== '\\') {
+                $embed_type = '\\' . $embed_type;
             }
-            if (!isset($type_map[$aggregate_type])) {
+            if (!isset($type_map[$embed_type])) {
                 $this->throwError(
                     'invalid_doc_type',
                     array('type' => @$entity_data[self::OBJECT_TYPE]),
@@ -85,8 +85,8 @@ class EntityReferenceListRule extends Rule
                 continue;
             }
 
-            $aggregate_type = $type_map[$aggregate_type];
-            $list->push($aggregate_type->createEntity($entity_data));
+            $embed_type = $type_map[$embed_type];
+            $list->push($embed_type->createEntity($entity_data));
         }
 
         return $list;

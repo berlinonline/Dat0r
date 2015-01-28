@@ -1,16 +1,16 @@
 <?php
 
-namespace Dat0r\CodeGen\Parser\TypeSchema;
+namespace Dat0r\CodeGen\Parser\Schema;
 
 use Dat0r\CodeGen\Parser\ParserInterface;
 use Dat0r\Common\Object;
 use Dat0r\Common\Error\ParseException;
 use Dat0r\Common\Error\FileSystemException;
-use Dat0r\CodeGen\Schema\TypeSchema;
+use Dat0r\CodeGen\Schema\EntityTypeSchema;
 use DOMDocument;
 use DOMXPath;
 
-class TypeSchemaXmlParser extends Object implements ParserInterface
+class EntityTypeSchemaXmlParser extends Object implements ParserInterface
 {
     const BASE_DOCUMENT = '\Dat0r\Runtime\Entity\Entity';
 
@@ -19,7 +19,7 @@ class TypeSchemaXmlParser extends Object implements ParserInterface
     public function __construct()
     {
         $config_dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-        $path_parts = array($config_dir, 'config', 'type_schema.xsd');
+        $path_parts = array($config_dir, 'config', 'schema.xsd');
         $this->xsd_schema_file = implode(DIRECTORY_SEPARATOR, $path_parts);
     }
 
@@ -29,8 +29,8 @@ class TypeSchemaXmlParser extends Object implements ParserInterface
         $schema_root = $document->documentElement;
         $xpath = new DOMXPath($document);
 
-        $type_definition_parser = new TypeDefinitionXpathParser();
-        $aggregates_parser = new AggregateDefinitionXpathParser();
+        $type_definition_parser = new EntityTypeDefinitionXpathParser();
+        $embed_types_parser = new EmbedDefinitionXpathParser();
         $references_parser = new ReferenceDefinitionXpathParser();
         $parse_options = array('context' => $schema_root);
 
@@ -38,13 +38,13 @@ class TypeSchemaXmlParser extends Object implements ParserInterface
         if (0 !== mb_strpos($schema_path, 'file://')) {
             $self_uri = 'file://' . $schema_path;
         }
-        return new TypeSchema(
+        return new EntityTypeSchema(
             array(
                 'self_uri' => $self_uri,
                 'namespace' => $schema_root->getAttribute('namespace'),
                 'package' => $schema_root->getAttribute('package'),
                 'type_definition' => $type_definition_parser->parse($xpath, $parse_options),
-                'aggregate_definitions' => $aggregates_parser->parse($xpath, $parse_options),
+                'embed_definitions' => $embed_types_parser->parse($xpath, $parse_options),
                 'reference_definitions' => $references_parser->parse($xpath, $parse_options)
             )
         );

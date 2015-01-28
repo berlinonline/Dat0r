@@ -4,23 +4,20 @@ namespace Dat0r\CodeGen\ClassBuilder;
 
 use Dat0r\CodeGen\Config;
 use Dat0r\Common\Object;
-use Dat0r\CodeGen\Schema\TypeSchema;
-use Dat0r\CodeGen\Schema\TypeDefinition;
-
-use Dat0r\CodeGen\ClassBuilder\Common\BaseTypeClassBuilder as CommonBaseTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Common\TypeClassBuilder as CommonTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityClassBuilder as CommonBaseEntityClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Common\EntityClassBuilder as CommonEntityClassBuilder;
-
-use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseTypeClassBuilder as AggregateBaseTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Aggregate\TypeClassBuilder as AggregateTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Aggregate\BaseEntityClassBuilder as AggregateBaseEntityClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Aggregate\EntityClassBuilder as AggregateEntityClassBuilder;
-
-use Dat0r\CodeGen\ClassBuilder\Reference\BaseTypeClassBuilder as ReferenceBaseTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Reference\TypeClassBuilder as ReferenceTypeClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Reference\BaseEntityClassBuilder as ReferenceBaseEntityClassBuilder;
-use Dat0r\CodeGen\ClassBuilder\Reference\EntityClassBuilder as ReferenceEntityClassBuilder;
+use Dat0r\CodeGen\Schema\EntityTypeSchema;
+use Dat0r\CodeGen\Schema\EntityTypeDefinition;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\EntityTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\EntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Embed\BaseEmbedTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Embed\EmbedTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Embed\BaseEmbedEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Embed\EmbedEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\BaseReferenceTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\ReferenceTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\BaseReferenceEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Reference\ReferenceEntityClassBuilder;
 
 class Factory extends Object
 {
@@ -33,21 +30,21 @@ class Factory extends Object
         $this->config = $config;
     }
 
-    public function getTypeSchema()
+    public function getEntityTypeSchema()
     {
         return $this->type_schema;
     }
 
-    public function setTypeSchema(TypeSchema $type_schema)
+    public function setEntityTypeSchema(EntityTypeSchema $type_schema)
     {
         $this->type_schema = $type_schema;
     }
 
-    public function createClassBuildersForType(TypeDefinition $type)
+    public function createClassBuildersForType(EntityTypeDefinition $type)
     {
         switch (get_class($type)) {
-            case 'Dat0r\CodeGen\Schema\AggregateDefinition':
-                $class_builders = $this->createAggregateClassBuilders($type);
+            case 'Dat0r\CodeGen\Schema\EmbedDefinition':
+                $class_builders = $this->createEmbedClassBuilders($type);
                 break;
             case 'Dat0r\CodeGen\Schema\ReferenceDefinition':
                 $class_builders = $this->createReferenceClassBuilders($type);
@@ -60,7 +57,7 @@ class Factory extends Object
         return $class_builders;
     }
 
-    protected function createDefaultClassBuilders(TypeDefinition $type)
+    protected function createDefaultClassBuilders(EntityTypeDefinition $type)
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
@@ -68,39 +65,39 @@ class Factory extends Object
             'config' => $this->config
         );
         return array(
-            new CommonBaseTypeClassBuilder($builder_properties),
-            new CommonTypeClassBuilder($builder_properties),
-            new CommonBaseEntityClassBuilder($builder_properties),
-            new CommonEntityClassBuilder($builder_properties)
+            new BaseEntityTypeClassBuilder($builder_properties),
+            new EntityTypeClassBuilder($builder_properties),
+            new BaseEntityClassBuilder($builder_properties),
+            new EntityClassBuilder($builder_properties)
         );
     }
 
-    protected function createAggregateClassBuilders(TypeDefinition $aggregate)
+    protected function createEmbedClassBuilders(EntityTypeDefinition $embed_type_def)
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
-            'type_definition' => $aggregate,
+            'type_definition' => $embed_type_def,
             'config' => $this->config
         );
         return array(
-            new AggregateBaseTypeClassBuilder($builder_properties),
-            new AggregateTypeClassBuilder($builder_properties),
-            new AggregateBaseEntityClassBuilder($builder_properties),
-            new AggregateEntityClassBuilder($builder_properties)
+            new BaseEmbedTypeClassBuilder($builder_properties),
+            new EmbedTypeClassBuilder($builder_properties),
+            new BaseEmbedEntityClassBuilder($builder_properties),
+            new EmbedEntityClassBuilder($builder_properties)
         );
     }
 
-    protected function createReferenceClassBuilders(TypeDefinition $reference)
+    protected function createReferenceClassBuilders(EntityTypeDefinition $reference_type_def)
     {
         $builder_properties = array(
             'type_schema' => $this->type_schema,
-            'type_definition' => $reference,
+            'type_definition' => $reference_type_def,
             'config' => $this->config
         );
         return array(
-            new ReferenceBaseTypeClassBuilder($builder_properties),
+            new BaseReferenceTypeClassBuilder($builder_properties),
             new ReferenceTypeClassBuilder($builder_properties),
-            new ReferenceBaseEntityClassBuilder($builder_properties),
+            new BaseReferenceEntityClassBuilder($builder_properties),
             new ReferenceEntityClassBuilder($builder_properties)
         );
     }

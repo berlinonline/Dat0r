@@ -35,9 +35,9 @@
         </attributes>
     </type_definition>
 
-    <aggregate_definition name="VotingStats">
+    <embed_definition name="VotingStats">
         <description>
-            Aggregates information on the number of votes, a max(global) score and average voting.
+            Embeds information on the number of votes, a max(global) score and average voting.
         </description>
         <attributes>
             <attribute name="average_score" type="number">
@@ -51,7 +51,7 @@
                 <description>Holds the number of votes that have taken place.</description>
             </attribute>
         </attributes>
-    </aggregate_definition>
+    </embed_definition>
 
     <reference_definition name="Category">
         <option name="type">\Honeybee\Domain\Category\CategoryType</option>

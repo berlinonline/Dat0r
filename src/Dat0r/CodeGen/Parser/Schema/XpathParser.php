@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\CodeGen\Parser\TypeSchema;
+namespace Dat0r\CodeGen\Parser\Schema;
 
 use Dat0r\Common\Object;
 use Dat0r\CodeGen\Parser\ParserInterface;

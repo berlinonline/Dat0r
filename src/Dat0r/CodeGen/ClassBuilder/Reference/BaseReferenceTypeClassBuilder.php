@@ -1,21 +1,21 @@
 <?php
 
-namespace Dat0r\CodeGen\ClassBuilder\Aggregate;
+namespace Dat0r\CodeGen\ClassBuilder\Reference;
 
-use Dat0r\CodeGen\ClassBuilder\Common\BaseTypeClassBuilder as CommonBaseTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityTypeClassBuilder;
 
-class BaseTypeClassBuilder extends CommonBaseTypeClassBuilder
+class BaseReferenceTypeClassBuilder extends BaseEntityTypeClassBuilder
 {
     protected function getPackage()
     {
-        return $this->type_schema->getPackage() . '\\Aggregate\\Base';
+        return $this->type_schema->getPackage() . '\\Reference\\Base';
     }
 
     protected function getParentImplementor()
     {
         $parent_implementor = $this->type_definition->getImplementor();
         if ($parent_implementor === null) {
-            $parent_implementor = sprintf('%s\\Aggregate', self::NS_MODULE);
+            $parent_implementor = sprintf('%s\\Reference', self::NS_MODULE);
         }
 
         return $parent_implementor;
@@ -25,7 +25,7 @@ class BaseTypeClassBuilder extends CommonBaseTypeClassBuilder
     {
         return var_export(
             sprintf(
-                '\\%s\\%s\\Aggregate\\%sEntity',
+                '\\%s\\%s\\Reference\\%sEntity',
                 $this->getRootNamespace(),
                 $this->type_schema->getPackage(),
                 $this->type_definition->getName()

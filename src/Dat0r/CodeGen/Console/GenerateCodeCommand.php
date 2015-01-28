@@ -4,7 +4,7 @@ namespace Dat0r\CodeGen\Console;
 
 use Dat0r\CodeGen\Service;
 use Dat0r\CodeGen\Parser\Config\ConfigIniParser;
-use Dat0r\CodeGen\Parser\TypeSchema\TypeSchemaXmlParser;
+use Dat0r\CodeGen\Parser\Schema\EntityTypeSchemaXmlParser;
 use Dat0r\Common\Error\BadValueException;
 
 use Symfony\Component\Console\Command\Command;
@@ -64,7 +64,7 @@ class GenerateCodeCommand extends Command
 
         $input_actions = $this->validateInputAction($input);
         $service = $this->getService($input, $output);
-        $type_schema_path = $this->getTypeSchemaPath($input);
+        $type_schema_path = $this->getEntityTypeSchemaPath($input);
 
         if (in_array('generate', $input_actions)) {
             $service->generate($type_schema_path);
@@ -107,7 +107,7 @@ class GenerateCodeCommand extends Command
             $this->service = new Service(
                 array(
                     'config' => $this->createConfig($input)->validate(),
-                    'schema_parser' => new TypeSchemaXmlParser(),
+                    'schema_parser' => new EntityTypeSchemaXmlParser(),
                     'output_handler' => function ($message) use ($output) {
                         $output->writeln($message);
                     }
@@ -146,7 +146,7 @@ class GenerateCodeCommand extends Command
         return $lookup_dir;
     }
 
-    protected function getTypeSchemaPath(InputInterface $input)
+    protected function getEntityTypeSchemaPath(InputInterface $input)
     {
         $schema_path = $input->getOption('schema');
         if (empty($schema_path)) {

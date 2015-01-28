@@ -5,8 +5,8 @@ namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 /**
- * Default ValueHolderInterface implementation for the AggregateCollection.
- * Holds an aggregate attribute's entities in form of a EntityList.
+ * Default ValueHolderInterface implementation for the EmbedCollection.
+ * Holds an embed attribute's entities in form of a EntityList.
  */
 class EmbeddedEntityListValueHolder extends ValueHolder
 {

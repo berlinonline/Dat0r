@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen;
 
-use Dat0r\CodeGen\Schema\TypeSchema;
+use Dat0r\CodeGen\Schema\EntityTypeSchema;
 
 interface PluginInterface
 {
-    public function execute(TypeSchema $schema);
+    public function execute(EntityTypeSchema $schema);
 }

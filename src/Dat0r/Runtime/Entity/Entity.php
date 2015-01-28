@@ -348,8 +348,8 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function onValueChanged(ValueChangedEvent $event)
     {
-        // @todo Possible optimization: only track events for AggregateRoot entities,
-        // what will save some memory when dealing with deeply nested aggregate structures.
+        // @todo Possible optimization: only track events for EmbedRoot entities,
+        // what will save some memory when dealing with deeply nested embed structures.
         $this->changes->push($event);
         $this->propagateEntityChangedEvent($event);
     }

@@ -466,7 +466,7 @@ class DataGenerator
     }
 
     /**
-     * Generates and adds fake data for a aggregate entities.
+     * Generates and adds fake data for a embed entities.
      *
      * @param EntityInterface $entity an instance of the entity to fill with fake data.
      * @param EmbeddedEntityListAttribute $attribute instance of the EmbeddedEntityListAttribute to fill with fake data.
@@ -481,20 +481,20 @@ class DataGenerator
     ) {
         $options_clone = $options;
         $entity_collection = new EntityList();
-        $aggregate_types = $attribute->getEntityTypes();
+        $embed_types = $attribute->getEntityTypes();
 
-        $number_of_aggregate_types = count($aggregate_types);
-        $number_of_new_aggregate_entries = $this->faker->numberBetween(1, 3);
+        $number_of_embed_types = count($embed_types);
+        $number_of_new_embed_entries = $this->faker->numberBetween(1, 3);
 
-        // add number of entities to reference depending on number of aggregate types
-        for ($i = 0; $i < $number_of_aggregate_types; $i++) {
-            $number_of_new_aggregate_entries += $this->faker->numberBetween(0, 3);
+        // add number of entities to reference depending on number of embed types
+        for ($i = 0; $i < $number_of_embed_types; $i++) {
+            $number_of_new_embed_entries += $this->faker->numberBetween(0, 3);
         }
 
-        // add new entities to collection for aggregate types
-        for ($i = 0; $i < $number_of_new_aggregate_entries; $i++) {
-            $aggregate_type = $this->faker->randomElement($aggregate_types);
-            $new_entity = $this->createFakeEntity($aggregate_type, $options_clone);
+        // add new entities to collection for embed types
+        for ($i = 0; $i < $number_of_new_embed_entries; $i++) {
+            $embed_type = $this->faker->randomElement($embed_types);
+            $new_entity = $this->createFakeEntity($embed_type, $options_clone);
             $entity_collection->addItem($new_entity);
         }
         $this->setValue($entity, $attribute, $entity_collection, $options);

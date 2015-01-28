@@ -2,8 +2,8 @@
 
 namespace Dat0r\CodeGen\Parser;
 
-use Dat0r\CodeGen\Schema\TypeDefinitionList;
-use Dat0r\CodeGen\Schema\AggregateDefinition;
+use Dat0r\CodeGen\Schema\EntityTypeDefinitionList;
+use Dat0r\CodeGen\Schema\EmbedDefinition;
 
 interface ParserInterface
 {

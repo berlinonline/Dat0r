@@ -29,14 +29,14 @@ class EmbeddedEntityListValueHolderTest extends TestCase
 
     public function testDefaultValue()
     {
-        $aggregate_attribute = new EmbeddedEntityListAttribute(
+        $embed_attribute = new EmbeddedEntityListAttribute(
             'content_objects',
             array(
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
             )
         );
 
-        $value = $aggregate_attribute->createValue();
+        $value = $embed_attribute->createValue();
 
         $entity_list = $value->get();
         $this->assertInstanceOf(EntityList::CLASS, $entity_list);
@@ -48,25 +48,25 @@ class EmbeddedEntityListValueHolderTest extends TestCase
         $listener = Mockery::mock(ValueChangedListenerInterface::CLASS);
         $listener->shouldReceive('onValueChanged')->with(ValueChangedEvent::CLASS)->twice();
 
-        $aggregate_type = new ParagraphType();
-        $aggregated_entity = $aggregate_type->createEntity(
+        $embed_type = new ParagraphType();
+        $embedd_entity = $embed_type->createEntity(
             array('title' => 'Hello world', 'content' => 'Foobar lorem ipsum...')
         );
 
-        $aggregate_attribute = new EmbeddedEntityListAttribute(
+        $embed_attribute = new EmbeddedEntityListAttribute(
             'content_objects',
             array(
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
             )
         );
 
-        $value = $aggregate_attribute->createValue();
+        $value = $embed_attribute->createValue();
         $value->addValueChangedListener($listener);
 
         $entity_list = $value->get();
-        $entity_list->push($aggregated_entity);
+        $entity_list->push($embedd_entity);
 
-        $aggregated_entity->setValue('title', 'Kthxbye');
+        $embedd_entity->setValue('title', 'Kthxbye');
 
         $this->assertInstanceOf(EntityList::CLASS, $entity_list);
         $this->assertEquals(1, $entity_list->getSize());

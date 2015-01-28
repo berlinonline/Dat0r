@@ -11,17 +11,17 @@ use Dat0r\Tests\Runtime\Fixtures\WorkflowTicketType;
 
 class EmbeddedEntityListAttributeTest extends TestCase
 {
-    const FIELDNAME = 'test_aggregate_attribute';
+    const FIELDNAME = 'test_embed_attribute';
 
     public function testCreate()
     {
-        $aggregate_attribute = new EmbeddedEntityListAttribute(
+        $embed_attribute = new EmbeddedEntityListAttribute(
             self::FIELDNAME,
             array(
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS)
             )
         );
-        $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
     }
 
     /**
@@ -36,37 +36,37 @@ class EmbeddedEntityListAttributeTest extends TestCase
             $options
         );
 
-        $aggregate_attribute = new EmbeddedEntityListAttribute(self::FIELDNAME, $options);
-        $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
+        $embed_attribute = new EmbeddedEntityListAttribute(self::FIELDNAME, $options);
+        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
 
-        $this->assertEquals($aggregate_attribute->getName(), self::FIELDNAME);
-        $this->assertFalse($aggregate_attribute->hasOption('snafu_flag'));
+        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
+        $this->assertFalse($embed_attribute->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue) {
-            $this->assertTrue($aggregate_attribute->hasOption($optName));
-            $this->assertEquals($aggregate_attribute->getOption($optName), $optValue);
+            $this->assertTrue($embed_attribute->hasOption($optName));
+            $this->assertEquals($embed_attribute->getOption($optName), $optValue);
         }
     }
 
     /**
-     * @dataProvider getAggregateFixture
+     * @dataProvider getEmbedFixture
      */
-    public function testCreateValue(array $aggregate_data)
+    public function testCreateValue(array $embed_data)
     {
-        $aggregate_attribute = new EmbeddedEntityListAttribute(
+        $embed_attribute = new EmbeddedEntityListAttribute(
             self::FIELDNAME,
             array(
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS)
             )
         );
 
-        $value = $aggregate_attribute->createValue();
+        $value = $embed_attribute->createValue();
         $this->assertInstanceOf(EmbeddedEntityListValueHolder::CLASS, $value);
 
-        $value->set($aggregate_data);
+        $value->set($embed_data);
         $entity = $value->get()->getFirst();
         $this->assertInstanceOf(Paragraph::CLASS, $entity);
 
-        foreach ($aggregate_data[0] as $attribute_name => $value) {
+        foreach ($embed_data[0] as $attribute_name => $value) {
             if ($attribute_name === '@type') {
                 $this->assertEquals($value, $entity->getType()->getEntityType());
             } else {
@@ -75,15 +75,15 @@ class EmbeddedEntityListAttributeTest extends TestCase
         }
     }
 
-    public function testGetAggregateByPrefix()
+    public function testGetEmbedByPrefix()
     {
-        $aggregate_attribute = new EmbeddedEntityListAttribute(
+        $embed_attribute = new EmbeddedEntityListAttribute(
             self::FIELDNAME,
             array(
                 EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(WorkflowTicketType::CLASS)
             )
         );
-        $workflow_ticket_type = $aggregate_attribute->getAggregateByPrefix('workflow_ticket');
+        $workflow_ticket_type = $embed_attribute->getEmbedByPrefix('workflow_ticket');
         $this->assertInstanceOf(WorkflowTicketType::CLASS, $workflow_ticket_type);
     }
 
@@ -115,7 +115,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
     /**
      * @codeCoverageIgnore
      */
-    public static function getAggregateFixture()
+    public static function getEmbedFixture()
     {
         // @todo generate random (utf-8) text
         $fixtures = array();

@@ -7,8 +7,6 @@ use Dat0r\Common\OptionsInterface;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Entity\EntityInterface;
-use Dat0r\Runtime\Attribute\Type\AggregateCollection;
-use Dat0r\Runtime\Attribute\Type\ReferenceCollection;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;

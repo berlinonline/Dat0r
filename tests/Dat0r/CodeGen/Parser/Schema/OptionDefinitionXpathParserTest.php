@@ -1,9 +1,9 @@
 <?php
 
-namespace Dat0r\Tests\CodeGen\Parser\TypeSchema;
+namespace Dat0r\Tests\CodeGen\Parser\Schema;
 
 use Dat0r\Tests\TestCase;
-use Dat0r\CodeGen\Parser\TypeSchema\OptionDefinitionXpathParser;
+use Dat0r\CodeGen\Parser\Schema\OptionDefinitionXpathParser;
 use DOMXPath;
 
 class OptionDefinitionXpathParserTest extends TestCase
