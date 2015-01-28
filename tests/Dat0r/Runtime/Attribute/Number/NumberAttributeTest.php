@@ -38,7 +38,7 @@ class NumberAttributeTest extends TestCase
     public function testCreateValue($intValue)
     {
         $number_attribute = new NumberAttribute(self::FIELDNAME);
-        $value = $number_attribute->createValue();
+        $value = $number_attribute->createValueHolder();
         $this->assertInstanceOf(NumberValueHolder::CLASS, $value);
         $value->set($intValue);
         $this->assertEquals($intValue, $value->get());

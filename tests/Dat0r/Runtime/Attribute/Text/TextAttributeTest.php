@@ -38,7 +38,7 @@ class TextAttributeTest extends TestCase
     public function testCreateValue($textValue)
     {
         $text_attribute = new TextAttribute(self::FIELDNAME);
-        $value = $text_attribute->createValue();
+        $value = $text_attribute->createValueHolder();
         $this->assertInstanceOf(TextValueHolder::CLASS, $value);
         $value->set($textValue);
         $this->assertEquals($textValue, $value->get());

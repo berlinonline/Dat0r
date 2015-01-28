@@ -15,7 +15,7 @@ interface AttributeInterface
 {
     const OPTION_DEFAULT_VALUE = 'default_value';
     const OPTION_NULL_VALUE = 'null_value';
-    const OPTION_VALUE = 'value'; // TODO should this be called value_implementor?
+    const OPTION_VALUE_HOLDER = 'value_holder';
     const OPTION_VALIDATOR = 'validator';
 
     /**
@@ -97,5 +97,5 @@ interface AttributeInterface
      *
      * @return ValueHolderInterface
      */
-    public function createValue();
+    public function createValueHolder();
 }

@@ -23,7 +23,7 @@ class TimestampAttributeTest extends TestCase
         $datetime = '2014-12-31T13:45:55.123+01:00';
         $datetime_in_utc = '2014-12-31T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt');
-        $value = $attribute->createValue();
+        $value = $attribute->createValueHolder();
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertNull($value->get());
         $value->set($datetime);
@@ -35,7 +35,7 @@ class TimestampAttributeTest extends TestCase
     {
         $datetime = '2014-12-30T13:45:55.123+01:00';
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_ACCEPT_STRINGS => false ]);
-        $value = $attribute->createValue();
+        $value = $attribute->createValueHolder();
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertNull($value->get());
         $value->set($datetime);
@@ -47,7 +47,7 @@ class TimestampAttributeTest extends TestCase
         $datetime = '2014-12-29T13:45:55.123+01:00';
         $datetime_in_utc = '2014-12-29T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $value = $attribute->createValue();
+        $value = $attribute->createValueHolder();
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf('\\DateTimeImmutable', $value->get());
         $this->assertEquals($datetime_in_utc, $value->get()->format(TimestampAttribute::FORMAT_ISO8601));
@@ -65,7 +65,7 @@ class TimestampAttributeTest extends TestCase
                 TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE => false
             ]
         );
-        $value = $attribute->createValue();
+        $value = $attribute->createValueHolder();
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf('\\DateTimeImmutable', $value->get());
         $this->assertEquals($datetime_in_cet, $value->get()->format(TimestampAttribute::FORMAT_ISO8601));
@@ -77,7 +77,7 @@ class TimestampAttributeTest extends TestCase
         $datetime_in_cet = '2014-12-28T13:45:55.123000+01:00';
         $datetime_in_utc = '2014-12-28T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $value = $attribute->createValue();
+        $value = $attribute->createValueHolder();
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf('\\DateTimeImmutable', $value->get());
 

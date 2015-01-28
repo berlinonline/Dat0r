@@ -18,14 +18,14 @@ class ChoiceAttributeTest extends TestCase
     public function testCreateValue()
     {
         $select_attribute = $this->createAttribute();
-        $value = $select_attribute->createValue();
+        $value = $select_attribute->createValueHolder();
         $this->assertInstanceOf(ChoiceValueHolder::CLASS, $value);
     }
 
     public function testValidationSuccess()
     {
         $select_attribute = $this->createAttribute();
-        $value = $select_attribute->createValue();
+        $value = $select_attribute->createValueHolder();
         $result = $value->set('berlin');
 
         $this->assertEquals($result->getSeverity(), IncidentInterface::SUCCESS);
@@ -35,7 +35,7 @@ class ChoiceAttributeTest extends TestCase
     public function testValidationError()
     {
         $select_attribute = $this->createAttribute();
-        $value = $select_attribute->createValue();
+        $value = $select_attribute->createValueHolder();
         $result = $value->set('meh');
 
         $this->assertEquals($result->getSeverity(), IncidentInterface::ERROR);

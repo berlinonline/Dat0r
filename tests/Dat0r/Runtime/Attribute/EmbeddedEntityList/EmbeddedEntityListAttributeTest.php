@@ -59,7 +59,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
             )
         );
 
-        $value = $embed_attribute->createValue();
+        $value = $embed_attribute->createValueHolder();
         $this->assertInstanceOf(EmbeddedEntityListValueHolder::CLASS, $value);
 
         $value->set($embed_data);

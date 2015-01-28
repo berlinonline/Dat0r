@@ -85,7 +85,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         $this->value_holder_map = new ValueHolderMap();
 
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
-            $this->value_holder_map->setItem($attribute_name, $attribute->createValue());
+            $this->value_holder_map->setItem($attribute_name, $attribute->createValueHolder());
         }
 
         // Hydrate initial data ...

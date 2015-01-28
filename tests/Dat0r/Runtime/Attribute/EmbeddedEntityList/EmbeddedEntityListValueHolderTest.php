@@ -36,7 +36,7 @@ class EmbeddedEntityListValueHolderTest extends TestCase
             )
         );
 
-        $value = $embed_attribute->createValue();
+        $value = $embed_attribute->createValueHolder();
 
         $entity_list = $value->get();
         $this->assertInstanceOf(EntityList::CLASS, $entity_list);
@@ -60,7 +60,7 @@ class EmbeddedEntityListValueHolderTest extends TestCase
             )
         );
 
-        $value = $embed_attribute->createValue();
+        $value = $embed_attribute->createValueHolder();
         $value->addValueChangedListener($listener);
 
         $entity_list = $value->get();

@@ -54,7 +54,7 @@ class UuidAttributeTest extends TestCase
     public function testCreateValue($uuid)
     {
         $uuid_attribute = new UuidAttribute(self::FIELDNAME);
-        $value = $uuid_attribute->createValue();
+        $value = $uuid_attribute->createValueHolder();
         $this->assertInstanceOf(UuidValueHolder::CLASS, $value);
         $value->set($uuid);
         $this->assertEquals($uuid, $value->get());

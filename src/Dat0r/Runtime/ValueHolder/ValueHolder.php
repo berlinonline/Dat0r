@@ -47,6 +47,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     {
         $this->attribute = $attribute;
         $this->listeners = new ValueChangedListenerList();
+        $this->value = $attribute->getDefaultValue();
     }
 
     /**
@@ -77,7 +78,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
 
             if (!$this->isEqualTo($previous_value)) {
                 $this->propagateValueChangedEvent(
-                    $this->createValueChangedEvent($previous_value)
+                    $this->createValueHolderChangedEvent($previous_value)
                 );
             }
 
@@ -135,7 +136,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     {
         // @todo need to find out what to use as the prev value here
         $this->propagateValueChangedEvent(
-            $this->createValueChangedEvent($this->value)
+            $this->createValueHolderChangedEvent($this->value)
         );
     }
 
@@ -188,7 +189,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      * @param mixed $prev_value
      * @param EventInterface $event
      */
-    protected function createValueChangedEvent($prev_value, EventInterface $event = null)
+    protected function createValueHolderChangedEvent($prev_value, EventInterface $event = null)
     {
         return new ValueChangedEvent(
             array(

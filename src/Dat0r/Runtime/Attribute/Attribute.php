@@ -225,15 +225,15 @@ abstract class Attribute implements AttributeInterface
      *
      * @return ValueHolderInterface
      */
-    public function createValue()
+    public function createValueHolder()
     {
-        $implementor = $this->hasOption(self::OPTION_VALUE)
-            ? $this->getOption(self::OPTION_VALUE)
-            : $this->buildDefaultValueClassName();
+        $implementor = $this->hasOption(self::OPTION_VALUE_HOLDER)
+            ? $this->getOption(self::OPTION_VALUE_HOLDER)
+            : $this->buildDefaultValueHolderClassName();
 
         if (!class_exists($implementor)) {
             throw new RuntimeException(
-                "Invalid attribute value-holder given upon createValue request."
+                "Invalid attribute value-holder given upon createValueHolder request."
             );
         }
         $value = new $implementor($this);
@@ -269,12 +269,8 @@ abstract class Attribute implements AttributeInterface
      *
      * @return string Fully qualified name of an ValueHolderInterface implementation.
      */
-    protected function buildDefaultValueClassName()
+    protected function buildDefaultValueHolderClassName()
     {
-        return preg_replace(
-            '#Attribute$#',
-            'ValueHolder',
-            get_class($this)
-        );
+        return preg_replace('#Attribute$#', 'ValueHolder', get_class($this));
     }
 }
