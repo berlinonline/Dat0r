@@ -1,13 +1,13 @@
 <?php
 
-namespace Dat0r\Sham\Guesser;
+namespace Dat0r\Sham;
 
 use Faker\Generator;
 
 /**
  * Generates text data by guessing suitable content based on a given property/attribute name.
  */
-class Text
+class TextGuesser
 {
     protected static $generator_map = null;
 
