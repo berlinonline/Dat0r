@@ -59,7 +59,8 @@ class EmbeddedEntityListRule extends Rule
     {
         $type_map = array();
         foreach ($this->getOption(self::OPTION_ENTITY_TYPES, array()) as $type) {
-            $type_map[$type->getEntityType()] = $type;
+            $trimmed_type_name = trim($type->getEntityType(), '\\');
+            $type_map[$trimmed_type_name] = $type;
         }
 
         $list = new EntityList();
@@ -70,19 +71,19 @@ class EmbeddedEntityListRule extends Rule
                 continue;
             }
 
-            $embed_type = $entity_data[self::OBJECT_TYPE];
+            $trimmed_embed_type = trim($entity_data[self::OBJECT_TYPE], '\\');
             unset($entity_data['@type']);
 
-            if (!isset($type_map[$embed_type])) {
+            if (!isset($type_map[$trimmed_embed_type])) {
                 $this->throwError(
                     'invalid_doc_type',
-                    array('type' => @$entity_data[self::OBJECT_TYPE]),
+                    array('type' => var_export($entity_data[self::OBJECT_TYPE], true)),
                     IncidentInterface::NOTICE
                 );
                 continue;
             }
 
-            $embed_type = $type_map[$embed_type];
+            $embed_type = $type_map[$trimmed_embed_type];
             $list->push($embed_type->createEntity($entity_data));
         }
 
