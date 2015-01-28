@@ -19,7 +19,7 @@
   <xsd:complexType name="typeDefinitionType">
     <xsd:sequence>
       <xsd:element name="implementor" type="xsd:string" minOccurs="0" />
-      <xsd:element name="document_implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="entity_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:group ref="optionGroup" />
       <xsd:element name="attributes" type="attributesType" />
@@ -36,7 +36,7 @@
   <xsd:complexType name="aggregateDefinitionType">
     <xsd:sequence>
       <xsd:element name="implementor" type="xsd:string" minOccurs="0" />
-      <xsd:element name="document_implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="entity_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:group ref="optionGroup" />
       <xsd:element name="attributes" type="attributesType" maxOccurs="unbounded" />

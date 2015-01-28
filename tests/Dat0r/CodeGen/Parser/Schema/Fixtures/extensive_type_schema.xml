@@ -2,7 +2,7 @@
 <type_schema namespace="FamilienPortal\Types">
     <type_definition name="Topic">
         <implementor>\Honeybee\Core\Dat0r\Type</implementor>
-        <document_implementor>\Honeybee\Core\Dat0r\Type</document_implementor>
+        <entity_implementor>\Honeybee\Core\Dat0r\Type</entity_implementor>
         <description>The "Topic" type describes an "article like" entity.</description>
         <option name="slug_pattern">{title}-{shortIdentifier}</option>
         <attributes>
