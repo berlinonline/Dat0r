@@ -30,7 +30,10 @@ class TimestampRule extends Rule
             if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
                 $dt = DateTimeImmutable::createFromMutable($value);
             } else {
-                $dt = DateTimeImmutable::createFromFormat(TimestampAttribute::FORMAT_ISO8601, $value->format(TimestampAttribute::FORMAT_ISO8601));
+                $dt = DateTimeImmutable::createFromFormat(
+                    TimestampAttribute::FORMAT_ISO8601,
+                    $value->format(TimestampAttribute::FORMAT_ISO8601)
+                );
             }
         } elseif ($value instanceof DateTimeImmutable) {
             $dt = clone $value;
