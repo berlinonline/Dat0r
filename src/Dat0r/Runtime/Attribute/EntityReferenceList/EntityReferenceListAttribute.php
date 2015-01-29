@@ -29,12 +29,12 @@ class EntityReferenceListAttribute extends Attribute
     protected $entity_types = null;
 
     /**
-     * Constructs a new embed attribute instance.
+     * Constructs a new embed attribute instance for references.
      *
      * @param string $name
      * @param array $options
      */
-    public function __construct($name, array $options = array())
+    public function __construct($name, array $options = [])
     {
         parent::__construct($name, $options);
 
@@ -64,8 +64,8 @@ class EntityReferenceListAttribute extends Attribute
     {
         if (!$this->entity_types) {
             $this->entity_types = array();
-            foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
-                $this->entity_types[] = new $embed_type();
+            foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $type) {
+                $this->entity_types[] = new $type();
             }
         }
 

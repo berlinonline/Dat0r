@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\Attribute\Timestamp;
 
-use Dat0r\Runtime\Attribute\Type\Timestamp;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use DateTime;
@@ -74,7 +73,7 @@ class TimestampRule extends Rule
                 TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE
             );
             if ($force_internal_timezone) {
-                $min->setTimezone($default_timezone);
+                $max->setTimezone($default_timezone);
             }
 
             if (!( ($dt <= $max) && ((int)$dt->format('u') <= (int)$max->format('u')) )) {
