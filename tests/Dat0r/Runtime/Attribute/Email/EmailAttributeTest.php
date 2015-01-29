@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Type;
+namespace Dat0r\Tests\Runtime\Attribute\Email;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Email\EmailAttribute;

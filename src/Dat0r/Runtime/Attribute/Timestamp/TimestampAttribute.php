@@ -11,11 +11,9 @@ use DateTimeZone;
 //preferred ISO8601 format (works well with js/momentjs): format('Y-m-d\TH:i:s.uP');
 class TimestampAttribute extends Attribute
 {
-    const DEFAULT_ACCEPT_STRINGS = true;
     const DEFAULT_FORCE_INTERNAL_TIMEZONE = true;
     const DEFAULT_INTERNAL_TIMEZONE_NAME = 'Etc/UTC';
 
-    const OPTION_ACCEPT_STRINGS = 'accept_strings';
     const OPTION_FORCE_INTERNAL_TIMEZONE = 'force_internal_timezone';
     const OPTION_INTERNAL_TIMEZONE_NAME = 'internal_timezone_name';
     const OPTION_MAX = 'max';
@@ -37,10 +35,6 @@ class TimestampAttribute extends Attribute
 
         if (!array_key_exists(self::OPTION_INTERNAL_TIMEZONE_NAME, $options)) {
             $options[self::OPTION_INTERNAL_TIMEZONE_NAME] = self::DEFAULT_INTERNAL_TIMEZONE_NAME;
-        }
-
-        if (!array_key_exists(self::OPTION_ACCEPT_STRINGS, $options)) {
-            $options[self::OPTION_ACCEPT_STRINGS] = self::DEFAULT_ACCEPT_STRINGS;
         }
 
         parent::__construct($name, $options);
@@ -96,10 +90,6 @@ class TimestampAttribute extends Attribute
             $options[self::OPTION_MAX] = $this->getOption(self::OPTION_MAX);
         }
 
-        $options[self::OPTION_ACCEPT_STRINGS] = $this->getOption(
-            self::OPTION_ACCEPT_STRINGS,
-            self::DEFAULT_ACCEPT_STRINGS
-        );
         $options[self::OPTION_FORCE_INTERNAL_TIMEZONE] = $this->getOption(
             self::OPTION_FORCE_INTERNAL_TIMEZONE,
             self::DEFAULT_FORCE_INTERNAL_TIMEZONE

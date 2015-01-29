@@ -6,13 +6,16 @@ use Dat0r\Common\Object;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
+use Dat0r\Runtime\Validator\Validator;
 use Dat0r\Runtime\Validator\ValidatorInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\EntityTypeInterface;
 
 /**
  * Base class that all Dat0r AttributeInterface implementations should extend.
- * Provides a pretty complete implementation for the AttributeInterface interface.
+ * Provides a pretty complete implementation for the interface, concrete
+ * attributes should at least implement buildValidationRules in order to
+ * provide validation rules that sanitize the given attribute value.
  *
  * basic options: 'validator', 'value', 'default_value', 'null_value', 'mandatory'
  * @todo extends Object; which introduces a breaking change to the create method.
@@ -185,20 +188,21 @@ abstract class Attribute implements AttributeInterface
      * Returns the ValidatorInterface implementation to use when validating values for this attribute.
      * Override this method if you want inject your own implementation.
      *
-     * @return string Fully qualified name of an ValidatorInterface implementation.
+     * @return ValidatorInterface implementation
      */
     public function getValidator()
     {
         if (!$this->validator) {
-            $default_validator_class = '\\Dat0r\\Runtime\\Validator\\Validator';
+            $default_validator_class = Validator::CLASS;
             $validator_implementor = $this->getOption(self::OPTION_VALIDATOR, $default_validator_class);
 
             if (!class_exists($validator_implementor, true)) {
                 throw new RuntimeException(
                     sprintf(
-                        "Unable to resolve validator implementor '%s' given for attribute: '%s'.",
+                        "Unable to resolve validator implementor '%s' given for attribute '%s' on entity tyoe '%s'.",
                         $validator_implementor,
-                        $this->getName()
+                        $this->getName(),
+                        $this->getType()->getName()
                     )
                 );
             }
@@ -207,10 +211,12 @@ abstract class Attribute implements AttributeInterface
             if (!$validator instanceof ValidatorInterface) {
                 throw new InvalidTypeException(
                     sprintf(
-                        "Invalid validator implementor '%s' given for attribute: '%s'." .
-                        "Make sure to implement 'Dat0r\Runtime\Validator\Validator\ValidatorInterface'.",
+                        "Invalid validator implementor '%s' given for attribute '%s' on entity type '%s'. " .
+                        "Make sure to implement '%s'.",
                         $validator_implementor,
-                        $this->getName()
+                        $this->getName(),
+                        $this->getType()->getName(),
+                        ValidatorInterface::CLASS
                     )
                 );
             }
@@ -232,18 +238,17 @@ abstract class Attribute implements AttributeInterface
             : $this->buildDefaultValueHolderClassName();
 
         if (!class_exists($implementor)) {
-            throw new RuntimeException(
-                "Invalid attribute value-holder given upon createValueHolder request."
-            );
+            throw new RuntimeException("Invalid attribute value-holder given upon createValueHolder request.");
         }
         $value = new $implementor($this);
 
         if (!$value instanceof ValueHolderInterface) {
             throw new InvalidTypeException(
                 sprintf(
-                    "Invalid valueholder implementation '%s' given for attribute '%s'.",
+                    "Invalid valueholder implementation '%s' given for attribute '%s' on entity type '%s'.",
                     $implementor,
-                    $this->getName()
+                    $this->getName(),
+                    $this->getType()->getName()
                 )
             );
         }

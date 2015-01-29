@@ -21,26 +21,21 @@ class TimestampRule extends Rule
         );
 
         if (is_string($value)) {
-            $accept_strings = $this->getOption(
-                TimestampAttribute::OPTION_ACCEPT_STRINGS,
-                TimestampAttribute::DEFAULT_ACCEPT_STRINGS
-            );
-            if (!$accept_strings) {
-                $this->throwError('no_strings_acceptable', array(), IncidentInterface::CRITICAL);
-                return false;
-            }
-
             $dt = new DateTimeImmutable($value);
             if ($dt === false) {
-                $this->throwError('invalid_string', array(), IncidentInterface::CRITICAL);
+                $this->throwError('invalid_string', [], IncidentInterface::CRITICAL);
                 return false;
             }
         } elseif ($value instanceof DateTime) {
-            $dt = DateTimeImmutable::createFromMutable($value);
+            if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+                $dt = DateTimeImmutable::createFromMutable($value);
+            } else {
+                $dt = DateTimeImmutable::createFromFormat(TimestampAttribute::FORMAT_ISO8601, $value->format(TimestampAttribute::FORMAT_ISO8601));
+            }
         } elseif ($value instanceof DateTimeImmutable) {
             $dt = clone $value;
         } else {
-            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
+            $this->throwError('invalid_type', [], IncidentInterface::CRITICAL);
             return false;
         }
 

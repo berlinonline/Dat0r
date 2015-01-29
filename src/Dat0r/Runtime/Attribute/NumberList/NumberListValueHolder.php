@@ -5,44 +5,41 @@ namespace Dat0r\Runtime\Attribute\NumberList;
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 /**
- * Default ValueHolderInterface implementation used for integer collection value containment.
+ * Default implementation used for a list of integer values.
  */
 class NumberListValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a specific ValueHolderInterface instance's value is considered equal to
-     * the value of an other given ValueHolderInterface.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param ValueHolderInterface $other
+     * @param array $other_value values to compare to the internal ones
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
-        /** @var array $lefthand_value */
-        $lefthand_value = $this->getValue();
-        $lefthand_count = 0;
-        $righthand_count = 0;
-        $are_equal = true;
-
-        if (is_array($lefthand_value)) {
-            $lefthand_count = count($lefthand_value);
-        }
-        if (is_array($other_value)) {
-            $righthand_count = count($other_value);
+        if (!is_array($other_value)) {
+            return false;
         }
 
-        if (0 < $lefthand_count && $lefthand_count === $righthand_count) {
-            foreach ($lefthand_value as $idx => $text) {
-                if ($other_value[$idx] !== $text) {
-                    $are_equal = false;
-                }
+        /** @var array $numbers */
+        $numbers = $this->getValue();
+
+        $numbers_count = count($numbers);
+        $other_count = count($other_value);
+
+        if ($numbers_count !== $other_count) {
+            return false;
+        }
+
+        foreach ($numbers as $idx => $val) {
+            if ($other_value[$idx] !== $val) {
+                return false;
             }
-        } elseif ($lefthand_count !== $righthand_count) {
-            $are_equal = false;
         }
 
-        return $are_equal;
+        return true;
     }
 
     /**
@@ -52,7 +49,7 @@ class NumberListValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        // @todo move to validator
+        // @todo move to validator rule
         $values = array();
         $value = !is_array($value) || empty($value) ? array() : $value;
         foreach ($value as $int) {

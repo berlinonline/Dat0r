@@ -10,7 +10,7 @@ use Dat0r\Runtime\Attribute\Number\NumberAttribute;
 use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
-use Dat0r\Runtime\Attribute\KeyValue\KeyValueAttribute;
+use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 
 class ArticleType extends EntityType
 {
@@ -33,7 +33,7 @@ class ArticleType extends EntityType
                         EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
                     )
                 ),
-                new KeyValueAttribute(
+                new KeyValueListAttribute(
                     'meta',
                     array(
                         'constraints' => array('value_type' => 'dynamic',),

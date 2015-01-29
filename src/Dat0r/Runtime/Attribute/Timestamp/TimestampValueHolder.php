@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\Timestamp;
 
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 use DateTimeInterface;
 
@@ -11,20 +12,31 @@ use DateTimeInterface;
 class TimestampValueHolder extends ValueHolder
 {
     /**
-     * Tells whether two datetime values are the same moment in time.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param DateTimeInterface $other_value datetime value to compare
+     * @param mixed $other_value DateTimeInterface or acceptable datetime string
      *
-     * @return boolean true if moment in time is equal, false otherwise.
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
         $value = $this->getValue();
 
         return (
             ($value instanceof DateTimeInterface && $other_value instanceof DateTimeInterface) &&
-            ($value == $other_value) && // no strict comparison as PHP then compares the dates instead of the instances
+            ($value == $other_value) && // no strict comparison as PHP then compares dates instead of instances
             ((int)$value->format('u') === (int)$other_value->format('u')) // compare the microseconds as well m(
         );
+    }
+
+    public function acceptable($value)
+    {
+        $validation_result = $this->getAttribute()->getValidator()->validate($value);
+        if ($validation_result->getSeverity() <= IncidentInterface::NOTICE) {
+            return true;
+        }
+
+        return false;
     }
 }

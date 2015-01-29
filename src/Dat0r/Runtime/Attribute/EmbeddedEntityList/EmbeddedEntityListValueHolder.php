@@ -5,35 +5,36 @@ namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 /**
- * Default ValueHolderInterface implementation for the EmbedCollection.
- * Holds an embed attribute's entities in form of a EntityList.
+ * Holds a list of entities as an EntityList.
  */
 class EmbeddedEntityListValueHolder extends ValueHolder
 {
     /**
-     * Tells if a given entity list contains the same entities.
-     * The list is considered equal when entities with the same values occur in the same order
-     * as in the valueholder's local value (EntityList).
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param mixed $other_value
+     * @param EntityList $other_value list of entities
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
-        $lefthand_docs = $this->getValue();
-        $is_equal = true;
+        $entities = $this->getValue();
 
-        if (count($lefthand_docs) !== count($other_value)) {
-            $is_equal = false;
-        } else {
-            foreach ($lefthand_docs as $index => $entity) {
-                if (!$entity->isEqualTo($other_value->getItem($index))) {
-                    $is_equal = false;
-                }
+        if (!$other_value instanceof \Dat0r\Runtime\Entity\EntityList) {
+            var_dump(get_class($other_value));
+        }
+
+        if (count($entities) !== count($other_value)) {
+            return false;
+        }
+
+        foreach ($entities as $index => $entity) {
+            if (!$entity->isEqualTo($other_value->getItem($index))) {
+                return false;
             }
         }
 
-        return $is_equal;
+        return true;
     }
 }

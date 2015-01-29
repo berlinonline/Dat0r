@@ -10,39 +10,36 @@ use Dat0r\Runtime\ValueHolder\ValueHolder;
 class TextListValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a specific ValueHolderInterface instance's value is considered equal to
-     * the value of an other given ValueHolderInterface.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param ValueHolderInterface $other_value
+     * @param array $other_value values to compare to the internal ones
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
-        /** @var array $lefthand_value */
-        $lefthand_value = $this->getValue();
-        $lefthand_count = 0;
-        $righthand_count = 0;
-        $are_equal = true;
-
-        if (is_array($lefthand_value)) {
-            $lefthand_count = count($lefthand_value);
-        }
-        if (is_array($other_value)) {
-            $righthand_count = count($other_value);
+        if (!is_array($other_value)) {
+            return false;
         }
 
-        if (0 < $lefthand_count && $lefthand_count === $righthand_count) {
-            foreach ($lefthand_value as $idx => $text) {
-                if ($other_value[$idx] !== $text) {
-                    $are_equal = false;
-                }
+        /** @var array $texts */
+        $texts = $this->getValue();
+
+        $texts_count = count($texts);
+        $other_count = count($other_value);
+
+        if ($texts_count !== $other_count) {
+            return false;
+        }
+
+        foreach ($texts as $idx => $val) {
+            if ($other_value[$idx] !== $val) {
+                return false;
             }
-        } elseif ($lefthand_count !== $righthand_count) {
-            $are_equal = false;
         }
 
-        return $are_equal;
+        return true;
     }
 
     /**

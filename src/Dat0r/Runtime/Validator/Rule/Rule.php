@@ -16,6 +16,19 @@ abstract class Rule extends Object implements RuleInterface
 
     private $sanitized_value;
 
+    /**
+     * Validates the given value and should set a sanitized value via
+     * ```$this->setSanitizedValue($sanitized_value);``` as a side effect.
+     *
+     * The method should not mutate the given value!
+     *
+     * The sanitized value will be given to the next validation rules by
+     * the validator and will end up being used as the new value (if valid).
+     *
+     * @param mixed $value the valueholder's value to validate
+     *
+     * @return boolean true if valid; false otherwise.
+     */
     abstract protected function execute($value);
 
     public function __construct($name, array $options = array())

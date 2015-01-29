@@ -43,7 +43,7 @@
                 </option>
             </attribute>
 
-            <attribute name="meta" type="key-value">
+            <attribute name="meta" type="key-value-list">
                 <description>Holds a set of generic attributes.</description>
                 <option name="constraints">
                     <option name="value_type">dynamic</option>
@@ -125,7 +125,7 @@
                 <attribute name="blocked" type="boolean">
                     <description>Tells whether we are currently open to workflow executions or not.</description>
                 </attribute>
-                <attribute name="step_counts" type="key-value">
+                <attribute name="step_counts" type="key-value-list">
                     <description>Tracks the number of executions of workflow steps.</description>
                     <option name="constraints">
                         <option name="value_type">integer</option>

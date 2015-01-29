@@ -7,13 +7,14 @@ use Dat0r\Runtime\ValueHolder\ValueHolder;
 class ChoiceValueHolder extends ValueHolder
 {
     /**
-     * Tells if a given select value(list) is equal to the valueholder's current value.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param mixed $other_value
+     * @param boolean $other_value value to compare
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
         return $this->getValue() === $other_value;
     }

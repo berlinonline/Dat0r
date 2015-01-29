@@ -3,7 +3,6 @@
 namespace Dat0r\Runtime\Attribute\Boolean;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
-use Dat0r\Common\Error\BadValueException;
 
 /**
  * Default implementation used for boolean value containment.
@@ -11,13 +10,14 @@ use Dat0r\Common\Error\BadValueException;
 class BooleanValueHolder extends ValueHolder
 {
     /**
-     * Tells if a given boolean value is equal to an other given boolean.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param mixed $other_value
+     * @param boolean $other_value value to compare
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
         return $this->getValue() === $other_value;
     }

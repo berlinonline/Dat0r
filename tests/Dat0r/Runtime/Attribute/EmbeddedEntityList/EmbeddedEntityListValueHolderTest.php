@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Tests\Runtime\Attribute\Value\Type;
+namespace Dat0r\Tests\Runtime\Attribute\EmbeddedEntityList;
 
 use Mockery;
 use Dat0r\Tests\TestCase;

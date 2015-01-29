@@ -10,15 +10,15 @@ use Dat0r\Runtime\ValueHolder\ValueHolder;
 class TextValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a specific ValueHolderInterface instance's value is considered equal to
-     * the value of an other given ValueHolderInterface.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param ValueHolderInterface $other
+     * @param string $other_value string to compare to the internal one
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($right_value)
+    protected function valueEquals($other_value)
     {
-        return $this->getValue() === $right_value;
+        return $this->getValue() === $other_value;
     }
 }

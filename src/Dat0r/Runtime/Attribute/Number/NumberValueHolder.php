@@ -10,14 +10,14 @@ use Dat0r\Runtime\ValueHolder\ValueHolder;
 class NumberValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a specific ValueHolderInterface instance's value is considered equal to
-     * the value of an other given ValueHolderInterface.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param ValueHolderInterface $other
+     * @param int $other_value number value to compare
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
         return $this->getValue() === $other_value;
     }

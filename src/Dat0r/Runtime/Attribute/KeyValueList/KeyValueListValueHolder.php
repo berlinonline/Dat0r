@@ -1,48 +1,45 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\KeyValue;
+namespace Dat0r\Runtime\Attribute\KeyValueList;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 /**
  * Default implementation used for key-value containment.
  */
-class KeyValueValueHolder extends ValueHolder
+class KeyValueListValueHolder extends ValueHolder
 {
     /**
-     * Tells whether a spefic ValueHolderInterface instance's value is considered equal to
-     * the value of an other given ValueHolderInterface.
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
      *
-     * @param ValueHolderInterface $other
+     * @param array $other_value values to compare to the internal ones
      *
-     * @return boolean
+     * @return boolean true if the given value is considered the same value as the internal one
      */
-    public function isEqualTo($other_value)
+    protected function valueEquals($other_value)
     {
-        /** @var array $lefthand_value */
-        $lefthand_value = $this->getValue();
-        $lefthand_count = 0;
-        $righthand_count = 0;
-        $are_equal = true;
-
-        if (is_array($lefthand_value)) {
-            $lefthand_count = count($lefthand_value);
-        }
-        if (is_array($other_value)) {
-            $righthand_count = count($other_value);
+        if (!is_array($other_value)) {
+            return false;
         }
 
-        if (0 < $lefthand_count && $lefthand_count === $righthand_count) {
-            foreach ($lefthand_value as $key => $value) {
-                if ($other_value[$key] !== $value) {
-                    $are_equal = false;
-                }
+        /** @var array $numbers */
+        $numbers = $this->getValue();
+
+        $numbers_count = count($numbers);
+        $other_count = count($other_value);
+
+        if ($numbers_count !== $other_count) {
+            return false;
+        }
+
+        foreach ($numbers as $idx => $val) {
+            if ($other_value[$idx] !== $val) {
+                return false;
             }
-        } else {
-            $are_equal = false;
         }
 
-        return $are_equal;
+        return true;
     }
 
     /**
@@ -52,7 +49,7 @@ class KeyValueValueHolder extends ValueHolder
      */
     public function setValue($value)
     {
-        // @todo move to validator
+        // @todo move to validator rule
         $attributes = array();
         $value = empty($value) ? array() : $value;
         foreach ($value as $key => $value) {
@@ -88,7 +85,7 @@ class KeyValueValueHolder extends ValueHolder
 
     public function getTypeConstraint()
     {
-        $constraints = $this->getAttribute()->getOption(KeyValueAttribute::OPTION_VALUE_CONSTRAINTS, array());
+        $constraints = $this->getAttribute()->getOption(KeyValueListAttribute::OPTION_VALUE_CONSTRAINTS, array());
         $value_type = 'dynamic';
 
         if (isset($constraints['value_type'])) {

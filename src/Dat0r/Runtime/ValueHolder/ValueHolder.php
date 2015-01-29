@@ -39,6 +39,16 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     private $listeners;
 
     /**
+     * Tells whether the given other_value is considered the same value as the
+     * internally set value of this valueholder.
+     *
+     * @param mixed $other_value value to compare to the internal one
+     *
+     * @return boolean true if the given value is considered the same value as the internal one
+     */
+    abstract protected function valueEquals($other_value);
+
+    /**
      * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
      * @param AttributeInterface $attribute
@@ -76,7 +86,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
             $previous_value = $this->value;
             $this->value = $validation_result->getSanitizedValue();
 
-            if (!$this->isEqualTo($previous_value)) {
+            if (!$this->sameValueAs($previous_value)) {
                 $this->propagateValueChangedEvent(
                     $this->createValueHolderChangedEvent($previous_value)
                 );
@@ -94,13 +104,61 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     }
 
     /**
-     * Tells if the valueholder's value is considered empty/null.
+     * Tells whether the valueholder's value is considered to be the same
+     * as the empty/null defined on the attribute.
      *
      * @return boolean
      */
     public function isNull()
     {
-        return $this->value === $this->attribute->getNullValue();
+        return $this->sameValueAs($this->attribute->getNullValue());
+    }
+
+    /**
+     * Tells whether the valueholder's value is considered to be the same as
+     * the default value defined on the attribute.
+     *
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        return $this->sameValueAs($this->attribute->getDefaultValue());
+    }
+
+    /**
+     * Tells whether a specific ValueHolderInterface instance's value is
+     * considered equal to the given value.
+     *
+     * @param mixed $other_value
+     *
+     * @return boolean
+     */
+    public function sameValueAs($other_value)
+    {
+        $validation_result = $this->getAttribute()->getValidator()->validate($other_value);
+        if ($validation_result->getSeverity() !== IncidentInterface::SUCCESS) {
+            return false;
+        }
+
+        return $this->valueEquals($validation_result->getSanitizedValue());
+    }
+
+    /**
+     * Tells whether a valueholder is considered being equal to the given
+     * valueholder. That is, class and value are the same. The attribute and
+     * entity may be different.
+     *
+     * @param ValueHolderInterface $other_value_holder
+     *
+     * @return boolean
+     */
+    public function isEqualTo(ValueHolderInterface $other_value_holder)
+    {
+        if (get_class($this) !== get_class($other_value_holder)) {
+            return false;
+        }
+
+        return $this->sameValueAs($other_value_holder->getValue());
     }
 
     /**

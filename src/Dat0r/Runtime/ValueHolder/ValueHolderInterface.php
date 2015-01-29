@@ -33,13 +33,32 @@ interface ValueHolderInterface
     public function isNull();
 
     /**
-     * Tells whether a given ValueHolderInterface is considered being equal to a given other ValueHolderInterface.
-     *
-     * @param mixed $other
+     * Tells whether the valueholder's value is considered to be the same as
+     * the default value defined on the attribute.
      *
      * @return boolean
      */
-    public function isEqualTo($other_value);
+    public function isDefault();
+
+    /**
+     * Tells whether the given value is considered equal to the internal value.
+     *
+     * @param mixed $other_value
+     *
+     * @return boolean
+     */
+    public function sameValueAs($other_value);
+
+    /**
+     * Tells whether the given valueholder is considered being equal to the
+     * current instance. That is, class name and value are considered the same
+     * whileas the actual attribute and entity may be different.
+     *
+     * @param ValueHolderInterface $other_value_holder
+     *
+     * @return boolean
+     */
+    public function isEqualTo(ValueHolderInterface $other_value_holder);
 
     /**
      * Registers a given listener as a recipient of value changed events.

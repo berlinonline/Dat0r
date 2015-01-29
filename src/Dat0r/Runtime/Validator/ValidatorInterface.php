@@ -8,6 +8,8 @@ use Dat0r\Runtime\Validator\Result\ResultInterface;
 interface ValidatorInterface
 {
     /**
+     * Validates the value by delegating this to validation rules.
+     *
      * @return ResultInterface
      */
     public function validate($value);
