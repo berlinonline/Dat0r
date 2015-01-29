@@ -358,6 +358,19 @@ class ArrayListTest extends TestCase
         $this->assertNull($empty_list->getLast());
     }
 
+    public function testReverse()
+    {
+        $items = $this->createRandomItems();
+        $item_count = count($items);
+        $list = new ArrayList($items);
+        $reversed_list = $list->reverse();
+
+        foreach ($reversed_list as $i => $item) {
+            $reverse_index = $item_count - $i - 1;
+            $this->assertEquals($items[$reverse_index], $item);
+        }
+    }
+
     public function tearDown()
     {
         Mockery::close();

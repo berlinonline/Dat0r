@@ -19,4 +19,6 @@ interface ListInterface extends CollectionInterface
     public function getFirst();
 
     public function getLast();
+
+    public function reverse();
 }

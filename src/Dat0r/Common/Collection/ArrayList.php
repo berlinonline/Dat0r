@@ -118,4 +118,9 @@ class ArrayList extends Collection implements ListInterface
             $this->addItem($item);
         }
     }
+
+    public function reverse()
+    {
+        return new static(array_reverse($this->items));
+    }
 }
