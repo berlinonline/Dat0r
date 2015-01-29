@@ -2,10 +2,10 @@
 
 namespace Dat0r\Common;
 
-use Dat0r\Common\OptionsInterface;
-use Dat0r\Common\Options;
-use Dat0r\Common\Object;
 use Dat0r\Common\ConfigurableInterface;
+use Dat0r\Common\Object;
+use Dat0r\Common\Options;
+use Dat0r\Common\OptionsInterface;
 
 class Configurable extends Object implements ConfigurableInterface
 {

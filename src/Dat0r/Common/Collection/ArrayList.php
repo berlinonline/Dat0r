@@ -2,8 +2,8 @@
 
 namespace Dat0r\Common\Collection;
 
-use Dat0r\Common\Error\RuntimeException;
 use Closure;
+use Dat0r\Common\Error\RuntimeException;
 
 /**
  * ArrayList should actually be named List, but php has this as a reserved token (T_LIST),

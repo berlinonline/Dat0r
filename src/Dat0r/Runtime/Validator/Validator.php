@@ -3,10 +3,10 @@
 namespace Dat0r\Runtime\Validator;
 
 use Dat0r\Common\Object;
-use Dat0r\Runtime\Validator\Result\Result;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
-use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Result\Result;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 
 class Validator extends Object implements ValidatorInterface
 {

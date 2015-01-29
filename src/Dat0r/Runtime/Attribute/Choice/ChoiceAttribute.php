@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Attribute\Choice;
 
+use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\InArrayRule;
-use Dat0r\Runtime\Attribute\Text\TextAttribute;
 
 class ChoiceAttribute extends TextAttribute
 {

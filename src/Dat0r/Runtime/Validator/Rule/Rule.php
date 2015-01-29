@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Validator\Rule;
 
+use Dat0r\Common\Object;
 use Dat0r\Runtime\Validator\Result\Incident;
 use Dat0r\Runtime\Validator\Result\IncidentMap;
-use Dat0r\Common\Object;
 
 abstract class Rule extends Object implements RuleInterface
 {

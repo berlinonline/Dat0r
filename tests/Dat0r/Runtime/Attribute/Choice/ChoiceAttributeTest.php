@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Choice;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Choice\ChoiceAttribute;
 use Dat0r\Runtime\Attribute\Choice\ChoiceValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Tests\TestCase;
 
 class ChoiceAttributeTest extends TestCase
 {

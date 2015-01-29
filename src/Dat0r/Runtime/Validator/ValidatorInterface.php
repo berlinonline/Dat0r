@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Validator;
 
-use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Result\ResultInterface;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 
 interface ValidatorInterface
 {

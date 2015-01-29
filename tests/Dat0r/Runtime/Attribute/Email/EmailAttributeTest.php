@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Email;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Email\EmailAttribute;
 use Dat0r\Runtime\Attribute\Email\EmailValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Tests\TestCase;
 use stdClass;
 
 /**

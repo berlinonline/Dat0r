@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Attribute\Email;
 
-use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Rule;
 use Egulias\EmailValidator\EmailLexer;
 use Egulias\EmailValidator\EmailParser;
 use Egulias\EmailValidator\EmailValidator;

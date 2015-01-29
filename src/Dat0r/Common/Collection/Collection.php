@@ -2,10 +2,10 @@
 
 namespace Dat0r\Common\Collection;
 
+use Dat0r\Common\Error\BadValueException;
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Object;
 use Dat0r\Common\ObjectInterface;
-use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Common\Error\BadValueException;
 
 /**
  * Generic base implementation of the CollectionInterface interface.

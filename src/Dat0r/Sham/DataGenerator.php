@@ -2,7 +2,6 @@
 
 namespace Dat0r\Sham;
 
-use Faker\Factory;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
@@ -10,6 +9,7 @@ use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Sham\TextGuesser;
+use Faker\Factory;
 
 /**
  * Sham\DataGenerator is a class that is able to create or fill entities

@@ -71,6 +71,18 @@ interface EntityInterface
     public function getValues(array $attribute_names = array());
 
     /**
+     * Returns a (de)serializable representation of the attribute values. The
+     * returned values MUST be acceptable as values on the attributes (that is,
+     * their respective valueholders) to reconstitute them.
+     *
+     * Instead of implementing an explicit fromNative method use setValues to
+     * recreate an entity from the given native representation.
+     *
+     * @return array of attribute values that can be used for serializing/deserializing
+     */
+    public function toNative();
+
+    /**
      * Returns an array representation of a entity's current value state.
      *
      * @return array
@@ -78,12 +90,12 @@ interface EntityInterface
     public function toArray();
 
     /**
-     * Tells whether a spefic EntityInterface instance is considered equal to an other given entity.
-     * entities are equal when they have both the same type and values.
+     * Tells whether this entity is considered equal to another given entity.
+     * Entities are equal when they have the same type and values.
      *
      * @param EntityInterface $entity
      *
-     * @return boolean
+     * @return boolean true on both entities have the same type and values; false otherwise.
      */
     public function isEqualTo(EntityInterface $entity);
 

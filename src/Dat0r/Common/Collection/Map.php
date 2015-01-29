@@ -2,8 +2,8 @@
 
 namespace Dat0r\Common\Collection;
 
-use Dat0r\Common\Error\RuntimeException;
 use Closure;
+use Dat0r\Common\Error\RuntimeException;
 
 class Map extends Collection implements MapInterface
 {

@@ -2,14 +2,14 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Common\Object;
-use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
+use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Object;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator;
 use Dat0r\Runtime\Validator\ValidatorInterface;
-use Dat0r\Runtime\Validator\Rule\RuleList;
-use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
 
 /**
  * Base class that all Dat0r AttributeInterface implementations should extend.

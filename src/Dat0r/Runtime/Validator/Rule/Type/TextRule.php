@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Rule;
 
 /**
  * Supported options: min, max, ensure_utf8, trim

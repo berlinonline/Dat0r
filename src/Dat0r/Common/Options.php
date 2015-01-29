@@ -2,10 +2,10 @@
 
 namespace Dat0r\Common;
 
-use JmesPath\Env as JmesPath;
+use ArrayObject;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
-use ArrayObject;
+use JmesPath\Env as JmesPath;
 use JsonSerializable;
 
 class Options extends ArrayObject implements ObjectInterface, OptionsInterface, JsonSerializable

@@ -3,8 +3,8 @@
 namespace Dat0r\Runtime\Attribute\EntityReferenceList;
 
 use Dat0r\Runtime\Entity\EntityList;
-use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Rule;
 
 /**
  * Validates that a given value consistently translates to a list of entities.

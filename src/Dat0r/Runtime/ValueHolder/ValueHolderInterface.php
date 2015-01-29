@@ -41,6 +41,15 @@ interface ValueHolderInterface
     public function isDefault();
 
     /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    public function toNative();
+
+    /**
      * Tells whether the given value is considered equal to the internal value.
      *
      * @param mixed $other_value

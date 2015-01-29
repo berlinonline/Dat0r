@@ -49,6 +49,15 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     abstract protected function valueEquals($other_value);
 
     /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    abstract public function toNative();
+
+    /**
      * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
      * @param AttributeInterface $attribute

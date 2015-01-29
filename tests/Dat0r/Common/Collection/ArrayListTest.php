@@ -2,10 +2,14 @@
 
 namespace Dat0r\Tests\Common\Collection;
 
-use Mockery;
-use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Common\Fixtures\TestObject;
 use Dat0r\Common\Collection\ArrayList;
+use Dat0r\Common\Collection\CollectionChangedEvent;
+use Dat0r\Common\Collection\CollectionInterface;
+use Dat0r\Common\Collection\ListInterface;
+use Dat0r\Common\Collection\ListenerInterface;
+use Dat0r\Tests\Common\Fixtures\TestObject;
+use Dat0r\Tests\TestCase;
+use Mockery;
 
 class ArrayListTest extends TestCase
 {
@@ -14,17 +18,17 @@ class ArrayListTest extends TestCase
         $items = $this->createRandomItems();
         $list = new ArrayList($items);
 
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\CollectionInterface', $list);
-        $this->assertInstanceOf('\\Dat0r\\Common\\Collection\\ListInterface', $list);
+        $this->assertInstanceOf(CollectionInterface::CLASS, $list);
+        $this->assertInstanceOf(ListInterface::CLASS, $list);
         $this->assertEquals(count($items), $list->getSize());
     }
 
     public function testPush()
     {
-        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
-        $listener->shouldReceive('onCollectionChanged')->with(
-            '\Dat0r\Common\Collection\CollectionChangedEvent'
-        )->once();
+        $listener = Mockery::mock(ListenerInterface::CLASS);
+        $listener->shouldReceive('onCollectionChanged')
+            ->with(CollectionChangedEvent::CLASS)
+            ->once();
 
         $items = $this->createRandomItems();
 
@@ -41,10 +45,10 @@ class ArrayListTest extends TestCase
 
     public function testPop()
     {
-        $listener = Mockery::mock('\Dat0r\Common\Collection\ListenerInterface');
-        $listener->shouldReceive('onCollectionChanged')->with(
-            '\Dat0r\Common\Collection\CollectionChangedEvent'
-        )->once();
+        $listener = Mockery::mock(ListenerInterface::CLASS);
+        $listener->shouldReceive('onCollectionChanged')
+            ->with(CollectionChangedEvent::CLASS)
+            ->once();
 
         $items = $this->createRandomItems();
 

@@ -2,8 +2,8 @@
 
 namespace Dat0r\Runtime\Attribute\Boolean;
 
-use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Rule;
 
 class BooleanRule extends Rule
 {

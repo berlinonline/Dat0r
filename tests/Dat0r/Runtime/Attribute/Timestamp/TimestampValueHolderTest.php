@@ -2,13 +2,9 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Timestamp;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Timestamp\TimestampAttribute;
 use Dat0r\Runtime\Attribute\Timestamp\TimestampValueHolder;
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
-use DateTime;
-use DateTimeImmutable;
-use stdClass;
+use Dat0r\Tests\TestCase;
 
 class TimestampValueHolderTest extends TestCase
 {

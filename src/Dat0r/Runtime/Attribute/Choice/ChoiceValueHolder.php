@@ -18,4 +18,17 @@ class ChoiceValueHolder extends ValueHolder
     {
         return $this->getValue() === $other_value;
     }
+
+    /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    public function toNative()
+    {
+        // TODO check that this is always an scalar array or value
+        return $this->getValue();
+    }
 }

@@ -3,8 +3,8 @@
 namespace Dat0r\Tests\Runtime\Fixtures;
 
 use Dat0r\Common\Options;
-use Dat0r\Runtime\EntityType;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
+use Dat0r\Runtime\EntityType;
 
 class WorkflowTicketType extends EntityType
 {

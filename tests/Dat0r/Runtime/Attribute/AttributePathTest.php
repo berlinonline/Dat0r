@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Attribute;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\AttributePath;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
+use Dat0r\Tests\TestCase;
 
 class AttributePathTest extends TestCase
 {

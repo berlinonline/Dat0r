@@ -3,13 +3,13 @@
 namespace Dat0r\Runtime;
 
 use Dat0r\Common\Configurable;
-use Dat0r\Common\OptionsInterface;
 use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Common\Error\RuntimeException;
-use Dat0r\Runtime\Entity\EntityInterface;
+use Dat0r\Common\OptionsInterface;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Base class that all Dat0r types should extend.

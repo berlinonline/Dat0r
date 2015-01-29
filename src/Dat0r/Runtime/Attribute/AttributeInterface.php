@@ -3,9 +3,9 @@
 namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Runtime\Attribute\Value\ValueHolderInterface;
+use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator\ValidatorInterface;
-use Dat0r\Runtime\EntityTypeInterface;
 
 /**
  * AttributeInterfaces hold meta data that is used to model entity properties,

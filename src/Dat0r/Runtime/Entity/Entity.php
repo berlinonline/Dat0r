@@ -2,16 +2,17 @@
 
 namespace Dat0r\Runtime\Entity;
 
+use Closure;
 use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Object;
+use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Result\ResultMap;
-use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
-use Dat0r\Runtime\ValueHolder\ValueHolderMap;
-use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
-use Dat0r\Common\Object;
+use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
+use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
+use Dat0r\Runtime\ValueHolder\ValueHolderMap;
 
 /**
  * Entity generically implements the EntityInterface interface
@@ -36,7 +37,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
 
     /**
      * There is a ValueHolderInterface instance for each AttributeInterface of our type.
-     * The '$values' property maps attribute_names to their dedicated valueholder instance
+     * The property maps attribute_names to their respective valueholder instances
      * and is used for lookups during setValue(s) invocations.
      *
      * @var ValueHolderMap $value_holder_map
@@ -208,6 +209,27 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     }
 
     /**
+     * Returns a (de)serializable representation of the attribute values. The
+     * returned values MUST be acceptable as values on the attributes (that is,
+     * their respective valueholders) to reconstitute them.
+     *
+     * Instead of implementing an explicit fromNative method use setValues to
+     * recreate an entity from the given native representation.
+     *
+     * @return array of attribute values that can be used for serializing/deserializing
+     */
+    public function toNative()
+    {
+        $native_values = [];
+
+        foreach ($this->value_holder_map as $attribute_name => $value_holder) {
+            $native_values[$attribute_name] = $value_holder->toNative();
+        }
+
+        return $native_values;
+    }
+
+    /**
      * Returns an array representation of a entity's current value state.
      *
      * @return array
@@ -230,12 +252,12 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     }
 
     /**
-     * Tells whether a spefic EntityInterface instance is considered equal to an other given entity.
-     * entities are equal when they have both the same type and values.
+     * Tells whether this entity is considered equal to another given entity.
+     * Entities are equal when they have the same type and values.
      *
      * @param EntityInterface $entity
      *
-     * @return boolean
+     * @return boolean true on both entities have the same type and values; false otherwise.
      */
     public function isEqualTo(EntityInterface $entity)
     {
@@ -243,16 +265,18 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
             return false;
         }
 
-        $is_equal = true;
+        if ($this->getType()->getAttributes()->getSize() !== $this->value_holder_map->getSize()) {
+            return false;
+        }
+
         foreach ($this->getType()->getAttributes()->getKeys() as $attribute_name) {
-            $attribute_value = $this->value_holder_map->getItem($attribute_name);
-            if (!$attribute_value->isEqualTo($entity->getValue($attribute_name))) {
-                $is_equal = false;
-                break;
+            $value_holder = $this->value_holder_map->getItem($attribute_name);
+            if (!$value_holder->sameValueAs($entity->getValue($attribute_name))) {
+                return false;
             }
         }
 
-        return $is_equal;
+        return true;
     }
 
     /**

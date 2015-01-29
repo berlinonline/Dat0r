@@ -2,10 +2,10 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Text;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Attribute\Text\TextValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Tests\TestCase;
 
 class TextAttributeTest extends TestCase
 {

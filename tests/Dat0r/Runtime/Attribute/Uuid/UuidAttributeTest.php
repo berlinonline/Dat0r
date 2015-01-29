@@ -2,9 +2,9 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Uuid;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Uuid\UuidAttribute;
 use Dat0r\Runtime\Attribute\Uuid\UuidValueHolder;
+use Dat0r\Tests\TestCase;
 
 class UuidAttributeTest extends TestCase
 {

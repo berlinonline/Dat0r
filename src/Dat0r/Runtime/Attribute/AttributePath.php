@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Attribute;
 
-use Dat0r\Runtime\EntityTypeInterface;
-use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\EntityTypeInterface;
 
 class AttributePath
 {
@@ -57,6 +57,7 @@ class AttributePath
             $current_attribute = $current_type->getAttribute($path_tuple[0]);
             if ($current_attribute instanceof EmbeddedEntityListAttribute) {
                 $current_type = $current_attribute->getEmbedTypeByPrefix($path_tuple[1]);
+                // TODO reintroduce referencehandling?
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-path.' .

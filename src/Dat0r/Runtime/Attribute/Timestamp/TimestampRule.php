@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Attribute\Timestamp;
 
+use Dat0r\Runtime\Attribute\Type\Timestamp;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Attribute\Type\Timestamp;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;

@@ -2,12 +2,12 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\EmbeddedEntityList;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListValueHolder;
-use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\Runtime\Fixtures\Paragraph;
+use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\Runtime\Fixtures\WorkflowTicketType;
+use Dat0r\Tests\TestCase;
 
 class EmbeddedEntityListAttributeTest extends TestCase
 {

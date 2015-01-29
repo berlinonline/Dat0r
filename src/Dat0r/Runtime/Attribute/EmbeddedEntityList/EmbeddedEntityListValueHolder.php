@@ -21,10 +21,6 @@ class EmbeddedEntityListValueHolder extends ValueHolder
     {
         $entities = $this->getValue();
 
-        if (!$other_value instanceof \Dat0r\Runtime\Entity\EntityList) {
-            var_dump(get_class($other_value));
-        }
-
         if (count($entities) !== count($other_value)) {
             return false;
         }
@@ -36,5 +32,27 @@ class EmbeddedEntityListValueHolder extends ValueHolder
         }
 
         return true;
+    }
+
+    /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    public function toNative()
+    {
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
+        }
+
+        $entities = [];
+
+        foreach ($this->getValue() as $entity) {
+            $entities[] = $entity->toNative();
+        }
+
+        return $entities;
     }
 }

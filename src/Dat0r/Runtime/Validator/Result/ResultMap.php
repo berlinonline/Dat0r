@@ -2,9 +2,9 @@
 
 namespace Dat0r\Runtime\Validator\Result;
 
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\UniqueCollectionInterface;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 
 class ResultMap extends TypedMap implements UniqueCollectionInterface
 {

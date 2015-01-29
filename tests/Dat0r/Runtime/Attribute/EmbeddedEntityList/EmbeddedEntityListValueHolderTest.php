@@ -2,14 +2,14 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\EmbeddedEntityList;
 
-use Mockery;
-use Dat0r\Tests\TestCase;
-use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
-use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListValueHolder;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListValueHolder;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
+use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
+use Dat0r\Tests\TestCase;
+use Mockery;
 
 class EmbeddedEntityListValueHolderTest extends TestCase
 {

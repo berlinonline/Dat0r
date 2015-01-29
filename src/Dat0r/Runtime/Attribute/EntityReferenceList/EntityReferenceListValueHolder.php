@@ -34,4 +34,26 @@ class EntityReferenceListValueHolder extends ValueHolder
 
         return true;
     }
+
+    /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    public function toNative()
+    {
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
+        }
+
+        $entities = [];
+
+        foreach ($this->getValue() as $entity) {
+            $entities[] = $entity->toNative();
+        }
+
+        return $entities;
+    }
 }

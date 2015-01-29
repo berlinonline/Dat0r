@@ -30,6 +30,22 @@ class TimestampValueHolder extends ValueHolder
         );
     }
 
+    /**
+     * Returns a (de)serializable representation of the internal value. The
+     * returned format MUST be acceptable as a new value on the valueholder
+     * to reconstitute it.
+     *
+     * @return mixed value that can be used for serializing/deserializing
+     */
+    public function toNative()
+    {
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return null;
+        }
+
+        return $this->getValue()->format(TimestampAttribute::FORMAT_ISO8601);
+    }
+
     public function acceptable($value)
     {
         $validation_result = $this->getAttribute()->getValidator()->validate($value);

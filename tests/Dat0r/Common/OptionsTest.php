@@ -2,8 +2,8 @@
 
 namespace Dat0r\Tests\Common;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Common\Options;
+use Dat0r\Tests\TestCase;
 
 class OptionsTest extends TestCase
 {

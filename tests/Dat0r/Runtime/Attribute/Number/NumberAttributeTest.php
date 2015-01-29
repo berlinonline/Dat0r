@@ -2,9 +2,9 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Number;
 
-use Dat0r\Tests\TestCase;
 use Dat0r\Runtime\Attribute\Number\NumberAttribute;
 use Dat0r\Runtime\Attribute\Number\NumberValueHolder;
+use Dat0r\Tests\TestCase;
 
 class NumberAttributeTest extends TestCase
 {
