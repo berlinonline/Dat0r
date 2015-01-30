@@ -25,6 +25,8 @@ class TimestampRule extends Rule
                     'U.u',
                     sprintf('%.6F', microtime(true))
                 );
+            } elseif ($value === '') { // this is the toNative return value for the nullValue
+                $dt = false;
             } else {
                 $dt = new DateTimeImmutable($value);
             }
@@ -75,7 +77,7 @@ class TimestampRule extends Rule
         }
 
         if ($this->hasOption(TimestampAttribute::OPTION_MAX)) {
-            $max = new DateTimeImmutable($this->getOption('max'));
+            $max = new DateTimeImmutable($this->getOption(TimestampAttribute::OPTION_MAX));
             $force_internal_timezone = $this->getOption(
                 TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE,
                 TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE

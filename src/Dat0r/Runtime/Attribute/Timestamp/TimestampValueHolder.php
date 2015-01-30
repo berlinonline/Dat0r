@@ -39,11 +39,16 @@ class TimestampValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
-            return null;
+        if (!$this->getValue() instanceOf DateTimeInterface) {
+            return '';
         }
 
-        return $this->getValue()->format(TimestampAttribute::FORMAT_ISO8601);
+        return $this->getValue()->format(
+            $this->getAttribute()->getOption(
+                TimestampAttribute::OPTION_FORMAT_NATIVE,
+                TimestampAttribute::FORMAT_ISO8601
+            )
+        );
     }
 
     public function acceptable($value)

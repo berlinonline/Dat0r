@@ -16,8 +16,14 @@ class TimestampAttribute extends Attribute
     const OPTION_INTERNAL_TIMEZONE_NAME = 'internal_timezone_name';
     const OPTION_MAX = 'max';
     const OPTION_MIN = 'min';
+    const OPTION_FORMAT_NATIVE = 'format_native';
 
     const FORMAT_ISO8601 = 'Y-m-d\TH:i:s.uP';
+    const FORMAT_ISO8601_SIMPLE = 'Y-m-d\TH:i:sP';
+    const FORMAT_ISO8601_DATE = 'Y-m-dP';
+    const FORMAT_ISO8601_DATE_SIMPLE = 'Y-m-d';
+
+    const FORMAT_NATIVE = TimestampAttribute::FORMAT_ISO8601;
 
     /**
      * Constructs a new attribute instance with some default options.
@@ -38,6 +44,11 @@ class TimestampAttribute extends Attribute
         parent::__construct($name, $options);
     }
 
+    public function getNullValue()
+    {
+        return $this->getOption(self::OPTION_NULL_VALUE, null);
+    }
+
     public function getDefaultValue()
     {
         $default_value = $this->getOption(self::OPTION_DEFAULT_VALUE, '');
@@ -49,9 +60,9 @@ class TimestampAttribute extends Attribute
         if ($validation_result->getSeverity() > IncidentInterface::NOTICE) {
             throw new InvalidConfigException(
                 sprintf(
-                    "Configured default_value for attribute '%s'on entity type '%s' is not valid.",
+                    "Configured default_value for attribute '%s' on entity type '%s' is not valid.",
                     $this->getName(),
-                    $this->getType()->getName()
+                    $this->getType() ? $this->getType()->getName() : 'undefined'
                 )
             );
         }
