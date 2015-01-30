@@ -40,7 +40,7 @@ class ArticleType extends EntityType
                 new KeyValueListAttribute(
                     'meta',
                     array(
-                        'constraints' => array('value_type' => 'dynamic',),
+                        'cast_values_to' => 'nothing',
                     )
                 ),
                 new EmbeddedEntityListAttribute(

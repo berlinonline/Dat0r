@@ -9,6 +9,6 @@ class IncidentMap extends TypedMap implements UniqueCollectionInterface
 {
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Validator\\Result\\IncidentInterface';
+        return IncidentInterface::CLASS;
     }
 }

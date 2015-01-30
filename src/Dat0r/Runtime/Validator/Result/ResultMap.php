@@ -20,6 +20,6 @@ class ResultMap extends TypedMap implements UniqueCollectionInterface
 
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Validator\\Result\\ResultInterface';
+        return ResultInterface::CLASS;
     }
 }

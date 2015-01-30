@@ -33,9 +33,10 @@ class KeyValueListAttribute extends Attribute
         if ($validation_result->getSeverity() > IncidentInterface::NOTICE) {
             throw new InvalidConfigException(
                 sprintf(
-                    "Configured default_value for attribute '%s'on entity type '%s' is not valid.",
+                    "Configured default_value '%s' for attribute '%s' on entity type '%s' is not valid.",
+                    $default_value,
                     $this->getName(),
-                    $this->getType()->getName()
+                    $this->getType() ? $this->getType()->getName() : 'undefined'
                 )
             );
         }
@@ -47,7 +48,9 @@ class KeyValueListAttribute extends Attribute
     {
         $rules = new RuleList();
 
-        $rule = new KeyValueListRule('valid-key-value-list', $this->getOptions());
+        $options = $this->getOptions();
+
+        $rule = new KeyValueListRule('valid-key-value-list', $options);
 
         $rules->push($rule);
 

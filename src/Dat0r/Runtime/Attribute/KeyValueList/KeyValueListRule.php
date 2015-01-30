@@ -20,65 +20,63 @@ class KeyValueListRule extends Rule
         }
 
         $sanitized = [];
-        $valid = true;
 
         foreach ($value as $key => $val) {
             $key = trim($key);
             if (empty($key)) {
                 $this->throwError('empty_key', [], IncidentInterface::CRITICAL);
-                $valid = false;
+                return false;
             }
 
             if (!is_scalar($val)) {
                 $this->throwError('non_scalar_value', [ 'key' => $key ], IncidentInterface::CRITICAL);
-                $valid = false;
+                return false;
             }
 
+            // cast values to string, integer or boolean
             if ($this->hasOption(KeyValueListAttribute::OPTION_CAST_VALUES_TO)) {
                 $val = $this->castValue($val);
             }
 
+            // check minimum value or length
             if ($min = $this->getOption(KeyValueListAttribute::OPTION_MIN, false)) {
                 if (is_string($val) && mb_strlen($val) < $min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
                         'value_given' => $val
                     ]);
-                    $valid = false;
+                    return false;
                 } elseif (is_int($val) && $val < (int)$min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
                         'value_given' => $val
                     ]);
-                    $valid = false;
+                    return false;
                 } else {
                     // misconfigured? ignore
                 }
             }
 
+            // check maximumaximum or length
             if ($max = $this->getOption(KeyValueListAttribute::OPTION_MAX, false)) {
                 if (is_string($val) && mb_strlen($val) > $max) {
                     $this->throwError(KeyValueListAttribute::OPTION_MAX, [
                         KeyValueListAttribute::OPTION_MAX => $max,
                         'value_given' => $val
                     ]);
-                    $valid = false;
+                    return false;
                 } elseif (is_int($val) && $val > (int)$max) {
                     $this->throwError(KeyValueListAttribute::OPTION_MAX, [
                         KeyValueListAttribute::OPTION_MAX => $max,
                         'value_given' => $val
                     ]);
-                    $valid = false;
+                    return false;
                 } else {
                     // misconfigured? ignore
                 }
             }
 
             $sanitized[$key] = $val;
-        }
-
-        if (!$valid) {
-            return false;
         }
 
         $this->setSanitizedValue($sanitized);

@@ -2,6 +2,7 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\KeyValueList;
 
+use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -161,10 +162,51 @@ class KeyValueListAttributeTest extends TestCase
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
 
         $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
-//        var_dump($validation_result->getSeverity());
-//        var_dump($validation_result->getViolatedRules()->getSize());
-//        var_dump($validation_result->getViolatedRules()->getFirst()->getIncidents());
     }
+
+    public function testMinMaxStringLengthConstraint()
+    {
+        $data = [
+            'bar' => '15',
+            'foo' => '1234567890',
+        ];
+
+        $attribute = new KeyValueListAttribute('keyvalueminmaxstringlength', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_MIN => 3,
+            KeyValueListAttribute::OPTION_MAX => 5
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $validation_result = $valueholder->setValue($data);
+
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+
+        $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
+
+        //$vr = $validation_result->getViolatedRules()->getFirst();
+        // var_dump($vr);
+        // var_dump(get_class_methods($vr));
+        // var_dump($vr->getName());
+        // var_dump($vr->getIncidents()->getSize());
+        // var_dump($vr->getIncidents());
+    }
+
+    public function testThrowsOnInvalidDefaultValueInConfig()
+    {
+        $this->setExpectedException(InvalidConfigException::CLASS);
+
+        $attribute = new KeyValueListAttribute('keyvalueminmaxintegerdefaultvalue', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_INTEGER,
+            KeyValueListAttribute::OPTION_MIN => 1,
+            KeyValueListAttribute::OPTION_MAX => 5,
+            KeyValueListAttribute::OPTION_DEFAULT_VALUE => 666
+        ]);
+
+        $attribute->getDefaultValue();
+    }
+
     /**
      * @dataProvider provideInvalidValues
      */

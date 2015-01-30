@@ -39,7 +39,7 @@ abstract class Rule extends Object implements RuleInterface
 
     public function apply($value)
     {
-        $this->incidents = new IncidentMap();
+        $this->incidents = new IncidentMap(); // TODO does this have to be a map? accumulated throwError() in foreach?
         $this->sanitized_value = null;
 
         if (true === ($success = $this->execute($value))) {
