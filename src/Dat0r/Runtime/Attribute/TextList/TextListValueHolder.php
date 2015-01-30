@@ -23,17 +23,17 @@ class TextListValueHolder extends ValueHolder
             return false;
         }
 
-        /** @var array $texts */
-        $texts = $this->getValue();
+        /** @var array $numbers */
+        $numbers = $this->getValue();
 
-        $texts_count = count($texts);
+        $numbers_count = count($numbers);
         $other_count = count($other_value);
 
-        if ($texts_count !== $other_count) {
+        if ($numbers_count !== $other_count) {
             return false;
         }
 
-        foreach ($texts as $idx => $val) {
+        foreach ($numbers as $idx => $val) {
             if ($other_value[$idx] !== $val) {
                 return false;
             }
@@ -51,26 +51,10 @@ class TextListValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        return $this->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        // @todo move to validator
-        $values = array();
-        $value = !is_array($value) || empty($value) ? array() : $value;
-        foreach ($value as $text) {
-            $text = trim((string)$text);
-            if (!empty($text)) {
-                $values[] = $text;
-            }
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
         }
 
-        return parent::setValue($values);
+        return $this->getValue();
     }
 }

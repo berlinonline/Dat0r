@@ -43,13 +43,13 @@ class KeyValueListRule extends Rule
                 if (is_string($val) && mb_strlen($val) < $min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
-                        'value_given' => $val
+                        'value' => $val
                     ]);
                     return false;
                 } elseif (is_int($val) && $val < (int)$min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
-                        'value_given' => $val
+                        'value' => $val
                     ]);
                     return false;
                 } else {
