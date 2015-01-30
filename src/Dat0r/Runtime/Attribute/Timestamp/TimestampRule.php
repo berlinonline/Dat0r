@@ -25,7 +25,8 @@ class TimestampRule extends Rule
                     'U.u',
                     sprintf('%.6F', microtime(true))
                 );
-            } elseif ($value === '') { // this is the toNative return value for the nullValue
+            } elseif ($value === '') {
+                // this is the toNative return value for the nullValue
                 $dt = false;
             } else {
                 $dt = new DateTimeImmutable($value);

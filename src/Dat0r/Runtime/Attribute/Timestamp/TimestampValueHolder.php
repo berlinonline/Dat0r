@@ -39,7 +39,7 @@ class TimestampValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        if (!$this->getValue() instanceOf DateTimeInterface) {
+        if (!$this->getValue() instanceof DateTimeInterface) {
             return '';
         }
 
