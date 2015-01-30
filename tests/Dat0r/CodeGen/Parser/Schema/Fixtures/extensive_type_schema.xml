@@ -45,9 +45,7 @@
 
             <attribute name="meta" type="key-value-list">
                 <description>Holds a set of generic attributes.</description>
-                <option name="constraints">
-                    <option name="value_type">dynamic</option>
-                </option>
+                <option name="cast_values_to">nothing</option>
             </attribute>
 
             <attribute name="workflow_ticket" type="embedded-entity-list">

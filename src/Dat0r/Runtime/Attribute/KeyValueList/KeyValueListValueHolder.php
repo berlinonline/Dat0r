@@ -51,59 +51,10 @@ class KeyValueListValueHolder extends ValueHolder
      */
     public function toNative()
     {
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
+        }
+
         return $this->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        // @todo move to validator rule
-        $attributes = array();
-        $value = empty($value) ? array() : $value;
-        foreach ($value as $key => $value) {
-            $key = trim($key);
-            if (!empty($key)) {
-                $attributes[$key] = $this->castValue($value);
-            }
-        }
-
-        return parent::setValue($attributes);
-    }
-
-    protected function castValue($value)
-    {
-        $value_type = $this->getTypeConstraint();
-
-        switch ($value_type) {
-            case 'integer':
-                $value = (int)$value;
-                break;
-
-            case 'string':
-                $value = (string)$value;
-                break;
-
-            case 'boolean':
-                $value = (bool)$value;
-                break;
-        }
-
-        return $value;
-    }
-
-    public function getTypeConstraint()
-    {
-        $constraints = $this->getAttribute()->getOption(KeyValueListAttribute::OPTION_VALUE_CONSTRAINTS, array());
-        $value_type = 'dynamic';
-
-        if (isset($constraints['value_type'])) {
-            $value_type = $constraints['value_type'];
-        }
-
-        return $value_type;
     }
 }

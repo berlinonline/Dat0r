@@ -20,7 +20,15 @@ class TimestampRule extends Rule
         );
 
         if (is_string($value)) {
-            $dt = new DateTimeImmutable($value);
+            if ($value === 'now') {
+                $dt = DateTimeImmutable::createFromFormat(
+                    'U.u',
+                    sprintf('%.6F', microtime(true))
+                );
+            } else {
+                $dt = new DateTimeImmutable($value);
+            }
+
             if ($dt === false) {
                 $this->throwError('invalid_string', [], IncidentInterface::CRITICAL);
                 return false;

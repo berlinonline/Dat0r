@@ -94,6 +94,30 @@ class TimestampAttributeTest extends TestCase
         $this->assertTrue($value->sameValueAs($datetime2_in_utc));
     }
 
+    public function testDefaultValueAcceptsNow()
+    {
+        $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => 'now' ]);
+        $value = $attribute->createValueHolder();
+        $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
+        $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
+    }
+
+    public function testDefaultValueAcceptsNull()
+    {
+        $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => 'null' ]);
+        $value = $attribute->createValueHolder();
+        $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
+        $this->assertNull($value->getValue());
+    }
+
+    public function testDefaultValueAcceptsEmptyString()
+    {
+        $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => '' ]);
+        $value = $attribute->createValueHolder();
+        $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
+        $this->assertNull($value->getValue());
+    }
+
     public function testMinConstraint()
     {
         $datetime_min = '2014-12-28T13:45:55.123+01:00';

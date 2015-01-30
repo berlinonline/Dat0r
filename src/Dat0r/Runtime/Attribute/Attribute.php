@@ -167,7 +167,7 @@ abstract class Attribute implements AttributeInterface
     /**
      * Returns the default value of the attribute.
      *
-     * @return ValueHolderInterface
+     * @return mixed
      */
     public function getDefaultValue()
     {

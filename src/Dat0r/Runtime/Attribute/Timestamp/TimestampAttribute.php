@@ -3,12 +3,10 @@
 namespace Dat0r\Runtime\Attribute\Timestamp;
 
 use Dat0r\Runtime\Attribute\Attribute;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeZone;
 
-//preferred ISO8601 format (works well with js/momentjs): format('Y-m-d\TH:i:s.uP');
+// preferred exchange format is FORMAT_ISO8601 ('Y-m-d\TH:i:s.uP')
 class TimestampAttribute extends Attribute
 {
     const DEFAULT_FORCE_INTERNAL_TIMEZONE = true;
@@ -42,38 +40,23 @@ class TimestampAttribute extends Attribute
 
     public function getDefaultValue()
     {
-        $dti = null;
-
         $default_value = $this->getOption(self::OPTION_DEFAULT_VALUE, '');
         if (empty($default_value) || $default_value === 'null') {
             return $this->getNullValue();
-        } elseif ($default_value === 'now') {
-            $dti = DateTimeImmutable::createFromFormat(
-                'U.u',
-                sprintf('%.6F', microtime(true))
-            );
-        } elseif ($default_value instanceof DateTime) {
-            $dti = DateTimeImmutable::createFromMutable($default_value);
-        } elseif ($default_value instanceof DateTimeImmutable) {
-            $dti = clone $default_value;
-        } else {
-            $dti = new DateTimeImmutable($default_value);
         }
 
-        // set default internal timezone for the default timestamp created if necessary
-        if ($this->getOption(self::OPTION_FORCE_INTERNAL_TIMEZONE, self::DEFAULT_FORCE_INTERNAL_TIMEZONE)) {
-            $dti = $dti->setTimezone(
-                new DateTimeZone(
-                    $this->getOption(self::OPTION_INTERNAL_TIMEZONE_NAME, self::DEFAULT_INTERNAL_TIMEZONE_NAME)
+        $validation_result = $this->getValidator()->validate($default_value);
+        if ($validation_result->getSeverity() > IncidentInterface::NOTICE) {
+            throw new InvalidConfigException(
+                sprintf(
+                    "Configured default_value for attribute '%s'on entity type '%s' is not valid.",
+                    $this->getName(),
+                    $this->getType()->getName()
                 )
             );
         }
 
-        if (!empty($dti)) {
-            return $dti;
-        }
-
-        return $this->getNullValue();
+        return $validation_result->getSanitizedValue();
     }
 
     protected function buildValidationRules()
