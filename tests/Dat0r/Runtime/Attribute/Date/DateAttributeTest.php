@@ -134,7 +134,7 @@ class DateAttributeTest extends TestCase
 
     public function testToNative()
     {
-        $datetime = '2014-12-28';
+        $datetime = '2014-12-28+01:00';
         $datetime_string = '2014-12-27T00:00:00+00:00';
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
         $valueholder = $attribute->createValueHolder();
