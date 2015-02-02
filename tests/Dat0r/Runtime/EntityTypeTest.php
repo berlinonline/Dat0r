@@ -6,7 +6,7 @@ use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
-use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
+use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
 use Dat0r\Runtime\Attribute\Number\NumberAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
@@ -72,7 +72,7 @@ class EntityTypeTest extends TestCase
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('email'));
         $this->assertInstanceOf(TextListAttribute::CLASS, $attributes->getItem('keywords'));
         $this->assertInstanceOf(BooleanAttribute::CLASS, $attributes->getItem('enabled'));
-        $this->assertInstanceOf(NumberListAttribute::CLASS, $attributes->getItem('images'));
+        $this->assertInstanceOf(IntegerListAttribute::CLASS, $attributes->getItem('images'));
         $this->assertInstanceOf(KeyValueListAttribute::CLASS, $attributes->getItem('meta'));
         $this->assertInstanceOf(EmbeddedEntityListAttribute::CLASS, $attributes->getItem('content_objects'));
     }

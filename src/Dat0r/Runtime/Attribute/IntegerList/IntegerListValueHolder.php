@@ -1,13 +1,13 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\NumberList;
+namespace Dat0r\Runtime\Attribute\IntegerList;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 /**
  * Default implementation used for a list of integer values.
  */
-class NumberListValueHolder extends ValueHolder
+class IntegerListValueHolder extends ValueHolder
 {
     /**
      * Tells whether the given other_value is considered the same value as the
@@ -51,25 +51,10 @@ class NumberListValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        return $this->getValue();
-    }
-
-    /**
-     * Sets the value holder's (int) value.
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        // @todo move to validator rule
-        $values = array();
-        $value = !is_array($value) || empty($value) ? array() : $value;
-        foreach ($value as $int) {
-            if (! empty($int)) {
-                $values[] = (int)$int;
-            }
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
         }
 
-        return parent::setValue($values);
+        return $this->getValue();
     }
 }

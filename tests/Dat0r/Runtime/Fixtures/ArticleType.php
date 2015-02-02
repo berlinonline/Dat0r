@@ -6,7 +6,7 @@ use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
-use Dat0r\Runtime\Attribute\NumberList\NumberListAttribute;
+use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
 use Dat0r\Runtime\Attribute\Number\NumberAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
@@ -28,7 +28,7 @@ class ArticleType extends EntityType
                 new TimestampAttribute('birthday', [
                     TimestampAttribute::OPTION_DEFAULT_VALUE => '2015-01-29T09:18:28.534429+00:00'
                 ]),
-                new NumberListAttribute('images'),
+                new IntegerListAttribute('images'),
                 new TextListAttribute('keywords'),
                 new BooleanAttribute('enabled'),
                 new EmbeddedEntityListAttribute(

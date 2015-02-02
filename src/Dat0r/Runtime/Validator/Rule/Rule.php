@@ -92,4 +92,25 @@ abstract class Rule extends Object implements RuleInterface
     {
         $this->incidents->setItem($name, new Incident($name, $parameters, $severity));
     }
+
+    protected function toBoolean($value)
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return true; //  TRUE as it is a string and by default PHP thinks of this as truthy
+        }
+
+        $value = strtolower($value);
+        if ($value === 'on' || $value === 'yes' || $value === 'true') {
+            return true;
+        } elseif ($value === 'off' || $value === 'no' || $value === 'false') {
+            return false;
+        }
+
+        return true; // all other strings are true (as PHP likes to think)
+    }
 }
