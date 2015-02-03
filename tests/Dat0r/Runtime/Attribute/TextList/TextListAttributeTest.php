@@ -19,13 +19,29 @@ class TextListAttributeTest extends TestCase
 
     public function testCreateValueWithDefaultValues()
     {
-        $data = [ 'foo' => 'bar' ];
+        $data = [ 'foo' => 'bar' ]; // key will be ignored
 
         $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
 
         $valueholder = $attribute->createValueHolder();
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ 'bar' ], $valueholder->getValue());
+    }
+
+    public function testSetValue()
+    {
+        $data = [ 'foo', 'bar' ];
+
+        $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $valueholder = $attribute->createValueHolder();
+
+        $new = [ 'foo', 'bar', '' ];
+
+        $valueholder->setValue($new);
+
+        $this->assertEquals($new, $valueholder->getValue());
+        $this->assertTrue($valueholder->sameValueAs($new));
+        $this->assertFalse($valueholder->sameValueAs($data));
     }
 
     public function testValueComparison()
@@ -46,8 +62,8 @@ class TextListAttributeTest extends TestCase
     public function testMinMaxStringLengthConstraint()
     {
         $data = [
-            'bar' => '15',
-            'foo' => '1234567890',
+            '15',
+            '1234567890',
         ];
 
         $attribute = new TextListAttribute('TextListminmaxstringlength', [

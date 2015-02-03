@@ -33,7 +33,7 @@ class TimestampRule extends Rule
             }
 
             if ($dt === false) {
-                $this->throwError('invalid_string', [], IncidentInterface::CRITICAL);
+                $this->throwError('invalid_string', [ 'value' => $value ]);
                 return false;
             }
         } elseif ($value instanceof DateTime) {
@@ -48,7 +48,7 @@ class TimestampRule extends Rule
         } elseif ($value instanceof DateTimeImmutable) {
             $dt = clone $value;
         } else {
-            $this->throwError('invalid_type', [], IncidentInterface::CRITICAL);
+            $this->throwError('invalid_type', [ 'value' => $value ]);
             return false;
         }
 
@@ -72,7 +72,7 @@ class TimestampRule extends Rule
 
             // compare via PHP internal and then compare microseconds as well m(
             if (!( ($dt >= $min) && ((int)$dt->format('u') >= (int)$min->format('u')) )) {
-                $this->throwError('min', array(), IncidentInterface::ERROR);
+                $this->throwError('min', [ 'value' => $dt, 'min_value' => $min ]);
                 return false;
             }
         }
@@ -88,7 +88,7 @@ class TimestampRule extends Rule
             }
 
             if (!( ($dt <= $max) && ((int)$dt->format('u') <= (int)$max->format('u')) )) {
-                $this->throwError('max', array(), IncidentInterface::ERROR);
+                $this->throwError('max', [ 'value' => $dt, 'max_value' => $max ]);
                 return false;
             }
         }
