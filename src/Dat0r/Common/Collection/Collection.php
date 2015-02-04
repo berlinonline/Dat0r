@@ -30,6 +30,20 @@ abstract class Collection extends Object implements CollectionInterface
     // Php Interface - Countable
 
     /**
+     * Clone the collection.
+     */
+    public function __clone()
+    {
+        $new_items = [];
+
+        foreach ($this->items as $item) {
+            $new_items[] = $this->cloneItem($item);
+        }
+
+        $this->items = $new_items;
+    }
+
+    /**
      * Implementation of php's 'countable' interface's 'count' method.
      *
      * @return int
@@ -344,5 +358,14 @@ abstract class Collection extends Object implements CollectionInterface
         foreach ($this->collection_listeners as $listener) {
             $listener->onCollectionChanged($event);
         }
+    }
+
+    protected function cloneItem($item)
+    {
+        if (is_object($item)) {
+            return clone $item;
+        }
+
+        return $item;
     }
 }
