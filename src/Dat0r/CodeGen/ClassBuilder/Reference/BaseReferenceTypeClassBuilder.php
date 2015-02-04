@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Reference;
 
-use Dat0r\CodeGen\ClassBuilder\Embed\BaseEmbedEntityTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Embed\BaseEmbedTypeClassBuilder;
 
-class BaseReferenceTypeClassBuilder extends BaseEmbedEntityTypeClassBuilder
+class BaseReferenceTypeClassBuilder extends BaseEmbedTypeClassBuilder
 {
     protected function getPackage()
     {

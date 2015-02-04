@@ -44,7 +44,9 @@ class ConfigIniParserTest extends TestCase
             '@type' => 'Dat0r\CodeGen\Config',
             'options' => array(),
             'entity_suffix' => null,
-            'type_suffix' => null
+            'type_suffix' => null,
+            'embed_entity_suffix' => null,
+            'embed_type_suffix' => null
         );
         $this->assertEquals($expected_array, $config->toArray());
     }
@@ -67,7 +69,9 @@ class ConfigIniParserTest extends TestCase
             '@type' => 'Dat0r\CodeGen\Config',
             'options' => array(),
             'entity_suffix' => null,
-            'type_suffix' => null
+            'type_suffix' => null,
+            'embed_entity_suffix' => null,
+            'embed_type_suffix' => null
         );
 
         $this->assertEquals($expected_array, $config->toArray());
