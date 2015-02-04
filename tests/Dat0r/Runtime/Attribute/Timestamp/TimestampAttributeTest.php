@@ -155,7 +155,7 @@ class TimestampAttributeTest extends TestCase
     {
         $attribute = new TimestampAttribute('publishedAt');
         $result = $attribute->getValidator()->validate($invalid_value);
-        $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()

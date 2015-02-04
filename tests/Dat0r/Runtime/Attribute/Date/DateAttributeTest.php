@@ -153,6 +153,20 @@ class DateAttributeTest extends TestCase
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
     }
 
+    public function testToNativeRoundtripWithDefaultValue()
+    {
+        $attribute = new DateAttribute('birthday');
+        $valueholder = $attribute->createValueHolder();
+
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+
+        $valueholder->setValue($valueholder->toNative());
+
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+    }
+
     public function testToNativeRoundtrip()
     {
         $date = '2014-12-28+01:00';
@@ -197,7 +211,7 @@ class DateAttributeTest extends TestCase
     {
         $attribute = new DateAttribute('birthday');
         $result = $attribute->getValidator()->validate($invalid_value);
-        $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
