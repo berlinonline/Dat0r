@@ -14,12 +14,12 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
     protected function getPackage()
     {
-        return parent::getPackage() . '\\Base';
+        return $this->type_schema->getPackage() . '\\Base';
     }
 
     protected function getNamespace()
     {
-        return parent::getNamespace() . '\\Base';
+        return $this->type_schema->getNamespace() . '\\Base';
     }
 
     protected function getParentImplementor()
@@ -46,14 +46,13 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
     protected function getEntityImplementor()
     {
-        $class_suffix = $this->config->getEntitySuffix('Entity');
-
+        $namespace_parts = explode('\\', $this->getNamespace());
+        array_pop($namespace_parts);
         return var_export(
             sprintf(
-                '\\%1$s\\%2$s%3$s',
-                $this->getRootNamespace(),
-                $this->type_definition->getName(),
-                $class_suffix
+                '\\%s\\%s',
+                implode('\\', $namespace_parts),
+                $this->type_definition->getName() . ucfirst($this->config->getEmbedEntitySuffix(''))
             ),
             true
         );
@@ -68,8 +67,7 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
             if ($attribute_definition->getShortName() === 'embedded-entity-list') {
                 $this->expandEmbedNamespaces($attribute_definition);
-            }
-            if ($attribute_definition->getShortName() === 'entity-reference-list') {
+            } else if ($attribute_definition->getShortName() === 'entity-reference-list') {
                 $this->expandReferenceNamespaces($attribute_definition);
             }
 
@@ -87,16 +85,15 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
     protected function expandEmbedNamespaces(AttributeDefinition $attribute_definition)
     {
-        $type_options = $attribute_definition->getOptions()->filterByName('types');
+        $type_options = $attribute_definition->getOptions()->filterByName('entity_types');
         if ($type_options) {
             foreach ($type_options->getValue() as $type_option) {
                 $type_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Embed\\%s%s',
+                        '\\%s\\Embed\\%s%s',
                         $this->getRootNamespace(),
-                        $this->type_schema->getPackage(),
                         $type_option->getValue(),
-                        $this->config->getEntitySuffix('Type')
+                        $this->config->getEmbedEntitySuffix('Type')
                     )
                 );
             }
@@ -105,15 +102,15 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
     protected function expandReferenceNamespaces(AttributeDefinition $attribute_definition)
     {
-        $reference_options = $attribute_definition->getOptions()->filterByName('references');
+        $reference_options = $attribute_definition->getOptions()->filterByName('entity_types');
         if ($reference_options) {
             foreach ($reference_options->getValue() as $reference_option) {
                 $reference_option->setValue(
                     sprintf(
-                        '\\%s\\%s\\Reference\\%sType',
+                        '\\%s\\Reference\\%s%s',
                         $this->getRootNamespace(),
-                        $this->type_schema->getPackage(),
-                        $reference_option->getValue()
+                        $reference_option->getValue(),
+                        $this->config->getEmbedEntitySuffix('Type')
                     )
                 );
             }

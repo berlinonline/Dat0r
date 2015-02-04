@@ -11,7 +11,7 @@ class EntityClassBuilder extends ClassBuilder
 
     protected function getImplementor()
     {
-        $class_suffix = $this->config->getEntitySuffix('Entity');
+        $class_suffix = $this->config->getEntitySuffix('');
 
         return $this->type_definition->getName() . ucfirst($class_suffix);
     }

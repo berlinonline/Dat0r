@@ -31,6 +31,13 @@ abstract class ClassBuilder extends BaseClassBuilder
         return $this->type_schema->getPackage();
     }
 
+    protected function getImplementor()
+    {
+        $class_suffix = $this->config->getTypeSuffix('Type');
+
+        return $this->type_definition->getName() . ucfirst($class_suffix);
+    }
+
     protected function getParentImplementor()
     {
         return sprintf('\\%s\\Base\\%s', $this->getNamespace(), $this->getImplementor());

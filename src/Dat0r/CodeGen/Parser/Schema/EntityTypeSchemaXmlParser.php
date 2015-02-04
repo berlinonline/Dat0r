@@ -65,6 +65,8 @@ class EntityTypeSchemaXmlParser extends Object implements ParserInterface
             );
         }
 
+        $document->xinclude();
+
         if (!$document->schemaValidate($this->xsd_schema_file)) {
             throw new ParseException(
                 "Schema validation for the given type-schema failed."

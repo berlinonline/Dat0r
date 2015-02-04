@@ -11,26 +11,13 @@ class BaseEmbedTypeClassBuilder extends BaseEntityTypeClassBuilder
         return $this->type_schema->getPackage() . '\\Embed\\Base';
     }
 
-    protected function getParentImplementor()
+    protected function getNamespace()
     {
-        $parent_implementor = $this->type_definition->getImplementor();
-        if ($parent_implementor === null) {
-            $parent_implementor = sprintf('%s\\Embed', self::NS_MODULE);
-        }
-
-        return $parent_implementor;
+        return $this->type_schema->getNamespace() . '\\Embed\\Base';
     }
 
-    protected function getEntityImplementor()
+    protected function getImplementor()
     {
-        return var_export(
-            sprintf(
-                '\\%s\\%s\\Embed\\%sEntity',
-                $this->getRootNamespace(),
-                $this->type_schema->getPackage(),
-                $this->type_definition->getName()
-            ),
-            true
-        );
+        return $this->type_definition->getName() . ucfirst($this->config->getEmbedTypeSuffix('Type'));
     }
 }

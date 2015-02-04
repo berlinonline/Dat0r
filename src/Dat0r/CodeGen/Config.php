@@ -10,6 +10,8 @@ class Config extends Configurable
 {
     protected $entity_suffix;
     protected $type_suffix;
+    protected $embed_entity_suffix;
+    protected $embed_type_suffix;
     protected $bootstrap_file;
     protected $cache_dir;
     protected $deploy_dir;
@@ -79,14 +81,24 @@ class Config extends Configurable
         $this->plugin_settings = new Options($settings);
     }
 
-    public function getEntitySuffix($default = null)
+    public function getEntitySuffix($default = "")
     {
         return $this->entity_suffix ?: $default;
     }
 
-    public function getTypeSuffix($default = null)
+    public function getTypeSuffix($default = "")
     {
         return $this->type_suffix ?: $default;
+    }
+
+    public function getEmbedEntitySuffix($default = "")
+    {
+        return $this->embed_entity_suffix ?: $default;
+    }
+
+    public function getEmbedTypeSuffix($default = "")
+    {
+        return $this->embed_type_suffix ?: $default;
     }
 
     public function validate()
