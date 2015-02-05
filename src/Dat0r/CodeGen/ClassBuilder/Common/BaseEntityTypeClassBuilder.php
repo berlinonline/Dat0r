@@ -67,7 +67,7 @@ class BaseEntityTypeClassBuilder extends EntityTypeClassBuilder
 
             if ($attribute_definition->getShortName() === 'embedded-entity-list') {
                 $this->expandEmbedNamespaces($attribute_definition);
-            } else if ($attribute_definition->getShortName() === 'entity-reference-list') {
+            } elseif ($attribute_definition->getShortName() === 'entity-reference-list') {
                 $this->expandReferenceNamespaces($attribute_definition);
             }
 
