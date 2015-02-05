@@ -4,6 +4,7 @@ namespace Dat0r\Tests\Runtime\Attribute\Boolean;
 
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\Boolean\BooleanValueHolder;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Tests\TestCase;
 
 class BooleanValueHolderTest extends TestCase
@@ -31,8 +32,9 @@ class BooleanValueHolderTest extends TestCase
 
         $this->assertTrue($valueholder->toNative());
 
-        $valueholder->setValue('');
-        $this->assertFalse($valueholder->toNative());
+        $attribute = new BooleanAttribute('flag', [ BooleanAttribute::OPTION_DEFAULT_VALUE => 'no' ]);
+        $result = $valueholder->setValue('');
+        $this->assertTrue($result->getSeverity() > IncidentInterface::SUCCESS);
 
         $valueholder->setValue('no');
         $this->assertFalse($valueholder->toNative());
@@ -40,8 +42,9 @@ class BooleanValueHolderTest extends TestCase
         $valueholder->setValue(true);
         $this->assertTrue($valueholder->toNative());
 
-        $valueholder->setValue('invalidvalue');
-        $this->assertTrue($valueholder->toNative(), 'value should still be true as an invalid value was given.'); // still true
+        $result = $valueholder->setValue('invalidvalue');
+        $this->assertTrue($valueholder->toNative(), 'value should still be true as an invalid value was given.');
+        $this->assertTrue($result->getSeverity() > IncidentInterface::SUCCESS);
     }
 
     public function testToNativeRoundtripWithNullValue()

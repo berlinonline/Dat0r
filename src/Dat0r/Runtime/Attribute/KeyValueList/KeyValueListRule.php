@@ -115,10 +115,12 @@ class KeyValueListRule extends Rule
                 break;
 
             case KeyValueListAttribute::CAST_TO_BOOLEAN:
-                if (is_string($value) && $this->getOption(KeyValueListAttribute::OPTION_LITERALIZE, true)) {
-                    $value = (bool)$this->toBoolean($value);
+                $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                if (null === $bool || is_object($value) || $value === "" || $value === null) {
+                    // FILTER_VALIDATE_BOOLEAN treats objects, NULL and empty strings as boolean FALSE… -.-
+                    $value = false;
                 } else {
-                    $value = (bool)$value;
+                    $value = $bool;
                 }
                 break;
 

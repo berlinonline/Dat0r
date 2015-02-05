@@ -1,25 +1,43 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Number;
-
-use Dat0r\Runtime\ValueHolder\ValueHolder;
+namespace Dat0r\Runtime\ValueHolder;
 
 /**
- * Default implementation used for integer value containment.
+ * Basic ValueHolderInterface implementation for arrays/lists.
  */
-class NumberValueHolder extends ValueHolder
+abstract class ListValueHolder extends ValueHolder
 {
     /**
      * Tells whether the given other_value is considered the same value as the
      * internally set value of this valueholder.
      *
-     * @param int $other_value number value to compare
+     * @param array $other_value values to compare to the internal ones
      *
      * @return boolean true if the given value is considered the same value as the internal one
      */
     protected function valueEquals($other_value)
     {
-        return $this->getValue() === $other_value;
+        if (!is_array($other_value)) {
+            return false;
+        }
+
+        /** @var array $data */
+        $data = $this->getValue();
+
+        $data_count = count($data);
+        $other_count = count($other_value);
+
+        if ($data_count !== $other_count) {
+            return false;
+        }
+
+        foreach ($data as $idx => $val) {
+            if ($other_value[$idx] !== $val) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -31,19 +49,28 @@ class NumberValueHolder extends ValueHolder
      */
     public function toNative()
     {
+        if ($this->valueEquals($this->getAttribute()->getNullValue())) {
+            return [];
+        }
+
         return $this->getValue();
     }
 
     /**
      * Returns the type of the value that is returned for the toNative() call.
      * This is used for typehints in code generation and might be used in other
-     * layers (e.g. web form submissions) to handle things differently.
+     * layers (e.g. web form submissions) to prune empty values from array
+     * request parameters (when this method returns 'array'), e.g. "foo[bar][]"
+     * as checkboxes in a form will contain empty values for unchecked
+     * checkboxes. To know the native type is helpful to handle such a case
+     * as the validation rule can't distinguish between deliberate and wrongly
+     * given empty strings.
      *
      * @return string return type of the toNative() method
      */
     public function getNativeType()
     {
-        return 'scalar';
+        return 'array';
     }
 
     /**
@@ -57,6 +84,6 @@ class NumberValueHolder extends ValueHolder
      */
     public function getValueType()
     {
-        return 'scalar';
+        return 'array';
     }
 }

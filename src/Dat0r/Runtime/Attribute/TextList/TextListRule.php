@@ -35,7 +35,7 @@ class TextListRule extends Rule
                 }
             }
 
-            // check minimum length
+            // check minimum string length
             if ($min = $this->getOption(TextListAttribute::OPTION_MIN, false)) {
                 if (mb_strlen($val) < $min) {
                     $this->throwError(TextListAttribute::OPTION_MIN, [
@@ -46,7 +46,7 @@ class TextListRule extends Rule
                 }
             }
 
-            // check maximum length
+            // check maximum string length
             if ($max = $this->getOption(TextListAttribute::OPTION_MAX, false)) {
                 if (mb_strlen($val) > $max) {
                     $this->throwError(TextListAttribute::OPTION_MAX, [

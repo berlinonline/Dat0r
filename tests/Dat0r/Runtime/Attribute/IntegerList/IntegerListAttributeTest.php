@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\IntegerList;
 
-use Dat0r\Common\Error\InvalidConfigException;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
 use Dat0r\Runtime\Attribute\IntegerList\IntegerListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -41,6 +41,54 @@ class IntegerListAttributeTest extends TestCase
         $this->assertFalse($valueholder->sameValueAs($bar));
     }
 
+    public function testSettingBooleanTrueAsValueFails()
+    {
+        $attribute = new IntegerListAttribute('IntegerListbooltrue');
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue(true);
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+    }
+
+    public function testOctalValues()
+    {
+        $attribute = new IntegerListAttribute('IntegerListminmax', [
+            IntegerListAttribute::OPTION_ALLOW_OCTAL => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue([ '010' ]);
+        $this->assertEquals([ 8 ], $valueholder->getValue());
+    }
+
+    public function testOctalValuesFails()
+    {
+        $attribute = new IntegerListAttribute('IntegerListminmax', [
+            IntegerListAttribute::OPTION_ALLOW_OCTAL => false
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue([ '010' ]);
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+    }
+
+    public function testHexValues()
+    {
+        $attribute = new IntegerListAttribute('IntegerListminmax', [
+            IntegerListAttribute::OPTION_ALLOW_HEX => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue([ '0x10' ]);
+        $this->assertEquals([ 16 ], $valueholder->getValue());
+    }
+
+    public function testHexValuesFails()
+    {
+        $attribute = new IntegerListAttribute('IntegerListminmax', [
+            IntegerListAttribute::OPTION_ALLOW_HEX => false
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue([ '0x10' ]);
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+    }
+
     public function testMinMaxConstraint()
     {
         $data = [
@@ -64,7 +112,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
-        $this->setExpectedException(InvalidConfigException::CLASS);
+        $this->setExpectedException(BadValueException::CLASS);
         $attribute = new IntegerListAttribute('IntegerListminmaxintegerdefaultvalue', [
             IntegerListAttribute::OPTION_MIN => 1,
             IntegerListAttribute::OPTION_MAX => 5,
@@ -78,9 +126,9 @@ class IntegerListAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new IntegerListAttribute('IntegerList');
+        $attribute = new IntegerListAttribute('IntegerListInvalidValue');
         $result = $attribute->getValidator()->validate($invalid_value);
-        $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
+        $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()

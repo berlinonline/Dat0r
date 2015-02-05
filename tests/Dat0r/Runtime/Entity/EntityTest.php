@@ -13,9 +13,9 @@ class EntityTest extends TestCase
     public function testCreateEntity()
     {
         $type = new ArticleType();
-        $entity = $type->createEntity(array(
+        $entity = $type->createEntity([
             'headline' => 'hello world!'
-        ));
+        ]);
 
         $this->assertTrue($entity->isValid());
         $this->assertEquals('hello world!', $entity->getValue('headline'));
@@ -24,9 +24,9 @@ class EntityTest extends TestCase
     public function testInvalidValue()
     {
         $type = new ArticleType();
-        $entity = $type->createEntity(array(
-            'headline' => 'hel'
-        ));
+        $entity = $type->createEntity([
+            'headline' => 'hel' // 'min' = 4, thus invalid
+        ]);
 
         $this->assertFalse($entity->isValid());
         $this->assertEquals(null, $entity->getValue('headline'));
@@ -34,6 +34,7 @@ class EntityTest extends TestCase
 
     public function testToNative()
     {
+        // same order as in ArticleType definition!
         $values = [
             'headline' => 'headline',
             'content' => 'content',
@@ -52,7 +53,7 @@ class EntityTest extends TestCase
         $type = new ArticleType();
         $entity = $type->createEntity($values);
 
-        $this->assertTrue($entity->isValid());
+        $this->assertTrue($entity->isValid(), 'entity should be in valid state');
 
         $result = $entity->toNative();
 
@@ -61,6 +62,7 @@ class EntityTest extends TestCase
         $this->assertEquals(123, $result['click_count']);
         $this->assertEquals('some.author@example.com', $result['email']);
         $this->assertEquals('2014-12-31T11:45:55.123456+00:00', $result['birthday']); // utc
+        $this->assertEquals([ 'some', 'keywords' ], $result['keywords']);
         $this->assertTrue($result['enabled']);
         $this->assertTrue(is_array($result['content_objects']));
         $this->assertTrue(is_array($result['meta']));
@@ -69,6 +71,7 @@ class EntityTest extends TestCase
 
     public function testToNativeReconstitution()
     {
+        // same order as in ArticleType definition!
         $values = [
             'headline' => 'headline',
             'content' => 'content',

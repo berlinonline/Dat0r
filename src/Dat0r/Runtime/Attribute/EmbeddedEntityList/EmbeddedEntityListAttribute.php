@@ -2,7 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 
-use Dat0r\Runtime\Attribute\Attribute;
+use Dat0r\Runtime\Attribute\ListAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 
@@ -13,7 +13,7 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
  *
  * Supported options: OPTION_ENTITY_TYPES
  */
-class EmbeddedEntityListAttribute extends Attribute
+class EmbeddedEntityListAttribute extends ListAttribute
 {
     /**
      * Option that holds an array of supported entity-type names.
@@ -45,11 +45,11 @@ class EmbeddedEntityListAttribute extends Attribute
     }
 
     /**
-     * Returns an embed-attribute instance's default value.
+     * Returns an attribute's null value.
      *
-     * @return mixed
+     * @return mixed value to be used/interpreted as null (not set)
      */
-    public function getDefaultValue()
+    public function getNullValue()
     {
         return new EntityList();
     }
@@ -101,11 +101,12 @@ class EmbeddedEntityListAttribute extends Attribute
     protected function buildValidationRules()
     {
         $rules = new RuleList();
+
+        $options = $this->getOptions();
+        $options['entity_types'] = $this->getEntityTypes();
+
         $rules->push(
-            new EmbeddedEntityListRule(
-                'valid-data',
-                array('entity_types' => $this->getEntityTypes())
-            )
+            new EmbeddedEntityListRule('valid-embedded-entity-list-data', $options)
         );
 
         return $rules;

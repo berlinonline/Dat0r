@@ -33,4 +33,30 @@ class TextValueHolder extends ValueHolder
     {
         return $this->getValue();
     }
+
+    /**
+     * Returns the type of the value that is returned for the toNative() call.
+     * This is used for typehints in code generation and might be used in other
+     * layers (e.g. web form submissions) to handle things differently.
+     *
+     * @return string return type of the toNative() method
+     */
+    public function getNativeType()
+    {
+        return 'string';
+    }
+
+    /**
+     * Returns the type of the internal value of the valueholder. This can
+     * be anything from 'string', 'array' or 'int' to a fully qualified class
+     * name of the value object or PHP object used for storage internally.
+     *
+     * The returned type is the one returned by getValue() method calls.
+     *
+     * @return string type or FQCN of the internal value
+     */
+    public function getValueType()
+    {
+        return 'string';
+    }
 }

@@ -56,14 +56,14 @@ interface AttributeInterface
     /**
      * Returns the default value of the attribute.
      *
-     * @return mixed
+     * @return mixed value to be used/interpreted as the default value
      */
     public function getDefaultValue();
 
     /**
      * Returns a attribute's null value.
      *
-     * @return mixed
+     * @return mixed value to be used/interpreted as null (not set)
      */
     public function getNullValue();
 

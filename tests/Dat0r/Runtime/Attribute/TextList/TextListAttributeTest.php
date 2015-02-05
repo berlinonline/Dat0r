@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\TextList;
 
-use Dat0r\Common\Error\InvalidConfigException;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -34,6 +34,7 @@ class TextListAttributeTest extends TestCase
 
         $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
         $valueholder = $attribute->createValueHolder();
+        $this->assertEquals($data, $valueholder->getValue());
 
         $new = [ 'foo', 'bar', '' ];
 
@@ -51,12 +52,57 @@ class TextListAttributeTest extends TestCase
         $bar = $data;
         $bar[] = 'asdf';
 
-        $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new TextListAttribute('valuecomparison', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
         $valueholder = $attribute->createValueHolder();
 
         $this->assertEquals($data, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($foo));
         $this->assertFalse($valueholder->sameValueAs($bar));
+    }
+
+    public function testMinCountConstraint()
+    {
+        $data = [ ];
+
+        $attribute = new TextListAttribute('TextListmincount', [
+            TextListAttribute::OPTION_MIN_COUNT => 1
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
+
+        $data = [ 'asdf' ];
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($data, $valueholder->getValue());
+        $this->assertFalse($valueholder->isDefault());
+        $this->assertFalse($valueholder->isNull());
+        $this->assertTrue($validation_result->getSeverity() === IncidentInterface::SUCCESS);
+    }
+
+    public function testMaxCountConstraint()
+    {
+        $data = [ 'foo', 'bar' ];
+
+        $attribute = new TextListAttribute('TextListmaxcount', [
+            TextListAttribute::OPTION_MAX_COUNT => 1
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($attribute->getDefaultValue(), $attribute->getNullValue());
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
+
+        $data = [ 'foo' ];
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($data, $valueholder->getValue());
+        $this->assertFalse($valueholder->isDefault());
+        $this->assertFalse($valueholder->isNull());
+        $this->assertTrue($validation_result->getSeverity() === IncidentInterface::SUCCESS);
     }
 
     public function testMinMaxStringLengthConstraint()
@@ -82,7 +128,7 @@ class TextListAttributeTest extends TestCase
 
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
-        $this->setExpectedException(InvalidConfigException::CLASS);
+        $this->setExpectedException(BadValueException::CLASS);
 
         $attribute = new TextListAttribute('TextListminmaxintegerdefaultvalue', [
             TextListAttribute::OPTION_MIN => 1,

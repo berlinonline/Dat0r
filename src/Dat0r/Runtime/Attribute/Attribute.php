@@ -2,13 +2,15 @@
 
 namespace Dat0r\Runtime\Attribute;
 
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\InvalidTypeException;
-use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Common\Object;
 use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Validator;
 use Dat0r\Runtime\Validator\ValidatorInterface;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
 
 /**
@@ -49,7 +51,7 @@ abstract class Attribute implements AttributeInterface
      *
      * @var array $options
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Holds the attribute's validator instance.
@@ -59,12 +61,17 @@ abstract class Attribute implements AttributeInterface
     protected $validator;
 
     /**
+     * @var string fully qualified class name implementing ValueHolderInterface
+     */
+    protected $value_holder_implementor;
+
+    /**
      * Constructs a new attribute instance.
      *
      * @param string $name
      * @param array $options
      */
-    public function __construct($name, array $options = array())
+    public function __construct($name, array $options = [])
     {
         $this->name = $name;
         $this->options = $options;
@@ -81,7 +88,7 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Returns the attribute's type.
+     * Returns the attribute's entity type.
      *
      * @return EntityTypeInterface
      */
@@ -91,7 +98,7 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Sets the attribute's type once, if it isn't assigned.
+     * Sets the attribute's entity type once, if it isn't assigned.
      *
      * @param EntityTypeInterface $type
      */
@@ -126,6 +133,121 @@ abstract class Attribute implements AttributeInterface
         }
         // @todo else throw an exception,
         // as a second call to setParent might imply a logic error?
+    }
+
+    /**
+     * Returns the default value of the attribute.
+     *
+     * @return mixed value to be used/interpreted as the default value
+     */
+    public function getDefaultValue()
+    {
+        if ($this->hasOption(self::OPTION_DEFAULT_VALUE)) {
+            return $this->getSanitizedValue(
+                $this->getOption(self::OPTION_DEFAULT_VALUE, $this->getNullValue())
+            );
+        }
+
+        return $this->getNullValue();
+    }
+
+    /**
+     * Returns the attribute's null value.
+     *
+     * @return mixed value to be used/interpreted as null (not set)
+     */
+    public function getNullValue()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the ValidatorInterface implementation to use when validating values for this attribute.
+     * Override this method if you want inject your own implementation.
+     *
+     * @return ValidatorInterface implementation
+     */
+    public function getValidator()
+    {
+        if (!$this->validator) {
+            $default_validator_class = Validator::CLASS;
+            $validator_implementor = $this->getOption(self::OPTION_VALIDATOR, $default_validator_class);
+
+            if (!class_exists($validator_implementor, true)) {
+                throw new InvalidConfigException(
+                    sprintf(
+                        "Unable to resolve validator implementor '%s' given for attribute '%s' on entity type '%s'.",
+                        $validator_implementor,
+                        $this->getName(),
+                        $this->getType()->getName()
+                    )
+                );
+            }
+
+            $validator = new $validator_implementor($this->getName(), $this->buildValidationRules());
+            if (!$validator instanceof ValidatorInterface) {
+                throw new InvalidTypeException(
+                    sprintf(
+                        "Invalid validator implementor '%s' given for attribute '%s' on entity type '%s'. " .
+                        "Make sure to implement '%s'.",
+                        $validator_implementor,
+                        $this->getName(),
+                        $this->getType() ? $this->getType()->getName() : 'undefined',
+                        ValidatorInterface::CLASS
+                    )
+                );
+            }
+            $this->validator = $validator;
+        }
+
+        return $this->validator;
+    }
+
+    /**
+     * Creates a ValueHolderInterface, that is specific to the current attribute instance.
+     *
+     * @return ValueHolderInterface
+     */
+    public function createValueHolder()
+    {
+        if (!$this->value_holder_implementor) {
+            $implementor = $this->hasOption(self::OPTION_VALUE_HOLDER)
+                ? $this->getOption(self::OPTION_VALUE_HOLDER)
+                : $this->buildDefaultValueHolderClassName();
+
+            if (!class_exists($implementor)) {
+                throw new InvalidConfigException(
+                    sprintf(
+                        "Invalid valueholder implementor '%s' configured for attribute '%s' on entity '%s'.",
+                        $implementor,
+                        $this->getName(),
+                        $this->getType() ? $this->getType()->getName() : 'undefined'
+                    )
+                );
+            }
+
+            $test_value_holder = new $implementor($this);
+
+            if (!$test_value_holder instanceof ValueHolderInterface) {
+                throw new InvalidTypeException(
+                    sprintf(
+                        "Invalid valueholder implementation '%s' given for attribute '%s' on entity type '%s'. " .
+                        "Make sure to implement '%s'.",
+                        $implementor,
+                        $this->getName(),
+                        $this->getType() ? $this->getType()->getName() : 'undefined',
+                        ValueHolderInterface::CLASS
+                    )
+                );
+            }
+
+            $this->value_holder_implementor = $implementor;
+        }
+
+        $value_holder = new $this->value_holder_implementor($this);
+        $value_holder->setValue($this->getDefaultValue());
+
+        return $value_holder;
     }
 
     /**
@@ -165,100 +287,6 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Returns the default value of the attribute.
-     *
-     * @return mixed
-     */
-    public function getDefaultValue()
-    {
-        return $this->getOption(self::OPTION_DEFAULT_VALUE, $this->getNullValue());
-    }
-
-    /**
-     * Returns a attribute's null value.
-     *
-     * @return mixed
-     */
-    public function getNullValue()
-    {
-        return $this->getOption(self::OPTION_NULL_VALUE, null);
-    }
-
-    /**
-     * Returns the ValidatorInterface implementation to use when validating values for this attribute.
-     * Override this method if you want inject your own implementation.
-     *
-     * @return ValidatorInterface implementation
-     */
-    public function getValidator()
-    {
-        if (!$this->validator) {
-            $default_validator_class = Validator::CLASS;
-            $validator_implementor = $this->getOption(self::OPTION_VALIDATOR, $default_validator_class);
-
-            if (!class_exists($validator_implementor, true)) {
-                throw new RuntimeException(
-                    sprintf(
-                        "Unable to resolve validator implementor '%s' given for attribute '%s' on entity tyoe '%s'.",
-                        $validator_implementor,
-                        $this->getName(),
-                        $this->getType()->getName()
-                    )
-                );
-            }
-
-            $validator = new $validator_implementor($this->getName(), $this->buildValidationRules());
-            if (!$validator instanceof ValidatorInterface) {
-                throw new InvalidTypeException(
-                    sprintf(
-                        "Invalid validator implementor '%s' given for attribute '%s' on entity type '%s'. " .
-                        "Make sure to implement '%s'.",
-                        $validator_implementor,
-                        $this->getName(),
-                        $this->getType()->getName(),
-                        ValidatorInterface::CLASS
-                    )
-                );
-            }
-            $this->validator = $validator;
-        }
-
-        return $this->validator;
-    }
-
-    /**
-     * Creates a ValueHolderInterface, that is specific to the current attribute instance.
-     *
-     * @return ValueHolderInterface
-     */
-    public function createValueHolder()
-    {
-        $implementor = $this->hasOption(self::OPTION_VALUE_HOLDER)
-            ? $this->getOption(self::OPTION_VALUE_HOLDER)
-            : $this->buildDefaultValueHolderClassName();
-
-        if (!class_exists($implementor)) {
-            throw new RuntimeException("Invalid attribute value-holder given upon createValueHolder request.");
-        }
-        $value = new $implementor($this);
-
-        if (!$value instanceof ValueHolderInterface) {
-            throw new InvalidTypeException(
-                sprintf(
-                    "Invalid valueholder implementation '%s' given for attribute '%s' on entity type '%s'.",
-                    $implementor,
-                    $this->getName(),
-                    $this->getType()->getName()
-                )
-            );
-        }
-
-        $value->setValue($this->getDefaultValue());
-
-        return $value;
-    }
-
-    /**
      * Build a list of rules used by the attribute's validator to validate values for this attribute.
      *
      * @return RuleList
@@ -266,6 +294,30 @@ abstract class Attribute implements AttributeInterface
     protected function buildValidationRules()
     {
         return new RuleList();
+    }
+
+    /**
+     * @param mixed $value value to be assigned somewhere
+     *
+     * @return mixed sanitized version of the given value
+     *
+     * @throws BadValueException on invalid input value according to validation
+     */
+    protected function getSanitizedValue($value)
+    {
+        $validation_result = $this->getValidator()->validate($value);
+
+        if ($validation_result->getSeverity() > IncidentInterface::NOTICE) {
+            throw new BadValueException(
+                sprintf(
+                    "Given value for attribute '%s' on entity type '%s' is not valid.",
+                    $this->getName(),
+                    $this->getType() ? $this->getType()->getName() : 'undefined'
+                )
+            );
+        }
+
+        return $validation_result->getSanitizedValue();
     }
 
     /**

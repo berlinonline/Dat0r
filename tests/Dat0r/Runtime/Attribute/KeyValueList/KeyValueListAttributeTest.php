@@ -2,7 +2,7 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\KeyValueList;
 
-use Dat0r\Common\Error\InvalidConfigException;
+use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -88,51 +88,36 @@ class KeyValueListAttributeTest extends TestCase
     public function testValueTypeBooleanConstraint()
     {
         $data = [
-            '1' => 0,
-            '2' => 1,
-            '3' => 2,
-            '4' => 'off', // this will be boolean FALSE due to literalizing
-            '5' => 'false', // this will be boolean FALSE!
-            '6' => ' ',
-            '7' => 'meh',
-            '8' => true,
-            '9' => false
+            'a' => 0,
+            'b' => 1,
+            'c' => 2, // false
+            'd' => 'off', // false
+            'e' => 'false', // false
+            'f' => ' ', // false
+            'g' => 'meh', // false
+            'h' => true,
+            'i' => false,
+            'j' => 'on', // true
+            'k' => 'true', // true
+            'l' => 'yes' // true
         ];
         $comp = [
-            '1' => false,
-            '2' => true,
-            '3' => true,
-            '4' => false,
-            '5' => false,
-            '6' => true,
-            '7' => true,
-            '8' => true,
-            '9' => false
+            'a' => false,
+            'b' => true,
+            'c' => false,
+            'd' => false,
+            'e' => false,
+            'f' => false,
+            'g' => false,
+            'h' => true,
+            'i' => false,
+            'j' => true,
+            'k' => true,
+            'l' => true
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
             KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_BOOLEAN
-        ]);
-
-        $valueholder = $attribute->createValueHolder();
-        $validation_result = $valueholder->setValue($data);
-
-        $this->assertEquals($comp, $valueholder->getValue());
-        $this->assertTrue($valueholder->sameValueAs($comp));
-    }
-
-    public function testValueTypeBooleanWithoutLiteralizingConstraint()
-    {
-        $data = [
-            'foo' => 'off'
-        ];
-        $comp = [
-            'foo' => true
-        ];
-
-        $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_BOOLEAN,
-            KeyValueListAttribute::OPTION_LITERALIZE => false
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -193,11 +178,65 @@ class KeyValueListAttributeTest extends TestCase
         // var_dump($vr->getIncidents());
     }
 
+    public function testMaxCountConstraint()
+    {
+        $data = [ 'foo' => 'bar', 'blah' => 'blub' ];
+
+        $attribute = new KeyValueListAttribute('keyvaluemaxcount', [
+            KeyValueListAttribute::OPTION_MAX_COUNT => 1
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($attribute->getDefaultValue(), $attribute->getNullValue());
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
+
+        $data = [ 'foo' => 'bar' ];
+        $validation_result = $valueholder->setValue($data);
+        $this->assertEquals($data, $valueholder->getValue());
+        $this->assertFalse($valueholder->isDefault());
+        $this->assertFalse($valueholder->isNull());
+        $this->assertTrue($validation_result->getSeverity() === IncidentInterface::SUCCESS);
+    }
+
+    public function testToNativeRoundtripWithBooleanFlags()
+    {
+        $attribute = new KeyValueListAttribute('flags', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_BOOLEAN
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue(
+            [ 'a' => 'on', 'b' => true, 'c' => 'yes', 'd' => 'no', 'e' => 'false', 'f' => false ]
+        );
+        $this->assertNotEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertEquals(
+            [ 'a' => true, 'b' => true, 'c' => true, 'd' => false, 'e' => false, 'f' => false ],
+            $valueholder->getValue()
+        );
+        $this->assertEquals(
+            [ 'a' => true, 'b' => true, 'c' => true, 'd' => false, 'e' => false, 'f' => false ],
+            $valueholder->toNative()
+        );
+
+        $valueholder->setValue($valueholder->toNative());
+        $this->assertNotEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertEquals(
+            [ 'a' => true, 'b' => true, 'c' => true, 'd' => false, 'e' => false, 'f' => false ],
+            $valueholder->toNative()
+        );
+        $this->assertEquals(
+            [ 'a' => true, 'b' => true, 'c' => true, 'd' => false, 'e' => false, 'f' => false ],
+            $valueholder->getValue()
+        );
+    }
+
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
-        $this->setExpectedException(InvalidConfigException::CLASS);
+        $this->setExpectedException(BadValueException::CLASS);
 
-        $attribute = new KeyValueListAttribute('keyvalueminmaxintegerdefaultvalue', [
+        $attribute = new KeyValueListAttribute('keyvalueinvalidintegerdefaultvalue', [
             KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_INTEGER,
             KeyValueListAttribute::OPTION_MIN => 1,
             KeyValueListAttribute::OPTION_MAX => 5,
@@ -219,12 +258,13 @@ class KeyValueListAttributeTest extends TestCase
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(new stdClass()),
-            array(1)
-        );
+        return [
+            [null],
+            [false],
+            [true],
+            [new stdClass()],
+            [1],
+            ['' => 'asdf']
+        ];
     }
 }

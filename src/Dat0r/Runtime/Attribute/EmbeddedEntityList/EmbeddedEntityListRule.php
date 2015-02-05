@@ -2,9 +2,11 @@
 
 namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Traversable;
 
 /**
  * Validates that a given value consistently translates to a list of entities.
@@ -27,8 +29,7 @@ class EmbeddedEntityListRule extends Rule
      */
     protected function execute($value)
     {
-        $success = true;
-        $list = null;
+        $list = new EntityList();
 
         if ($value instanceof EntityList) {
             $list = $value;
@@ -36,16 +37,40 @@ class EmbeddedEntityListRule extends Rule
             $list = new EntityList();
         } elseif (is_array($value)) {
             $list = $this->createEntityList($value);
+        } elseif ($value instanceof Traversable) {
+            $list = $this->createEntityList($value);
+        } elseif ($value instanceof EntityInterface) {
+            $list = $this->createEntityList([ $value ]);
         } else {
             $this->throwError('invalid_type');
-            $success = false;
+            return false;
         }
 
-        if ($success) {
+        $success = true;
+
+        $count = count($list);
+        if ($this->hasOption(EmbeddedEntityListAttribute::OPTION_MIN_COUNT)) {
+            $min_count = $this->getOption(EmbeddedEntityListAttribute::OPTION_MIN_COUNT, 0);
+            if ($count < (int)$min_count) {
+                $this->throwError('min_count', [ 'count' => $count, 'min_count' => $min_count ]);
+                $success = false;
+            }
+        }
+
+        if ($this->hasOption(EmbeddedEntityListAttribute::OPTION_MAX_COUNT)) {
+            $max_count = $this->getOption(EmbeddedEntityListAttribute::OPTION_MAX_COUNT, 0);
+            if ($count > (int)$max_count) {
+                $this->throwError('max_count', [ 'count' => $count, 'max_count' => $max_count ]);
+                $success = false;
+            }
+        }
+
+        if ($success && ($this->getIncidents()->getSize() === 0)) {
             $this->setSanitizedValue($list);
+            return true;
         }
 
-        return $success;
+        return false;
     }
 
     /**
@@ -55,7 +80,7 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return EntityList
      */
-    protected function createEntityList(array $entities_data)
+    protected function createEntityList($entities_data)
     {
         $type_map = array();
         foreach ($this->getOption(self::OPTION_ENTITY_TYPES, array()) as $type) {
