@@ -64,6 +64,11 @@ class Object implements ObjectInterface
         return $data;
     }
 
+    public function createCopyWith(array $new_state)
+    {
+        return new static(array_merge($this->toArray(), $new_state));
+    }
+
     protected function getHiddenProperties()
     {
         if (!$this->hidden_properties_) {

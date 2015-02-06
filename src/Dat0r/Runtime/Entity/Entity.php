@@ -238,13 +238,13 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     {
         $attribute_values = [ self::OBJECT_TYPE => get_class($this) ];
 
-        foreach ($this->value_holder_map->getKeys() as $attribute_name) {
-            $attribute_value = $this->getValue($attribute_name);
+        foreach ($this->value_holder_map as $attribute_name => $value_holder) {
+            $attribute_value = $value_holder->getValue();
 
             if (is_object($attribute_value) && is_callable([ $attribute_value, 'toArray' ])) {
                 $attribute_values[$attribute_name] = $attribute_value->toArray();
             } else {
-                $attribute_values[$attribute_name] = $attribute_value;
+                $attribute_values[$attribute_name] = $value_holder->toNative();
             }
         }
 

@@ -100,6 +100,7 @@ class EmbeddedEntityListRule extends Rule
             unset($entity_data['@type']);
 
             if (!isset($type_map[$trimmed_embed_type])) {
+                var_dump(array_keys($type_map), $trimmed_embed_type);exit;
                 $this->throwError(
                     'invalid_doc_type',
                     array('type' => var_export($entity_data[self::OBJECT_TYPE], true)),

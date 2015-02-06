@@ -118,4 +118,9 @@ class EntityList extends TypedList implements EntityChangedListenerInterface
     {
         return EntityInterface::CLASS;
     }
+
+    protected function cloneItem($item)
+    {
+        return clone $item;
+    }
 }

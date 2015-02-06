@@ -66,6 +66,23 @@ class ArrayList extends Collection implements ListInterface
         return $last_item;
     }
 
+    public function moveTo($offset, $item)
+    {
+        $this->removeItem($item);
+
+        $this->insertAt($offset, $item);
+    }
+
+    public function insertAt($offset, $item)
+    {
+        $this->splice($offset, 0, [ $item ]);
+    }
+
+    public function splice($offset, $length = 1, array $items = [])
+    {
+        array_splice($this->items, $offset, $length, $items);
+    }
+
     public function shift()
     {
         $first_item = array_shift($this->items);
