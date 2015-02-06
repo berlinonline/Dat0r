@@ -115,7 +115,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
         $rules = new RuleList();
 
         $options = $this->getOptions();
-        $options['entity_types'] = $this->getEntityTypes();
+        $options[self::OPTION_ENTITY_TYPES] = $this->getEntityTypes();
 
         $rules->push(
             new EmbeddedEntityListRule('valid-embedded-entity-list-data', $options)

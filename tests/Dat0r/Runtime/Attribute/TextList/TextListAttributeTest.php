@@ -126,6 +126,18 @@ class TextListAttributeTest extends TestCase
         $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
     }
 
+    public function testAllowedValuesConstraintFails()
+    {
+        $attribute = new TextListAttribute('roles', [
+            TextListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' ]
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $result = $valueholder->setValue(['foo']);
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
+    }
+
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);

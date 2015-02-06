@@ -7,12 +7,16 @@ use Dat0r\Runtime\Attribute\ListAttribute;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 
+/**
+ * A list of strings.
+ */
 class TextListAttribute extends ListAttribute
 {
+    const OPTION_ALLOWED_VALUES = 'allowed_values';
+    const OPTION_ENSURE_UTF8 = 'ensure_utf8';
     const OPTION_MAX = 'max';
     const OPTION_MIN = 'min';
     const OPTION_TRIM = 'trim';
-    const OPTION_ENSURE_UTF8 = 'ensure_utf8';
 
     protected function buildValidationRules()
     {

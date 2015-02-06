@@ -20,6 +20,10 @@ class EmbeddedEntityListValueHolder extends ValueHolder
      */
     protected function valueEquals($other_value)
     {
+        if (!$other_value instanceof EntityList) {
+            return false;
+        }
+
         $entities = $this->getValue();
 
         if (count($entities) !== count($other_value)) {

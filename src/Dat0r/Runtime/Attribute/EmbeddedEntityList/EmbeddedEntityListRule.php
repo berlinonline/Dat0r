@@ -6,10 +6,9 @@ use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Traversable;
 
 /**
- * Validates that a given value consistently translates to a list of entities.
+ * Validates that a given (array) value consistently translates to a list of entities.
  *
  * Supported options: entity_types
  */
@@ -29,24 +28,23 @@ class EmbeddedEntityListRule extends Rule
      */
     protected function execute($value)
     {
-        $list = new EntityList();
+        $success = true;
+        $list = null;
 
         if ($value instanceof EntityList) {
             $list = $value;
         } elseif (null === $value) {
             $list = new EntityList();
-        } elseif (is_array($value)) {
-            $list = $this->createEntityList($value);
-        } elseif ($value instanceof Traversable) {
-            $list = $this->createEntityList($value);
         } elseif ($value instanceof EntityInterface) {
-            $list = $this->createEntityList([ $value ]);
+            $list = new EntityList();
+            $list->push($value);
+        } elseif (is_array($value)) {
+            $list = new EntityList();
+            $success = $this->createEntityList($value, $list);
         } else {
             $this->throwError('invalid_type');
             return false;
         }
-
-        $success = true;
 
         $count = count($list);
         if ($this->hasOption(EmbeddedEntityListAttribute::OPTION_MIN_COUNT)) {
@@ -65,7 +63,7 @@ class EmbeddedEntityListRule extends Rule
             }
         }
 
-        if ($success && ($this->getIncidents()->getSize() === 0)) {
+        if ($success) {
             $this->setSanitizedValue($list);
             return true;
         }
@@ -80,19 +78,21 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return EntityList
      */
-    protected function createEntityList($entities_data)
+    protected function createEntityList(array $entities_data, EntityList $list)
     {
-        $type_map = array();
-        foreach ($this->getOption(self::OPTION_ENTITY_TYPES, array()) as $type) {
+        $success = true;
+
+        $type_map = [];
+        foreach ($this->getOption(self::OPTION_ENTITY_TYPES, []) as $type) {
             $trimmed_type_name = trim($type->getEntityType(), '\\');
             $type_map[$trimmed_type_name] = $type;
         }
 
-        $list = new EntityList();
         ksort($entities_data);
         foreach ($entities_data as $entity_data) {
             if (!isset($entity_data[self::OBJECT_TYPE])) {
-                $this->throwError('missing_doc_type', array(), IncidentInterface::CRITICAL);
+                $success = false;
+                $this->throwError('missing_doc_type', [], IncidentInterface::CRITICAL);
                 continue;
             }
 
@@ -100,10 +100,11 @@ class EmbeddedEntityListRule extends Rule
             unset($entity_data['@type']);
 
             if (!isset($type_map[$trimmed_embed_type])) {
-                var_dump(array_keys($type_map), $trimmed_embed_type);exit;
+                //var_dump(array_keys($type_map), $trimmed_embed_type);exit;
+                $success = false;
                 $this->throwError(
                     'invalid_doc_type',
-                    array('type' => var_export($entity_data[self::OBJECT_TYPE], true)),
+                    [ 'type' => var_export($entity_data[self::OBJECT_TYPE], true) ],
                     IncidentInterface::NOTICE
                 );
                 continue;
@@ -113,6 +114,6 @@ class EmbeddedEntityListRule extends Rule
             $list->push($embed_type->createEntity($entity_data));
         }
 
-        return $list;
+        return $success;
     }
 }

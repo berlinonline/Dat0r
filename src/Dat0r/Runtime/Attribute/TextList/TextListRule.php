@@ -14,6 +14,11 @@ class TextListRule extends Rule
             return false;
         }
 
+        $allowed_values = [];
+        if ($this->hasOption(TextListAttribute::OPTION_ALLOWED_VALUES)) {
+            $allowed_values = $this->getAllowedValues();
+        }
+
         $sanitized = [];
 
         foreach ($values as $val) {
@@ -57,11 +62,41 @@ class TextListRule extends Rule
                 }
             }
 
+            // check for allowed values
+            if ($this->hasOption(TextListAttribute::OPTION_ALLOWED_VALUES)) {
+                if (!in_array($val, $allowed_values, true)) {
+                    $this->throwError(
+                        TextListAttribute::OPTION_ALLOWED_VALUES,
+                        [
+                            TextListAttribute::OPTION_ALLOWED_VALUES => $allowed_values,
+                            'value' => $val
+                        ]
+                    );
+                    return false;
+                }
+            }
+
             $sanitized[] = $val;
         }
 
         $this->setSanitizedValue($sanitized);
 
         return true;
+    }
+
+    protected function getAllowedValues()
+    {
+        $allowed_values = [];
+
+        $configured_allowed_values = $this->getOption(TextListAttribute::OPTION_ALLOWED_VALUES, []);
+        if (!is_array($allowed_values)) {
+            throw new InvalidConfigException('Configured allowed_values must be an array of permitted values.');
+        }
+
+        foreach ($configured_allowed_values as $key => $raw) {
+            $allowed_values[$key] = (string)$raw;
+        }
+
+        return $allowed_values;
     }
 }

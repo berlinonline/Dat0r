@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\Uuid;
 
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Attribute\Text\TextValueHolder;
 
 /**
@@ -9,4 +10,31 @@ use Dat0r\Runtime\Attribute\Text\TextValueHolder;
  */
 class UuidValueHolder extends TextValueHolder
 {
+    /**
+     * Tells whether the valueholder's value is considered to be the same
+     * as the empty/null defined on the attribute.
+     *
+     * @return boolean
+     */
+    public function isNull()
+    {
+        throw new RuntimeException('Operation not supported. A new UUIDv4 is generated for every getNullValue call.');
+    }
+
+    /**
+     * Tells whether the valueholder's value is considered to be the same as
+     * the default value defined on the attribute.
+     *
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        if ($this->getAttribute()->hasOption(UuidAttribute::OPTION_DEFAULT_VALUE)) {
+            return $this->sameValueAs($this->getAttribute()->getDefaultValue());
+        }
+
+        throw new RuntimeException(
+            'Operation not supported. A new UUIDv4 is generated for every getNullValue call. No default value set.'
+        );
+    }
 }

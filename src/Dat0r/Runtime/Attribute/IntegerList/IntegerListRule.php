@@ -38,7 +38,7 @@ class IntegerListRule extends Rule
             }
 
             // check minimum value
-            if ($this->hasOption(IntegerListAttribute::OPTION_MIN, false)) {
+            if ($this->hasOption(IntegerListAttribute::OPTION_MIN)) {
                 $min = filter_var(
                     $this->getOption(IntegerListAttribute::OPTION_MIN),
                     FILTER_VALIDATE_INT,
@@ -46,7 +46,7 @@ class IntegerListRule extends Rule
                 );
 
                 if ($min === false) {
-                    throw new InvalidConfigException('Minimum value specified is not interpretable as integer');
+                    throw new InvalidConfigException('Minimum value specified is not interpretable as integer.');
                 }
 
                 if ($value < $min) {
@@ -59,7 +59,7 @@ class IntegerListRule extends Rule
             }
 
             // check maximum value
-            if ($this->hasOption(IntegerListAttribute::OPTION_MAX, false)) {
+            if ($this->hasOption(IntegerListAttribute::OPTION_MAX)) {
                 $max = filter_var(
                     $this->getOption(IntegerListAttribute::OPTION_MAX),
                     FILTER_VALIDATE_INT,
@@ -67,7 +67,7 @@ class IntegerListRule extends Rule
                 );
 
                 if ($max === false) {
-                    throw new InvalidConfigException('Maximum value specified is not interpretable as integer');
+                    throw new InvalidConfigException('Maximum value specified is not interpretable as integer.');
                 }
 
                 if ($value > $max) {

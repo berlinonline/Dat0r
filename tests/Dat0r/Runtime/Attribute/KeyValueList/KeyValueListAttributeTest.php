@@ -232,6 +232,42 @@ class KeyValueListAttributeTest extends TestCase
         );
     }
 
+    public function testAllowedValuesConstraintFails()
+    {
+        $attribute = new KeyValueListAttribute('roles', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' ]
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $result = $valueholder->setValue(['foo' => 'blah']);
+        $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
+    }
+
+    public function testAllowedKeysConstraintFails()
+    {
+        $attribute = new KeyValueListAttribute('roles', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_ALLOWED_KEYS => [ 'bar' ]
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $result = $valueholder->setValue(['foo' => 'bar']);
+        $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
+    }
+
+    public function testAllowedPairsConstraintFails()
+    {
+        $attribute = new KeyValueListAttribute('roles', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' => 'foo' ]
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $result = $valueholder->setValue(['foo' => 'bar']);
+        $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
+    }
+
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);

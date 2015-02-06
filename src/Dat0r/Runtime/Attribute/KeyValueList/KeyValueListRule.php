@@ -19,6 +19,26 @@ class KeyValueListRule extends Rule
             return false;
         }
 
+        $value_type = $this->getOption(
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
+            KeyValueListAttribute::CAST_TO_NOTHING
+        );
+
+        $allowed_values = [];
+        if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES)) {
+            $allowed_values = $this->getAllowedValues();
+        }
+
+        $allowed_keys = [];
+        if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_KEYS)) {
+            $allowed_keys = $this->getAllowedKeys();
+        }
+
+        $allowed_pairs = [];
+        if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS)) {
+            $allowed_pairs = $this->getAllowedPairs();
+        }
+
         $sanitized = [];
 
         foreach ($value as $key => $val) {
@@ -26,6 +46,20 @@ class KeyValueListRule extends Rule
             if (empty($key)) {
                 $this->throwError('empty_key', [], IncidentInterface::CRITICAL);
                 return false;
+            }
+
+            // check for allowed keys
+            if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_KEYS)) {
+                if (!in_array($key, $allowed_keys, true)) {
+                    $this->throwError(
+                        KeyValueListAttribute::OPTION_ALLOWED_KEYS,
+                        [
+                            KeyValueListAttribute::OPTION_ALLOWED_KEYS => $allowed_keys,
+                            'key' => $key
+                        ]
+                    );
+                    return false;
+                }
             }
 
             if (!is_scalar($val)) {
@@ -39,40 +73,79 @@ class KeyValueListRule extends Rule
             }
 
             // check minimum value or length
-            if ($min = $this->getOption(KeyValueListAttribute::OPTION_MIN, false)) {
+            if ($this->hasOption(KeyValueListAttribute::OPTION_MIN)) {
+                $min = filter_var($this->getOption(KeyValueListAttribute::OPTION_MIN), FILTER_VALIDATE_INT);
+                if ($min === false) {
+                    throw new InvalidConfigException('Minimum value specified is not interpretable as integer.');
+                }
+
                 if (is_string($val) && mb_strlen($val) < $min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
                         'value' => $val
                     ]);
                     return false;
-                } elseif (is_int($val) && $val < (int)$min) {
+                } elseif (is_int($val) && $val < $min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
                         'value' => $val
                     ]);
                     return false;
                 } else {
-                    // misconfigured? ignore
+                    // misconfigured? minimum value/length for booleans? ignore…
                 }
             }
 
-            // check maximumaximum or length
-            if ($max = $this->getOption(KeyValueListAttribute::OPTION_MAX, false)) {
+            // check maximum value or length
+            if ($this->hasOption(KeyValueListAttribute::OPTION_MAX)) {
+                $max = filter_var($this->getOption(KeyValueListAttribute::OPTION_MAX), FILTER_VALIDATE_INT);
+                if ($max === false) {
+                    throw new InvalidConfigException('Maximum value specified is not interpretable as integer.');
+                }
+
                 if (is_string($val) && mb_strlen($val) > $max) {
                     $this->throwError(KeyValueListAttribute::OPTION_MAX, [
                         KeyValueListAttribute::OPTION_MAX => $max,
-                        'value_given' => $val
+                        'value' => $val
                     ]);
                     return false;
                 } elseif (is_int($val) && $val > (int)$max) {
                     $this->throwError(KeyValueListAttribute::OPTION_MAX, [
                         KeyValueListAttribute::OPTION_MAX => $max,
-                        'value_given' => $val
+                        'value' => $val
                     ]);
                     return false;
                 } else {
-                    // misconfigured? ignore
+                    // misconfigured? maximum value/length for booleans? ignore…
+                }
+            }
+
+            // check for allowed values
+            if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES)) {
+                if (!in_array($val, $allowed_values, true)) {
+                    $this->throwError(
+                        KeyValueListAttribute::OPTION_ALLOWED_VALUES,
+                        [
+                            KeyValueListAttribute::OPTION_ALLOWED_VALUES => $allowed_values,
+                            'value' => $val
+                        ]
+                    );
+                    return false;
+                }
+            }
+
+            // check for allowed key => values pairs
+            if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS)) {
+                if (!(array_key_exists($key, $allowed_pairs) && $allowed_pairs[$key] === $val)) {
+                    $this->throwError(
+                        KeyValueListAttribute::OPTION_ALLOWED_PAIRS,
+                        [
+                            KeyValueListAttribute::OPTION_ALLOWED_PAIRS => $allowed_pairs,
+                            'key' => $key,
+                            'value' => $val
+                        ]
+                    );
+                    return false;
                 }
             }
 
@@ -130,5 +203,99 @@ class KeyValueListRule extends Rule
         }
 
         return $value;
+    }
+
+    protected function getAllowedValues()
+    {
+        $allowed_values = [];
+
+        $value_type = $this->getOption(
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
+            KeyValueListAttribute::CAST_TO_NOTHING
+        );
+
+        $configured_allowed_values = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES, []);
+        if (!is_array($configured_allowed_values)) {
+            throw new InvalidConfigException('Configured allowed_values must be an array of permitted values.');
+        }
+
+        foreach ($configured_allowed_values as $key => $raw) {
+            switch ($value_type) {
+                case KeyValueListAttribute::CAST_TO_INTEGER:
+                    $casted = filter_var($raw, FILTER_VALIDATE_INT);
+                    if ($casted === false || $raw === true) {
+                        throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
+                    }
+                    break;
+                case KeyValueListAttribute::CAST_TO_STRING:
+                    $casted = (string)$raw;
+                    break;
+                case KeyValueListAttribute::CAST_TO_BOOLEAN:
+                    $casted = $this->toBoolean($raw);
+                    break;
+                case KeyValueListAttribute::CAST_TO_NOTHING:
+                default:
+                    $casted = $raw;
+                    break;
+            }
+            $allowed_values[(string)$key] = $casted;
+        }
+
+        return $allowed_values;
+    }
+
+    protected function getAllowedKeys()
+    {
+        $allowed_keys = [];
+
+        $configured_allowed_keys = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_KEYS, []);
+        if (!is_array($configured_allowed_keys)) {
+            throw new InvalidConfigException('Configured allowed_keys must be an array of permitted key names.');
+        }
+
+        foreach ($configured_allowed_keys as $key) {
+            $allowed_keys[] = (string)$key;
+        }
+
+        return $allowed_keys;
+    }
+
+    protected function getAllowedPairs()
+    {
+        $allowed_pairs = [];
+
+        $value_type = $this->getOption(
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
+            KeyValueListAttribute::CAST_TO_NOTHING
+        );
+
+        $configured_allowed_pairs = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS, []);
+        if (!is_array($configured_allowed_pairs)) {
+            throw new InvalidConfigException('Configured allowed_pairs must be an array of permitted values.');
+        }
+
+        foreach ($configured_allowed_pairs as $key => $raw) {
+            switch ($value_type) {
+                case KeyValueListAttribute::CAST_TO_INTEGER:
+                    $casted = filter_var($raw, FILTER_VALIDATE_INT);
+                    if ($casted === false || $raw === true) {
+                        throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
+                    }
+                    break;
+                case KeyValueListAttribute::CAST_TO_STRING:
+                    $casted = (string)$raw;
+                    break;
+                case KeyValueListAttribute::CAST_TO_BOOLEAN:
+                    $casted = $this->toBoolean($raw);
+                    break;
+                case KeyValueListAttribute::CAST_TO_NOTHING:
+                default:
+                    $casted = $raw;
+                    break;
+            }
+            $allowed_pairs[(string)$key] = $casted;
+        }
+
+        return $allowed_pairs;
     }
 }

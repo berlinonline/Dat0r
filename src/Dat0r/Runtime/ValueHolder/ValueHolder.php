@@ -58,6 +58,31 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     abstract public function toNative();
 
     /**
+     * Returns the type of the value that is returned for the toNative() call.
+     * This is used for typehints in code generation and might be used in other
+     * layers (e.g. web form submissions) to prune empty values from array
+     * request parameters (when this method returns 'array'), e.g. "foo[bar][]"
+     * as checkboxes in a form will contain empty values for unchecked
+     * checkboxes. To know the native type is helpful to handle such a case
+     * as the validation rule can't distinguish between deliberate and wrongly
+     * given empty strings.
+     *
+     * @return string return type of the toNative() method
+     */
+    abstract public function getNativeType();
+
+    /**
+     * Returns the type of the internal value of the valueholder. This can
+     * be anything from 'string', 'array' or 'int' to a fully qualified class
+     * name of the value object or PHP object used for storage internally.
+     *
+     * The returned type is the one returned by getValue() method calls.
+     *
+     * @return string type or FQCN of the internal value
+     */
+    abstract public function getValueType();
+
+    /**
      * Contructs a new valueholder instance, that is dedicated to the given attribute.
      *
      * @param AttributeInterface $attribute

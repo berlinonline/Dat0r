@@ -1,21 +1,28 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Choice;
+namespace Dat0r\Runtime\Attribute\Integer;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
-class ChoiceValueHolder extends ValueHolder
+/**
+ * Default implementation used for integer value containment.
+ */
+class IntegerValueHolder extends ValueHolder
 {
     /**
      * Tells whether the given other_value is considered the same value as the
      * internally set value of this valueholder.
      *
-     * @param boolean $other_value value to compare
+     * @param int $other_value number value to compare
      *
      * @return boolean true if the given value is considered the same value as the internal one
      */
     protected function valueEquals($other_value)
     {
+        if (!is_int($other_value)) {
+            return false;
+        }
+
         return $this->getValue() === $other_value;
     }
 
@@ -28,25 +35,19 @@ class ChoiceValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        // TODO check that this is always an scalar array or value
         return $this->getValue();
     }
 
     /**
      * Returns the type of the value that is returned for the toNative() call.
      * This is used for typehints in code generation and might be used in other
-     * layers (e.g. web form submissions) to prune empty values from array
-     * request parameters (when this method returns 'array'), e.g. "foo[bar][]"
-     * as checkboxes in a form will contain empty values for unchecked
-     * checkboxes. To know the native type is helpful to handle such a case
-     * as the validation rule can't distinguish between deliberate and wrongly
-     * given empty strings.
+     * layers (e.g. web form submissions) to handle things differently.
      *
      * @return string return type of the toNative() method
      */
     public function getNativeType()
     {
-        return 'array';
+        return 'integer';
     }
 
     /**
@@ -60,6 +61,6 @@ class ChoiceValueHolder extends ValueHolder
      */
     public function getValueType()
     {
-        return 'array';
+        return 'integer';
     }
 }

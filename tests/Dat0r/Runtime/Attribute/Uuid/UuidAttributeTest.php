@@ -2,13 +2,16 @@
 
 namespace Dat0r\Tests\Runtime\Attribute\Uuid;
 
+use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Attribute\Uuid\UuidAttribute;
 use Dat0r\Runtime\Attribute\Uuid\UuidValueHolder;
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Tests\TestCase;
 
 class UuidAttributeTest extends TestCase
 {
-    const FIELDNAME = 'test_UuidAttribute_attribute';
+    const FIELDNAME = 'uuid';
+    const REGEX_UUID_V4 = '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i';
 
     public function testCreate()
     {
@@ -23,13 +26,57 @@ class UuidAttributeTest extends TestCase
         $this->assertFalse(empty($default_value));
         $this->assertTrue(is_string($default_value));
 
-        $match_count = preg_match(
-            '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
-            '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',
-            $default_value
-        );
+        $match_count = preg_match(self::REGEX_UUID_V4, $default_value);
 
         $this->assertTrue(1 === $match_count);
+    }
+
+    public function testInvalidValueSetting()
+    {
+        $attribute = new UuidAttribute(self::FIELDNAME);
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
+
+        $result = $valueholder->setValue('asdf');
+        $this->assertNotEquals('asdf', $valueholder->getValue());
+        $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity());
+        $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
+    }
+
+    public function testDefaultValueComparisonWorks()
+    {
+        $attribute = new UuidAttribute(self::FIELDNAME, [
+            UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
+        $this->assertTrue($valueholder->isDefault());
+
+        $result = $valueholder->setValue('asdf');
+        $this->assertTrue($valueholder->isDefault());
+    }
+
+    public function testNullValueComparisonThrows()
+    {
+        $this->setExpectedException(RuntimeException::CLASS);
+        $attribute = new UuidAttribute(self::FIELDNAME, [
+            UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
+        $valueholder->isNull();
+    }
+
+    public function testDefaultValueComparisonThrowsWhenNoDefaultWasSet()
+    {
+        $this->setExpectedException(RuntimeException::CLASS);
+        $attribute = new UuidAttribute(self::FIELDNAME);
+
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
+        $valueholder->isDefault();
     }
 
     /**

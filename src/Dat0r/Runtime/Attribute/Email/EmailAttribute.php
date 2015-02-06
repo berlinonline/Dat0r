@@ -11,7 +11,6 @@ class EmailAttribute extends TextAttribute
     {
         $rules = new RuleList();
         $rules->push(new EmailRule('email-type'));
-
         return $rules;
     }
 }
