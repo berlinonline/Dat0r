@@ -85,7 +85,6 @@ class EmbeddedEntityListAttribute extends ListAttribute
     public function getEmbedTypeByClassName($class_name)
     {
         foreach ($this->getEntityTypes() as $type) {
-            var_dump(get_class($type), $class_name);
             if (get_class($type) === $class_name) {
                 return $type;
             }
