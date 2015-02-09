@@ -32,7 +32,7 @@ class FloatAttributeTest extends TestCase
         $attribute = new FloatAttribute('Float', [ FloatAttribute::OPTION_DEFAULT_VALUE => 1337.456 ]);
         $valueholder = $attribute->createValueHolder();
 
-        $this->assertTrue(abs(1337.456-$valueholder->getValue()) < 0.00000000000001);
+        $this->assertTrue(abs(1337.456-$valueholder->getValue()) < 0.0000000001);
         $this->assertTrue($valueholder->sameValueAs('1337.456'));
         $this->assertFalse($valueholder->sameValueAs(1337.455999));
         $this->assertFalse($valueholder->sameValueAs(1337.456001));
@@ -44,6 +44,28 @@ class FloatAttributeTest extends TestCase
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(true);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertTrue('0.000' === sprintf('%0.3f', $valueholder->getValue()));
+    }
+
+    public function testThousandSeparator()
+    {
+        $attribute = new FloatAttribute('nan', [
+            FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue('1,200.123');
+        $this->assertEquals('1200.123', sprintf('%0.3f', $valueholder->getValue()));
+    }
+
+    public function testThousandSeparatorFails()
+    {
+        $attribute = new FloatAttribute('nan', [
+            FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => false
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $result = $valueholder->setValue('1,200.123');
+        $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
+        $this->assertTrue('0.000' === sprintf('%0.3f', $valueholder->getValue()));
     }
 
     public function testNanValue()
