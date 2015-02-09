@@ -33,7 +33,11 @@ class IntegerRule extends Rule
 
         // check minimum value
         if ($this->hasOption(IntegerAttribute::OPTION_MIN)) {
-            $min = filter_var($this->getOption(IntegerAttribute::OPTION_MIN), FILTER_VALIDATE_INT, $filter_flags);
+            $min = filter_var(
+                $this->getOption(IntegerAttribute::OPTION_MIN, -PHP_INT_MAX-1),
+                FILTER_VALIDATE_INT,
+                $filter_flags
+            );
             if ($min === false) {
                 throw new InvalidConfigException('Minimum value specified is not interpretable as integer.');
             }
@@ -49,7 +53,11 @@ class IntegerRule extends Rule
 
         // check maximum value
         if ($this->hasOption(IntegerAttribute::OPTION_MAX)) {
-            $max = filter_var($this->getOption(IntegerAttribute::OPTION_MAX), FILTER_VALIDATE_INT, $filter_flags);
+            $max = filter_var(
+                $this->getOption(IntegerAttribute::OPTION_MAX, PHP_INT_MAX),
+                FILTER_VALIDATE_INT,
+                $filter_flags
+            );
             if ($max === false) {
                 throw new InvalidConfigException('Maximum value specified is not interpretable as integer.');
             }

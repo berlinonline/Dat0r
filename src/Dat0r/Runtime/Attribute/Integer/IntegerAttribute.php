@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\Attribute\Integer;
 
-use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 
