@@ -85,7 +85,7 @@ class KeyValueListRule extends Rule
                         'value' => $val
                     ]);
                     return false;
-                } elseif (is_int($val) && $val < $min) {
+                } elseif ((is_int($val) || is_float($val)) && $val < $min) {
                     $this->throwError(KeyValueListAttribute::OPTION_MIN, [
                         KeyValueListAttribute::OPTION_MIN => $min,
                         'value' => $val
@@ -109,7 +109,7 @@ class KeyValueListRule extends Rule
                         'value' => $val
                     ]);
                     return false;
-                } elseif (is_int($val) && $val > (int)$max) {
+                } elseif ((is_int($val) || is_float($val)) && $val > $max) {
                     $this->throwError(KeyValueListAttribute::OPTION_MAX, [
                         KeyValueListAttribute::OPTION_MAX => $max,
                         'value' => $val
@@ -122,6 +122,7 @@ class KeyValueListRule extends Rule
 
             // check for allowed values
             if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES)) {
+                // use FloatAttribute if equal value comparison of float values if important
                 if (!in_array($val, $allowed_values, true)) {
                     $this->throwError(
                         KeyValueListAttribute::OPTION_ALLOWED_VALUES,
@@ -136,6 +137,7 @@ class KeyValueListRule extends Rule
 
             // check for allowed key => values pairs
             if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS)) {
+                // use FloatAttribute if equal value comparison of float values if important
                 if (!(array_key_exists($key, $allowed_pairs) && $allowed_pairs[$key] === $val)) {
                     $this->throwError(
                         KeyValueListAttribute::OPTION_ALLOWED_PAIRS,
@@ -183,6 +185,10 @@ class KeyValueListRule extends Rule
                 $value = (int)$value;
                 break;
 
+            case KeyValueListAttribute::CAST_TO_FLOAT:
+                $value = (float)$value;
+                break;
+
             case KeyValueListAttribute::CAST_TO_STRING:
                 $value = (string)$value;
                 break;
@@ -225,6 +231,15 @@ class KeyValueListRule extends Rule
                     $casted = filter_var($raw, FILTER_VALIDATE_INT);
                     if ($casted === false || $raw === true) {
                         throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
+                    }
+                    break;
+                case KeyValueListAttribute::CAST_TO_FLOAT:
+                    $casted = filter_var($raw, FILTER_VALIDATE_FLOAT);
+                    if ($casted === false || $raw === true) {
+                        throw new InvalidConfigException(
+                            'Allowed float values must be interpretable as floats. ' .
+                            'NAN or +-INF values or thousand separators (,) are not supported.'
+                        );
                     }
                     break;
                 case KeyValueListAttribute::CAST_TO_STRING:
@@ -280,6 +295,15 @@ class KeyValueListRule extends Rule
                     $casted = filter_var($raw, FILTER_VALIDATE_INT);
                     if ($casted === false || $raw === true) {
                         throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
+                    }
+                    break;
+                case KeyValueListAttribute::CAST_TO_FLOAT:
+                    $casted = filter_var($raw, FILTER_VALIDATE_FLOAT);
+                    if ($casted === false || $raw === true) {
+                        throw new InvalidConfigException(
+                            'Allowed float values must be interpretable as floats. ' .
+                            'NAN or +-INF values or thousand separators (,) are not supported.'
+                        );
                     }
                     break;
                 case KeyValueListAttribute::CAST_TO_STRING:

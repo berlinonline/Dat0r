@@ -24,6 +24,7 @@ class KeyValueListAttribute extends ListAttribute
 
     const CAST_TO_BOOLEAN = 'boolean';
     const CAST_TO_INTEGER = 'integer';
+    const CAST_TO_FLOAT = 'float';
     const CAST_TO_NOTHING = 'nothing';
     const CAST_TO_STRING = 'string';
 

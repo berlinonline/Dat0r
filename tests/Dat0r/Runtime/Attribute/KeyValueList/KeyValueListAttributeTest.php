@@ -85,6 +85,29 @@ class KeyValueListAttributeTest extends TestCase
         $this->assertTrue($valueholder->sameValueAs($comp));
     }
 
+    public function testValueTypeFloatConstraint()
+    {
+        $data = [
+            'foo' => '1',
+            'bar' => '2'
+        ];
+        $comp = [
+            'foo' => 1.0,
+            'bar' => 2.0
+        ];
+
+        $attribute = new KeyValueListAttribute('keyvalue', [
+            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_FLOAT
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue($data);
+        $this->assertEquals($comp, $valueholder->getValue());
+        $this->assertTrue($valueholder->sameValueAs($comp));
+        $asdf = $valueholder->getValue();
+        $this->assertTrue(is_float($asdf['bar']));
+    }
+
     public function testValueTypeBooleanConstraint()
     {
         $data = [
