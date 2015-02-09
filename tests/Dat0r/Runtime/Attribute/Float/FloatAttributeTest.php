@@ -141,15 +141,6 @@ class FloatAttributeTest extends TestCase
         $this->assertFalse($valueholder->sameValueAs(3.143));
     }
 
-    public function testTooHighPrecisionThrows()
-    {
-        $this->setExpectedException(RuntimeException::CLASS);
-        $attribute = new FloatAttribute('tonative', [
-            FloatAttribute::OPTION_PRECISION_DIGITS => ini_get('precision') + 5
-        ]);
-        $valueholder = $attribute->createValueHolder();
-    }
-
     public function testToNativeNan()
     {
         $attribute = new FloatAttribute('nan', [

@@ -24,7 +24,7 @@ class FloatValueHolder extends ValueHolder
             return false;
         }
 
-        if (abs($this->getValue()-$other_value) < $this->getPrecision()) {
+        if (abs($this->getValue()-$other_value) < $this->getEpsilon()) {
             return true;
         }
 
@@ -86,19 +86,9 @@ class FloatValueHolder extends ValueHolder
     /**
      * @return float value that can be used as delta/epsilon for float value equality comparisons
      */
-    protected function getPrecision()
+    protected function getEpsilon()
     {
-        $php_precision_value = ini_get('precision');
-        $php_precision = filter_var($php_precision_value, FILTER_VALIDATE_INT);
-        if ($php_precision === false || $php_precision_value === true) {
-            trigger_error("The default PHP ini setting 'precision' is not interpretable as integer.", E_USER_NOTICE);
-            $php_precision = 14;
-        }
-
-        $precision_digits_value = $this->getAttribute()->getOption(
-            FloatAttribute::OPTION_PRECISION_DIGITS,
-            $php_precision
-        );
+        $precision_digits_value = $this->getAttribute()->getOption(FloatAttribute::OPTION_PRECISION_DIGITS, 14);
         $precision_digits = filter_var($precision_digits_value, FILTER_VALIDATE_INT);
         if ($precision_digits === false || $precision_digits_value === true) {
             trigger_error(
@@ -109,25 +99,13 @@ class FloatValueHolder extends ValueHolder
             $precision_digits = 14;
         }
 
-        if ($php_precision < $precision_digits) {
-            throw new RuntimeException(
-                sprintf(
-                    'PHP ini setting "precision" (="%s") is set to a lower value than the wanted ' .
-                    'precision (="%s") for float values of attribute "%s". Change either setting.',
-                    $php_precision_value,
-                    $precision_digits_value,
-                    $this->getAttribute()->getName()
-                )
-            );
-        }
-
-        $precision = filter_var("1e-".abs($precision_digits), FILTER_VALIDATE_FLOAT);
-        if ($precision === false || $precision_digits === true) {
+        $epsilon = filter_var("1e-".abs($precision_digits), FILTER_VALIDATE_FLOAT);
+        if ($epsilon === false || $precision_digits === true) {
             throw new InvalidConfigException(
                 "Could not interprete float precision digits correctly. Please specify a positive integer (e.g. 16)."
             );
         }
 
-        return $precision;
+        return $epsilon;
     }
 }
