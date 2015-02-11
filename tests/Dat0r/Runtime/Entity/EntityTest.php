@@ -34,33 +34,18 @@ class EntityTest extends TestCase
 
     public function testToNative()
     {
-        // same order as in ArticleType definition!
-        $values = [
-            'headline' => 'headline',
-            'content' => 'content',
-            'click_count' => 123,
-            'author' => 'Some Author',
-            'email' => 'some.author@example.com',
-            'birthday' => '2014-12-31T12:45:55.123456+01:00',
-            'images' => [ 1, 2, 3 ],
-            'keywords' => [ 'some', 'keywords' ],
-            'enabled' => true,
-            'content_objects' => [],
-            'meta' => [],
-            'workflow_ticket' => []
-        ];
-
+        $data = $this->getExampleValues();
         $type = new ArticleType();
-        $entity = $type->createEntity($values);
+        $entity = $type->createEntity($data);
 
         $this->assertTrue($entity->isValid(), 'entity should be in valid state');
 
         $result = $entity->toNative();
 
-        $this->assertEquals(array_keys($values), array_keys($result));
-        $this->assertEquals('headline', $result['headline']);
-        $this->assertEquals(123, $result['click_count']);
-        $this->assertEquals('some.author@example.com', $result['email']);
+        $this->assertEquals(array_keys($data), array_keys($result));
+        $this->assertEquals($data['headline'], $result['headline']);
+        $this->assertEquals($data['click_count'], $result['click_count']);
+        $this->assertEquals($data['email'], $result['email']);
         $this->assertEquals('2014-12-31T11:45:55.123456+00:00', $result['birthday']); // utc
         $this->assertEquals([ 'some', 'keywords' ], $result['keywords']);
         $this->assertTrue($result['enabled']);
@@ -71,11 +56,41 @@ class EntityTest extends TestCase
 
     public function testToNativeReconstitution()
     {
+        $type = new ArticleType();
+        $entity = $type->createEntity($this->getExampleValues());
+
+        $this->assertTrue($entity->isValid());
+
+        $result = $entity->toNative();
+
+        $new_entity = $type->createEntity($result);
+
+        $this->assertTrue($new_entity->isEqualTo($entity));
+    }
+
+    public function testJsonSerializable()
+    {
+        $type = new ArticleType();
+        $entity = $type->createEntity($this->getExampleValues());
+
+        $this->assertTrue($entity->isValid());
+
+        $json = json_encode($entity);
+        $this->assertJson($json);
+
+        $data = json_decode($json, true);
+        $new_entity = $type->createEntity($data);
+        $this->assertTrue($new_entity->isEqualTo($entity));
+    }
+
+    protected function getExampleValues()
+    {
         // same order as in ArticleType definition!
-        $values = [
+        return [
             'headline' => 'headline',
             'content' => 'content',
             'click_count' => 123,
+            'float' => 123.456,
             'author' => 'Some Author',
             'email' => 'some.author@example.com',
             'birthday' => '2014-12-31T12:45:55.123456+01:00',
@@ -86,16 +101,5 @@ class EntityTest extends TestCase
             'meta' => [],
             'workflow_ticket' => []
         ];
-
-        $type = new ArticleType();
-        $entity = $type->createEntity($values);
-
-        $this->assertTrue($entity->isValid());
-
-        $result = $entity->toNative();
-
-        $new_entity = $type->createEntity($result);
-
-        $this->assertTrue($new_entity->isEqualTo($entity));
     }
 }

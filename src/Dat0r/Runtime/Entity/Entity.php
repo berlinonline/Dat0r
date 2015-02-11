@@ -13,13 +13,14 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
 use Dat0r\Runtime\ValueHolder\ValueHolderInterface;
 use Dat0r\Runtime\ValueHolder\ValueHolderMap;
+use JsonSerializable;
 
 /**
  * Entity generically implements the EntityInterface interface
  * and serves as a parent/ancestor to all generated and domain specific entity base-classes.
  * It provides generic value access via it's getValue(s) and setValue(s) methods.
  */
-abstract class Entity extends Object implements EntityInterface, ValueChangedListenerInterface
+abstract class Entity extends Object implements EntityInterface, ValueChangedListenerInterface, JsonSerializable
 {
     /**
      * Holds the entity's type.
@@ -408,5 +409,13 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         }
 
         return $value_holder;
+    }
+
+    /**
+     * @return array that may be used to generate a JSON representation of the entity
+     */
+    public function jsonSerialize()
+    {
+        return $this->toNative();
     }
 }

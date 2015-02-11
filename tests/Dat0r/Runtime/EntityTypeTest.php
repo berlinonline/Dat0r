@@ -7,7 +7,7 @@ use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
-use Dat0r\Runtime\Attribute\Number\NumberAttribute;
+use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Attribute\Timestamp\TimestampAttribute;
@@ -25,7 +25,7 @@ class EntityTypeTest extends TestCase
         $type = new ArticleType();
 
         $this->assertEquals('Article', $type->getName());
-        $this->assertEquals(12, $type->getAttributes()->getSize());
+        $this->assertEquals(13, $type->getAttributes()->getSize());
     }
 
     public function testAccessNestedParameters()
@@ -50,7 +50,7 @@ class EntityTypeTest extends TestCase
     public function testGetAttributeMethod(EntityTypeInterface $type)
     {
         $this->assertInstanceOf(TextAttribute::CLASS, $type->getAttribute('headline'));
-        $this->assertInstanceOf(NumberAttribute::CLASS, $type->getAttribute('click_count'));
+        $this->assertInstanceOf(IntegerAttribute::CLASS, $type->getAttribute('click_count'));
     }
 
     /**
@@ -62,11 +62,11 @@ class EntityTypeTest extends TestCase
 
         $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
 
-        $this->assertEquals(12, $attributes->getSize());
+        $this->assertEquals(13, $attributes->getSize());
 
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('content'));
-        $this->assertInstanceOf(NumberAttribute::CLASS, $attributes->getItem('click_count'));
+        $this->assertInstanceOf(IntegerAttribute::CLASS, $attributes->getItem('click_count'));
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('author'));
         $this->assertInstanceOf(TimestampAttribute::CLASS, $attributes->getItem('birthday'));
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('email'));
@@ -88,7 +88,7 @@ class EntityTypeTest extends TestCase
         $this->assertEquals(2, $attributes->getSize());
 
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
-        $this->assertInstanceOf(NumberAttribute::CLASS, $attributes->getItem('click_count'));
+        $this->assertInstanceOf(IntegerAttribute::CLASS, $attributes->getItem('click_count'));
     }
 
     /**

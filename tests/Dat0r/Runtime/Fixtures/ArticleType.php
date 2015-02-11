@@ -5,9 +5,10 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
-use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
+use Dat0r\Runtime\Attribute\Float\FloatAttribute;
 use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
-use Dat0r\Runtime\Attribute\Number\NumberAttribute;
+use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
+use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Attribute\Timestamp\TimestampAttribute;
@@ -22,7 +23,8 @@ class ArticleType extends EntityType
             array(
                 new TextAttribute('headline', array('min' => 4)),
                 new TextAttribute('content'),
-                new NumberAttribute('click_count'),
+                new IntegerAttribute('click_count'),
+                new FloatAttribute('float'),
                 new TextAttribute('author'),
                 new TextAttribute('email'),
                 new TimestampAttribute('birthday', [

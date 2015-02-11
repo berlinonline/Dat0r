@@ -137,7 +137,7 @@ class KeyValueListRule extends Rule
 
             // check for allowed key => values pairs
             if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS)) {
-                // use FloatAttribute if equal value comparison of float values if important
+                // use FloatAttribute if equal value comparison of float values is important (w/ precision)
                 if (!(array_key_exists($key, $allowed_pairs) && $allowed_pairs[$key] === $val)) {
                     $this->throwError(
                         KeyValueListAttribute::OPTION_ALLOWED_PAIRS,
@@ -182,11 +182,19 @@ class KeyValueListRule extends Rule
 
         switch ($value_type) {
             case KeyValueListAttribute::CAST_TO_INTEGER:
-                $value = (int)$value;
+                $int = filter_var($value, FILTER_VALIDATE_INT, $this->getIntegerFilterFlags());
+                if ($int === false || $value === true) {
+                    throw new InvalidConfigException('Given value must be interpretable as integer.');
+                }
+                $value = $int;
                 break;
 
             case KeyValueListAttribute::CAST_TO_FLOAT:
-                $value = (float)$value;
+                $float = filter_var($value, FILTER_VALIDATE_FLOAT, $this->getFloatFilterFlags());
+                if ($float === false || $value === true) {
+                    throw new InvalidConfigException('Given value must be interpretable as float.');
+                }
+                $value = $float;
                 break;
 
             case KeyValueListAttribute::CAST_TO_STRING:
@@ -196,7 +204,6 @@ class KeyValueListRule extends Rule
             case KeyValueListAttribute::CAST_TO_BOOLEAN:
                 $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
                 if (null === $bool || is_object($value) || $value === "" || $value === null) {
-                    // FILTER_VALIDATE_BOOLEAN treats objects, NULL and empty strings as boolean FALSE… -.-
                     $value = false;
                 } else {
                     $value = $bool;
@@ -209,54 +216,6 @@ class KeyValueListRule extends Rule
         }
 
         return $value;
-    }
-
-    protected function getAllowedValues()
-    {
-        $allowed_values = [];
-
-        $value_type = $this->getOption(
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
-            KeyValueListAttribute::CAST_TO_NOTHING
-        );
-
-        $configured_allowed_values = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES, []);
-        if (!is_array($configured_allowed_values)) {
-            throw new InvalidConfigException('Configured allowed_values must be an array of permitted values.');
-        }
-
-        foreach ($configured_allowed_values as $key => $raw) {
-            switch ($value_type) {
-                case KeyValueListAttribute::CAST_TO_INTEGER:
-                    $casted = filter_var($raw, FILTER_VALIDATE_INT);
-                    if ($casted === false || $raw === true) {
-                        throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
-                    }
-                    break;
-                case KeyValueListAttribute::CAST_TO_FLOAT:
-                    $casted = filter_var($raw, FILTER_VALIDATE_FLOAT);
-                    if ($casted === false || $raw === true) {
-                        throw new InvalidConfigException(
-                            'Allowed float values must be interpretable as floats. ' .
-                            'NAN or +-INF values or thousand separators (,) are not supported.'
-                        );
-                    }
-                    break;
-                case KeyValueListAttribute::CAST_TO_STRING:
-                    $casted = (string)$raw;
-                    break;
-                case KeyValueListAttribute::CAST_TO_BOOLEAN:
-                    $casted = $this->toBoolean($raw);
-                    break;
-                case KeyValueListAttribute::CAST_TO_NOTHING:
-                default:
-                    $casted = $raw;
-                    break;
-            }
-            $allowed_values[(string)$key] = $casted;
-        }
-
-        return $allowed_values;
     }
 
     protected function getAllowedKeys()
@@ -275,51 +234,106 @@ class KeyValueListRule extends Rule
         return $allowed_keys;
     }
 
+    protected function getAllowedValues()
+    {
+        $configured_allowed_values = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES, []);
+        if (!is_array($configured_allowed_values)) {
+            throw new InvalidConfigException(
+                'Configured allowed_values must be an array of permitted values.'
+            );
+        }
+
+        return $this->castArray($configured_allowed_values);
+    }
+
     protected function getAllowedPairs()
     {
-        $allowed_pairs = [];
+        $configured_allowed_pairs = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS, []);
+        if (!is_array($configured_allowed_pairs)) {
+            throw new InvalidConfigException(
+                'Configured allowed_pairs must be an array of permitted key => value pairs.'
+            );
+        }
 
+        return $this->castArray($configured_allowed_pairs);
+    }
+
+    protected function castArray($array)
+    {
         $value_type = $this->getOption(
             KeyValueListAttribute::OPTION_CAST_VALUES_TO,
             KeyValueListAttribute::CAST_TO_NOTHING
         );
 
-        $configured_allowed_pairs = $this->getOption(KeyValueListAttribute::OPTION_ALLOWED_PAIRS, []);
-        if (!is_array($configured_allowed_pairs)) {
-            throw new InvalidConfigException('Configured allowed_pairs must be an array of permitted values.');
-        }
+        $casted = [];
 
-        foreach ($configured_allowed_pairs as $key => $raw) {
+        foreach ($array as $key => $raw) {
             switch ($value_type) {
                 case KeyValueListAttribute::CAST_TO_INTEGER:
-                    $casted = filter_var($raw, FILTER_VALIDATE_INT);
-                    if ($casted === false || $raw === true) {
+                    $casted_value = filter_var($raw, FILTER_VALIDATE_INT, $this->getIntegerFilterFlags());
+                    if ($casted_value === false || $raw === true) {
                         throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
                     }
                     break;
+
                 case KeyValueListAttribute::CAST_TO_FLOAT:
-                    $casted = filter_var($raw, FILTER_VALIDATE_FLOAT);
-                    if ($casted === false || $raw === true) {
+                    $casted_value = filter_var($raw, FILTER_VALIDATE_FLOAT, $this->getFloatFilterFlags());
+                    if ($casted_value === false || $raw === true) {
                         throw new InvalidConfigException(
-                            'Allowed float values must be interpretable as floats. ' .
-                            'NAN or +-INF values or thousand separators (,) are not supported.'
+                            'Allowed float values must be interpretable as floats. NAN or +-INF values are not ' .
+                            'supported. The thousand separator (,) may be configured via attribute options.'
                         );
                     }
                     break;
+
                 case KeyValueListAttribute::CAST_TO_STRING:
-                    $casted = (string)$raw;
+                    $casted_value = (string)$raw;
                     break;
+
                 case KeyValueListAttribute::CAST_TO_BOOLEAN:
-                    $casted = $this->toBoolean($raw);
+                    $casted_value = $this->toBoolean($raw);
                     break;
+
                 case KeyValueListAttribute::CAST_TO_NOTHING:
                 default:
-                    $casted = $raw;
+                    $casted_value = $raw;
                     break;
             }
-            $allowed_pairs[(string)$key] = $casted;
+
+            $casted[(string)$key] = $casted_value;
         }
 
-        return $allowed_pairs;
+        return $casted;
+
+    }
+
+    protected function getIntegerFilterFlags()
+    {
+        $allow_hex = $this->toBoolean($this->getOption(KeyValueListAttribute::OPTION_ALLOW_HEX, false));
+        $allow_octal = $this->toBoolean($this->getOption(KeyValueListAttribute::OPTION_ALLOW_OCTAL, false));
+
+        $filter_flags = 0;
+        if ($allow_hex) {
+            $filter_flags |= FILTER_FLAG_ALLOW_HEX;
+        }
+        if ($allow_octal) {
+            $filter_flags |= FILTER_FLAG_ALLOW_OCTAL;
+        }
+
+        return $filter_flags;
+    }
+
+    protected function getFloatFilterFlags()
+    {
+        $allow_thousand = $this->toBoolean(
+            $this->getOption(KeyValueListAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR, false)
+        );
+
+        $filter_flags = 0;
+        if ($allow_thousand) {
+            $filter_flags |= FILTER_FLAG_ALLOW_THOUSAND;
+        }
+
+        return $filter_flags;
     }
 }

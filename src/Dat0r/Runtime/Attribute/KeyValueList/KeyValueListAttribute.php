@@ -13,13 +13,38 @@ use Dat0r\Runtime\Attribute\ListAttribute;
  */
 class KeyValueListAttribute extends ListAttribute
 {
+    /**
+     * Allow fraction separator when casting to float (',' as in '1,200' === 1200)
+     */
+    const OPTION_ALLOW_THOUSAND_SEPARATOR = 'allow_thousand_separator';
+
+    /**
+     * Allow hexadecimal numbers when casting to integer
+     */
+    const OPTION_ALLOW_HEX = 'allow_hex';
+
+    /**
+     * Allow octal numbers when casting to integer
+     */
+    const OPTION_ALLOW_OCTAL = 'allow_octal';
+
     const OPTION_ALLOWED_KEYS = 'allowed_keys';
     const OPTION_ALLOWED_VALUES = 'allowed_values';
     const OPTION_ALLOWED_PAIRS = 'allowed_pairs';
 
+    /**
+     * Option to define that values must be casted to a specific type.
+     */
     const OPTION_CAST_VALUES_TO = 'cast_values_to';
 
+    /**
+     * Minimum value or string length (depending values being int, string or float)
+     */
     const OPTION_MAX = 'max';
+
+    /**
+     * Maximum value or string length (depending values being int, string or float)
+     */
     const OPTION_MIN = 'min';
 
     const CAST_TO_BOOLEAN = 'boolean';
