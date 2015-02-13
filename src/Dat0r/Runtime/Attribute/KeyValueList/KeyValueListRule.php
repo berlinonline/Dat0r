@@ -2,8 +2,14 @@
 
 namespace Dat0r\Runtime\Attribute\KeyValueList;
 
+use Dat0r\Runtime\Attribute\Boolean\BooleanRule;
+use Dat0r\Runtime\Attribute\Float\FloatAttribute;
+use Dat0r\Runtime\Attribute\Float\FloatRule;
+use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
+use Dat0r\Runtime\Attribute\Integer\IntegerRule;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
 class KeyValueListRule extends Rule
 {
@@ -20,8 +26,8 @@ class KeyValueListRule extends Rule
         }
 
         $value_type = $this->getOption(
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
-            KeyValueListAttribute::CAST_TO_NOTHING
+            KeyValueListAttribute::OPTION_VALUE_TYPE,
+            KeyValueListAttribute::VALUE_TYPE_DEFAULT
         );
 
         $allowed_values = [];
@@ -40,6 +46,31 @@ class KeyValueListRule extends Rule
         }
 
         $sanitized = [];
+
+        $value_type = $this->getOption(
+            KeyValueListAttribute::OPTION_VALUE_TYPE,
+            KeyValueListAttribute::VALUE_TYPE_DEFAULT
+        );
+
+        $rule = null;
+        switch ($value_type) {
+            case KeyValueListAttribute::VALUE_TYPE_INTEGER:
+                $rule = new IntegerRule('integer', $this->getOptions());
+                break;
+            case KeyValueListAttribute::VALUE_TYPE_FLOAT:
+                $rule = new FloatRule('float', $this->getOptions());
+                break;
+                break;
+            case KeyValueListAttribute::VALUE_TYPE_BOOLEAN:
+                $rule = new BooleanRule('boolean', $this->getOptions());
+                break;
+
+            case KeyValueListAttribute::VALUE_TYPE_TEXT:
+            case KeyValueListAttribute::VALUE_TYPE_DEFAULT:
+            default:
+                $rule = new TextRule('text', $this->getOptions());
+                break;
+        }
 
         foreach ($value as $key => $val) {
             $key = trim($key);
@@ -67,58 +98,17 @@ class KeyValueListRule extends Rule
                 return false;
             }
 
-            // cast values to string, integer or boolean
-            if ($this->hasOption(KeyValueListAttribute::OPTION_CAST_VALUES_TO)) {
-                $val = $this->castValue($val);
+            // we accept simple scalar types to be casted to strings
+            if ($value_type === KeyValueListAttribute::VALUE_TYPE_TEXT) {
+                $val = (string)$val;
             }
 
-            // check minimum value or length
-            if ($this->hasOption(KeyValueListAttribute::OPTION_MIN)) {
-                $min = filter_var($this->getOption(KeyValueListAttribute::OPTION_MIN), FILTER_VALIDATE_INT);
-                if ($min === false) {
-                    throw new InvalidConfigException('Minimum value specified is not interpretable as integer.');
-                }
-
-                if (is_string($val) && mb_strlen($val) < $min) {
-                    $this->throwError(KeyValueListAttribute::OPTION_MIN, [
-                        KeyValueListAttribute::OPTION_MIN => $min,
-                        'value' => $val
-                    ]);
-                    return false;
-                } elseif ((is_int($val) || is_float($val)) && $val < $min) {
-                    $this->throwError(KeyValueListAttribute::OPTION_MIN, [
-                        KeyValueListAttribute::OPTION_MIN => $min,
-                        'value' => $val
-                    ]);
-                    return false;
-                } else {
-                    // misconfigured? minimum value/length for booleans? ignore…
-                }
+            // validate value to be string, integer, float or boolean
+            if (!$rule->apply($val)) {
+                $this->throwIncidents($rule);
+                return false;
             }
-
-            // check maximum value or length
-            if ($this->hasOption(KeyValueListAttribute::OPTION_MAX)) {
-                $max = filter_var($this->getOption(KeyValueListAttribute::OPTION_MAX), FILTER_VALIDATE_INT);
-                if ($max === false) {
-                    throw new InvalidConfigException('Maximum value specified is not interpretable as integer.');
-                }
-
-                if (is_string($val) && mb_strlen($val) > $max) {
-                    $this->throwError(KeyValueListAttribute::OPTION_MAX, [
-                        KeyValueListAttribute::OPTION_MAX => $max,
-                        'value' => $val
-                    ]);
-                    return false;
-                } elseif ((is_int($val) || is_float($val)) && $val > $max) {
-                    $this->throwError(KeyValueListAttribute::OPTION_MAX, [
-                        KeyValueListAttribute::OPTION_MAX => $max,
-                        'value' => $val
-                    ]);
-                    return false;
-                } else {
-                    // misconfigured? maximum value/length for booleans? ignore…
-                }
-            }
+            $val = $rule->getSanitizedValue();
 
             // check for allowed values
             if ($this->hasOption(KeyValueListAttribute::OPTION_ALLOWED_VALUES)) {
@@ -173,49 +163,15 @@ class KeyValueListRule extends Rule
         return false;
     }
 
-    protected function castValue($value)
+    protected function throwIncidents($rule)
     {
-        $value_type = $this->getOption(
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
-            KeyValueListAttribute::CAST_TO_NOTHING
-        );
-
-        switch ($value_type) {
-            case KeyValueListAttribute::CAST_TO_INTEGER:
-                $int = filter_var($value, FILTER_VALIDATE_INT, $this->getIntegerFilterFlags());
-                if ($int === false || $value === true) {
-                    throw new InvalidConfigException('Given value must be interpretable as integer.');
-                }
-                $value = $int;
-                break;
-
-            case KeyValueListAttribute::CAST_TO_FLOAT:
-                $float = filter_var($value, FILTER_VALIDATE_FLOAT, $this->getFloatFilterFlags());
-                if ($float === false || $value === true) {
-                    throw new InvalidConfigException('Given value must be interpretable as float.');
-                }
-                $value = $float;
-                break;
-
-            case KeyValueListAttribute::CAST_TO_STRING:
-                $value = (string)$value;
-                break;
-
-            case KeyValueListAttribute::CAST_TO_BOOLEAN:
-                $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                if (null === $bool || is_object($value) || $value === "" || $value === null) {
-                    $value = false;
-                } else {
-                    $value = $bool;
-                }
-                break;
-
-            case KeyValueListAttribute::CAST_TO_NOTHING:
-            default:
-                break;
+        foreach ($rule->getIncidents() as $incident) {
+            $this->throwError(
+                $incident->getName(),
+                $incident->getParameters(),
+                $incident->getSeverity()
+            );
         }
-
-        return $value;
     }
 
     protected function getAllowedKeys()
@@ -261,22 +217,22 @@ class KeyValueListRule extends Rule
     protected function castArray($array)
     {
         $value_type = $this->getOption(
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO,
-            KeyValueListAttribute::CAST_TO_NOTHING
+            KeyValueListAttribute::OPTION_VALUE_TYPE,
+            KeyValueListAttribute::VALUE_TYPE_DEFAULT
         );
 
         $casted = [];
 
         foreach ($array as $key => $raw) {
             switch ($value_type) {
-                case KeyValueListAttribute::CAST_TO_INTEGER:
+                case KeyValueListAttribute::VALUE_TYPE_INTEGER:
                     $casted_value = filter_var($raw, FILTER_VALIDATE_INT, $this->getIntegerFilterFlags());
                     if ($casted_value === false || $raw === true) {
                         throw new InvalidConfigException('Allowed integer values must be interpretable as integers.');
                     }
                     break;
 
-                case KeyValueListAttribute::CAST_TO_FLOAT:
+                case KeyValueListAttribute::VALUE_TYPE_FLOAT:
                     $casted_value = filter_var($raw, FILTER_VALIDATE_FLOAT, $this->getFloatFilterFlags());
                     if ($casted_value === false || $raw === true) {
                         throw new InvalidConfigException(
@@ -286,15 +242,15 @@ class KeyValueListRule extends Rule
                     }
                     break;
 
-                case KeyValueListAttribute::CAST_TO_STRING:
+                case KeyValueListAttribute::VALUE_TYPE_TEXT:
                     $casted_value = (string)$raw;
                     break;
 
-                case KeyValueListAttribute::CAST_TO_BOOLEAN:
+                case KeyValueListAttribute::VALUE_TYPE_BOOLEAN:
                     $casted_value = $this->toBoolean($raw);
                     break;
 
-                case KeyValueListAttribute::CAST_TO_NOTHING:
+                case KeyValueListAttribute::VALUE_TYPE_DEFAULT:
                 default:
                     $casted_value = $raw;
                     break;
@@ -309,8 +265,8 @@ class KeyValueListRule extends Rule
 
     protected function getIntegerFilterFlags()
     {
-        $allow_hex = $this->toBoolean($this->getOption(KeyValueListAttribute::OPTION_ALLOW_HEX, false));
-        $allow_octal = $this->toBoolean($this->getOption(KeyValueListAttribute::OPTION_ALLOW_OCTAL, false));
+        $allow_hex = $this->toBoolean($this->getOption(IntegerAttribute::OPTION_ALLOW_HEX, false));
+        $allow_octal = $this->toBoolean($this->getOption(IntegerAttribute::OPTION_ALLOW_OCTAL, false));
 
         $filter_flags = 0;
         if ($allow_hex) {
@@ -326,7 +282,7 @@ class KeyValueListRule extends Rule
     protected function getFloatFilterFlags()
     {
         $allow_thousand = $this->toBoolean(
-            $this->getOption(KeyValueListAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR, false)
+            $this->getOption(FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR, false)
         );
 
         $filter_flags = 0;

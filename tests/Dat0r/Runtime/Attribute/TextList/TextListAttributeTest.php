@@ -6,6 +6,7 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Tests\TestCase;
 use stdClass;
 
@@ -19,13 +20,29 @@ class TextListAttributeTest extends TestCase
 
     public function testCreateValueWithDefaultValues()
     {
-        $data = [ 'foo' => 'bar' ]; // key will be ignored
+        $data = [ 'foo' => "foo\x00bar" ]; // key will be ignored
 
         $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
 
         $valueholder = $attribute->createValueHolder();
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
-        $this->assertEquals([ 'bar' ], $valueholder->getValue());
+        $this->assertEquals([ 'foobar' ], $valueholder->getValue());
+    }
+
+    public function testTextRuleOptionsForTextListAttribute()
+    {
+        $data = [ "\x00bar\nfoo" ];
+
+        $attribute = new TextListAttribute('TextList', [
+            TextListAttribute::OPTION_DEFAULT_VALUE => $data,
+            TextRule::OPTION_STRIP_NULL_BYTES => false,
+            TextRule::OPTION_TRIM => false,
+            TextRule::OPTION_ALLOW_CRLF => true
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
+        $this->assertEquals([ "\x00bar\nfoo" ], $valueholder->getValue());
     }
 
     public function testSetValue()

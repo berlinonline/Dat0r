@@ -33,8 +33,8 @@ class BooleanValueHolderTest extends TestCase
         $this->assertTrue($valueholder->toNative());
 
         $attribute = new BooleanAttribute('flag', [ BooleanAttribute::OPTION_DEFAULT_VALUE => 'no' ]);
-        $result = $valueholder->setValue('');
-        $this->assertTrue($result->getSeverity() > IncidentInterface::SUCCESS);
+        $result = $valueholder->setValue(''); // interpreted as FALSE
+        $this->assertTrue($result->getSeverity() === IncidentInterface::SUCCESS);
 
         $valueholder->setValue('no');
         $this->assertFalse($valueholder->toNative());

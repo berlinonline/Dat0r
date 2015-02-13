@@ -5,12 +5,14 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 
+// @todo do some spoofchecking on the host part?
+// @see http://stackoverflow.com/questions/17458876/php-spoofchecker-class
 class UrlRule extends Rule
 {
     protected function execute($value)
     {
         if (!is_string($value)) {
-            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
+            $this->throwError('invalid_type', [], IncidentInterface::CRITICAL);
             return false;
         }
 

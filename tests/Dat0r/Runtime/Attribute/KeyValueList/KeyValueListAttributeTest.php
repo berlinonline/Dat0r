@@ -3,9 +3,11 @@
 namespace Dat0r\Tests\Runtime\Attribute\KeyValueList;
 
 use Dat0r\Common\Error\BadValueException;
+use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Tests\TestCase;
 use stdClass;
 
@@ -55,7 +57,7 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_INTEGER
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -76,13 +78,36 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT
         ]);
 
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($data);
         $this->assertEquals($comp, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($comp));
+    }
+
+    public function testTextRuleOptionsForValueTypeStringConstraints()
+    {
+        $data = [ 'foo' => "bar\t\r\nbaz " ];
+
+        $attribute = new KeyValueListAttribute('keyvalue', [
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
+            TextRule::OPTION_REJECT_INVALID_UTF8 => false,
+            TextRule::OPTION_STRIP_INVALID_UTF8 => false,
+            TextRule::OPTION_STRIP_NULL_BYTES => false,
+            TextRule::OPTION_TRIM => false,
+            TextRule::OPTION_STRIP_CONTROL_CHARACTERS => false,
+            TextRule::OPTION_ALLOW_CRLF => true,
+            TextRule::OPTION_ALLOW_TAB => true,
+            TextRule::OPTION_NORMALIZE_NEWLINES => true
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue($data);
+        $val = $valueholder->getValue();
+        $this->assertEquals("bar\t\nbaz ", $val['foo']);
+        $this->assertTrue($valueholder->sameValueAs($data));
     }
 
     public function testValueTypeFloatConstraint()
@@ -97,7 +122,7 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_FLOAT
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_FLOAT
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -111,13 +136,13 @@ class KeyValueListAttributeTest extends TestCase
     public function testValueTypeBooleanConstraint()
     {
         $data = [
-            'a' => 0,
-            'b' => 1,
-            'c' => 2, // false
+            'a' => 0, // false
+            'b' => 1, // true
+            'c' => "1", // true
             'd' => 'off', // false
             'e' => 'false', // false
-            'f' => ' ', // false
-            'g' => 'meh', // false
+            'f' => '', // false
+            'g' => 'no', // false
             'h' => true,
             'i' => false,
             'j' => 'on', // true
@@ -127,7 +152,7 @@ class KeyValueListAttributeTest extends TestCase
         $comp = [
             'a' => false,
             'b' => true,
-            'c' => false,
+            'c' => true,
             'd' => false,
             'e' => false,
             'f' => false,
@@ -140,7 +165,7 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_BOOLEAN
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_BOOLEAN
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -158,9 +183,9 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_INTEGER,
-            KeyValueListAttribute::OPTION_MIN => 17,
-            KeyValueListAttribute::OPTION_MAX => 20
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER,
+            IntegerAttribute::OPTION_MIN => 17,
+            IntegerAttribute::OPTION_MAX => 20
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -180,9 +205,9 @@ class KeyValueListAttributeTest extends TestCase
         ];
 
         $attribute = new KeyValueListAttribute('keyvalueminmaxstringlength', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
-            KeyValueListAttribute::OPTION_MIN => 3,
-            KeyValueListAttribute::OPTION_MAX => 5
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
+            TextRule::OPTION_MIN => 3,
+            TextRule::OPTION_MAX => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -227,7 +252,7 @@ class KeyValueListAttributeTest extends TestCase
     public function testToNativeRoundtripWithBooleanFlags()
     {
         $attribute = new KeyValueListAttribute('flags', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_BOOLEAN
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_BOOLEAN
         ]);
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(
@@ -258,7 +283,7 @@ class KeyValueListAttributeTest extends TestCase
     public function testAllowedValuesConstraintFails()
     {
         $attribute = new KeyValueListAttribute('roles', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
             KeyValueListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' ]
         ]);
 
@@ -270,7 +295,7 @@ class KeyValueListAttributeTest extends TestCase
     public function testAllowedKeysConstraintFails()
     {
         $attribute = new KeyValueListAttribute('roles', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
             KeyValueListAttribute::OPTION_ALLOWED_KEYS => [ 'bar' ]
         ]);
 
@@ -282,7 +307,7 @@ class KeyValueListAttributeTest extends TestCase
     public function testAllowedPairsConstraintFails()
     {
         $attribute = new KeyValueListAttribute('roles', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_STRING,
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
             KeyValueListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' => 'foo' ]
         ]);
 
@@ -296,9 +321,9 @@ class KeyValueListAttributeTest extends TestCase
         $this->setExpectedException(BadValueException::CLASS);
 
         $attribute = new KeyValueListAttribute('keyvalueinvalidintegerdefaultvalue', [
-            KeyValueListAttribute::OPTION_CAST_VALUES_TO => KeyValueListAttribute::CAST_TO_INTEGER,
-            KeyValueListAttribute::OPTION_MIN => 1,
-            KeyValueListAttribute::OPTION_MAX => 5,
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER,
+            IntegerAttribute::OPTION_MIN => 1,
+            IntegerAttribute::OPTION_MAX => 5,
             KeyValueListAttribute::OPTION_DEFAULT_VALUE => 666
         ]);
 

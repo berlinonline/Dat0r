@@ -1,0 +1,200 @@
+<?php
+
+namespace Dat0r\Tests\Runtime\Validator\Rule\Type;
+
+use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Validator\Rule\Type\TextRule;
+use Dat0r\Tests\TestCase;
+use stdClass;
+
+class TextRuleTest extends TestCase
+{
+    public function testCreate()
+    {
+        $rule = new TextRule('text', []);
+        $this->assertEquals('text', $rule->getName());
+    }
+
+    public function testByDefaultNewlinesAreNotNormalized()
+    {
+        $rule = new TextRule('text', [
+            //'trim' => false,
+            //'strip_control_characters' => false,
+            'allow_crlf' => true
+        ]);
+        $valid = $rule->apply("foo\t\r\nbar");
+        $this->assertEquals("foo\t\r\nbar", $rule->getSanitizedValue());
+    }
+
+    public function testNewlinesCanBeNormalized()
+    {
+        $rule = new TextRule('text', [
+            //'trim' => false,
+            //'strip_control_characters' => false,
+            'allow_crlf' => true,
+            'normalize_newlines' => true
+        ]);
+        $valid = $rule->apply("foo\t\r\nbar");
+        $this->assertEquals("foo\t\nbar", $rule->getSanitizedValue());
+    }
+
+    public function testNewlineNormalizationDisabled()
+    {
+        $rule = new TextRule('text', [
+            'trim' => false,
+            'strip_control_characters' => false,
+            'normalize_newlines' => false
+        ]);
+        $valid = $rule->apply("\r\n");
+        $this->assertEquals("\r\n", $rule->getSanitizedValue());
+    }
+
+    public function testNullByteRemoval()
+    {
+        $rule = new TextRule('text', [ ]);
+        $valid = $rule->apply("some\x00file");
+        $this->assertEquals("somefile", $rule->getSanitizedValue());
+    }
+
+    public function testDefaultRemoveControlChars()
+    {
+        $rule = new TextRule('text', [ ]);
+        $valid = $rule->apply("some\t\nfile");
+        $this->assertEquals("some\tfile", $rule->getSanitizedValue());
+    }
+
+    public function testRemoveControlCharsExceptTabAndNewlines()
+    {
+        $rule = new TextRule('text', [
+            //'strip_control_characters' => true,
+            'allow_crlf' => true,
+            'allow_tab' => true
+        ]);
+        $valid = $rule->apply("some\t\r\nfile");
+        $this->assertEquals("some\t\r\nfile", $rule->getSanitizedValue());
+    }
+
+    /**
+     * @dataProvider provideValidSequences
+     */
+    public function testValidValue($valid_value, $assert_message = '')
+    {
+        $rule = new TextRule('text', []);
+
+        $valid = $rule->apply($valid_value);
+        $this->assertTrue($valid, $assert_message . ' should be valid text');
+        $this->assertTrue(
+            $rule->getSanitizedValue() === $valid_value,
+            $assert_message . ' should be set as sanitized text'
+        );
+    }
+
+    public function provideValidSequences()
+    {
+        return array(
+            array("ascii", 'simple ASCII'),
+            array("κόσμε", 'greek word "kosme"'),
+            array("\xc3\xb1", 'valid 2 octet sequence'),
+            array("\xe2\x82\xa1", 'valid 3 octet sequence'),
+            array("\xf0\x90\x8c\xbc", 'valid 4 octet sequence'),
+        );
+    }
+
+    /**
+     * @dataProvider provideInvalidSequences
+     */
+    public function testInvalidValue($invalid_value, $assert_message = '')
+    {
+        $rule = new TextRule('text', []);
+        $this->assertFalse($rule->apply($invalid_value), $assert_message . ' should be invalid text');
+        $this->assertNull($rule->getSanitizedValue(), $assert_message . ' should not be set as sanitized text');
+    }
+
+    /**
+     * @dataProvider provideIllformedSequences
+     */
+    public function testIllformedValue($invalid_value, $assert_message = '')
+    {
+        $rule = new TextRule('text', []);
+        $this->assertFalse($rule->apply($invalid_value), $assert_message . ' should be invalid text');
+        $this->assertNull($rule->getSanitizedValue(), $assert_message . ' should not be set as sanitized text');
+    }
+
+    /**
+     * @dataProvider provideIllformedSequences
+     */
+    public function testAcceptingInvalidValues($invalid_value, $assert_message = '')
+    {
+        $rule = new TextRule('text', [
+            'reject_invalid_utf8' => false,
+            'strip_invalid_utf8' => false,
+            'trim' => true,
+            'strip_null_bytes' => true,
+            'strip_control_characters' => true,
+            'normalize_newlines' => true,
+            'allow_crlf' => false,
+            'allow_tab' => false
+        ]);
+
+        $this->assertTrue(
+            $rule->apply($invalid_value),
+            $assert_message . ' should be accepted'
+        );
+
+        $this->assertEquals(
+            $rule->getSanitizedValue(),
+            $invalid_value,
+            $assert_message . ' should be set as sanitized text w/o stripped characters'
+        );
+    }
+
+    /**
+     * @dataProvider provideIllformedSequences
+     */
+    public function testStrippingOfInvalidValues($invalid_value, $assert_message = '')
+    {
+        $rule = new TextRule('text', [
+            'reject_invalid_utf8' => false,
+            'strip_invalid_utf8' => true
+        ]);
+
+        $this->assertTrue(
+            $rule->apply($invalid_value),
+            $assert_message . ' should be accepted with certain characters stripped'
+        );
+
+        $this->assertNotNull(
+            $rule->getSanitizedValue(),
+            $assert_message . ' should be set as sanitized text w/ some chars stripped'
+        );
+    }
+
+    public function provideIllformedSequences()
+    {
+        return array(
+            array("\xfe", 'impossible byte FE'),
+            array("\xff", 'impossible byte FF'),
+            array("\xfe\xfe\xff\xff", 'impossible byte FEFEFFFF'),
+            array("\xc3\x28", 'invalid 2 octet sequence'),
+            array("\xa0\xa1", 'invalid sequence identifier'),
+            array("\xe2\x28\xa1", 'invalid 3 octet sequence (in 2nd octet)'),
+            array("\xe2\x82\x28", 'invalid 3 octet sequence (in 3rd octet)'),
+            array("\xf0\x28\x8c\xbc", 'invalid 4 octet sequence (in 2nd octet)'),
+            array("\xf0\x90\x28\xbc", 'invalid 4 octet sequence (in 3rd octet)'),
+            array("\xf0\x28\x8c\x28", 'invalid 4 octet sequence (in 4th octet)'),
+            array("\xf8\xa1\xa1\xa1\xa1", 'invalid 5 octet sequence'),
+            array("\xfc\xa1\xa1\xa1\xa1\xa1", 'invalid 6 octet sequence'),
+            array("\xC0\xAF", 'slash character 0x2F as overlong sequence 0xC00xAF'),
+        );
+    }
+
+    public function provideInvalidSequences()
+    {
+        return array(
+            array(null, 'NULL'),
+            array(false, 'FALSE'),
+            array(true, 'TRUE'),
+            array(new stdClass(), 'stdClass object'),
+        );
+    }
+}

@@ -17,6 +17,16 @@ class TextAttributeTest extends TestCase
         $this->assertEquals($text_attribute->getName(), self::FIELDNAME);
     }
 
+    public function testUtf8Handling()
+    {
+        $string = 'CHARSET - WÄHLE UTF-8 AS SENSIBLE DEFAULT!  ';
+        $string_trimmed = 'CHARSET - WÄHLE UTF-8 AS SENSIBLE DEFAULT!';
+        $text_attribute = new TextAttribute(self::FIELDNAME);
+        $valueholder = $text_attribute->createValueHolder();
+        $result = $valueholder->setValue($string);
+        $this->assertTrue($string_trimmed === $valueholder->getValue(), 'utf8 string should be trimmed');
+    }
+
     /**
      * @dataProvider getOptionsFixture
      */
