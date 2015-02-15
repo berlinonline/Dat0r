@@ -83,7 +83,6 @@ class UrlRule extends Rule
         // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
 
-        // FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED |
         // FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED
         $url = filter_var($val, FILTER_VALIDATE_URL);
         if ($url === false) {
