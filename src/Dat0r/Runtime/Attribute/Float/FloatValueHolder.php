@@ -10,6 +10,8 @@ use Dat0r\Runtime\ValueHolder\ValueHolder;
  */
 class FloatValueHolder extends ValueHolder
 {
+    const FLOAT_MIN = 1.17549435e-38; // took this from java :D
+
     /**
      * Tells whether the given other_value is considered the same value as the
      * internally set value of this valueholder.
@@ -24,11 +26,8 @@ class FloatValueHolder extends ValueHolder
             return false;
         }
 
-        if (abs($this->getValue()-$other_value) < $this->getEpsilon()) {
-            return true;
-        }
-
-        return false;
+        return $this->almostEqual($this->getValue(), $other_value, $this->getEpsilon());
+        //return (abs($this->getValue() - $other_value) < $this->getEpsilon());
     }
 
     /**
@@ -84,9 +83,54 @@ class FloatValueHolder extends ValueHolder
     }
 
     /**
+     * Compare two float values for equality.
+     *
+     * @see http://floating-point-gui.de/errors/comparison/
+     *
+     * @param float $a
+     * @param float $b
+     * @param float $epsilon delta when comparing unequal values
+     *
+     * @return boolean true if float values are considered to be of equal value
+     */
+    public static function almostEqual($a, $b, $epsilon = 0.0000000001)
+    {
+        $diff = abs($a - $b);
+
+        if ($a === $b) {
+            // just compare values, handles e.g. INF
+            return true;
+        } elseif ($a === 0 || $b === 0 || $diff < self::FLOAT_MIN) {
+            // a or b is zero or both are extremely close to it
+            // relative error is less meaningful here
+            return $diff < ($epsilon * self::FLOAT_MIN);
+        } else {
+            // use relative error
+            $abs_a = abs($a);
+            $abs_b = abs($b);
+            return $diff / ($abs_a + $abs_b) < $epsilon;
+        }
+    }
+
+
+    /**
      * @return float value that can be used as delta/epsilon for float value equality comparisons
      */
     protected function getEpsilon()
+    {
+        $precision_digits = $this->getPrecisionDigits();
+
+        $epsilon = filter_var("1e-" . abs($precision_digits), FILTER_VALIDATE_FLOAT);
+        if ($epsilon === false || $precision_digits === true) {
+            throw new InvalidConfigException(
+                "Could not interprete float precision digits correctly. Please specify a positive integer (e.g. 16)."
+            );
+        }
+
+        return $epsilon;
+    }
+
+    protected function getPrecisionDigits()
     {
         $precision_digits_value = $this->getAttribute()->getOption(FloatAttribute::OPTION_PRECISION_DIGITS, 14);
         $precision_digits = filter_var($precision_digits_value, FILTER_VALIDATE_INT);
@@ -99,13 +143,6 @@ class FloatValueHolder extends ValueHolder
             $precision_digits = 14;
         }
 
-        $epsilon = filter_var("1e-".abs($precision_digits), FILTER_VALIDATE_FLOAT);
-        if ($epsilon === false || $precision_digits === true) {
-            throw new InvalidConfigException(
-                "Could not interprete float precision digits correctly. Please specify a positive integer (e.g. 16)."
-            );
-        }
-
-        return $epsilon;
+        return $precision_digits;
     }
 }

@@ -131,14 +131,91 @@ class FloatAttributeTest extends TestCase
 
     public function testLowPrecisionComparison()
     {
-        $attribute = new FloatAttribute('lowprecisionfloat', [ FloatAttribute::OPTION_PRECISION_DIGITS => "3" ]);
+        $attribute = new FloatAttribute('lowprecisionfloat', [ FloatAttribute::OPTION_PRECISION_DIGITS => "4" ]);
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(3.14159);
-        $this->assertTrue($valueholder->sameValueAs(3.1419));
-        $this->assertTrue($valueholder->sameValueAs(3.1410));
-        $this->assertTrue($valueholder->sameValueAs(3.142));
+        $this->assertTrue($valueholder->sameValueAs(3.14160));
+        $this->assertTrue($valueholder->sameValueAs(3.14158));
         $this->assertFalse($valueholder->sameValueAs(3.140));
+        $this->assertTrue($valueholder->sameValueAs(3.141));
+        $this->assertTrue($valueholder->sameValueAs(3.142));
         $this->assertFalse($valueholder->sameValueAs(3.143));
+    }
+
+    public function testComparisonNearZero()
+    {
+        $attribute = new FloatAttribute('zerocomp', [
+            FloatAttribute::OPTION_ALLOW_INFINITY => true,
+            FloatAttribute::OPTION_ALLOW_NAN => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue(0.0);
+        $this->assertTrue($valueholder->sameValueAs(0.0));
+        $this->assertTrue($valueholder->sameValueAs(-0.0));
+        $this->assertTrue($valueholder->sameValueAs("1e-58"));
+        $this->assertFalse($valueholder->sameValueAs("1e-40"));
+        $this->assertFalse($valueholder->sameValueAs(-0.00000001));
+        $this->assertFalse($valueholder->sameValueAs(log(0)));
+        $this->assertFalse($valueholder->sameValueAs(-log(0)));
+        $this->assertFalse($valueholder->sameValueAs(acos(1.01)));
+    }
+
+    public function testComparisonNearZero2()
+    {
+        $attribute = new FloatAttribute('zerocomp', [
+            FloatAttribute::OPTION_ALLOW_INFINITY => true,
+            FloatAttribute::OPTION_ALLOW_NAN => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue(-0.0000000000000000000001000001);
+        $this->assertFalse($valueholder->sameValueAs(-0.0000000000000000000001000002));
+    }
+
+    public function testComparisonInfinity()
+    {
+        $attribute = new FloatAttribute('infcomp', [
+            FloatAttribute::OPTION_ALLOW_INFINITY => true
+        ]);
+        $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue(log(0)); // -INF
+        $this->assertTrue($valueholder->sameValueAs(log(0)));
+        $this->assertTrue($valueholder->sameValueAs(log(0) + 9999999)); // -INF
+        $this->assertTrue($valueholder->sameValueAs(log(0) - 9999999)); // -INF
+        $this->assertFalse($valueholder->sameValueAs(-log(0))); // INF
+    }
+
+    public function testSomeFloatEqualityComparisons()
+    {
+        $attribute = new FloatAttribute('somefloatcomp', []);
+        $valueholder = $attribute->createValueHolder();
+
+        $valueholder->setValue(0.3);
+        $this->assertTrue($valueholder->sameValueAs(0.1 + 0.2));
+
+        $valueholder->setValue(0.1 + 0.2);
+        $this->assertTrue($valueholder->sameValueAs(0.3));
+
+        $valueholder->setValue(0.1 + 0.07);
+        $this->assertTrue($valueholder->sameValueAs(1 - 0.83));
+    }
+
+    public function testFloatMinValuesAroundZero()
+    {
+        $attribute = new FloatAttribute('somefloatmincomp', []);
+        $valueholder = $attribute->createValueHolder();
+
+        $valueholder->setValue(FloatValueHolder::FLOAT_MIN);
+        $this->assertFalse($valueholder->sameValueAs(-FloatValueHolder::FLOAT_MIN));
+
+        $valueholder->setValue(0.0);
+        $this->assertFalse($valueholder->sameValueAs(FloatValueHolder::FLOAT_MIN));
+        $this->assertFalse($valueholder->sameValueAs(-FloatValueHolder::FLOAT_MIN));
+
+        $valueholder->setValue(10 * FloatValueHolder::FLOAT_MIN);
+        $this->assertFalse($valueholder->sameValueAs(-10 * FloatValueHolder::FLOAT_MIN));
+
+        $valueholder->setValue(10000 * FloatValueHolder::FLOAT_MIN);
+        $this->assertFalse($valueholder->sameValueAs(-10000 * FloatValueHolder::FLOAT_MIN));
     }
 
     public function testToNativeNan()

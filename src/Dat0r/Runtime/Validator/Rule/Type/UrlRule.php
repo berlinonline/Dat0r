@@ -30,29 +30,33 @@ class UrlRule extends Rule
     public function __construct($name, array $options = [])
     {
         // use sensible default max length for URLs
-        if (!array_key_exists(TextRule::OPTIONS_MAX, $options)) {
+        if (!array_key_exists(TextRule::OPTION_MAX, $options)) {
             // http://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers
-            $options[TextRule::OPTIONS_MAX] = 2048;
+            $options[TextRule::OPTION_MAX] = 2048;
         }
 
-        if (!array_key_exists(TextRule::OPTIONS_MAX, $options)) {
-            $options[TextRule::OPTIONS_REJECT_INVALID_UTF8] = true;
+        if (!array_key_exists(TextRule::OPTION_MIN, $options)) {
+            $options[TextRule::OPTION_MIN] = 4;
         }
 
-        if (!array_key_exists(TextRule::OPTIONS_TRIM, $options)) {
-            $options[TextRule::OPTIONS_TRIM] = true;
+        if (!array_key_exists(TextRule::OPTION_REJECT_INVALID_UTF8, $options)) {
+            $options[TextRule::OPTION_REJECT_INVALID_UTF8] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTIONS_STRIP_CONTROL_CHARACTERS, $options)) {
-            $options[TextRule::OPTIONS_STRIP_CONTROL_CHARACTERS] = true;
+        if (!array_key_exists(TextRule::OPTION_TRIM, $options)) {
+            $options[TextRule::OPTION_TRIM] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTIONS_ALLOW_CRLF, $options)) {
-            $options[TextRule::OPTIONS_ALLOW_CRLF] = false;
+        if (!array_key_exists(TextRule::OPTION_STRIP_CONTROL_CHARACTERS, $options)) {
+            $options[TextRule::OPTION_STRIP_CONTROL_CHARACTERS] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTIONS_ALLOW_TAB, $options)) {
-            $options[TextRule::OPTIONS_ALLOW_TAB] = false;
+        if (!array_key_exists(TextRule::OPTION_ALLOW_CRLF, $options)) {
+            $options[TextRule::OPTION_ALLOW_CRLF] = false;
+        }
+
+        if (!array_key_exists(TextRule::OPTION_ALLOW_TAB, $options)) {
+            $options[TextRule::OPTION_ALLOW_TAB] = false;
         }
 
         parent::__construct($name, $options);
@@ -76,19 +80,20 @@ class UrlRule extends Rule
             return false;
         }
 
+        // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
 
-        // we now have a valid string, that might be some kind of URL
-
-        $success = filter_var($value, FILTER_VALIDATE_URL);
-        if (!$success) {
-            $this->throwError('invalid_format');
-            $success = false;
-        } else {
-            $this->setSanitizedValue($value);
+        // FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED |
+        // FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED
+        $url = filter_var($val, FILTER_VALIDATE_URL);
+        if ($url === false) {
+            $this->throwError('invalid_format', [ 'value' => $val ]);
+            return false;
         }
 
-        return $success;
+        $this->setSanitizedValue($url);
+
+        return true;
 
 
         $components = parse_url($value);
