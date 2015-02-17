@@ -6,26 +6,43 @@ use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
+use Spoofchecker;
 
-// @todo do some spoofchecking on the host part?
-// @see http://stackoverflow.com/questions/17458876/php-spoofchecker-class
 class UrlRule extends Rule
 {
-    const OPTION_DEFAULT_SCHEME = 'default_scheme';
-    const OPTION_ADD_DEFAULT_SCHEME_IF_MISSING = 'add_default_scheme_if_missing';
-    const OPTION_CONVERT_HOST_TO_IDN = 'convert_host_to_idn';
+    const OPTION_USE_IDN = 'use_idn';
+    const OPTION_CONVERT_HOST_TO_PUNYCODE = 'convert_host_to_punycode';
+
+    const OPTION_ACCEPT_SUSPICIOUS_HOST = 'accept_suspicious_host';
+    const OPTION_CONVERT_SUSPICIOUS_HOST = 'convert_suspicious_host';
+
     const OPTION_ALLOWED_SCHEMES = 'allowed_schemes';
 
-    const OPTION_HOST_ONLY = 'host_only';
-    const OPTION_STRIP_PATH_QUERY_FRAGMENT = 'strip_path_query_fragment';
-    const OPTION_ALLOW_PROTOCOL_RELATIVE_URL = 'allow_protocol_relative_url';
+    const OPTION_SCHEME_SEPARATOR = 'scheme_separator';
 
-    // add options to:
-    // - FORCE parts
-    // - SET parts IF MISSING
-    // - STRIP parts
+    const OPTION_DEFAULT_SCHEME = 'default_scheme';
+    const OPTION_DEFAULT_USER = 'default_user';
+    const OPTION_DEFAULT_PASS = 'default_pass';
+    const OPTION_DEFAULT_PORT = 'default_port';
+    const OPTION_DEFAULT_PATH = 'default_path';
+    const OPTION_DEFAULT_QUERY = 'default_query';
+    const OPTION_DEFAULT_FRAGMENT = 'default_fragment';
 
-    // - do confusable check on host part
+    const OPTION_REQUIRE_USER = 'require_user';
+    const OPTION_REQUIRE_PASS = 'require_pass';
+    const OPTION_REQUIRE_PORT = 'require_port';
+    const OPTION_REQUIRE_PATH = 'require_path';
+    const OPTION_REQUIRE_QUERY = 'require_query';
+    const OPTION_REQUIRE_FRAGMENT = 'require_fragment';
+
+    const OPTION_FORCE_USER = 'force_user';
+    const OPTION_FORCE_PASS = 'force_pass';
+    const OPTION_FORCE_PORT = 'force_port';
+    const OPTION_FORCE_PATH = 'force_path';
+    const OPTION_FORCE_QUERY = 'force_query';
+    const OPTION_FORCE_FRAGMENT = 'force_fragment';
+
+    //const OPTION_ALLOW_PROTOCOL_RELATIVE_URL = 'allow_protocol_relative_url';
 
     public function __construct($name, array $options = [])
     {
@@ -83,68 +100,283 @@ class UrlRule extends Rule
         // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
 
-        // FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED
-        $url = filter_var($val, FILTER_VALIDATE_URL);
-        if ($url === false) {
-            $this->throwError('invalid_format', [ 'value' => $val ]);
+        // TODO use parse_url two times if no host is present after the first run
+        $raw_parts = parse_url($val);
+        if ($raw_parts === false) {
+            $this->throwError('parse_error', [ 'value' => $val ]);
             return false;
         }
 
-        $this->setSanitizedValue($url);
-
-        return true;
-
-
-        $components = parse_url($value);
-        $url_parts = $components;
-
-        $default_scheme = 'http';
-        if (!array_key_exists('scheme', $parts) && $add_default_scheme_if_missing) {
-            $url_parts['scheme'] = $default_scheme;
-        }
-
-        if (!array_key_exists('host', $parts)) {
+        // validate mandatory host part
+        if (!array_key_exists('host', $raw_parts)) {
             $this->throwError('host_missing');
             return false;
         }
 
-        if (!function_exists('idn_to_ascii')) {
+        $url_parts = $raw_parts;
+
+        $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, 'http');
+        if (!array_key_exists('scheme', $url_parts)) {
+            $url_parts['scheme'] = $default_scheme;
+        }
+
+        $allowed_schemes = $this->getOption(self::OPTION_ALLOWED_SCHEMES, []);
+        if (array_key_exists('scheme', $url_parts) &&
+            !empty($allowed_schemes) &&
+            !in_array($url_parts['scheme'], $allowed_schemes, true)
+        ) {
+            $this->throwError(
+                'scheme_not_allowed',
+                [
+                    'value' => $val,
+                    'scheme' => $url_parts['scheme'],
+                    'allowed_schemes' => $allowed_schemes
+                ]
+            );
+            return false;
+        }
+
+        // add default values for parts when they're missing
+
+        if ($this->hasOption(self::OPTION_DEFAULT_USER) && !array_key_exists('user', $url_parts)) {
+            $url_parts['user'] = $this->getOption(self::OPTION_DEFAULT_USER);
+        }
+
+        if ($this->hasOption(self::OPTION_DEFAULT_PASS) && !array_key_exists('pass', $url_parts)) {
+            $url_parts['pass'] = $this->getOption(self::OPTION_DEFAULT_PASS);
+        }
+
+        if ($this->hasOption(self::OPTION_DEFAULT_PORT) && !array_key_exists('port', $url_parts)) {
+            $url_parts['port'] = $this->getOption(self::OPTION_DEFAULT_PORT);
+        }
+
+        if ($this->hasOption(self::OPTION_DEFAULT_PATH) && !array_key_exists('path', $url_parts)) {
+            $url_parts['path'] = $this->getOption(self::OPTION_DEFAULT_PATH);
+        }
+
+        if ($this->hasOption(self::OPTION_DEFAULT_QUERY) && !array_key_exists('query', $url_parts)) {
+            $url_parts['query'] = $this->getOption(self::OPTION_DEFAULT_QUERY);
+        }
+
+        if ($this->hasOption(self::OPTION_DEFAULT_FRAGMENT) && !array_key_exists('fragment', $url_parts)) {
+            $url_parts['fragment'] = $this->getOption(self::OPTION_DEFAULT_FRAGMENT);
+        }
+
+        // force certain values for parts
+
+        if ($this->hasOption(self::OPTION_FORCE_USER)) {
+            $url_parts['user'] = $this->getOption(self::OPTION_FORCE_USER);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_PASS)) {
+            $url_parts['pass'] = $this->getOption(self::OPTION_FORCE_PASS);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_PORT)) {
+            $url_parts['port'] = $this->getOption(self::OPTION_FORCE_PORT);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_PATH)) {
+            $url_parts['path'] = $this->getOption(self::OPTION_FORCE_PATH);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_QUERY)) {
+            $url_parts['query'] = $this->getOption(self::OPTION_FORCE_QUERY);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_FRAGMENT)) {
+            $url_parts['fragment'] = $this->getOption(self::OPTION_FORCE_FRAGMENT);
+        }
+
+        // check for required parts according to existing options
+
+        $require_user = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_USER, false));
+        if ($require_user && !array_key_exists('user', $url_parts)) {
+            $this->throwError('user_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $require_pass = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_PASS, false));
+        if ($require_pass && !array_key_exists('pass', $url_parts)) {
+            $this->throwError('pass_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $require_port = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_PORT, false));
+        if ($require_port && !array_key_exists('port', $url_parts)) {
+            $this->throwError('port_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $require_path = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_PATH, false));
+        if ($require_path && !array_key_exists('path', $url_parts)) {
+            $this->throwError('path_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $require_query = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_QUERY, false));
+        if ($require_query && !array_key_exists('query', $url_parts)) {
+            $this->throwError('query_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $require_fragment = $this->toBoolean($this->getOption(self::OPTION_REQUIRE_FRAGMENT, false));
+        if ($require_fragment && !array_key_exists('fragment', $url_parts)) {
+            $this->throwError('fragment_part_missing', [ 'value' => $val ]);
+            return false;
+        }
+
+        $use_idn = $this->toBoolean($this->getOption(self::OPTION_USE_IDN, true));
+        $convert_host_to_punycode = $this->toBoolean($this->getOption(self::OPTION_CONVERT_HOST_TO_PUNYCODE, false));
+        $idn_available = function_exists('idn_to_ascii') ? true : false;
+        if (!$idn_available && $use_idn) {
             throw new RuntimeException(
                 'The INTL extension needs to be installed to check international domain names of URLs.'
             );
         }
-
-        $idn_host = idn_to_ascii($parts['host']); // @TODO options, variants, idna_info
-        if ($idn_host === false) {
-            $this->throwError('invalid_host');
+        if (!$idn_available && $convert_host_to_punycode) {
+            throw new RuntimeException(
+                'The INTL extension needs to be installed to convert domains names to punycode.'
+            );
         }
 
-        $convert_host_to_idn = false;
-        if ($convert_host_to_idn) {
-            $url_parts['host'] = $idn_host;
+        // test url parts are the ones used to generate a complete URL ALWAYS containing a scheme
+        $test_url_parts = $url_parts;
+
+        // punycode url parts are the ones used to generate a punycode URL ALWAYS containing a scheme
+        $punycode_url_parts = $test_url_parts;
+
+        //$ipv4_host = filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+
+        $ipv6_host = $url_parts['host'];
+        if ($ipv6_host[0] === '[' && mb_substr($ipv6_host, -1) === ']') {
+            $ipv6_host = mb_substr($ipv6_host, 1, -1);
+        }
+        $ipv6_host = filter_var($ipv6_host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+        if ($ipv6_host !== false) {
+            $ipv6_host = '[' . $url_parts['host'] . ']';
+            $test_url_parts['host'] = 'ipv6domain.de'; // just for filter_var test as it doesn't understand ipv6
         }
 
+        // check host for being convertible to punycode
+        if ($use_idn) {
+            $idn_host = idn_to_ascii($url_parts['host']); // @TODO options, variants, idna_info
+            if ($idn_host === false) {
+                $this->throwError('invalid_idn_host', [ 'value' => $val ]);
+                return false;
+            }
 
-        // host
-        // port
-        // user
-        // pass
-        // path
-        // query
-        // fragment
-/*
-testcases:
+            $punycode_url_parts['host'] = $idn_host;
+        }
 
-$url = "http://스타벅스코리아.com";
-var_dump(parse_url($url));
-var_dump(idn_to_ascii("cåsino.com"));
-var_dump(idn_to_ascii("cåsino"));
-var_dump(idn_to_ascii("täst.de"));
-var_dump(idn_to_ascii("müller.de"));
-var_dump(idn_to_ascii("académie-française.fr")); // http://www.xn--acadmie-franaise-npb1a.fr
-var_dump(idn_to_ascii("2001:0db8:0000:85a3:0000:0000:ac1f:8001"));
-var_dump(idn_to_ascii('президент.рф'));
-*/
+        // check for suspicious letters in the domain name (confusable chars from other charsets, e.g. cyrillic)
+        // @see http://en.wikipedia.org/wiki/IDN_homograph_attack
+        // @see http://stackoverflow.com/questions/17458876/php-spoofchecker-class
+        // @see http://www.unicode.org/Public/security/revision-06/confusables.txt
+        $accept_suspicious_host = $this->toBoolean($this->getOption(self::OPTION_ACCEPT_SUSPICIOUS_HOST, true));
+        $convert_suspicious_host = $this->toBoolean($this->getOption(self::OPTION_CONVERT_SUSPICIOUS_HOST, true));
+        $spoofchecker_available = extension_loaded('intl') && class_exists("Spoofchecker");
+        if ((!$spoofchecker_available && $convert_suspicious_host) ||
+            (!$spoofchecker_available && !$accept_suspicious_host)
+        ) {
+            throw new RuntimeException(
+                'The INTL extension needs to be installed to spoofcheck for suspicious domains.'
+            );
+        }
 
+        $is_suspicious = false;
+        if ($spoofchecker_available) {
+            $spoofchecker = new Spoofchecker();
+            $is_suspicious = $spoofchecker->isSuspicious($url_parts['host']);
+            if ($is_suspicious && !$accept_suspicious_host) {
+                $this->throwError('suspicious_domain', [ 'value' => $val ]);
+                return false;
+            }
+        }
+
+        // generate URLs for filter_var test and setting as sanitized value
+        $url = $this->getUrlFromArray($url_parts);
+        $test_url = $this->getUrlFromArray($test_url_parts);
+        $punycode_url = $this->getUrlFromArray($punycode_url_parts);
+
+        $filter_flags = 0;
+        if ($this->toBoolean(self::OPTION_REQUIRE_PATH, false)) {
+            $filter_flags |= FILTER_FLAG_PATH_REQUIRED;
+        }
+        if ($this->toBoolean(self::OPTION_REQUIRE_QUERY, false)) {
+            $filter_flags |= FILTER_FLAG_QUERY_REQUIRED;
+        }
+
+        if ($ipv6_host !== false) {
+            $test = filter_var($test_url, FILTER_VALIDATE_URL, $filter_flags);
+        } else {
+            $test = filter_var($punycode_url, FILTER_VALIDATE_URL, $filter_flags);
+        }
+
+        if ($test === false) {
+            $this->throwError('invalid_format', [ 'url' => $url, 'punycode_url' => $punycode_url, 'value' => $val ]);
+            return false;
+        }
+
+        if ($use_idn && $convert_host_to_punycode) {
+            $this->setSanitizedValue($punycode_url);
+        } elseif ($is_suspicious && $convert_suspicious_host) {
+            $this->setSanitizedValue($punycode_url);
+        } else {
+            $this->setSanitizedValue($url);
+        }
+
+        return true;
+
+    }
+
+    protected function getUrlFromArray(array $url_parts)
+    {
+        // generate the resulting URL
+        $url = $url_parts['scheme'] . $this->getOption(self::OPTION_SCHEME_SEPARATOR, '://');
+
+        // add optional auth info
+        if (array_key_exists('user', $url_parts)) {
+            $url .= $url_parts['user'];
+        }
+        if (array_key_exists('pass', $url_parts)) {
+            $url .= ':' . $url_parts['pass'];
+        }
+        if (array_key_exists('user', $url_parts) || array_key_exists('pass', $url_parts)) {
+            $url .= '@';
+        }
+
+        // add host
+        $url .= $url_parts['host'];
+
+        // add port
+        if (array_key_exists('port', $url_parts)) {
+            $url .= ':' . $url_parts['port'];
+        }
+
+        // add path
+        if (array_key_exists('path', $url_parts)) {
+            $url .= $url_parts['path'];
+        }/* else {
+            $url .= '/';
+        }*/
+
+        // add query part
+        if (array_key_exists('query', $url_parts)) {
+            if (!array_key_exists('path', $url_parts)) {
+                $url .= '/';
+            }
+            $url .= '?' . $url_parts['query'];
+        }
+
+        // add fragment
+        if (array_key_exists('fragment', $url_parts)) {
+            if (!array_key_exists('path', $url_parts) && !array_key_exists('query', $url_parts)) {
+                $url .= '/';
+            }
+            $url .= '#' . $url_parts['fragment'];
+        }
+
+        return $url;
     }
 }
