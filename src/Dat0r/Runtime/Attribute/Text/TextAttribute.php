@@ -6,6 +6,11 @@ use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
+/**
+ * Allows valid UTF8 texts, trims it, strips control characters except tabs and
+ * newlines and spoofchecks the incoming and/or resulting text if wanted.
+ * For valid options see TextRule and SpoofcheckerRule.
+ */
 class TextAttribute extends Attribute
 {
     public function getNullValue()
@@ -17,11 +22,7 @@ class TextAttribute extends Attribute
     {
         $rules = new RuleList();
 
-        $options = $this->getOptions();
-
-        $rules->push(
-            new TextRule('valid-text', $options)
-        );
+        $rules->push(new TextRule('valid-text', $this->getOptions()));
 
         return $rules;
     }

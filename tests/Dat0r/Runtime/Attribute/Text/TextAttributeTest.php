@@ -42,18 +42,59 @@ class TextAttributeTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getTextFixture
-     */
-    public function testCreateValue($textValue)
+    public function testCreateValue()
     {
         $text_attribute = new TextAttribute(self::FIELDNAME);
-        $value = $text_attribute->createValueHolder();
-        $this->assertInstanceOf(TextValueHolder::CLASS, $value);
-        $value->setValue($textValue);
-        $this->assertEquals($textValue, $value->getValue());
+        $valueholder = $text_attribute->createValueHolder();
+        $this->assertInstanceOf(TextValueHolder::CLASS, $valueholder);
+        $valueholder->setValue('omgomgomg');
+        $this->assertEquals('omgomgomg', $valueholder->getValue());
     }
 
+    public function testAcceptZeroWidthSpace()
+    {
+        $text_attribute = new TextAttribute(self::FIELDNAME, []);
+        $valueholder = $text_attribute->createValueHolder();
+        $zero_width_space = "some\xE2\x80\x8Btext";
+        $result = $valueholder->setValue($zero_width_space);
+        $this->assertTrue($result->getSeverity() === IncidentInterface::SUCCESS);
+        $this->assertEquals($zero_width_space, $valueholder->getValue());
+    }
+
+    public function testSpoofcheckIncomingRejectsZeroWidthSpace()
+    {
+        $text_attribute = new TextAttribute(self::FIELDNAME, [ 'spoofcheck_incoming' => true ]);
+        $valueholder = $text_attribute->createValueHolder();
+        $zero_width_space = "some\xE2\x80\x8Btext";
+        $result = $valueholder->setValue($zero_width_space);
+        $this->assertFalse($result->getSeverity() === IncidentInterface::SUCCESS);
+        $this->assertEquals('', $valueholder->getValue());
+    }
+
+    public function testSpoofcheckResultingValueRejectsZeroWidthSpace()
+    {
+        $text_attribute = new TextAttribute(self::FIELDNAME, [ 'spoofcheck_result' => true ]);
+        $valueholder = $text_attribute->createValueHolder();
+        $zero_width_space = "some\xE2\x80\x8Btext";
+        $result = $valueholder->setValue($zero_width_space);
+        $this->assertFalse($result->getSeverity() === IncidentInterface::SUCCESS);
+        $this->assertEquals('', $valueholder->getValue());
+    }
+/*
+    public function testSpoofcheckResultingValueSucceedsAsZeroWidthSpaceIsTrimmed()
+    {
+        $text_attribute = new TextAttribute(self::FIELDNAME, [
+            'strip_zero_width_space' => true,
+            // 'spoofcheck_incoming' => true
+            'spoofcheck_result' => true
+        ]);
+        $valueholder = $text_attribute->createValueHolder();
+        $zero_width_space = "some\xE2\x80\x8Btext";
+        $result = $valueholder->setValue($zero_width_space);
+        $this->assertTrue($result->getSeverity() === IncidentInterface::SUCCESS);
+        $this->assertEquals('sometext', $valueholder->getValue());
+    }
+*/
     public function testValidationSuccess()
     {
         $text_attribute = new TextAttribute(
@@ -97,19 +138,6 @@ class TextAttributeTest extends TestCase
                 'some_option_name' => array('foo' => 'bar')
             )
         );
-
-        return $fixtures;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public static function getTextFixture()
-    {
-        // @todo generate random (utf-8) text
-        $fixtures = array();
-
-        $fixtures[] = array('some text value');
 
         return $fixtures;
     }

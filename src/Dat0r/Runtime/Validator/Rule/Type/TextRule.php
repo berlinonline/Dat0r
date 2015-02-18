@@ -5,22 +5,19 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Validator\Rule\Type\SpoofcheckerRule;
 
 /**
- * Accepts strings and by default:
+ * Accepts strings and:
  * - only accepts valid utf8
  * - strips \x00 and invalid utf8 sequences
  * - trims the string
  * - removes certain control characters (including TAB/CR/LF by default)
- * - normalizes new line characters to \n
+ * - optionally normalizes new line characters to \n
+ * - optionally strips zero-width space
+ * - optionally strips LTR/RTL text direction override characters
  *
  * Minimum and maximum string length check AFTER trimming is possible.
- *
- * @TODO Question: disallow other characters by default?
- * - e.g. \u2028 (line separator) and \u2029 (paragraph separator) which are valid JSON
- *   but invalid javascript when not expressed as escape sequence (\u2028, \u2029) in strings
- * - zero-width space (u+200b)
- * - certain sequences that revert and otherwise change behaviour of texts
  */
 class TextRule extends Rule
 {
@@ -31,9 +28,14 @@ class TextRule extends Rule
     const OPTION_NORMALIZE_NEWLINES = 'normalize_newlines';
     const OPTION_REJECT_INVALID_UTF8 = 'reject_invalid_utf8';
     const OPTION_STRIP_CONTROL_CHARACTERS = 'strip_control_characters';
+    const OPTION_STRIP_DIRECTION_OVERRIDES = 'strip_direction_overrides';
     const OPTION_STRIP_INVALID_UTF8 = 'strip_invalid_utf8';
     const OPTION_STRIP_NULL_BYTES = 'strip_null_bytes';
+    const OPTION_STRIP_ZERO_WIDTH_SPACE = 'strip_zero_width_space';
     const OPTION_TRIM = 'trim';
+
+    const OPTION_SPOOFCHECK_INCOMING = 'spoofcheck_incoming';
+    const OPTION_SPOOFCHECK_RESULT = 'spoofcheck_result';
 
     protected function execute($value)
     {
@@ -42,11 +44,39 @@ class TextRule extends Rule
             return false;
         }
 
+        $spoofcheck_incoming_value = $this->toBoolean($this->getOption(self::OPTION_SPOOFCHECK_INCOMING, false));
+        if ($spoofcheck_incoming_value) {
+            $rule = new SpoofcheckerRule('spoofcheck-incoming-text', $this->getOptions());
+            if (!$rule->apply($value)) {
+                foreach ($rule->getIncidents() as $incident) {
+                    $this->throwError($incident->getName(), $incident->getParameters(), $incident->getSeverity());
+                }
+                return false;
+            } else {
+                $value = $rule->getSanitizedValue();
+            }
+        }
+
         // @see http://hakipedia.com/index.php/Poison_Null_Byte
         $strip_null_bytes = $this->toBoolean($this->getOption(self::OPTION_STRIP_NULL_BYTES, true));
         if ($strip_null_bytes) {
             $value = str_replace(chr(0), '', $value);
         }
+
+        // remove zero-width space character from text
+        $strip_zero_width_space = $this->toBoolean($this->getOption(self::OPTION_STRIP_ZERO_WIDTH_SPACE, false));
+        if ($strip_zero_width_space) {
+            $value = str_replace("\xE2\x80\x8B", '', $value);
+        }
+
+        // strip unicode characters 'RIGHT-TO-LEFT OVERRIDE' and 'LEFT-TO-RIGHT OVERRIDE' if necessary
+        $strip_direction_overrides = $this->toBoolean($this->getOption(self::OPTION_STRIP_DIRECTION_OVERRIDES, false));
+        if ($strip_direction_overrides) {
+            $value = str_replace("\xE2\x80\xAE", '', $value); // 'RIGHT-TO-LEFT OVERRIDE'
+            $value = str_replace("\xE2\x80\xAD", '', $value); // 'LEFT-TO-RIGHT OVERRIDE'
+        }
+
+        // TODO should one allow trimming of zero-width non-joiner (only at the end of text)?
 
         /**
          * Some links for illformed byte sequences etc.:
@@ -154,6 +184,19 @@ class TextRule extends Rule
             if (mb_strlen($sanitized_value) > $max) {
                 $this->throwError(self::OPTION_MAX, [ self::OPTION_MAX => $max, 'value' => $sanitized_value ]);
                 return false;
+            }
+        }
+
+        $spoofcheck_resulting_value = $this->toBoolean($this->getOption(self::OPTION_SPOOFCHECK_RESULT, false));
+        if ($spoofcheck_resulting_value) {
+            $rule = new SpoofcheckerRule('spoofcheck-resulting-text', $this->getOptions());
+            if (!$rule->apply($sanitized_value)) {
+                foreach ($rule->getIncidents() as $incident) {
+                    $this->throwError($incident->getName(), $incident->getParameters(), $incident->getSeverity());
+                }
+                return false;
+            } else {
+                $sanitized_value = $rule->getSanitizedValue();
             }
         }
 

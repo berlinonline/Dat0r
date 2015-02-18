@@ -56,6 +56,33 @@ class TextRuleTest extends TestCase
         $this->assertEquals("somefile", $rule->getSanitizedValue());
     }
 
+    public function testStripRightToLeftOverride()
+    {
+        $rule = new TextRule('text', [ 'strip_direction_overrides' => true ]);
+        $rtlo = "asdf\xE2\x80\xAEblah";
+        $valid = $rule->apply($rtlo);
+        $this->assertTrue($valid);
+        $this->assertEquals('asdfblah', $rule->getSanitizedValue());
+    }
+
+    public function testStripLeftToRightOverride()
+    {
+        $rule = new TextRule('text', [ 'strip_direction_overrides' => true ]);
+        $ltro = "foo\xE2\x80\xADbar";
+        $valid = $rule->apply($ltro);
+        $this->assertTrue($valid);
+        $this->assertEquals('foobar', $rule->getSanitizedValue());
+    }
+
+    public function testZeroWidthSpaceRemoval()
+    {
+        $rule = new TextRule('text', [ 'strip_zero_width_space' => true ]);
+        $ltro = "some\xE2\x80\x8Btext";
+        $valid = $rule->apply($ltro);
+        $this->assertTrue($valid);
+        $this->assertEquals('sometext', $rule->getSanitizedValue());
+    }
+
     public function testDefaultRemoveControlChars()
     {
         $rule = new TextRule('text', [ ]);

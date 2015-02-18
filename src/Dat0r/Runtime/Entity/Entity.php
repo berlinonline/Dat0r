@@ -416,6 +416,11 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function jsonSerialize()
     {
+        /**
+         * TODO what about line separator and paragraph separator characters
+         * which are valid JSON but invalid javascript when not expressed as
+         * escape sequence (\u2028, \u2029) in strings?
+         */
         return $this->toNative();
     }
 }

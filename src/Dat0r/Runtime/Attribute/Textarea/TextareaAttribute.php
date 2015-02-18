@@ -7,7 +7,7 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
 /**
- * Like single line texts by default, but allows TAB and normalizes NEWLINE characters.
+ * Like single line texts by default, but allows TAB and NEWLINE characters.
  */
 class TextareaAttribute extends TextAttribute
 {
@@ -25,9 +25,7 @@ class TextareaAttribute extends TextAttribute
             $options[TextRule::OPTION_ALLOW_TAB] = true;
         }
 
-        $rules->push(
-            new TextRule('valid-text', $options)
-        );
+        $rules->push(new TextRule('valid-text', $options));
 
         return $rules;
     }

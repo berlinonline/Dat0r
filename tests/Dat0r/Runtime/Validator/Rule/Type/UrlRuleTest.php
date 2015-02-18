@@ -45,6 +45,20 @@ class UrlRuleTest extends TestCase
         $this->assertEquals("http://www.xn--acadmie-franaise-npb1a.fr", $rule->getSanitizedValue());
     }
 
+    public function testLocalhost()
+    {
+        $rule = new UrlRule('url', []);
+        $valid = $rule->apply("localhost:80/asdf");
+        $this->assertEquals("http://localhost:80/asdf", $rule->getSanitizedValue());
+    }
+
+    public function testForceHost()
+    {
+        $rule = new UrlRule('url', [ 'force_host' => 'sub.asdf.com' ]);
+        $valid = $rule->apply("http://foobar.de:80 ");
+        $this->assertEquals("http://sub.asdf.com:80", $rule->getSanitizedValue());
+    }
+
     public function testRequirePort()
     {
         $rule = new UrlRule('url', [ 'require_port' => true ]);
@@ -177,7 +191,14 @@ class UrlRuleTest extends TestCase
 
     public function testDefaultScheme()
     {
-        $rule = new UrlRule('url', [ 'default_scheme' => 'http' ]);
+        $rule = new UrlRule('url', [ 'default_scheme' => 'https' ]);
+        $valid = $rule->apply("asdf.com:80/blub?blah ");
+        $this->assertEquals("https://asdf.com:80/blub?blah", $rule->getSanitizedValue());
+    }
+
+    public function testDefaultSchemeIsAddedForValuesThatAreMissingAScheme()
+    {
+        $rule = new UrlRule('url', []);
         $valid = $rule->apply("asdf.com:80/blub?blah ");
         $this->assertEquals("http://asdf.com:80/blub?blah", $rule->getSanitizedValue());
     }
@@ -207,6 +228,42 @@ class UrlRuleTest extends TestCase
         // the domain as punycode is valid, but contains characters from multiple character sets and is thus converted
         $this->assertTrue($valid);
         $this->assertEquals('http://xn--wkd-8cdx9d7hbd.org', $rule->getSanitizedValue());
+    }
+
+    public function testJavascriptSchemeRejection()
+    {
+        $rule = new UrlRule('url', []);
+        $js = "javascript:alert(1)";
+        $valid = $rule->apply($js);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
+    public function testZeroWidthSpaceRejection()
+    {
+        $rule = new UrlRule('url', []);
+        $zero_width_space = "http://domain.com/some\xE2\x80\x8B/path/"; // this will fail FILTER_VALIDATE_URL
+        $valid = $rule->apply($zero_width_space);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
+    public function testRightToLeftOverrideInHostRejection()
+    {
+        $rule = new UrlRule('url', []);
+        $rtlo = "http://\xE2\x80\xAEdomain.com"; // isSuspicious
+        $valid = $rule->apply($rtlo);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
+    public function testLeftToRightOverrideInHostRejection()
+    {
+        $rule = new UrlRule('url', []);
+        $ltro = "http://\xE2\x80\xADdomain.com"; // isSuspicious
+        $valid = $rule->apply($ltro);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testRejectSuspiciousHost()
@@ -248,40 +305,74 @@ class UrlRuleTest extends TestCase
     /**
      * @dataProvider provideValidIdnUrls
      */
-    public function testValidIdnUrl($valid_url, $assert_message = '')
+    public function testValidIdnUrl($valid_url, $punycode_url, $assert_message = '')
     {
-        $rule = new UrlRule('url', []);
+        $rule = new UrlRule('url', [ 'convert_host_to_punycode' => false, 'convert_suspicious_host' => false ]);
 
         $valid = $rule->apply($valid_url);
         $this->assertTrue($valid, $assert_message . ' should be a somewhat valid url');
-        $this->assertTrue(
-            $rule->getSanitizedValue() === $valid_url,
-            $assert_message . ' should be set as sanitized url'
+        $this->assertEquals(
+            $valid_url,
+            $rule->getSanitizedValue(),
+            $assert_message . ' should be valid and not converted to punycode'
         );
     }
 
     /**
      * @dataProvider provideValidIdnUrls
      */
-    public function testValidPunycodeUrl($valid_url, $assert_message = '')
+    public function testValidPunycodeUrl($valid_url, $punycode_url, $assert_message = '')
     {
         $rule = new UrlRule('url', [ 'convert_host_to_punycode' => true ]);
 
         $valid = $rule->apply($valid_url);
         $this->assertTrue($valid, $assert_message . ' should be a somewhat valid url');
-        $this->assertTrue(
-            $rule->getSanitizedValue() !== $valid_url,
-            $assert_message . ' should be set as sanitized url'
-        );
+        $this->assertEquals($punycode_url, $rule->getSanitizedValue(), $assert_message . ' should be valid punycode');
     }
 
     public function provideValidIdnUrls()
     {
         return array(
-            array("https://κόσμε.gr/path?q=1&foo=bar#baz", 'greek word "kosme" as hostname'),
-            array("http://스타벅스코리아.com", 'http://스타벅스코리아.com'),
-            array("http://académie-française.fr", 'académie-française.fr'),
-            array("http://президент.рф", 'президент.рф'),
+            array(
+                "http://wіkіреdіа.org",
+                "http://xn--wkd-8cdx9d7hbd.org",
+                "wikipedia with chars from belorussia etc."
+            ),
+            array(
+                "https://κόσμε.gr/path?q=1&foo=bar#baz",
+                "https://xn--qxajg1a8b.gr/path?q=1&foo=bar#baz",
+                'greek word "kosme" as hostname'
+            ),
+            array(
+                "http://스타벅스코리아.com",
+                "http://xn--oy2b35ckwhba574atvuzkc.com",
+                'http://스타벅스코리아.com'
+            ),
+            array(
+                "http://académie-française.fr",
+                "http://xn--acadmie-franaise-npb1a.fr",
+                'académie-française.fr'
+            ),
+            array(
+                "http://президент.рф",
+                "http://xn--d1abbgf6aiiy.xn--p1ai",
+                'президент.рф'
+            ),
+            array(
+                "http://cåsino.com",
+                "http://xn--csino-mra.com",
+                "http://cåsino.com"
+            ),
+            array(
+                "http://täst.de",
+                "http://xn--tst-qla.de",
+                "http://täst.de"
+            ),
+            array(
+                "http://müller.de",
+                "http://xn--mller-kva.de",
+                "http://müller.de"
+            ),
         );
     }
 
@@ -295,8 +386,8 @@ class UrlRuleTest extends TestCase
         $valid = $rule->apply($valid_url);
         $this->assertTrue($valid, $assert_message . ' should be a somewhat valid url');
         $this->assertEquals(
-            $rule->getSanitizedValue(),
             $valid_punycode_url,
+            $rule->getSanitizedValue(),
             $assert_message . ' as punycode should be set as sanitized url'
         );
     }
@@ -304,10 +395,16 @@ class UrlRuleTest extends TestCase
     public function provideSuspiciousUrls()
     {
         return array(
-            array("http://Рaypal.com", "http://xn--aypal-uye.com", "Рaypal.com"),
-            array("http://cåsino.com", 'http://xn--csino-mra.com', 'cåsino.com'),
-            array("http://täst.de", 'http://xn--tst-qla.de', 'täst.de'),
-            array("http://müller.de", 'http://xn--mller-kva.de', 'müller.de'),
+            array(
+                "http://Рaypal.com",
+                "http://xn--aypal-uye.com",
+                "suspicious Рaypal.com"
+            ),
+            array(
+                "http://www.payp\xD0\xB0l.com",
+                "http://www.xn--paypl-7ve.com",
+                "paypal with cyrillic spoof characters"
+            ),
         );
     }
 

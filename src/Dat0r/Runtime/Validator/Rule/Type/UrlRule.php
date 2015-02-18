@@ -15,6 +15,7 @@ class UrlRule extends Rule
 
     const OPTION_ACCEPT_SUSPICIOUS_HOST = 'accept_suspicious_host';
     const OPTION_CONVERT_SUSPICIOUS_HOST = 'convert_suspicious_host';
+    const OPTION_DOMAIN_SPOOFCHECKER_CHECKS = 'domain_spoofchecker_checks'; // should be an integer value!
 
     const OPTION_ALLOWED_SCHEMES = 'allowed_schemes';
 
@@ -37,6 +38,7 @@ class UrlRule extends Rule
 
     const OPTION_FORCE_USER = 'force_user';
     const OPTION_FORCE_PASS = 'force_pass';
+    const OPTION_FORCE_HOST = 'force_host';
     const OPTION_FORCE_PORT = 'force_port';
     const OPTION_FORCE_PATH = 'force_path';
     const OPTION_FORCE_QUERY = 'force_query';
@@ -100,7 +102,23 @@ class UrlRule extends Rule
         // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
 
-        // TODO use parse_url two times if no host is present after the first run
+        // default scheme to add if it's missing
+        $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, 'http');
+
+        // try to parse the string as URL
+        $raw_parts = parse_url($val);
+        if ($raw_parts === false) {
+            $this->throwError('parse_error', [ 'value' => $val ]);
+            return false;
+        }
+
+        // scheme and host are missing, might be a string like: 'test.de/foo/bar'
+        if (!array_key_exists('host', $raw_parts) && !array_key_exists('scheme', $raw_parts)) {
+            // add the default scheme
+            $val = $default_scheme . $this->getOption(self::OPTION_SCHEME_SEPARATOR, '://') . $val;
+        }
+
+        // reevaluate the new url value and hope it's now a valid url and the addition didn't do too much harm
         $raw_parts = parse_url($val);
         if ($raw_parts === false) {
             $this->throwError('parse_error', [ 'value' => $val ]);
@@ -115,7 +133,6 @@ class UrlRule extends Rule
 
         $url_parts = $raw_parts;
 
-        $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, 'http');
         if (!array_key_exists('scheme', $url_parts)) {
             $url_parts['scheme'] = $default_scheme;
         }
@@ -170,6 +187,10 @@ class UrlRule extends Rule
 
         if ($this->hasOption(self::OPTION_FORCE_PASS)) {
             $url_parts['pass'] = $this->getOption(self::OPTION_FORCE_PASS);
+        }
+
+        if ($this->hasOption(self::OPTION_FORCE_HOST)) {
+            $url_parts['host'] = $this->getOption(self::OPTION_FORCE_HOST);
         }
 
         if ($this->hasOption(self::OPTION_FORCE_PORT)) {
@@ -269,10 +290,14 @@ class UrlRule extends Rule
             $punycode_url_parts['host'] = $idn_host;
         }
 
-        // check for suspicious letters in the domain name (confusable chars from other charsets, e.g. cyrillic)
-        // @see http://en.wikipedia.org/wiki/IDN_homograph_attack
-        // @see http://stackoverflow.com/questions/17458876/php-spoofchecker-class
-        // @see http://www.unicode.org/Public/security/revision-06/confusables.txt
+        /**
+         * Check for suspicious letters in the domain name (confusable chars from other charsets, e.g. cyrillic)
+         * @see http://en.wikipedia.org/wiki/IDN_homograph_attack
+         * @see http://kb.mozillazine.org/Network.IDN.blacklist_chars
+         * @see http://stackoverflow.com/questions/17458876/php-spoofchecker-class
+         * @see http://www.unicode.org/Public/security/revision-06/confusables.txt
+         * @see http://icu-project.org/apiref/icu4j50m1/com/ibm/icu/text/SpoofChecker.html for docs on constants
+         */
         $accept_suspicious_host = $this->toBoolean($this->getOption(self::OPTION_ACCEPT_SUSPICIOUS_HOST, true));
         $convert_suspicious_host = $this->toBoolean($this->getOption(self::OPTION_CONVERT_SUSPICIOUS_HOST, true));
         $spoofchecker_available = extension_loaded('intl') && class_exists("Spoofchecker");
@@ -287,11 +312,30 @@ class UrlRule extends Rule
         $is_suspicious = false;
         if ($spoofchecker_available) {
             $spoofchecker = new Spoofchecker();
-            $is_suspicious = $spoofchecker->isSuspicious($url_parts['host']);
+            /**
+             * Check whether two strings are visually confusable and:
+             * - SINGLE_SCRIPT_CONFUSABLE: all of the characters from the two strings are from a single script
+             * - MIXED_SCRIPT_CONFUSABLE: at least one string contains characters from more than one script
+             * - WHOLE_SCRIPT_CONFUSABLE: each strings is of a single script, but they're from different scripts
+             * - ANY_CASE: check case-sensitive confusability (even though domains are not)
+             * - INVISIBLE: do not allow invisible characters like non-spacing marks
+             */
+            $checks = (int)$this->getOption(
+                self::OPTION_DOMAIN_SPOOFCHECKER_CHECKS,
+                Spoofchecker::SINGLE_SCRIPT_CONFUSABLE |
+                Spoofchecker::MIXED_SCRIPT_CONFUSABLE |
+                Spoofchecker::WHOLE_SCRIPT_CONFUSABLE |
+                Spoofchecker::ANY_CASE |
+                Spoofchecker::INVISIBLE
+            );
+            $spoofchecker->setChecks($checks);
+
+            $is_suspicious = $spoofchecker->isSuspicious($url_parts['host'], $error);
             if ($is_suspicious && !$accept_suspicious_host) {
-                $this->throwError('suspicious_domain', [ 'value' => $val ]);
+                $this->throwError('suspicious_domain', [ 'value' => $val, 'error' => $error ]);
                 return false;
             }
+            // TODO spoofcheck other parts of the url?
         }
 
         // generate URLs for filter_var test and setting as sanitized value
@@ -362,6 +406,7 @@ class UrlRule extends Rule
         }*/
 
         // add query part
+        // TODO uri encode query parts?
         if (array_key_exists('query', $url_parts)) {
             if (!array_key_exists('path', $url_parts)) {
                 $url .= '/';
