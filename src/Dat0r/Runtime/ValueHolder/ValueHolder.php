@@ -117,7 +117,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
         $validation_result = $attribute_validator->validate($value);
 
         if ($validation_result->getSeverity() <= IncidentInterface::NOTICE) {
-            $previous_value = $this->value;
+            $previous_value = $this->toNative();
             $this->value = $validation_result->getSanitizedValue();
 
             if (!$this->sameValueAs($previous_value)) {
@@ -228,7 +228,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     {
         // @todo need to find out what to use as the prev value here
         $this->propagateValueChangedEvent(
-            $this->createValueHolderChangedEvent($this->value)
+            $this->createValueHolderChangedEvent($this->toNative())
         );
     }
 
@@ -287,7 +287,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
             array(
                 'attribute' => $this->getAttribute(),
                 'prev_value' => $prev_value,
-                'value' => $this->value,
+                'value' => $this->toNative(),
                 'embed_event' => $event
             )
         );
