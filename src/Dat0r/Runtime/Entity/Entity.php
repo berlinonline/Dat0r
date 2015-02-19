@@ -221,9 +221,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function toNative()
     {
-        $native_values = [
-            self::OBJECT_TYPE => get_class($this)
-        ];
+        $native_values = [];
 
         foreach ($this->value_holder_map as $attribute_name => $value_holder) {
             $native_values[$attribute_name] = $value_holder->toNative();
