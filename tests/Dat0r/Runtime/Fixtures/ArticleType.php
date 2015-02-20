@@ -12,6 +12,7 @@ use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\Attribute\Timestamp\TimestampAttribute;
+use Dat0r\Runtime\Attribute\Uuid\UuidAttribute;
 use Dat0r\Runtime\EntityType;
 
 class ArticleType extends EntityType
@@ -21,6 +22,7 @@ class ArticleType extends EntityType
         parent::__construct(
             'Article',
             array(
+                new UuidAttribute('uuid'),
                 new TextAttribute('headline', array('min' => 4)),
                 new TextAttribute('content'),
                 new IntegerAttribute('click_count'),

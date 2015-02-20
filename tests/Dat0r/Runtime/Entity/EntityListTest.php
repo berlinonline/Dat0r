@@ -32,14 +32,16 @@ class EntityListTest extends TestCase
     public function testAddEntityToNonEmptyCollection()
     {
         $type = new ArticleType();
-        $collection = new EntityList(
-            array($type->createEntity())
-        );
-
         $test_entity = $type->createEntity();
+
+        $collection = new EntityList([ $test_entity ]);
+
         $collection->addItem($test_entity);
 
-        $second_entity = $collection[0];
+        $first_entity = $collection[0];
+        $second_entity = $collection[1];
+
+        $this->assertEquals($test_entity, $first_entity);
         $this->assertEquals($test_entity, $second_entity);
     }
 }

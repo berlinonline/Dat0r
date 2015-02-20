@@ -14,6 +14,14 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEventList;
 interface EntityInterface
 {
     /**
+     * Returns the entity's identifier. This might be a composite
+     * of multiple attribute values or a UUID or similar.
+     *
+     * @return string
+     */
+    public function getIdentifier();
+
+    /**
      * Returns the entity's parent, if it has one.
      *
      * @return EntityInterface

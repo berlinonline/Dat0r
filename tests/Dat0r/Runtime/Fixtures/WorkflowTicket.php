@@ -6,6 +6,11 @@ use Dat0r\Runtime\Entity\Entity;
 
 class WorkflowTicket extends Entity
 {
+    public function getIdentifier()
+    {
+        return $this->getValue('workflow_name');
+    }
+
     public function getWorkflowName()
     {
         return $this->getValue('workflow_name');

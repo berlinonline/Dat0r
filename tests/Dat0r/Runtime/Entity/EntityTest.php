@@ -3,6 +3,7 @@
 namespace Dat0r\Tests\Runtime\Entity;
 
 use Dat0r\Common\Collection\ArrayList;
+use Dat0r\Runtime\Attribute\Uuid\UuidAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Tests\Runtime\Entity\Fixtures\EntityTestProxy;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
@@ -87,6 +88,7 @@ class EntityTest extends TestCase
     {
         // same order as in ArticleType definition!
         return [
+            'uuid' => '7e185d43-f870-46e7-9cea-59800555e970',
             'headline' => 'headline',
             'content' => 'content',
             'click_count' => 123,
