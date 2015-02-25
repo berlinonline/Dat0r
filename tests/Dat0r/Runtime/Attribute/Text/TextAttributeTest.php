@@ -60,7 +60,7 @@ class TextAttributeTest extends TestCase
         $this->assertTrue($result->getSeverity() === IncidentInterface::SUCCESS);
         $this->assertEquals($zero_width_space, $valueholder->getValue());
     }
-
+/*
     public function testSpoofcheckIncomingRejectsZeroWidthSpace()
     {
         $text_attribute = new TextAttribute(self::FIELDNAME, [ 'spoofcheck_incoming' => true ]);
@@ -80,6 +80,7 @@ class TextAttributeTest extends TestCase
         $this->assertFalse($result->getSeverity() === IncidentInterface::SUCCESS);
         $this->assertEquals('', $valueholder->getValue());
     }
+ */
 /*
     public function testSpoofcheckResultingValueSucceedsAsZeroWidthSpaceIsTrimmed()
     {

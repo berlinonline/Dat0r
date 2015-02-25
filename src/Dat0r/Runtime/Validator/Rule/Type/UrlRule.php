@@ -10,6 +10,8 @@ use Spoofchecker;
 
 class UrlRule extends Rule
 {
+    const OPTION_MANDATORY = 'mandatory';
+
     const OPTION_USE_IDN = 'use_idn';
     const OPTION_CONVERT_HOST_TO_PUNYCODE = 'convert_host_to_punycode';
 
@@ -54,10 +56,6 @@ class UrlRule extends Rule
             $options[TextRule::OPTION_MAX] = 2048;
         }
 
-        if (!array_key_exists(TextRule::OPTION_MIN, $options)) {
-            $options[TextRule::OPTION_MIN] = 4;
-        }
-
         if (!array_key_exists(TextRule::OPTION_REJECT_INVALID_UTF8, $options)) {
             $options[TextRule::OPTION_REJECT_INVALID_UTF8] = true;
         }
@@ -83,12 +81,10 @@ class UrlRule extends Rule
 
     protected function execute($value)
     {
-        if (!is_scalar($value)) {
-            $this->throwError('non_scalar_value', [ 'value' => $value ], IncidentInterface::CRITICAL);
+        if (!is_string($value)) {
+            $this->throwError('non_string_value', [ 'value' => $value ], IncidentInterface::CRITICAL);
             return false;
         }
-
-        $value = (string)$value;
 
         $text_rule = new TextRule('text', $this->getOptions());
         $is_valid = $text_rule->apply($value);
@@ -101,6 +97,13 @@ class UrlRule extends Rule
 
         // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
+
+        $mandatory = $this->toBoolean($this->getOption(self::OPTION_MANDATORY, false));
+        if (!$mandatory && $val === '') {
+            // parse_url with empty string doesn't return false but 'path' being an empty string
+            $this->setSanitizedValue('');
+            return true;
+        }
 
         // default scheme to add if it's missing
         $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, 'http');

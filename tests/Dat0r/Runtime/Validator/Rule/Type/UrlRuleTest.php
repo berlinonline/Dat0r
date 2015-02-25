@@ -23,6 +23,22 @@ class UrlRuleTest extends TestCase
         $this->assertNull($rule->getSanitizedValue());
     }
 
+    public function testEmptyStringIsValidByDefault()
+    {
+        $rule = new UrlRule('url', []);
+        $valid = $rule->apply('');
+        $this->assertTrue($valid);
+        $this->assertEquals('', $rule->getSanitizedValue());
+    }
+
+    public function testEmptyStringIsNotValidWhenMandatoryOptionIsSet()
+    {
+        $rule = new UrlRule('url', ['mandatory' => true]);
+        $valid = $rule->apply('');
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
     public function testStripInvalidUtf8IfWanted()
     {
         $rule = new UrlRule('url', [ 'reject_invalid_utf8' => false ]);

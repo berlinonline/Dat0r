@@ -6,4 +6,8 @@ use Dat0r\Runtime\Entity\Entity;
 
 class EntityTestProxy extends Entity
 {
+    public function getIdentifier()
+    {
+        return 'some-identifier';
+    }
 }
