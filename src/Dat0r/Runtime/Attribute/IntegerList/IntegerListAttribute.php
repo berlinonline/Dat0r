@@ -9,10 +9,10 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
 
 class IntegerListAttribute extends ListAttribute
 {
-    const OPTION_ALLOW_HEX = 'allow_hex';
-    const OPTION_ALLOW_OCTAL = 'allow_octal';
-    const OPTION_MAX = 'max';
-    const OPTION_MIN = 'min';
+    const OPTION_ALLOW_HEX      = IntegerListRule::OPTION_ALLOW_HEX;
+    const OPTION_ALLOW_OCTAL    = IntegerListRule::OPTION_ALLOW_OCTAL;
+    const OPTION_MIN_VALUE      = IntegerListRule::OPTION_MIN_VALUE;
+    const OPTION_MAX_VALUE      = IntegerListRule::OPTION_MAX_VALUE;
 
     protected function buildValidationRules()
     {

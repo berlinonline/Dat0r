@@ -108,7 +108,7 @@ class DateAttributeTest extends TestCase
         $datetime_foo = '2014-12-27';
 
         $attribute = new DateAttribute('birthday', [
-            DateAttribute::OPTION_MIN => $datetime_min
+            DateAttribute::OPTION_MIN_TIMESTAMP => $datetime_min
         ]);
         $valueholder = $attribute->createValueHolder();
 
@@ -123,7 +123,7 @@ class DateAttributeTest extends TestCase
         $datetime_foo = '2014-12-28';
 
         $attribute = new DateAttribute('birthday', [
-            DateAttribute::OPTION_MAX => $datetime_max
+            DateAttribute::OPTION_MAX_TIMESTAMP => $datetime_max
         ]);
         $valueholder = $attribute->createValueHolder();
 

@@ -5,25 +5,26 @@ namespace Dat0r\Runtime\Attribute\Timestamp;
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\TimestampRule;
 
 // preferred exchange format is FORMAT_ISO8601 ('Y-m-d\TH:i:s.uP')
 class TimestampAttribute extends Attribute
 {
-    const DEFAULT_FORCE_INTERNAL_TIMEZONE = true;
-    const DEFAULT_INTERNAL_TIMEZONE_NAME = 'Etc/UTC';
+    const DEFAULT_FORCE_INTERNAL_TIMEZONE   = TimestampRule::DEFAULT_FORCE_INTERNAL_TIMEZONE;
+    const DEFAULT_INTERNAL_TIMEZONE_NAME    = TimestampRule::DEFAULT_INTERNAL_TIMEZONE_NAME;
 
-    const OPTION_FORCE_INTERNAL_TIMEZONE = 'force_internal_timezone';
-    const OPTION_INTERNAL_TIMEZONE_NAME = 'internal_timezone_name';
-    const OPTION_MAX = 'max';
-    const OPTION_MIN = 'min';
-    const OPTION_FORMAT_NATIVE = 'format_native';
+    const OPTION_FORCE_INTERNAL_TIMEZONE    = TimestampRule::OPTION_FORCE_INTERNAL_TIMEZONE;
+    const OPTION_INTERNAL_TIMEZONE_NAME     = TimestampRule::OPTION_INTERNAL_TIMEZONE_NAME;
+    const OPTION_MAX_TIMESTAMP              = TimestampRule::OPTION_MAX_TIMESTAMP;
+    const OPTION_MIN_TIMESTAMP              = TimestampRule::OPTION_MIN_TIMESTAMP;
+    const OPTION_FORMAT_NATIVE              = TimestampRule::OPTION_FORMAT_NATIVE;
 
-    const FORMAT_ISO8601 = 'Y-m-d\TH:i:s.uP';
-    const FORMAT_ISO8601_SIMPLE = 'Y-m-d\TH:i:sP';
-    const FORMAT_ISO8601_DATE = 'Y-m-dP';
-    const FORMAT_ISO8601_DATE_SIMPLE = 'Y-m-d';
+    const FORMAT_ISO8601                    = TimestampRule::FORMAT_ISO8601;
+    const FORMAT_ISO8601_SIMPLE             = TimestampRule::FORMAT_ISO8601_SIMPLE;
+    const FORMAT_ISO8601_DATE               = TimestampRule::FORMAT_ISO8601_DATE;
+    const FORMAT_ISO8601_DATE_SIMPLE        = TimestampRule::FORMAT_ISO8601_DATE_SIMPLE;
 
-    const FORMAT_NATIVE = TimestampAttribute::FORMAT_ISO8601;
+    const FORMAT_NATIVE                     = self::FORMAT_ISO8601;
 
     /**
      * Constructs a new attribute instance with some default options.
@@ -76,12 +77,12 @@ class TimestampAttribute extends Attribute
 
         $options = [];
 
-        if ($this->hasOption(self::OPTION_MIN)) {
-            $options[self::OPTION_MIN] = $this->getOption(self::OPTION_MIN);
+        if ($this->hasOption(self::OPTION_MIN_TIMESTAMP)) {
+            $options[self::OPTION_MIN_TIMESTAMP] = $this->getOption(self::OPTION_MIN_TIMESTAMP);
         }
 
-        if ($this->hasOption(self::OPTION_MAX)) {
-            $options[self::OPTION_MAX] = $this->getOption(self::OPTION_MAX);
+        if ($this->hasOption(self::OPTION_MAX_TIMESTAMP)) {
+            $options[self::OPTION_MAX_TIMESTAMP] = $this->getOption(self::OPTION_MAX_TIMESTAMP);
         }
 
         $options[self::OPTION_FORCE_INTERNAL_TIMEZONE] = $this->getOption(

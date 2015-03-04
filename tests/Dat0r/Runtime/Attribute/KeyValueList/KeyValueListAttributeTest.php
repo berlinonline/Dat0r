@@ -3,11 +3,9 @@
 namespace Dat0r\Tests\Runtime\Attribute\KeyValueList;
 
 use Dat0r\Common\Error\BadValueException;
-use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListAttribute;
 use Dat0r\Runtime\Attribute\KeyValueList\KeyValueListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
-use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Tests\TestCase;
 use stdClass;
 
@@ -93,14 +91,14 @@ class KeyValueListAttributeTest extends TestCase
 
         $attribute = new KeyValueListAttribute('keyvalue', [
             KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
-            TextRule::OPTION_REJECT_INVALID_UTF8 => false,
-            TextRule::OPTION_STRIP_INVALID_UTF8 => false,
-            TextRule::OPTION_STRIP_NULL_BYTES => false,
-            TextRule::OPTION_TRIM => false,
-            TextRule::OPTION_STRIP_CONTROL_CHARACTERS => false,
-            TextRule::OPTION_ALLOW_CRLF => true,
-            TextRule::OPTION_ALLOW_TAB => true,
-            TextRule::OPTION_NORMALIZE_NEWLINES => true
+            KeyValueListAttribute::OPTION_REJECT_INVALID_UTF8 => false,
+            KeyValueListAttribute::OPTION_STRIP_INVALID_UTF8 => false,
+            KeyValueListAttribute::OPTION_STRIP_NULL_BYTES => false,
+            KeyValueListAttribute::OPTION_TRIM => false,
+            KeyValueListAttribute::OPTION_STRIP_CONTROL_CHARACTERS => false,
+            KeyValueListAttribute::OPTION_ALLOW_CRLF => true,
+            KeyValueListAttribute::OPTION_ALLOW_TAB => true,
+            KeyValueListAttribute::OPTION_NORMALIZE_NEWLINES => true
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -184,8 +182,30 @@ class KeyValueListAttributeTest extends TestCase
 
         $attribute = new KeyValueListAttribute('keyvalue', [
             KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER,
-            IntegerAttribute::OPTION_MIN => 17,
-            IntegerAttribute::OPTION_MAX => 20
+            KeyValueListAttribute::OPTION_MIN_VALUE => 17,
+            KeyValueListAttribute::OPTION_MAX_VALUE => 20
+        ]);
+
+        $valueholder = $attribute->createValueHolder();
+        $validation_result = $valueholder->setValue($data);
+
+        $this->assertEquals($attribute->getDefaultValue(), $valueholder->getValue());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+
+        $this->assertTrue($validation_result->getSeverity() !== IncidentInterface::SUCCESS);
+    }
+
+    public function testMinMaxIntegerValueConstraint()
+    {
+        $data = [
+            'foo' => '23',
+            'bar' => 15
+        ];
+
+        $attribute = new KeyValueListAttribute('keyvalue', [
+            KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER,
+            KeyValueListAttribute::OPTION_MIN_INTEGER_VALUE => 17,
+            KeyValueListAttribute::OPTION_MAX_INTEGER_VALUE => 20
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -206,8 +226,8 @@ class KeyValueListAttributeTest extends TestCase
 
         $attribute = new KeyValueListAttribute('keyvalueminmaxstringlength', [
             KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_TEXT,
-            TextRule::OPTION_MIN => 3,
-            TextRule::OPTION_MAX => 5
+            KeyValueListAttribute::OPTION_MIN_LENGTH => 3,
+            KeyValueListAttribute::OPTION_MAX_LENGTH => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -322,8 +342,8 @@ class KeyValueListAttributeTest extends TestCase
 
         $attribute = new KeyValueListAttribute('keyvalueinvalidintegerdefaultvalue', [
             KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_INTEGER,
-            IntegerAttribute::OPTION_MIN => 1,
-            IntegerAttribute::OPTION_MAX => 5,
+            KeyValueListAttribute::OPTION_MIN_VALUE => 1,
+            KeyValueListAttribute::OPTION_MAX_VALUE => 5,
             KeyValueListAttribute::OPTION_DEFAULT_VALUE => 666
         ]);
 

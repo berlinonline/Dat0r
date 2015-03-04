@@ -88,6 +88,17 @@ abstract class Rule extends Object implements RuleInterface
         $this->sanitized_value = $sanitized_value;
     }
 
+    protected function throwIncidentsAsErrors($rule)
+    {
+        foreach ($rule->getIncidents() as $incident) {
+            $this->throwError(
+                $incident->getName(),
+                $incident->getParameters(),
+                $incident->getSeverity()
+            );
+        }
+    }
+
     protected function throwError($name, array $parameters = array(), $severity = Incident::ERROR)
     {
         $this->incidents->setItem($name, new Incident($name, $parameters, $severity));

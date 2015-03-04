@@ -71,8 +71,8 @@ class EmailListAttributeTest extends TestCase
         ];
 
         $attribute = new EmailListAttribute('emailslabellength', [
-            EmailListAttribute::OPTION_MIN => 3,
-            EmailListAttribute::OPTION_MAX => 5
+            EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 3,
+            EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -126,7 +126,7 @@ class EmailListAttributeTest extends TestCase
     public function testAllowedLabelsConstraintFails()
     {
         $attribute = new EmailListAttribute('emails', [
-            EmailListAttribute::OPTION_ALLOWED_LABELS => [ 'bar' ]
+            EmailListAttribute::OPTION_ALLOWED_EMAIL_LABELS => [ 'bar' ]
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -148,7 +148,7 @@ class EmailListAttributeTest extends TestCase
     public function testAllowedPairsConstraintFails()
     {
         $attribute = new EmailListAttribute('emails', [
-            EmailListAttribute::OPTION_ALLOWED_PAIRS => [ 'foo@bar.com' => 'foo' ]
+            EmailListAttribute::OPTION_ALLOWED_EMAIL_PAIRS => [ 'foo@bar.com' => 'foo' ]
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -161,8 +161,8 @@ class EmailListAttributeTest extends TestCase
         $this->setExpectedException(BadValueException::CLASS);
 
         $attribute = new EmailListAttribute('emailinvalidintegerdefaultvalue', [
-            EmailListAttribute::OPTION_MIN => 1,
-            EmailListAttribute::OPTION_MAX => 5,
+            EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 1,
+            EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5,
             EmailListAttribute::OPTION_DEFAULT_VALUE => [ 'email@example.com' => '1234567890' ]
         ]);
 

@@ -5,7 +5,6 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Rule\Type\SpoofcheckerRule;
 
 /**
  * Accepts strings and:
@@ -23,8 +22,8 @@ class TextRule extends Rule
 {
     const OPTION_ALLOW_CRLF = 'allow_crlf';
     const OPTION_ALLOW_TAB = 'allow_tab';
-    const OPTION_MAX = 'max';
-    const OPTION_MIN = 'min';
+    const OPTION_MAX_LENGTH = 'max_length';
+    const OPTION_MIN_LENGTH = 'min_length';
     const OPTION_NORMALIZE_NEWLINES = 'normalize_newlines';
     const OPTION_REJECT_INVALID_UTF8 = 'reject_invalid_utf8';
     const OPTION_STRIP_CONTROL_CHARACTERS = 'strip_control_characters';
@@ -164,25 +163,31 @@ class TextRule extends Rule
         }
 
         // check minimum string length
-        if ($this->hasOption(self::OPTION_MIN)) {
-            $min = filter_var($this->getOption(self::OPTION_MIN, -PHP_INT_MAX-1), FILTER_VALIDATE_INT);
+        if ($this->hasOption(self::OPTION_MIN_LENGTH)) {
+            $min = filter_var($this->getOption(self::OPTION_MIN_LENGTH, -PHP_INT_MAX-1), FILTER_VALIDATE_INT);
             if ($min === false) {
                 throw new InvalidConfigException('Minimum string length specified is not interpretable as integer.');
             }
             if (mb_strlen($sanitized_value) < $min) {
-                $this->throwError(self::OPTION_MIN, [ self::OPTION_MIN => $min, 'value' => $sanitized_value ]);
+                $this->throwError(
+                    self::OPTION_MIN_LENGTH,
+                    [ self::OPTION_MIN_LENGTH => $min, 'value' => $sanitized_value ]
+                );
                 return false;
             }
         }
 
         // check maximum string length
-        if ($this->hasOption(self::OPTION_MAX)) {
-            $max = filter_var($this->getOption(self::OPTION_MAX, PHP_INT_MAX), FILTER_VALIDATE_INT);
+        if ($this->hasOption(self::OPTION_MAX_LENGTH)) {
+            $max = filter_var($this->getOption(self::OPTION_MAX_LENGTH, PHP_INT_MAX), FILTER_VALIDATE_INT);
             if ($max === false) {
                 throw new InvalidConfigException('Maximum string length specified is not interpretable as integer.');
             }
             if (mb_strlen($sanitized_value) > $max) {
-                $this->throwError(self::OPTION_MAX, [ self::OPTION_MAX => $max, 'value' => $sanitized_value ]);
+                $this->throwError(
+                    self::OPTION_MAX_LENGTH,
+                    [ self::OPTION_MAX_LENGTH => $max, 'value' => $sanitized_value ]
+                );
                 return false;
             }
         }

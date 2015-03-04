@@ -30,7 +30,7 @@ class ChoiceAttributeTest extends TestCase
     {
         $text_attribute = new ChoiceAttribute(
             self::FIELDNAME,
-            array('min' => 3, 'max' => 10)
+            array(ChoiceAttribute::OPTION_MIN_LENGTH => 3, ChoiceAttribute::OPTION_MAX_LENGTH => 10)
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');
@@ -41,7 +41,7 @@ class ChoiceAttributeTest extends TestCase
     {
         $text_attribute = new ChoiceAttribute(
             self::FIELDNAME,
-            array('min' => 3, 'max' => 5)
+            array(ChoiceAttribute::OPTION_MIN_LENGTH => 3, ChoiceAttribute::OPTION_MAX_LENGTH => 5)
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');

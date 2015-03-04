@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListRule;
 use Dat0r\Runtime\Attribute\ListAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
@@ -18,7 +19,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
     /**
      * Option that holds an array of supported entity-type names.
      */
-    const OPTION_ENTITY_TYPES = 'entity_types';
+    const OPTION_ENTITY_TYPES = EmbeddedEntityListRule::OPTION_ENTITY_TYPES;
 
     /**
      * An array holding the embed-type instances supported by a specific embed-attribute instance.

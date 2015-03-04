@@ -1,13 +1,27 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Choice;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
 class ChoiceRule extends Rule
 {
+    const OPTION_ALLOWED_VALUES             = 'allowed_values';
+
+    const OPTION_ALLOW_CRLF                 = TextRule::OPTION_ALLOW_CRLF;
+    const OPTION_ALLOW_TAB                  = TextRule::OPTION_ALLOW_TAB;
+    const OPTION_MAX_LENGTH                 = TextRule::OPTION_MAX_LENGTH;
+    const OPTION_MIN_LENGTH                 = TextRule::OPTION_MIN_LENGTH;
+    const OPTION_NORMALIZE_NEWLINES         = TextRule::OPTION_NORMALIZE_NEWLINES;
+    const OPTION_REJECT_INVALID_UTF8        = TextRule::OPTION_REJECT_INVALID_UTF8;
+    const OPTION_STRIP_CONTROL_CHARACTERS   = TextRule::OPTION_STRIP_CONTROL_CHARACTERS;
+    const OPTION_STRIP_DIRECTION_OVERRIDES  = TextRule::OPTION_STRIP_DIRECTION_OVERRIDES;
+    const OPTION_STRIP_INVALID_UTF8         = TextRule::OPTION_STRIP_INVALID_UTF8;
+    const OPTION_STRIP_NULL_BYTES           = TextRule::OPTION_STRIP_NULL_BYTES;
+    const OPTION_STRIP_ZERO_WIDTH_SPACE     = TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE;
+    const OPTION_TRIM                       = TextRule::OPTION_TRIM;
+
     protected function execute($value)
     {
         if (!is_string($value)) {
@@ -16,7 +30,7 @@ class ChoiceRule extends Rule
         }
 
         $allowed_values = [];
-        if ($this->hasOption(ChoiceAttribute::OPTION_ALLOWED_VALUES)) {
+        if ($this->hasOption(self::OPTION_ALLOWED_VALUES)) {
             $allowed_values = $this->getAllowedValues();
         }
 
@@ -33,12 +47,12 @@ class ChoiceRule extends Rule
         }
 
         // check for allowed values
-        if ($this->hasOption(ChoiceAttribute::OPTION_ALLOWED_VALUES)) {
+        if ($this->hasOption(self::OPTION_ALLOWED_VALUES)) {
             if (!in_array($value, $allowed_values, true)) {
                 $this->throwError(
-                    ChoiceAttribute::OPTION_ALLOWED_VALUES,
+                    self::OPTION_ALLOWED_VALUES,
                     [
-                        ChoiceAttribute::OPTION_ALLOWED_VALUES => $allowed_values,
+                        self::OPTION_ALLOWED_VALUES => $allowed_values,
                         'value' => $value
                     ]
                 );
@@ -55,7 +69,7 @@ class ChoiceRule extends Rule
     {
         $allowed_values = [];
 
-        $configured_allowed_values = $this->getOption(ChoiceAttribute::OPTION_ALLOWED_VALUES, []);
+        $configured_allowed_values = $this->getOption(self::OPTION_ALLOWED_VALUES, []);
         if (!is_array($allowed_values)) {
             throw new InvalidConfigException('Configured allowed_values must be an array of permitted values.');
         }

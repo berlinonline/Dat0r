@@ -1,8 +1,7 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Uuid;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 
 /**
@@ -10,6 +9,8 @@ use Dat0r\Runtime\Validator\Rule\Rule;
  */
 class UuidRule extends Rule
 {
+    const OPTION_TRIM = 'trim';
+
     protected function execute($value)
     {
         if (!is_string($value)) {
@@ -17,7 +18,7 @@ class UuidRule extends Rule
             return false;
         }
 
-        $trim = $this->toBoolean($this->getOption(UuidAttribute::OPTION_TRIM, false));
+        $trim = $this->toBoolean($this->getOption(self::OPTION_TRIM, false));
         if ($trim) {
             $value = trim($value);
         }

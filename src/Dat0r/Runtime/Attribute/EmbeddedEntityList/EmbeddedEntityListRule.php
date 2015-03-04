@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\EmbeddedEntityList;
 
+use Dat0r\Common\Object;
 use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -18,6 +19,10 @@ class EmbeddedEntityListRule extends Rule
      * Option that holds a list of allowed types to validate against.
      */
     const OPTION_ENTITY_TYPES = 'entity_types';
+    const OPTION_MAX_COUNT = 'max_count';
+    const OPTION_MIN_COUNT = 'min_count';
+
+    const OBJECT_TYPE = Object::OBJECT_TYPE;
 
     /**
      * Validates and sanitizes a given value respective to the valueholder's expectations.
@@ -47,16 +52,16 @@ class EmbeddedEntityListRule extends Rule
         }
 
         $count = count($list);
-        if ($this->hasOption(EmbeddedEntityListAttribute::OPTION_MIN_COUNT)) {
-            $min_count = $this->getOption(EmbeddedEntityListAttribute::OPTION_MIN_COUNT, 0);
+        if ($this->hasOption(self::OPTION_MIN_COUNT)) {
+            $min_count = $this->getOption(self::OPTION_MIN_COUNT, 0);
             if ($count < (int)$min_count) {
                 $this->throwError('min_count', [ 'count' => $count, 'min_count' => $min_count ]);
                 $success = false;
             }
         }
 
-        if ($this->hasOption(EmbeddedEntityListAttribute::OPTION_MAX_COUNT)) {
-            $max_count = $this->getOption(EmbeddedEntityListAttribute::OPTION_MAX_COUNT, 0);
+        if ($this->hasOption(self::OPTION_MAX_COUNT)) {
+            $max_count = $this->getOption(self::OPTION_MAX_COUNT, 0);
             if ($count > (int)$max_count) {
                 $this->throwError('max_count', [ 'count' => $count, 'max_count' => $max_count ]);
                 $success = false;

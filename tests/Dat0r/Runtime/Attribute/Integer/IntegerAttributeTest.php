@@ -87,8 +87,8 @@ class IntegerAttributeTest extends TestCase
     public function testMinMaxConstraint()
     {
         $attribute = new IntegerAttribute('Integerminmax', [
-            IntegerAttribute::OPTION_MIN => 3,
-            IntegerAttribute::OPTION_MAX => 5
+            IntegerAttribute::OPTION_MIN_VALUE => 3,
+            IntegerAttribute::OPTION_MAX_VALUE => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -104,8 +104,8 @@ class IntegerAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
         $attribute = new IntegerAttribute('integerinvaliddefaultvalue', [
-            IntegerAttribute::OPTION_MIN => 1,
-            IntegerAttribute::OPTION_MAX => 5,
+            IntegerAttribute::OPTION_MIN_VALUE => 1,
+            IntegerAttribute::OPTION_MAX_VALUE => 5,
             IntegerAttribute::OPTION_DEFAULT_VALUE => 666
         ]);
         $attribute->getDefaultValue();

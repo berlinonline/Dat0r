@@ -4,19 +4,20 @@ namespace Dat0r\Runtime\Attribute\Float;
 
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\FloatRule;
 
 class FloatAttribute extends Attribute
 {
     /**
      * Allow fraction separator (',' as in '1,200' === 1200)
      */
-    const OPTION_ALLOW_THOUSAND_SEPARATOR = 'allow_thousand_separator';
+    const OPTION_ALLOW_THOUSAND_SEPARATOR = FloatRule::OPTION_ALLOW_THOUSAND_SEPARATOR;
 
     /**
      * precision when comparing two float values for equality. Falls back
      * to the php ini setting 'precision' (usually 14).
      */
-    const OPTION_PRECISION_DIGITS = 'precision_digits';
+    const OPTION_PRECISION_DIGITS = FloatRule::OPTION_PRECISION_DIGITS;
 
     /**
      * Whether of not to accept infinite float values. Please note, that
@@ -27,7 +28,7 @@ class FloatAttribute extends Attribute
      * toNative representation (e.g. json_encode and reading that value via
      * javascript and through sorcery hope that it's a float).
      */
-    const OPTION_ALLOW_INFINITY = 'allow_infinity';
+    const OPTION_ALLOW_INFINITY = FloatRule::OPTION_ALLOW_INFINITY;
 
     /**
      * Whether of not to accept NAN float values. Please note, that
@@ -38,10 +39,10 @@ class FloatAttribute extends Attribute
      * toNative representation (e.g. json_encode and reading that value via
      * javascript and through sorcery hope that it's a float).
      */
-    const OPTION_ALLOW_NAN = 'allow_nan';
+    const OPTION_ALLOW_NAN = FloatRule::OPTION_ALLOW_NAN;
 
-    const OPTION_MIN = 'min';
-    const OPTION_MAX = 'max';
+    const OPTION_MAX_VALUE = FloatRule::OPTION_MAX_VALUE;
+    const OPTION_MIN_VALUE = FloatRule::OPTION_MIN_VALUE;
 
     public function getNullValue()
     {

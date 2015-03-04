@@ -12,6 +12,10 @@ class UrlRule extends Rule
 {
     const OPTION_MANDATORY = 'mandatory';
 
+    //
+    // UrlRule options
+    //
+
     const OPTION_USE_IDN = 'use_idn';
     const OPTION_CONVERT_HOST_TO_PUNYCODE = 'convert_host_to_punycode';
 
@@ -48,32 +52,49 @@ class UrlRule extends Rule
 
     //const OPTION_ALLOW_PROTOCOL_RELATIVE_URL = 'allow_protocol_relative_url';
 
+    //
+    // TextRule options that may be used for validating the url input string
+    //
+
+    const OPTION_ALLOW_CRLF                 = TextRule::OPTION_ALLOW_CRLF;
+    const OPTION_ALLOW_TAB                  = TextRule::OPTION_ALLOW_TAB;
+    const OPTION_MAX_LENGTH                 = TextRule::OPTION_MAX_LENGTH;
+    const OPTION_MIN_LENGTH                 = TextRule::OPTION_MIN_LENGTH;
+    const OPTION_NORMALIZE_NEWLINES         = TextRule::OPTION_NORMALIZE_NEWLINES;
+    const OPTION_REJECT_INVALID_UTF8        = TextRule::OPTION_REJECT_INVALID_UTF8;
+    const OPTION_STRIP_CONTROL_CHARACTERS   = TextRule::OPTION_STRIP_CONTROL_CHARACTERS;
+    const OPTION_STRIP_DIRECTION_OVERRIDES  = TextRule::OPTION_STRIP_DIRECTION_OVERRIDES;
+    const OPTION_STRIP_INVALID_UTF8         = TextRule::OPTION_STRIP_INVALID_UTF8;
+    const OPTION_STRIP_NULL_BYTES           = TextRule::OPTION_STRIP_NULL_BYTES;
+    const OPTION_STRIP_ZERO_WIDTH_SPACE     = TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE;
+    const OPTION_TRIM                       = TextRule::OPTION_TRIM;
+
     public function __construct($name, array $options = [])
     {
         // use sensible default max length for URLs
-        if (!array_key_exists(TextRule::OPTION_MAX, $options)) {
+        if (!array_key_exists(self::OPTION_MAX_LENGTH, $options)) {
             // http://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers
-            $options[TextRule::OPTION_MAX] = 2048;
+            $options[self::OPTION_MAX_LENGTH] = 2048;
         }
 
-        if (!array_key_exists(TextRule::OPTION_REJECT_INVALID_UTF8, $options)) {
-            $options[TextRule::OPTION_REJECT_INVALID_UTF8] = true;
+        if (!array_key_exists(self::OPTION_REJECT_INVALID_UTF8, $options)) {
+            $options[self::OPTION_REJECT_INVALID_UTF8] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTION_TRIM, $options)) {
-            $options[TextRule::OPTION_TRIM] = true;
+        if (!array_key_exists(self::OPTION_TRIM, $options)) {
+            $options[self::OPTION_TRIM] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTION_STRIP_CONTROL_CHARACTERS, $options)) {
-            $options[TextRule::OPTION_STRIP_CONTROL_CHARACTERS] = true;
+        if (!array_key_exists(self::OPTION_STRIP_CONTROL_CHARACTERS, $options)) {
+            $options[self::OPTION_STRIP_CONTROL_CHARACTERS] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTION_ALLOW_CRLF, $options)) {
-            $options[TextRule::OPTION_ALLOW_CRLF] = false;
+        if (!array_key_exists(self::OPTION_ALLOW_CRLF, $options)) {
+            $options[self::OPTION_ALLOW_CRLF] = false;
         }
 
-        if (!array_key_exists(TextRule::OPTION_ALLOW_TAB, $options)) {
-            $options[TextRule::OPTION_ALLOW_TAB] = false;
+        if (!array_key_exists(self::OPTION_ALLOW_TAB, $options)) {
+            $options[self::OPTION_ALLOW_TAB] = false;
         }
 
         parent::__construct($name, $options);

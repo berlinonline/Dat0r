@@ -17,12 +17,12 @@ class TextareaAttribute extends TextAttribute
 
         $options = $this->getOptions();
 
-        if (!array_key_exists(TextRule::OPTION_ALLOW_CRLF, $options)) {
-            $options[TextRule::OPTION_ALLOW_CRLF] = true;
+        if (!array_key_exists(self::OPTION_ALLOW_CRLF, $options)) {
+            $options[self::OPTION_ALLOW_CRLF] = true;
         }
 
-        if (!array_key_exists(TextRule::OPTION_ALLOW_TAB, $options)) {
-            $options[TextRule::OPTION_ALLOW_TAB] = true;
+        if (!array_key_exists(self::OPTION_ALLOW_TAB, $options)) {
+            $options[self::OPTION_ALLOW_TAB] = true;
         }
 
         $rules->push(new TextRule('valid-text', $options));

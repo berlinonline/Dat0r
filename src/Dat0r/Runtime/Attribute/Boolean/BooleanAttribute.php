@@ -4,12 +4,13 @@ namespace Dat0r\Runtime\Attribute\Boolean;
 
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\BooleanRule;
 
 class BooleanAttribute extends Attribute
 {
     public function getNullValue()
     {
-        $value = $this->getOption(Attribute::OPTION_NULL_VALUE, false);
+        $value = $this->getOption(self::OPTION_NULL_VALUE, false);
 
         $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
@@ -22,7 +23,7 @@ class BooleanAttribute extends Attribute
 
     public function getDefaultValue()
     {
-        $value = $this->getOption(Attribute::OPTION_DEFAULT_VALUE, false);
+        $value = $this->getOption(self::OPTION_DEFAULT_VALUE, false);
 
         $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 

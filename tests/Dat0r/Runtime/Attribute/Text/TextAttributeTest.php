@@ -100,7 +100,7 @@ class TextAttributeTest extends TestCase
     {
         $text_attribute = new TextAttribute(
             self::FIELDNAME,
-            array('min' => 3, 'max' => 10)
+            [ TextAttribute::OPTION_MIN_LENGTH => 3, TextAttribute::OPTION_MAX_LENGTH => 10 ]
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');
@@ -111,7 +111,7 @@ class TextAttributeTest extends TestCase
     {
         $text_attribute = new TextAttribute(
             self::FIELDNAME,
-            array('min' => 3, 'max' => 5)
+            [ TextAttribute::OPTION_MIN_LENGTH => 3, TextAttribute::OPTION_MAX_LENGTH => 5 ]
         );
 
         $result = $text_attribute->getValidator()->validate('erpen derp');

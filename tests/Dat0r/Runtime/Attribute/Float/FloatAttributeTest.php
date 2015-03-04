@@ -116,8 +116,8 @@ class FloatAttributeTest extends TestCase
     public function testMinMaxConstraint()
     {
         $attribute = new FloatAttribute('Floatminmax', [
-            FloatAttribute::OPTION_MIN => 3,
-            FloatAttribute::OPTION_MAX => 5
+            FloatAttribute::OPTION_MIN_VALUE => 3,
+            FloatAttribute::OPTION_MAX_VALUE => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -286,8 +286,8 @@ class FloatAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
         $attribute = new FloatAttribute('Floatinvaliddefaultvalue', [
-            FloatAttribute::OPTION_MIN => 1,
-            FloatAttribute::OPTION_MAX => 5,
+            FloatAttribute::OPTION_MIN_VALUE => 1,
+            FloatAttribute::OPTION_MAX_VALUE => 5,
             FloatAttribute::OPTION_DEFAULT_VALUE => 5.00000001
         ]);
         $attribute->getDefaultValue();

@@ -13,6 +13,19 @@ use Dat0r\Runtime\Validator\Rule\Type\TextRule;
  */
 class TextAttribute extends Attribute
 {
+    const OPTION_ALLOW_CRLF                 = TextRule::OPTION_ALLOW_CRLF;
+    const OPTION_ALLOW_TAB                  = TextRule::OPTION_ALLOW_TAB;
+    const OPTION_MAX_LENGTH                 = TextRule::OPTION_MAX_LENGTH;
+    const OPTION_MIN_LENGTH                 = TextRule::OPTION_MIN_LENGTH;
+    const OPTION_NORMALIZE_NEWLINES         = TextRule::OPTION_NORMALIZE_NEWLINES;
+    const OPTION_REJECT_INVALID_UTF8        = TextRule::OPTION_REJECT_INVALID_UTF8;
+    const OPTION_STRIP_CONTROL_CHARACTERS   = TextRule::OPTION_STRIP_CONTROL_CHARACTERS;
+    const OPTION_STRIP_DIRECTION_OVERRIDES  = TextRule::OPTION_STRIP_DIRECTION_OVERRIDES;
+    const OPTION_STRIP_INVALID_UTF8         = TextRule::OPTION_STRIP_INVALID_UTF8;
+    const OPTION_STRIP_NULL_BYTES           = TextRule::OPTION_STRIP_NULL_BYTES;
+    const OPTION_STRIP_ZERO_WIDTH_SPACE     = TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE;
+    const OPTION_TRIM                       = TextRule::OPTION_TRIM;
+
     public function getNullValue()
     {
         return '';

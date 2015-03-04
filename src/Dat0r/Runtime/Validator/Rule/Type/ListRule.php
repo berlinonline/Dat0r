@@ -9,9 +9,13 @@ use Traversable;
 
 class ListRule extends Rule
 {
+    const OPTION_MAX_COUNT = 'max_count';
+    const OPTION_MIN_COUNT = 'min_count';
+    const OPTION_CAST_TO_ARRAY = 'cast_to_array';
+
     protected function execute($value)
     {
-        $cast_to_array = $this->toBoolean($this->getOption(ListAttribute::OPTION_CAST_TO_ARRAY, true));
+        $cast_to_array = $this->toBoolean($this->getOption(self::OPTION_CAST_TO_ARRAY, true));
         if ((!$cast_to_array && !is_array($value)) || (!$cast_to_array && !$value instanceof Traversable)) {
             $this->throwError('not_an_array');
             return false;
@@ -32,18 +36,30 @@ class ListRule extends Rule
 
         $count = count($casted);
 
-        if ($this->hasOption(ListAttribute::OPTION_MIN_COUNT)) {
-            $min_count = $this->getOption(ListAttribute::OPTION_MIN_COUNT, 0);
+        if ($this->hasOption(self::OPTION_MIN_COUNT)) {
+            $min_count = $this->getOption(self::OPTION_MIN_COUNT, 0);
             if ($count < (int)$min_count) {
-                $this->throwError('min_count', [ 'count' => $count, 'min_count' => $min_count ]);
+                $this->throwError(
+                    self::OPTION_MIN_COUNT,
+                    [
+                        'count' => $count,
+                        self::OPTION_MIN_COUNT => $min_count
+                    ]
+                );
                 $success = false;
             }
         }
 
-        if ($this->hasOption(ListAttribute::OPTION_MAX_COUNT)) {
-            $max_count = $this->getOption(ListAttribute::OPTION_MAX_COUNT, 0);
+        if ($this->hasOption(self::OPTION_MAX_COUNT)) {
+            $max_count = $this->getOption(self::OPTION_MAX_COUNT, 0);
             if ($count > (int)$max_count) {
-                $this->throwError('max_count', [ 'count' => $count, 'max_count' => $max_count ]);
+                $this->throwError(
+                    self::OPTION_MAX_COUNT,
+                    [
+                        'count' => $count,
+                        self::OPTION_MAX_COUNT => $max_count
+                    ]
+                );
                 $success = false;
             }
         }

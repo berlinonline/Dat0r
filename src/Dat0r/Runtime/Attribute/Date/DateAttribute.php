@@ -3,15 +3,15 @@
 namespace Dat0r\Runtime\Attribute\Date;
 
 use Dat0r\Runtime\Attribute\Timestamp\TimestampAttribute;
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Validator\Rule\Type\DateRule;
 
 // preferred exchange format is FORMAT_ISO8601 ('Y-m-d\TH:i:s.uP')
 class DateAttribute extends TimestampAttribute
 {
-    const OPTION_DEFAULT_HOUR = 'default_hour';
-    const OPTION_DEFAULT_MINUTE = 'default_minute';
-    const OPTION_DEFAULT_SECOND = 'default_second';
+    const OPTION_DEFAULT_HOUR   = DateRule::OPTION_DEFAULT_HOUR;
+    const OPTION_DEFAULT_MINUTE = DateRule::OPTION_DEFAULT_MINUTE;
+    const OPTION_DEFAULT_SECOND = DateRule::OPTION_DEFAULT_SECOND;
 
     const FORMAT_NATIVE = TimestampAttribute::FORMAT_ISO8601_SIMPLE;
 

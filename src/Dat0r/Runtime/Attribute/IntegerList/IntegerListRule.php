@@ -7,6 +7,11 @@ use Dat0r\Runtime\Validator\Rule\Rule;
 
 class IntegerListRule extends Rule
 {
+    const OPTION_ALLOW_HEX = 'allow_hex';
+    const OPTION_ALLOW_OCTAL = 'allow_octal';
+    const OPTION_MIN_VALUE = 'min_value';
+    const OPTION_MAX_VALUE = 'max_value';
+
     protected function execute($values)
     {
         if (!is_array($values)) {
@@ -14,8 +19,8 @@ class IntegerListRule extends Rule
             return false;
         }
 
-        $allow_hex = $this->toBoolean($this->getOption(IntegerListAttribute::OPTION_ALLOW_HEX, false));
-        $allow_octal = $this->toBoolean($this->getOption(IntegerListAttribute::OPTION_ALLOW_OCTAL, false));
+        $allow_hex = $this->toBoolean($this->getOption(self::OPTION_ALLOW_HEX, false));
+        $allow_octal = $this->toBoolean($this->getOption(self::OPTION_ALLOW_OCTAL, false));
 
         $filter_flags = 0;
         if ($allow_hex) {
@@ -38,9 +43,9 @@ class IntegerListRule extends Rule
             }
 
             // check minimum value
-            if ($this->hasOption(IntegerListAttribute::OPTION_MIN)) {
+            if ($this->hasOption(self::OPTION_MIN_VALUE)) {
                 $min = filter_var(
-                    $this->getOption(IntegerListAttribute::OPTION_MIN),
+                    $this->getOption(self::OPTION_MIN_VALUE),
                     FILTER_VALIDATE_INT,
                     $filter_flags
                 );
@@ -50,8 +55,8 @@ class IntegerListRule extends Rule
                 }
 
                 if ($value < $min) {
-                    $this->throwError(IntegerListAttribute::OPTION_MIN, [
-                        IntegerListAttribute::OPTION_MIN => $min,
+                    $this->throwError(self::OPTION_MIN_VALUE, [
+                        self::OPTION_MIN_VALUE => $min,
                         'value' => $value
                     ]);
                     return false;
@@ -59,9 +64,9 @@ class IntegerListRule extends Rule
             }
 
             // check maximum value
-            if ($this->hasOption(IntegerListAttribute::OPTION_MAX)) {
+            if ($this->hasOption(self::OPTION_MAX_VALUE)) {
                 $max = filter_var(
-                    $this->getOption(IntegerListAttribute::OPTION_MAX),
+                    $this->getOption(self::OPTION_MAX_VALUE),
                     FILTER_VALIDATE_INT,
                     $filter_flags
                 );
@@ -71,8 +76,8 @@ class IntegerListRule extends Rule
                 }
 
                 if ($value > $max) {
-                    $this->throwError(IntegerListAttribute::OPTION_MAX, [
-                        IntegerListAttribute::OPTION_MAX => $max,
+                    $this->throwError(self::OPTION_MAX_VALUE, [
+                        self::OPTION_MAX_VALUE => $max,
                         'value' => $value
                     ]);
                     return false;

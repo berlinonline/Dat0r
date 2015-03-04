@@ -6,7 +6,6 @@ use Dat0r\Common\Error\BadValueException;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
-use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Tests\TestCase;
 use stdClass;
 
@@ -35,9 +34,9 @@ class TextListAttributeTest extends TestCase
 
         $attribute = new TextListAttribute('TextList', [
             TextListAttribute::OPTION_DEFAULT_VALUE => $data,
-            TextRule::OPTION_STRIP_NULL_BYTES => false,
-            TextRule::OPTION_TRIM => false,
-            TextRule::OPTION_ALLOW_CRLF => true
+            TextListAttribute::OPTION_STRIP_NULL_BYTES => false,
+            TextListAttribute::OPTION_TRIM => false,
+            TextListAttribute::OPTION_ALLOW_CRLF => true
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -130,8 +129,8 @@ class TextListAttributeTest extends TestCase
         ];
 
         $attribute = new TextListAttribute('TextListminmaxstringlength', [
-            TextListAttribute::OPTION_MIN => 3,
-            TextListAttribute::OPTION_MAX => 5
+            TextListAttribute::OPTION_MIN_LENGTH => 3,
+            TextListAttribute::OPTION_MAX_LENGTH => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -159,9 +158,9 @@ class TextListAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
 
-        $attribute = new TextListAttribute('TextListminmaxintegerdefaultvalue', [
-            TextListAttribute::OPTION_MIN => 1,
-            TextListAttribute::OPTION_MAX => 5,
+        $attribute = new TextListAttribute('TextListminmaxdefaultvalue', [
+            TextListAttribute::OPTION_MIN_LENGTH => 1,
+            TextListAttribute::OPTION_MAX_LENGTH => 5,
             TextListAttribute::OPTION_DEFAULT_VALUE => 666
         ]);
 

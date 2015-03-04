@@ -1,17 +1,21 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Integer;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 
 class IntegerRule extends Rule
 {
+    const OPTION_ALLOW_HEX = 'allow_hex';
+    const OPTION_ALLOW_OCTAL = 'allow_octal';
+    const OPTION_MIN_VALUE = 'min_value';
+    const OPTION_MAX_VALUE = 'max_value';
+
     protected function execute($value)
     {
-        $allow_hex = $this->toBoolean($this->getOption(IntegerAttribute::OPTION_ALLOW_HEX, false));
-        $allow_octal = $this->toBoolean($this->getOption(IntegerAttribute::OPTION_ALLOW_OCTAL, false));
+        $allow_hex = $this->toBoolean($this->getOption(self::OPTION_ALLOW_HEX, false));
+        $allow_octal = $this->toBoolean($this->getOption(self::OPTION_ALLOW_OCTAL, false));
 
         $filter_flags = 0;
         if ($allow_hex) {
@@ -32,9 +36,9 @@ class IntegerRule extends Rule
         }
 
         // check minimum value
-        if ($this->hasOption(IntegerAttribute::OPTION_MIN)) {
+        if ($this->hasOption(self::OPTION_MIN_VALUE)) {
             $min = filter_var(
-                $this->getOption(IntegerAttribute::OPTION_MIN, -PHP_INT_MAX-1),
+                $this->getOption(self::OPTION_MIN_VALUE, -PHP_INT_MAX-1),
                 FILTER_VALIDATE_INT,
                 $filter_flags
             );
@@ -43,8 +47,8 @@ class IntegerRule extends Rule
             }
 
             if ($int < $min) {
-                $this->throwError(IntegerAttribute::OPTION_MIN, [
-                    IntegerAttribute::OPTION_MIN => $min,
+                $this->throwError(self::OPTION_MIN_VALUE, [
+                    self::OPTION_MIN_VALUE => $min,
                     'value' => $int
                 ]);
                 return false;
@@ -52,9 +56,9 @@ class IntegerRule extends Rule
         }
 
         // check maximum value
-        if ($this->hasOption(IntegerAttribute::OPTION_MAX)) {
+        if ($this->hasOption(self::OPTION_MAX_VALUE)) {
             $max = filter_var(
-                $this->getOption(IntegerAttribute::OPTION_MAX, PHP_INT_MAX),
+                $this->getOption(self::OPTION_MAX_VALUE, PHP_INT_MAX),
                 FILTER_VALIDATE_INT,
                 $filter_flags
             );
@@ -63,8 +67,8 @@ class IntegerRule extends Rule
             }
 
             if ($int > $max) {
-                $this->throwError(IntegerAttribute::OPTION_MAX, [
-                    IntegerAttribute::OPTION_MAX => $max,
+                $this->throwError(self::OPTION_MAX_VALUE, [
+                    self::OPTION_MAX_VALUE => $max,
                     'value' => $int
                 ]);
                 return false;

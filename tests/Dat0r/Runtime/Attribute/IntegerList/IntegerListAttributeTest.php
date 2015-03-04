@@ -51,7 +51,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testOctalValues()
     {
-        $attribute = new IntegerListAttribute('IntegerListminmax', [
+        $attribute = new IntegerListAttribute('IntegerListoctalsucceeds', [
             IntegerListAttribute::OPTION_ALLOW_OCTAL => true
         ]);
         $valueholder = $attribute->createValueHolder();
@@ -61,7 +61,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testOctalValuesFails()
     {
-        $attribute = new IntegerListAttribute('IntegerListminmax', [
+        $attribute = new IntegerListAttribute('IntegerListoctalfails', [
             IntegerListAttribute::OPTION_ALLOW_OCTAL => false
         ]);
         $valueholder = $attribute->createValueHolder();
@@ -71,7 +71,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testHexValues()
     {
-        $attribute = new IntegerListAttribute('IntegerListminmax', [
+        $attribute = new IntegerListAttribute('IntegerListhexsucceeeds', [
             IntegerListAttribute::OPTION_ALLOW_HEX => true
         ]);
         $valueholder = $attribute->createValueHolder();
@@ -81,7 +81,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testHexValuesFails()
     {
-        $attribute = new IntegerListAttribute('IntegerListminmax', [
+        $attribute = new IntegerListAttribute('IntegerListhexfails', [
             IntegerListAttribute::OPTION_ALLOW_HEX => false
         ]);
         $valueholder = $attribute->createValueHolder();
@@ -97,8 +97,8 @@ class IntegerListAttributeTest extends TestCase
         ];
 
         $attribute = new IntegerListAttribute('IntegerListminmax', [
-            IntegerListAttribute::OPTION_MIN => 3,
-            IntegerListAttribute::OPTION_MAX => 5
+            IntegerListAttribute::OPTION_MIN_VALUE => 3,
+            IntegerListAttribute::OPTION_MAX_VALUE => 5
         ]);
 
         $valueholder = $attribute->createValueHolder();
@@ -114,8 +114,8 @@ class IntegerListAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
         $attribute = new IntegerListAttribute('IntegerListminmaxintegerdefaultvalue', [
-            IntegerListAttribute::OPTION_MIN => 1,
-            IntegerListAttribute::OPTION_MAX => 5,
+            IntegerListAttribute::OPTION_MIN_VALUE => 1,
+            IntegerListAttribute::OPTION_MAX_VALUE => 5,
             IntegerListAttribute::OPTION_DEFAULT_VALUE => 666
         ]);
         $attribute->getDefaultValue();

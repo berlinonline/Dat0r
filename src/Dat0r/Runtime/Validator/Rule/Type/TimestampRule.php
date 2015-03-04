@@ -1,8 +1,7 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Timestamp;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use DateTime;
 use DateTimeImmutable;
@@ -10,12 +9,28 @@ use DateTimeZone;
 
 class TimestampRule extends Rule
 {
+    const DEFAULT_FORCE_INTERNAL_TIMEZONE = true;
+    const DEFAULT_INTERNAL_TIMEZONE_NAME = 'Etc/UTC';
+
+    const OPTION_FORCE_INTERNAL_TIMEZONE = 'force_internal_timezone';
+    const OPTION_INTERNAL_TIMEZONE_NAME = 'internal_timezone_name';
+    const OPTION_MAX_TIMESTAMP = 'max_timestamp';
+    const OPTION_MIN_TIMESTAMP = 'min_timestamp';
+    const OPTION_FORMAT_NATIVE = 'format_native';
+
+    const FORMAT_ISO8601 = 'Y-m-d\TH:i:s.uP';
+    const FORMAT_ISO8601_SIMPLE = 'Y-m-d\TH:i:sP';
+    const FORMAT_ISO8601_DATE = 'Y-m-dP';
+    const FORMAT_ISO8601_DATE_SIMPLE = 'Y-m-d';
+
+    const FORMAT_NATIVE = 'Y-m-d\TH:i:s.uP';
+
     protected function execute($value)
     {
         $default_timezone = new DateTimeZone(
             $this->getOption(
-                TimestampAttribute::OPTION_INTERNAL_TIMEZONE_NAME,
-                TimestampAttribute::DEFAULT_INTERNAL_TIMEZONE_NAME
+                self::OPTION_INTERNAL_TIMEZONE_NAME,
+                self::DEFAULT_INTERNAL_TIMEZONE_NAME
             )
         );
 
@@ -41,8 +56,8 @@ class TimestampRule extends Rule
                 $dt = DateTimeImmutable::createFromMutable($value);
             } else {
                 $dt = DateTimeImmutable::createFromFormat(
-                    TimestampAttribute::FORMAT_ISO8601,
-                    $value->format(TimestampAttribute::FORMAT_ISO8601)
+                    self::FORMAT_ISO8601,
+                    $value->format(self::FORMAT_ISO8601)
                 );
             }
         } elseif ($value instanceof DateTimeImmutable) {
@@ -53,18 +68,18 @@ class TimestampRule extends Rule
         }
 
         $force_internal_timezone = $this->getOption(
-            TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE,
-            TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE
+            self::OPTION_FORCE_INTERNAL_TIMEZONE,
+            self::DEFAULT_FORCE_INTERNAL_TIMEZONE
         );
         if ($force_internal_timezone) {
             $dt = $dt->setTimezone($default_timezone);
         }
 
-        if ($this->hasOption(TimestampAttribute::OPTION_MIN)) {
-            $min = new DateTimeImmutable($this->getOption(TimestampAttribute::OPTION_MIN));
+        if ($this->hasOption(self::OPTION_MIN_TIMESTAMP)) {
+            $min = new DateTimeImmutable($this->getOption(self::OPTION_MIN_TIMESTAMP));
             $force_internal_timezone = $this->getOption(
-                TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE,
-                TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE
+                self::OPTION_FORCE_INTERNAL_TIMEZONE,
+                self::DEFAULT_FORCE_INTERNAL_TIMEZONE
             );
             if ($force_internal_timezone) {
                 $min->setTimezone($default_timezone);
@@ -77,11 +92,11 @@ class TimestampRule extends Rule
             }
         }
 
-        if ($this->hasOption(TimestampAttribute::OPTION_MAX)) {
-            $max = new DateTimeImmutable($this->getOption(TimestampAttribute::OPTION_MAX));
+        if ($this->hasOption(self::OPTION_MAX_TIMESTAMP)) {
+            $max = new DateTimeImmutable($this->getOption(self::OPTION_MAX_TIMESTAMP));
             $force_internal_timezone = $this->getOption(
-                TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE,
-                TimestampAttribute::DEFAULT_FORCE_INTERNAL_TIMEZONE
+                self::OPTION_FORCE_INTERNAL_TIMEZONE,
+                self::DEFAULT_FORCE_INTERNAL_TIMEZONE
             );
             if ($force_internal_timezone) {
                 $max->setTimezone($default_timezone);

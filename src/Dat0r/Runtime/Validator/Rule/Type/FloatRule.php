@@ -1,18 +1,53 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Float;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Common\Error\InvalidConfigException;
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 
 class FloatRule extends Rule
 {
+    /**
+     * Allow fraction separator (',' as in '1,200' === 1200)
+     */
+    const OPTION_ALLOW_THOUSAND_SEPARATOR = 'allow_thousand_separator';
+
+    /**
+     * precision when comparing two float values for equality. Falls back
+     * to the php ini setting 'precision' (usually 14).
+     */
+    const OPTION_PRECISION_DIGITS = 'precision_digits';
+
+    /**
+     * Whether of not to accept infinite float values. Please note, that
+     * the toNative representation of infinite values is a special string
+     * that is known by the validation rule to set infinity as the internal
+     * value on reconstitution. This string is most likely neither valid nor
+     * acceptable in other representation formats that are created upon the
+     * toNative representation (e.g. json_encode and reading that value via
+     * javascript and through sorcery hope that it's a float).
+     */
+    const OPTION_ALLOW_INFINITY = 'allow_infinity';
+
+    /**
+     * Whether of not to accept NAN float values. Please note, that
+     * the toNative representation of not-a-number values is a special string
+     * that is known by the validation rule to set NAN as the internal
+     * value on reconstitution. This string is most likely neither valid nor
+     * acceptable in other representation formats that are created upon the
+     * toNative representation (e.g. json_encode and reading that value via
+     * javascript and through sorcery hope that it's a float).
+     */
+    const OPTION_ALLOW_NAN = 'allow_nan';
+
+    const OPTION_MIN_VALUE = 'min_value';
+    const OPTION_MAX_VALUE = 'max_value';
+
     protected function execute($value)
     {
-        $allow_thousand = $this->toBoolean($this->getOption(FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR, false));
-        $allow_infinity = $this->toBoolean($this->getOption(FloatAttribute::OPTION_ALLOW_INFINITY, false));
-        $allow_nan = $this->toBoolean($this->getOption(FloatAttribute::OPTION_ALLOW_NAN, false));
+        $allow_thousand = $this->toBoolean($this->getOption(self::OPTION_ALLOW_THOUSAND_SEPARATOR, false));
+        $allow_infinity = $this->toBoolean($this->getOption(self::OPTION_ALLOW_INFINITY, false));
+        $allow_nan = $this->toBoolean($this->getOption(self::OPTION_ALLOW_NAN, false));
 
         $filter_flags = 0;
         if ($allow_thousand) {
@@ -71,15 +106,15 @@ class FloatRule extends Rule
         }
 
         // check minimum value
-        if ($this->hasOption(FloatAttribute::OPTION_MIN)) {
-            $min = filter_var($this->getOption(FloatAttribute::OPTION_MIN), FILTER_VALIDATE_FLOAT, $filter_flags);
+        if ($this->hasOption(self::OPTION_MIN_VALUE)) {
+            $min = filter_var($this->getOption(self::OPTION_MIN_VALUE), FILTER_VALIDATE_FLOAT, $filter_flags);
             if ($min === false) {
                 throw new InvalidConfigException('Minimum value specified is not interpretable as float.');
             }
 
             if ($float < $min) {
-                $this->throwError(FloatAttribute::OPTION_MIN, [
-                    FloatAttribute::OPTION_MIN => $min,
+                $this->throwError(self::OPTION_MIN_VALUE, [
+                    self::OPTION_MIN_VALUE => $min,
                     'value' => $float
                 ]);
                 return false;
@@ -87,15 +122,15 @@ class FloatRule extends Rule
         }
 
         // check maximum value
-        if ($this->hasOption(FloatAttribute::OPTION_MAX)) {
-            $max = filter_var($this->getOption(FloatAttribute::OPTION_MAX), FILTER_VALIDATE_FLOAT, $filter_flags);
+        if ($this->hasOption(self::OPTION_MAX_VALUE)) {
+            $max = filter_var($this->getOption(self::OPTION_MAX_VALUE), FILTER_VALIDATE_FLOAT, $filter_flags);
             if ($max === false) {
                 throw new InvalidConfigException('Maximum value specified is not interpretable as float.');
             }
 
             if ($float > $max) {
-                $this->throwError(FloatAttribute::OPTION_MAX, [
-                    FloatAttribute::OPTION_MAX => $max,
+                $this->throwError(self::OPTION_MAX_VALUE, [
+                    self::OPTION_MAX_VALUE => $max,
                     'value' => $float
                 ]);
                 return false;

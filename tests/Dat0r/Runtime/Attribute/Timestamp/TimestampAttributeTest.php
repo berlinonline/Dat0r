@@ -124,7 +124,7 @@ class TimestampAttributeTest extends TestCase
         $datetime_foo = '2014-12-28T13:45:55.023+01:00';
 
         $attribute = new TimestampAttribute('publishedAt', [
-            TimestampAttribute::OPTION_MIN => $datetime_min
+            TimestampAttribute::OPTION_MIN_TIMESTAMP => $datetime_min
         ]);
         $valueholder = $attribute->createValueHolder();
 
@@ -139,7 +139,7 @@ class TimestampAttributeTest extends TestCase
         $datetime_foo = '2014-12-28T12:45:55.234+00:00';
 
         $attribute = new TimestampAttribute('publishedAt', [
-            TimestampAttribute::OPTION_MAX => $datetime_max
+            TimestampAttribute::OPTION_MAX_TIMESTAMP => $datetime_max
         ]);
         $valueholder = $attribute->createValueHolder();
 
