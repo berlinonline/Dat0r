@@ -20,7 +20,7 @@ class TextRuleTest extends TestCase
         $rule = new TextRule('text', [
             //'trim' => false,
             //'strip_control_characters' => false,
-            'allow_crlf' => true
+            TextRule::OPTION_ALLOW_CRLF => true
         ]);
         $valid = $rule->apply("foo\t\r\nbar");
         $this->assertEquals("foo\t\r\nbar", $rule->getSanitizedValue());
@@ -31,8 +31,8 @@ class TextRuleTest extends TestCase
         $rule = new TextRule('text', [
             //'trim' => false,
             //'strip_control_characters' => false,
-            'allow_crlf' => true,
-            'normalize_newlines' => true
+            TextRule::OPTION_ALLOW_CRLF => true,
+            TextRule::OPTION_NORMALIZE_NEWLINES => true
         ]);
         $valid = $rule->apply("foo\t\r\nbar");
         $this->assertEquals("foo\t\nbar", $rule->getSanitizedValue());
@@ -41,9 +41,9 @@ class TextRuleTest extends TestCase
     public function testNewlineNormalizationDisabled()
     {
         $rule = new TextRule('text', [
-            'trim' => false,
-            'strip_control_characters' => false,
-            'normalize_newlines' => false
+            TextRule::OPTION_TRIM => false,
+            TextRule::OPTION_STRIP_CONTROL_CHARACTERS => false,
+            TextRule::OPTION_NORMALIZE_NEWLINES => false
         ]);
         $valid = $rule->apply("\r\n");
         $this->assertEquals("\r\n", $rule->getSanitizedValue());
@@ -58,7 +58,7 @@ class TextRuleTest extends TestCase
 
     public function testStripRightToLeftOverride()
     {
-        $rule = new TextRule('text', [ 'strip_direction_overrides' => true ]);
+        $rule = new TextRule('text', [ TextRule::OPTION_STRIP_DIRECTION_OVERRIDES => true ]);
         $rtlo = "asdf\xE2\x80\xAEblah";
         $valid = $rule->apply($rtlo);
         $this->assertTrue($valid);
@@ -67,7 +67,7 @@ class TextRuleTest extends TestCase
 
     public function testStripLeftToRightOverride()
     {
-        $rule = new TextRule('text', [ 'strip_direction_overrides' => true ]);
+        $rule = new TextRule('text', [ TextRule::OPTION_STRIP_DIRECTION_OVERRIDES => true ]);
         $ltro = "foo\xE2\x80\xADbar";
         $valid = $rule->apply($ltro);
         $this->assertTrue($valid);
@@ -76,7 +76,7 @@ class TextRuleTest extends TestCase
 
     public function testZeroWidthSpaceRemoval()
     {
-        $rule = new TextRule('text', [ 'strip_zero_width_space' => true ]);
+        $rule = new TextRule('text', [ TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE => true ]);
         $ltro = "some\xE2\x80\x8Btext";
         $valid = $rule->apply($ltro);
         $this->assertTrue($valid);
@@ -94,8 +94,8 @@ class TextRuleTest extends TestCase
     {
         $rule = new TextRule('text', [
             //'strip_control_characters' => true,
-            'allow_crlf' => true,
-            'allow_tab' => true
+            TextRule::OPTION_ALLOW_CRLF => true,
+            TextRule::OPTION_ALLOW_TAB => true
         ]);
         $valid = $rule->apply("some\t\r\nfile");
         $this->assertEquals("some\t\r\nfile", $rule->getSanitizedValue());
@@ -153,14 +153,14 @@ class TextRuleTest extends TestCase
     public function testAcceptingInvalidValues($invalid_value, $assert_message = '')
     {
         $rule = new TextRule('text', [
-            'reject_invalid_utf8' => false,
-            'strip_invalid_utf8' => false,
-            'trim' => true,
-            'strip_null_bytes' => true,
-            'strip_control_characters' => true,
-            'normalize_newlines' => true,
-            'allow_crlf' => false,
-            'allow_tab' => false
+            TextRule::OPTION_REJECT_INVALID_UTF8 => false,
+            TextRule::OPTION_STRIP_INVALID_UTF8 => false,
+            TextRule::OPTION_TRIM => true,
+            TextRule::OPTION_STRIP_NULL_BYTES => true,
+            TextRule::OPTION_STRIP_CONTROL_CHARACTERS => true,
+            TextRule::OPTION_NORMALIZE_NEWLINES => true,
+            TextRule::OPTION_ALLOW_CRLF => false,
+            TextRule::OPTION_ALLOW_TAB => false
         ]);
 
         $this->assertTrue(
@@ -181,8 +181,8 @@ class TextRuleTest extends TestCase
     public function testStrippingOfInvalidValues($invalid_value, $assert_message = '')
     {
         $rule = new TextRule('text', [
-            'reject_invalid_utf8' => false,
-            'strip_invalid_utf8' => true
+            TextRule::OPTION_REJECT_INVALID_UTF8 => false,
+            TextRule::OPTION_STRIP_INVALID_UTF8 => true
         ]);
 
         $this->assertTrue(

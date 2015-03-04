@@ -41,7 +41,7 @@ class UrlRuleTest extends TestCase
 
     public function testStripInvalidUtf8IfWanted()
     {
-        $rule = new UrlRule('url', [ 'reject_invalid_utf8' => false ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REJECT_INVALID_UTF8 => false ]);
         $valid = $rule->apply("http://foo\xefbar.de/");
         $this->assertTrue($valid);
         $this->assertEquals("http://foobar.de/", $rule->getSanitizedValue());
@@ -56,7 +56,7 @@ class UrlRuleTest extends TestCase
 
     public function testPunycodeConversion()
     {
-        $rule = new UrlRule('url', [ 'convert_host_to_punycode' => true]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_CONVERT_HOST_TO_PUNYCODE => true]);
         $valid = $rule->apply("   http://www.académie-française.fr ");
         $this->assertEquals("http://www.xn--acadmie-franaise-npb1a.fr", $rule->getSanitizedValue());
     }
@@ -70,144 +70,144 @@ class UrlRuleTest extends TestCase
 
     public function testForceHost()
     {
-        $rule = new UrlRule('url', [ 'force_host' => 'sub.asdf.com' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_HOST => 'sub.asdf.com' ]);
         $valid = $rule->apply("http://foobar.de:80 ");
         $this->assertEquals("http://sub.asdf.com:80", $rule->getSanitizedValue());
     }
 
     public function testRequirePort()
     {
-        $rule = new UrlRule('url', [ 'require_port' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_PORT => true ]);
         $valid = $rule->apply("http://foobar.de ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForcePort()
     {
-        $rule = new UrlRule('url', [ 'force_port' => 443 ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_PORT => 443 ]);
         $valid = $rule->apply("https://foobar.de:80 ");
         $this->assertEquals("https://foobar.de:443", $rule->getSanitizedValue());
     }
 
     public function testDefaultPort()
     {
-        $rule = new UrlRule('url', [ 'default_port' => 443 ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_PORT => 443 ]);
         $valid = $rule->apply("https://foobar.de ");
         $this->assertEquals("https://foobar.de:443", $rule->getSanitizedValue());
     }
 
     public function testRequireUser()
     {
-        $rule = new UrlRule('url', [ 'require_user' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_USER => true ]);
         $valid = $rule->apply("http://foobar.de ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForceUser()
     {
-        $rule = new UrlRule('url', [ 'force_user' => 'asdf' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_USER => 'asdf' ]);
         $valid = $rule->apply("https://qwer@foobar.de:80 ");
         $this->assertEquals("https://asdf@foobar.de:80", $rule->getSanitizedValue());
     }
 
     public function testDefaultUser()
     {
-        $rule = new UrlRule('url', [ 'default_user' => 'asdf' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_USER => 'asdf' ]);
         $valid = $rule->apply("https://foobar.de:80 ");
         $this->assertEquals("https://asdf@foobar.de:80", $rule->getSanitizedValue());
     }
 
     public function testRequirePass()
     {
-        $rule = new UrlRule('url', [ 'require_pass' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_PASS => true ]);
         $valid = $rule->apply("http://asdf@foobar.de ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForceUserPass()
     {
-        $rule = new UrlRule('url', [ 'force_pass' => 'asdf' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_PASS => 'asdf' ]);
         $valid = $rule->apply("https://foo:bar@foobar.de:80 ");
         $this->assertEquals("https://foo:asdf@foobar.de:80", $rule->getSanitizedValue());
     }
 
     public function testDefaultUserPass()
     {
-        $rule = new UrlRule('url', [ 'default_pass' => 'asdf' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_PASS => 'asdf' ]);
         $valid = $rule->apply("https://foo@foobar.de:80 ");
         $this->assertEquals("https://foo:asdf@foobar.de:80", $rule->getSanitizedValue());
     }
 
     public function testRequirePath()
     {
-        $rule = new UrlRule('url', [ 'require_path' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_PATH => true ]);
         $valid = $rule->apply("http://asdf@foobar.de?asdf ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForcePath()
     {
-        $rule = new UrlRule('url', [ 'force_path' => '/foo/bar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_PATH => '/foo/bar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80 ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/foo/bar", $rule->getSanitizedValue());
     }
 
     public function testDefaultPath()
     {
-        $rule = new UrlRule('url', [ 'default_path' => '/foo/bar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_PATH => '/foo/bar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80?asdf ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/foo/bar?asdf", $rule->getSanitizedValue());
     }
 
     public function testRequireQuery()
     {
-        $rule = new UrlRule('url', [ 'require_query' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_QUERY => true ]);
         $valid = $rule->apply("http://asdf@foobar.de/asdf ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForceQuery()
     {
-        $rule = new UrlRule('url', [ 'force_query' => 'foo=bar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_QUERY => 'foo=bar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80/?blah ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/?foo=bar", $rule->getSanitizedValue());
     }
 
     public function testDefaultQuery()
     {
-        $rule = new UrlRule('url', [ 'default_query' => 'foo=bar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_QUERY => 'foo=bar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80 ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/?foo=bar", $rule->getSanitizedValue());
     }
 
     public function testRequireFragment()
     {
-        $rule = new UrlRule('url', [ 'require_fragment' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_REQUIRE_FRAGMENT => true ]);
         $valid = $rule->apply("http://asdf@foobar.de/asdf?asdf ");
         $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testForceFragment()
     {
-        $rule = new UrlRule('url', [ 'force_fragment' => 'foobar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_FRAGMENT => 'foobar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80 ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/#foobar", $rule->getSanitizedValue());
 
-        $rule = new UrlRule('url', [ 'force_fragment' => 'foobar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_FORCE_FRAGMENT => 'foobar' ]);
         $valid = $rule->apply("https://foobar.de/blah/blub#asdf");
         $this->assertEquals("https://foobar.de/blah/blub#foobar", $rule->getSanitizedValue());
     }
 
     public function testDefaultFragment()
     {
-        $rule = new UrlRule('url', [ 'default_fragment' => 'foobar' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_FRAGMENT => 'foobar' ]);
         $valid = $rule->apply("https://foo:asdf@foobar.de:80/blub?blah ");
         $this->assertEquals("https://foo:asdf@foobar.de:80/blub?blah#foobar", $rule->getSanitizedValue());
     }
 
     public function testDefaultScheme()
     {
-        $rule = new UrlRule('url', [ 'default_scheme' => 'https' ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_SCHEME => 'https' ]);
         $valid = $rule->apply("asdf.com:80/blub?blah ");
         $this->assertEquals("https://asdf.com:80/blub?blah", $rule->getSanitizedValue());
     }
@@ -221,7 +221,7 @@ class UrlRuleTest extends TestCase
 
     public function testAllowedSchemesFails()
     {
-        $rule = new UrlRule('url', [ 'allowed_schemes' => ['http', 'https'] ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_ALLOWED_SCHEMES => ['http', 'https'] ]);
         $valid = $rule->apply("ftp://user:pass@asdf.com:21/blub?blah ");
         $this->assertFalse($valid);
         $this->assertNull($rule->getSanitizedValue());
@@ -229,7 +229,7 @@ class UrlRuleTest extends TestCase
 
     public function testAllowedSchemesFtp()
     {
-        $rule = new UrlRule('url', [ 'allowed_schemes' => ['ftp'] ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_ALLOWED_SCHEMES => ['ftp'] ]);
         $valid = $rule->apply("ftp://user:pass@asdf.com:21/blub?blah ");
         $this->assertTrue($valid);
         $this->assertEquals("ftp://user:pass@asdf.com:21/blub?blah", $rule->getSanitizedValue());
@@ -284,7 +284,7 @@ class UrlRuleTest extends TestCase
 
     public function testRejectSuspiciousHost()
     {
-        $rule = new UrlRule('url', [ 'accept_suspicious_host' => false ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_ACCEPT_SUSPICIOUS_HOST => false ]);
         $cyrillic_domain = "http://wіkіреdіа.org"; // as punycode: xn--http://wkd-8qi2d4hsmbd.org
         $valid = $rule->apply($cyrillic_domain);
         $this->assertFalse($valid);
@@ -323,7 +323,10 @@ class UrlRuleTest extends TestCase
      */
     public function testValidIdnUrl($valid_url, $punycode_url, $assert_message = '')
     {
-        $rule = new UrlRule('url', [ 'convert_host_to_punycode' => false, 'convert_suspicious_host' => false ]);
+        $rule = new UrlRule('url', [
+            UrlRule::OPTION_CONVERT_HOST_TO_PUNYCODE => false,
+            UrlRule::OPTION_CONVERT_SUSPICIOUS_HOST => false
+        ]);
 
         $valid = $rule->apply($valid_url);
         $this->assertTrue($valid, $assert_message . ' should be a somewhat valid url');
@@ -339,7 +342,7 @@ class UrlRuleTest extends TestCase
      */
     public function testValidPunycodeUrl($valid_url, $punycode_url, $assert_message = '')
     {
-        $rule = new UrlRule('url', [ 'convert_host_to_punycode' => true ]);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_CONVERT_HOST_TO_PUNYCODE => true ]);
 
         $valid = $rule->apply($valid_url);
         $this->assertTrue($valid, $assert_message . ' should be a somewhat valid url');

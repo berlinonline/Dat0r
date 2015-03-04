@@ -67,7 +67,7 @@ class FloatRule extends Rule
 
             // floats/strings 'NAN', 'INF' and '-INF' may be valid for us if attribute options say so
             // strings will be set with 'real' float values instead of staying strings
-            $strval = "$value";
+            $strval = strval($value);
             if ($strval === 'INF') {
                 if (!$allow_infinity) {
                     $this->throwError('float_value_infinity', [ 'value' => $value ]);
