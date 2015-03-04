@@ -21,13 +21,16 @@ class EmailListAttribute extends ListAttribute
     const OPTION_MAX_EMAIL_LABEL_LENGTH = EmailListRule::OPTION_MAX_EMAIL_LABEL_LENGTH;
     const OPTION_MIN_EMAIL_LABEL_LENGTH = EmailListRule::OPTION_MIN_EMAIL_LABEL_LENGTH;
 
+    const OPTION_MAX_COUNT              = EmailListRule::OPTION_MAX_COUNT;
+    const OPTION_MIN_COUNT              = EmailListRule::OPTION_MIN_COUNT;
+    const OPTION_CAST_TO_ARRAY          = EmailListRule::OPTION_CAST_TO_ARRAY;
+
     protected function buildValidationRules()
     {
         $rules = new RuleList();
 
         $options = $this->getOptions();
 
-        $rules->push(new ListRule('valid-list', $options));
         $rules->push(new EmailListRule('valid-email-list', $options));
 
         return $rules;

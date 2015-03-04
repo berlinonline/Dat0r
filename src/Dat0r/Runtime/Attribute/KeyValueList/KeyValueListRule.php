@@ -104,11 +104,9 @@ class KeyValueListRule extends Rule
                 $rule = new BooleanRule('boolean', $this->getOptions());
                 break;
             case self::VALUE_TYPE_TEXT:
-                $rule = new TextRule('text', $this->getOptions());
-                break;
             case self::VALUE_TYPE_SCALAR:
             default:
-                throw new \Exception('not yet implemented - scalar types ducktyping would be cool');
+                $rule = new TextRule('text', $this->getOptions());
                 break;
         }
 

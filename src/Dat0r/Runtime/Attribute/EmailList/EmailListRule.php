@@ -15,17 +15,16 @@ class EmailListRule extends Rule
     const OPTION_ALLOWED_EMAILS         = 'allowed_emails';
     const OPTION_ALLOWED_EMAIL_LABELS   = 'allowed_email_labels';
     const OPTION_ALLOWED_EMAIL_PAIRS    = 'allowed_email_pairs';
+
     const OPTION_MAX_EMAIL_LABEL_LENGTH = 'max_email_label_length';
     const OPTION_MIN_EMAIL_LABEL_LENGTH = 'min_email_label_length';
 
+    const OPTION_MAX_COUNT              = 'max_count';
+    const OPTION_MIN_COUNT              = 'min_count';
+    const OPTION_CAST_TO_ARRAY          = 'cast_to_array';
+
     protected function execute($values)
     {
-        if (!is_array($values)) {
-            $this->throwError('non_array_value', [], IncidentInterface::CRITICAL);
-            return false;
-        }
-
-        /*
         $cast_to_array = $this->toBoolean($this->getOption(self::OPTION_CAST_TO_ARRAY, true));
         if (!$cast_to_array && !is_array($values)) {
             $this->throwError('not_an_array');
@@ -63,8 +62,6 @@ class EmailListRule extends Rule
                 return false;
             }
         }
-         */
-        $emails = $values;
 
         $allowed_labels = [];
         if ($this->hasOption(self::OPTION_ALLOWED_EMAIL_LABELS)) {

@@ -56,10 +56,135 @@ class SpoofcheckerRule extends Rule
             );
         }
 
+        // check if a string is suspicious, e.g. containing multiple scripts
+        $is_suspicious = false;
+        $accept_suspicious_strings = $this->toBoolean($this->getOption(self::OPTION_ACCEPT_SUSPICIOUS_STRINGS, false));
+        if (!$accept_suspicious_strings) {
+            $spoofchecker = $this->getSuspiciousChecker();
+            $is_suspicious = $spoofchecker->isSuspicious($value, $error);
+            if ($is_suspicious) {
+                //var_dump("$value => $error");
+                $this->throwError('suspicious_string', [ 'value' => $value, 'error' => $error ]);
+                return false;
+            }
+        }
+
+        // compare if string is visually confusable with a configured list of strings
+        $visually_confusable_strings = $this->getOption(self::OPTION_VISUALLY_CONFUSABLE_STRINGS, []);
+        if (is_string($visually_confusable_strings)) {
+            $visually_confusable_strings = [ $visually_confusable_strings ];
+        }
+        if ($this->hasOption(self::OPTION_VISUALLY_CONFUSABLE_STRINGS)) {
+            $spoofchecker = $this->getConfusableChecker();
+            foreach ($visually_confusable_strings as $text) {
+                if ($spoofchecker->areConfusable($value, $text, $error)) {
+                    $this->throwError(
+                        'visually_confusable',
+                        [
+                            'value' => $value,
+                            'confusable_with' => $text,
+                            'error' => $error
+                        ]
+                    );
+                    return false;
+                }
+            }
+        }
+
+        // \o/, string seems to be neither suspicious nor confusable
+        $this->setSanitizedValue($value);
+
+        return true;
+    }
+
+    protected function getSuspiciousChecker()
+    {
         $spoofchecker = new Spoofchecker();
 
+        // Allowing only certain locales enables rejection of e.g. korean script when a text should be en_US only
+        $allowed_locales = $this->getOption(self::OPTION_ALLOWED_LOCALES, []);
+        if ($this->hasOption(self::OPTION_ALLOWED_LOCALES)) {
+            if (is_array($allowed_locales)) {
+                $allowed_locales = implode(', ', $allowed_locales);
+            }
+            if (!is_string($allowed_locales)) {
+                throw new InvalidConfigException(
+                    'Given allowed locales must be a comma separated string of array of strings. ' .
+                    'Use a string like "de_DE, en_US" or an array of such locale identifiers.'
+                );
+            }
+            $spoofchecker->setAllowedLocales($allowed_locales);
+        }
+
         /**
-         * TODO this might be too strict or should be configurable
+         * Check whether two strings are visually confusable and:
+         * - SINGLE_SCRIPT_CONFUSABLE: all of the characters from the two strings are from a single script
+         * - MIXED_SCRIPT_CONFUSABLE: at least one of the strings contains characters from more than one script
+         */
+        $checks = Spoofchecker::SINGLE_SCRIPT_CONFUSABLE | Spoofchecker::MIXED_SCRIPT_CONFUSABLE;
+
+        // find confusable characters of any case?
+        $any_case_confusable = $this->toBoolean($this->getOption(self::OPTION_ANY_CASE_CONFUSABLE, true));
+        if ($any_case_confusable) {
+            /**
+             * ANY_CASE is a modifier for the *_SCRIPT_CONFUSABLE checks.
+             * DO specify if:
+             * - the strings being checked can be of mixed case and
+             * - are used in a case-sensitive manner
+             * DON'T specify if:
+             * - the strings being checked are used in a case-insensitive manner, and
+             * - if they are displayed to users in lower-case form only
+             */
+            $checks |= Spoofchecker::ANY_CASE;
+        }
+
+        // reject zero-width space, non-spacing mark etc.
+        $reject_invisible_characters = $this->toBoolean(
+            $this->getOption(self::OPTION_REJECT_INVISIBLE_CHARACTERS, true)
+        );
+        if ($reject_invisible_characters) {
+            /**
+             * Do not allow the presence of invisible characters, such as zero-width spaces, or character sequences
+             * that are likely not to display, such as multiple occurrences of the same non-spacing mark.
+             */
+            $checks |= Spoofchecker::INVISIBLE;
+        }
+
+        // enforce a single script instead of allowing multiple when they're not confusable/suspicious?
+        $enforce_single_script = $this->toBoolean($this->getOption(self::OPTION_ENFORCE_SINGLE_SCRIPT, false));
+        if ($enforce_single_script) {
+            /**
+             * Single-script enforcement is turned off in the Spoofchecker class by default as it fails
+             * with languages like Japanese that legally use multiple scripts within single words.
+             */
+            $checks |= Spoofchecker::SINGLE_SCRIPT;
+        }
+
+        $spoofchecker->setChecks($checks);
+
+        return $spoofchecker;
+    }
+
+    protected function getConfusableChecker()
+    {
+        $spoofchecker = new Spoofchecker();
+
+        // Allowing only certain locales enables rejection of e.g. korean script when a text should be en_US only
+        $allowed_locales = $this->getOption(self::OPTION_ALLOWED_LOCALES, []);
+        if ($this->hasOption(self::OPTION_ALLOWED_LOCALES)) {
+            if (is_array($allowed_locales)) {
+                $allowed_locales = implode(', ', $allowed_locales);
+            }
+            if (!is_string($allowed_locales)) {
+                throw new InvalidConfigException(
+                    'Given allowed locales must be a comma separated string of array of strings. ' .
+                    'Use a string like "de_DE, en_US" or an array of such locale identifiers.'
+                );
+            }
+            $spoofchecker->setAllowedLocales($allowed_locales);
+        }
+
+        /**
          * Check whether two strings are visually confusable and:
          * - SINGLE_SCRIPT_CONFUSABLE: all of the characters from the two strings are from a single script
          * - MIXED_SCRIPT_CONFUSABLE: at least one of the strings contains characters from more than one script
@@ -84,6 +209,18 @@ class SpoofcheckerRule extends Rule
             $checks |= Spoofchecker::ANY_CASE;
         }
 
+        // reject zero-width space, non-spacing mark etc.? those characters are suspicious anyways…
+        $reject_invisible_characters = $this->toBoolean(
+            $this->getOption(self::OPTION_REJECT_INVISIBLE_CHARACTERS, true)
+        );
+        if ($reject_invisible_characters) {
+            /**
+             * Do not allow the presence of invisible characters, such as zero-width spaces, or character sequences
+             * that are likely not to display, such as multiple occurrences of the same non-spacing mark.
+             */
+            $checks |= Spoofchecker::INVISIBLE;
+        }
+
         // enforce a single script instead of allowing multiple when they're not confusable/suspicious?
         $enforce_single_script = $this->toBoolean($this->getOption(self::OPTION_ENFORCE_SINGLE_SCRIPT, false));
         if ($enforce_single_script) {
@@ -94,70 +231,8 @@ class SpoofcheckerRule extends Rule
             $checks |= Spoofchecker::SINGLE_SCRIPT;
         }
 
-        // reject zero-width space, non-spacing mark etc.? those characters are suspicious anyways…
-        $reject_invisible_characters = $this->toBoolean(
-            $this->getOption(self::OPTION_REJECT_INVISIBLE_CHARACTERS, false)
-        );
-        if ($reject_invisible_characters) {
-            /**
-             * Do not allow the presence of invisible characters, such as zero-width spaces, or character sequences
-             * that are likely not to display, such as multiple occurrences of the same non-spacing mark.
-             */
-            $checks |= Spoofchecker::INVISIBLE;
-        }
-
         $spoofchecker->setChecks($checks);
 
-        // Allowing only certain locales enables rejection of e.g. korean script when a text should be en_US only
-        $allowed_locales = $this->getOption(self::OPTION_ALLOWED_LOCALES, []);
-        if ($this->hasOption(self::OPTION_ALLOWED_LOCALES)) {
-            if (is_array($allowed_locales)) {
-                $allowed_locales = implode(', ', $allowed_locales);
-            }
-            if (!is_string($allowed_locales)) {
-                throw new InvalidConfigException(
-                    'Given allowed locales must be a comma separated string of array of strings. ' .
-                    'Use a string like "de_DE, en_US" or an array of such locale identifiers.'
-                );
-            }
-            $spoofchecker->setAllowedLocales($allowed_locales);
-        }
-
-        // check if a string is suspicious, e.g. containing multiple scripts
-        $is_suspicious = false;
-        $accept_suspicious_strings = $this->toBoolean($this->getOption(self::OPTION_ACCEPT_SUSPICIOUS_STRINGS, false));
-        if (!$accept_suspicious_strings) {
-            $is_suspicious = $spoofchecker->isSuspicious($value, $error);
-            if ($is_suspicious) {
-                $this->throwError('suspicious_string', [ 'value' => $value, 'error' => $error ]);
-                return false;
-            }
-        }
-
-        // compare if string is visually confusable with a configured list of strings
-        $visually_confusable_strings = $this->getOption(self::OPTION_VISUALLY_CONFUSABLE_STRINGS, []);
-        if (is_string($visually_confusable_strings)) {
-            $visually_confusable_strings = [ $visually_confusable_strings ];
-        }
-        if ($this->hasOption(self::OPTION_VISUALLY_CONFUSABLE_STRINGS)) {
-            foreach ($visually_confusable_strings as $text) {
-                if ($spoofchecker->areConfusable($value, $text, $error)) {
-                    $this->throwError(
-                        'visually_confusable',
-                        [
-                            'value' => $value,
-                            'confusable_with' => $text,
-                            'error' => $error
-                        ]
-                    );
-                    return false;
-                }
-            }
-        }
-
-        // \o/, string seems to be neither suspicious nor confusable
-        $this->setSanitizedValue($value);
-
-        return true;
+        return $spoofchecker;
     }
 }
