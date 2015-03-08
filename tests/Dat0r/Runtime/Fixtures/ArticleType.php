@@ -44,7 +44,7 @@ class ArticleType extends EntityType
                 new KeyValueListAttribute(
                     'meta',
                     array(
-                        'cast_values_to' => 'nothing',
+                        KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_SCALAR,
                     )
                 ),
                 new EmbeddedEntityListAttribute(
