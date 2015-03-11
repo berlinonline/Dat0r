@@ -4,7 +4,7 @@ namespace Dat0r\Tests\CodeGen\Parser\Schema;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\CodeGen\Parser\Schema\OptionDefinitionXpathParser;
-use DOMXPath;
+use Dat0r\CodeGen\Parser\Schema\Xpath;
 
 class OptionDefinitionXpathParserTest extends TestCase
 {
@@ -19,7 +19,7 @@ class OptionDefinitionXpathParserTest extends TestCase
             </random_container>'
         );
 
-        $xpath = new DOMXPath($dom_document);
+        $xpath = new Xpath($dom_document);
         $parser = new OptionDefinitionXpathParser();
         $option_definitions = $parser->parse(
             $xpath,
