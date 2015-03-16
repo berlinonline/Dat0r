@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<type_schema namespace="Example\Domain">
+<type_schema namespace="Example\Domain"
+    xmlns="http://berlinonline.net/dat0r/1.0/schema">
 
     <type_definition name="ComplexSchema">
         <description>Example schema describing a simple type.</description>

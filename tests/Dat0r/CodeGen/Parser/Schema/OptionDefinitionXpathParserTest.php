@@ -12,7 +12,7 @@ class OptionDefinitionXpathParserTest extends TestCase
     {
         $dom_document = new \DOMDocument('1.0', 'utf-8');
         $dom_document->loadXML(
-            '<random_container>
+            '<random_container xmlns="http://berlinonline.net/dat0r/1.0/schema">
                 <option name="types">
                     <option>VotingStats</option>
                 </option>

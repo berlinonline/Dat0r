@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<type_schema namespace="FamilienPortal\Types">
+<type_schema namespace="FamilienPortal\Types"
+    xmlns="http://berlinonline.net/dat0r/1.0/schema">
     <type_definition name="Topic">
         <implementor>\Honeybee\Core\Dat0r\Type</implementor>
         <entity_implementor>\Honeybee\Core\Dat0r\Type</entity_implementor>
