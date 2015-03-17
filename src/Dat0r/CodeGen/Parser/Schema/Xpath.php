@@ -41,8 +41,24 @@ class Xpath extends DOMXpath
     public function query($expression, DOMNode $context = null, $register_ns = null)
     {
         if($this->hasNamespace()) {
-            $search = [ '~/(\w+)~', '~^(\w+)$~' ];
-            $replace = [ sprintf('/%s:$1', $this->namespace_prefix), sprintf('%s:$1', $this->namespace_prefix) ];
+            // Build regular expression (naming rules @ http://www.xml.com/pub/a/2001/07/25/namingparts.html)
+
+            // Charset for nodes name, except for the first letter (that just supports '\w')
+            $charset = '[\w-.]';
+            // Redefine boundaries
+            $look_behind = '(?<!'.$charset.')';
+            $look_ahead = '(?!'.$charset.')';
+            // Exclude non-node delimiters (including namespaced nodes)
+            $non_node_boundaries_left = ':\'"=><';
+            $non_node_boundaries_right = ':\'"';
+            $exclude_before_node = '(?<!['.$non_node_boundaries_left.'])';
+            $exclude_after_node = '(?!['.$non_node_boundaries_right.'])';
+
+            // Retrieve all nodes (element/attribute) names that are not namespaced
+            $search = [
+                '~'.$exclude_before_node.$look_behind.'([a-z\*]'.$charset.'*)'.$look_ahead.$exclude_after_node.'~i'
+            ];
+            $replace = [ sprintf('%s:$0', $this->namespace_prefix) ];
             $expression = preg_replace($search, $replace, $expression);
         }
 
@@ -58,6 +74,7 @@ class Xpath extends DOMXpath
      */
     protected function initNamespace(DOMDocument $document, $namespace_prefix = null)
     {
+        // @todo: check for conflicting namespace prefixes
         $this->document_namespace = trim($document->documentElement->namespaceURI);
         $namespace_prefix = trim($namespace_prefix);
 
