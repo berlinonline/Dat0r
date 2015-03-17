@@ -13,15 +13,17 @@ class XpathTest extends TestCase
     {
         $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
-            '<any_container
-                xmlns:on="urn:other:namespace"
-                xmlns="http://berlinonline.net/dat0r/1.0/schema">
-                <option name="types">
-                    <option>Namespaced</option>
-                    <on:option>OtherNamespace</on:option>
-                    <option xmlns="">NonNamespaced</option>
-                </option>
-            </any_container>'
+<<<XML
+<any_container
+    xmlns:on="urn:other:namespace"
+    xmlns="http://berlinonline.net/dat0r/1.0/schema">
+    <option name="types">
+        <option>Namespaced</option>
+        <on:option>OtherNamespace</on:option>
+        <option xmlns="">NonNamespaced</option>
+    </option>
+</any_container>
+XML
         );
 
         $xpath = new Xpath($dom_document, 'customPrefix');
@@ -42,16 +44,18 @@ class XpathTest extends TestCase
     {
         $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
-            '<any_container
-                xmlns="http://berlinonline.net/dat0r/1.0/schema"
-                xmlns:on="urn:other:namespace"
-                xmlns:dt="urn:non-conflicting:prefix:namespace">
-                <dt:option name="types">
-                    <option>Namespaced</option>
-                    <on:option>OtherNamespace</on:option>
-                    <option xmlns="">NonNamespaced</option>
-                </dt:option>
-            </any_container>'
+<<<XML
+<any_container
+    xmlns="http://berlinonline.net/dat0r/1.0/schema"
+    xmlns:on="urn:other:namespace"
+    xmlns:dt="urn:non-conflicting:prefix:namespace">
+    <dt:option name="types">
+        <option>Namespaced</option>
+        <on:option>OtherNamespace</on:option>
+        <option xmlns="">NonNamespaced</option>
+    </dt:option>
+</any_container>
+XML
         );
 
         $xpath = new Xpath($dom_document, 'prf');

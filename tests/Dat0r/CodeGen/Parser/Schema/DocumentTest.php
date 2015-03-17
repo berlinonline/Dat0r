@@ -21,7 +21,7 @@ class DocumentTest extends TestCase
         $document->xinclude();
 
         $xpath = new Xpath($document);
-        $xml_base_nodes = $xpath->query('/type_schema/type_definition/@xml:base', $document);
+        $xml_base_nodes = $xpath->query('//@xml:base', $document);
 
         $this->assertEquals(0, $xml_base_nodes->length);
     }
