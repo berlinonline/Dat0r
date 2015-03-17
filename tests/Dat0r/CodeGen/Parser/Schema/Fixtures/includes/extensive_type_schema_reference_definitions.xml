@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<type_schema xmlns="http://berlinonline.net/dat0r/1.0/schema">
+    <reference_definition name="Category">
+        <option name="type">\Honeybee\Domain\Category\CategoryType</option>
+        <option name="id_attribute">identifier</option>
+        <attributes>
+            <attribute name="name" type="text" />
+        </attributes>
+    </reference_definition>
+</type_schema>

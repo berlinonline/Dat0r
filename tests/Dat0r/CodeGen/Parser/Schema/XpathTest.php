@@ -4,13 +4,14 @@ namespace Dat0r\Tests\CodeGen\Parser\Schema;
 
 use Dat0r\Tests\TestCase;
 use Dat0r\CodeGen\Parser\Schema\Xpath;
+use Dat0r\CodeGen\Parser\Schema\Document;
 use Dat0r\CodeGen\Parser\Schema\OptionDefinitionXpathParser;
 
 class XpathTest extends TestCase
 {
     public function testDocumentNamespace()
     {
-        $dom_document = new \DOMDocument('1.0', 'utf-8');
+        $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
             '<any_container
                 xmlns:on="urn:other:namespace"
@@ -39,7 +40,7 @@ class XpathTest extends TestCase
 
     public function testRegisterMultipleNamespacePrefix()
     {
-        $dom_document = new \DOMDocument('1.0', 'utf-8');
+        $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
             '<any_container
                 xmlns="http://berlinonline.net/dat0r/1.0/schema"
@@ -67,7 +68,7 @@ class XpathTest extends TestCase
     public function testAlreadyExistentNamespacePrefix()
     {
         // Document has already a namespace prefixed as 'dt' (the default Xpath prefix, if not specified in construtor)
-        $dom_document = new \DOMDocument('1.0', 'utf-8');
+        $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
             '<any_container
                 xmlns="http://berlinonline.net/dat0r/1.0/schema"
