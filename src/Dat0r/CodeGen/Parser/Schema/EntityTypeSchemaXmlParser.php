@@ -7,8 +7,6 @@ use Dat0r\Common\Object;
 use Dat0r\Common\Error\ParseException;
 use Dat0r\Common\Error\FileSystemException;
 use Dat0r\CodeGen\Schema\EntityTypeSchema;
-use DOMDocument;
-use DOMXPath;
 
 class EntityTypeSchemaXmlParser extends Object implements ParserInterface
 {
@@ -27,7 +25,7 @@ class EntityTypeSchemaXmlParser extends Object implements ParserInterface
     {
         $document = $this->createDomDocument($schema_path);
         $schema_root = $document->documentElement;
-        $xpath = new DOMXPath($document);
+        $xpath = new Xpath($document);
 
         $type_definition_parser = new EntityTypeDefinitionXpathParser();
         $embed_types_parser = new EmbedDefinitionXpathParser();
@@ -57,7 +55,7 @@ class EntityTypeSchemaXmlParser extends Object implements ParserInterface
             );
         }
         // @todo more xml error handling
-        $document = new DOMDocument('1.0', 'utf-8');
+        $document = new Document('1.0', 'utf-8');
 
         if (!$document->load($type_schema_file)) {
             throw new ParseException(
