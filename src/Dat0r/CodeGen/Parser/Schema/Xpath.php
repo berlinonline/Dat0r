@@ -50,7 +50,7 @@ class Xpath extends DOMXpath
             $look_ahead = '(?!'.$charset.')';
             // Exclude non-node delimiters (including namespaced nodes)
             $non_node_boundaries_left = ':\'"=><';
-            $non_node_boundaries_right = ':\'"';
+            $non_node_boundaries_right = ':\'"(';
             $exclude_before_node = '(?<!['.$non_node_boundaries_left.'])';
             $exclude_after_node = '(?!['.$non_node_boundaries_right.'])';
 
