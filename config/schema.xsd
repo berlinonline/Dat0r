@@ -31,7 +31,7 @@
 
   <xsd:complexType name="aggregateDefinitionsType">
     <xsd:sequence>
-      <xsd:element name="embed_definition" type="aggregateDefinitionType" minOccurs="1" maxOccurs="unbounded" />
+      <xsd:element name="embed_definition" type="aggregateDefinitionType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
   </xsd:complexType>
 
@@ -55,7 +55,7 @@
 
   <xsd:complexType name="referenceDefinitionsType">
     <xsd:sequence>
-      <xsd:element name="reference_definition" type="referenceDefinitionType" minOccurs="1" maxOccurs="unbounded" />
+      <xsd:element name="reference_definition" type="referenceDefinitionType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
   </xsd:complexType>
 
