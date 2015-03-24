@@ -14,7 +14,7 @@ use LibXMLError;
  */
 class Document extends DOMDocument
 {
-    public function xinclude($options = NULL)
+    public function xinclude($options = null)
     {
         $user_error_handling = $this->enableErrorHandling();
 

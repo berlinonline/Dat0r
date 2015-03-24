@@ -13,7 +13,7 @@ class XpathTest extends TestCase
     {
         $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
-<<<XML
+            <<<XML
 <any_container
     xmlns:on="urn:other:namespace"
     xmlns="http://berlinonline.net/dat0r/1.0/schema">
@@ -44,7 +44,7 @@ XML
     {
         $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
-<<<XML
+            <<<XML
 <any_container
     xmlns="http://berlinonline.net/dat0r/1.0/schema"
     xmlns:on="urn:other:namespace"
@@ -72,6 +72,11 @@ XML
     public function testAlreadyExistentNamespacePrefix()
     {
         // Document has already a namespace prefixed as 'dt' (the default Xpath prefix, if not specified in construtor)
+
+        // 'Namespaced' value should not be retrieved; its prefix
+        //      will be the same as the already defined in the parents
+        // 'Conflicting' should not be retrieved as well
+        //      cause 'dt' will corresponds to two namespaces
         $dom_document = new Document('1.0', 'utf-8');
         $dom_document->loadXML(
             '<any_container
@@ -79,12 +84,10 @@ XML
                 xmlns:on="urn:other:namespace"
                 xmlns:dt="urn:conflicting:prefix:namespace">
                 <dt:option name="types">
-                    <option>Namespaced</option>'.                   // this should not be retrieved; its prefix
-                                                                    // will be the same as the already defined
-                    '<on:option>OtherNamespace</on:option>
-                    <dt:option>Conflicting</dt:option>'.            // this should not be retrieved as well
-                                                                    // 'dt' corresponds to two namespaces
-                    '<option xmlns="">NonNamespaced</option>
+                    <option>Namespaced</option>
+                    <on:option>OtherNamespace</on:option>
+                    <dt:option>Conflicting</dt:option>
+                    <option xmlns="">NonNamespaced</option>
                 </dt:option>
             </any_container>'
         );

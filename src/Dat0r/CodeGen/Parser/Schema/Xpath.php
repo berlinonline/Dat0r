@@ -42,7 +42,7 @@ class Xpath extends DOMXpath
      */
     public function query($expression, DOMNode $context = null, $register_ns = null)
     {
-        if($this->hasNamespace()) {
+        if ($this->hasNamespace()) {
             // Build regular expression (naming rules @ http://www.xml.com/pub/a/2001/07/25/namingparts.html)
 
             // Charset for nodes name, except for the first letter (that just supports '\w')
@@ -89,7 +89,7 @@ class Xpath extends DOMXpath
         $this->document_namespace = trim($document->documentElement->namespaceURI);
         $namespace_prefix = trim($namespace_prefix);
 
-        if($this->hasNamespace()) {
+        if ($this->hasNamespace()) {
             $this->namespace_prefix = empty($namespace_prefix) ? $this->getDefaultNamespacePrefix() : $namespace_prefix;
 
             $this->registerNamespace(
