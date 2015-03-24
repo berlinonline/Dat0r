@@ -2,6 +2,8 @@
 
 namespace Dat0r\Runtime\Attribute\Image;
 
+use Assert;
+
 class Image
 {
     protected $storage_location = '';
@@ -21,8 +23,12 @@ class Image
         $source = '',
         array $meta_data = []
     ) {
+        Assert\that($storage_location)->notEmpty()->string();
         $this->storage_location = $storage_location;
+
+        Assert\that($title)->string();
         $this->title = $title;
+
         $this->caption = $caption;
         $this->copyright = $copyright;
         $this->copyright_url = $copyright_url;
