@@ -67,9 +67,9 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      */
     public function __construct($name, array $attribute_map = array(), OptionsInterface $options = null)
     {
-        $this->name = $name;
+        parent::__construct(['options' => $options]);
 
-        $this->options = $options;
+        $this->name = $name;
 
         $this->attribute_map = new AttributeMap($this, $this->getDefaultAttributes());
 

@@ -108,6 +108,11 @@ class Configurable extends Object implements ConfigurableInterface
      */
     protected function setOptions($options)
     {
-        $this->options = new Options($options);
+        if (!$options instanceof OptionsInterface) {
+            $options = is_array($options) ? $options : [];
+            $options = new Options($options);
+        }
+
+        $this->options = $options;
     }
 }
