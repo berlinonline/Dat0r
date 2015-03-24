@@ -2,7 +2,6 @@
 
 namespace Dat0r\Tests\Runtime\Validator\Rule\Type;
 
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Tests\TestCase;
 use stdClass;

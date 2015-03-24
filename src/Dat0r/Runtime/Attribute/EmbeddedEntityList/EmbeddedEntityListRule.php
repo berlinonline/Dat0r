@@ -93,7 +93,6 @@ class EmbeddedEntityListRule extends Rule
             $type_map[$trimmed_type_name] = $type;
         }
 
-        ksort($entities_data);
         foreach ($entities_data as $entity_data) {
             if (!isset($entity_data[self::OBJECT_TYPE])) {
                 $success = false;

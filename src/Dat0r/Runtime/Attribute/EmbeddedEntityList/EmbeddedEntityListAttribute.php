@@ -34,7 +34,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
      * @param string $name
      * @param array $options
      */
-    public function __construct($name, array $options = array())
+    public function __construct($name, array $options = [])
     {
         parent::__construct($name, $options);
 
@@ -63,7 +63,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
     public function getEntityTypes()
     {
         if (!$this->entity_types) {
-            $this->entity_types = array();
+            $this->entity_types = [];
             foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
                 $this->entity_types[] = new $embed_type();
             }

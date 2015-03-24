@@ -9,9 +9,10 @@ use Traversable;
 
 class ListRule extends Rule
 {
+    const OPTION_CAST_TO_ARRAY = 'cast_to_array';
     const OPTION_MAX_COUNT = 'max_count';
     const OPTION_MIN_COUNT = 'min_count';
-    const OPTION_CAST_TO_ARRAY = 'cast_to_array';
+    const OPTION_REINDEX_LIST = 'reindex_list';
 
     protected function execute($value)
     {
@@ -62,6 +63,12 @@ class ListRule extends Rule
                 );
                 $success = false;
             }
+        }
+
+        if ($this->getOption(self::OPTION_REINDEX_LIST, false)) {
+            // e.g. useful to reorder nested POST data when moving of input fields happened w/o input name changing
+            // example: foo[1][bar], foo[0][bar], foo[3][bar] => foo[0][bar], foo[1][bar], foo[3][bar]
+            $casted = array_values($casted);
         }
 
         // export valid values

@@ -11,9 +11,10 @@ use Dat0r\Runtime\Validator\Rule\Type\ListRule;
  */
 abstract class ListAttribute extends Attribute
 {
+    const OPTION_CAST_TO_ARRAY  = ListRule::OPTION_CAST_TO_ARRAY;
     const OPTION_MAX_COUNT      = ListRule::OPTION_MAX_COUNT;
     const OPTION_MIN_COUNT      = ListRule::OPTION_MIN_COUNT;
-    const OPTION_CAST_TO_ARRAY  = ListRule::OPTION_CAST_TO_ARRAY;
+    const OPTION_REINDEX_LIST   = ListRule::OPTION_REINDEX_LIST;
 
     /**
      * Returns an attribute's null value.
