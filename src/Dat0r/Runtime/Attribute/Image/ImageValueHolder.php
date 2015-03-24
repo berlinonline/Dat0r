@@ -2,7 +2,6 @@
 
 namespace Dat0r\Runtime\Attribute\Image;
 
-use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
 class ImageValueHolder extends ValueHolder
@@ -11,7 +10,7 @@ class ImageValueHolder extends ValueHolder
      * Tells whether the given other_value is considered the same value as the
      * internally set value of this valueholder.
      *
-     * @param mixed $other_value Image or acceptable array with strings
+     * @param mixed $other_value Image or acceptable array
      *
      * @return boolean true if the given value is considered the same value as the internal one
      */
@@ -33,7 +32,7 @@ class ImageValueHolder extends ValueHolder
                 array_key_exists('source', $other_value) &&
                 $other_value['source'] === $value->getSource() &&
                 array_key_exists('meta_data', $other_value) &&
-                $other_value['meta_data'] === $value->getMetaData(); // TODO MetaData comparison?
+                $other_value['meta_data'] === $value->getMetaData(); // TODO MetaData comparison
             return $equal;
         } elseif ($other_value instanceof $value) {
             $equal = $value->getStorageLocation() === $other_value->getStorageLocation() &&
@@ -42,7 +41,7 @@ class ImageValueHolder extends ValueHolder
                 $value->getCopyright() === $other_value->getCopyright() &&
                 $value->getCopyrightUrl() === $other_value->getCopyrightUrl() &&
                 $value->getSource() === $other_value->getSource() &&
-                $value->getMetaData() === $other_value->getMetaData(); // TODO MetaData comparison?
+                $value->getMetaData() === $other_value->getMetaData(); // TODO MetaData comparison
             return $equal;
         }
 
