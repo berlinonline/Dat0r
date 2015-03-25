@@ -127,7 +127,7 @@ class UrlRule extends Rule
         }
 
         // default scheme to add if it's missing
-        $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, 'http');
+        $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, '');
 
         // try to parse the string as URL
         $raw_parts = parse_url($val);
@@ -136,9 +136,9 @@ class UrlRule extends Rule
             return false;
         }
 
-        // scheme and host are missing, might be a string like: 'test.de/foo/bar'
+        // parse_url returns [ 'path' => 'localhost' ] for 'localhost' or '123.123.123.123'
+        // scheme and host are missing, might be a string like: 'test.de/foo/bar' or 'localhost' or '194.123.45.167'…
         if (!array_key_exists('host', $raw_parts) && !array_key_exists('scheme', $raw_parts)) {
-            // add the default scheme
             $val = $default_scheme . $this->getOption(self::OPTION_SCHEME_SEPARATOR, '://') . $val;
         }
 

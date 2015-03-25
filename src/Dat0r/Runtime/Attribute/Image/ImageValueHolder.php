@@ -19,30 +19,9 @@ class ImageValueHolder extends ValueHolder
         $value = $this->getValue();
 
         if (is_array($other_value)) {
-            $equal = array_key_exists('storage_location', $other_value) &&
-                $other_value['storage_location'] === $value->getStorageLocation() &&
-                array_key_exists('title', $other_value) &&
-                $other_value['title'] === $value->getTitle() &&
-                array_key_exists('caption', $other_value) &&
-                $other_value['caption'] === $value->getCaption() &&
-                array_key_exists('copyright', $other_value) &&
-                $other_value['copyright'] === $value->getCopyright() &&
-                array_key_exists('copyright_url', $other_value) &&
-                $other_value['copyright_url'] === $value->getCopyrightUrl() &&
-                array_key_exists('source', $other_value) &&
-                $other_value['source'] === $value->getSource() &&
-                array_key_exists('meta_data', $other_value) &&
-                $other_value['meta_data'] === $value->getMetaData(); // TODO MetaData comparison
-            return $equal;
-        } elseif ($other_value instanceof $value) {
-            $equal = $value->getStorageLocation() === $other_value->getStorageLocation() &&
-                $value->getTitle() === $other_value->getTitle() &&
-                $value->getCaption() === $other_value->getCaption() &&
-                $value->getCopyright() === $other_value->getCopyright() &&
-                $value->getCopyrightUrl() === $other_value->getCopyrightUrl() &&
-                $value->getSource() === $other_value->getSource() &&
-                $value->getMetaData() === $other_value->getMetaData(); // TODO MetaData comparison
-            return $equal;
+            return $this->similarToArray($value, $other_value);
+        } elseif ($other_value instanceof Image) {
+            return $this->similarToImage($value, $other_value);
         }
 
         // else
@@ -93,5 +72,57 @@ class ImageValueHolder extends ValueHolder
     public function getValueType()
     {
         return Image::CLASS;
+    }
+
+    protected function similarToArray(Image $img, array $other)
+    {
+        $equal = array_key_exists('storage_location', $other) &&
+            $other['storage_location'] === $img->getStorageLocation() &&
+            array_key_exists('title', $other) &&
+            $other['title'] === $img->getTitle() &&
+            array_key_exists('caption', $other) &&
+            $other['caption'] === $img->getCaption() &&
+            array_key_exists('copyright', $other) &&
+            $other['copyright'] === $img->getCopyright() &&
+            array_key_exists('copyright_url', $other) &&
+            $other['copyright_url'] === $img->getCopyrightUrl() &&
+            array_key_exists('source', $other) &&
+            $other['source'] === $img->getSource() &&
+            array_key_exists('meta_data', $other) &&
+            $this->similarArrays($img->getMetaData(), $other['meta_data']);
+
+        return $equal;
+    }
+
+    protected function similarToImage(Image $value, Image $other)
+    {
+        $equal = $value->getStorageLocation() === $other->getStorageLocation() &&
+            $value->getTitle() === $other->getTitle() &&
+            $value->getCaption() === $other->getCaption() &&
+            $value->getCopyright() === $other->getCopyright() &&
+            $value->getCopyrightUrl() === $other->getCopyrightUrl() &&
+            $value->getSource() === $other->getSource() &&
+            $this->similarArrays($value->getMetaData(), $other->getMetaData());
+
+        return $equal;
+    }
+
+    protected function similarArrays(array $meta_data, array $other_meta_data)
+    {
+        $keys = array_keys($meta_data);
+        $other_keys = array_keys($other_meta_data);
+
+        if (count($keys) !== count($other_keys)) {
+            return false; // different number of keys
+        }
+
+        foreach ($meta_data as $key => $value) {
+            $is_equal = array_key_exists($key, $other_meta_data) && ($other_meta_data[$key] === $value);
+            if (!$is_equal) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

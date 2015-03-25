@@ -60,9 +60,9 @@ class UrlRuleTest extends TestCase
         $this->assertEquals("http://www.xn--acadmie-franaise-npb1a.fr", $rule->getSanitizedValue());
     }
 
-    public function testLocalhost()
+    public function testLocalhostWithDefaultSchemeForced()
     {
-        $rule = new UrlRule('url', []);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_SCHEME => 'http' ]);
         $valid = $rule->apply("localhost:80/asdf");
         $this->assertEquals("http://localhost:80/asdf", $rule->getSanitizedValue());
     }
@@ -213,9 +213,16 @@ class UrlRuleTest extends TestCase
 
     public function testDefaultSchemeIsAddedForValuesThatAreMissingAScheme()
     {
-        $rule = new UrlRule('url', []);
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_SCHEME => 'http' ]);
         $valid = $rule->apply("asdf.com:80/blub?blah ");
         $this->assertEquals("http://asdf.com:80/blub?blah", $rule->getSanitizedValue());
+    }
+
+    public function testDefaultSchemeIsNotAddedForValuesThatAreMissingAScheme()
+    {
+        $rule = new UrlRule('url', []);
+        $valid = $rule->apply("asdf.com:80/blub?blah ");
+        $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testAllowedSchemesFails()
@@ -243,6 +250,42 @@ class UrlRuleTest extends TestCase
         // the domain as punycode is valid, but contains characters from multiple character sets and is thus converted
         $this->assertTrue($valid);
         $this->assertEquals('http://xn--wkd-8cdx9d7hbd.org', $rule->getSanitizedValue());
+    }
+
+    public function testSimpleStringRejectionWhenDefaultSchemeIsForced()
+    {
+        $rule = new UrlRule('url', [ UrlRule::OPTION_DEFAULT_SCHEME => 'http' ]);
+        $js = "localhost.de/some/path";
+        $valid = $rule->apply($js);
+        $this->assertTrue($valid);
+        $this->assertNotNull($rule->getSanitizedValue());
+    }
+
+    public function testSimpleUrlRejectionWhenDefaultSchemeIsNotForced()
+    {
+        $rule = new UrlRule('url', []);
+        $js = "localhost.de/some/path";
+        $valid = $rule->apply($js);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
+    public function testSimpleStringRejectionWhenDefaultSchemeIsNotForced()
+    {
+        $rule = new UrlRule('url', []);
+        $js = "localhost";
+        $valid = $rule->apply($js);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
+    }
+
+    public function testSimpleIpRejectionWhenDefaultSchemeIsNotForced()
+    {
+        $rule = new UrlRule('url', []);
+        $js = "194.123.124.35";
+        $valid = $rule->apply($js);
+        $this->assertFalse($valid);
+        $this->assertNull($rule->getSanitizedValue());
     }
 
     public function testJavascriptSchemeRejection()

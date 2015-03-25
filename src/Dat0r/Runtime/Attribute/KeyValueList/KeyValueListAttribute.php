@@ -3,33 +3,33 @@
 namespace Dat0r\Runtime\Attribute\KeyValueList;
 
 use Dat0r\Runtime\Attribute\ListAttribute;
+use Dat0r\Runtime\Validator\Rule\Type\KeyValueListRule;
 
 /**
  * A list of key => value pairs where:
  *
  * - key is a string
  * - value is a string, integer, boolean or float
- *
  */
 class KeyValueListAttribute extends ListAttribute
 {
-    const OPTION_ALLOWED_KEYS   = KeyValueListRule::OPTION_ALLOWED_KEYS;
-    const OPTION_ALLOWED_VALUES = KeyValueListRule::OPTION_ALLOWED_VALUES;
-    const OPTION_ALLOWED_PAIRS  = KeyValueListRule::OPTION_ALLOWED_PAIRS;
+    const OPTION_ALLOWED_KEYS               = KeyValueListRule::OPTION_ALLOWED_KEYS;
+    const OPTION_ALLOWED_VALUES             = KeyValueListRule::OPTION_ALLOWED_VALUES;
+    const OPTION_ALLOWED_PAIRS              = KeyValueListRule::OPTION_ALLOWED_PAIRS;
 
     /**
      * Option to define that values must be of a certain scalar type.
      */
-    const OPTION_VALUE_TYPE     = KeyValueListRule::OPTION_VALUE_TYPE;
+    const OPTION_VALUE_TYPE                 = KeyValueListRule::OPTION_VALUE_TYPE;
 
-    const VALUE_TYPE_BOOLEAN    = KeyValueListRule::VALUE_TYPE_BOOLEAN;
-    const VALUE_TYPE_INTEGER    = KeyValueListRule::VALUE_TYPE_INTEGER;
-    const VALUE_TYPE_FLOAT      = KeyValueListRule::VALUE_TYPE_FLOAT;
-    const VALUE_TYPE_SCALAR     = KeyValueListRule::VALUE_TYPE_SCALAR;
-    const VALUE_TYPE_TEXT       = KeyValueListRule::VALUE_TYPE_TEXT;
+    const VALUE_TYPE_BOOLEAN                = KeyValueListRule::VALUE_TYPE_BOOLEAN;
+    const VALUE_TYPE_INTEGER                = KeyValueListRule::VALUE_TYPE_INTEGER;
+    const VALUE_TYPE_FLOAT                  = KeyValueListRule::VALUE_TYPE_FLOAT;
+    const VALUE_TYPE_SCALAR                 = KeyValueListRule::VALUE_TYPE_SCALAR;
+    const VALUE_TYPE_TEXT                   = KeyValueListRule::VALUE_TYPE_TEXT;
 
-    const OPTION_MAX_VALUE      = KeyValueListRule::OPTION_MAX_VALUE; // when value_type is float or int
-    const OPTION_MIN_VALUE      = KeyValueListRule::OPTION_MIN_VALUE; // when value_type is float or int
+    const OPTION_MAX_VALUE                  = KeyValueListRule::OPTION_MAX_VALUE; // when value_type is float or int
+    const OPTION_MIN_VALUE                  = KeyValueListRule::OPTION_MIN_VALUE; // when value_type is float or int
 
     // text rule options
     const OPTION_ALLOW_CRLF                 = KeyValueListRule::OPTION_ALLOW_CRLF;

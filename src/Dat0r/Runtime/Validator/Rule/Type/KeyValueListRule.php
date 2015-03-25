@@ -1,6 +1,6 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\KeyValueList;
+namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Attribute\Float\FloatAttribute;
 use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
@@ -9,27 +9,28 @@ use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Rule\Type\BooleanRule;
 use Dat0r\Runtime\Validator\Rule\Type\FloatRule;
 use Dat0r\Runtime\Validator\Rule\Type\IntegerRule;
+use Dat0r\Runtime\Validator\Rule\Type\ScalarRule;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 
 class KeyValueListRule extends Rule
 {
-    const OPTION_ALLOWED_KEYS   = 'allowed_keys';
-    const OPTION_ALLOWED_VALUES = 'allowed_values';
-    const OPTION_ALLOWED_PAIRS  = 'allowed_pairs';
+    const OPTION_ALLOWED_KEYS               = 'allowed_keys';
+    const OPTION_ALLOWED_VALUES             = 'allowed_values';
+    const OPTION_ALLOWED_PAIRS              = 'allowed_pairs';
 
     /**
      * Option to define that values must be of a certain scalar type.
      */
-    const OPTION_VALUE_TYPE     = 'value_type';
+    const OPTION_VALUE_TYPE                 = 'value_type';
 
-    const VALUE_TYPE_BOOLEAN    = 'boolean';
-    const VALUE_TYPE_INTEGER    = 'integer';
-    const VALUE_TYPE_FLOAT      = 'float';
-    const VALUE_TYPE_SCALAR     = 'scalar'; // any of integer, float, boolean or string
-    const VALUE_TYPE_TEXT       = 'text';
+    const VALUE_TYPE_BOOLEAN                = 'boolean';
+    const VALUE_TYPE_INTEGER                = 'integer';
+    const VALUE_TYPE_FLOAT                  = 'float';
+    const VALUE_TYPE_SCALAR                 = 'scalar'; // any of integer, float, boolean or string
+    const VALUE_TYPE_TEXT                   = 'text';
 
-    const OPTION_MAX_VALUE      = 'max_value'; // when value_type is float or int
-    const OPTION_MIN_VALUE      = 'min_value'; // when value_type is float or int
+    const OPTION_MAX_VALUE                  = 'max_value'; // when value_type is float or int
+    const OPTION_MIN_VALUE                  = 'min_value'; // when value_type is float or int
 
     // text rule options
     const OPTION_ALLOW_CRLF                 = TextRule::OPTION_ALLOW_CRLF;
@@ -104,9 +105,11 @@ class KeyValueListRule extends Rule
                 $rule = new BooleanRule('boolean', $this->getOptions());
                 break;
             case self::VALUE_TYPE_TEXT:
+                $rule = new TextRule('text', $this->getOptions());
+                break;
             case self::VALUE_TYPE_SCALAR:
             default:
-                $rule = new TextRule('text', $this->getOptions());
+                $rule = new ScalarRule('scalar', $this->getOptions());
                 break;
         }
 
@@ -129,6 +132,10 @@ class KeyValueListRule extends Rule
                     );
                     return false;
                 }
+            }
+
+            if (is_null($val)) {
+                $val = '';
             }
 
             if (!is_scalar($val)) {
