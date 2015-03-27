@@ -14,6 +14,13 @@ class TextRuleTest extends TestCase
         $this->assertEquals('text', $rule->getName());
     }
 
+    public function testEmptyStringIsOkayByDefault()
+    {
+        $rule = new TextRule('text', []);
+        $valid = $rule->apply('');
+        $this->assertEquals('', $rule->getSanitizedValue());
+    }
+
     public function testByDefaultNewlinesAreNotNormalized()
     {
         $rule = new TextRule('text', [
@@ -85,8 +92,8 @@ class TextRuleTest extends TestCase
     public function testDefaultRemoveControlChars()
     {
         $rule = new TextRule('text', [ ]);
-        $valid = $rule->apply("some\t\nfile");
-        $this->assertEquals("some\tfile", $rule->getSanitizedValue());
+        $valid = $rule->apply("so.me\t\nfile");
+        $this->assertEquals("so.me\tfile", $rule->getSanitizedValue());
     }
 
     public function testRemoveControlCharsExceptTabAndNewlines()

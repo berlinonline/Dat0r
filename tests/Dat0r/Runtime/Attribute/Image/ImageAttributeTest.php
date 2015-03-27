@@ -34,8 +34,9 @@ class ImageAttributeTest extends TestCase
         $img2_data = $img_data;
         $img2_data[Image::PROPERTY_SOURCE] = 'some source';
 
-        $attribute = new ImageAttribute('image', [ ImageAttribute::OPTION_DEFAULT_VALUE => $img_data ]);
+        $attribute = new ImageAttribute('image', []);
         $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue($img_data);
 
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($img_data));
@@ -63,10 +64,10 @@ class ImageAttributeTest extends TestCase
         ];
 
         $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_DEFAULT_VALUE => $img_data,
-            ImageAttribute::OPTION_VALUE_TYPE => ImageAttribute::VALUE_TYPE_TEXT
+            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_TEXT
         ]);
         $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue($img_data);
 
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($expected));
@@ -84,10 +85,10 @@ class ImageAttributeTest extends TestCase
         $expected = $img_data;
 
         $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_DEFAULT_VALUE => $img_data,
-            ImageAttribute::OPTION_VALUE_TYPE => ImageAttribute::VALUE_TYPE_INTEGER
+            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER
         ]);
         $valueholder = $attribute->createValueHolder();
+        $valueholder->setValue($img_data);
 
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($expected));
@@ -105,7 +106,7 @@ class ImageAttributeTest extends TestCase
         ];
 
         $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_VALUE_TYPE => ImageAttribute::VALUE_TYPE_INTEGER
+            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER
         ]);
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
