@@ -155,18 +155,70 @@ class Image
     public function toNative()
     {
         return [
-            'storage_location' => $this->storage_location,
-            'title' => $this->title,
-            'caption' => $this->caption,
-            'copyright' => $this->copyright,
-            'copyright_url' => $this->copyright_url,
-            'source' => $this->source,
-            'meta_data' => $this->meta_data // TODO hopefully only scalar content?
+            self::PROPERTY_STORAGE_LOCATION => $this->storage_location,
+            self::PROPERTY_TITLE => $this->title,
+            self::PROPERTY_CAPTION => $this->caption,
+            self::PROPERTY_COPYRIGHT => $this->copyright,
+            self::PROPERTY_COPYRIGHT_URL => $this->copyright_url,
+            self::PROPERTY_SOURCE => $this->source,
+            self::PROPERTY_META_DATA => $this->meta_data // TODO hopefully only scalar content?
         ];
+    }
+
+    public function similarToArray(array $other)
+    {
+        $equal = array_key_exists(self::PROPERTY_STORAGE_LOCATION, $other) &&
+            $other[self::PROPERTY_STORAGE_LOCATION] === $this->getStorageLocation() &&
+            array_key_exists(self::PROPERTY_TITLE, $other) &&
+            $other[self::PROPERTY_TITLE] === $this->getTitle() &&
+            array_key_exists(self::PROPERTY_CAPTION, $other) &&
+            $other[self::PROPERTY_CAPTION] === $this->getCaption() &&
+            array_key_exists(self::PROPERTY_COPYRIGHT, $other) &&
+            $other[self::PROPERTY_COPYRIGHT] === $this->getCopyright() &&
+            array_key_exists(self::PROPERTY_COPYRIGHT_URL, $other) &&
+            $other[self::PROPERTY_COPYRIGHT_URL] === $this->getCopyrightUrl() &&
+            array_key_exists(self::PROPERTY_SOURCE, $other) &&
+            $other[self::PROPERTY_SOURCE] === $this->getSource() &&
+            array_key_exists(self::PROPERTY_META_DATA, $other) &&
+            $this->similarArrays($this->getMetaData(), $other[self::PROPERTY_META_DATA]);
+
+        return $equal;
+    }
+
+    public function similarToImage(Image $other)
+    {
+        $equal = $this->getStorageLocation() === $other->getStorageLocation() &&
+            $this->getTitle() === $other->getTitle() &&
+            $this->getCaption() === $other->getCaption() &&
+            $this->getCopyright() === $other->getCopyright() &&
+            $this->getCopyrightUrl() === $other->getCopyrightUrl() &&
+            $this->getSource() === $other->getSource() &&
+            $this->similarArrays($this->getMetaData(), $other->getMetaData());
+
+        return $equal;
     }
 
     public function __toString()
     {
         return $this->storage_location;
+    }
+
+    protected function similarArrays(array $meta_data, array $other_meta_data)
+    {
+        $keys = array_keys($meta_data);
+        $other_keys = array_keys($other_meta_data);
+
+        if (count($keys) !== count($other_keys)) {
+            return false; // different number of keys
+        }
+
+        foreach ($meta_data as $key => $value) {
+            $is_equal = array_key_exists($key, $other_meta_data) && ($other_meta_data[$key] === $value);
+            if (!$is_equal) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

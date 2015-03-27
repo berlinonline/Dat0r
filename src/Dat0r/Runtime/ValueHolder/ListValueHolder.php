@@ -53,6 +53,9 @@ abstract class ListValueHolder extends ValueHolder
             return [];
         }
 
+        // TODO check if it's an array of objects that have callable toNative() methods and use them?
+
+        // works only for scalar values in the array
         return $this->getValue();
     }
 
