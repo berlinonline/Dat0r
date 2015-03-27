@@ -31,23 +31,25 @@ class ConfigIniParserTest extends TestCase
     {
         $parser = new ConfigIniParser();
         $config = $parser->parse($this->fixtures_dir . self::FIXTURE_VALID_CONFIG);
-        $expected_array = array(
+        $expected_array = [
             'bootstrap_file' => __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR . 'bootstrap.php',
             'cache_dir' => '/tmp/dat0r_cache_test_dir/',
             'deploy_dir' => '/tmp/dat0r_deploy_test_dir/',
             'deploy_method' => 'copy',
-            'plugin_settings' => array(
-                'MappingGeneratorPlugin' => array(
+            'plugin_settings' => [
+                'MappingGeneratorPlugin' => [
                     'deploy_path' => '/tmp/erpen-derp/mapping.json'
-                )
-            ),
+                ]
+            ],
             '@type' => 'Dat0r\CodeGen\Config',
-            'options' => array(),
+            'options' => [],
             'entity_suffix' => null,
             'type_suffix' => null,
             'embed_entity_suffix' => null,
-            'embed_type_suffix' => null
-        );
+            'embed_type_suffix' => null,
+            'template_directory' => realpath(__DIR__ . '/../../../../../src/Dat0r/CodeGen/ClassBuilder/templates')
+        ];
+
         $this->assertEquals($expected_array, $config->toArray());
     }
 
@@ -60,19 +62,20 @@ class ConfigIniParserTest extends TestCase
         $expected_cache_dir = $expected_base_path . DIRECTORY_SEPARATOR . 'dat0r_cache_dir';
         $expected_deploy_dir = $expected_base_path . DIRECTORY_SEPARATOR . 'dat0r_deploy_dir';
 
-        $expected_array = array(
+        $expected_array = [
             'bootstrap_file' => null,
             'cache_dir' => $expected_cache_dir,
             'deploy_dir' => $expected_deploy_dir,
             'deploy_method' => 'copy',
-            'plugin_settings' => array(),
+            'plugin_settings' => [],
             '@type' => 'Dat0r\CodeGen\Config',
-            'options' => array(),
+            'options' => [],
             'entity_suffix' => null,
             'type_suffix' => null,
             'embed_entity_suffix' => null,
-            'embed_type_suffix' => null
-        );
+            'embed_type_suffix' => null,
+            'template_directory' => null
+        ];
 
         $this->assertEquals($expected_array, $config->toArray());
     }

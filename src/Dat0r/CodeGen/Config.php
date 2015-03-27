@@ -17,6 +17,7 @@ class Config extends Configurable
     protected $deploy_dir;
     protected $deploy_method;
     protected $plugin_settings;
+    protected $template_directory;
 
     /**
      * Override the Object's constructor to always initialize some properties.
@@ -101,6 +102,11 @@ class Config extends Configurable
         return $this->embed_type_suffix ?: $default;
     }
 
+    public function getTemplateDirectory($default = "")
+    {
+        return $this->template_directory ?: $default;
+    }
+
     public function validate()
     {
         $cache_directory = $this->getCacheDir();
@@ -118,6 +124,12 @@ class Config extends Configurable
         if (!in_array($deploy_method, $valid_methods)) {
             throw new InvalidConfigException(
                 sprintf("Invalid deploy method '%s' passed to config.", $deploy_method)
+            );
+        }
+
+        if (!empty($this->template_directory) && !is_dir($this->template_directory)) {
+            throw new InvalidConfigException(
+                sprintf("Invalid template directory setting given: %s.", $this->template_directory)
             );
         }
 

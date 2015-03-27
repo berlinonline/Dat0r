@@ -27,7 +27,8 @@ class ConfigIniParser extends Object implements ParserInterface
                 'entity_suffix' => $this->resolveEntitySuffix($settings),
                 'type_suffix' => $this->resolveTypeSuffix($settings),
                 'embed_entity_suffix' => $this->resolveEmbedEntitySuffix($settings),
-                'embed_type_suffix' => $this->resolveEmbedTypeSuffix($settings)
+                'embed_type_suffix' => $this->resolveEmbedTypeSuffix($settings),
+                'template_directory' => $this->resolveTemplateDirectory($settings, $config_dir),
             )
         );
     }
@@ -101,6 +102,30 @@ class ConfigIniParser extends Object implements ParserInterface
         }
 
         return $cache_directory;
+    }
+
+    protected function resolveTemplateDirectory(array $settings, $config_dir)
+    {
+        if (!isset($settings['template_directory'])) {
+            return '';
+        }
+        $tpl_directory = null;
+        if ($settings['template_directory']{0} === '.') {
+            $tpl_directory = $this->resolveRelativePath(
+                $settings['template_directory'],
+                $config_dir
+            );
+        } else {
+            $tpl_directory = $this->fixPath($settings['template_directory']);
+        }
+
+        if (!is_dir($tpl_directory)) {
+            throw new InvalidConfigException(
+                "Unable to resolve given template_directory to an existing file system path."
+            );
+        }
+
+        return $tpl_directory;
     }
 
     protected function resolveBootstrapFile(array $settings, $config_dir)

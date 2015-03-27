@@ -73,6 +73,6 @@ abstract class ClassBuilder extends Object implements ClassBuilderInterface
 
     protected function getTemplateBaseDirectory()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+        return $this->config->getTemplateDirectory(__DIR__ . DIRECTORY_SEPARATOR . 'templates');
     }
 }
