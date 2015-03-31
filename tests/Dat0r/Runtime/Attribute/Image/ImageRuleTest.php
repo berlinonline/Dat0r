@@ -27,7 +27,7 @@ class ImageRuleTest extends TestCase
         $rule = new ImageRule('image', []);
         $valid = $rule->apply(
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'foo/bar.jpg',
+                Image::PROPERTY_LOCATION => 'foo/bar.jpg',
                 Image::PROPERTY_TITLE => 'some title',
                 Image::PROPERTY_CAPTION => 'some caption',
                 Image::PROPERTY_COPYRIGHT => 'some copyright messsage',
@@ -43,21 +43,21 @@ class ImageRuleTest extends TestCase
     public function testMinimumImageDataIsValid()
     {
         $rule = new ImageRule('image', []);
-        $valid = $rule->apply([Image::PROPERTY_STORAGE_LOCATION => 'foo/bar.jpg']);
+        $valid = $rule->apply([Image::PROPERTY_LOCATION => 'foo/bar.jpg']);
         $this->assertTrue($valid);
     }
 
     public function testMinimumImageIsValid()
     {
         $rule = new ImageRule('image', []);
-        $valid = $rule->apply(Image::createFromArray([Image::PROPERTY_STORAGE_LOCATION => 'asdf.jpg']));
+        $valid = $rule->apply(Image::createFromArray([Image::PROPERTY_LOCATION => 'asdf.jpg']));
         $this->assertTrue($valid);
     }
 
     public function testNullByteRemoval()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => "some\x00file",
+            Image::PROPERTY_LOCATION => "some\x00file",
             Image::PROPERTY_CAPTION => "some\x00file",
             Image::PROPERTY_META_DATA => [
                 'foo' => "some\x00file",
@@ -73,7 +73,7 @@ class ImageRuleTest extends TestCase
 
         $image = $rule->getSanitizedValue();
 
-        $this->assertEquals("somefile", $image->getStorageLocation());
+        $this->assertEquals("somefile", $image->getLocation());
         $this->assertEquals("somefile", $image->getCaption());
         $this->assertEquals("somefile", $image->getMetaData()['foo']);
     }
@@ -81,18 +81,18 @@ class ImageRuleTest extends TestCase
     public function testDefaultRemoveNewLine()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => "some\t\nfile",
+            Image::PROPERTY_LOCATION => "some\t\nfile",
         ];
 
         $rule = new ImageRule('image', [
-            ImageRule::OPTION_STORAGE_LOCATION_ALLOW_CRLF => false,
-            ImageRule::OPTION_STORAGE_LOCATION_ALLOW_TAB => false
+            ImageRule::OPTION_LOCATION_ALLOW_CRLF => false,
+            ImageRule::OPTION_LOCATION_ALLOW_TAB => false
         ]);
 
         $valid = $rule->apply($img_data);
 
         $this->assertTrue($valid);
-        $this->assertEquals("somefile", $rule->getSanitizedValue()->getStorageLocation());
+        $this->assertEquals("somefile", $rule->getSanitizedValue()->getLocation());
     }
 
     /**
@@ -110,16 +110,16 @@ class ImageRuleTest extends TestCase
         return [
             [
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg'
+                    Image::PROPERTY_LOCATION => 'some/file.jpg'
                 ],
-                'image w/ only storage_location'
+                'image w/ only location'
             ],
             [
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                    Image::PROPERTY_LOCATION => 'some/file.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'http://example.com/some/path?q=foo#fragment'
                 ],
-                'image w/ storage_location and copyright_url'
+                'image w/ location and copyright_url'
             ],
         ];
     }
@@ -152,10 +152,10 @@ class ImageRuleTest extends TestCase
             [ -345.123, 'negative float value' ],
             [
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                    Image::PROPERTY_LOCATION => 'some/file.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'http://...example.com/some/path?q=foo#fragment'
                 ],
-                'image w/ storage_location and copyright_url'
+                'image w/ location and copyright_url'
             ],
         ];
     }

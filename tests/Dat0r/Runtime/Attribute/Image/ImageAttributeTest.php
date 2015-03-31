@@ -22,7 +22,7 @@ class ImageAttributeTest extends TestCase
     public function testValueComparison()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
@@ -46,7 +46,7 @@ class ImageAttributeTest extends TestCase
     public function testMetaDataValuesAreCastedToBeStringsIfConfigured()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => 1337,
@@ -55,7 +55,7 @@ class ImageAttributeTest extends TestCase
         ];
 
         $expected = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => '1337',
@@ -76,7 +76,7 @@ class ImageAttributeTest extends TestCase
     public function testMetaDataValuesAreIntegerOnlyIfConfigured()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_META_DATA => [
                 'leet' => 1337,
                 'foo' => -1337,
@@ -97,7 +97,7 @@ class ImageAttributeTest extends TestCase
     public function testRejectNonIntegerMetaDataValuesIfConfigured()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => 1337,
@@ -116,7 +116,7 @@ class ImageAttributeTest extends TestCase
     public function testToNativeRoundtrip()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
@@ -126,7 +126,7 @@ class ImageAttributeTest extends TestCase
         ];
 
         $native = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_TITLE => '',
             Image::PROPERTY_CAPTION => '',
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
@@ -182,19 +182,19 @@ class ImageAttributeTest extends TestCase
             array(new stdClass()),
             array(
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                    Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'localhost'
                 ]
             ),
             array(
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                    Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'http://..com'
                 ]
             ),
             array(
                 [
-                    Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                    Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'javascript:alert(1)'
                 ]
             ),

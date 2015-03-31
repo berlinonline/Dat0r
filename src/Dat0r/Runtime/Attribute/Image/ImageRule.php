@@ -14,51 +14,51 @@ use Exception;
 class ImageRule extends Rule
 {
     // restrict meta_data to certain keys or values or key-value pairs
-    const OPTION_META_DATA_ALLOWED_KEYS               = 'meta_data_allowed_keys';
-    const OPTION_META_DATA_ALLOWED_VALUES             = 'meta_data_allowed_values';
-    const OPTION_META_DATA_ALLOWED_PAIRS              = 'meta_data_allowed_pairs';
+    const OPTION_META_DATA_ALLOWED_KEYS                     = 'meta_data_allowed_keys';
+    const OPTION_META_DATA_ALLOWED_VALUES                   = 'meta_data_allowed_values';
+    const OPTION_META_DATA_ALLOWED_PAIRS                    = 'meta_data_allowed_pairs';
 
     /**
      * Option to define that meta_data values must be of a certain scalar type.
      */
-    const OPTION_META_DATA_VALUE_TYPE                 = 'meta_data_value_type';
+    const OPTION_META_DATA_VALUE_TYPE                       = 'meta_data_value_type';
 
-    const META_DATA_VALUE_TYPE_BOOLEAN                = 'boolean';
-    const META_DATA_VALUE_TYPE_INTEGER                = 'integer';
-    const META_DATA_VALUE_TYPE_FLOAT                  = 'float';
-    const META_DATA_VALUE_TYPE_SCALAR                 = 'scalar'; // default; any of integer, float, boolean or string
-    const META_DATA_VALUE_TYPE_TEXT                   = 'text';
+    const META_DATA_VALUE_TYPE_BOOLEAN                      = 'boolean';
+    const META_DATA_VALUE_TYPE_INTEGER                      = 'integer';
+    const META_DATA_VALUE_TYPE_FLOAT                        = 'float';
+    const META_DATA_VALUE_TYPE_SCALAR                       = 'scalar'; // default; any of integer, float, boolean or string
+    const META_DATA_VALUE_TYPE_TEXT                         = 'text';
 
-    const OPTION_META_DATA_MAX_VALUE                  = 'meta_data_max_value'; // when value type is float or integer
-    const OPTION_META_DATA_MIN_VALUE                  = 'meta_data_min_value'; // when value type is float or integer
+    const OPTION_META_DATA_MAX_VALUE                        = 'meta_data_max_value'; // when value type is float or integer
+    const OPTION_META_DATA_MIN_VALUE                        = 'meta_data_min_value'; // when value type is float or integer
 
     // text rule options for meta_data
-    const OPTION_META_DATA_ALLOW_CRLF                 = 'meta_data_allow_crlf';
-    const OPTION_META_DATA_ALLOW_TAB                  = 'meta_data_allow_tab';
-    const OPTION_META_DATA_MAX_LENGTH                 = 'meta_data_max_length';
-    const OPTION_META_DATA_MIN_LENGTH                 = 'meta_data_min_length';
-    const OPTION_META_DATA_NORMALIZE_NEWLINES         = 'meta_data_normalize_newlines';
-    const OPTION_META_DATA_REJECT_INVALID_UTF8        = 'meta_data_reject_invalid_utf8';
-    const OPTION_META_DATA_STRIP_CONTROL_CHARACTERS   = 'meta_data_strip_control_characters';
-    const OPTION_META_DATA_STRIP_DIRECTION_OVERRIDES  = 'meta_data_strip_direction_overrides';
-    const OPTION_META_DATA_STRIP_INVALID_UTF8         = 'meta_data_strip_invalid_utf8';
-    const OPTION_META_DATA_STRIP_NULL_BYTES           = 'meta_data_strip_null_bytes';
-    const OPTION_META_DATA_STRIP_ZERO_WIDTH_SPACE     = 'meta_data_strip_zero_width_space';
-    const OPTION_META_DATA_TRIM                       = 'meta_data_trim';
+    const OPTION_META_DATA_ALLOW_CRLF                       = 'meta_data_allow_crlf';
+    const OPTION_META_DATA_ALLOW_TAB                        = 'meta_data_allow_tab';
+    const OPTION_META_DATA_MAX_LENGTH                       = 'meta_data_max_length';
+    const OPTION_META_DATA_MIN_LENGTH                       = 'meta_data_min_length';
+    const OPTION_META_DATA_NORMALIZE_NEWLINES               = 'meta_data_normalize_newlines';
+    const OPTION_META_DATA_REJECT_INVALID_UTF8              = 'meta_data_reject_invalid_utf8';
+    const OPTION_META_DATA_STRIP_CONTROL_CHARACTERS         = 'meta_data_strip_control_characters';
+    const OPTION_META_DATA_STRIP_DIRECTION_OVERRIDES        = 'meta_data_strip_direction_overrides';
+    const OPTION_META_DATA_STRIP_INVALID_UTF8               = 'meta_data_strip_invalid_utf8';
+    const OPTION_META_DATA_STRIP_NULL_BYTES                 = 'meta_data_strip_null_bytes';
+    const OPTION_META_DATA_STRIP_ZERO_WIDTH_SPACE           = 'meta_data_strip_zero_width_space';
+    const OPTION_META_DATA_TRIM                             = 'meta_data_trim';
 
     // integer rule options for meta_data
-    const OPTION_META_DATA_ALLOW_HEX                  = 'meta_data_allow_hex';
-    const OPTION_META_DATA_ALLOW_OCTAL                = 'meta_data_allow_octal';
-    const OPTION_META_DATA_MAX_INTEGER_VALUE          = 'meta_data_max_integer_value';
-    const OPTION_META_DATA_MIN_INTEGER_VALUE          = 'meta_data_min_integer_value';
+    const OPTION_META_DATA_ALLOW_HEX                        = 'meta_data_allow_hex';
+    const OPTION_META_DATA_ALLOW_OCTAL                      = 'meta_data_allow_octal';
+    const OPTION_META_DATA_MAX_INTEGER_VALUE                = 'meta_data_max_integer_value';
+    const OPTION_META_DATA_MIN_INTEGER_VALUE                = 'meta_data_min_integer_value';
 
     // float rule options for meta_data
-    const OPTION_META_DATA_ALLOW_THOUSAND_SEPARATOR   = 'meta_data_allow_thousand_separator';
-    const OPTION_META_DATA_PRECISION_DIGITS           = 'meta_data_precision_digits';
-    const OPTION_META_DATA_ALLOW_INFINITY             = 'meta_data_allow_infinity';
-    const OPTION_META_DATA_ALLOW_NAN                  = 'meta_data_allow_nan';
-    const OPTION_META_DATA_MAX_FLOAT_VALUE            = 'meta_data_max_float_value';
-    const OPTION_META_DATA_MIN_FLOAT_VALUE            = 'meta_data_min_float_value';
+    const OPTION_META_DATA_ALLOW_THOUSAND_SEPARATOR         = 'meta_data_allow_thousand_separator';
+    const OPTION_META_DATA_PRECISION_DIGITS                 = 'meta_data_precision_digits';
+    const OPTION_META_DATA_ALLOW_INFINITY                   = 'meta_data_allow_infinity';
+    const OPTION_META_DATA_ALLOW_NAN                        = 'meta_data_allow_nan';
+    const OPTION_META_DATA_MAX_FLOAT_VALUE                  = 'meta_data_max_float_value';
+    const OPTION_META_DATA_MIN_FLOAT_VALUE                  = 'meta_data_min_float_value';
 
     protected $meta_data_options = [
         self::OPTION_META_DATA_ALLOWED_KEYS,
@@ -94,19 +94,19 @@ class ImageRule extends Rule
         self::OPTION_META_DATA_MIN_FLOAT_VALUE
     ];
 
-    // text rule options for storage_location property
-    const OPTION_STORAGE_LOCATION_ALLOW_CRLF                = 'storage_location_allow_crlf';
-    const OPTION_STORAGE_LOCATION_ALLOW_TAB                 = 'storage_location_allow_tab';
-    const OPTION_STORAGE_LOCATION_MAX_LENGTH                = 'storage_location_max_length';
-    const OPTION_STORAGE_LOCATION_MIN_LENGTH                = 'storage_location_min_length';
-    const OPTION_STORAGE_LOCATION_NORMALIZE_NEWLINES        = 'storage_location_normalize_newlines';
-    const OPTION_STORAGE_LOCATION_REJECT_INVALID_UTF8       = 'storage_location_reject_invalid_utf8';
-    const OPTION_STORAGE_LOCATION_STRIP_CONTROL_CHARACTERS  = 'storage_location_strip_control_characters';
-    const OPTION_STORAGE_LOCATION_STRIP_DIRECTION_OVERRIDES = 'storage_location_strip_direction_overrides';
-    const OPTION_STORAGE_LOCATION_STRIP_INVALID_UTF8        = 'storage_location_strip_invalid_utf8';
-    const OPTION_STORAGE_LOCATION_STRIP_NULL_BYTES          = 'storage_location_strip_null_bytes';
-    const OPTION_STORAGE_LOCATION_STRIP_ZERO_WIDTH_SPACE    = 'storage_location_strip_zero_width_space';
-    const OPTION_STORAGE_LOCATION_TRIM                      = 'storage_location_trim';
+    // text rule options for location property
+    const OPTION_LOCATION_ALLOW_CRLF                        = 'location_allow_crlf';
+    const OPTION_LOCATION_ALLOW_TAB                         = 'location_allow_tab';
+    const OPTION_LOCATION_MAX_LENGTH                        = 'location_max_length';
+    const OPTION_LOCATION_MIN_LENGTH                        = 'location_min_length';
+    const OPTION_LOCATION_NORMALIZE_NEWLINES                = 'location_normalize_newlines';
+    const OPTION_LOCATION_REJECT_INVALID_UTF8               = 'location_reject_invalid_utf8';
+    const OPTION_LOCATION_STRIP_CONTROL_CHARACTERS          = 'location_strip_control_characters';
+    const OPTION_LOCATION_STRIP_DIRECTION_OVERRIDES         = 'location_strip_direction_overrides';
+    const OPTION_LOCATION_STRIP_INVALID_UTF8                = 'location_strip_invalid_utf8';
+    const OPTION_LOCATION_STRIP_NULL_BYTES                  = 'location_strip_null_bytes';
+    const OPTION_LOCATION_STRIP_ZERO_WIDTH_SPACE            = 'location_strip_zero_width_space';
+    const OPTION_LOCATION_TRIM                              = 'location_trim';
 
     // text rule options for title property
     const OPTION_TITLE_ALLOW_CRLF                           = 'title_allow_crlf';
@@ -194,7 +194,7 @@ class ImageRule extends Rule
     ];
 
     protected $text_rule_properties = [
-        Image::PROPERTY_STORAGE_LOCATION,
+        Image::PROPERTY_LOCATION,
         Image::PROPERTY_TITLE,
         Image::PROPERTY_CAPTION,
         Image::PROPERTY_COPYRIGHT,

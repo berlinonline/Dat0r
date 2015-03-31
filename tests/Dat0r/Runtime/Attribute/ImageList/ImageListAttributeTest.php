@@ -23,7 +23,7 @@ class ImageListAttributeTest extends TestCase
     public function testValueComparison()
     {
         $img_data = [
-            Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+            Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
@@ -68,7 +68,7 @@ class ImageListAttributeTest extends TestCase
     {
         $img_data = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+                Image::PROPERTY_LOCATION => 'some.jpg',
                 Image::PROPERTY_META_DATA => [
                     'leet' => 1337,
                     'foo' => -1337,
@@ -91,7 +91,7 @@ class ImageListAttributeTest extends TestCase
     {
         $img_data = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+                Image::PROPERTY_LOCATION => 'some.jpg',
                 Image::PROPERTY_META_DATA => [
                     'foo' => 'bar',
                     'leet' => 1337,
@@ -112,7 +112,7 @@ class ImageListAttributeTest extends TestCase
     {
         $img_list_data = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+                Image::PROPERTY_LOCATION => 'some.jpg',
                 Image::PROPERTY_COPYRIGHT => 'some copyright string',
                 Image::PROPERTY_META_DATA => [
                     'foo' => 'bar',
@@ -124,7 +124,7 @@ class ImageListAttributeTest extends TestCase
 
         $native = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'some.jpg',
+                Image::PROPERTY_LOCATION => 'some.jpg',
                 Image::PROPERTY_TITLE => '',
                 Image::PROPERTY_CAPTION => '',
                 Image::PROPERTY_COPYRIGHT => 'some copyright string',
@@ -152,7 +152,7 @@ class ImageListAttributeTest extends TestCase
 
         $this->assertEquals(IncidentInterface::SUCCESS, $result->getSeverity());
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue()[0]);
-        $this->assertEquals('some.jpg', $valueholder->getValue()[0]->getStorageLocation());
+        $this->assertEquals('some.jpg', $valueholder->getValue()[0]->getLocation());
         $this->assertEquals($native, $valueholder->toNative());
     }
 
@@ -189,7 +189,7 @@ class ImageListAttributeTest extends TestCase
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                        Image::PROPERTY_LOCATION => 'sadf.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'localhost'
                     ]
                 ]
@@ -197,7 +197,7 @@ class ImageListAttributeTest extends TestCase
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                        Image::PROPERTY_LOCATION => 'sadf.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'http://..com'
                     ]
                 ]
@@ -205,7 +205,7 @@ class ImageListAttributeTest extends TestCase
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'sadf.jpg',
+                        Image::PROPERTY_LOCATION => 'sadf.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'javascript:alert(1)'
                     ]
                 ]

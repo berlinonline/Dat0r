@@ -28,7 +28,7 @@ class ImageListRuleTest extends TestCase
         $rule = new ImageListRule('imagelist', []);
         $valid = $rule->apply([
             [
-                Image::PROPERTY_STORAGE_LOCATION => 'foo/bar.jpg',
+                Image::PROPERTY_LOCATION => 'foo/bar.jpg',
                 Image::PROPERTY_TITLE => 'some title',
                 Image::PROPERTY_CAPTION => 'some caption',
                 Image::PROPERTY_COPYRIGHT => 'some copyright messsage',
@@ -45,7 +45,7 @@ class ImageListRuleTest extends TestCase
     {
         $rule = new ImageListRule('imagelist', []);
         $valid = $rule->apply([
-            [ Image::PROPERTY_STORAGE_LOCATION => 'foo/bar.jpg' ]
+            [ Image::PROPERTY_LOCATION => 'foo/bar.jpg' ]
         ]);
         $this->assertTrue($valid);
     }
@@ -54,7 +54,7 @@ class ImageListRuleTest extends TestCase
     {
         $rule = new ImageListRule('imagelist', []);
         $valid = $rule->apply([
-            Image::createFromArray([Image::PROPERTY_STORAGE_LOCATION => 'asdf.jpg'])
+            Image::createFromArray([Image::PROPERTY_LOCATION => 'asdf.jpg'])
         ]);
         $this->assertTrue($valid);
     }
@@ -63,7 +63,7 @@ class ImageListRuleTest extends TestCase
     {
         $img_data = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => "some\x00file",
+                Image::PROPERTY_LOCATION => "some\x00file",
                 Image::PROPERTY_CAPTION => "some\x00file",
                 Image::PROPERTY_META_DATA => [
                     'foo' => "some\x00file",
@@ -82,7 +82,7 @@ class ImageListRuleTest extends TestCase
 
         $image = $rule->getSanitizedValue()[0];
 
-        $this->assertEquals("somefile", $image->getStorageLocation());
+        $this->assertEquals("somefile", $image->getLocation());
         $this->assertEquals("somefile", $image->getCaption());
         $this->assertEquals("somefile", $image->getMetaData()['foo']);
     }
@@ -91,19 +91,19 @@ class ImageListRuleTest extends TestCase
     {
         $img_data = [
             [
-                Image::PROPERTY_STORAGE_LOCATION => "some\t\nfile",
+                Image::PROPERTY_LOCATION => "some\t\nfile",
             ]
         ];
 
         $rule = new ImageListRule('imagelist', [
-            ImageRule::OPTION_STORAGE_LOCATION_ALLOW_CRLF => false,
-            ImageRule::OPTION_STORAGE_LOCATION_ALLOW_TAB => false
+            ImageRule::OPTION_LOCATION_ALLOW_CRLF => false,
+            ImageRule::OPTION_LOCATION_ALLOW_TAB => false
         ]);
 
         $valid = $rule->apply($img_data);
 
         $this->assertTrue($valid);
-        $this->assertEquals("somefile", $rule->getSanitizedValue()[0]->getStorageLocation());
+        $this->assertEquals("somefile", $rule->getSanitizedValue()[0]->getLocation());
     }
 
     /**
@@ -122,32 +122,32 @@ class ImageListRuleTest extends TestCase
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg'
+                        Image::PROPERTY_LOCATION => 'some/file.jpg'
                     ]
                 ],
-                'only 1 image w/ only storage_location'
+                'only 1 image w/ only location'
             ],
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                        Image::PROPERTY_LOCATION => 'some/file.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'http://example.com/some/path?q=foo#fragment'
                     ]
                 ],
-                '1 image w/ storage_location and copyright_url'
+                '1 image w/ location and copyright_url'
             ],
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                        Image::PROPERTY_LOCATION => 'some/file.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'http://example.com/some/path?q=foo#fragment'
                     ],
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                        Image::PROPERTY_LOCATION => 'some/file.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'http://example.com/some/path?q=foo#fragment'
                     ]
                 ],
-                '2 images w/ storage_location and copyright_url'
+                '2 images w/ location and copyright_url'
             ],
         ];
     }
@@ -181,11 +181,11 @@ class ImageListRuleTest extends TestCase
             [
                 [
                     [
-                        Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+                        Image::PROPERTY_LOCATION => 'some/file.jpg',
                         Image::PROPERTY_COPYRIGHT_URL => 'http://...example.com/some/path?q=foo#fragment'
                     ]
                 ],
-                'image w/ storage_location and copyright_url'
+                'image w/ location and copyright_url'
             ],
         ];
     }

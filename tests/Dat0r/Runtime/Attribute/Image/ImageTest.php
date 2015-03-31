@@ -16,7 +16,7 @@ class ImageTest extends TestCase
     public function testSimpleCreateSucceeds()
     {
         $img = new Image('some/file.jpg');
-        $this->assertEquals($img->getStorageLocation(), 'some/file.jpg');
+        $this->assertEquals($img->getLocation(), 'some/file.jpg');
     }
 
     /**
@@ -50,7 +50,7 @@ class ImageTest extends TestCase
             ]
         );
 
-        $this->assertEquals('some/file.jpg', $img->getStorageLocation());
+        $this->assertEquals('some/file.jpg', $img->getLocation());
         $this->assertEquals('title', $img->getTitle());
         $this->assertEquals('caption', $img->getCaption());
         $this->assertEquals('copyright', $img->getCopyright());
@@ -62,7 +62,7 @@ class ImageTest extends TestCase
     public function testCreateFromPartialArraySucceeds()
     {
         $img = Image::createFromArray([
-            Image::PROPERTY_STORAGE_LOCATION => 'some/file.jpg',
+            Image::PROPERTY_LOCATION => 'some/file.jpg',
             Image::PROPERTY_TITLE => 'title',
             Image::PROPERTY_SOURCE => 'source',
             Image::PROPERTY_META_DATA => [
@@ -71,7 +71,7 @@ class ImageTest extends TestCase
             ]
         ]);
 
-        $this->assertEquals('some/file.jpg', $img->getStorageLocation());
+        $this->assertEquals('some/file.jpg', $img->getLocation());
         $this->assertEquals('title', $img->getTitle());
         $this->assertEquals('source', $img->getSource());
         $this->assertEquals(['foo' => 'bar', 'leet' => 1337], $img->getMetaData());
@@ -83,7 +83,7 @@ class ImageTest extends TestCase
 
         $img = Image::createFromImage($other_img);
 
-        $this->assertEquals('some/other.png', $img->getStorageLocation());
+        $this->assertEquals('some/other.png', $img->getLocation());
         $this->assertEquals('other_title', $img->getTitle());
     }
 

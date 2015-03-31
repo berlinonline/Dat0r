@@ -7,7 +7,7 @@ use Dat0r\Common\Error\BadValueException;
 
 class Image
 {
-    const PROPERTY_STORAGE_LOCATION = 'storage_location';
+    const PROPERTY_LOCATION = 'location';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_CAPTION = 'caption';
     const PROPERTY_COPYRIGHT = 'copyright';
@@ -15,7 +15,7 @@ class Image
     const PROPERTY_SOURCE = 'source';
     const PROPERTY_META_DATA = 'meta_data';
 
-    protected $storage_location = '';
+    protected $location = '';
     protected $title = '';
     protected $caption = '';
     protected $copyright = '';
@@ -24,7 +24,7 @@ class Image
     protected $meta_data = [];
 
     public function __construct(
-        $storage_location,
+        $location,
         $title = '',
         $caption = '',
         $copyright = '',
@@ -32,14 +32,14 @@ class Image
         $source = '',
         array $meta_data = []
     ) {
-        Assert\that($storage_location)->string()->notEmpty();
+        Assert\that($location)->string()->notEmpty();
         Assert\that($title)->string();
         Assert\that($caption)->string();
         Assert\that($copyright)->string();
         Assert\that($copyright_url)->string();
         Assert\that($source)->string();
 
-        $this->storage_location = $storage_location;
+        $this->location = $location;
         $this->title = $title;
         $this->caption = $caption;
         $this->copyright = $copyright;
@@ -51,7 +51,7 @@ class Image
     public static function createFromImage(Image $img)
     {
         return new Image(
-            $img->getStorageLocation(),
+            $img->getLocation(),
             $img->getTitle(),
             $img->getCaption(),
             $img->getCopyright(),
@@ -63,11 +63,11 @@ class Image
 
     public static function createFromArray(array $img)
     {
-        if (array_key_exists(self::PROPERTY_STORAGE_LOCATION, $img)) {
-            $storage_location = $img[self::PROPERTY_STORAGE_LOCATION];
-            Assert\that($storage_location)->string()->notEmpty();
+        if (array_key_exists(self::PROPERTY_LOCATION, $img)) {
+            $location = $img[self::PROPERTY_LOCATION];
+            Assert\that($location)->string()->notEmpty();
         } else {
-            throw new BadValueException('No ' . self::PROPERTY_STORAGE_LOCATION . ' given.');
+            throw new BadValueException('No image ' . self::PROPERTY_LOCATION . ' given.');
         }
 
 
@@ -102,7 +102,7 @@ class Image
         }
 
         return new Image(
-            $storage_location,
+            $location,
             $title,
             $caption,
             $copyright,
@@ -112,9 +112,9 @@ class Image
         );
     }
 
-    public function getStorageLocation()
+    public function getLocation()
     {
-        return $this->storage_location;
+        return $this->location;
     }
 
     public function getTitle()
@@ -155,7 +155,7 @@ class Image
     public function toNative()
     {
         return [
-            self::PROPERTY_STORAGE_LOCATION => $this->storage_location,
+            self::PROPERTY_LOCATION => $this->location,
             self::PROPERTY_TITLE => $this->title,
             self::PROPERTY_CAPTION => $this->caption,
             self::PROPERTY_COPYRIGHT => $this->copyright,
@@ -167,8 +167,8 @@ class Image
 
     public function similarToArray(array $other)
     {
-        $equal = array_key_exists(self::PROPERTY_STORAGE_LOCATION, $other) &&
-            $other[self::PROPERTY_STORAGE_LOCATION] === $this->getStorageLocation() &&
+        $equal = array_key_exists(self::PROPERTY_LOCATION, $other) &&
+            $other[self::PROPERTY_LOCATION] === $this->getLocation() &&
             array_key_exists(self::PROPERTY_TITLE, $other) &&
             $other[self::PROPERTY_TITLE] === $this->getTitle() &&
             array_key_exists(self::PROPERTY_CAPTION, $other) &&
@@ -187,7 +187,7 @@ class Image
 
     public function similarToImage(Image $other)
     {
-        $equal = $this->getStorageLocation() === $other->getStorageLocation() &&
+        $equal = $this->getLocation() === $other->getLocation() &&
             $this->getTitle() === $other->getTitle() &&
             $this->getCaption() === $other->getCaption() &&
             $this->getCopyright() === $other->getCopyright() &&
@@ -200,7 +200,7 @@ class Image
 
     public function __toString()
     {
-        return $this->storage_location;
+        return $this->location;
     }
 
     protected function similarArrays(array $meta_data, array $other_meta_data)
