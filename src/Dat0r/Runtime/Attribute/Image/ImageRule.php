@@ -26,11 +26,11 @@ class ImageRule extends Rule
     const META_DATA_VALUE_TYPE_BOOLEAN                      = 'boolean';
     const META_DATA_VALUE_TYPE_INTEGER                      = 'integer';
     const META_DATA_VALUE_TYPE_FLOAT                        = 'float';
-    const META_DATA_VALUE_TYPE_SCALAR                       = 'scalar'; // default; any of integer, float, boolean or string
+    const META_DATA_VALUE_TYPE_SCALAR                       = 'scalar'; // default; any of int, float, bool or string
     const META_DATA_VALUE_TYPE_TEXT                         = 'text';
 
-    const OPTION_META_DATA_MAX_VALUE                        = 'meta_data_max_value'; // when value type is float or integer
-    const OPTION_META_DATA_MIN_VALUE                        = 'meta_data_min_value'; // when value type is float or integer
+    const OPTION_META_DATA_MAX_VALUE                        = 'meta_data_max_value'; // when type is float or integer
+    const OPTION_META_DATA_MIN_VALUE                        = 'meta_data_min_value'; // when type is float or integer
 
     // text rule options for meta_data
     const OPTION_META_DATA_ALLOW_CRLF                       = 'meta_data_allow_crlf';
