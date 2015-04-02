@@ -23,7 +23,7 @@ class EmailListAttributeTest extends TestCase
 
         $attribute = new EmailListAttribute('emails', [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(EmailListValueHolder::CLASS, $valueholder);
         $this->assertEquals($data, $valueholder->getValue());
     }
@@ -56,7 +56,7 @@ class EmailListAttributeTest extends TestCase
         $bar['asdf@example.com'] = 'omgomgomg';
 
         $attribute = new EmailListAttribute('emails', [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($foo));

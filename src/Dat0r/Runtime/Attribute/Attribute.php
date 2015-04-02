@@ -208,7 +208,7 @@ abstract class Attribute implements AttributeInterface
      *
      * @return ValueHolderInterface
      */
-    public function createValueHolder()
+    public function createValueHolder($apply_default_values = false)
     {
         if (!$this->value_holder_implementor) {
             $implementor = $this->hasOption(self::OPTION_VALUE_HOLDER)
@@ -245,7 +245,19 @@ abstract class Attribute implements AttributeInterface
         }
 
         $value_holder = new $this->value_holder_implementor($this);
-        $value_holder->setValue($this->getDefaultValue());
+        if ($apply_default_values === true) {
+            $value_holder->setValue($this->getDefaultValue());
+        } elseif ($apply_default_values === false) {
+            $value_holder->setValue($this->getNullValue());
+        } else {
+            throw new InvalidTypeException(
+                sprintf(
+                    "Only boolean arguments are acceptable for attribute '%s' on entity type '%s'. ",
+                    $this->getName(),
+                    $this->getType() ? $this->getType()->getName() : 'undefined'
+                )
+            );
+        }
 
         return $value_holder;
     }

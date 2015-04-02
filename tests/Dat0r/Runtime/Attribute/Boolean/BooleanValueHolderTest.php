@@ -19,7 +19,7 @@ class BooleanValueHolderTest extends TestCase
     public function testDefaultValue()
     {
         $attribute = new BooleanAttribute('flag', [ BooleanAttribute::OPTION_DEFAULT_VALUE => 'on' ]);
-        $vh = $attribute->createValueHolder($attribute);
+        $vh = $attribute->createValueHolder(true);
         $this->assertTrue($vh->getValue());
         $this->assertNotEquals($attribute->getNullValue(), $vh->getValue());
         $this->assertEquals($attribute->getDefaultValue(), $vh->getValue());
@@ -28,7 +28,7 @@ class BooleanValueHolderTest extends TestCase
     public function testToNative()
     {
         $attribute = new BooleanAttribute('flag', [ BooleanAttribute::OPTION_DEFAULT_VALUE => 'yes' ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertTrue($valueholder->toNative());
 

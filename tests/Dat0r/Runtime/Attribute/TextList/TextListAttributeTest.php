@@ -3,6 +3,7 @@
 namespace Dat0r\Tests\Runtime\Attribute\TextList;
 
 use Dat0r\Common\Error\BadValueException;
+use Dat0r\Common\Error\InvalidTypeException;
 use Dat0r\Runtime\Attribute\TextList\TextListAttribute;
 use Dat0r\Runtime\Attribute\TextList\TextListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
@@ -23,7 +24,7 @@ class TextListAttributeTest extends TestCase
 
         $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ 'foobar' ], $valueholder->getValue());
     }
@@ -39,7 +40,7 @@ class TextListAttributeTest extends TestCase
             TextListAttribute::OPTION_ALLOW_CRLF => true
         ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ "\x00bar\nfoo" ], $valueholder->getValue());
     }
@@ -49,7 +50,7 @@ class TextListAttributeTest extends TestCase
         $data = [ 'foo', 'bar' ];
 
         $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertEquals($data, $valueholder->getValue());
 
         $new = [ 'foo', 'bar', '' ];
@@ -69,7 +70,7 @@ class TextListAttributeTest extends TestCase
         $bar[] = 'asdf';
 
         $attribute = new TextListAttribute('valuecomparison', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($foo));
@@ -154,17 +155,38 @@ class TextListAttributeTest extends TestCase
         $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
     }
 
-    public function testThrowsOnInvalidDefaultValueInConfig()
+    /**
+     * @dataProvider provideInvalidConfigDefaultValues
+     * @expectedExceptionMessage Given value for attribute 'TextListminmaxdefaultvalue' on entity type 'undefined' is not valid.
+     */
+    public function testThrowsOnInvalidDefaultValueInConfig($expected_exception, $invalid_default_value)
     {
-        $this->setExpectedException(BadValueException::CLASS);
+        $this->setExpectedException($expected_exception);
 
         $attribute = new TextListAttribute('TextListminmaxdefaultvalue', [
-            TextListAttribute::OPTION_MIN_LENGTH => 1,
-            TextListAttribute::OPTION_MAX_LENGTH => 5,
-            TextListAttribute::OPTION_DEFAULT_VALUE => 666
+            TextListAttribute::OPTION_MIN_COUNT => 1,
+            TextListAttribute::OPTION_MAX_COUNT => 5,
+            TextListAttribute::OPTION_DEFAULT_VALUE => $invalid_default_value
         ]);
 
         $attribute->getDefaultValue();
+    }
+
+    public function testGetNullValueOnMissingDefaultValueInConfig()
+    {
+        $attribute = new TextListAttribute('TextListmissingdefaultvalue');
+
+        $this->assertInternalType('array', $attribute->getDefaultValue());
+        $this->assertCount(0, $attribute->getDefaultValue());
+    }
+
+    public function testThrowsOnMissingDefaultValueInConfig()
+    {
+        $attribute = new TextListAttribute('TextListwrongtypeargument');
+
+        $this->setExpectedException(InvalidTypeException::CLASS);
+
+        $valueholder = $attribute->createValueHolder('false');
     }
 
     /**
@@ -179,12 +201,20 @@ class TextListAttributeTest extends TestCase
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(new stdClass()),
-            array(1)
-        );
+        return [
+            [ null ],
+            [ false ],
+            [ true ],
+            [ new stdClass() ],
+            [ 1 ]
+        ];
+    }
+
+    public function provideInvalidConfigDefaultValues()
+    {
+        return [
+            [ BadValueException::CLASS, [] ],
+            [ BadValueException::CLASS, [ 'i', 'n', 'v', 'a', 'l', 'i', 'd'] ]
+        ];
     }
 }

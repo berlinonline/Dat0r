@@ -37,7 +37,7 @@ class DateAttributeTest extends TestCase
         $datetime = '2014-12-29+01:00';
         $datetime_in_utc = '2014-12-28T00:00:00.000000+00:00';
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
         $this->assertEquals($datetime_in_utc, $value->getValue()->format(DateAttribute::FORMAT_ISO8601));
@@ -55,7 +55,7 @@ class DateAttributeTest extends TestCase
                 DateAttribute::OPTION_FORCE_INTERNAL_TIMEZONE => false
             ]
         );
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
         $this->assertEquals($datetime_in_cet, $value->getValue()->format(DateAttribute::FORMAT_ISO8601));
@@ -67,7 +67,7 @@ class DateAttributeTest extends TestCase
         $datetime_in_cet = '2014-12-28T00:00:00.000000+01:00';
         $datetime_in_utc = '2014-12-28T00:00:00.000000+00:00';
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $valueholder);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $valueholder->getValue());
 
@@ -81,7 +81,7 @@ class DateAttributeTest extends TestCase
     public function testDefaultValueAcceptsNow()
     {
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => 'now' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
     }
@@ -89,7 +89,7 @@ class DateAttributeTest extends TestCase
     public function testDefaultValueAcceptsNull()
     {
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => 'null' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
     }
@@ -97,7 +97,7 @@ class DateAttributeTest extends TestCase
     public function testDefaultValueAcceptsEmptyString()
     {
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => '' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
     }
@@ -137,7 +137,7 @@ class DateAttributeTest extends TestCase
         $datetime = '2014-12-28+01:00';
         $datetime_string = '2014-12-27T00:00:00+00:00';
         $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($datetime_string, $valueholder->toNative());
     }

@@ -21,7 +21,7 @@ class IntegerListAttributeTest extends TestCase
     {
         $data = [ 1, 2 ];
         $attribute = new IntegerListAttribute('IntegerList', [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(IntegerListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ 1, 2 ], $valueholder->getValue());
     }
@@ -34,7 +34,7 @@ class IntegerListAttributeTest extends TestCase
         $bar[] = 3;
 
         $attribute = new IntegerListAttribute('IntegerList', [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($foo));

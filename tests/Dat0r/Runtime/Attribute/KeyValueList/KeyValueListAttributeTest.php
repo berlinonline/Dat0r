@@ -23,7 +23,7 @@ class KeyValueListAttributeTest extends TestCase
 
         $attribute = new KeyValueListAttribute('keyvalue', [ KeyValueListAttribute::OPTION_DEFAULT_VALUE => $data ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(KeyValueListValueHolder::CLASS, $valueholder);
         $this->assertEquals($data, $valueholder->getValue());
     }
@@ -36,7 +36,7 @@ class KeyValueListAttributeTest extends TestCase
         $bar['asdf'] = 'asdf';
 
         $attribute = new KeyValueListAttribute('keyvalue', [ KeyValueListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs($foo));

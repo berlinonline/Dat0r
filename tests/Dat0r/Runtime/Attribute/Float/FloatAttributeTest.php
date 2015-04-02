@@ -22,7 +22,7 @@ class FloatAttributeTest extends TestCase
     public function testCreateValueWithDefaultValues()
     {
         $attribute = new FloatAttribute('Float', [ FloatAttribute::OPTION_DEFAULT_VALUE => 123.456 ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(FloatValueHolder::CLASS, $valueholder);
         $this->assertEquals(123.456, $valueholder->getValue());
     }
@@ -30,7 +30,7 @@ class FloatAttributeTest extends TestCase
     public function testValueComparison()
     {
         $attribute = new FloatAttribute('Float', [ FloatAttribute::OPTION_DEFAULT_VALUE => 1337.456 ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertTrue(abs(1337.456-$valueholder->getValue()) < 0.0000000001);
         $this->assertTrue($valueholder->sameValueAs('1337.456'));

@@ -91,7 +91,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     {
         $this->attribute = $attribute;
         $this->listeners = new ValueChangedListenerList();
-        $this->value = $attribute->getDefaultValue();
+        $this->value = $attribute->getNullValue();
     }
 
     /**

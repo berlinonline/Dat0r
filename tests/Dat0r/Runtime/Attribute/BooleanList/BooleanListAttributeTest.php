@@ -21,7 +21,7 @@ class BooleanListAttributeTest extends TestCase
     {
         $data = [ true, false ];
         $attribute = new BooleanListAttribute('BooleanList', [ BooleanListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(BooleanListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ true, false ], $valueholder->getValue());
     }
@@ -30,7 +30,7 @@ class BooleanListAttributeTest extends TestCase
     {
         $data = [ 'on', false ];
         $attribute = new BooleanListAttribute('BooleanList', [ BooleanListAttribute::OPTION_DEFAULT_VALUE => $data ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals([ true, false ], $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs([ true, false ]));

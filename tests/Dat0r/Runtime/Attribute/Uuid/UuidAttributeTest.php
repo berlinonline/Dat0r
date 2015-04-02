@@ -49,7 +49,7 @@ class UuidAttributeTest extends TestCase
             UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
         ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
         $this->assertTrue($valueholder->isDefault());
 
@@ -64,7 +64,7 @@ class UuidAttributeTest extends TestCase
             UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
         ]);
 
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
         $valueholder->isNull();
     }

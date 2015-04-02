@@ -21,7 +21,7 @@ class IntegerAttributeTest extends TestCase
     public function testCreateValueWithDefaultValues()
     {
         $attribute = new IntegerAttribute('Integer', [ IntegerAttribute::OPTION_DEFAULT_VALUE => 123 ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(IntegerValueHolder::CLASS, $valueholder);
         $this->assertEquals(123, $valueholder->getValue());
     }
@@ -29,7 +29,7 @@ class IntegerAttributeTest extends TestCase
     public function testValueComparison()
     {
         $attribute = new IntegerAttribute('Integer', [ IntegerAttribute::OPTION_DEFAULT_VALUE => 1337 ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals(1337, $valueholder->getValue());
         $this->assertTrue($valueholder->sameValueAs('1337'));

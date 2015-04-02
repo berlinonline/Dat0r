@@ -23,7 +23,7 @@ class TimestampAttributeTest extends TestCase
         $datetime = '2014-12-31T13:45:55.123+01:00';
         $datetime_in_utc = '2014-12-31T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt');
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
         $value->setValue($datetime);
@@ -36,7 +36,7 @@ class TimestampAttributeTest extends TestCase
         $datetime = '2014-12-29T13:45:55.123+01:00';
         $datetime_in_utc = '2014-12-29T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
         $this->assertEquals($datetime_in_utc, $value->getValue()->format(TimestampAttribute::FORMAT_ISO8601));
@@ -54,7 +54,7 @@ class TimestampAttributeTest extends TestCase
                 TimestampAttribute::OPTION_FORCE_INTERNAL_TIMEZONE => false
             ]
         );
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
         $this->assertEquals($datetime_in_cet, $value->getValue()->format(TimestampAttribute::FORMAT_ISO8601));
@@ -66,7 +66,7 @@ class TimestampAttributeTest extends TestCase
         $datetime_in_cet = '2014-12-28T13:45:55.123000+01:00';
         $datetime_in_utc = '2014-12-28T12:45:55.123000+00:00';
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
-        $valueholder = $attribute->createValueHolder();
+        $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $valueholder);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $valueholder->getValue());
 
@@ -97,7 +97,7 @@ class TimestampAttributeTest extends TestCase
     public function testDefaultValueAcceptsNow()
     {
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => 'now' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
     }
@@ -105,7 +105,7 @@ class TimestampAttributeTest extends TestCase
     public function testDefaultValueAcceptsNull()
     {
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => 'null' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
     }
@@ -113,7 +113,7 @@ class TimestampAttributeTest extends TestCase
     public function testDefaultValueAcceptsEmptyString()
     {
         $attribute = new TimestampAttribute('publishedAt', [ TimestampAttribute::OPTION_DEFAULT_VALUE => '' ]);
-        $value = $attribute->createValueHolder();
+        $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TimestampValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
     }
