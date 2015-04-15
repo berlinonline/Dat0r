@@ -136,6 +136,29 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
+     * Returns attribute path of this attribute. Depending on this attribute
+     * being part of an embedded entity this may look like this format:
+     * {attribute_name}.{type_prefix}.{attribute_name}
+     *
+     * @return string attribute path of this attribute
+     */
+    public function getPath()
+    {
+        return AttributePath::getAttributePath($this);
+    }
+
+    /**
+     * Returns the attribute's top-most entity type. That is the entity type
+     * of the root attribute of this attribute.
+     *
+     * @return EntityTypeInterface
+     */
+    public function getRootType()
+    {
+        return AttributePath::getRootEntityType($this);
+    }
+
+    /**
      * Returns the default value of the attribute.
      *
      * @return mixed value to be used/interpreted as the default value

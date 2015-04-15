@@ -157,13 +157,13 @@ class TextListAttributeTest extends TestCase
 
     /**
      * @dataProvider provideInvalidConfigDefaultValues
-     * @expectedExceptionMessage Given value for attribute 'TextListminmaxdefaultvalue' on entity type 'undefined' is not valid.
+     * @expectedExceptionMessage Given value for attribute 'asdf' on entity type 'undefined' is not valid.
      */
     public function testThrowsOnInvalidDefaultValueInConfig($expected_exception, $invalid_default_value)
     {
         $this->setExpectedException($expected_exception);
 
-        $attribute = new TextListAttribute('TextListminmaxdefaultvalue', [
+        $attribute = new TextListAttribute('asdf', [
             TextListAttribute::OPTION_MIN_COUNT => 1,
             TextListAttribute::OPTION_MAX_COUNT => 5,
             TextListAttribute::OPTION_DEFAULT_VALUE => $invalid_default_value

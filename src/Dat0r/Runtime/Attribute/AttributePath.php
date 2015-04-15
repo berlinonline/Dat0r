@@ -28,6 +28,19 @@ class AttributePath
         return implode(self::PATH_DELIMITER, array_reverse($path_parts));
     }
 
+    public static function getRootEntityType(AttributeInterface $attribute)
+    {
+        $current_attribute = $attribute->getParent();
+        $current_type = $attribute->getType();
+
+        while ($current_attribute instanceof EmbeddedEntityListAttribute) {
+            $current_type = $current_attribute->getType();
+            $current_attribute = $current_attribute->getParent();
+        }
+
+        return $current_type;
+    }
+
     public static function getAttributeByPath(EntityTypeInterface $type, $attribute_path)
     {
         $path_parts = explode(self::PATH_DELIMITER, $attribute_path);
