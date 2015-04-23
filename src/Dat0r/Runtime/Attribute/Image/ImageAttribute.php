@@ -174,4 +174,26 @@ class ImageAttribute extends Attribute implements HandlesFileInterface
 
         return $rules;
     }
+
+    /**
+     * Returns the property name that is used to store a file identifier.
+     *
+     * This property may be used for input field names in HTML and should then
+     * be used in the file metadata value object as a property name for storing
+     * a relative file path or similar.
+     *
+     * @return string property name
+     */
+    public function getFileLocationPropertyName()
+    {
+        return Image::PROPERTY_LOCATION;
+    }
+
+    /**
+     * @return string type identifier of file type handled by the attribute
+     */
+    public function getFiletypeName()
+    {
+        return self::FILETYPE_IMAGE;
+    }
 }
