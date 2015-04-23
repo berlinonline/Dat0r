@@ -32,7 +32,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     private $value;
 
     /**
-     * Holds a list of listeners regisered to our value changed event.
+     * Holds a list of listeners registered to our value changed event.
      *
      * @var ValueChangedListenerList $listeners
      */

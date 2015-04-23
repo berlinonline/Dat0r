@@ -2,12 +2,14 @@
 
 namespace Dat0r\Runtime\Attribute\ImageList;
 
+use Dat0r\Runtime\Attribute\HandlesFileListInterface;
+use Dat0r\Runtime\Attribute\Image\Image;
 use Dat0r\Runtime\Attribute\ListAttribute;
 
 /**
- * A list of images.
+ * A list of images (that is, their metadata including a location).
  */
-class ImageListAttribute extends ListAttribute
+class ImageListAttribute extends ListAttribute implements HandlesFileListInterface
 {
     protected function buildValidationRules()
     {
@@ -20,5 +22,27 @@ class ImageListAttribute extends ListAttribute
         $rules->push($rule);
 
         return $rules;
+    }
+
+    /**
+     * Returns the property name that is used to store a file identifier.
+     *
+     * This property may be used for input field names in HTML and should then
+     * be used in the file metadata value object as a property name for storing
+     * a relative file path or similar.
+     *
+     * @return string property name
+     */
+    public function getFileLocationPropertyName()
+    {
+        return Image::PROPERTY_LOCATION;
+    }
+
+    /**
+     * @return string type identifier of file type handled by the attribute
+     */
+    public function getFiletypeName()
+    {
+        return self::FILETYPE_IMAGE;
     }
 }

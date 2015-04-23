@@ -3,10 +3,13 @@
 namespace Dat0r\Runtime\Attribute\Image;
 
 use Dat0r\Runtime\Attribute\Attribute;
+use Dat0r\Runtime\Attribute\HandlesFileInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
-
-class ImageAttribute extends Attribute
+/**
+ * An image (metadata including a location).
+ */
+class ImageAttribute extends Attribute implements HandlesFileInterface
 {
     // restrict meta_data to certain keys or values or key-value pairs
     const OPTION_META_DATA_ALLOWED_KEYS                   = ImageRule::OPTION_META_DATA_ALLOWED_KEYS;
