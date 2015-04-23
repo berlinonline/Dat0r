@@ -6,6 +6,7 @@ use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Attribute\HandlesFileInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+
 /**
  * An image (metadata including a location).
  */
