@@ -20,4 +20,9 @@ class BaseEmbedTypeClassBuilder extends BaseEntityTypeClassBuilder
     {
         return $this->type_definition->getName() . ucfirst($this->config->getEmbedTypeSuffix('Type'));
     }
+
+    protected function getTemplate()
+    {
+        return 'EntityType/BaseEmbeddedEntityType.twig';
+    }
 }
