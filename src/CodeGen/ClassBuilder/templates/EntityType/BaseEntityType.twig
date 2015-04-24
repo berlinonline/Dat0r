@@ -39,19 +39,19 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
     {
         parent::__construct(
             '{{ type_name }}',
-            $this,
             [
             {%- for attribute in attributes %}
                 {%- if attribute.options|length > 0 %}
 
                 new {{ attribute.class_name }}(
                     '{{ attribute.name }}',
+                    $this,
                     {{ attribute.options|raw }}
                 ),
 
                 {%- else %}
 
-                new {{ attribute.class_name }}('{{ attribute.name }}'),
+                new {{ attribute.class_name }}('{{ attribute.name }}', $this),
 
                 {%- endif %}
             {%- endfor %}
