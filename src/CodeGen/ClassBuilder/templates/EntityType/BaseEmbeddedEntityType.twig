@@ -41,6 +41,7 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
     {
         parent::__construct(
             '{{ type_name }}',
+            $this,
             [
             {%- for attribute in attributes %}
                 {%- if attribute.options|length > 0 %}
