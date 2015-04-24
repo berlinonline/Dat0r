@@ -23,7 +23,7 @@ class ArticleType extends EntityType
             'Article',
             [
                 new UuidAttribute('uuid', $this),
-                new TextAttribute('headline', $this, [ TextAttribute::OPTION_MIN_LENGTH => 4 ] ),
+                new TextAttribute('headline', $this, [ TextAttribute::OPTION_MIN_LENGTH => 4 ]),
                 new TextAttribute('content', $this),
                 new IntegerAttribute('click_count', $this),
                 new FloatAttribute('float', $this),
