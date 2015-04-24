@@ -2,6 +2,8 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
+use Dat0r\Runtime\Entity\EntityInterface;
+
 class DateRule extends TimestampRule
 {
     const OPTION_DEFAULT_HOUR = 'default_hour';
@@ -10,7 +12,7 @@ class DateRule extends TimestampRule
 
     const FORMAT_NATIVE = self::FORMAT_ISO8601_SIMPLE;
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $success = parent::execute($value);
 

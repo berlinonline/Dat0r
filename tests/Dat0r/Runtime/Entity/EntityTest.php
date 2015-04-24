@@ -52,7 +52,7 @@ class EntityTest extends TestCase
         $this->assertTrue($result['enabled']);
         $this->assertTrue(is_array($result['content_objects']));
         $this->assertTrue(is_array($result['meta']));
-        $this->assertTrue(is_array($result['workflow_ticket']));
+        $this->assertTrue(is_array($result['workflow_state']));
     }
 
     public function testToNativeReconstitution()
@@ -101,7 +101,7 @@ class EntityTest extends TestCase
             'enabled' => true,
             'content_objects' => [],
             'meta' => [],
-            'workflow_ticket' => []
+            'workflow_state' => []
         ];
     }
 }

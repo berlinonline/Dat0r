@@ -108,7 +108,7 @@ class GenerateCodeCommandTest extends Tests\TestCase
         Mockery::close();
     }
 
-    protected function executeCommand(array $options = array())
+    protected function executeCommand(array $options = [])
     {
         $tester = new Tester\CommandTester($this->command);
 

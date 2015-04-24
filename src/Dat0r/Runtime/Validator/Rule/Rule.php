@@ -6,6 +6,7 @@ use Dat0r\Common\Object;
 use Dat0r\Runtime\Validator\Result\Incident;
 use Dat0r\Runtime\Validator\Result\IncidentMap;
 use ReflectionClass;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 abstract class Rule extends Object implements RuleInterface
 {
@@ -30,20 +31,20 @@ abstract class Rule extends Object implements RuleInterface
      *
      * @return boolean true if valid; false otherwise.
      */
-    abstract protected function execute($value);
+    abstract protected function execute($value, EntityInterface $entity = null);
 
-    public function __construct($name, array $options = array())
+    public function __construct($name, array $options = [])
     {
         $this->name = $name;
         $this->options = $options;
     }
 
-    public function apply($value)
+    public function apply($value, EntityInterface $entity = null)
     {
         $this->incidents = new IncidentMap(); // TODO does this have to be a map? accumulated throwError() in foreach?
         $this->sanitized_value = null;
 
-        if (true === ($success = $this->execute($value))) {
+        if (true === ($success = $this->execute($value, $entity))) {
             $this->sanitized_value = ($this->sanitized_value === null) ? $value : $this->sanitized_value;
         }
 
@@ -100,7 +101,7 @@ abstract class Rule extends Object implements RuleInterface
         }
     }
 
-    protected function throwError($name, array $parameters = array(), $severity = Incident::ERROR)
+    protected function throwError($name, array $parameters = [], $severity = Incident::ERROR)
     {
         $this->incidents->setItem($name, new Incident($name, $parameters, $severity));
     }

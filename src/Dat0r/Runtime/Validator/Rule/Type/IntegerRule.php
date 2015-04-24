@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class IntegerRule extends Rule
 {
@@ -12,7 +13,7 @@ class IntegerRule extends Rule
     const OPTION_MIN_VALUE = 'min_value';
     const OPTION_MAX_VALUE = 'max_value';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $allow_hex = $this->toBoolean($this->getOption(self::OPTION_ALLOW_HEX, false));
         $allow_octal = $this->toBoolean($this->getOption(self::OPTION_ALLOW_OCTAL, false));

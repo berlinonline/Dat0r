@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Traversable;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class ListRule extends Rule
 {
@@ -12,7 +13,7 @@ class ListRule extends Rule
     const OPTION_MIN_COUNT = 'min_count';
     const OPTION_REINDEX_LIST = 'reindex_list';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $cast_to_array = $this->toBoolean($this->getOption(self::OPTION_CAST_TO_ARRAY, true));
         if ((!$cast_to_array && !is_array($value)) || (!$cast_to_array && !$value instanceof Traversable)) {

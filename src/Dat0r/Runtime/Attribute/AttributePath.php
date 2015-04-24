@@ -53,13 +53,13 @@ class AttributePath
             );
         }
 
-        $path_tuples = array();
-        $next_tuple = array();
+        $path_tuples = [];
+        $next_tuple = [];
         for ($i = 1; $i <= count($path_parts); $i++) {
             $next_tuple[] = $path_parts[$i - 1];
             if ($i % 2 === 0) {
                 $path_tuples[] = $next_tuple;
-                $next_tuple = array();
+                $next_tuple = [];
             }
         }
 

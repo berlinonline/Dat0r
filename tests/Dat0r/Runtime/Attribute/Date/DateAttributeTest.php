@@ -6,24 +6,28 @@ use Dat0r\Runtime\Attribute\Date\DateAttribute;
 use Dat0r\Runtime\Attribute\Date\DateValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Tests\TestCase;
+use Dat0r\Runtime\EntityTypeInterface;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use stdClass;
+use Mockery;
 
 class DateAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'birthday';
+
     public function testCreate()
     {
-        $attribute = new DateAttribute('birthday');
-        $this->assertEquals($attribute->getName(), 'birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
     }
 
     public function testCreateValueAcceptsString()
     {
         $datetime = '2014-12-31T13:45:55.123+01:00';
         $date_in_utc = '2014-12-31T00:00:00.000000+00:00';
-        $attribute = new DateAttribute('birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
         $value = $attribute->createValueHolder();
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
@@ -36,7 +40,11 @@ class DateAttributeTest extends TestCase
     {
         $datetime = '2014-12-29+01:00';
         $datetime_in_utc = '2014-12-28T00:00:00.000000+00:00';
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]
+        );
         $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
@@ -49,7 +57,8 @@ class DateAttributeTest extends TestCase
         $datetime_in_cet = '2014-12-28T00:00:00.000000+01:00';
         $datetime_in_utc = '2014-12-28T00:00:00.000000+00:00';
         $attribute = new DateAttribute(
-            'birthday',
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
             [
                 DateAttribute::OPTION_DEFAULT_VALUE => $datetime,
                 DateAttribute::OPTION_FORCE_INTERNAL_TIMEZONE => false
@@ -66,7 +75,11 @@ class DateAttributeTest extends TestCase
         $datetime = '2014-12-28+01:00';
         $datetime_in_cet = '2014-12-28T00:00:00.000000+01:00';
         $datetime_in_utc = '2014-12-28T00:00:00.000000+00:00';
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]
+        );
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $valueholder);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $valueholder->getValue());
@@ -80,7 +93,11 @@ class DateAttributeTest extends TestCase
 
     public function testDefaultValueAcceptsNow()
     {
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => 'now' ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => 'now' ]
+        );
         $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertInstanceOf(DateTimeImmutable::CLASS, $value->getValue());
@@ -88,7 +105,11 @@ class DateAttributeTest extends TestCase
 
     public function testDefaultValueAcceptsNull()
     {
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => 'null' ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => 'null' ]
+        );
         $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
@@ -96,7 +117,11 @@ class DateAttributeTest extends TestCase
 
     public function testDefaultValueAcceptsEmptyString()
     {
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => '' ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => '' ]
+        );
         $value = $attribute->createValueHolder(true);
         $this->assertInstanceOf(DateValueHolder::CLASS, $value);
         $this->assertNull($value->getValue());
@@ -107,9 +132,11 @@ class DateAttributeTest extends TestCase
         $datetime_min = '2014-12-28';
         $datetime_foo = '2014-12-27';
 
-        $attribute = new DateAttribute('birthday', [
-            DateAttribute::OPTION_MIN_TIMESTAMP => $datetime_min
-        ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_MIN_TIMESTAMP => $datetime_min ]
+        );
         $valueholder = $attribute->createValueHolder();
 
         $validation_result = $valueholder->setValue($datetime_foo);
@@ -122,9 +149,11 @@ class DateAttributeTest extends TestCase
         $datetime_max = '2014-12-27';
         $datetime_foo = '2014-12-28';
 
-        $attribute = new DateAttribute('birthday', [
-            DateAttribute::OPTION_MAX_TIMESTAMP => $datetime_max
-        ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_MAX_TIMESTAMP => $datetime_max ]
+        );
         $valueholder = $attribute->createValueHolder();
 
         $validation_result = $valueholder->setValue($datetime_foo);
@@ -136,7 +165,11 @@ class DateAttributeTest extends TestCase
     {
         $datetime = '2014-12-28+01:00';
         $datetime_string = '2014-12-27T00:00:00+00:00';
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_DEFAULT_VALUE => $datetime ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($datetime_string, $valueholder->toNative());
@@ -144,7 +177,7 @@ class DateAttributeTest extends TestCase
 
     public function testToNativeRoundtripWithNullValue()
     {
-        $attribute = new DateAttribute('birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
         $valueholder = $attribute->createValueHolder();
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
         $this->assertEquals('', $valueholder->toNative());
@@ -155,7 +188,7 @@ class DateAttributeTest extends TestCase
 
     public function testToNativeRoundtripWithDefaultValue()
     {
-        $attribute = new DateAttribute('birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
         $valueholder = $attribute->createValueHolder();
 
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -172,7 +205,7 @@ class DateAttributeTest extends TestCase
         $date = '2014-12-28+01:00';
         $date_as_native_string = '2014-12-27T00:00:00+00:00';
 
-        $attribute = new DateAttribute('birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($date);
 
@@ -196,7 +229,11 @@ class DateAttributeTest extends TestCase
         $date = '2014-12-28+01:00';
         $date_as_native_string = 'omg2014-12-27.000000';
 
-        $attribute = new DateAttribute('birthday', [ DateAttribute::OPTION_FORMAT_NATIVE => '\o\m\gY-m-d.u' ]);
+        $attribute = new DateAttribute(
+            self::ATTR_NAME,
+            Mockery::mock(EntityTypeInterface::CLASS),
+            [ DateAttribute::OPTION_FORMAT_NATIVE => '\o\m\gY-m-d.u' ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($date);
 
@@ -209,20 +246,20 @@ class DateAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new DateAttribute('birthday');
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(array()),
-            array(new stdClass()),
-            array(1)
-        );
+        return [
+            [ null ],
+            [ false ],
+            [ true ],
+            [ [] ],
+            [ new stdClass() ],
+            [ 1 ]
+        ];
     }
 }

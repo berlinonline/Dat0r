@@ -31,7 +31,7 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return boolean
      */
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $success = true;
         $list = null;
@@ -45,7 +45,7 @@ class EmbeddedEntityListRule extends Rule
             $list->push($value);
         } elseif (is_array($value)) {
             $list = new EntityList();
-            $success = $this->createEntityList($value, $list);
+            $success = $this->createEntityList($value, $list, $entity);
         } else {
             $this->throwError('invalid_type');
             return false;
@@ -83,7 +83,7 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return EntityList
      */
-    protected function createEntityList(array $entities_data, EntityList $list)
+    protected function createEntityList(array $entities_data, EntityList $list, EntityInterface $parent = null)
     {
         $success = true;
 
@@ -101,8 +101,6 @@ class EmbeddedEntityListRule extends Rule
             }
 
             $trimmed_embed_type = trim($entity_data[self::OBJECT_TYPE], '\\');
-            unset($entity_data['@type']);
-
             if (!isset($type_map[$trimmed_embed_type])) {
                 //var_dump(array_keys($type_map), $trimmed_embed_type);exit;
                 $success = false;
@@ -113,9 +111,10 @@ class EmbeddedEntityListRule extends Rule
                 );
                 continue;
             }
+            unset($entity_data['@type']);
 
             $embed_type = $type_map[$trimmed_embed_type];
-            $list->push($embed_type->createEntity($entity_data));
+            $list->push($embed_type->createEntity($entity_data, $parent));
         }
 
         return $success;

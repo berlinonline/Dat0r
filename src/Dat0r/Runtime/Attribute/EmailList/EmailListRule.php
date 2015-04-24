@@ -8,6 +8,7 @@ use Egulias\EmailValidator\EmailParser;
 use Egulias\EmailValidator\EmailValidator;
 use InvalidArgumentException;
 use ReflectionClass;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class EmailListRule extends Rule
 {
@@ -22,7 +23,7 @@ class EmailListRule extends Rule
     const OPTION_MIN_COUNT              = 'min_count';
     const OPTION_CAST_TO_ARRAY          = 'cast_to_array';
 
-    protected function execute($values)
+    protected function execute($values, EntityInterface $entity = null)
     {
         $cast_to_array = $this->toBoolean($this->getOption(self::OPTION_CAST_TO_ARRAY, true));
         if (!$cast_to_array && !is_array($values)) {

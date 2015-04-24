@@ -12,22 +12,6 @@ use Dat0r\Runtime\EntityTypeInterface;
  */
 class AttributeMap extends TypedMap implements UniqueCollectionInterface
 {
-    protected $type;
-
-    public function __construct(EntityTypeInterface $type, array $items = array())
-    {
-        $this->type = $type;
-
-        parent::__construct($items);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        parent::offsetSet($offset, $value);
-
-        $value->setType($this->type);
-    }
-
     /**
      * Returns the AttributeInterface interface-name to the TypeMap parent-class,
      * which uses this info to implement it's type/instanceof strategy.
@@ -36,6 +20,6 @@ class AttributeMap extends TypedMap implements UniqueCollectionInterface
      */
     protected function getItemImplementor()
     {
-        return '\\Dat0r\\Runtime\\Attribute\\AttributeInterface';
+        return AttributeInterface::CLASS;
     }
 }

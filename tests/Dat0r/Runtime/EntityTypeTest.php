@@ -22,48 +22,44 @@ class EntityTypeTest extends TestCase
 {
     public function testCreateArticleType()
     {
-        $type = new ArticleType();
+        $article_type = new ArticleType();
 
-        $this->assertEquals('Article', $type->getName());
-        $this->assertEquals(14, $type->getAttributes()->getSize());
+        $this->assertEquals('Article', $article_type->getName());
+        $this->assertEquals(14, $article_type->getAttributes()->getSize());
     }
 
     public function testAccessNestedParameters()
     {
-        $type = new ArticleType();
+        $article_type = new ArticleType();
 
-        $this->assertEquals('bar', $type->getOption('foo'));
-        $this->assertEquals('blub', $type->getOption('nested')->get('blah'));
+        $this->assertEquals('bar', $article_type->getOption('foo'));
+        $this->assertEquals('blub', $article_type->getOption('nested')->get('blah'));
     }
 
     public function testCreateEmbedType()
     {
-        $type = new ParagraphType();
+        $article_type = new ArticleType();
+        $paragraph_type = new ParagraphType($article_type);
 
-        $this->assertEquals(2, $type->getAttributes()->getSize());
-        $this->assertEquals('Paragraph', $type->getName());
+        $this->assertEquals(2, $paragraph_type->getAttributes()->getSize());
+        $this->assertEquals('Paragraph', $paragraph_type->getName());
     }
 
-    /**
-     * @dataProvider provideTypeInstances
-     */
-    public function testGetAttributeMethod(EntityTypeInterface $type)
+    public function testGetAttributeMethod()
     {
-        $this->assertInstanceOf(TextAttribute::CLASS, $type->getAttribute('headline'));
-        $this->assertInstanceOf(IntegerAttribute::CLASS, $type->getAttribute('click_count'));
+        $article_type = new ArticleType();
+
+        $this->assertInstanceOf(TextAttribute::CLASS, $article_type->getAttribute('headline'));
+        $this->assertInstanceOf(IntegerAttribute::CLASS, $article_type->getAttribute('click_count'));
     }
 
-    /**
-     * @dataProvider provideTypeInstances
-     */
-    public function testGetAttributesMethodPlain(EntityTypeInterface $type)
+    public function testGetAttributesMethodPlain()
     {
-        $attributes = $type->getAttributes();
+        $article_type = new ArticleType();
+        $attributes = $article_type->getAttributes();
 
         $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
-
         $this->assertEquals(14, $attributes->getSize());
-
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('headline'));
         $this->assertInstanceOf(TextAttribute::CLASS, $attributes->getItem('content'));
         $this->assertInstanceOf(IntegerAttribute::CLASS, $attributes->getItem('click_count'));
@@ -77,12 +73,10 @@ class EntityTypeTest extends TestCase
         $this->assertInstanceOf(EmbeddedEntityListAttribute::CLASS, $attributes->getItem('content_objects'));
     }
 
-    /**
-     * @dataProvider provideTypeInstances
-     */
-    public function testGetAttributesMethodFiltered(EntityTypeInterface $type)
+    public function testGetAttributesMethodFiltered()
     {
-        $attributes = $type->getAttributes(array('headline', 'click_count'));
+        $article_type = new ArticleType();
+        $attributes = $article_type->getAttributes([ 'headline', 'click_count' ]);
 
         $this->assertInstanceOf(AttributeMap::CLASS, $attributes);
         $this->assertEquals(2, $attributes->getSize());
@@ -91,22 +85,20 @@ class EntityTypeTest extends TestCase
         $this->assertInstanceOf(IntegerAttribute::CLASS, $attributes->getItem('click_count'));
     }
 
-    /**
-     * @dataProvider provideTypeInstances
-     */
-    public function testCreateEntity(EntityTypeInterface $type)
+    public function testCreateEntity()
     {
-        $entity = $type->createEntity();
+        $article_type = new ArticleType();
+        $entity = $article_type->createEntity();
         $this->assertInstanceOf(EntityInterface::CLASS, $entity);
     }
 
     /**
-     * @dataProvider provideTypeInstances
      * @expectedException Dat0r\Common\Error\RuntimeException
      */
-    public function testInvalidAttributeException(EntityTypeInterface $type)
+    public function testInvalidAttributeException()
     {
-        $type->getAttribute('foobar-attribute-does-not-exist'); // @codeCoverageIgnoreStart
+        $article_type = new ArticleType();
+        $article_type->getAttribute('foobar-attribute-does-not-exist'); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
     /**
@@ -118,18 +110,10 @@ class EntityTypeTest extends TestCase
         $type->createEntity(); // @codeCoverageIgnoreStart
     } // @codeCoverageIgnoreEnd
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public static function provideTypeInstances()
-    {
-        return array(array(new ArticleType()));
-    }
-
     public function testGetAttributeByPath()
     {
-        $type = new ArticleType();
-        $attribute = $type->getAttribute('content_objects.paragraph.title');
+        $article_type = new ArticleType();
+        $attribute = $article_type->getAttribute('content_objects.paragraph.title');
 
         $this->assertEquals('title', $attribute->getName());
     }

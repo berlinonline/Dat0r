@@ -14,14 +14,18 @@ class FloatAttributeTest extends TestCase
 {
     public function testCreate()
     {
-        $attribute = new FloatAttribute('Float');
+        $attribute = new FloatAttribute('Float', $this->getTypeMock());
         $this->assertEquals($attribute->getName(), 'Float');
         $this->assertEquals(0, $attribute->getNullValue());
     }
 
     public function testCreateValueWithDefaultValues()
     {
-        $attribute = new FloatAttribute('Float', [ FloatAttribute::OPTION_DEFAULT_VALUE => 123.456 ]);
+        $attribute = new FloatAttribute(
+            'Float',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_DEFAULT_VALUE => 123.456 ]
+        );
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(FloatValueHolder::CLASS, $valueholder);
         $this->assertEquals(123.456, $valueholder->getValue());
@@ -29,7 +33,11 @@ class FloatAttributeTest extends TestCase
 
     public function testValueComparison()
     {
-        $attribute = new FloatAttribute('Float', [ FloatAttribute::OPTION_DEFAULT_VALUE => 1337.456 ]);
+        $attribute = new FloatAttribute(
+            'Float',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_DEFAULT_VALUE => 1337.456 ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertTrue(abs(1337.456-$valueholder->getValue()) < 0.0000000001);
@@ -40,7 +48,7 @@ class FloatAttributeTest extends TestCase
 
     public function testSettingBooleanTrueAsValueFails()
     {
-        $attribute = new FloatAttribute('Floatbooltrue');
+        $attribute = new FloatAttribute('Floatbooltrue', $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(true);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -49,9 +57,11 @@ class FloatAttributeTest extends TestCase
 
     public function testThousandSeparator()
     {
-        $attribute = new FloatAttribute('nan', [
-            FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => true
-        ]);
+        $attribute = new FloatAttribute(
+            'nan',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('1,200.123');
         $this->assertEquals('1200.123', sprintf('%0.3f', $valueholder->getValue()));
@@ -59,9 +69,11 @@ class FloatAttributeTest extends TestCase
 
     public function testThousandSeparatorFails()
     {
-        $attribute = new FloatAttribute('nan', [
-            FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => false
-        ]);
+        $attribute = new FloatAttribute(
+            'nan',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_THOUSAND_SEPARATOR => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue('1,200.123');
         $this->assertTrue($result->getSeverity() !== IncidentInterface::SUCCESS);
@@ -70,9 +82,11 @@ class FloatAttributeTest extends TestCase
 
     public function testNanValue()
     {
-        $attribute = new FloatAttribute('nan', [
-            FloatAttribute::OPTION_ALLOW_NAN => true
-        ]);
+        $attribute = new FloatAttribute(
+            'nan',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_NAN => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(acos(1.01));
         $this->assertEquals('NAN', (string)$valueholder->getValue());
@@ -80,9 +94,11 @@ class FloatAttributeTest extends TestCase
 
     public function testNanValuesFails()
     {
-        $attribute = new FloatAttribute('nanfails', [
-            FloatAttribute::OPTION_ALLOW_NAN => false
-        ]);
+        $attribute = new FloatAttribute(
+            'nanfails',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_NAN => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(acos(1.01));
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -90,9 +106,11 @@ class FloatAttributeTest extends TestCase
 
     public function testInfinityValues()
     {
-        $attribute = new FloatAttribute('inf', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true
-        ]);
+        $attribute = new FloatAttribute(
+            'inf',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_INFINITY => true ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(log(0));
@@ -105,9 +123,11 @@ class FloatAttributeTest extends TestCase
 
     public function testInfinityValueFails()
     {
-        $attribute = new FloatAttribute('inffails', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => false
-        ]);
+        $attribute = new FloatAttribute(
+            'inffails',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_INFINITY => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(log(0));
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -115,10 +135,14 @@ class FloatAttributeTest extends TestCase
 
     public function testMinMaxConstraint()
     {
-        $attribute = new FloatAttribute('Floatminmax', [
-            FloatAttribute::OPTION_MIN_VALUE => 3,
-            FloatAttribute::OPTION_MAX_VALUE => 5
-        ]);
+        $attribute = new FloatAttribute(
+            'Floatminmax',
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_MIN_VALUE => 3,
+                FloatAttribute::OPTION_MAX_VALUE => 5
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue(2.9999999997);
@@ -131,7 +155,11 @@ class FloatAttributeTest extends TestCase
 
     public function testLowPrecisionComparison()
     {
-        $attribute = new FloatAttribute('lowprecisionfloat', [ FloatAttribute::OPTION_PRECISION_DIGITS => "4" ]);
+        $attribute = new FloatAttribute(
+            'lowprecisionfloat',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_PRECISION_DIGITS => "4" ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(3.14159);
         $this->assertTrue($valueholder->sameValueAs(3.14160));
@@ -144,10 +172,14 @@ class FloatAttributeTest extends TestCase
 
     public function testComparisonNearZero()
     {
-        $attribute = new FloatAttribute('zerocomp', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true,
-            FloatAttribute::OPTION_ALLOW_NAN => true
-        ]);
+        $attribute = new FloatAttribute(
+            'zerocomp',
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_ALLOW_INFINITY => true,
+                FloatAttribute::OPTION_ALLOW_NAN => true
+            ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(0.0);
         $this->assertTrue($valueholder->sameValueAs(0.0));
@@ -162,10 +194,14 @@ class FloatAttributeTest extends TestCase
 
     public function testComparisonNearZero2()
     {
-        $attribute = new FloatAttribute('zerocomp', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true,
-            FloatAttribute::OPTION_ALLOW_NAN => true
-        ]);
+        $attribute = new FloatAttribute(
+            'zerocomp',
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_ALLOW_INFINITY => true,
+                FloatAttribute::OPTION_ALLOW_NAN => true
+            ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(-0.0000000000000000000001000001);
         $this->assertFalse($valueholder->sameValueAs(-0.0000000000000000000001000002));
@@ -173,9 +209,11 @@ class FloatAttributeTest extends TestCase
 
     public function testComparisonInfinity()
     {
-        $attribute = new FloatAttribute('infcomp', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true
-        ]);
+        $attribute = new FloatAttribute(
+            'infcomp',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_INFINITY => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(log(0)); // -INF
         $this->assertTrue($valueholder->sameValueAs(log(0)));
@@ -186,7 +224,7 @@ class FloatAttributeTest extends TestCase
 
     public function testSomeFloatEqualityComparisons()
     {
-        $attribute = new FloatAttribute('somefloatcomp', []);
+        $attribute = new FloatAttribute('somefloatcomp', $this->getTypeMock(), []);
         $valueholder = $attribute->createValueHolder();
 
         $valueholder->setValue(0.3);
@@ -201,7 +239,7 @@ class FloatAttributeTest extends TestCase
 
     public function testFloatMinValuesAroundZero()
     {
-        $attribute = new FloatAttribute('somefloatmincomp', []);
+        $attribute = new FloatAttribute('somefloatmincomp', $this->getTypeMock(), []);
         $valueholder = $attribute->createValueHolder();
 
         $valueholder->setValue(FloatValueHolder::FLOAT_MIN);
@@ -220,9 +258,11 @@ class FloatAttributeTest extends TestCase
 
     public function testToNativeNan()
     {
-        $attribute = new FloatAttribute('nan', [
-            FloatAttribute::OPTION_ALLOW_NAN => true
-        ]);
+        $attribute = new FloatAttribute(
+            'nan',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_NAN => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(acos(1.01));
         $this->assertEquals('NAN', $valueholder->toNative());
@@ -230,9 +270,11 @@ class FloatAttributeTest extends TestCase
 
     public function testToNativeInf()
     {
-        $attribute = new FloatAttribute('inf', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true
-        ]);
+        $attribute = new FloatAttribute(
+            'inf',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_INFINITY => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(log(0));
         $this->assertEquals('-INF', $valueholder->toNative());
@@ -240,9 +282,11 @@ class FloatAttributeTest extends TestCase
 
     public function testToNativeRoundtrip()
     {
-        $attribute = new FloatAttribute('tonative', [
-            FloatAttribute::OPTION_PRECISION_DIGITS => 8
-        ]);
+        $attribute = new FloatAttribute(
+            'tonative',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_PRECISION_DIGITS => 8 ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(1337.1234567890123);
         $this->assertTrue(is_float($valueholder->getValue()));
@@ -255,9 +299,11 @@ class FloatAttributeTest extends TestCase
 
     public function testToNativeInfRoundtrip()
     {
-        $attribute = new FloatAttribute('inf', [
-            FloatAttribute::OPTION_ALLOW_INFINITY => true
-        ]);
+        $attribute = new FloatAttribute(
+            'inf',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_INFINITY => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(log(0));
         $this->assertEquals('-INF', $valueholder->toNative());
@@ -269,9 +315,11 @@ class FloatAttributeTest extends TestCase
 
     public function testToNativeNanRoundtrip()
     {
-        $attribute = new FloatAttribute('nan', [
-            FloatAttribute::OPTION_ALLOW_NAN => true
-        ]);
+        $attribute = new FloatAttribute(
+            'nan',
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_ALLOW_NAN => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue("NAN");
         $this->assertTrue(is_float($valueholder->getValue()));
@@ -285,11 +333,15 @@ class FloatAttributeTest extends TestCase
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);
-        $attribute = new FloatAttribute('Floatinvaliddefaultvalue', [
-            FloatAttribute::OPTION_MIN_VALUE => 1,
-            FloatAttribute::OPTION_MAX_VALUE => 5,
-            FloatAttribute::OPTION_DEFAULT_VALUE => 5.00000001
-        ]);
+        $attribute = new FloatAttribute(
+            'Floatinvaliddefaultvalue',
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_MIN_VALUE => 1,
+                FloatAttribute::OPTION_MAX_VALUE => 5,
+                FloatAttribute::OPTION_DEFAULT_VALUE => 5.00000001
+            ]
+        );
         $attribute->getDefaultValue();
     }
 
@@ -298,18 +350,18 @@ class FloatAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new FloatAttribute('FloatInvalidValue');
+        $attribute = new FloatAttribute('FloatInvalidValue', $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(new stdClass())
-        );
+        return [
+            [ null ],
+            [ false ],
+            [ true ],
+            [ new stdClass() ]
+        ];
     }
 }

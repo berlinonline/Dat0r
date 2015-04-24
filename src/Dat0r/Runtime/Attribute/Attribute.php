@@ -69,12 +69,20 @@ abstract class Attribute implements AttributeInterface
      * Constructs a new attribute instance.
      *
      * @param string $name
+     * @param EntityTypeInterface $type
      * @param array $options
+     * @param AttributeInterface $parent
      */
-    public function __construct($name, array $options = [])
-    {
+    public function __construct(
+        $name,
+        EntityTypeInterface $type,
+        array $options = [],
+        AttributeInterface $parent = null
+    ) {
         $this->name = $name;
+        $this->type = $type;
         $this->options = $options;
+        $this->parent = $parent;
     }
 
     /**
@@ -98,20 +106,6 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * Sets the attribute's entity type once, if it isn't assigned.
-     *
-     * @param EntityTypeInterface $type
-     */
-    public function setType(EntityTypeInterface $type)
-    {
-        if (!$this->type) {
-            $this->type = $type;
-        }
-        // @todo else throw an exception,
-        // as a second call to setType might imply a logic error?
-    }
-
-    /**
      * Returns the attribute's parent, if it has one.
      *
      * @return AttributeInterface
@@ -119,20 +113,6 @@ abstract class Attribute implements AttributeInterface
     public function getParent()
     {
         return $this->parent;
-    }
-
-    /**
-     * Sets the attribute's parent once, if it isn't yet assigned.
-     *
-     * @param AttributeInterface $parent
-     */
-    public function setParent(AttributeInterface $parent)
-    {
-        if (!$this->parent) {
-            $this->parent = $parent;
-        }
-        // @todo else throw an exception,
-        // as a second call to setParent might imply a logic error?
     }
 
     /**

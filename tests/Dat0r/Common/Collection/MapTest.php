@@ -37,7 +37,7 @@ class MapTest extends TestCase
         $all_keys = array_keys($expected_items);
         $item_count = count($expected_items);
 
-        $keys = array();
+        $keys = [];
         for ($i = 0; $i < $item_count && $i <= 3; $i++) {
             $keys[] = $all_keys[$i];
         }
@@ -135,7 +135,7 @@ class MapTest extends TestCase
 
     protected function createRandomItems()
     {
-        $items = array();
+        $items = [];
         $faker = Faker\Factory::create();
         foreach (TestObject::createRandomInstances() as $item) {
             $items[$faker->word(12)] = $item;

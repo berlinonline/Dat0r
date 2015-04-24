@@ -56,7 +56,7 @@ class AttributeValuePath
 
     protected static function splitPath($value_path)
     {
-        $path_tuples = array();
+        $path_tuples = [];
         $path_parts = explode(self::PATH_DELIMITER, $value_path);
 
         if ($path_parts % 2 === 0) {
@@ -67,12 +67,12 @@ class AttributeValuePath
             );
         }
 
-        $next_tuple = array();
+        $next_tuple = [];
         for ($i = 1; $i <= count($path_parts); $i++) {
             $next_tuple[] = $path_parts[$i - 1];
             if ($i % 2 === 0) {
                 $path_tuples[] = $next_tuple;
-                $next_tuple = array();
+                $next_tuple = [];
             }
         }
 

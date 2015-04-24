@@ -11,7 +11,7 @@ use Dat0r\Runtime\Entity\Transform\Transformer;
  */
 class TestTransformer extends Transformer
 {
-    public function __construct(array $state = array())
+    public function __construct(array $state = [])
     {
         parent::__construct(
             array_merge(

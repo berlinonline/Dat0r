@@ -24,7 +24,7 @@ class UniqueMapTest extends TestCase
 
     protected function createRandomItems()
     {
-        $items = array();
+        $items = [];
         $faker = Faker\Factory::create();
         foreach (TestObject::createRandomInstances() as $item) {
             $items[$faker->word(12)] = $item;

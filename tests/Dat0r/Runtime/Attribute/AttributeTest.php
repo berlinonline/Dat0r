@@ -32,15 +32,15 @@ class AttributeTest extends TestCase
         $paragraph_type = $content_objects_attribute->getEmbedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
-        $workflow_ticket_attribute = $article_type->getAttribute('workflow_ticket');
-        $workflow_ticket_type = $workflow_ticket_attribute->getEmbedTypeByPrefix('workflow_ticket');
-        $workflow_step_attribute = $workflow_ticket_type->getAttribute('workflow_step');
+        $workflow_state_attribute = $article_type->getAttribute('workflow_state');
+        $workflow_state_type = $workflow_state_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_step_attribute = $workflow_state_type->getAttribute('workflow_step');
 
-        return array(
-            array($headline_attribute, 'headline'),
-            array($title_attribute, 'content_objects.paragraph.title'),
-            array($workflow_step_attribute, 'workflow_ticket.workflow_ticket.workflow_step')
-        );
+        return [
+            [ $headline_attribute, 'headline' ],
+            [ $title_attribute, 'content_objects.paragraph.title' ],
+            [ $workflow_step_attribute, 'workflow_state.workflow_state.workflow_step' ]
+        ];
     }
 
     public function attributeRootTypeProvider()
@@ -52,14 +52,14 @@ class AttributeTest extends TestCase
         $paragraph_type = $content_objects_attribute->getEmbedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
-        $workflow_ticket_attribute = $article_type->getAttribute('workflow_ticket');
-        $workflow_ticket_type = $workflow_ticket_attribute->getEmbedTypeByPrefix('workflow_ticket');
-        $workflow_step_attribute = $workflow_ticket_type->getAttribute('workflow_step');
+        $workflow_state_attribute = $article_type->getAttribute('workflow_state');
+        $workflow_state_type = $workflow_state_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_step_attribute = $workflow_state_type->getAttribute('workflow_step');
 
-        return array(
-            array($headline_attribute, $article_type),
-            array($title_attribute, $article_type),
-            array($workflow_step_attribute, $article_type)
-        );
+        return [
+            [ $headline_attribute, $article_type ],
+            [ $title_attribute, $article_type ],
+            [ $workflow_step_attribute, $article_type ]
+        ];
     }
 }

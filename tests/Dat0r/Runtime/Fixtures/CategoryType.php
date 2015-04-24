@@ -13,18 +13,18 @@ class CategoryType extends EntityType
     {
         parent::__construct(
             'Category',
-            array(
-                new TextAttribute('title'),
-                new TextareaAttribute('description')
-            ),
+            [
+                new TextAttribute('title', $this),
+                new TextareaAttribute('description', $this)
+            ],
             new Options(
-                array(
+                [
                     'foo' => 'bar',
-                    'nested' => array(
+                    'nested' => [
                         'foo' => 'bar',
                         'blah' => 'blub'
-                    )
-                )
+                    ]
+                ]
             )
         );
     }

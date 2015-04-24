@@ -48,10 +48,10 @@
                 <option name="cast_values_to">nothing</option>
             </attribute>
 
-            <attribute name="workflow_ticket" type="embedded-entity-list">
+            <attribute name="workflow_state" type="embedded-entity-list">
                 <description>Holds the current workflow state.</description>
                 <option name="entity_types">
-                    <option>WorkflowTicket</option>
+                    <option>WorkflowState</option>
                 </option>
             </attribute>
         </attributes>

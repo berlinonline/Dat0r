@@ -26,7 +26,7 @@ class Options extends ArrayObject implements ObjectInterface, OptionsInterface, 
      * @param array $data initial options
      * @param string $iterator_class implementor to use for iterator
      */
-    public function __construct(array $data = array(), $iterator_class = 'ArrayIterator')
+    public function __construct(array $data = [], $iterator_class = 'ArrayIterator')
     {
         if (!empty($iterator_class)) {
             $this->iterator_class = trim($iterator_class);
@@ -34,7 +34,7 @@ class Options extends ArrayObject implements ObjectInterface, OptionsInterface, 
 
         $this->allow_modification = true;
 
-        parent::__construct(array(), self::ARRAY_AS_PROPS, $this->iterator_class);
+        parent::__construct([], self::ARRAY_AS_PROPS, $this->iterator_class);
 
         foreach ($data as $key => $value) {
             $this->offsetSet($key, $value);
@@ -50,7 +50,7 @@ class Options extends ArrayObject implements ObjectInterface, OptionsInterface, 
      *
      * @return Options
      */
-    public static function create($options = array())
+    public static function create($options = [])
     {
         return new static($options);
     }
@@ -130,7 +130,7 @@ class Options extends ArrayObject implements ObjectInterface, OptionsInterface, 
      */
     public function toArray()
     {
-        $data = array();
+        $data = [];
 
         foreach ($this as $key => $value) {
             if (is_object($value)) {

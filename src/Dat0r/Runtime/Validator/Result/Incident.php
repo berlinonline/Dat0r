@@ -12,7 +12,7 @@ class Incident extends Object implements IncidentInterface
 
     protected $parameters;
 
-    public function __construct($name, array $parameters = array(), $severity = self::ERROR)
+    public function __construct($name, array $parameters = [], $severity = self::ERROR)
     {
         $this->name = $name;
         $this->severity = $severity;

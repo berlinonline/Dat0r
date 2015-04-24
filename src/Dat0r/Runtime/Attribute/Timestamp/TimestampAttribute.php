@@ -6,6 +6,7 @@ use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\TimestampRule;
+use Dat0r\Runtime\EntityTypeInterface;
 
 // preferred exchange format is FORMAT_ISO8601 ('Y-m-d\TH:i:s.uP')
 class TimestampAttribute extends Attribute
@@ -30,10 +31,16 @@ class TimestampAttribute extends Attribute
      * Constructs a new attribute instance with some default options.
      *
      * @param string $name
+     * @param EntityTypeInterface $type,
      * @param array $options
+     * @param AttributeInterface $parent
      */
-    public function __construct($name, array $options = array())
-    {
+    public function __construct(
+        $name,
+        EntityTypeInterface $type,
+        array $options = [],
+        AttributeInterface $parent = null
+    ) {
         if (!array_key_exists(self::OPTION_FORCE_INTERNAL_TIMEZONE, $options)) {
             $options[self::OPTION_FORCE_INTERNAL_TIMEZONE] = self::DEFAULT_FORCE_INTERNAL_TIMEZONE;
         }
@@ -42,7 +49,7 @@ class TimestampAttribute extends Attribute
             $options[self::OPTION_INTERNAL_TIMEZONE_NAME] = self::DEFAULT_INTERNAL_TIMEZONE_NAME;
         }
 
-        parent::__construct($name, $options);
+        parent::__construct($name, $type, $options, $parent);
     }
 
     public function getNullValue()

@@ -14,7 +14,7 @@ class ImageListAttributeTest extends TestCase
 {
     public function testCreate()
     {
-        $attribute = new ImageListAttribute('imagelist');
+        $attribute = new ImageListAttribute('imagelist', $this->getTypeMock());
         $this->assertEquals($attribute->getName(), 'imagelist');
         $this->assertEquals([], $attribute->getNullValue());
         $this->assertEquals([], $attribute->getDefaultValue());
@@ -53,7 +53,7 @@ class ImageListAttributeTest extends TestCase
             Image::createFromArray($img3_data),
         ];
 
-        $attribute = new ImageListAttribute('imagelist', []);
+        $attribute = new ImageListAttribute('imagelist', $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_list_data);
 
@@ -77,9 +77,11 @@ class ImageListAttributeTest extends TestCase
         ];
         $expected = $img_data;
 
-        $attribute = new ImageListAttribute('imagelist', [
-            ImageRule::OPTION_META_DATA_VALUE_TYPE => ImageRule::META_DATA_VALUE_TYPE_INTEGER
-        ]);
+        $attribute = new ImageListAttribute(
+            'imagelist',
+            $this->getTypeMock(),
+            [ ImageRule::OPTION_META_DATA_VALUE_TYPE => ImageRule::META_DATA_VALUE_TYPE_INTEGER ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
 
@@ -100,9 +102,11 @@ class ImageListAttributeTest extends TestCase
             ]
         ];
 
-        $attribute = new ImageListAttribute('imagelist', [
-            ImageRule::OPTION_META_DATA_VALUE_TYPE => ImageRule::META_DATA_VALUE_TYPE_INTEGER
-        ]);
+        $attribute = new ImageListAttribute(
+            'imagelist',
+            $this->getTypeMock(),
+            [ ImageRule::OPTION_META_DATA_VALUE_TYPE => ImageRule::META_DATA_VALUE_TYPE_INTEGER ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
         $this->assertEmpty($valueholder->getValue());
@@ -138,7 +142,7 @@ class ImageListAttributeTest extends TestCase
             ]
         ];
 
-        $attribute = new ImageListAttribute('imagelist', []);
+        $attribute = new ImageListAttribute('imagelist', $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_list_data);
 
@@ -159,9 +163,11 @@ class ImageListAttributeTest extends TestCase
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);
-        $attribute = new ImageListAttribute('imageinvaliddefaultvalue', [
-            ImageListAttribute::OPTION_DEFAULT_VALUE => 'trololo'
-        ]);
+        $attribute = new ImageListAttribute(
+            'imageinvaliddefaultvalue',
+            $this->getTypeMock(),
+            [ ImageListAttribute::OPTION_DEFAULT_VALUE => 'trololo' ]
+        );
         $attribute->getDefaultValue();
     }
 
@@ -170,7 +176,7 @@ class ImageListAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new ImageListAttribute('imagelistwithInvalidValue');
+        $attribute = new ImageListAttribute('imagelistwithInvalidValue', $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertGreaterThanOrEqual(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }

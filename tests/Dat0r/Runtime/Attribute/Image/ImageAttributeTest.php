@@ -13,7 +13,7 @@ class ImageAttributeTest extends TestCase
 {
     public function testCreate()
     {
-        $attribute = new ImageAttribute('image');
+        $attribute = new ImageAttribute('image', $this->getTypeMock());
         $this->assertEquals($attribute->getName(), 'image');
         $this->assertEquals(null, $attribute->getNullValue());
         $this->assertEquals(null, $attribute->getDefaultValue());
@@ -34,7 +34,7 @@ class ImageAttributeTest extends TestCase
         $img2_data = $img_data;
         $img2_data[Image::PROPERTY_SOURCE] = 'some source';
 
-        $attribute = new ImageAttribute('image', []);
+        $attribute = new ImageAttribute('image', $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
 
@@ -63,9 +63,11 @@ class ImageAttributeTest extends TestCase
             ]
         ];
 
-        $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_TEXT
-        ]);
+        $attribute = new ImageAttribute(
+            'image',
+            $this->getTypeMock(),
+            [ ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_TEXT ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
 
@@ -84,9 +86,11 @@ class ImageAttributeTest extends TestCase
         ];
         $expected = $img_data;
 
-        $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER
-        ]);
+        $attribute = new ImageAttribute(
+            'image',
+            $this->getTypeMock(),
+            [ ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
 
@@ -105,9 +109,11 @@ class ImageAttributeTest extends TestCase
             ]
         ];
 
-        $attribute = new ImageAttribute('image', [
-            ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER
-        ]);
+        $attribute = new ImageAttribute(
+            'image',
+            $this->getTypeMock(),
+            [ ImageAttribute::OPTION_META_DATA_VALUE_TYPE => ImageAttribute::META_DATA_VALUE_TYPE_INTEGER ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($img_data);
         $this->assertNull($valueholder->getValue());
@@ -139,7 +145,7 @@ class ImageAttributeTest extends TestCase
             ]
         ];
 
-        $attribute = new ImageAttribute('image', []);
+        $attribute = new ImageAttribute('image', $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(Image::createFromArray($img_data));
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue());
@@ -153,9 +159,11 @@ class ImageAttributeTest extends TestCase
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);
-        $attribute = new ImageAttribute('imageinvaliddefaultvalue', [
-            ImageAttribute::OPTION_DEFAULT_VALUE => 5.00000001
-        ]);
+        $attribute = new ImageAttribute(
+            'imageinvaliddefaultvalue',
+            $this->getTypeMock(),
+            [ ImageAttribute::OPTION_DEFAULT_VALUE => 5.00000001 ]
+        );
         $attribute->getDefaultValue();
     }
 
@@ -164,40 +172,40 @@ class ImageAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new ImageAttribute('imageInvalidValue');
+        $attribute = new ImageAttribute('imageInvalidValue', $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertGreaterThanOrEqual(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(3.14159),
-            array(1337),
-            array('foo'),
-            array([]),
-            array(false),
-            array(true),
-            array(new stdClass()),
-            array(
+        return [
+            [ null ],
+            [ 3.14159 ],
+            [ 1337 ],
+            [ 'foo' ],
+            [ [] ],
+            [ false ],
+            [ true ],
+            [ new stdClass() ],
+            [
                 [
                     Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'localhost'
                 ]
-            ),
-            array(
+            ],
+            [
                 [
                     Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'http://..com'
                 ]
-            ),
-            array(
+            ],
+            [
                 [
                     Image::PROPERTY_LOCATION => 'sadf.jpg',
                     Image::PROPERTY_COPYRIGHT_URL => 'javascript:alert(1)'
                 ]
-            ),
-        );
+            ],
+        ];
     }
 }

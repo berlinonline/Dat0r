@@ -12,7 +12,7 @@ use Dat0r\Common\Error\RuntimeException;
  */
 class ArrayList extends Collection implements ListInterface
 {
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         parent::__construct();
 

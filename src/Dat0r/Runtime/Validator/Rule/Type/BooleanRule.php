@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Sanitized the input value to be boolean.
@@ -15,7 +16,7 @@ use Dat0r\Runtime\Validator\Rule\Rule;
  */
 class BooleanRule extends Rule
 {
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 

@@ -17,12 +17,12 @@ class EntityList extends TypedList implements EntityChangedListenerInterface
      *
      * @var EntityChangedListenerList $listeners
      */
-    protected $listeners = array();
+    protected $listeners = [];
 
     /**
      * Create/construct a new entity list instance.
      */
-    public function __construct(array $entities = array())
+    public function __construct(array $entities = [])
     {
         parent::__construct($entities);
 
@@ -71,7 +71,7 @@ class EntityList extends TypedList implements EntityChangedListenerInterface
      */
     public function toArray()
     {
-        $data = array();
+        $data = [];
 
         foreach ($this->items as $entity) {
             $data[] = $entity->toArray();

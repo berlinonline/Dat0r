@@ -6,22 +6,60 @@ use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListValueHolder;
 use Dat0r\Tests\Runtime\Fixtures\Paragraph;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
-use Dat0r\Tests\Runtime\Fixtures\WorkflowTicketType;
+use Dat0r\Tests\Runtime\Fixtures\WorkflowStateType;
 use Dat0r\Tests\TestCase;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
+use Mockery;
 
 class EmbeddedEntityListAttributeTest extends TestCase
 {
-    const FIELDNAME = 'test_embed_attribute';
+    const ATTR_NAME = 'content_objects';
 
     public function testCreate()
     {
         $embed_attribute = new EmbeddedEntityListAttribute(
-            self::FIELDNAME,
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS)
-            )
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
         );
-        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($embed_attribute->getName(), self::ATTR_NAME);
+    }
+
+    public function testParentGetter()
+    {
+        $embed_attribute = new EmbeddedEntityListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
+        );
+        $paragraph_type = $embed_attribute->getEmbedTypeByPrefix('paragraph');
+        $title_attribute = $paragraph_type->getAttribute('title');
+
+        $this->assertEquals($embed_attribute->getName(), $title_attribute->getParent()->getName());
+    }
+
+    public function testParentEntityAccess()
+    {
+        $article_type = $this->getTypeMock();
+        $article = $article_type->createEntity(
+            [
+                'uuid' => '7e185d43-f870-46e7-9cea-59800555e970',
+                'content_objects' => [
+                    [
+                        '@type' => Paragraph::CLASS,
+                        'title' => 'Foobar',
+                        'content' => 'The quick brown bar fooed over the lazy snafu.'
+                    ]
+                ]
+            ]
+        );
+
+        $paragraph = $article->getValue('content_objects')->getFirst();
+
+        $this->assertEquals($paragraph->getType()->getName(), 'Paragraph');
+        $this->assertEquals($paragraph->getParent(), $article);
+        $this->assertEquals($paragraph->getParent()->getType()->getName(), 'Article');
     }
 
     /**
@@ -30,16 +68,14 @@ class EmbeddedEntityListAttributeTest extends TestCase
     public function testCreateWithOptions(array $options)
     {
         $options = array_merge(
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS)
-            ),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ]],
             $options
         );
 
-        $embed_attribute = new EmbeddedEntityListAttribute(self::FIELDNAME, $options);
-        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
+        $embed_attribute = new EmbeddedEntityListAttribute(self::ATTR_NAME, $this->getTypeMock(), $options);
+        $this->assertEquals($embed_attribute->getName(), self::ATTR_NAME);
 
-        $this->assertEquals($embed_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($embed_attribute->getName(), self::ATTR_NAME);
         $this->assertFalse($embed_attribute->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue) {
             $this->assertTrue($embed_attribute->hasOption($optName));
@@ -53,10 +89,9 @@ class EmbeddedEntityListAttributeTest extends TestCase
     public function testCreateValue(array $embed_data)
     {
         $embed_attribute = new EmbeddedEntityListAttribute(
-            self::FIELDNAME,
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS)
-            )
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
         );
 
         $value = $embed_attribute->createValueHolder();
@@ -78,13 +113,12 @@ class EmbeddedEntityListAttributeTest extends TestCase
     public function testGetEmbedByPrefix()
     {
         $embed_attribute = new EmbeddedEntityListAttribute(
-            self::FIELDNAME,
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(WorkflowTicketType::CLASS)
-            )
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ WorkflowStateType::CLASS ] ]
         );
-        $workflow_ticket_type = $embed_attribute->getEmbedTypeByPrefix('workflow_ticket');
-        $this->assertInstanceOf(WorkflowTicketType::CLASS, $workflow_ticket_type);
+        $workflow_state_type = $embed_attribute->getEmbedTypeByPrefix('workflow_state');
+        $this->assertInstanceOf(WorkflowStateType::CLASS, $workflow_state_type);
     }
 
     /**
@@ -93,21 +127,23 @@ class EmbeddedEntityListAttributeTest extends TestCase
     public static function getOptionsFixture()
     {
         // @todo generate random options.
-        $fixtures = array();
+        $fixtures = [];
 
-        $fixtures[] = array(
-            array(
-                'some_option_name' => 'some_option_value',
-                'another_option_name' => 'another_option_value'
-            ),
-            array(
-                'some_option_name' => 23,
-                'another_option_name' => 5
-            ),
-            array(
-                'some_option_name' => array('foo' => 'bar')
-            )
-        );
+        return [
+            [
+                [
+                    'some_option_name' => 'some_option_value',
+                    'another_option_name' => 'another_option_value'
+                ],
+                [
+                    'some_option_name' => 23,
+                    'another_option_name' => 5
+                ],
+                [
+                    'some_option_name' => [ 'foo' => 'bar' ]
+                ]
+            ]
+        ];
 
         return $fixtures;
     }
@@ -118,18 +154,23 @@ class EmbeddedEntityListAttributeTest extends TestCase
     public static function getEmbedFixture()
     {
         // @todo generate random (utf-8) text
-        $fixtures = array();
+        $fixtures = [];
 
-        $fixtures[] = array(
-            array(
-                array(
+        $fixtures[] = [
+            [
+                [
                     'title' => 'This is a paragraph test title.',
                     'content' => 'And this is some paragraph test content.',
                     '@type' => Paragraph::CLASS
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         return $fixtures;
+    }
+
+    protected function getTypeMock($type_name = 'GenericMockType')
+    {
+        return new ArticleType();
     }
 }

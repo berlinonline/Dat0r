@@ -7,21 +7,29 @@ use Dat0r\Runtime\Attribute\EmailList\EmailListAttribute;
 use Dat0r\Runtime\Attribute\EmailList\EmailListValueHolder;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Tests\TestCase;
+use Dat0r\Runtime\EntityTypeInterface;
 use stdClass;
+use Mockery;
 
 class EmailListAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'emails';
+
     public function testCreate()
     {
-        $attribute = new EmailListAttribute('emails');
-        $this->assertEquals($attribute->getName(), 'emails');
+        $attribute = new EmailListAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
     }
 
     public function testCreateValueWithDefaultValues()
     {
         $data = [ 'foo@bar.com' => 'bar' ];
 
-        $attribute = new EmailListAttribute('emails', [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new EmailListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
 
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(EmailListValueHolder::CLASS, $valueholder);
@@ -30,7 +38,7 @@ class EmailListAttributeTest extends TestCase
 
     public function testCastToArrayWhenSettingSingleValueWorks()
     {
-        $attribute = new EmailListAttribute('emails');
+        $attribute = new EmailListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('foo@bar.com');
         $this->assertEquals([ 'foo@bar.com' => '' ], $valueholder->getValue());
@@ -40,7 +48,7 @@ class EmailListAttributeTest extends TestCase
     {
         $data = [ 'foobarcom' => 'bar' ];
 
-        $attribute = new EmailListAttribute('emails');
+        $attribute = new EmailListAttribute(self::ATTR_NAME, $this->getTypeMock());
 
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue($data);
@@ -55,7 +63,11 @@ class EmailListAttributeTest extends TestCase
         $bar = $data;
         $bar['asdf@example.com'] = 'omgomgomg';
 
-        $attribute = new EmailListAttribute('emails', [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new EmailListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
@@ -70,10 +82,14 @@ class EmailListAttributeTest extends TestCase
             'foo@bar.com' => '1234567890',
         ];
 
-        $attribute = new EmailListAttribute('emailslabellength', [
-            EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 3,
-            EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5
-        ]);
+        $attribute = new EmailListAttribute(
+            'emailslabellength',
+            $this->getTypeMock(),
+            [
+                EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 3,
+                EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -88,9 +104,11 @@ class EmailListAttributeTest extends TestCase
     {
         $data = [ 'foo@bar.com' => 'bar', 'blah@exmaple.com' => 'blub' ];
 
-        $attribute = new EmailListAttribute('emailsmaxcount', [
-            EmailListAttribute::OPTION_MAX_COUNT => 1
-        ]);
+        $attribute = new EmailListAttribute(
+            'emailsmaxcount',
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_MAX_COUNT => 1 ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -110,7 +128,7 @@ class EmailListAttributeTest extends TestCase
     public function testToNativeRoundtripWithBooleanFlags()
     {
         $emails = [ 'foo@bar.com' => 'some name', 'blah@blub.com' => 'yeah right' ];
-        $attribute = new EmailListAttribute('emails', []);
+        $attribute = new EmailListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue($emails);
         $this->assertNotEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -125,9 +143,11 @@ class EmailListAttributeTest extends TestCase
 
     public function testAllowedLabelsConstraintFails()
     {
-        $attribute = new EmailListAttribute('emails', [
-            EmailListAttribute::OPTION_ALLOWED_EMAIL_LABELS => [ 'bar' ]
-        ]);
+        $attribute = new EmailListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_ALLOWED_EMAIL_LABELS => [ 'bar' ] ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue(['foo@bar.com' => 'blah']);
@@ -136,9 +156,11 @@ class EmailListAttributeTest extends TestCase
 
     public function testAllowedEmailsConstraintFails()
     {
-        $attribute = new EmailListAttribute('emails', [
-            EmailListAttribute::OPTION_ALLOWED_EMAILS => [ 'foo@bar.com' => 'asdf' ]
-        ]);
+        $attribute = new EmailListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_ALLOWED_EMAILS => [ 'foo@bar.com' => 'asdf' ] ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue(['bar@foo.com' => 'asdf']);
@@ -147,9 +169,11 @@ class EmailListAttributeTest extends TestCase
 
     public function testAllowedPairsConstraintFails()
     {
-        $attribute = new EmailListAttribute('emails', [
-            EmailListAttribute::OPTION_ALLOWED_EMAIL_PAIRS => [ 'foo@bar.com' => 'foo' ]
-        ]);
+        $attribute = new EmailListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_ALLOWED_EMAIL_PAIRS => [ 'foo@bar.com' => 'foo' ] ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue(['foo@bar.de' => 'foo', 'foo@bar.com' => 'fo' ]);
@@ -160,11 +184,15 @@ class EmailListAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
 
-        $attribute = new EmailListAttribute('emailinvalidintegerdefaultvalue', [
-            EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 1,
-            EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5,
-            EmailListAttribute::OPTION_DEFAULT_VALUE => [ 'email@example.com' => '1234567890' ]
-        ]);
+        $attribute = new EmailListAttribute(
+            'emailinvalidintegerdefaultvalue',
+            $this->getTypeMock(),
+            [
+                EmailListAttribute::OPTION_MIN_EMAIL_LABEL_LENGTH => 1,
+                EmailListAttribute::OPTION_MAX_EMAIL_LABEL_LENGTH => 5,
+                EmailListAttribute::OPTION_DEFAULT_VALUE => [ 'email@example.com' => '1234567890' ]
+            ]
+        );
 
         $attribute->getDefaultValue();
     }
@@ -173,9 +201,11 @@ class EmailListAttributeTest extends TestCase
     {
         $this->setExpectedException(BadValueException::CLASS);
 
-        $attribute = new EmailListAttribute('emailinvaliddefaultvalue', [
-            EmailListAttribute::OPTION_DEFAULT_VALUE => [ 'emailexample.com' => '1234567890' ]
-        ]);
+        $attribute = new EmailListAttribute(
+            'emailinvaliddefaultvalue',
+            $this->getTypeMock(),
+            [ EmailListAttribute::OPTION_DEFAULT_VALUE => [ 'emailexample.com' => '1234567890' ] ]
+        );
 
         $attribute->getDefaultValue();
     }
@@ -185,7 +215,7 @@ class EmailListAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new EmailListAttribute('emails');
+        $attribute = new EmailListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
@@ -193,11 +223,11 @@ class EmailListAttributeTest extends TestCase
     public function provideInvalidValues()
     {
         return [
-            [null],
-            [false],
-            [true],
-            [1],
-            ['' => 'asdf']
+            [ null ],
+            [ false ],
+            [ true ],
+            [ 1 ],
+            [ '' => 'asdf' ]
         ];
     }
 }

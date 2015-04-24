@@ -29,13 +29,6 @@ interface EntityInterface
     public function getParent();
 
     /**
-     * Sets the entity's parent once, if it isn't yet assigned.
-     *
-     * @param EntityInterface $parent
-     */
-    public function setParent(EntityInterface $parent);
-
-    /**
      * Sets a specific value by attribute_name.
      *
      * @param string $attribute_name
@@ -76,7 +69,7 @@ interface EntityInterface
      *
      * @return array
      */
-    public function getValues(array $attribute_names = array());
+    public function getValues(array $attribute_names = []);
 
     /**
      * Returns a (de)serializable representation of the attribute values. The

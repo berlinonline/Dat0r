@@ -6,6 +6,7 @@ use Dat0r\Runtime\Validator\Rule\Rule;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class TimestampRule extends Rule
 {
@@ -25,7 +26,7 @@ class TimestampRule extends Rule
 
     const FORMAT_NATIVE = 'Y-m-d\TH:i:s.uP';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $default_timezone = new DateTimeZone(
             $this->getOption(

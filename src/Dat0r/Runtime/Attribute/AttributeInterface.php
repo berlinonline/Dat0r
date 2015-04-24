@@ -33,25 +33,11 @@ interface AttributeInterface
     public function getType();
 
     /**
-     * Sets the attribute's type once, if it isn't assigned.
-     *
-     * @param EntityTypeInterface $type
-     */
-    public function setType(EntityTypeInterface $type);
-
-    /**
      * Returns the attribute's parent, if it has one.
      *
      * @return AttributeInterface
      */
     public function getParent();
-
-    /**
-     * Sets the attribute's parent once, if it isn't yet assigned.
-     *
-     * @param AttributeInterface $parent
-     */
-    public function setParent(AttributeInterface $parent);
 
     /**
      * Returns attribute path of this attribute. Depending on this attribute

@@ -7,7 +7,7 @@ use Dat0r\Common\Error\RuntimeException;
 
 class Map extends Collection implements MapInterface
 {
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         parent::__construct();
 

@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Accepts strings and:
@@ -36,7 +37,7 @@ class TextRule extends Rule
     const OPTION_SPOOFCHECK_INCOMING = 'spoofcheck_incoming';
     const OPTION_SPOOFCHECK_RESULT = 'spoofcheck_result';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_string($value)) {
             $this->throwError('non_string_value', [ 'value' => $value ], IncidentInterface::CRITICAL);

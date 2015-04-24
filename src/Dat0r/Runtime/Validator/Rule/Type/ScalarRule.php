@@ -7,6 +7,7 @@ use Dat0r\Runtime\Validator\Rule\Type\BooleanRule;
 use Dat0r\Runtime\Validator\Rule\Type\FloatRule;
 use Dat0r\Runtime\Validator\Rule\Type\IntegerRule;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Only allows scalar input values while treating NULL as empty string.
@@ -50,7 +51,7 @@ class ScalarRule extends Rule
     const OPTION_MAX_FLOAT_VALUE            = 'max_float_value'; // FloatRule::OPTION_MAX_VALUE;
     const OPTION_MIN_FLOAT_VALUE            = 'min_float_value'; // FloatRule::OPTION_MIN_VALUE;
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (is_null($value)) {
             $value = '';

@@ -11,6 +11,7 @@ use Dat0r\Runtime\Validator\Rule\Type\FloatRule;
 use Dat0r\Runtime\Validator\Rule\Type\IntegerRule;
 use Dat0r\Runtime\Validator\Rule\Type\ScalarRule;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class KeyValueListRule extends Rule
 {
@@ -60,7 +61,7 @@ class KeyValueListRule extends Rule
     const OPTION_MAX_FLOAT_VALUE            = 'max_float_value'; // FloatRule::OPTION_MAX_VALUE;
     const OPTION_MIN_FLOAT_VALUE            = 'min_float_value'; // FloatRule::OPTION_MIN_VALUE;
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_array($value)) {
             $this->throwError('non_array_value', [], IncidentInterface::CRITICAL);

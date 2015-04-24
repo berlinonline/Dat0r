@@ -7,6 +7,7 @@ use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Result\Result;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class Validator extends Object implements ValidatorInterface
 {
@@ -20,14 +21,14 @@ class Validator extends Object implements ValidatorInterface
         $this->rules = $rules;
     }
 
-    public function validate($value)
+    public function validate($value, EntityInterface $entity = null)
     {
         $result = new Result($this);
         $result->setInputValue($value);
 
         $success = true;
         foreach ($this->rules as $rule) {
-            if ($rule->apply($value)) {
+            if ($rule->apply($value, $entity)) {
                 $value = $rule->getSanitizedValue();
             } else {
                 $success = false;

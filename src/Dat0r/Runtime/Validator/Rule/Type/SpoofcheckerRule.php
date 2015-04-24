@@ -7,6 +7,7 @@ use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Spoofchecker;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Check a string for suspicious letters. This may include confusable
@@ -37,7 +38,7 @@ class SpoofcheckerRule extends Rule
     const OPTION_REJECT_INVISIBLE_CHARACTERS = 'reject_invisible_characters';
     const OPTION_VISUALLY_CONFUSABLE_STRINGS = 'visually_confusable_strings';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_string($value)) {
             $this->throwError('non_string_value', [ 'value' => $value ], IncidentInterface::CRITICAL);

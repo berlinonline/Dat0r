@@ -18,7 +18,7 @@ class NumberAttribute extends Attribute
 
     protected function buildValidationRules()
     {
-        $options = array();
+        $options = [];
         if ($this->hasOption(self::OPTION_MIN)) {
             $options[self::OPTION_MIN] = $this->getOption(self::OPTION_MIN);
         }

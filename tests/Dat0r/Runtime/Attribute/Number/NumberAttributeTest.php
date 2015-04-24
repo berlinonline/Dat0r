@@ -8,12 +8,12 @@ use Dat0r\Tests\TestCase;
 
 class NumberAttributeTest extends TestCase
 {
-    const FIELDNAME = 'test_int_attribute';
+    const ATTR_NAME = 'test_int_attribute';
 
     public function testCreateAttribute()
     {
-        $number_attribute = new NumberAttribute(self::FIELDNAME);
-        $this->assertEquals($number_attribute->getName(), self::FIELDNAME);
+        $number_attribute = new NumberAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($number_attribute->getName(), self::ATTR_NAME);
         $this->assertInstanceOf(NumberAttribute::CLASS, $number_attribute);
     }
 
@@ -22,9 +22,9 @@ class NumberAttributeTest extends TestCase
      */
     public function testCreateAttributeWithOptions(array $options)
     {
-        $number_attribute = new NumberAttribute(self::FIELDNAME, $options);
+        $number_attribute = new NumberAttribute(self::ATTR_NAME, $this->getTypeMock(), $options);
 
-        $this->assertEquals($number_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($number_attribute->getName(), self::ATTR_NAME);
         $this->assertFalse($number_attribute->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue) {
             $this->assertTrue($number_attribute->hasOption($optName));
@@ -37,7 +37,7 @@ class NumberAttributeTest extends TestCase
      */
     public function testCreateValue($intValue)
     {
-        $number_attribute = new NumberAttribute(self::FIELDNAME);
+        $number_attribute = new NumberAttribute(self::ATTR_NAME, $this->getTypeMock());
         $value = $number_attribute->createValueHolder();
         $this->assertInstanceOf(NumberValueHolder::CLASS, $value);
         $value->setValue($intValue);
@@ -50,23 +50,21 @@ class NumberAttributeTest extends TestCase
     public static function getOptionsFixture()
     {
         // @todo generate random options.
-        $fixtures = array();
-
-        $fixtures[] = array(
-            array(
-                'some_option_name' => 'some_option_value',
-                'another_option_name' => 'another_option_value'
-            ),
-            array(
-                'some_option_name' => 23,
-                'another_option_name' => 5
-            ),
-            array(
-                'some_option_name' => array('foo' => 'bar')
-            )
-        );
-
-        return $fixtures;
+        return [
+            [
+                [
+                    'some_option_name' => 'some_option_value',
+                    'another_option_name' => 'another_option_value'
+                ],
+                [
+                    'some_option_name' => 23,
+                    'another_option_name' => 5
+                ],
+                [
+                    'some_option_name' => [ 'foo' => 'bar' ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -75,11 +73,10 @@ class NumberAttributeTest extends TestCase
     public static function getIntegerFixture()
     {
         // @todo generate random (utf-8) text
-        $fixtures = array();
-
-        $fixtures[] = array(2);
-        $fixtures[] = array(23);
-        $fixtures[] = array(2035);
+        $fixtures = [];
+        $fixtures[] = [ 2 ];
+        $fixtures[] = [ 23 ];
+        $fixtures[] = [ 2035 ];
 
         return $fixtures;
     }

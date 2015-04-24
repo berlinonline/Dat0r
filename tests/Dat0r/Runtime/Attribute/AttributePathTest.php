@@ -32,10 +32,10 @@ class AttributePathTest extends TestCase
 
     public function attributeByPathProvider()
     {
-        return array(
-            array('content_objects.paragraph.title', 'title'),
-            array('headline', 'headline')
-        );
+        return [
+            [ 'content_objects.paragraph.title', 'title' ],
+            [ 'headline', 'headline' ]
+        ];
     }
 
     public function attributePathProvider()
@@ -47,14 +47,14 @@ class AttributePathTest extends TestCase
         $paragraph_type = $content_objects_attribute->getEmbedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
-        $workflow_ticket_attribute = $article_type->getAttribute('workflow_ticket');
-        $workflow_ticket_type = $workflow_ticket_attribute->getEmbedTypeByPrefix('workflow_ticket');
-        $workflow_step_attribute = $workflow_ticket_type->getAttribute('workflow_step');
+        $workflow_state_attribute = $article_type->getAttribute('workflow_state');
+        $workflow_state_type = $workflow_state_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_step_attribute = $workflow_state_type->getAttribute('workflow_step');
 
-        return array(
-            array($headline_attribute, 'headline'),
-            array($title_attribute, 'content_objects.paragraph.title'),
-            array($workflow_step_attribute, 'workflow_ticket.workflow_ticket.workflow_step')
-        );
+        return [
+            [ $headline_attribute, 'headline' ],
+            [ $title_attribute, 'content_objects.paragraph.title' ],
+            [ $workflow_step_attribute, 'workflow_state.workflow_state.workflow_step' ]
+        ];
     }
 }

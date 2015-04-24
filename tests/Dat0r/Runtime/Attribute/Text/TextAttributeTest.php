@@ -9,19 +9,19 @@ use Dat0r\Tests\TestCase;
 
 class TextAttributeTest extends TestCase
 {
-    const FIELDNAME = 'test_text_attribute';
+    const ATTR_NAME = 'test_text_attribute';
 
     public function testCreate()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME);
-        $this->assertEquals($text_attribute->getName(), self::FIELDNAME);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($text_attribute->getName(), self::ATTR_NAME);
     }
 
     public function testUtf8Handling()
     {
         $string = 'CHARSET - WÄHLE UTF-8 AS SENSIBLE DEFAULT!  ';
         $string_trimmed = 'CHARSET - WÄHLE UTF-8 AS SENSIBLE DEFAULT!';
-        $text_attribute = new TextAttribute(self::FIELDNAME);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $text_attribute->createValueHolder();
         $result = $valueholder->setValue($string);
         $this->assertTrue($string_trimmed === $valueholder->getValue(), 'utf8 string should be trimmed');
@@ -32,9 +32,9 @@ class TextAttributeTest extends TestCase
      */
     public function testCreateWithOptions(array $options)
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME, $options);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, $this->getTypeMock(), $options);
 
-        $this->assertEquals($text_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($text_attribute->getName(), self::ATTR_NAME);
         $this->assertFalse($text_attribute->hasOption('snafu_flag'));
         foreach ($options as $optName => $optValue) {
             $this->assertTrue($text_attribute->hasOption($optName));
@@ -44,7 +44,7 @@ class TextAttributeTest extends TestCase
 
     public function testCreateValue()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $text_attribute->createValueHolder();
         $this->assertInstanceOf(TextValueHolder::CLASS, $valueholder);
         $valueholder->setValue('omgomgomg');
@@ -53,7 +53,7 @@ class TextAttributeTest extends TestCase
 
     public function testAcceptZeroWidthSpace()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME, []);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $text_attribute->createValueHolder();
         $zero_width_space = "some\xE2\x80\x8Btext";
         $result = $valueholder->setValue($zero_width_space);
@@ -63,7 +63,7 @@ class TextAttributeTest extends TestCase
 /*
     public function testSpoofcheckIncomingRejectsZeroWidthSpace()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME, [ 'spoofcheck_incoming' => true ]);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, [ 'spoofcheck_incoming' => true ]);
         $valueholder = $text_attribute->createValueHolder();
         $zero_width_space = "some\xE2\x80\x8Btext";
         $result = $valueholder->setValue($zero_width_space);
@@ -73,7 +73,7 @@ class TextAttributeTest extends TestCase
 
     public function testSpoofcheckResultingValueRejectsZeroWidthSpace()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME, [ 'spoofcheck_result' => true ]);
+        $text_attribute = new TextAttribute(self::ATTR_NAME, [ 'spoofcheck_result' => true ]);
         $valueholder = $text_attribute->createValueHolder();
         $zero_width_space = "some\xE2\x80\x8Btext";
         $result = $valueholder->setValue($zero_width_space);
@@ -84,7 +84,7 @@ class TextAttributeTest extends TestCase
 /*
     public function testSpoofcheckResultingValueSucceedsAsZeroWidthSpaceIsTrimmed()
     {
-        $text_attribute = new TextAttribute(self::FIELDNAME, [
+        $text_attribute = new TextAttribute(self::ATTR_NAME, [
             'strip_zero_width_space' => true,
             // 'spoofcheck_incoming' => true
             'spoofcheck_result' => true
@@ -99,7 +99,8 @@ class TextAttributeTest extends TestCase
     public function testValidationSuccess()
     {
         $text_attribute = new TextAttribute(
-            self::FIELDNAME,
+            self::ATTR_NAME,
+            $this->getTypeMock(),
             [ TextAttribute::OPTION_MIN_LENGTH => 3, TextAttribute::OPTION_MAX_LENGTH => 10 ]
         );
 
@@ -110,7 +111,8 @@ class TextAttributeTest extends TestCase
     public function testValidationError()
     {
         $text_attribute = new TextAttribute(
-            self::FIELDNAME,
+            self::ATTR_NAME,
+            $this->getTypeMock(),
             [ TextAttribute::OPTION_MIN_LENGTH => 3, TextAttribute::OPTION_MAX_LENGTH => 5 ]
         );
 
@@ -124,21 +126,20 @@ class TextAttributeTest extends TestCase
     public static function getOptionsFixture()
     {
         // @todo generate random options.
-        $fixtures = array();
-
-        $fixtures[] = array(
-            array(
+        $fixtures = [];
+        $fixtures[] = [
+            [
                 'some_option_name' => 'some_option_value',
                 'another_option_name' => 'another_option_value'
-            ),
-            array(
+            ],
+            [
                 'some_option_name' => 23,
                 'another_option_name' => 5
-            ),
-            array(
-                'some_option_name' => array('foo' => 'bar')
-            )
-        );
+            ],
+            [
+                'some_option_name' => [ 'foo' => 'bar' ]
+            ]
+        ];
 
         return $fixtures;
     }

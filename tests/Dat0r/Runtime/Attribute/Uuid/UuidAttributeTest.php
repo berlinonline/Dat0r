@@ -10,18 +10,18 @@ use Dat0r\Tests\TestCase;
 
 class UuidAttributeTest extends TestCase
 {
-    const FIELDNAME = 'uuid';
+    const ATTR_NAME = 'uuid';
     const REGEX_UUID_V4 = '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i';
 
     public function testCreate()
     {
-        $uuid_attribute = new UuidAttribute(self::FIELDNAME);
-        $this->assertEquals($uuid_attribute->getName(), self::FIELDNAME);
+        $uuid_attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($uuid_attribute->getName(), self::ATTR_NAME);
     }
 
     public function testDefaultValue()
     {
-        $uuid_attribute = new UuidAttribute(self::FIELDNAME);
+        $uuid_attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock());
         $default_value = $uuid_attribute->getDefaultValue();
         $this->assertFalse(empty($default_value));
         $this->assertTrue(is_string($default_value));
@@ -33,7 +33,7 @@ class UuidAttributeTest extends TestCase
 
     public function testInvalidValueSetting()
     {
-        $attribute = new UuidAttribute(self::FIELDNAME);
+        $attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
 
@@ -45,9 +45,11 @@ class UuidAttributeTest extends TestCase
 
     public function testDefaultValueComparisonWorks()
     {
-        $attribute = new UuidAttribute(self::FIELDNAME, [
-            UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
-        ]);
+        $attribute = new UuidAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360' ]
+        );
 
         $valueholder = $attribute->createValueHolder(true);
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
@@ -60,9 +62,11 @@ class UuidAttributeTest extends TestCase
     public function testNullValueComparisonThrows()
     {
         $this->setExpectedException(RuntimeException::CLASS);
-        $attribute = new UuidAttribute(self::FIELDNAME, [
-            UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360'
-        ]);
+        $attribute = new UuidAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ UuidAttribute::OPTION_DEFAULT_VALUE => 'f615154d-1657-463c-ae11-240590c55360' ]
+        );
 
         $valueholder = $attribute->createValueHolder(true);
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
@@ -72,7 +76,7 @@ class UuidAttributeTest extends TestCase
     public function testDefaultValueComparisonThrowsWhenNoDefaultWasSet()
     {
         $this->setExpectedException(RuntimeException::CLASS);
-        $attribute = new UuidAttribute(self::FIELDNAME);
+        $attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock());
 
         $valueholder = $attribute->createValueHolder();
         $this->assertTrue(1 === preg_match(self::REGEX_UUID_V4, $valueholder->getValue()));
@@ -84,9 +88,9 @@ class UuidAttributeTest extends TestCase
      */
     public function testCreateWithOptions(array $options)
     {
-        $uuid_attribute = new UuidAttribute(self::FIELDNAME, $options);
+        $uuid_attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock(), $options);
 
-        $this->assertEquals($uuid_attribute->getName(), self::FIELDNAME);
+        $this->assertEquals($uuid_attribute->getName(), self::ATTR_NAME);
         $this->assertFalse($uuid_attribute->hasOption('snafu_flag'));
 
         foreach ($options as $optName => $optValue) {
@@ -100,7 +104,7 @@ class UuidAttributeTest extends TestCase
      */
     public function testCreateValue($uuid)
     {
-        $uuid_attribute = new UuidAttribute(self::FIELDNAME);
+        $uuid_attribute = new UuidAttribute(self::ATTR_NAME, $this->getTypeMock());
         $value = $uuid_attribute->createValueHolder();
         $this->assertInstanceOf(UuidValueHolder::CLASS, $value);
         $value->setValue($uuid);
@@ -113,23 +117,21 @@ class UuidAttributeTest extends TestCase
     public static function getOptionsFixture()
     {
         // @todo generate random options.
-        $fixtures = array();
-
-        $fixtures[] = array(
-            array(
-                'some_option_name' => 'some_option_value',
-                'another_option_name' => 'another_option_value'
-            ),
-            array(
-                'some_option_name' => 23,
-                'another_option_name' => 5
-            ),
-            array(
-                'some_option_name' => array('foo' => 'bar')
-            )
-        );
-
-        return $fixtures;
+        return [
+            [
+                [
+                    'some_option_name' => 'some_option_value',
+                    'another_option_name' => 'another_option_value'
+                ],
+                [
+                    'some_option_name' => 23,
+                    'another_option_name' => 5
+                ],
+                [
+                    'some_option_name' => array('foo' => 'bar')
+                ]
+            ]
+        ];
     }
 
     /**
@@ -138,10 +140,8 @@ class UuidAttributeTest extends TestCase
     public static function getUuidAttributeFixture()
     {
         // @todo generate random (utf-8) text
-        $fixtures = array();
-
-        $fixtures[] = array('9303ecdb-016f-4942-837a-a20c97b64310');
-
-        return $fixtures;
+        return [
+            [ '9303ecdb-016f-4942-837a-a20c97b64310' ]
+        ];
     }
 }

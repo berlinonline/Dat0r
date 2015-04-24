@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * ReferenceRule validates that a given value consistently translates to a collection of entities.
@@ -25,7 +26,7 @@ class ReferenceRule extends Rule
      *
      * @return boolean
      */
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $success = true;
         $collection = null;
@@ -57,8 +58,8 @@ class ReferenceRule extends Rule
      */
     protected function createEntityList(array $entities_data)
     {
-        $type_map = array();
-        foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, array()) as $type) {
+        $type_map = [];
+        foreach ($this->getOption(self::OPTION_REFERENCE_MODULES, []) as $type) {
             $type_map[$type->getEntityType()] = $type;
         }
 
@@ -66,7 +67,7 @@ class ReferenceRule extends Rule
         ksort($entities_data);
         foreach ($entities_data as $entity_data) {
             if (!isset($entity_data[self::OBJECT_TYPE])) {
-                $this->throwError('missing_doc_type', array(), IncidentInterface::CRITICAL);
+                $this->throwError('missing_doc_type', [], IncidentInterface::CRITICAL);
                 continue;
             }
 

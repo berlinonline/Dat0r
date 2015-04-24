@@ -49,10 +49,10 @@
                 <option name="cast_values_to">nothing</option>
             </attribute>
 
-            <attribute name="workflow_ticket" type="embedded-entity-list">
+            <attribute name="workflow_state" type="embedded-entity-list">
                 <description>Holds the current workflow state.</description>
                 <option name="entity_types">
-                    <option>WorkflowTicket</option>
+                    <option>WorkflowState</option>
                 </option>
             </attribute>
         </attributes>
@@ -106,10 +106,10 @@
             </attributes>
         </embed_definition>
 
-        <embed_definition name="WorkflowTicket">
-            <implementor>\Honeybee\Core\Dat0r\WorkflowTicket</implementor>
+        <embed_definition name="WorkflowState">
+            <implementor>\Honeybee\Core\Dat0r\WorkflowState</implementor>
             <description>
-                A "WorkflowTicket" reflects the current state of an document's workflow.
+                A "WorkflowState" reflects the current state of an document's workflow.
             </description>
             <attributes>
                 <attribute name="workflow_name" type="text">

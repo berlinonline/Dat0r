@@ -9,18 +9,20 @@ use Dat0r\Runtime\ValueHolder\ValueChangedEvent;
 use Dat0r\Runtime\ValueHolder\ValueChangedListenerInterface;
 use Dat0r\Tests\Runtime\Fixtures\ParagraphType;
 use Dat0r\Tests\TestCase;
+use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Mockery;
 
 class EmbeddedEntityListValueHolderTest extends TestCase
 {
+    const ATTR_NAME = 'content_objects';
+
     public function testCreate()
     {
         $value = new EmbeddedEntityListValueHolder(
             new EmbeddedEntityListAttribute(
-                'content_objects',
-                array(
-                    EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
-                )
+                self::ATTR_NAME,
+                $this->getTypeMock(),
+                [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
             )
         );
 
@@ -30,10 +32,9 @@ class EmbeddedEntityListValueHolderTest extends TestCase
     public function testDefaultValue()
     {
         $embed_attribute = new EmbeddedEntityListAttribute(
-            'content_objects',
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
-            )
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
         );
 
         $value = $embed_attribute->createValueHolder();
@@ -48,16 +49,15 @@ class EmbeddedEntityListValueHolderTest extends TestCase
         $listener = Mockery::mock(ValueChangedListenerInterface::CLASS);
         $listener->shouldReceive('onValueChanged')->with(ValueChangedEvent::CLASS)->twice();
 
-        $embed_type = new ParagraphType();
+        $embed_type = new ParagraphType($this->getTypeMock());
         $embedd_entity = $embed_type->createEntity(
-            array('title' => 'Hello world', 'content' => 'Foobar lorem ipsum...')
+            [ 'title' => 'Hello world', 'content' => 'Foobar lorem ipsum...' ]
         );
 
         $embed_attribute = new EmbeddedEntityListAttribute(
-            'content_objects',
-            array(
-                EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
-            )
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
         );
 
         $value = $embed_attribute->createValueHolder();
@@ -70,5 +70,10 @@ class EmbeddedEntityListValueHolderTest extends TestCase
 
         $this->assertInstanceOf(EntityList::CLASS, $entity_list);
         $this->assertEquals(1, $entity_list->getSize());
+    }
+
+    protected function getTypeMock($type_name = 'GenericMockType')
+    {
+        return new ArticleType();
     }
 }

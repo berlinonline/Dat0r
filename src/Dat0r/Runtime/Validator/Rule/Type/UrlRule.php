@@ -7,6 +7,7 @@ use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Spoofchecker;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class UrlRule extends Rule
 {
@@ -100,7 +101,7 @@ class UrlRule extends Rule
         parent::__construct($name, $options);
     }
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_string($value)) {
             $this->throwError('non_string_value', [ 'value' => $value ], IncidentInterface::CRITICAL);

@@ -20,7 +20,7 @@ class Object implements ObjectInterface
      *
      * @param array $state data to set on the object (key-value pairs)
      */
-    public function __construct(array $state = array())
+    public function __construct(array $state = [])
     {
         foreach ($state as $property_name => $property_value) {
             $tmp_property_name = ucwords(str_replace(array('-', '_'), ' ', $property_name));
@@ -72,7 +72,7 @@ class Object implements ObjectInterface
     protected function getHiddenProperties()
     {
         if (!$this->hidden_properties_) {
-            $this->hidden_properties_ = array();
+            $this->hidden_properties_ = [];
             $class = new ReflectionClass($this);
 
             foreach ($class->getProperties() as $property) {
@@ -92,7 +92,7 @@ class Object implements ObjectInterface
     protected function parseDocBlockAnnotations($doc_block)
     {
         $annotation_pattern = '~\*\s+@(\w+)~';
-        $annotations = array();
+        $annotations = [];
 
         preg_match($annotation_pattern, $doc_block, $matches);
 

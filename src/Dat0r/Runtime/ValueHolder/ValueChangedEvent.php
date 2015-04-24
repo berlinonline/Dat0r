@@ -53,7 +53,7 @@ class ValueChangedEvent extends Object implements EventInterface
      *
      * @param EntityChangedEvent $embed_event If the origin attribute is an embed, the bubbled event is passed
      */
-    public function __construct(array $state = array())
+    public function __construct(array $state = [])
     {
         parent::__construct($state);
 

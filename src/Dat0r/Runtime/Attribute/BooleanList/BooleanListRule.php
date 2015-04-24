@@ -4,10 +4,11 @@ namespace Dat0r\Runtime\Attribute\BooleanList;
 
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class BooleanListRule extends Rule
 {
-    protected function execute($values)
+    protected function execute($values, EntityInterface $entity = null)
     {
         if (!is_array($values)) {
             $this->throwError('non_array_value', [], IncidentInterface::CRITICAL);

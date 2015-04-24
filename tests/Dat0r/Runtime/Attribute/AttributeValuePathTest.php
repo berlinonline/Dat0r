@@ -29,23 +29,23 @@ class AttributeValuePathTest extends TestCase
         $paragraph_content = 'and even more awesome content ...';
 
         $article = $article_type->createEntity(
-            array(
+            [
                 'headline' => $headline,
                 'content' => $content,
-                'content_objects' => array(
-                    array(
+                'content_objects' => [
+                    [
                         '@type' => Paragraph::CLASS,
                         'title' => $paragraph_title,
                         'content' => $paragraph_content
-                    )
-                )
-            )
+                    ]
+                ]
+            ]
         );
 
-        return array(
-            array($article, 'headline', $headline),
-            array($article, 'content_objects.paragraph[0].content', $paragraph_content),
-            array($article, 'content_objects.*[0].title', $paragraph_title)
-        );
+        return [
+            [ $article, 'headline', $headline ],
+            [ $article, 'content_objects.paragraph[0].content', $paragraph_content ],
+            [ $article, 'content_objects.*[0].title', $paragraph_title ]
+        ];
     }
 }

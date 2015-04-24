@@ -11,16 +11,22 @@ use stdClass;
 
 class IntegerListAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'IntegerList';
+
     public function testCreate()
     {
-        $attribute = new IntegerListAttribute('IntegerList');
-        $this->assertEquals($attribute->getName(), 'IntegerList');
+        $attribute = new IntegerListAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
     }
 
     public function testCreateValueWithDefaultValues()
     {
         $data = [ 1, 2 ];
-        $attribute = new IntegerListAttribute('IntegerList', [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(IntegerListValueHolder::CLASS, $valueholder);
         $this->assertEquals([ 1, 2 ], $valueholder->getValue());
@@ -33,7 +39,11 @@ class IntegerListAttributeTest extends TestCase
         $bar = $data;
         $bar[] = 3;
 
-        $attribute = new IntegerListAttribute('IntegerList', [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
@@ -43,7 +53,7 @@ class IntegerListAttributeTest extends TestCase
 
     public function testSettingBooleanTrueAsValueFails()
     {
-        $attribute = new IntegerListAttribute('IntegerListbooltrue');
+        $attribute = new IntegerListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(true);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -51,9 +61,11 @@ class IntegerListAttributeTest extends TestCase
 
     public function testOctalValues()
     {
-        $attribute = new IntegerListAttribute('IntegerListoctalsucceeds', [
-            IntegerListAttribute::OPTION_ALLOW_OCTAL => true
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_ALLOW_OCTAL => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue([ '010' ]);
         $this->assertEquals([ 8 ], $valueholder->getValue());
@@ -61,9 +73,11 @@ class IntegerListAttributeTest extends TestCase
 
     public function testOctalValuesFails()
     {
-        $attribute = new IntegerListAttribute('IntegerListoctalfails', [
-            IntegerListAttribute::OPTION_ALLOW_OCTAL => false
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_ALLOW_OCTAL => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue([ '010' ]);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -71,9 +85,11 @@ class IntegerListAttributeTest extends TestCase
 
     public function testHexValues()
     {
-        $attribute = new IntegerListAttribute('IntegerListhexsucceeeds', [
-            IntegerListAttribute::OPTION_ALLOW_HEX => true
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_ALLOW_HEX => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue([ '0x10' ]);
         $this->assertEquals([ 16 ], $valueholder->getValue());
@@ -81,9 +97,11 @@ class IntegerListAttributeTest extends TestCase
 
     public function testHexValuesFails()
     {
-        $attribute = new IntegerListAttribute('IntegerListhexfails', [
-            IntegerListAttribute::OPTION_ALLOW_HEX => false
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerListAttribute::OPTION_ALLOW_HEX => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue([ '0x10' ]);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -91,15 +109,16 @@ class IntegerListAttributeTest extends TestCase
 
     public function testMinMaxConstraint()
     {
-        $data = [
-            1,
-            12,
-        ];
+        $data = [ 1, 12 ];
 
-        $attribute = new IntegerListAttribute('IntegerListminmax', [
-            IntegerListAttribute::OPTION_MIN_VALUE => 3,
-            IntegerListAttribute::OPTION_MAX_VALUE => 5
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerListAttribute::OPTION_MIN_VALUE => 3,
+                IntegerListAttribute::OPTION_MAX_VALUE => 5
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -113,11 +132,15 @@ class IntegerListAttributeTest extends TestCase
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);
-        $attribute = new IntegerListAttribute('IntegerListminmaxintegerdefaultvalue', [
-            IntegerListAttribute::OPTION_MIN_VALUE => 1,
-            IntegerListAttribute::OPTION_MAX_VALUE => 5,
-            IntegerListAttribute::OPTION_DEFAULT_VALUE => 666
-        ]);
+        $attribute = new IntegerListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerListAttribute::OPTION_MIN_VALUE => 1,
+                IntegerListAttribute::OPTION_MAX_VALUE => 5,
+                IntegerListAttribute::OPTION_DEFAULT_VALUE => 666
+            ]
+        );
         $attribute->getDefaultValue();
     }
 
@@ -126,18 +149,18 @@ class IntegerListAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new IntegerListAttribute('IntegerListInvalidValue');
+        $attribute = new IntegerListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(new stdClass())
-        );
+        return [
+            [ null ],
+            [ false ],
+            [ true ],
+            [ new stdClass() ]
+        ];
     }
 }

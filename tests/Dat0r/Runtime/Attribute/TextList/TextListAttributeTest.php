@@ -12,17 +12,23 @@ use stdClass;
 
 class TextListAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'TextList';
+
     public function testCreate()
     {
-        $attribute = new TextListAttribute('TextList');
-        $this->assertEquals($attribute->getName(), 'TextList');
+        $attribute = new TextListAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
     }
 
     public function testCreateValueWithDefaultValues()
     {
         $data = [ 'foo' => "foo\x00bar" ]; // key will be ignored
 
-        $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new TextListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
 
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
@@ -33,12 +39,16 @@ class TextListAttributeTest extends TestCase
     {
         $data = [ "\x00bar\nfoo" ];
 
-        $attribute = new TextListAttribute('TextList', [
-            TextListAttribute::OPTION_DEFAULT_VALUE => $data,
-            TextListAttribute::OPTION_STRIP_NULL_BYTES => false,
-            TextListAttribute::OPTION_TRIM => false,
-            TextListAttribute::OPTION_ALLOW_CRLF => true
-        ]);
+        $attribute = new TextListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                TextListAttribute::OPTION_DEFAULT_VALUE => $data,
+                TextListAttribute::OPTION_STRIP_NULL_BYTES => false,
+                TextListAttribute::OPTION_TRIM => false,
+                TextListAttribute::OPTION_ALLOW_CRLF => true
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(TextListValueHolder::CLASS, $valueholder);
@@ -49,7 +59,11 @@ class TextListAttributeTest extends TestCase
     {
         $data = [ 'foo', 'bar' ];
 
-        $attribute = new TextListAttribute('TextList', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new TextListAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
         $valueholder = $attribute->createValueHolder(true);
         $this->assertEquals($data, $valueholder->getValue());
 
@@ -69,7 +83,11 @@ class TextListAttributeTest extends TestCase
         $bar = $data;
         $bar[] = 'asdf';
 
-        $attribute = new TextListAttribute('valuecomparison', [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]);
+        $attribute = new TextListAttribute(
+            'valuecomparison',
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_DEFAULT_VALUE => $data ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals($data, $valueholder->getValue());
@@ -81,9 +99,11 @@ class TextListAttributeTest extends TestCase
     {
         $data = [ ];
 
-        $attribute = new TextListAttribute('TextListmincount', [
-            TextListAttribute::OPTION_MIN_COUNT => 1
-        ]);
+        $attribute = new TextListAttribute(
+            'TextListmincount',
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_MIN_COUNT => 1 ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -103,9 +123,11 @@ class TextListAttributeTest extends TestCase
     {
         $data = [ 'foo', 'bar' ];
 
-        $attribute = new TextListAttribute('TextListmaxcount', [
-            TextListAttribute::OPTION_MAX_COUNT => 1
-        ]);
+        $attribute = new TextListAttribute(
+            'TextListmaxcount',
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_MAX_COUNT => 1 ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -129,10 +151,14 @@ class TextListAttributeTest extends TestCase
             '1234567890',
         ];
 
-        $attribute = new TextListAttribute('TextListminmaxstringlength', [
-            TextListAttribute::OPTION_MIN_LENGTH => 3,
-            TextListAttribute::OPTION_MAX_LENGTH => 5
-        ]);
+        $attribute = new TextListAttribute(
+            'TextListminmaxstringlength',
+            $this->getTypeMock(),
+            [
+                TextListAttribute::OPTION_MIN_LENGTH => 3,
+                TextListAttribute::OPTION_MAX_LENGTH => 5
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue($data);
@@ -145,9 +171,11 @@ class TextListAttributeTest extends TestCase
 
     public function testAllowedValuesConstraintFails()
     {
-        $attribute = new TextListAttribute('roles', [
-            TextListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' ]
-        ]);
+        $attribute = new TextListAttribute(
+            'roles',
+            $this->getTypeMock(),
+            [ TextListAttribute::OPTION_ALLOWED_VALUES => [ 'bar' ] ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue(['foo']);
@@ -163,18 +191,22 @@ class TextListAttributeTest extends TestCase
     {
         $this->setExpectedException($expected_exception);
 
-        $attribute = new TextListAttribute('asdf', [
-            TextListAttribute::OPTION_MIN_COUNT => 1,
-            TextListAttribute::OPTION_MAX_COUNT => 5,
-            TextListAttribute::OPTION_DEFAULT_VALUE => $invalid_default_value
-        ]);
+        $attribute = new TextListAttribute(
+            'asdf',
+            $this->getTypeMock(),
+            [
+                TextListAttribute::OPTION_MIN_COUNT => 1,
+                TextListAttribute::OPTION_MAX_COUNT => 5,
+                TextListAttribute::OPTION_DEFAULT_VALUE => $invalid_default_value
+            ]
+        );
 
         $attribute->getDefaultValue();
     }
 
     public function testGetNullValueOnMissingDefaultValueInConfig()
     {
-        $attribute = new TextListAttribute('TextListmissingdefaultvalue');
+        $attribute = new TextListAttribute('TextListmissingdefaultvalue', $this->getTypeMock());
 
         $this->assertInternalType('array', $attribute->getDefaultValue());
         $this->assertCount(0, $attribute->getDefaultValue());
@@ -182,8 +214,7 @@ class TextListAttributeTest extends TestCase
 
     public function testThrowsOnMissingDefaultValueInConfig()
     {
-        $attribute = new TextListAttribute('TextListwrongtypeargument');
-
+        $attribute = new TextListAttribute('TextListwrongtypeargument', $this->getTypeMock());
         $this->setExpectedException(InvalidTypeException::CLASS);
 
         $valueholder = $attribute->createValueHolder('false');
@@ -194,7 +225,7 @@ class TextListAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new TextListAttribute('TextList');
+        $attribute = new TextListAttribute(self::ATTR_NAME, $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::CRITICAL, $result->getSeverity(), $assert_message);
     }

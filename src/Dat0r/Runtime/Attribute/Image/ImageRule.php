@@ -10,6 +10,7 @@ use Dat0r\Runtime\Validator\Rule\Type\KeyValueListRule;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Dat0r\Runtime\Validator\Rule\Type\UrlRule;
 use Exception;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class ImageRule extends Rule
 {
@@ -229,7 +230,7 @@ class ImageRule extends Rule
         Image::PROPERTY_SOURCE          => TextRule::CLASS
     ];
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         try {
             if (is_array($value)) {

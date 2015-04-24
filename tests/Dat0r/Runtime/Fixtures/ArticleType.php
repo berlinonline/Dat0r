@@ -21,47 +21,54 @@ class ArticleType extends EntityType
     {
         parent::__construct(
             'Article',
-            array(
-                new UuidAttribute('uuid'),
-                new TextAttribute('headline', array(TextAttribute::OPTION_MIN_LENGTH => 4)),
-                new TextAttribute('content'),
-                new IntegerAttribute('click_count'),
-                new FloatAttribute('float'),
-                new TextAttribute('author'),
-                new TextAttribute('email'),
-                new TimestampAttribute('birthday', [
-                    TimestampAttribute::OPTION_DEFAULT_VALUE => '2015-01-29T09:18:28.534429+00:00'
-                ]),
-                new IntegerListAttribute('images'),
-                new TextListAttribute('keywords'),
-                new BooleanAttribute('enabled'),
+            [
+                new UuidAttribute('uuid', $this),
+                new TextAttribute('headline', $this, [ TextAttribute::OPTION_MIN_LENGTH => 4 ] ),
+                new TextAttribute('content', $this),
+                new IntegerAttribute('click_count', $this),
+                new FloatAttribute('float', $this),
+                new TextAttribute('author', $this),
+                new TextAttribute('email', $this),
+                new TimestampAttribute(
+                    'birthday',
+                    $this,
+                    [
+                        TimestampAttribute::OPTION_DEFAULT_VALUE => '2015-01-29T09:18:28.534429+00:00'
+                    ]
+                ),
+                new IntegerListAttribute('images', $this),
+                new TextListAttribute('keywords', $this),
+                new BooleanAttribute('enabled', $this),
                 new EmbeddedEntityListAttribute(
                     'content_objects',
-                    array(
-                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(ParagraphType::CLASS),
-                    )
+                    $this,
+                    [
+                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ],
+                    ]
                 ),
                 new KeyValueListAttribute(
                     'meta',
-                    array(
+                    $this,
+                    [
                         KeyValueListAttribute::OPTION_VALUE_TYPE => KeyValueListAttribute::VALUE_TYPE_SCALAR,
-                    )
+                    ]
                 ),
                 new EmbeddedEntityListAttribute(
-                    'workflow_ticket',
-                    array(
-                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => array(WorkflowTicketType::CLASS)
-                    )
+                    'workflow_state',
+                    $this,
+                    [
+                        EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ WorkflowStateType::CLASS ]
+                    ]
                 )
-            ),
+            ],
             new Options(
-                array(
+                [
                     'foo' => 'bar',
-                    'nested' => array(
+                    'nested' => [
                         'foo' => 'bar',
                         'blah' => 'blub'
-                    )
-                )
+                    ]
+                ]
             )
         );
     }

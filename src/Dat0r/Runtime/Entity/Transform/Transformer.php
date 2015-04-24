@@ -18,7 +18,7 @@ class Transformer extends Configurable implements TransformerInterface
         $specification_map = $spec_container->getSpecificationMap();
         $transformation = new Transformation();
 
-        $transformed_data = array();
+        $transformed_data = [];
         foreach ($specification_map as $output_key => $specification) {
             $transformed_data[$output_key] = $transformation->apply($entity, $specification);
         }

@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Sanitized the input value to be a UUID v4.
@@ -11,7 +12,7 @@ class UuidRule extends Rule
 {
     const OPTION_TRIM = 'trim';
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_string($value)) {
             $this->throwError('invalid_type', [ 'value' => $value ]);

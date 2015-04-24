@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class ChoiceRule extends Rule
 {
@@ -22,7 +23,7 @@ class ChoiceRule extends Rule
     const OPTION_STRIP_ZERO_WIDTH_SPACE     = TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE;
     const OPTION_TRIM                       = TextRule::OPTION_TRIM;
 
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_string($value)) {
             $this->throwError('non_string_value', [], IncidentInterface::CRITICAL);

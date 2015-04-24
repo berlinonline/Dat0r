@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Validator;
 
 use Dat0r\Runtime\Validator\Result\ResultInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 interface ValidatorInterface
 {
@@ -12,7 +13,7 @@ interface ValidatorInterface
      *
      * @return ResultInterface
      */
-    public function validate($value);
+    public function validate($value, EntityInterface $entity = null);
 
     /**
      * @return RuleList

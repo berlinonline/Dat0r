@@ -9,19 +9,19 @@ use Dat0r\Tests\TestCase;
 
 class TextareaAttributeTest extends TestCase
 {
-    const FIELDNAME = 'textarea_attribute';
+    const ATTR_NAME = 'textarea_attribute';
 
     public function testCreate()
     {
-        $text_attribute = new TextareaAttribute(self::FIELDNAME);
-        $this->assertEquals($text_attribute->getName(), self::FIELDNAME);
+        $text_attribute = new TextareaAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($text_attribute->getName(), self::ATTR_NAME);
     }
 
     public function testDefaultTabAndNewlineNormalizationBehaviour()
     {
         $string = "\n CHA\x00RSET - WÄHLE \t\t\r\nUTF-8 AS SENSIBLE DEFAULT!  ";
         $string_trimmed = "CHARSET - WÄHLE \t\t\r\nUTF-8 AS SENSIBLE DEFAULT!";
-        $attribute = new TextareaAttribute(self::FIELDNAME);
+        $attribute = new TextareaAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $result = $valueholder->setValue($string);
         $this->assertTrue($string_trimmed === $valueholder->getValue());

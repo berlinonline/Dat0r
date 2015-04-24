@@ -2,6 +2,8 @@
 
 namespace Dat0r\Runtime\ValueHolder;
 
+use Dat0r\Runtime\Entity\EntityInterface;
+
 /**
  * ValueHolders are not value objects. They hold an internal value of a certain
  * type, that will only be changed upon valid setValue calls. The internal
@@ -43,10 +45,11 @@ interface ValueHolderInterface
      * the internal value.
      *
      * @param mixed $value representation of value to set
+     * @param EntityInterface $entity
      *
      * @return \Dat0r\Runtime\Validator\Result\ResultInterface validation result
      */
-    public function setValue($value);
+    public function setValue($value, EntityInterface $entity = null);
 
     /**
      * Tells if a value holder has no value set.

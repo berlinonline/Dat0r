@@ -6,6 +6,7 @@ use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListRule;
 use Dat0r\Runtime\Attribute\ListAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
+use Dat0r\Runtime\EntityTypeInterface;
 
 /**
  * Allows to nest multiple types below a defined attribute_name.
@@ -29,23 +30,6 @@ class EmbeddedEntityListAttribute extends ListAttribute
     protected $entity_types = null;
 
     /**
-     * Constructs a new embed attribute instance.
-     *
-     * @param string $name
-     * @param array $options
-     */
-    public function __construct($name, array $options = [])
-    {
-        parent::__construct($name, $options);
-
-        foreach ($this->getEntityTypes() as $embed_type) {
-            foreach ($embed_type->getAttributes() as $attribute) {
-                $attribute->setParent($this);
-            }
-        }
-    }
-
-    /**
      * Returns an attribute's null value.
      *
      * @return mixed value to be used/interpreted as null (not set)
@@ -65,7 +49,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
         if (!$this->entity_types) {
             $this->entity_types = [];
             foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
-                $this->entity_types[] = new $embed_type();
+                $this->entity_types[] = new $embed_type($this->getType());
             }
         }
 

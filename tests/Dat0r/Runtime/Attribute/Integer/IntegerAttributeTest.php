@@ -11,16 +11,22 @@ use stdClass;
 
 class IntegerAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'Integer';
+
     public function testCreate()
     {
-        $attribute = new IntegerAttribute('Integer');
-        $this->assertEquals($attribute->getName(), 'Integer');
+        $attribute = new IntegerAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
         $this->assertEquals(0, $attribute->getNullValue());
     }
 
     public function testCreateValueWithDefaultValues()
     {
-        $attribute = new IntegerAttribute('Integer', [ IntegerAttribute::OPTION_DEFAULT_VALUE => 123 ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_DEFAULT_VALUE => 123 ]
+        );
         $valueholder = $attribute->createValueHolder(true);
         $this->assertInstanceOf(IntegerValueHolder::CLASS, $valueholder);
         $this->assertEquals(123, $valueholder->getValue());
@@ -28,7 +34,11 @@ class IntegerAttributeTest extends TestCase
 
     public function testValueComparison()
     {
-        $attribute = new IntegerAttribute('Integer', [ IntegerAttribute::OPTION_DEFAULT_VALUE => 1337 ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_DEFAULT_VALUE => 1337 ]
+        );
         $valueholder = $attribute->createValueHolder(true);
 
         $this->assertEquals(1337, $valueholder->getValue());
@@ -38,7 +48,7 @@ class IntegerAttributeTest extends TestCase
 
     public function testSettingBooleanTrueAsValueFails()
     {
-        $attribute = new IntegerAttribute('Integerbooltrue');
+        $attribute = new IntegerAttribute(self::ATTR_NAME, $this->getTypeMock());
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(true);
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -46,9 +56,11 @@ class IntegerAttributeTest extends TestCase
 
     public function testOctalValues()
     {
-        $attribute = new IntegerAttribute('octal', [
-            IntegerAttribute::OPTION_ALLOW_OCTAL => true
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_ALLOW_OCTAL => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('010');
         $this->assertEquals(8, $valueholder->getValue());
@@ -56,9 +68,11 @@ class IntegerAttributeTest extends TestCase
 
     public function testOctalValuesFails()
     {
-        $attribute = new IntegerAttribute('octalfails', [
-            IntegerAttribute::OPTION_ALLOW_OCTAL => false
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_ALLOW_OCTAL => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('010');
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -66,9 +80,11 @@ class IntegerAttributeTest extends TestCase
 
     public function testHexValues()
     {
-        $attribute = new IntegerAttribute('hex', [
-            IntegerAttribute::OPTION_ALLOW_HEX => true
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_ALLOW_HEX => true ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('0x10');
         $this->assertEquals(16, $valueholder->getValue());
@@ -76,9 +92,11 @@ class IntegerAttributeTest extends TestCase
 
     public function testHexValuesFails()
     {
-        $attribute = new IntegerAttribute('hexfails', [
-            IntegerAttribute::OPTION_ALLOW_HEX => false
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_ALLOW_HEX => false ]
+        );
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue('0x10');
         $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
@@ -86,10 +104,14 @@ class IntegerAttributeTest extends TestCase
 
     public function testMinMaxConstraint()
     {
-        $attribute = new IntegerAttribute('Integerminmax', [
-            IntegerAttribute::OPTION_MIN_VALUE => 3,
-            IntegerAttribute::OPTION_MAX_VALUE => 5
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerAttribute::OPTION_MIN_VALUE => 3,
+                IntegerAttribute::OPTION_MAX_VALUE => 5
+            ]
+        );
 
         $valueholder = $attribute->createValueHolder();
         $validation_result = $valueholder->setValue(1337);
@@ -103,11 +125,15 @@ class IntegerAttributeTest extends TestCase
     public function testThrowsOnInvalidDefaultValueInConfig()
     {
         $this->setExpectedException(BadValueException::CLASS);
-        $attribute = new IntegerAttribute('integerinvaliddefaultvalue', [
-            IntegerAttribute::OPTION_MIN_VALUE => 1,
-            IntegerAttribute::OPTION_MAX_VALUE => 5,
-            IntegerAttribute::OPTION_DEFAULT_VALUE => 666
-        ]);
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerAttribute::OPTION_MIN_VALUE => 1,
+                IntegerAttribute::OPTION_MAX_VALUE => 5,
+                IntegerAttribute::OPTION_DEFAULT_VALUE => 666
+            ]
+        );
         $attribute->getDefaultValue();
     }
 
@@ -116,18 +142,18 @@ class IntegerAttributeTest extends TestCase
      */
     public function testInvalidValue($invalid_value, $assert_message = '')
     {
-        $attribute = new IntegerAttribute('IntegerInvalidValue');
+        $attribute = new IntegerAttribute(self::ATTR_NAME, $this->getTypeMock());
         $result = $attribute->getValidator()->validate($invalid_value);
         $this->assertEquals(IncidentInterface::ERROR, $result->getSeverity(), $assert_message);
     }
 
     public function provideInvalidValues()
     {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(new stdClass())
-        );
+        return [
+            [ null ],
+            [ false ],
+            [ true ],
+            [ new stdClass() ]
+        ];
     }
 }

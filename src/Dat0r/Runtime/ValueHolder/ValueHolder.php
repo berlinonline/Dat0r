@@ -11,6 +11,7 @@ use Dat0r\Runtime\Entity\EntityChangedListenerInterface;
 use Dat0r\Runtime\Entity\EntityChangedEvent;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
  * Basic ValueHolderInterface implementation that all other Values should inherit from.
@@ -108,13 +109,14 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      * Sets the valueholder's value.
      *
      * @param mixed $value
+     * @param EntityInterface $entity
      *
      * @return ResultInterface
      */
-    public function setValue($value)
+    public function setValue($value, EntityInterface $entity = null)
     {
         $attribute_validator = $this->getAttribute()->getValidator();
-        $validation_result = $attribute_validator->validate($value);
+        $validation_result = $attribute_validator->validate($value, $entity);
 
         if ($validation_result->getSeverity() <= IncidentInterface::NOTICE) {
             $previous_value = $this->toNative();

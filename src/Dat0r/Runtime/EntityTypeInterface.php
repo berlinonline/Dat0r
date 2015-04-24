@@ -33,13 +33,6 @@ interface EntityTypeInterface
     public function getParent();
 
     /**
-     * Sets the type's parent once, if it isn't yet assigned.
-     *
-     * @param EntityTypeInterface $parent
-     */
-    public function setParent(EntityTypeInterface $parent);
-
-    /**
      * Returns the type's attribute map.
      *
      * @param array $attribute_names Optional list of attribute names to filter for.
@@ -47,7 +40,7 @@ interface EntityTypeInterface
      *
      * @return AttributeMap
      */
-    public function getAttributes(array $attribute_names = array(), array $types = array());
+    public function getAttributes(array $attribute_names = [], array $types = []);
 
     /**
      * Returns a certain type attribute by name.
@@ -62,8 +55,9 @@ interface EntityTypeInterface
      * Creates a new EntityInterface instance.
      *
      * @param array $data Optional data for initial hydration.
+     * @param EntityInterface $parent_entity
      *
      * @return EntityInterface
      */
-    public function createEntity(array $data = array());
+    public function createEntity(array $data = [], EntityInterface $parent_entity = null);
 }

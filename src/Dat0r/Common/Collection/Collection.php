@@ -18,14 +18,14 @@ abstract class Collection extends Object implements CollectionInterface
      *
      * @var array
      */
-    private $collection_listeners = array();
+    private $collection_listeners = [];
 
     /**
      * Holds the collection's current items.
      *
      * @var array
      */
-    protected $items = array();
+    protected $items = [];
 
     // Php Interface - Countable
 
@@ -213,7 +213,7 @@ abstract class Collection extends Object implements CollectionInterface
      */
     public function getItems(array $keys)
     {
-        $items = array();
+        $items = [];
         foreach ($keys as $key) {
             $items[] = $this->offsetGet($key);
         }
@@ -300,7 +300,7 @@ abstract class Collection extends Object implements CollectionInterface
 
     public function clear()
     {
-        $this->items = array();
+        $this->items = [];
     }
 
     public function isEmpty()
@@ -339,7 +339,7 @@ abstract class Collection extends Object implements CollectionInterface
      */
     public function toArray()
     {
-        $data = array();
+        $data = [];
         foreach ($this->items as $key => $value) {
             if ($value instanceof ObjectInterface) {
                 $value = $value->toArray();

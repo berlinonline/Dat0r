@@ -62,18 +62,23 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      * Constructs a new Type.
      *
      * @param string $name
-     * @param array $attribute_map
+     * @param array $attributes
      * @param OptionsInterface $options
+     * @param EntityTypeInterface $parent
      */
-    public function __construct($name, array $attribute_map = array(), OptionsInterface $options = null)
-    {
-        parent::__construct(['options' => $options]);
+    public function __construct(
+        $name,
+        array $attributes = [],
+        OptionsInterface $options = null,
+        EntityTypeInterface $parent = null
+    ) {
+        parent::__construct([ 'options' => $options ]);
 
         $this->name = $name;
+        $this->parent = $parent;
 
-        $this->attribute_map = new AttributeMap($this, $this->getDefaultAttributes());
-
-        foreach ($attribute_map as $attribute) {
+        $this->attribute_map = new AttributeMap($this->getDefaultAttributes());
+        foreach ($attributes as $attribute) {
             $this->attribute_map->setItem($attribute->getName(), $attribute);
         }
     }
@@ -104,20 +109,6 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
     }
 
     /**
-     * Sets the type's parent once, if it isn't yet assigned.
-     *
-     * @param EntityTypeInterface $parent
-     */
-    public function setParent(EntityTypeInterface $parent)
-    {
-        if (!$this->parent) {
-            $this->parent = $parent;
-        }
-        // @todo else throw an exception,
-        // as a second call to setParent might imply a logic error?
-    }
-
-    /**
      * Returns the type's prefix (techn. identifier).
      *
      * @return string
@@ -142,9 +133,9 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      *
      * @return AttributeMap
      */
-    public function getAttributes(array $attribute_names = array(), array $types = array())
+    public function getAttributes(array $attribute_names = [], array $types = [])
     {
-        $attribute_map = array();
+        $attribute_map = [];
 
         if (empty($attribute_names)) {
             $attribute_map = $this->attribute_map->toArray();
@@ -163,7 +154,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
             );
         }
 
-        return new AttributeMap($this, $attribute_map);
+        return new AttributeMap($attribute_map);
     }
 
     /**
@@ -180,6 +171,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         if (mb_strpos($name, '.')) {
             return $this->getAttributeByPath($name);
         }
+        // @todo use $this->attribute_map->hasKey($name) instead
         if (($attribute = $this->attribute_map->getItem($name))) {
             return $attribute;
         } else {
@@ -196,7 +188,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      *
      * @throws InvalidTypeException
      */
-    public function createEntity(array $data = array())
+    public function createEntity(array $data = [], EntityInterface $parent_entity = null)
     {
         $implementor = $this->getEntityImplementor();
 
@@ -206,7 +198,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
             );
         }
 
-        return new $implementor($this, $data);
+        return new $implementor($this, $data, $parent_entity);
     }
 
     public function getDefaultAttributeNames()
@@ -219,7 +211,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      */
     protected function getDefaultAttributes()
     {
-        return array();
+        return [];
     }
 
     protected function getAttributeByPath($attribute_path)

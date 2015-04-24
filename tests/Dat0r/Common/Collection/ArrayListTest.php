@@ -153,7 +153,7 @@ class ArrayListTest extends TestCase
         $list = new ArrayList($items);
         $all_keys = array_keys($items);
         $item_count = count($items);
-        $keys = array();
+        $keys = [];
         for ($i = 0; $i < $item_count && $i <= 3; $i++) {
             $keys[] = $i;
         }
@@ -187,7 +187,7 @@ class ArrayListTest extends TestCase
         $this->assertEquals($expected_item_count, count($list));
 
         // assert item order
-        $expected_items = array();
+        $expected_items = [];
         foreach ($items as $index => $item) {
             if ($index !== $random_index) {
                 $expected_items[] = $item;
@@ -208,8 +208,8 @@ class ArrayListTest extends TestCase
         // pick some random items to remove
         $max_remove = round($items_count / 2, 0);
         $numof_items_to_remove = self::$faker->numberBetween(1, $max_remove);
-        $random_items = array();
-        $randomly_picked_indexes = array();
+        $random_items = [];
+        $randomly_picked_indexes = [];
         for ($i = 0; $i < $numof_items_to_remove; $i++) {
             $random_index = 0;
             do {
@@ -230,7 +230,7 @@ class ArrayListTest extends TestCase
         $this->assertEquals($expected_item_count, count($list));
 
         // assert item order
-        $expected_items = array();
+        $expected_items = [];
         foreach ($items as $index => $item) {
             if (!in_array($index, $randomly_picked_indexes)) {
                 $expected_items[] = $item;

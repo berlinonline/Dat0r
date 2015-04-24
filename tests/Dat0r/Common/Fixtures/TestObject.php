@@ -55,7 +55,7 @@ class TestObject extends Object
     {
         $faker = FakerFactory::create();
 
-        $test_objects = array();
+        $test_objects = [];
         $max = $faker->numberBetween(1, 15);
 
         for ($i = 0; $i < $max; $i++) {

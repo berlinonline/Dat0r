@@ -9,17 +9,18 @@ use Egulias\EmailValidator\EmailParser;
 use Egulias\EmailValidator\EmailValidator;
 use InvalidArgumentException;
 use ReflectionClass;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class EmailRule extends Rule
 {
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         if (!is_scalar($value) || !is_string($value)) {
-            $this->throwError('invalid_type', array(), IncidentInterface::CRITICAL);
+            $this->throwError('invalid_type', [], IncidentInterface::CRITICAL);
             return false;
         }
 
-        $warnings = array();
+        $warnings = [];
         $reason = null;
 
         try {

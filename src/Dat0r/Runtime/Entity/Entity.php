@@ -75,9 +75,11 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      * @param EntityTypeInterface $type
      * @param array $data
      */
-    public function __construct(EntityTypeInterface $type, array $data = array())
+    public function __construct(EntityTypeInterface $type, array $data = [], EntityInterface $parent = null)
     {
         $this->type = $type;
+        $this->parent = $parent;
+
         $this->listeners = new EntityChangedListenerList();
         $this->changes = new ValueChangedEventList();
         $this->validation_results = new ResultMap();
@@ -85,7 +87,6 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         // Setup a map of ValueHolderInterface specific to our type's attributes.
         // they hold the actual entity data.
         $this->value_holder_map = new ValueHolderMap();
-
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
             $this->value_holder_map->setItem($attribute_name, $attribute->createValueHolder());
         }
@@ -118,20 +119,6 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     }
 
     /**
-     * Sets the entity's parent once, if it isn't yet assigned.
-     *
-     * @param EntityInterface $parent
-     */
-    public function setParent(EntityInterface $parent)
-    {
-        if (!$this->parent) {
-            $this->parent = $parent;
-        }
-        // @todo else throw an exception,
-        // as a second call to setParent might imply a logic error?
-    }
-
-    /**
      * Sets a specific value by attribute_name.
      *
      * @param string $attribute_name
@@ -143,7 +130,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
 
         $this->validation_results->setItem(
             $attribute_name,
-            $value_holder->setValue($attribute_value)
+            $value_holder->setValue($attribute_value, $this)
         );
 
         return $this->isValid();
@@ -201,9 +188,9 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      *
      * @return array
      */
-    public function getValues(array $attribute_names = array())
+    public function getValues(array $attribute_names = [])
     {
-        $values = array();
+        $values = [];
         if (!empty($attribute_names)) {
             foreach ($attribute_names as $attribute_name) {
                 $values[$attribute_name] = $this->getValue($attribute_name);

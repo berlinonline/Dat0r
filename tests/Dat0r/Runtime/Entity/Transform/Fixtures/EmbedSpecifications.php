@@ -14,7 +14,7 @@ use Dat0r\Runtime\Entity\Transform\Specification;
  */
 class EmbedSpecifications extends SpecificationContainer
 {
-    public function __construct(array $state = array())
+    public function __construct(array $state = [])
     {
         $specification_map = new SpecificationMap();
         $specification_map->setItems(
@@ -38,7 +38,7 @@ class EmbedSpecifications extends SpecificationContainer
         return parent::__construct(
             array(
                 'name' => 'embed',
-                'options' => array(),
+                'options' => [],
                 'specification_map' => $specification_map
             )
         );

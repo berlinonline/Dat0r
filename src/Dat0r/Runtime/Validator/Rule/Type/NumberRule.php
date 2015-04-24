@@ -4,15 +4,16 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class NumberRule extends Rule
 {
-    protected function execute($value)
+    protected function execute($value, EntityInterface $entity = null)
     {
         $success = true;
 
         if (!is_scalar($value)) {
-            $this->throwError('non_scalar', array(), IncidentInterface::CRITICAL);
+            $this->throwError('non_scalar', [], IncidentInterface::CRITICAL);
             return false;
         }
 

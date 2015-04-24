@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Attribute\TextList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class TextListRule extends Rule
 {
@@ -23,7 +24,7 @@ class TextListRule extends Rule
     const OPTION_STRIP_ZERO_WIDTH_SPACE     = TextRule::OPTION_STRIP_ZERO_WIDTH_SPACE;
     const OPTION_TRIM                       = TextRule::OPTION_TRIM;
 
-    protected function execute($values)
+    protected function execute($values, EntityInterface $entity = null)
     {
         if (!is_array($values)) {
             $this->throwError('non_array_value', [], IncidentInterface::CRITICAL);

@@ -20,7 +20,7 @@ class Configurable extends Object implements ConfigurableInterface
      *
      * @param array $state data to set on the object (key-value pairs)
      */
-    public function __construct(array $state = array())
+    public function __construct(array $state = [])
     {
         parent::__construct($state);
 

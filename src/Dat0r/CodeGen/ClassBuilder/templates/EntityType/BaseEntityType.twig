@@ -35,11 +35,12 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
     /**
      * Creates a new '{{ class_name }}' instance.
      */
-    public function __construct()
+    public function __construct(EntityTypeInterface $parent = null)
     {
         parent::__construct(
             '{{ type_name }}',
-            array(
+            $parent,
+            [
             {%- for attribute in attributes %}
                 {%- if attribute.options|length > 0 %}
 
@@ -55,7 +56,7 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
                 {%- endif %}
             {%- endfor %}
 
-            )
+            ]
             {%- if options|length > 0 %},
             new Options(
                 {{ options|raw }}

@@ -75,7 +75,7 @@ class ConfigTest extends TestCase
 
     public function testConfigGetPluginSettings()
     {
-        $plugin_settings = array();
+        $plugin_settings = [];
 
         $config = new Config(
             array(

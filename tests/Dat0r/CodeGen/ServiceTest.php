@@ -69,7 +69,7 @@ class ServiceTest extends Tests\TestCase
             array(
                 'cache_dir' => $tmp_cache_path,
                 'deploy_dir' => $tmp_deploy_path,
-                'plugin_settings' => array()
+                'plugin_settings' => []
             )
         );
 

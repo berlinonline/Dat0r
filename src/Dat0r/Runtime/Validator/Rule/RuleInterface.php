@@ -3,6 +3,7 @@
 namespace Dat0r\Runtime\Validator\Rule;
 
 use Dat0r\Runtime\Validator\Result\IncidentMap;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 interface RuleInterface
 {
@@ -16,7 +17,7 @@ interface RuleInterface
      *
      * @return boolean
      */
-    public function apply($value);
+    public function apply($value, EntityInterface $entity = null);
 
     /**
      * @param string $name
