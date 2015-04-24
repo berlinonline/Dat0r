@@ -6,18 +6,17 @@ use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
 use Dat0r\Runtime\EntityType;
 use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 
 class WorkflowStateType extends EntityType
 {
-    public function __construct(EntityTypeInterface $parent)
+    public function __construct(EntityTypeInterface $parent, AttributeInterface $parent_attribute)
     {
-        $parent_attr = $parent->getAttribute('workflow_state');
-
         parent::__construct(
             'WorkflowState',
             [
-                new TextAttribute('workflow_name', $this, [], $parent_attr),
-                new TextAttribute('workflow_step', $this, [], $parent_attr)
+                new TextAttribute('workflow_name', $this, [], $parent_attribute),
+                new TextAttribute('workflow_step', $this, [], $parent_attribute)
             ],
             new Options(
                 [
@@ -28,7 +27,8 @@ class WorkflowStateType extends EntityType
                     ]
                 ]
             ),
-            $parent
+            $parent,
+            $parent_attribute
         );
     }
 

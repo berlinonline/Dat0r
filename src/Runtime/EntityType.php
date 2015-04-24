@@ -31,6 +31,13 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
     protected $parent;
 
     /**
+     * Holds a reference to the parent attribute, if there is one.
+     *
+     * @var AttributeInterface $parent_attribute;
+     */
+    protected $parent_attribute;
+
+    /**
      * Holds the type's attribute map.
      *
      * @var AttributeMap $attribute_map
@@ -65,17 +72,24 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      * @param array $attributes
      * @param OptionsInterface $options
      * @param EntityTypeInterface $parent
+     * @param AttributeInterface $parent_attribute
      */
     public function __construct(
         $name,
         array $attributes = [],
         OptionsInterface $options = null,
-        EntityTypeInterface $parent = null
+        EntityTypeInterface $parent = null,
+        AttributeInterface $parent_attribute = null
     ) {
+        if ($parent xor $parent_attribute) {
+            throw new RuntimeException('Parent and parent-attribute must be set together. Only one given.');
+        }
+
         parent::__construct([ 'options' => $options ]);
 
         $this->name = $name;
         $this->parent = $parent;
+        $this->parent_attribute = $parent_attribute;
 
         $this->attribute_map = new AttributeMap($this->getDefaultAttributes());
         foreach ($attributes as $attribute) {
@@ -106,6 +120,16 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Returns the type's parent-attribute, if it has one.
+     *
+     * @return AttributeInterface
+     */
+    public function getParentAttribute()
+    {
+        return $this->parent_attribute;
     }
 
     /**

@@ -49,7 +49,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
         if (!$this->entity_types) {
             $this->entity_types = [];
             foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
-                $this->entity_types[] = new $embed_type($this->getType());
+                $this->entity_types[] = new $embed_type($this->getType(), $this);
             }
         }
 

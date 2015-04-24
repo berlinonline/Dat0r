@@ -49,7 +49,8 @@ class EmbeddedEntityListValueHolderTest extends TestCase
         $listener = Mockery::mock(ValueChangedListenerInterface::CLASS);
         $listener->shouldReceive('onValueChanged')->with(ValueChangedEvent::CLASS)->twice();
 
-        $embed_type = new ParagraphType($this->getTypeMock());
+        $article_type = $this->getTypeMock();
+        $embed_type = new ParagraphType($article_type, $article_type->getAttribute('content_objects'));
         $embedd_entity = $embed_type->createEntity(
             [ 'title' => 'Hello world', 'content' => 'Foobar lorem ipsum...' ]
         );

@@ -33,6 +33,13 @@ interface EntityTypeInterface
     public function getParent();
 
     /**
+     * Returns the type's parent-attribute, if it has one.
+     *
+     * @return AttributeInterface
+     */
+    public function getParentAttribute();
+
+    /**
      * Returns the type's attribute map.
      *
      * @param array $attribute_names Optional list of attribute names to filter for.

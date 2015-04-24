@@ -26,6 +26,8 @@ use {{ parent_implementor }};
 use {{ namespace }};
 {% endfor %}
 use Dat0r\Common\Options;
+use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 
 /**
  * Serves as the base class to the '{{ type_name }}' type skeleton.
@@ -35,7 +37,7 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
     /**
      * Creates a new '{{ class_name }}' instance.
      */
-    public function __construct()
+    public function __construct(EntityTypeInterface $parent = null, AttributeInterface $parent_attribute = null)
     {
         parent::__construct(
             '{{ type_name }}',
@@ -45,22 +47,27 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
 
                 new {{ attribute.class_name }}(
                     '{{ attribute.name }}',
-                    {{ attribute.options|raw }}
+                    {{ attribute.options|raw }},
+                    $parent_attribute
                 ),
 
                 {%- else %}
 
-                new {{ attribute.class_name }}('{{ attribute.name }}'),
+                new {{ attribute.class_name }}('{{ attribute.name }}', $parent_attribute),
 
                 {%- endif %}
             {%- endfor %}
 
-            ]
+            ],
             {%- if options|length > 0 %},
             new Options(
                 {{ options|raw }}
-            ){%- endif %}
-
+            ),
+            {%- else %}
+            [],
+            {%- endif %}
+            $parent,
+            $parent_attribute
         );
     }
 

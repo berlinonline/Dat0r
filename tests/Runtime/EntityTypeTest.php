@@ -39,7 +39,7 @@ class EntityTypeTest extends TestCase
     public function testCreateEmbedType()
     {
         $article_type = new ArticleType();
-        $paragraph_type = new ParagraphType($article_type);
+        $paragraph_type = new ParagraphType($article_type, $article_type->getAttribute('content_objects'));
 
         $this->assertEquals(2, $paragraph_type->getAttributes()->getSize());
         $this->assertEquals('Paragraph', $paragraph_type->getName());
