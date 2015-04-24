@@ -1,16 +1,16 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Image;
+namespace Dat0r\Runtime\Attribute\Asset;
 
 use Dat0r\Runtime\ValueHolder\ValueHolder;
 
-class ImageValueHolder extends ValueHolder
+class AssetValueHolder extends ValueHolder
 {
     /**
      * Tells whether the given other_value is considered the same value as the
      * internally set value of this valueholder.
      *
-     * @param mixed $other_value Image or acceptable array
+     * @param mixed $other_value Asset or acceptable array
      *
      * @return boolean true if the given value is considered the same value as the internal one
      */
@@ -20,7 +20,7 @@ class ImageValueHolder extends ValueHolder
 
         if (is_array($other_value)) {
             return $value->similarToArray($other_value);
-        } elseif ($other_value instanceof Image) {
+        } elseif ($other_value instanceof Asset) {
             return $value->similarTo($other_value);
         }
 
@@ -38,7 +38,7 @@ class ImageValueHolder extends ValueHolder
      */
     public function toNative()
     {
-        if (!$this->getValue() instanceof Image) {
+        if (!$this->getValue() instanceof Asset) {
             return '';
         }
 
@@ -71,6 +71,6 @@ class ImageValueHolder extends ValueHolder
      */
     public function getValueType()
     {
-        return Image::CLASS;
+        return Asset::CLASS;
     }
 }

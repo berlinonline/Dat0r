@@ -178,29 +178,6 @@ class ImageRule extends Rule
     const OPTION_STRIP_ZERO_WIDTH_SPACE    = 'strip_zero_width_space';
     const OPTION_TRIM                      = 'trim';
 
-    protected $text_rule_options = [
-        self::OPTION_ALLOW_CRLF,
-        self::OPTION_ALLOW_TAB,
-        self::OPTION_MAX_LENGTH,
-        self::OPTION_MIN_LENGTH,
-        self::OPTION_NORMALIZE_NEWLINES,
-        self::OPTION_REJECT_INVALID_UTF8,
-        self::OPTION_STRIP_CONTROL_CHARACTERS,
-        self::OPTION_STRIP_DIRECTION_OVERRIDES,
-        self::OPTION_STRIP_INVALID_UTF8,
-        self::OPTION_STRIP_NULL_BYTES,
-        self::OPTION_STRIP_ZERO_WIDTH_SPACE,
-        self::OPTION_TRIM
-    ];
-
-    protected $text_rule_properties = [
-        Image::PROPERTY_LOCATION,
-        Image::PROPERTY_TITLE,
-        Image::PROPERTY_CAPTION,
-        Image::PROPERTY_COPYRIGHT,
-        Image::PROPERTY_SOURCE
-    ];
-
     // copyright_url options
     const OPTION_COPYRIGHT_URL_MANDATORY                    = 'copyright_url_mandatory';
     const OPTION_COPYRIGHT_URL_USE_IDN                      = 'copyright_url_use_idn';
@@ -243,48 +220,13 @@ class ImageRule extends Rule
     const OPTION_COPYRIGHT_URL_STRIP_ZERO_WIDTH_SPACE       = 'copyright_url_strip_zero_width_space';
     const OPTION_COPYRIGHT_URL_TRIM                         = 'copyright_url_trim';
 
-    protected $url_rule_options = [
-        self::OPTION_COPYRIGHT_URL_MANDATORY,
-        self::OPTION_COPYRIGHT_URL_USE_IDN,
-        self::OPTION_COPYRIGHT_URL_CONVERT_HOST_TO_PUNYCODE,
-        self::OPTION_COPYRIGHT_URL_ACCEPT_SUSPICIOUS_HOST,
-        self::OPTION_COPYRIGHT_URL_CONVERT_SUSPICIOUS_HOST,
-        self::OPTION_COPYRIGHT_URL_DOMAIN_SPOOFCHECKER_CHECKS,
-        self::OPTION_COPYRIGHT_URL_ALLOWED_SCHEMES,
-        self::OPTION_COPYRIGHT_URL_SCHEME_SEPARATOR,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_SCHEME,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_USER,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_PASS,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_PORT,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_PATH,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_QUERY,
-        self::OPTION_COPYRIGHT_URL_DEFAULT_FRAGMENT,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_USER,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_PASS,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_PORT,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_PATH,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_QUERY,
-        self::OPTION_COPYRIGHT_URL_REQUIRE_FRAGMENT,
-        self::OPTION_COPYRIGHT_URL_FORCE_USER,
-        self::OPTION_COPYRIGHT_URL_FORCE_PASS,
-        self::OPTION_COPYRIGHT_URL_FORCE_HOST,
-        self::OPTION_COPYRIGHT_URL_FORCE_PORT,
-        self::OPTION_COPYRIGHT_URL_FORCE_PATH,
-        self::OPTION_COPYRIGHT_URL_FORCE_QUERY,
-        self::OPTION_COPYRIGHT_URL_FORCE_FRAGMENT,
-
-        self::OPTION_COPYRIGHT_URL_ALLOW_CRLF,
-        self::OPTION_COPYRIGHT_URL_ALLOW_TAB,
-        self::OPTION_COPYRIGHT_URL_MAX_LENGTH,
-        self::OPTION_COPYRIGHT_URL_MIN_LENGTH,
-        self::OPTION_COPYRIGHT_URL_NORMALIZE_NEWLINES,
-        self::OPTION_COPYRIGHT_URL_REJECT_INVALID_UTF8,
-        self::OPTION_COPYRIGHT_URL_STRIP_CONTROL_CHARACTERS,
-        self::OPTION_COPYRIGHT_URL_STRIP_DIRECTION_OVERRIDES,
-        self::OPTION_COPYRIGHT_URL_STRIP_INVALID_UTF8,
-        self::OPTION_COPYRIGHT_URL_STRIP_NULL_BYTES,
-        self::OPTION_COPYRIGHT_URL_STRIP_ZERO_WIDTH_SPACE,
-        self::OPTION_COPYRIGHT_URL_TRIM
+    protected $validations = [
+        Image::PROPERTY_LOCATION        => TextRule::CLASS,
+        Image::PROPERTY_TITLE           => TextRule::CLASS,
+        Image::PROPERTY_CAPTION         => TextRule::CLASS,
+        Image::PROPERTY_COPYRIGHT       => TextRule::CLASS,
+        Image::PROPERTY_COPYRIGHT_URL   => UrlRule::CLASS,
+        Image::PROPERTY_SOURCE          => TextRule::CLASS
     ];
 
     protected function execute($value)
@@ -297,49 +239,43 @@ class ImageRule extends Rule
                 }
                 $image = Image::createFromArray($value);
             } elseif ($value instanceof Image) {
-                $image = Image::createFromImage($value);
+                $image = Image::createFromArray($value->toNative());
             } else {
                 $this->throwError('invalid_type', [ 'value' => $value ], IncidentInterface::CRITICAL);
                 return false;
             }
 
-            $incoming_image_data = $image->toNative();
+            $incoming_data = $image->toNative();
 
-            $image_data = [];
+            $data = [];
 
-            // string properties only get their specific text rule options
-            foreach ($this->text_rule_properties as $property_name) {
-                $options = $this->getTextRuleOptions($property_name);
-                $text_rule = new TextRule('valid-text', $this->getTextRuleOptions($property_name));
-                if (!$text_rule->apply($incoming_image_data[$property_name])) {
-                    $this->throwIncidentsAsErrors($text_rule);
+            foreach ($this->validations as $property_name => $implementor) {
+                $rule = new $implementor(
+                    'valid-' . $property_name,
+                    $this->getSupportedOptionsFor($implementor, $property_name)
+                );
+
+                if (!$rule->apply($incoming_data[$property_name])) {
+                    $this->throwIncidentsAsErrors($rule);
                     return false;
                 }
-                $image_data[$property_name] = $text_rule->getSanitizedValue();
+                $data[$property_name] = $rule->getSanitizedValue();
             }
-
-            // copyright_url should be a valid url
-            $url_rule = new UrlRule('valid-url', $this->getUrlRuleOptions(Image::PROPERTY_COPYRIGHT_URL));
-            if (!$url_rule->apply($incoming_image_data[Image::PROPERTY_COPYRIGHT_URL])) {
-                $this->throwIncidentsAsErrors($url_rule);
-                return false;
-            }
-            $image_data[Image::PROPERTY_COPYRIGHT_URL] = $url_rule->getSanitizedValue();
 
             // meta data accepts scalar values
-            $key_value_list_rule = new KeyValueListRule('valid-key-value-list', $this->getMetaDataOptions());
-            if (!$key_value_list_rule->apply($image->getMetaData())) {
-                $this->throwIncidentsAsErrors($key_value_list_rule);
+            $rule = new KeyValueListRule('valid-meta-data', $this->getMetaDataOptions());
+            if (!$rule->apply($incoming_data[Image::PROPERTY_META_DATA])) {
+                $this->throwIncidentsAsErrors($rule);
                 return false;
             }
-            $image_data[Image::PROPERTY_META_DATA] = $key_value_list_rule->getSanitizedValue();
+            $data[Image::PROPERTY_META_DATA] = $rule->getSanitizedValue();
 
             // set the sanitized new image data
-            $this->setSanitizedValue(Image::createFromArray($image_data));
+            $this->setSanitizedValue(Image::createFromArray($data));
         } catch (Exception $e) {
             // pretty catch all, but there may be Assert and BadValueExceptions depending on usage / later changes
             $this->throwError(
-                'invalid_image_data',
+                'invalid_data',
                 [
                     'error' => $e->getMessage()
                 ],
@@ -390,51 +326,5 @@ class ImageRule extends Rule
         }
 
         return $kvl_options;
-    }
-
-    protected function getTextRuleOptions($property_name)
-    {
-        $options = $this->getOptions();
-        $prefix = $property_name . '_';
-        $text_rule_options = [];
-
-        // map all meta_data options to normal KeyValueListRule supported options
-        foreach ($this->text_rule_options as $option_name) {
-            if (array_key_exists($prefix . $option_name, $options)) {
-                $text_rule_options[$option_name] = $options[$prefix . $option_name];
-            }
-        }
-
-        return $text_rule_options;
-    }
-
-    protected function getUrlRuleOptions($property_name)
-    {
-        $options = $this->getOptions();
-        $prefix = $property_name . '_';
-        $url_rule_options = [];
-
-        foreach ($this->url_rule_options as $name) {
-            if (array_key_exists($name, $options)) {
-                $opt_name = str_replace($prefix, '', $name);
-                $url_rule_options[$opt_name] = $options[$name];
-            }
-        }
-
-        return $url_rule_options;
-    }
-
-    /**
-     * @return bool true if argument is an associative array. False otherwise.
-     */
-    protected function isAssoc(array $array)
-    {
-        foreach (array_keys($array) as $key => $value) {
-            if ($key !== $value) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

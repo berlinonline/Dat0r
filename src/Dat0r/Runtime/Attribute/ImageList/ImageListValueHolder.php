@@ -45,7 +45,7 @@ class ImageListValueHolder extends ListValueHolder
             if (is_array($other_image)) {
                 $equal = $image->similarToArray($other_image);
             } elseif ($other_image instanceof Image) {
-                $equal = $image->similarToImage($other_image);
+                $equal = $image->similarTo($other_image);
             }
 
             if (!$equal) {

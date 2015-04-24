@@ -15,7 +15,9 @@ class ImageTest extends TestCase
 
     public function testSimpleCreateSucceeds()
     {
-        $img = new Image('some/file.jpg');
+        $img = new Image([
+            Image::PROPERTY_LOCATION => 'some/file.jpg'
+        ]);
         $this->assertEquals($img->getLocation(), 'some/file.jpg');
     }
 
@@ -24,7 +26,7 @@ class ImageTest extends TestCase
      */
     public function testSimpleCreateFailsWithEmptyString()
     {
-        $img = new Image('');
+        $img = new Image([ Image::PROPERTY_LOCATION => '' ]);
     }
 
     /**
@@ -32,23 +34,23 @@ class ImageTest extends TestCase
      */
     public function testCreateWithoutArgumentsFails()
     {
-        $img = new Image();
+        $img = new Image([]);
     }
 
     public function testComplexCreateSucceeds()
     {
-        $img = new Image(
-            'some/file.jpg',
-            'title',
-            'caption',
-            'copyright',
-            'copyright_url',
-            'source',
-            [
+        $img = new Image([
+            Image::PROPERTY_LOCATION => 'some/file.jpg',
+            Image::PROPERTY_TITLE => 'title',
+            Image::PROPERTY_CAPTION => 'caption',
+            Image::PROPERTY_COPYRIGHT => 'copyright',
+            Image::PROPERTY_COPYRIGHT_URL => 'copyright_url',
+            Image::PROPERTY_SOURCE => 'source',
+            Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => 1337
             ]
-        );
+        ]);
 
         $this->assertEquals('some/file.jpg', $img->getLocation());
         $this->assertEquals('title', $img->getTitle());
@@ -77,14 +79,36 @@ class ImageTest extends TestCase
         $this->assertEquals(['foo' => 'bar', 'leet' => 1337], $img->getMetaData());
     }
 
-    public function testCreateFromOtherImageSucceeds()
+    public function testComparisonOfTwoSimilarImagesSucceeds()
     {
-        $other_img = new Image('some/other.png', 'other_title');
+        $other_img = new Image([
+            Image::PROPERTY_LOCATION => 'some/other.png',
+            Image::PROPERTY_TITLE => 'other_title'
+        ]);
 
-        $img = Image::createFromImage($other_img);
+        $img = Image::createFromArray($other_img->toNative());
 
         $this->assertEquals('some/other.png', $img->getLocation());
         $this->assertEquals('other_title', $img->getTitle());
+
+        $this->assertTrue($img->similarTo($other_img));
+    }
+
+    public function testCreateWithSucceeds()
+    {
+        $img = new Image([
+            Image::PROPERTY_LOCATION => 'some/other.png',
+            Image::PROPERTY_TITLE => 'other_title'
+        ]);
+
+        $diff_img = $img->createWith([
+            Image::PROPERTY_LOCATION => 'omgomgomg'
+        ]);
+
+        $this->assertEquals('omgomgomg', $diff_img->getLocation());
+        $this->assertEquals('other_title', $diff_img->getTitle());
+        $this->assertFalse($img->similarTo($diff_img));
+        $this->assertFalse($diff_img->similarTo($img));
     }
 
     public function errorHandler($errno, $errstr, $errfile, $errline)

@@ -1,10 +1,10 @@
 <?php
 
-namespace Dat0r\Runtime\Attribute\Image;
+namespace Dat0r\Runtime\Attribute\Asset;
 
 use Dat0r\Runtime\ValueHolder\ComplexValue;
 
-class Image extends ComplexValue
+class Asset extends ComplexValue
 {
     const PROPERTY_LOCATION = 'location';
     const PROPERTY_TITLE = 'title';
@@ -29,41 +29,6 @@ class Image extends ComplexValue
         return [
             self::PROPERTY_LOCATION
         ];
-    }
-
-    public function getLocation()
-    {
-        return $this->values[self::PROPERTY_LOCATION];
-    }
-
-    public function getTitle()
-    {
-        return $this->values[self::PROPERTY_TITLE];
-    }
-
-    public function getCaption()
-    {
-        return $this->values[self::PROPERTY_CAPTION];
-    }
-
-    public function getCopyright()
-    {
-        return $this->values[self::PROPERTY_COPYRIGHT];
-    }
-
-    public function getCopyrightUrl()
-    {
-        return $this->values[self::PROPERTY_COPYRIGHT_URL];
-    }
-
-    public function getSource()
-    {
-        return $this->values[self::PROPERTY_SOURCE];
-    }
-
-    public function getMetaData()
-    {
-        return $this->values[self::PROPERTY_META_DATA];
     }
 
     public function __toString()

@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Validator\Rule;
 use Dat0r\Common\Object;
 use Dat0r\Runtime\Validator\Result\Incident;
 use Dat0r\Runtime\Validator\Result\IncidentMap;
+use ReflectionClass;
 
 abstract class Rule extends Object implements RuleInterface
 {
@@ -113,5 +114,51 @@ abstract class Rule extends Object implements RuleInterface
         }
 
         return $bool;
+    }
+
+    /**
+     * @return bool true if argument is an associative array. False otherwise.
+     */
+    protected function isAssoc(array $array)
+    {
+        foreach (array_keys($array) as $key => $value) {
+            if ($key !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function getSupportedOptionsFor($rule, $property_name)
+    {
+        $options = $this->getOptions();
+        $prefix = $property_name . '_';
+        $rule_options = [];
+
+        // map all options of this rule for the given property to
+        // the unprefixed normal options the given rul supports
+        foreach ($rule::getOptionConstantValues() as $option_name) {
+            if (array_key_exists($prefix . $option_name, $options)) {
+                $rule_options[$option_name] = $options[$prefix . $option_name];
+            }
+        }
+
+        return $rule_options;
+    }
+
+    public static function getOptionConstantValues($prefix = '')
+    {
+        $class = new ReflectionClass(static::CLASS);
+        $constants = $class->getConstants();
+        $supported_options = [];
+
+        foreach ($constants as $key => $name) {
+            if (substr($key, 0, 7) === 'OPTION_') {
+                $supported_options[] = $prefix . $name;
+            }
+        }
+
+        return $supported_options;
     }
 }
