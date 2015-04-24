@@ -35,6 +35,9 @@
         "sami/sami": "2.0.*"
     },
     "autoload": {
-        "psr-0": { "Dat0r" : "src/" }
+        "psr-4": { "Dat0r\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Dat0r\\Tests\\" : "tests/" }
     }
 }
