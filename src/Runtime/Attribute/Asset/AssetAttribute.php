@@ -10,7 +10,7 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
 /**
  * An asset (file metadata including a location).
  */
-class ImageAttribute extends Attribute implements HandlesFileInterface
+class AssetAttribute extends Attribute implements HandlesFileInterface
 {
     protected function buildValidationRules()
     {
