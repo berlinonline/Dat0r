@@ -12,7 +12,7 @@ class AttributePath
 
     public static function getAttributePath(AttributeInterface $attribute)
     {
-        $path_parts = array($attribute->getName());
+        $path_parts = [ $attribute->getName() ];
 
         $current_attribute = $attribute->getParent();
         $current_type = $attribute->getType();
@@ -70,7 +70,6 @@ class AttributePath
             $current_attribute = $current_type->getAttribute($path_tuple[0]);
             if ($current_attribute instanceof EmbeddedEntityListAttribute) {
                 $current_type = $current_attribute->getEmbedTypeByPrefix($path_tuple[1]);
-                // TODO reintroduce referencehandling?
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-path.' .

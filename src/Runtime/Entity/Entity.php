@@ -119,6 +119,22 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     }
 
     /**
+     * Returns the entity's root, if it has one.
+     *
+     * @return EntityInterface
+     */
+    public function getRoot()
+    {
+        $tmp_parent = $this->getParent();
+        while ($tmp_parent) {
+            $root = $tmp_parent;
+            $tmp_parent = $tmp_parent->getParent();
+        }
+
+        return $root;
+    }
+
+    /**
      * Sets a specific value by attribute_name.
      *
      * @param string $attribute_name

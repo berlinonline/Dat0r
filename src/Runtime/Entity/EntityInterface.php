@@ -29,6 +29,13 @@ interface EntityInterface
     public function getParent();
 
     /**
+     * Returns the entity's root, if it has one.
+     *
+     * @return EntityInterface
+     */
+    public function getRoot();
+
+    /**
      * Sets a specific value by attribute_name.
      *
      * @param string $attribute_name
