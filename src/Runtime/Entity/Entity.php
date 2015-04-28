@@ -237,6 +237,9 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         foreach ($this->value_holder_map as $attribute_name => $value_holder) {
             $native_values[$attribute_name] = $value_holder->toNative();
         }
+        if ($this->getParent()) {
+            $native_values['@type'] = $this->getType()->getPrefix();
+        }
 
         return $native_values;
     }
@@ -248,7 +251,11 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      */
     public function toArray()
     {
-        $attribute_values = [ self::OBJECT_TYPE => get_class($this) ];
+        $type = get_class($this);
+        if ($this->getParent()) {
+            $type = $this->getType()->getPrefix();
+        }
+        $attribute_values = [ self::OBJECT_TYPE => $type ];
 
         foreach ($this->value_holder_map as $attribute_name => $value_holder) {
             $attribute_value = $value_holder->getValue();

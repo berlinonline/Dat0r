@@ -7,6 +7,8 @@ use Dat0r\Runtime\Attribute\ListAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\EntityTypeMap;
 
 /**
  * Allows to nest multiple types below a defined attribute_name.
@@ -27,7 +29,27 @@ class EmbeddedEntityListAttribute extends ListAttribute
      *
      * @var array
      */
-    protected $entity_types = null;
+    protected $entity_type_map = null;
+
+    public function __construct(
+        $name,
+        EntityTypeInterface $type,
+        array $options = [],
+        AttributeInterface $parent = null
+    ) {
+        parent::__construct($name, $type, $options, $parent);
+
+        $this->entity_type_map = new EntityTypeMap();
+        foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embedded_type_class) {
+            if (!class_exists($embedded_type_class)) {
+                throw new RuntimeException(
+                    sprintf('Unable to load configured "embedded_entity_type" class called %s.', $embedded_type_class)
+                );
+            }
+            $embedded_type = new $embedded_type_class($this->getType(), $this);
+            $this->entity_type_map->setItem($embedded_type->getPrefix(), $embedded_type);
+        }
+    }
 
     /**
      * Returns an attribute's null value.
@@ -39,54 +61,46 @@ class EmbeddedEntityListAttribute extends ListAttribute
         return new EntityList();
     }
 
+    public function getDefaultValue()
+    {
+        return $this->getNullValue();
+    }
+
     /**
      * Returns the embed-types as an array.
      *
      * @return array
      */
-    public function getEntityTypes()
+    public function getEmbeddedEntityTypeMap()
     {
-        if (!$this->entity_types) {
-            $this->entity_types = [];
-            foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embed_type) {
-                $this->entity_types[] = new $embed_type($this->getType(), $this);
-            }
-        }
-
-        return $this->entity_types;
+        return $this->entity_type_map;
     }
 
-    public function getEmbedTypeByPrefix($prefix)
+    public function getEmbeddedTypeByPrefix($prefix)
     {
-        foreach ($this->getEntityTypes() as $type) {
-            if ($type->getPrefix() === $prefix) {
-                return $type;
-            }
+        if ($this->getEmbeddedEntityTypeMap()->hasKey($prefix)) {
+            return $this->getEmbeddedEntityTypeMap()->getItem($prefix);
         }
 
         return null;
     }
 
-    public function getEmbedTypeByClassName($class_name)
+    public function getEmbeddedTypeByClassName($class_name)
     {
-        foreach ($this->getEntityTypes() as $type) {
-            if (get_class($type) === $class_name) {
-                return $type;
+        return $this->getEmbeddedEntityTypeMap()->filter(
+            function($entity_type) use ($class_name) {
+                return get_class($entity_type) === $class_name;
             }
-        }
-
-        return null;
+        )->getFirst();
     }
 
-    public function getEmbedTypeByName($name)
+    public function getEmbeddedTypeByName($name)
     {
-        foreach ($this->getEntityTypes() as $type) {
-            if ($type->getName() === $name) {
-                return $type;
+        return $this->getEmbeddedEntityTypeMap()->filter(
+            function($entity_type) use ($name) {
+                return $entity_type === $name;
             }
-        }
-
-        return null;
+        )->getFirst();
     }
 
     /**
@@ -99,7 +113,7 @@ class EmbeddedEntityListAttribute extends ListAttribute
         $rules = new RuleList();
 
         $options = $this->getOptions();
-        $options[self::OPTION_ENTITY_TYPES] = $this->getEntityTypes();
+        $options[self::OPTION_ENTITY_TYPES] = $this->getEmbeddedEntityTypeMap();
 
         $rules->push(
             new EmbeddedEntityListRule('valid-embedded-entity-list-data', $options)

@@ -33,7 +33,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
             $this->getTypeMock(),
             [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ] ]
         );
-        $paragraph_type = $embed_attribute->getEmbedTypeByPrefix('paragraph');
+        $paragraph_type = $embed_attribute->getEmbeddedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
         $this->assertEquals($embed_attribute->getName(), $title_attribute->getParent()->getName());
@@ -47,7 +47,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
                 'uuid' => '7e185d43-f870-46e7-9cea-59800555e970',
                 'content_objects' => [
                     [
-                        '@type' => Paragraph::CLASS,
+                        '@type' => 'paragraph',
                         'title' => 'Foobar',
                         'content' => 'The quick brown bar fooed over the lazy snafu.'
                     ]
@@ -57,6 +57,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
 
         $paragraph = $article->getValue('content_objects')->getFirst();
 
+        $this->assertInstanceOf(Paragraph::CLASS, $paragraph);
         $this->assertEquals($paragraph->getType()->getName(), 'Paragraph');
         $this->assertEquals($paragraph->getParent(), $article);
         $this->assertEquals($paragraph->getParent()->getType()->getName(), 'Article');
@@ -103,7 +104,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
 
         foreach ($embed_data[0] as $attribute_name => $value) {
             if ($attribute_name === '@type') {
-                $this->assertEquals($value, $entity->getType()->getEntityType());
+                $this->assertEquals($value, $entity->getType()->getPrefix());
             } else {
                 $this->assertEquals($value, $entity->getValue($attribute_name));
             }
@@ -117,7 +118,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
             $this->getTypeMock(),
             [ EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ WorkflowStateType::CLASS ] ]
         );
-        $workflow_state_type = $embed_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_state_type = $embed_attribute->getEmbeddedTypeByPrefix('workflow_state');
         $this->assertInstanceOf(WorkflowStateType::CLASS, $workflow_state_type);
     }
 
@@ -161,7 +162,7 @@ class EmbeddedEntityListAttributeTest extends TestCase
                 [
                     'title' => 'This is a paragraph test title.',
                     'content' => 'And this is some paragraph test content.',
-                    '@type' => Paragraph::CLASS
+                    '@type' => 'paragraph'
                 ]
             ]
         ];

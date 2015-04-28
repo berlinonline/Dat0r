@@ -4,7 +4,6 @@ namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Common\Collection\TypedMap;
 use Dat0r\Common\Collection\UniqueCollectionInterface;
-use Dat0r\Runtime\EntityTypeInterface;
 
 /**
  * AttributeMap is a associative collection container, that maps attribute names to correspondig attribute instances.

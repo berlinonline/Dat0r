@@ -7,6 +7,7 @@ use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
+use Dat0r\Runtime\EntityTypeMap;
 
 /**
  * Validates that a given (array) value consistently translates to a list of entities.
@@ -22,8 +23,6 @@ class EmbeddedEntityListRule extends Rule
     const OPTION_MAX_COUNT = 'max_count';
     const OPTION_MIN_COUNT = 'min_count';
 
-    const OBJECT_TYPE = Object::OBJECT_TYPE;
-
     /**
      * Validates and sanitizes a given value respective to the valueholder's expectations.
      *
@@ -31,7 +30,7 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return boolean
      */
-    protected function execute($value, EntityInterface $entity = null)
+    protected function execute($value, EntityInterface $parent_entity = null)
     {
         $success = true;
         $list = null;
@@ -45,9 +44,9 @@ class EmbeddedEntityListRule extends Rule
             $list->push($value);
         } elseif (is_array($value)) {
             $list = new EntityList();
-            $success = $this->createEntityList($value, $list, $entity);
+            $success = $this->createEntityList($value, $list, $parent_entity);
         } else {
-            $this->throwError('invalid_type');
+            $this->throwError('invalid_value_type');
             return false;
         }
 
@@ -83,38 +82,34 @@ class EmbeddedEntityListRule extends Rule
      *
      * @return EntityList
      */
-    protected function createEntityList(array $entities_data, EntityList $list, EntityInterface $parent = null)
+    protected function createEntityList(array $entities_data, EntityList $list, EntityInterface $parent_entity = null)
     {
         $success = true;
 
-        $type_map = [];
-        foreach ($this->getOption(self::OPTION_ENTITY_TYPES, []) as $type) {
-            $trimmed_type_name = trim($type->getEntityType(), '\\');
-            $type_map[$trimmed_type_name] = $type;
-        }
+        $embedded_entity_type_map = $this->getOption(self::OPTION_ENTITY_TYPES, new EntityTypeMap);
 
-        foreach ($entities_data as $entity_data) {
-            if (!isset($entity_data[self::OBJECT_TYPE])) {
+        foreach ($entities_data as $embedded_entity_data) {
+            if (!isset($embedded_entity_data[self::OBJECT_TYPE])) {
                 $success = false;
-                $this->throwError('missing_doc_type', [], IncidentInterface::CRITICAL);
+                $this->throwError('missing_embed_prefix', [], IncidentInterface::CRITICAL);
                 continue;
             }
 
-            $trimmed_embed_type = trim($entity_data[self::OBJECT_TYPE], '\\');
-            if (!isset($type_map[$trimmed_embed_type])) {
+            $embed_prefix = $embedded_entity_data[self::OBJECT_TYPE];
+            if (!$embedded_entity_type_map->hasKey($embed_prefix)) {
                 //var_dump(array_keys($type_map), $trimmed_embed_type);exit;
                 $success = false;
                 $this->throwError(
-                    'invalid_doc_type',
-                    [ 'type' => var_export($entity_data[self::OBJECT_TYPE], true) ],
-                    IncidentInterface::NOTICE
+                    'invalid_embed_prefix',
+                    [ 'type' => var_export($embedded_entity_data[self::OBJECT_TYPE], true) ],
+                    IncidentInterface::CRITICAL
                 );
                 continue;
             }
-            unset($entity_data['@type']);
+            unset($embedded_entity_data['@type']);
 
-            $embed_type = $type_map[$trimmed_embed_type];
-            $list->push($embed_type->createEntity($entity_data, $parent));
+            $embedded_type = $embedded_entity_type_map->getItem($embed_prefix);
+            $list->push($embedded_type->createEntity($embedded_entity_data, $parent_entity));
         }
 
         return $success;

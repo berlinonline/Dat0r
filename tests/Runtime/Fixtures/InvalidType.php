@@ -11,7 +11,7 @@ class InvalidType extends EntityType
         parent::__construct('InvalidType');
     }
 
-    protected function getEntityImplementor()
+    public function getEntityImplementor()
     {
         return 'NonExistantEntityClass';
     }

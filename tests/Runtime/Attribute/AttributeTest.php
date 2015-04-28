@@ -29,11 +29,11 @@ class AttributeTest extends TestCase
         $headline_attribute = $article_type->getAttribute('headline');
 
         $content_objects_attribute = $article_type->getAttribute('content_objects');
-        $paragraph_type = $content_objects_attribute->getEmbedTypeByPrefix('paragraph');
+        $paragraph_type = $content_objects_attribute->getEmbeddedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
         $workflow_state_attribute = $article_type->getAttribute('workflow_state');
-        $workflow_state_type = $workflow_state_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_state_type = $workflow_state_attribute->getEmbeddedTypeByPrefix('workflow_state');
         $workflow_step_attribute = $workflow_state_type->getAttribute('workflow_step');
 
         return [
@@ -49,11 +49,11 @@ class AttributeTest extends TestCase
         $headline_attribute = $article_type->getAttribute('headline');
 
         $content_objects_attribute = $article_type->getAttribute('content_objects');
-        $paragraph_type = $content_objects_attribute->getEmbedTypeByPrefix('paragraph');
+        $paragraph_type = $content_objects_attribute->getEmbeddedTypeByPrefix('paragraph');
         $title_attribute = $paragraph_type->getAttribute('title');
 
         $workflow_state_attribute = $article_type->getAttribute('workflow_state');
-        $workflow_state_type = $workflow_state_attribute->getEmbedTypeByPrefix('workflow_state');
+        $workflow_state_type = $workflow_state_attribute->getEmbeddedTypeByPrefix('workflow_state');
         $workflow_step_attribute = $workflow_state_type->getAttribute('workflow_step');
 
         return [

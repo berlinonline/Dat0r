@@ -67,4 +67,11 @@ interface EntityTypeInterface
      * @return EntityInterface
      */
     public function createEntity(array $data = [], EntityInterface $parent_entity = null);
+
+    /**
+     * Returns the class(name) to use when creating new entries for this type.
+     *
+     * @return string
+     */
+    public function getEntityImplementor();
 }

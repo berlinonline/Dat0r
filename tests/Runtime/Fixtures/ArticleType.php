@@ -73,7 +73,7 @@ class ArticleType extends EntityType
         );
     }
 
-    protected function getEntityImplementor()
+    public function getEntityImplementor()
     {
         return Article::CLASS;
     }

@@ -59,13 +59,6 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
     protected $options;
 
     /**
-     * Returns the class(name) to use when creating new entries for this type.
-     *
-     * @return string
-     */
-    abstract protected function getEntityImplementor();
-
-    /**
      * Constructs a new Type.
      *
      * @param string $name
@@ -95,11 +88,6 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         foreach ($attributes as $attribute) {
             $this->attribute_map->setItem($attribute->getName(), $attribute);
         }
-    }
-
-    public function getEntityType()
-    {
-        return $this->getEntityImplementor();
     }
 
     /**

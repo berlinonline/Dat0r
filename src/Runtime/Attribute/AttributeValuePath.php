@@ -42,7 +42,7 @@ class AttributeValuePath
             }
             // prepare for next iteration by switching the current_type to the next level
             if ($current_attribute instanceof EmbeddedEntityListAttribute) {
-                $current_type = $current_attribute->getEmbedTypeByPrefix($offset_spec['entity_type']);
+                $current_type = $current_attribute->getEmbeddedTypeByPrefix($offset_spec['entity_type']);
             } else {
                 throw new RuntimeException(
                     'Invalid attribute-type given within attribute-value-path.' .

@@ -34,7 +34,7 @@ class AttributeValuePathTest extends TestCase
                 'content' => $content,
                 'content_objects' => [
                     [
-                        '@type' => Paragraph::CLASS,
+                        '@type' => 'paragraph',
                         'title' => $paragraph_title,
                         'content' => $paragraph_content
                     ]

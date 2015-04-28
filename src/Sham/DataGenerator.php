@@ -480,9 +480,9 @@ class DataGenerator
     ) {
         $options_clone = $options;
         $entity_collection = new EntityList();
-        $embed_types = $attribute->getEntityTypes();
+        $embedded_type_map = $attribute->getEmbeddedEntityTypeMap();
 
-        $number_of_embed_types = count($embed_types);
+        $number_of_embed_types = $embedded_type_map->getSize();
         $number_of_new_embed_entries = $this->faker->numberBetween(1, 3);
 
         // add number of entities to reference depending on number of embed types
@@ -492,7 +492,7 @@ class DataGenerator
 
         // add new entities to collection for embed types
         for ($i = 0; $i < $number_of_new_embed_entries; $i++) {
-            $embed_type = $this->faker->randomElement($embed_types);
+            $embed_type = $this->faker->randomElement($embedded_type_map->getValues());
             $new_entity = $this->createFakeEntity($embed_type, $options_clone);
             $entity_collection->addItem($new_entity);
         }

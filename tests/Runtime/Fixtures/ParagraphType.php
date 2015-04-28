@@ -33,7 +33,7 @@ class ParagraphType extends EntityType
         );
     }
 
-    protected function getEntityImplementor()
+    public function getEntityImplementor()
     {
         return Paragraph::CLASS;
     }

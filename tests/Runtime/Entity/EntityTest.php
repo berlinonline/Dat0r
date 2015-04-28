@@ -38,7 +38,6 @@ class EntityTest extends TestCase
         $data = $this->getExampleValues();
         $type = new ArticleType();
         $entity = $type->createEntity($data);
-
         $this->assertTrue($entity->isValid(), 'entity should be in valid state');
 
         $result = $entity->toNative();
@@ -63,7 +62,6 @@ class EntityTest extends TestCase
         $this->assertTrue($entity->isValid());
 
         $result = $entity->toNative();
-
         $new_entity = $type->createEntity($result);
 
         $this->assertTrue($new_entity->isEqualTo($entity));
@@ -99,7 +97,13 @@ class EntityTest extends TestCase
             'images' => [ 1, 2, 3 ],
             'keywords' => [ 'some', 'keywords' ],
             'enabled' => true,
-            'content_objects' => [],
+            'content_objects' => [
+                [
+                    '@type' => 'paragraph',
+                    'title' => 'hello world!',
+                    'text' => 'hello world from an embedded paragraph'
+                ]
+            ],
             'meta' => [],
             'workflow_state' => []
         ];
