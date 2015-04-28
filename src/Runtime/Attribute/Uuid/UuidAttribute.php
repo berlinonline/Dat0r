@@ -18,7 +18,21 @@ class UuidAttribute extends TextAttribute
 
     public function getNullValue()
     {
-        return self::generateVersion4();
+        return null;
+    }
+
+    public function getDefaultValue()
+    {
+        if ($this->hasOption(self::OPTION_DEFAULT_VALUE)) {
+            if ($this->getOption(self::OPTION_DEFAULT_VALUE) === 'auto_gen') {
+                $raw_default = $this->generateVersion4();
+            } else {
+                $raw_default = $this->getOption(self::OPTION_DEFAULT_VALUE, $this->getNullValue());
+            }
+            return $this->getSanitizedValue($raw_default);
+        } else {
+            return $this->getNullValue();
+        }
     }
 
     protected function buildValidationRules()
