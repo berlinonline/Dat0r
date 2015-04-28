@@ -87,20 +87,24 @@ class EmbeddedEntityListAttribute extends ListAttribute
 
     public function getEmbeddedTypeByClassName($class_name)
     {
-        return $this->getEmbeddedEntityTypeMap()->filter(
+        $found_types = $this->getEmbeddedEntityTypeMap()->filter(
             function($entity_type) use ($class_name) {
                 return get_class($entity_type) === $class_name;
             }
-        )->getFirst();
+        )->getValues();
+
+        return count($found_types) == 1 ? $found_types[0] : null;
     }
 
     public function getEmbeddedTypeByName($name)
     {
-        return $this->getEmbeddedEntityTypeMap()->filter(
+        $found_types = $this->getEmbeddedEntityTypeMap()->filter(
             function($entity_type) use ($name) {
                 return $entity_type === $name;
             }
-        )->getFirst();
+        )->getValues();
+
+        return count($found_types) == 1 ? $found_types[0] : null;
     }
 
     /**
