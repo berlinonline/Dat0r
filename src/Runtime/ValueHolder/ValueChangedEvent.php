@@ -16,9 +16,9 @@ class ValueChangedEvent extends Object implements EventInterface
 {
     /**
      * Holds the event's attribute origin.
-     * @var AttributeInterface
+     * @var string
      */
-    protected $attribute;
+    protected $attribute_name;
 
     /**
      * Holds the previous value of our attribute origin.
@@ -63,11 +63,11 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Returns the event's affected attribute.
      *
-     * @return AttributeInterface
+     * @return string
      */
-    public function getAttribute()
+    public function getAttributeName()
     {
-        return $this->attribute;
+        return $this->attribute_name;
     }
 
     /**
@@ -106,9 +106,9 @@ class ValueChangedEvent extends Object implements EventInterface
      *
      * @return ValueChangedEvent
      */
-    public function getEmbedEvent()
+    public function getEmbeddedEvent()
     {
-        return $this->embed_event;
+        return $this->embedded_event;
     }
 
     /**
@@ -120,12 +120,12 @@ class ValueChangedEvent extends Object implements EventInterface
     {
         $string_representation = sprintf(
             "The `%s` attribute's value changed from '%s' to '%s'",
-            $this->getAttribute()->getName(),
+            $this->getAttributeName(),
             $this->getOldValue(),
             $this->getNewValue()
         );
 
-        if (($embed_event = $this->getEmbedEvent())) {
+        if (($embed_event = $this->getEmbeddedEvent())) {
             $string_representation .= PHP_EOL . "The actual changed occured upon the attribute's embed though.";
             $string_representation .= PHP_EOL . $embed_event;
         }

@@ -268,7 +268,7 @@ class DataGeneratorTest extends TestCase
 
         $changed_attributes = [];
         foreach ($this->entity->getChanges() as $changed_event) {
-            $changed_attributes[] = $changed_event->getAttribute()->getName();
+            $changed_attributes[] = $changed_event->getAttributeName();
         }
 
         foreach ($excluded_attributes as $excluded_attribute) {

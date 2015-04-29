@@ -246,7 +246,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
         $this->propagateValueChangedEvent(
             new ValueChangedEvent(
                 array(
-                    'attribute' => $value_changed_event->getAttribute(),
+                    'attribute_name' => $value_changed_event->getAttributeName(),
                     'prev_value' => $value_changed_event->getOldValue(),
                     'value' => $value_changed_event->getNewValue(),
                     'embed_event' => $event
@@ -287,7 +287,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
     {
         return new ValueChangedEvent(
             array(
-                'attribute' => $this->getAttribute(),
+                'attribute_name' => $this->getAttribute()->getName(),
                 'prev_value' => $prev_value,
                 'value' => $this->toNative(),
                 'embed_event' => $event
