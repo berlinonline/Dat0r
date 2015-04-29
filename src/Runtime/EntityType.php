@@ -218,15 +218,12 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         return array_keys($this->getDefaultAttributes());
     }
 
-    /**
-     * @todo All entities should have a uuid field by default
-     */
-    protected function getDefaultAttributes()
+    public function getDefaultAttributes()
     {
         return [];
     }
 
-    protected function getAttributeByPath($attribute_path)
+    public function getAttributeByPath($attribute_path)
     {
         return AttributePath::getAttributeByPath($this, $attribute_path);
     }

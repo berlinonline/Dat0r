@@ -74,4 +74,10 @@ interface EntityTypeInterface
      * @return string
      */
     public function getEntityImplementor();
+
+    public function getDefaultAttributeNames();
+
+    public function getDefaultAttributes();
+
+    public function getAttributeByPath($attribute_path);
 }
