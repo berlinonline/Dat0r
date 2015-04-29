@@ -249,7 +249,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
                     'attribute_name' => $value_changed_event->getAttributeName(),
                     'prev_value' => $value_changed_event->getOldValue(),
                     'value' => $value_changed_event->getNewValue(),
-                    'embed_event' => $event
+                    'embedded_event' => $event
                 )
             )
         );
@@ -290,7 +290,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
                 'attribute_name' => $this->getAttribute()->getName(),
                 'prev_value' => $prev_value,
                 'value' => $this->toNative(),
-                'embed_event' => $event
+                'embedded_event' => $event
             )
         );
     }
