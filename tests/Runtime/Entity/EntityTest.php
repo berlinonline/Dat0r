@@ -6,6 +6,7 @@ use Dat0r\Common\Collection\ArrayList;
 use Dat0r\Runtime\Attribute\Uuid\UuidAttribute;
 use Dat0r\Runtime\Entity\EntityList;
 use Dat0r\Tests\Runtime\Entity\Fixtures\EntityTestProxy;
+use Dat0r\Runtime\Entity\EntityChangedEvent;
 use Dat0r\Tests\Runtime\Fixtures\ArticleType;
 use Dat0r\Tests\TestCase;
 
@@ -31,6 +32,26 @@ class EntityTest extends TestCase
 
         $this->assertFalse($entity->isValid());
         $this->assertEquals(null, $entity->getValue('headline'));
+    }
+
+    public function testChangedEvents()
+    {
+        $type = new ArticleType();
+        $entity = $type->createEntity([
+            'headline' => 'hel',
+            'content_objects' => [
+                [
+                    '@type' => 'paragraph',
+                    'title' => 'this is a paragraph',
+                    'text' => 'wat?!'
+                ]
+            ]
+        ]);
+
+        $paragraph = $entity->getValue('content_objects')->getFirst();
+        $paragraph->setValue('title', 'Go home embedd-event, you are drunk!');
+
+        $this->assertInstanceOf(EntityChangedEvent::CLASS, $entity->getChanges()->getFirst()->getEmbeddedEvent());
     }
 
     public function testToNative()
