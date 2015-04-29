@@ -42,7 +42,7 @@ class ValueChangedEvent extends Object implements EventInterface
     protected $timestamp;
 
     /**
-     * Holds a possibly underlying aggrgate's value changed event.
+     * Holds a possibly underlying aggregate's value changed event.
      *
      * @var EntityChangedEvent $embedded_event
      */
@@ -50,14 +50,12 @@ class ValueChangedEvent extends Object implements EventInterface
 
     /**
      * Constructs a new ValueChangedEvent instance.
-     *
-     * @param EntityChangedEvent $embed_event If the origin attribute is an embed, the bubbled event is passed
      */
     public function __construct(array $state = [])
     {
-        parent::__construct($state);
-
         $this->timestamp = time();
+
+        parent::__construct($state);
     }
 
     /**
@@ -125,9 +123,9 @@ class ValueChangedEvent extends Object implements EventInterface
             $this->getNewValue()
         );
 
-        if (($embed_event = $this->getEmbeddedEvent())) {
+        if (($embedded_event = $this->getEmbeddedEvent())) {
             $string_representation .= PHP_EOL . "The actual changed occured upon the attribute's embed though.";
-            $string_representation .= PHP_EOL . $embed_event;
+            $string_representation .= PHP_EOL . $embedded_event;
         }
 
         return $string_representation;

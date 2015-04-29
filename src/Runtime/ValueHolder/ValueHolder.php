@@ -123,9 +123,8 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
             $this->value = $validation_result->getSanitizedValue();
 
             if (!$this->sameValueAs($previous_value)) {
-                $this->propagateValueChangedEvent(
-                    $this->createValueHolderChangedEvent($previous_value)
-                );
+                $value_changed_event = $this->createValueHolderChangedEvent($previous_value);
+                $this->propagateValueChangedEvent($value_changed_event);
             }
 
             if ($this->value instanceof CollectionInterface) {
@@ -239,9 +238,9 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      *
      * @param EntityChangedEvent $event
      */
-    public function onEntityChanged(EntityChangedEvent $event)
+    public function onEntityChanged(EntityChangedEvent $embedded_entity_event)
     {
-        $value_changed_event = $event->getValueChangedEvent();
+        $value_changed_event = $embedded_entity_event->getValueChangedEvent();
 
         $this->propagateValueChangedEvent(
             new ValueChangedEvent(
@@ -249,7 +248,7 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
                     'attribute_name' => $value_changed_event->getAttributeName(),
                     'prev_value' => $value_changed_event->getOldValue(),
                     'value' => $value_changed_event->getNewValue(),
-                    'embedded_event' => $event
+                    'embedded_event' => $embedded_entity_event
                 )
             )
         );
@@ -281,16 +280,16 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      * Create a new value-changed event instance from the given info.
      *
      * @param mixed $prev_value
-     * @param EventInterface $event
+     * @param EventInterface $embedded_event
      */
-    protected function createValueHolderChangedEvent($prev_value, EventInterface $event = null)
+    protected function createValueHolderChangedEvent($prev_value, EventInterface $embedded_event = null)
     {
         return new ValueChangedEvent(
             array(
                 'attribute_name' => $this->getAttribute()->getName(),
                 'prev_value' => $prev_value,
                 'value' => $this->toNative(),
-                'embedded_event' => $event
+                'embedded_event' => $embedded_event
             )
         );
     }
