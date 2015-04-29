@@ -44,9 +44,9 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Holds a possibly underlying aggrgate's value changed event.
      *
-     * @var EntityChangedEvent $embed_event
+     * @var EntityChangedEvent $embedded_event
      */
-    protected $embed_event;
+    protected $embedded_event;
 
     /**
      * Constructs a new ValueChangedEvent instance.
