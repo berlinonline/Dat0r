@@ -119,8 +119,8 @@ class ValueChangedEvent extends Object implements EventInterface
         $string_representation = sprintf(
             "The `%s` attribute's value changed from '%s' to '%s'",
             $this->getAttributeName(),
-            $this->getOldValue(),
-            $this->getNewValue()
+            var_export($this->getOldValue(), true),
+            var_export($this->getNewValue(), true)
         );
 
         if (($embedded_event = $this->getEmbeddedEvent())) {
