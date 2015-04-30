@@ -32,6 +32,16 @@ class IntegerAttributeTest extends TestCase
         $this->assertEquals(123, $valueholder->getValue());
     }
 
+    public function testDefaultNullValue()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock()
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(0, $valueholder->getValue());
+    }
+
     public function testValueComparison()
     {
         $attribute = new IntegerAttribute(
