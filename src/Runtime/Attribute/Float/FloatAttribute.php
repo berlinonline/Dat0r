@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Attribute\Float;
 
+use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Attribute\Attribute;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\FloatRule;
@@ -46,7 +47,27 @@ class FloatAttribute extends Attribute
 
     public function getNullValue()
     {
-        return 0;
+        $null_value = 0.0;
+
+        if (!$this->isInRange($null_value)) {
+            $null_value = (float)$this->getOption(
+                self::OPTION_MIN_VALUE,
+                (float)$this->getOption(self::OPTION_MAX_VALUE, (float)$null_value)
+            );
+        }
+
+        return $null_value;
+    }
+
+    public function getDefaultValue()
+    {
+        $default_value = parent::getDefaultValue();
+
+        if (!$this->isInRange($default_value)) {
+            throw new InvalidConfigException("Configured range option ('min_value' or 'max_value') not compatible with the 'default' value.");
+        }
+
+        return $default_value;
     }
 
     protected function buildValidationRules()
@@ -58,5 +79,15 @@ class FloatAttribute extends Attribute
         $rules->push(new FloatRule('valid-float', $options));
 
         return $rules;
+    }
+
+    protected function isInRange($value)
+    {
+        if (($this->hasOption(self::OPTION_MIN_VALUE) && $value < $this->getOption(self::OPTION_MIN_VALUE)) ||
+            ($this->hasOption(self::OPTION_MAX_VALUE) && $value > $this->getOption(self::OPTION_MAX_VALUE))) {
+            return false;
+        }
+
+        return true;
     }
 }

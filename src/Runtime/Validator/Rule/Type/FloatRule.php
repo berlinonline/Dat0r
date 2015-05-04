@@ -5,6 +5,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 use Dat0r\Common\Error\InvalidConfigException;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Dat0r\Runtime\Entity\EntityInterface;
+use Dat0r\Runtime\Attribute\AttributeInterface;
 
 class FloatRule extends Rule
 {
@@ -46,6 +47,20 @@ class FloatRule extends Rule
 
     protected function execute($value, EntityInterface $entity = null)
     {
+        if ($value === '') {
+            $value = $this->getOption(
+                self::OPTION_MIN_VALUE,
+                $this->getOption(
+                    self::OPTION_MAX_VALUE,
+                    $this->getOption(AttributeInterface::OPTION_NULL_VALUE, 0)
+                )
+            );
+
+            $this->setSanitizedValue($value);
+
+            return true;
+        }
+
         $allow_thousand = $this->toBoolean($this->getOption(self::OPTION_ALLOW_THOUSAND_SEPARATOR, false));
         $allow_infinity = $this->toBoolean($this->getOption(self::OPTION_ALLOW_INFINITY, false));
         $allow_nan = $this->toBoolean($this->getOption(self::OPTION_ALLOW_NAN, false));
