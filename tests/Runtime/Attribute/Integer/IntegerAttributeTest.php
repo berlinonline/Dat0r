@@ -53,6 +53,87 @@ class IntegerAttributeTest extends TestCase
         $this->assertTrue($valueholder->sameValueAs('0'));
     }
 
+    public function testNullInitializationWithNullOption()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_NULL_VALUE => -14 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(-14, $valueholder->getValue());
+        $this->assertNotEquals(14, $valueholder->getValue());
+    }
+
+    public function testNullInitializationWithInvalidNullOption()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerAttribute::OPTION_NULL_VALUE => -14,
+                IntegerAttribute::OPTION_MIN_VALUE => 14
+            ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(14, $valueholder->getValue());
+        $this->assertNotEquals(-14, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValue()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock()
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(0, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithNullOption()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_NULL_VALUE => -14 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(-14, $valueholder->getValue());
+        $this->assertNotEquals(14, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithMinOption()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ IntegerAttribute::OPTION_MIN_VALUE => -20 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertNotEquals(0, $valueholder->getValue());
+        $this->assertEquals(-20, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithNullAndMinOptions()
+    {
+        $attribute = new IntegerAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                IntegerAttribute::OPTION_NULL_VALUE => -15,
+                IntegerAttribute::OPTION_MIN_VALUE => -20
+            ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(-15, $valueholder->getValue());
+        $this->assertNotEquals(15, $valueholder->getValue());
+        $this->assertNotEquals(-20, $valueholder->getValue());
+    }
+
     public function testValueComparison()
     {
         $attribute = new IntegerAttribute(

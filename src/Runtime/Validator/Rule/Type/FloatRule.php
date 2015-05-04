@@ -49,10 +49,10 @@ class FloatRule extends Rule
     {
         if ($value === '') {
             $value = $this->getOption(
-                self::OPTION_MIN_VALUE,
+                AttributeInterface::OPTION_NULL_VALUE,
                 $this->getOption(
-                    self::OPTION_MAX_VALUE,
-                    $this->getOption(AttributeInterface::OPTION_NULL_VALUE, 0)
+                    self::OPTION_MIN_VALUE,
+                    $this->getOption(self::OPTION_MAX_VALUE, 0)
                 )
             );
 

@@ -12,17 +12,19 @@ use stdClass;
 
 class FloatAttributeTest extends TestCase
 {
+    const ATTR_NAME = 'Float';
+
     public function testCreate()
     {
-        $attribute = new FloatAttribute('Float', $this->getTypeMock());
-        $this->assertEquals($attribute->getName(), 'Float');
+        $attribute = new FloatAttribute(self::ATTR_NAME, $this->getTypeMock());
+        $this->assertEquals($attribute->getName(), self::ATTR_NAME);
         $this->assertEquals(0, $attribute->getNullValue());
     }
 
     public function testCreateValueWithDefaultValues()
     {
         $attribute = new FloatAttribute(
-            'Float',
+            self::ATTR_NAME,
             $this->getTypeMock(),
             [ FloatAttribute::OPTION_DEFAULT_VALUE => 123.456 ]
         );
@@ -31,10 +33,134 @@ class FloatAttributeTest extends TestCase
         $this->assertEquals(123.456, $valueholder->getValue());
     }
 
+    public function testDefaultNullValue()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock()
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(0.0, $valueholder->getValue());
+    }
+
+    public function testDefaultNullValueComparision()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock()
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertTrue($valueholder->sameValueAs(0.0));
+        $this->assertTrue($valueholder->sameValueAs('0.0'));
+    }
+
+    public function testNullInitializationWithNullOption()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_NULL_VALUE => -14.14 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(-14.14, $valueholder->getValue());
+        $this->assertNotEquals(14.14, $valueholder->getValue());
+    }
+
+    /**
+     * Expects that the initialization of the Null value for the value holder will consider
+     * the additional fallback chain, in case the Null value option does not respect the range constraints
+     */
+    public function testNullInitializationWithInvalidNullOption()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_NULL_VALUE => -14.14,
+                FloatAttribute::OPTION_MIN_VALUE => 14.14
+            ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $this->assertEquals(14.14, $valueholder->getValue());
+        $this->assertNotEquals(-14.14, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValue()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock()
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(0.0, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithNullOption()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_NULL_VALUE => -15.15 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(-15.15, $valueholder->getValue());
+        $this->assertNotEquals(15.15, $valueholder->getValue());
+        $this->assertNotEquals(-20.4321, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithMinOption()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [ FloatAttribute::OPTION_MIN_VALUE => -20.4321 ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertNotEquals(0.0, $valueholder->getValue());
+        $this->assertEquals(-20.4321, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithNullAndMinOptions()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_NULL_VALUE => -15.15,
+                FloatAttribute::OPTION_MIN_VALUE => -20.4321
+            ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(-15.15, $valueholder->getValue());
+        $this->assertNotEquals(15.15, $valueholder->getValue());
+        $this->assertNotEquals(-20.4321, $valueholder->getValue());
+    }
+
+    public function testSetEmptyValueWithMinAndMaxOptions()
+    {
+        $attribute = new FloatAttribute(
+            self::ATTR_NAME,
+            $this->getTypeMock(),
+            [
+                FloatAttribute::OPTION_MAX_VALUE => -15.15,
+                FloatAttribute::OPTION_MIN_VALUE => -20.4321
+            ]
+        );
+        $valueholder = $attribute->createValueHolder(false);
+        $valueholder->setValue('');
+        $this->assertEquals(-20.4321, $valueholder->getValue());
+        $this->assertNotEquals(15.15, $valueholder->getValue());
+        $this->assertNotEquals(-15.15, $valueholder->getValue());
+    }
+
     public function testValueComparison()
     {
         $attribute = new FloatAttribute(
-            'Float',
+            self::ATTR_NAME,
             $this->getTypeMock(),
             [ FloatAttribute::OPTION_DEFAULT_VALUE => 1337.456 ]
         );

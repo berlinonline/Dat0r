@@ -16,7 +16,7 @@ class IntegerAttribute extends Attribute
 
     public function getNullValue()
     {
-        $null_value = 0;
+        $null_value = $this->getOption(self::OPTION_NULL_VALUE, 0);
 
         if (!$this->isInRange($null_value)) {
             $null_value = $this->getOption(
