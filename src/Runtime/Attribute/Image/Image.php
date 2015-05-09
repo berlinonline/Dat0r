@@ -12,6 +12,7 @@ class Image extends ComplexValue
     const PROPERTY_COPYRIGHT = 'copyright';
     const PROPERTY_COPYRIGHT_URL = 'copyright_url';
     const PROPERTY_SOURCE = 'source';
+    const PROPERTY_AOI = 'aoi';
     const PROPERTY_META_DATA = 'meta_data';
 
     protected $values = [
@@ -21,6 +22,7 @@ class Image extends ComplexValue
         self::PROPERTY_COPYRIGHT => '',
         self::PROPERTY_COPYRIGHT_URL => '',
         self::PROPERTY_SOURCE => '',
+        self::PROPERTY_AOI => '',
         self::PROPERTY_META_DATA => []
     ];
 
@@ -59,6 +61,11 @@ class Image extends ComplexValue
     public function getSource()
     {
         return $this->values[self::PROPERTY_SOURCE];
+    }
+
+    public function getAoi()
+    {
+        return $this->values[self::PROPERTY_AOI];
     }
 
     public function getMetaData()

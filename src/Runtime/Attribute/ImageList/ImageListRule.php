@@ -20,9 +20,9 @@ class ImageListRule extends Rule
 
         $image_rule = new ImageRule('image', $this->getOptions());
 
-        foreach ($values as $val) {
+        foreach ($values as $index => $val) {
             if (!$image_rule->apply($val)) {
-                $this->throwIncidentsAsErrors($image_rule);
+                $this->throwIncidentsAsErrors($image_rule, null, [ 'path_parts' => $index ]);
                 return false;
             }
 

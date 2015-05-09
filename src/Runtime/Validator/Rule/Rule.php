@@ -90,12 +90,17 @@ abstract class Rule extends Object implements RuleInterface
         $this->sanitized_value = $sanitized_value;
     }
 
-    protected function throwIncidentsAsErrors($rule)
+    protected function throwIncidentsAsErrors($rule, $property = null, array $parameters = [])
     {
+        if ($property && !isset($parameters['path_parts'])) {
+            $parameters['path_parts'] = [ $property ];
+        }
         foreach ($rule->getIncidents() as $incident) {
+            $name = $incident->getName();
+            $params = $parameters;
             $this->throwError(
-                $incident->getName(),
-                $incident->getParameters(),
+                is_string($property) && !empty($property) ? $property . '.' . $name : $name,
+                array_merge_recursive($incident->getParameters(), $parameters),
                 $incident->getSeverity()
             );
         }

@@ -227,7 +227,8 @@ class ImageRule extends Rule
         Image::PROPERTY_CAPTION         => TextRule::CLASS,
         Image::PROPERTY_COPYRIGHT       => TextRule::CLASS,
         Image::PROPERTY_COPYRIGHT_URL   => UrlRule::CLASS,
-        Image::PROPERTY_SOURCE          => TextRule::CLASS
+        Image::PROPERTY_SOURCE          => TextRule::CLASS,
+        Image::PROPERTY_AOI             => TextRule::CLASS
     ];
 
     protected function execute($value, EntityInterface $entity = null)
@@ -257,7 +258,7 @@ class ImageRule extends Rule
                 );
 
                 if (!$rule->apply($incoming_data[$property_name])) {
-                    $this->throwIncidentsAsErrors($rule);
+                    $this->throwIncidentsAsErrors($rule, $property_name);
                     return false;
                 }
                 $data[$property_name] = $rule->getSanitizedValue();

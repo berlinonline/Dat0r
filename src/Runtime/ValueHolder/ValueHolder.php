@@ -170,6 +170,11 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
      */
     public function sameValueAs($other_value)
     {
+        $null_value = $this->attribute->getNullValue();
+        if ($null_value === $this->getValue() && $null_value === $other_value) {
+            return true;
+        }
+
         $validation_result = $this->getAttribute()->getValidator()->validate($other_value);
         if ($validation_result->getSeverity() !== IncidentInterface::SUCCESS) {
             return false;
