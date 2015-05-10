@@ -124,6 +124,7 @@ class ImageAttributeTest extends TestCase
         $img_data = [
             Image::PROPERTY_LOCATION => 'some.jpg',
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
+            Image::PROPERTY_AOI => '[12,123,42,542]',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => 1337,
@@ -138,6 +139,7 @@ class ImageAttributeTest extends TestCase
             Image::PROPERTY_COPYRIGHT => 'some copyright string',
             Image::PROPERTY_COPYRIGHT_URL => '',
             Image::PROPERTY_SOURCE => '',
+            Image::PROPERTY_AOI => '[12,123,42,542]',
             Image::PROPERTY_META_DATA => [
                 'foo' => 'bar',
                 'leet' => 1337,
@@ -149,6 +151,7 @@ class ImageAttributeTest extends TestCase
         $valueholder = $attribute->createValueHolder();
         $valueholder->setValue(Image::createFromArray($img_data));
         $this->assertInstanceOf(Image::CLASS, $valueholder->getValue());
+
         $this->assertEquals($native, $valueholder->toNative());
         $result = $valueholder->setValue($valueholder->toNative());
         $this->assertEquals(IncidentInterface::SUCCESS, $result->getSeverity());

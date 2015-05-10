@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "ae520856557a983b6294bc55b23803fc",
@@ -111,23 +111,24 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "1.2.7",
+            "version": "1.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "af9417f765623429c9d2a200f0159537e08d1ef3"
+                "reference": "5631c3fe2e56cd5a3f79b20fae970d884a5ff951"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/af9417f765623429c9d2a200f0159537e08d1ef3",
-                "reference": "af9417f765623429c9d2a200f0159537e08d1ef3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/5631c3fe2e56cd5a3f79b20fae970d884a5ff951",
+                "reference": "5631c3fe2e56cd5a3f79b20fae970d884a5ff951",
                 "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "~1.0",
+                "doctrine/lexer": "~1.0,>=1.0.1",
                 "php": ">= 5.3.3"
             },
             "require-dev": {
+                "phpunit/phpunit": "~4.4",
                 "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
@@ -157,7 +158,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2015-01-04 22:42:32"
+            "time": "2015-04-26 15:49:00"
         },
         {
             "name": "fzaninotto/faker",
