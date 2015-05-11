@@ -8,27 +8,29 @@ use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Entity\EntityChangedEvent;
 
 /**
- * ValueChangedEvent(s) reflect state changes to a entity's underlying Value.
- * These events are fired everytime a entity attribute-value actually changes and can be used
- * to track state changes over time.
+ * ValueChangedEvent(s) reflect state changes to an entity's values.
+ *
+ * These events are fired everytime an entity attribute's value
+ * actually changes and can be used to track state changes over time.
  */
 class ValueChangedEvent extends Object implements EventInterface
 {
     /**
      * Holds the event's attribute origin.
+     *
      * @var string
      */
     protected $attribute_name;
 
     /**
-     * Holds the previous value of our attribute origin.
+     * Holds the previous value (via toNative) of the attribute origin.
      *
      * @var mixed $prev_value
      */
     protected $prev_value;
 
     /**
-     * Holds the new value of our attribute origin.
+     * Holds the new value (via toNative) of the attribute origin.
      *
      * @var mixed $value
      */
@@ -42,7 +44,7 @@ class ValueChangedEvent extends Object implements EventInterface
     protected $timestamp;
 
     /**
-     * Holds a possibly underlying aggregate's value changed event.
+     * Holds a possibly embedded entity's value changed event.
      *
      * @var EntityChangedEvent $embedded_event
      */
@@ -71,7 +73,7 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Returns the previous value of the event's related attribute.
      *
-     * @return mixed
+     * @return mixed native representation of the attribute's old value
      */
     public function getOldValue()
     {
@@ -81,7 +83,7 @@ class ValueChangedEvent extends Object implements EventInterface
     /**
      * Returns the new value of the event's related attribute.
      *
-     * @return mixed
+     * @return mixed native representation of the attribute's new value
      */
     public function getNewValue()
     {
@@ -116,6 +118,9 @@ class ValueChangedEvent extends Object implements EventInterface
      */
     public function __toString()
     {
+        $old = $this->getOldValue();
+        $new = $this->getNewValue();
+
         $string_representation = sprintf(
             "The `%s` attribute's value changed from '%s' to '%s'",
             $this->getAttributeName(),

@@ -5,8 +5,9 @@ namespace Dat0r\Runtime\ValueHolder;
 use Assert;
 use Dat0r\Common\Error\BadValueException;
 use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Common\Object;
 
-abstract class ComplexValue implements ComplexValueInterface
+abstract class ComplexValue extends Object implements ComplexValueInterface
 {
     /**
      * @var array $values properties of this value object with their (default) values
@@ -59,6 +60,11 @@ abstract class ComplexValue implements ComplexValueInterface
      * @return array value that can be used for serializing/deserializing
      */
     public function toNative()
+    {
+        return $this->values;
+    }
+
+    public function toArray()
     {
         return $this->values;
     }
@@ -155,7 +161,7 @@ abstract class ComplexValue implements ComplexValueInterface
                 return false;
             }
 
-            // TODO do we support nested arrays in a valueobject?
+            // TODO do we support nested arrays in a valueobject? if yes this and the toArray/toNative must change
             $has_equal_value = ($other_data[$key] === $value);
             if (!$has_equal_value) {
                 return false;

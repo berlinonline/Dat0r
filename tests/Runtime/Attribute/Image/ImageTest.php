@@ -111,6 +111,19 @@ class ImageTest extends TestCase
         $this->assertFalse($diff_img->similarTo($img));
     }
 
+    public function testToArrayValuesEqualToNative()
+    {
+        $img = new Image([
+            Image::PROPERTY_LOCATION => 'some/other.png',
+            Image::PROPERTY_TITLE => 'other_title'
+        ]);
+
+        $a = $img->toArray();
+        $b = $img->toNative();
+
+        $this->assertEquals($a, $b);
+    }
+
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
         throw new InvalidArgumentException(
