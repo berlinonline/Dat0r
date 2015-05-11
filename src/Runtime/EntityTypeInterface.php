@@ -73,7 +73,7 @@ interface EntityTypeInterface
      *
      * @return string
      */
-    public function getEntityImplementor();
+    public static function getEntityImplementor();
 
     public function getDefaultAttributeNames();
 

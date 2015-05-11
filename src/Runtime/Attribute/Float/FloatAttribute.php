@@ -64,7 +64,9 @@ class FloatAttribute extends Attribute
         $default_value = parent::getDefaultValue();
 
         if (!$this->isInRange($default_value)) {
-            throw new InvalidConfigException("Configured range option ('min_value' or 'max_value') not compatible with the 'default' value.");
+            throw new InvalidConfigException(
+                "Configured range option ('min_value' or 'max_value') not compatible with the 'default' value."
+            );
         }
 
         return $default_value;

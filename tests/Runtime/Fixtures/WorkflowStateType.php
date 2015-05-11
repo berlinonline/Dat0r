@@ -37,7 +37,7 @@ class WorkflowStateType extends EntityType
      *
      * @return string Fully qualified name of an EntityInterface implementation.
      */
-    public function getEntityImplementor()
+    public static function getEntityImplementor()
     {
         return WorkflowState::CLASS;
     }

@@ -29,7 +29,7 @@ class CategoryType extends EntityType
         );
     }
 
-    public function getEntityImplementor()
+    public static function getEntityImplementor()
     {
         return Category::CLASS;
     }
