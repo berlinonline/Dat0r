@@ -5,6 +5,7 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\Boolean\BooleanAttribute;
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\Attribute\EntityReferenceList\EntityReferenceListAttribute;
 use Dat0r\Runtime\Attribute\Float\FloatAttribute;
 use Dat0r\Runtime\Attribute\IntegerList\IntegerListAttribute;
 use Dat0r\Runtime\Attribute\Integer\IntegerAttribute;
@@ -44,6 +45,13 @@ class ArticleType extends EntityType
                     $this,
                     [
                         EmbeddedEntityListAttribute::OPTION_ENTITY_TYPES => [ ParagraphType::CLASS ],
+                    ]
+                ),
+                new EntityReferenceListAttribute(
+                    'categories',
+                    $this,
+                    [
+                        EntityReferenceListAttribute::OPTION_ENTITY_TYPES => [ ReferencedCategoryType::CLASS ],
                     ]
                 ),
                 new KeyValueListAttribute(

@@ -39,7 +39,12 @@ class EmbeddedEntityListAttribute extends ListAttribute
     ) {
         parent::__construct($name, $type, $options, $parent);
 
-        $this->entity_type_map = new EntityTypeMap();
+        $this->entity_type_map = $this->createEmbeddedTypeMap();
+    }
+
+    protected function createEmbeddedTypeMap()
+    {
+        $entity_type_map = new EntityTypeMap();
         foreach ($this->getOption(self::OPTION_ENTITY_TYPES) as $embedded_type_class) {
             if (!class_exists($embedded_type_class)) {
                 throw new RuntimeException(
@@ -47,8 +52,10 @@ class EmbeddedEntityListAttribute extends ListAttribute
                 );
             }
             $embedded_type = new $embedded_type_class($this->getType(), $this);
-            $this->entity_type_map->setItem($embedded_type->getPrefix(), $embedded_type);
+            $entity_type_map->setItem($embedded_type->getPrefix(), $embedded_type);
         }
+
+        return $entity_type_map;
     }
 
     /**

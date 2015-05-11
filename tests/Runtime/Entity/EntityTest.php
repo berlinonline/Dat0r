@@ -125,6 +125,13 @@ class EntityTest extends TestCase
                     'text' => 'hello world from an embedded paragraph'
                 ]
             ],
+            'categories'=> [
+                [
+                    '@type' => 'referenced_category',
+                    'identifier' => '1023abf5-f870-46e7-9cea-5980055a523b',
+                    'referenced_identifier' => 'some-category'
+                ]
+            ],
             'meta' => [],
             'workflow_state' => []
         ];
