@@ -128,7 +128,7 @@ class AssetRule extends Rule
                 $rule = new $implementor('valid-' . $property_name, $rule_options);
 
                 if (!$rule->apply($incoming_data[$property_name])) {
-                    $this->throwIncidentsAsErrors($rule);
+                    $this->throwIncidentsAsErrors($rule, $property_name);
                     return false;
                 }
                 $data[$property_name] = $rule->getSanitizedValue();
@@ -137,7 +137,7 @@ class AssetRule extends Rule
             // meta data accepts scalar values
             $rule = new KeyValueListRule('valid-meta-data', $this->getMetaDataOptions());
             if (!$rule->apply($incoming_data[Asset::PROPERTY_META_DATA])) {
-                $this->throwIncidentsAsErrors($rule);
+                $this->throwIncidentsAsErrors($rule, Asset::PROPERTY_META_DATA);
                 return false;
             }
             $data[Asset::PROPERTY_META_DATA] = $rule->getSanitizedValue();

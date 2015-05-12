@@ -267,7 +267,7 @@ class ImageRule extends Rule
             // meta data accepts scalar values
             $rule = new KeyValueListRule('valid-meta-data', $this->getMetaDataOptions());
             if (!$rule->apply($incoming_data[Image::PROPERTY_META_DATA])) {
-                $this->throwIncidentsAsErrors($rule);
+                $this->throwIncidentsAsErrors($rule, Image::PROPERTY_META_DATA);
                 return false;
             }
             $data[Image::PROPERTY_META_DATA] = $rule->getSanitizedValue();

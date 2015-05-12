@@ -22,7 +22,7 @@ class ImageListRule extends Rule
 
         foreach ($values as $index => $val) {
             if (!$image_rule->apply($val)) {
-                $this->throwIncidentsAsErrors($image_rule, null, [ 'path_parts' => $index ]);
+                $this->throwIncidentsAsErrors($image_rule, null, [ 'path_parts' => [ $index ] ]);
                 return false;
             }
 

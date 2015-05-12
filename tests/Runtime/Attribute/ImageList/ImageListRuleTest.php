@@ -41,6 +41,35 @@ class ImageListRuleTest extends TestCase
         ]);
         $this->assertTrue($valid);
     }
+
+
+    public function testMissingMandatoryLocation()
+    {
+        $attribute_name = 'my_images';
+
+        $rule = new ImageListRule('valid-my-images', []);
+        $valid = $rule->apply([
+            [
+                Image::PROPERTY_TITLE => 'some title',
+                Image::PROPERTY_CAPTION => 'some caption'
+            ]
+        ]);
+
+        $error_parts = [ $attribute_name ];
+        foreach ($rule->getIncidents() as $name => $incident) {
+            $error_parts[] = $name;
+            $incident_params = $incident->getParameters();
+            if (isset($incident_params['path_parts'])) {
+                foreach (array_reverse($incident_params['path_parts']) as $incident_path_part) {
+                    $error_parts[] = $incident_path_part;
+                }
+            }
+        }
+
+        $expected_parts = [ $attribute_name, 'invalid_data', 0];
+        $this->assertEquals($expected_parts, $error_parts);
+    }
+
     public function testMinimumImageListDataIsValid()
     {
         $rule = new ImageListRule('imagelist', []);
