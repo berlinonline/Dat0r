@@ -48,14 +48,14 @@ class EntityTypeDefinitionXpathParser extends XpathParser
             $description = '';
         }
 
-        return array(
+        return [
             'name' => $element->getAttribute('name'),
             'implementor' => $implementor,
             'entity_implementor' => $entity_implementor,
             'description' => $description,
             'options' => $this->parseOptions($xpath, $element),
             'attributes' => $this->parseAttributes($xpath, $element)
-        );
+        ];
     }
 
     protected function parseAttributes(DOMXPath $xpath, DOMElement $element)
@@ -63,6 +63,9 @@ class EntityTypeDefinitionXpathParser extends XpathParser
         $parser = new AttributeDefinitionXpathParser();
         $attributes_element = $xpath->query('./attributes', $element)->item(0);
 
-        return $parser->parse($xpath, array('context' => $attributes_element));
+        if ($attributes_element) {
+            return $parser->parse($xpath, [ 'context' => $attributes_element ]);
+        }
+        return [];
     }
 }

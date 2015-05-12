@@ -9,6 +9,7 @@ use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\EntityTypeMap;
+use Dat0r\Common\Error\RuntimeException;
 
 /**
  * Allows to nest multiple types below a defined attribute_name.

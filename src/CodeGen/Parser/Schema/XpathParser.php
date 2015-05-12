@@ -5,6 +5,7 @@ namespace Dat0r\CodeGen\Parser\Schema;
 use Dat0r\Common\Object;
 use Dat0r\CodeGen\Parser\ParserInterface;
 use Dat0r\Common\Error\InvalidTypeException;
+use Dat0r\Common\Error\RuntimeException;
 use DOMXPath;
 use DOMElement;
 

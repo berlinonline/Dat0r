@@ -20,14 +20,15 @@ class EntityReferenceListAttribute extends EmbeddedEntityListAttribute
     {
         $entity_type_map = parent::createEmbeddedTypeMap();
 
-        foreach ($entity_type_map as $embedded_typ) {
-            $entity_type = $embedded_typ->getEntityImplementor();
-            $entity_reflection = new ReflectionClass($entity_type);
+        foreach ($entity_type_map as $embedded_type) {
+            $entity_implementor = $embedded_type->getEntityImplementor();
+            $entity_reflection = new ReflectionClass($entity_implementor);
             if (!$entity_reflection->implementsInterface(EntityReferenceInterface::CLASS)) {
                 throw new RuntimeException(
                     sprintf(
-                        'Invalid embedded-type given to %s. Only instance of %s accepted.',
+                        'Invalid reference-type (%s) given to %s. Only instance of %s accepted.',
                         $this->getName(),
+                        $entity_implementor,
                         EntityReferenceInterface::CLASS
                     )
                 );

@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Reference;
 
-use Dat0r\CodeGen\ClassBuilder\Embed\EmbedEntityClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\EntityTypeClassBuilder;
 
-class ReferenceTypeClassBuilder extends EmbedEntityClassBuilder
+class ReferenceTypeClassBuilder extends EntityTypeClassBuilder
 {
     protected function getPackage()
     {
@@ -14,5 +14,10 @@ class ReferenceTypeClassBuilder extends EmbedEntityClassBuilder
     protected function getNamespace()
     {
         return parent::getNamespace() . '\\Reference';
+    }
+
+    protected function getImplementor()
+    {
+        return $this->type_definition->getName() . ucfirst($this->config->getReferencedTypeSuffix('Type'));
     }
 }

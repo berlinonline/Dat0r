@@ -28,6 +28,8 @@ class ConfigIniParser extends Object implements ParserInterface
                 'type_suffix' => $this->resolveTypeSuffix($settings),
                 'embed_entity_suffix' => $this->resolveEmbedEntitySuffix($settings),
                 'embed_type_suffix' => $this->resolveEmbedTypeSuffix($settings),
+                'referenced_entity_suffix' => $this->resolveReferencedEntitySuffix($settings),
+                'referenced_type_suffix' => $this->resolveReferencedTypeSuffix($settings),
                 'template_directory' => $this->resolveTemplateDirectory($settings, $config_dir),
             )
         );
@@ -190,6 +192,16 @@ class ConfigIniParser extends Object implements ParserInterface
     protected function resolveEmbedEntitySuffix(array $settings)
     {
         return isset($settings['embed_entity_suffix']) ? $settings['embed_entity_suffix'] : null;
+    }
+
+    protected function resolveReferencedTypeSuffix(array $settings)
+    {
+        return isset($settings['referenced_type_suffix']) ? $settings['referenced_type_suffix'] : null;
+    }
+
+    protected function resolveReferencedEntitySuffix(array $settings)
+    {
+        return isset($settings['referenced_entity_suffix']) ? $settings['referenced_entity_suffix'] : null;
     }
 
     protected function resolveRelativePath($path, $base)

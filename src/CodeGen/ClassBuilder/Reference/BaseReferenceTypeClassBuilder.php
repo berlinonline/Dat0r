@@ -2,9 +2,9 @@
 
 namespace Dat0r\CodeGen\ClassBuilder\Reference;
 
-use Dat0r\CodeGen\ClassBuilder\Embed\BaseEmbedTypeClassBuilder;
+use Dat0r\CodeGen\ClassBuilder\Common\BaseEntityTypeClassBuilder;
 
-class BaseReferenceTypeClassBuilder extends BaseEmbedTypeClassBuilder
+class BaseReferenceTypeClassBuilder extends BaseEntityTypeClassBuilder
 {
     protected function getPackage()
     {
@@ -14,5 +14,15 @@ class BaseReferenceTypeClassBuilder extends BaseEmbedTypeClassBuilder
     protected function getNamespace()
     {
         return $this->type_schema->getNamespace() . '\\Reference\\Base';
+    }
+
+    protected function getImplementor()
+    {
+        return $this->type_definition->getName() . ucfirst($this->config->getReferencedTypeSuffix('Type'));
+    }
+
+    protected function getTemplate()
+    {
+        return 'EntityType/BaseReferencedEntityType.twig';
     }
 }

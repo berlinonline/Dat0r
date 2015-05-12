@@ -24,7 +24,7 @@
       <xsd:element name="entity_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:group ref="optionGroup" />
-      <xsd:element name="attributes" type="attributesType" />
+      <xsd:element name="attributes" type="attributesType" minOccurs="0" />
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required" />
   </xsd:complexType>
@@ -41,7 +41,7 @@
       <xsd:element name="entity_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:group ref="optionGroup" />
-      <xsd:element name="attributes" type="attributesType" maxOccurs="unbounded" />
+      <xsd:element name="attributes" type="attributesType" minOccurs="0" />
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required" />
   </xsd:complexType>
@@ -61,9 +61,11 @@
 
   <xsd:complexType name="referenceDefinitionType">
     <xsd:sequence>
+      <xsd:element name="implementor" type="xsd:string" minOccurs="0" />
+      <xsd:element name="entity_implementor" type="xsd:string" minOccurs="0" />
       <xsd:element name="description" type="xsd:string" minOccurs="0" />
       <xsd:group ref="optionGroup" />
-      <xsd:element name="attributes" type="attributesType" maxOccurs="unbounded" />
+      <xsd:element name="attributes" type="attributesType" minOccurs="0" />
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required" />
   </xsd:complexType>

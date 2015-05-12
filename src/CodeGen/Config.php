@@ -12,6 +12,8 @@ class Config extends Configurable
     protected $type_suffix;
     protected $embed_entity_suffix;
     protected $embed_type_suffix;
+    protected $referenced_entity_suffix;
+    protected $referenced_type_suffix;
     protected $bootstrap_file;
     protected $cache_dir;
     protected $deploy_dir;
@@ -100,6 +102,16 @@ class Config extends Configurable
     public function getEmbedTypeSuffix($default = "")
     {
         return $this->embed_type_suffix ?: $default;
+    }
+
+    public function getReferencedEntitySuffix($default = "")
+    {
+        return $this->referenced_entity_suffix ?: $default;
+    }
+
+    public function getReferencedTypeSuffix($default = "")
+    {
+        return $this->referenced_type_suffix ?: $default;
     }
 
     public function getTemplateDirectory($default = "")
