@@ -30,15 +30,9 @@ class AttributePath
 
     public static function getRootEntityType(AttributeInterface $attribute)
     {
-        $current_attribute = $attribute->getParent();
-        $current_type = $attribute->getType();
+        $root_type = $attribute->getType()->getRoot();
 
-        while ($current_attribute instanceof EmbeddedEntityListAttribute) {
-            $current_type = $current_attribute->getType();
-            $current_attribute = $current_attribute->getParent();
-        }
-
-        return $current_type;
+        return $root_type ? $root_type : $attribute->getType();
     }
 
     public static function getAttributeByPath(EntityTypeInterface $type, $attribute_path)

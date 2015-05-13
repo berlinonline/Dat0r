@@ -101,6 +101,28 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
     }
 
     /**
+     * Returns the type's root-parent, if it has one.
+     *
+     * @return EntityTypeInterface
+     */
+    public function getRoot()
+    {
+        $next_parent = $this->getParent();
+        $parent = null;
+        while ($next_parent) {
+            $parent = $next_parent;
+            $next_parent = $parent->getParent();
+        }
+
+        return $parent ? $parent : $this;
+    }
+
+    public function isRoot()
+    {
+        return $this->getParent() === null;
+    }
+
+    /**
      * Returns the type's parent, if it has one.
      *
      * @return EntityTypeInterface
@@ -167,6 +189,11 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         }
 
         return new AttributeMap($attribute_map);
+    }
+
+    public function hasAttribute($attribute_name)
+    {
+        return $this->attribute_map->hasKey($attribute_name);
     }
 
     /**
