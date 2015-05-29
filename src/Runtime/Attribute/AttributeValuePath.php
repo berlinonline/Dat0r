@@ -4,12 +4,13 @@ namespace Dat0r\Runtime\Attribute;
 
 use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
 use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Runtime\Entity\EntityInterface;
 
 class AttributeValuePath
 {
     const PATH_DELIMITER = '.';
 
-    public static function getAttributeValueByPath($entity, $value_path)
+    public static function getAttributeValueByPath(EntityInterface $entity, $value_path)
     {
         // prepare path tuples
         $split_path = self::splitPath($value_path);
@@ -24,6 +25,7 @@ class AttributeValuePath
             $entity_collection = $current_entity->getValue($current_attribute->getName());
             // try to find the next entity that matches the current offset_spec
             $type_offsets = array('_all' => 0);
+            $current_entity = null;
             foreach ($entity_collection as $next_entity) {
                 $type_prefix = $next_entity->getType()->getPrefix();
                 if (!isset($type_offsets[$type_prefix])) {
@@ -51,34 +53,33 @@ class AttributeValuePath
             }
         }
 
-        return $current_entity->getValue($target_attribute);
+        return $target_attribute ? $current_entity->getValue($target_attribute) : $current_entity;
     }
 
     protected static function splitPath($value_path)
     {
         $path_tuples = [];
         $path_parts = explode(self::PATH_DELIMITER, $value_path);
-
-        if ($path_parts % 2 === 0) {
-            throw new RuntimeException(
-                'Invalid value-path(attribute_name) given.' .
-                'Path parts must be made up of ' .
-                '"{attribute_name}.{type_prefix}.{attribute_name}" parts with a single final attribute_name.'
-            );
-        }
-
         $next_tuple = [];
-        for ($i = 1; $i <= count($path_parts); $i++) {
-            $next_tuple[] = $path_parts[$i - 1];
-            if ($i % 2 === 0) {
+        $parts_count = count($path_parts);
+        $target_attribute = null;
+        $points_to_attribute = ($parts_count % 2) !== 0;
+        $iteration_limit = $points_to_attribute ? $parts_count - 1 : $parts_count;
+        for ($i = 0; $i < $iteration_limit; $i++) {
+            $next_tuple[] = $path_parts[$i];
+            if (($i + 1) % 2 === 0) {
                 $path_tuples[] = $next_tuple;
                 $next_tuple = [];
+            }
+            $is_last = ($i + 1) === $iteration_limit;
+            if ($is_last && $points_to_attribute) {
+                $target_attribute = $path_parts[$i + 1];
             }
         }
 
         return array(
             'path_tuples' => $path_tuples,
-            'target_attribute' => end($path_parts)
+            'target_attribute' => $target_attribute
         );
     }
 
