@@ -9,6 +9,8 @@ use Dat0r\Common\OptionsInterface;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\AttributeMap;
 use Dat0r\Runtime\Attribute\AttributePath;
+use Dat0r\Runtime\Attribute\EmbeddedEntityList\EmbeddedEntityListAttribute;
+use Dat0r\Runtime\Attribute\EntityReferenceList\EntityReferenceListAttribute;
 use Dat0r\Runtime\Entity\EntityInterface;
 
 /**
@@ -216,6 +218,24 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         } else {
             throw new RuntimeException("Type has no attribute: " . $name);
         }
+    }
+
+    public function getReferenceAttributes()
+    {
+        $attribute_types = [ EmbeddedEntityListAttribute::CLASS, EntityReferenceListAttribute::CLASS ];
+        $reference_attributes = new AttributeMap;
+
+        foreach ($this->getAttributes([], $attribute_types) as $attribute_name => $attribute) {
+            if ($attribute instanceof EntityReferenceListAttribute) {
+                $reference_attributes->setItem($attribute->getPath(), $attribute);
+            } else if ($attribute instanceof EmbeddedEntityListAttribute) {
+                foreach ($attribute->getEmbeddedEntityTypeMap() as $embedded_type) {
+                    $reference_attributes->append($embedded_type->getReferenceAttributes());
+                }
+            }
+        }
+
+        return $reference_attributes;
     }
 
     /**
