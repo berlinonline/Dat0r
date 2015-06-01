@@ -29,7 +29,7 @@ abstract class ClassBuilder extends Object implements ClassBuilderInterface
         parent::__construct($state);
 
         $this->twig = new Twig_Environment(
-            new Twig_Loader_Filesystem($this->getTemplateBaseDirectory())
+            new Twig_Loader_Filesystem($this->getTemplateBaseDirectories())
         );
     }
 
@@ -72,8 +72,16 @@ abstract class ClassBuilder extends Object implements ClassBuilderInterface
         return $this->getRootNamespace();
     }
 
-    protected function getTemplateBaseDirectory()
+    protected function getTemplateBaseDirectories()
     {
-        return $this->config->getTemplateDirectory(__DIR__ . DIRECTORY_SEPARATOR . 'templates');
+        $tpl_directories = [];
+        $custom_dir = $this->config->getTemplateDirectory(false);
+        if ($custom_dir) {
+            $tpl_directories[] = $custom_dir;
+        }
+
+        $tpl_directories[] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+
+        return $tpl_directories;
     }
 }
