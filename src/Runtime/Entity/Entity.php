@@ -75,8 +75,12 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
      * @param EntityTypeInterface $type
      * @param array $data
      */
-    public function __construct(EntityTypeInterface $type, array $data = [], EntityInterface $parent = null)
-    {
+    public function __construct(
+        EntityTypeInterface $type,
+        array $data = [],
+        EntityInterface $parent = null,
+        $apply_defaults = false
+    ) {
         $this->type = $type;
         $this->parent = $parent;
 
@@ -88,7 +92,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
         // they hold the actual entity data.
         $this->value_holder_map = new ValueHolderMap();
         foreach ($type->getAttributes() as $attribute_name => $attribute) {
-            $this->value_holder_map->setItem($attribute_name, $attribute->createValueHolder());
+            $this->value_holder_map->setItem($attribute_name, $attribute->createValueHolder($apply_defaults));
         }
 
         // Hydrate initial data ...

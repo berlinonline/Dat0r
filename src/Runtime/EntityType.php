@@ -242,12 +242,14 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
      * Creates a new EntityInterface instance.
      *
      * @param array $data Optional data for initial hydration.
+     * @param EntityInterface $parent_entity
+     * @param boolean $apply_default_values
      *
      * @return EntityInterface
      *
      * @throws InvalidTypeException
      */
-    public function createEntity(array $data = [], EntityInterface $parent_entity = null)
+    public function createEntity(array $data = [], EntityInterface $parent_entity = null, $apply_default_values = false)
     {
         $implementor = $this->getEntityImplementor();
 
@@ -257,7 +259,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
             );
         }
 
-        return new $implementor($this, $data, $parent_entity);
+        return new $implementor($this, $data, $parent_entity, $apply_default_values);
     }
 
     public function getDefaultAttributeNames()
