@@ -3,10 +3,11 @@
 namespace Dat0r\Runtime\Attribute\Timestamp;
 
 use Dat0r\Runtime\Attribute\Attribute;
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\EntityTypeInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\RuleList;
 use Dat0r\Runtime\Validator\Rule\Type\TimestampRule;
-use Dat0r\Runtime\EntityTypeInterface;
 
 // preferred exchange format is FORMAT_ISO8601 ('Y-m-d\TH:i:s.uP')
 class TimestampAttribute extends Attribute

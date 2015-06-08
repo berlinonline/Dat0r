@@ -195,6 +195,14 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
 
     public function hasAttribute($attribute_name)
     {
+        if (mb_strpos($attribute_name, '.')) {
+            try {
+                return $this->getAttributeByPath($attribute_name) !== null;
+            } catch (RuntimeException $error) {
+                return false;
+            }
+        }
+
         return $this->attribute_map->hasKey($attribute_name);
     }
 
@@ -212,9 +220,9 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         if (mb_strpos($name, '.')) {
             return $this->getAttributeByPath($name);
         }
-        // @todo use $this->attribute_map->hasKey($name) instead
-        if (($attribute = $this->attribute_map->getItem($name))) {
-            return $attribute;
+
+        if ($this->attribute_map->hasKey($name)) {
+            return $this->attribute_map->getItem($name);
         } else {
             throw new RuntimeException("Type has no attribute: " . $name);
         }

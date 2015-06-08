@@ -130,6 +130,7 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     public function getRoot()
     {
         $tmp_parent = $this->getParent();
+        $root = $tmp_parent;
         while ($tmp_parent) {
             $root = $tmp_parent;
             $tmp_parent = $tmp_parent->getParent();
