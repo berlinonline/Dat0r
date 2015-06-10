@@ -36,8 +36,8 @@ class TimestampRule extends Rule
             )
         );
 
-        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, '');
-        if ($value === $null_value) {
+        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, null);
+        if ($value === $null_value || $value === '') {
             $this->setSanitizedValue($null_value);
             return true;
         }

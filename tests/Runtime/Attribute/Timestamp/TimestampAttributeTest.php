@@ -186,7 +186,6 @@ class TimestampAttributeTest extends TestCase
     public function provideInvalidValues()
     {
         return [
-            [ null ],
             [ false ],
             [ true ],
             [ [] ],
