@@ -11,7 +11,7 @@ class EmailAttribute extends TextAttribute
     protected function buildValidationRules()
     {
         $rules = new RuleList();
-        $rules->push(new EmailRule('email-type'));
+        $rules->push(new EmailRule('email-type', $this->getOptions()));
         return $rules;
     }
 }

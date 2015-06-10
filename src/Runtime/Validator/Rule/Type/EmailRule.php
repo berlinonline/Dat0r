@@ -2,6 +2,8 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use Egulias\EmailValidator\EmailLexer;
@@ -9,7 +11,6 @@ use Egulias\EmailValidator\EmailParser;
 use Egulias\EmailValidator\EmailValidator;
 use InvalidArgumentException;
 use ReflectionClass;
-use Dat0r\Runtime\Entity\EntityInterface;
 
 class EmailRule extends Rule
 {
@@ -20,8 +21,9 @@ class EmailRule extends Rule
             return false;
         }
 
-        if (empty($value)) {
-            $this->setSanitizedValue($value);
+        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, '');
+        if ($value === $null_value) {
+            $this->setSanitizedValue($null_value);
             return true;
         }
 

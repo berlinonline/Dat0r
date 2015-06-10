@@ -2,6 +2,7 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
+use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Entity\EntityInterface;
 
 class DateRule extends TimestampRule
@@ -18,6 +19,12 @@ class DateRule extends TimestampRule
 
         if (!$success) {
             return false;
+        }
+
+        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, '');
+        if ($value === $null_value) {
+            $this->setSanitizedValue($null_value);
+            return true;
         }
 
         $date = $this->getSanitizedValue();

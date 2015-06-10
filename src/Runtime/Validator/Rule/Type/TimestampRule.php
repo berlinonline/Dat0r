@@ -2,11 +2,12 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
-use Dat0r\Runtime\Entity\EntityInterface;
 
 class TimestampRule extends Rule
 {
@@ -34,6 +35,12 @@ class TimestampRule extends Rule
                 self::DEFAULT_INTERNAL_TIMEZONE_NAME
             )
         );
+
+        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, '');
+        if ($value === $null_value) {
+            $this->setSanitizedValue($null_value);
+            return true;
+        }
 
         if (is_string($value)) {
             if ($value === 'now') {

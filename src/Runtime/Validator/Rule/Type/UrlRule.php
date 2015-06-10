@@ -2,12 +2,13 @@
 
 namespace Dat0r\Runtime\Validator\Rule\Type;
 
+use Dat0r\Common\Error\RuntimeException;
+use Dat0r\Runtime\Attribute\AttributeInterface;
+use Dat0r\Runtime\Entity\EntityInterface;
 use Dat0r\Runtime\Validator\Result\IncidentInterface;
 use Dat0r\Runtime\Validator\Rule\Rule;
-use Dat0r\Common\Error\RuntimeException;
 use Dat0r\Runtime\Validator\Rule\Type\TextRule;
 use Spoofchecker;
-use Dat0r\Runtime\Entity\EntityInterface;
 
 class UrlRule extends Rule
 {
@@ -108,6 +109,14 @@ class UrlRule extends Rule
             return false;
         }
 
+        $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, '');
+        $mandatory = $this->toBoolean($this->getOption(self::OPTION_MANDATORY, false));
+        if (!$mandatory && $value === $null_value) {
+            // parse_url with empty string doesn't return false but 'path' being an empty string
+            $this->setSanitizedValue($null_value);
+            return true;
+        }
+
         $text_rule = new TextRule('text', $this->getOptions());
         $is_valid = $text_rule->apply($value);
         if (!$is_valid) {
@@ -119,13 +128,6 @@ class UrlRule extends Rule
 
         // we now have a valid string, that might be some kind of URL
         $val = $text_rule->getSanitizedValue();
-
-        $mandatory = $this->toBoolean($this->getOption(self::OPTION_MANDATORY, false));
-        if (!$mandatory && $val === '') {
-            // parse_url with empty string doesn't return false but 'path' being an empty string
-            $this->setSanitizedValue('');
-            return true;
-        }
 
         // default scheme to add if it's missing
         $default_scheme = $this->getOption(self::OPTION_DEFAULT_SCHEME, '');
