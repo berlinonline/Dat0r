@@ -5,10 +5,11 @@ namespace Dat0r\Tests\Runtime\Fixtures;
 use Dat0r\Common\Options;
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Attribute\Text\TextAttribute;
-use Dat0r\Runtime\ReferencedEntityType;
+use Dat0r\Runtime\EntityType;
 use Dat0r\Runtime\EntityTypeInterface;
+use Dat0r\Runtime\ReferencedEntityTypeInterface;
 
-class ReferencedCategoryType extends ReferencedEntityType
+class ReferencedCategoryType extends EntityType implements ReferencedEntityTypeInterface
 {
     public function __construct(EntityTypeInterface $parent, AttributeInterface $parent_attribute)
     {
@@ -29,5 +30,15 @@ class ReferencedCategoryType extends ReferencedEntityType
     public static function getEntityImplementor()
     {
         return ReferencedCategory::CLASS;
+    }
+
+    public function getReferencedAttributeName()
+    {
+        return 'categories';
+    }
+
+    public function getReferencedTypeClass()
+    {
+        return CategoryType::CLASS;
     }
 }
