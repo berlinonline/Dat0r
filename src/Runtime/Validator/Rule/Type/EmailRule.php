@@ -20,6 +20,11 @@ class EmailRule extends Rule
             return false;
         }
 
+        if (empty($value)) {
+            $this->setSanitizedValue($value);
+            return true;
+        }
+
         $warnings = [];
         $reason = null;
 
@@ -33,7 +38,7 @@ class EmailRule extends Rule
             if ($validator_reflection->hasConstant($error_const)) {
                 $reason = $error_const;
             }
-            $this->throwError('invalid_format', array('reason' => $reason), IncidentInterface::ERROR);
+            $this->throwError('invalid_format', [ 'reason' => $reason ], IncidentInterface::ERROR);
 
             return false;
         }
