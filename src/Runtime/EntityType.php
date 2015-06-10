@@ -236,7 +236,7 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         foreach ($this->getAttributes([], $attribute_types) as $attribute_name => $attribute) {
             if ($attribute instanceof EntityReferenceListAttribute) {
                 $reference_attributes->setItem($attribute->getPath(), $attribute);
-            } else if ($attribute instanceof EmbeddedEntityListAttribute) {
+            } elseif ($attribute instanceof EmbeddedEntityListAttribute) {
                 foreach ($attribute->getEmbeddedEntityTypeMap() as $embedded_type) {
                     $reference_attributes->append($embedded_type->getReferenceAttributes());
                 }

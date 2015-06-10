@@ -93,7 +93,9 @@ class AttributeValuePath
         $compare_value = null;
 
         if (!preg_match('~(\w+|\*)(?:\[([\w="\-]+)\])~is', $offset_expression, $matches)) {
-            throw new RuntimeException("Missing or invalid offset specification within attribute-value-path: " . $offset_expression);
+            throw new RuntimeException(
+                "Missing or invalid offset specification within attribute-value-path: " . $offset_expression
+            );
         }
 
         $entity_type = $matches[1];

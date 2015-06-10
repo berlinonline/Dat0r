@@ -7,7 +7,7 @@ metrics:
 	@mkdir -p ./build/codebrowser
 	@mkdir -p ./build/logs
 
-	@$(PROJECT_BASEDIR)/vendor/bin/phpunit
+	@make test
 	@$(PROJECT_BASEDIR)/vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/logs/checkstyle.xml --standard=psr2 ./src ./tests
 	-@$(PROJECT_BASEDIR)/vendor/bin/phpcpd --log-pmd ./build/logs/pmd-cpd.xml src/
 	-@$(PROJECT_BASEDIR)/vendor/bin/phpmd src/ xml codesize,design,naming,unusedcode --reportfile ./build/logs/pmd.xml
