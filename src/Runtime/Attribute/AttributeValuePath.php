@@ -12,6 +12,10 @@ class AttributeValuePath
 
     public static function getAttributeValueByPath(EntityInterface $entity, $value_path)
     {
+        if (!mb_strpos($value_path, '.')) {
+            return $entity->getValue($value_path);
+        }
+
         // prepare path tuples
         $split_path = self::splitPath($value_path);
         $path_tuples = $split_path['path_tuples'];

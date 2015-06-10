@@ -15,9 +15,7 @@ class AttributeValuePathTest extends TestCase
     public function testFoo($article, $value_path, $expected_value)
     {
         $value = AttributeValuePath::getAttributeValueByPath($article, $value_path);
-
         $this->assertEquals($expected_value, $value);
-        $this->assertEquals(true, true);
     }
 
     public function articleValuePathProvider()

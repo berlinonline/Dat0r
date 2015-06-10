@@ -47,6 +47,8 @@ class ConfigIniParserTest extends TestCase
             'type_suffix' => null,
             'embed_entity_suffix' => null,
             'embed_type_suffix' => null,
+            'referenced_entity_suffix' => null,
+            'referenced_type_suffix' => null,
             'template_directory' => realpath(__DIR__ . '/../../../../src/CodeGen/ClassBuilder/templates')
         ];
 
@@ -74,6 +76,8 @@ class ConfigIniParserTest extends TestCase
             'type_suffix' => null,
             'embed_entity_suffix' => null,
             'embed_type_suffix' => null,
+            'referenced_entity_suffix' => null,
+            'referenced_type_suffix' => null,
             'template_directory' => null
         ];
 
