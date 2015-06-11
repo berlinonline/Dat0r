@@ -119,11 +119,11 @@ abstract class ValueHolder implements ValueHolderInterface, ListenerInterface, E
         $validation_result = $attribute_validator->validate($value, $entity);
 
         if ($validation_result->getSeverity() <= IncidentInterface::NOTICE) {
-            $previous_value = $this->toNative();
+            $previous_native_value = $this->toNative();
             $this->value = $validation_result->getSanitizedValue();
 
-            if (!$this->sameValueAs($previous_value)) {
-                $value_changed_event = $this->createValueHolderChangedEvent($previous_value);
+            if (!$this->sameValueAs($previous_native_value)) {
+                $value_changed_event = $this->createValueHolderChangedEvent($previous_native_value);
                 $this->propagateValueChangedEvent($value_changed_event);
             }
 

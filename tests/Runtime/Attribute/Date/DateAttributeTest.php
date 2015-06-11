@@ -241,6 +241,45 @@ class DateAttributeTest extends TestCase
         $this->assertEquals($date_as_native_string, $valueholder->toNative());
     }
 
+    public function testNullVersusEmptyStringValueholderComparison()
+    {
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
+        $vh1 = $attribute->createValueHolder();
+        $vh2 = $attribute->createValueHolder();
+        $vh1->setValue(null);
+        $vh2->setValue('');
+
+        $this->assertTrue($vh1->isEqualTo($vh2), 'Null and empty string datevalueholder should be treated the same');
+        $this->assertEquals('', $vh1->toNative());
+        $this->assertEquals('', $vh2->toNative());
+    }
+
+    public function testEmptyStringHandledAsNull()
+    {
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue($valueholder->isNull());
+        $this->assertTrue($valueholder->isDefault());
+        $this->assertEquals('', $valueholder->toNative());
+        $valueholder->setValue('');
+        $this->assertTrue($valueholder->isNull());
+        $this->assertTrue($valueholder->isDefault());
+        $this->assertEquals($attribute->getNullValue(), $valueholder->getValue());
+        $this->assertEquals('', $valueholder->toNative());
+    }
+
+    public function testNullValueHandling()
+    {
+        $attribute = new DateAttribute(self::ATTR_NAME, Mockery::mock(EntityTypeInterface::CLASS));
+        $valueholder = $attribute->createValueHolder();
+        $this->assertTrue($valueholder->isNull());
+        $this->assertTrue($valueholder->isDefault());
+        $valueholder->setValue(null);
+        $this->assertTrue($valueholder->isNull());
+        $this->assertTrue($valueholder->isDefault());
+        $this->assertEquals('', $valueholder->toNative());
+    }
+
     /**
      * @dataProvider provideInvalidValues
      */

@@ -23,6 +23,7 @@ class DateRule extends TimestampRule
 
         $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, null);
         if ($value === $null_value || $value === '') {
+            // accept empty values as valid when no mandatory handling happens in this rule
             $this->setSanitizedValue($null_value);
             return true;
         }

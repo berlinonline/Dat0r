@@ -37,6 +37,7 @@ abstract class Rule extends Object implements RuleInterface
     {
         $this->name = $name;
         $this->options = $options;
+        $this->incidents = new IncidentMap();
     }
 
     public function apply($value, EntityInterface $entity = null)
@@ -45,6 +46,7 @@ abstract class Rule extends Object implements RuleInterface
         $this->sanitized_value = null;
 
         if (true === ($success = $this->execute($value, $entity))) {
+            // TODO this actually prevents setting sanitized_value explicitely to NULL; override this method if needed
             $this->sanitized_value = ($this->sanitized_value === null) ? $value : $this->sanitized_value;
         }
 

@@ -4,6 +4,7 @@ namespace Dat0r\Runtime\Validator\Rule\Type;
 
 use Dat0r\Runtime\Attribute\AttributeInterface;
 use Dat0r\Runtime\Entity\EntityInterface;
+use Dat0r\Runtime\Validator\Result\IncidentMap;
 use Dat0r\Runtime\Validator\Rule\Rule;
 use DateTime;
 use DateTimeImmutable;
@@ -27,6 +28,23 @@ class TimestampRule extends Rule
 
     const FORMAT_NATIVE = 'Y-m-d\TH:i:s.uP';
 
+    /**
+     * @overridden
+     */
+    public function apply($value, EntityInterface $entity = null)
+    {
+        $this->incidents = new IncidentMap();
+        $this->sanitized_value = null;
+
+        if (true === ($success = $this->execute($value, $entity))) {
+            if ($this->sanitized_value === null && $value !== '') {
+                $this->sanitized_value = $value;
+            }
+        }
+
+        return $success;
+    }
+
     protected function execute($value, EntityInterface $entity = null)
     {
         $default_timezone = new DateTimeZone(
@@ -38,6 +56,7 @@ class TimestampRule extends Rule
 
         $null_value = $this->getOption(AttributeInterface::OPTION_NULL_VALUE, null);
         if ($value === $null_value || $value === '') {
+            // accept empty values as valid when no mandatory handling happens in this rule
             $this->setSanitizedValue($null_value);
             return true;
         }
