@@ -119,6 +119,11 @@ abstract class EntityType extends Configurable implements EntityTypeInterface
         return $parent ? $parent : $this;
     }
 
+    /**
+     * Tells if an entity-type is the root-type of an entity aggregate.
+     *
+     * @return boolean
+     */
     public function isRoot()
     {
         return $this->getParent() === null;

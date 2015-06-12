@@ -33,6 +33,13 @@ interface EntityTypeInterface
     public function getParent();
 
     /**
+     * Tells if an entity-type is the root-type of an entity aggregate.
+     *
+     * @return boolean
+     */
+    public function isRoot();
+
+    /**
      * Returns the type's parent-attribute, if it has one.
      *
      * @return AttributeInterface

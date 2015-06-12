@@ -108,6 +108,13 @@ interface EntityInterface
     public function isEqualTo(EntityInterface $entity);
 
     /**
+     * Returns a path-spec, that describes an entities current (embed) location within an entity aggregate.
+     *
+     * @return string
+     */
+    public function asEmbedPath();
+
+    /**
      * Returns the validation results of a prior call to setValue(s).
      * There will be a result for each affected attribute.
      *

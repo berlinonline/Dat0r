@@ -304,6 +304,38 @@ abstract class Entity extends Object implements EntityInterface, ValueChangedLis
     }
 
     /**
+     * Returns a path-spec, that describes an entities current (embed) location within an entity aggregate.
+     *
+     * @return string
+     */
+    public function asEmbedPath()
+    {
+        $parent_entity = $this->getParent();
+        if (!$parent_entity) {
+            return '';
+        }
+
+        $path_parts = [];
+        $current_entity = $this;
+        while ($parent_entity) {
+            $parent_attr_name = $current_entity->getType()->getParentAttribute()->getName();
+            $path_parts[] = sprintf(
+                '%s[%d]',
+                $current_entity->getType()->getPrefix(),
+                $parent_entity->getValue($parent_attr_name)->getKey($current_entity)
+            );
+            $path_parts[] = $parent_attr_name;
+            if (!$parent_entity->getType()->isRoot()) {
+                $path_parts[] = $parent_entity->getType()->getPrefix();
+            }
+            $current_entity = $parent_entity;
+            $parent_entity = $parent_entity->getParent();
+        }
+
+        return implode('.', array_reverse($path_parts));
+    }
+
+    /**
      * Returns the validation results of a prior call to setValue(s).
      * There will be a result for each affected attribute.
      *

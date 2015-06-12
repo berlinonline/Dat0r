@@ -103,6 +103,17 @@ class EntityTest extends TestCase
         $this->assertTrue($new_entity->isEqualTo($entity));
     }
 
+    public function testAsValuePath()
+    {
+        $article_type = new ArticleType();
+        $article = $article_type->createEntity($this->getExampleValues());
+        $content_objects = $article->getValue('content_objects');
+
+        $this->assertEquals('content_objects.paragraph[0]', $content_objects[0]->asEmbedPath());
+        $this->assertEquals('content_objects.paragraph[1]', $content_objects[1]->asEmbedPath());
+        $this->assertEquals('', $article->asEmbedPath());
+    }
+
     protected function getExampleValues()
     {
         // same order as in ArticleType definition!
@@ -123,6 +134,11 @@ class EntityTest extends TestCase
                     '@type' => 'paragraph',
                     'title' => 'hello world!',
                     'text' => 'hello world from an embedded paragraph'
+                ],
+                [
+                    '@type' => 'paragraph',
+                    'title' => 'hello world again!',
+                    'text' => 'hello world from another embedded paragraph'
                 ]
             ],
             'categories'=> [
