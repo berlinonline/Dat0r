@@ -92,14 +92,17 @@ class AttributeValuePath
         $compare_attribute = null;
         $compare_value = null;
 
-        if (!preg_match('~(\w+|\*)(?:\[([\w="\-]+)\])~is', $offset_expression, $matches)) {
+        if (preg_match('~(\w+|\*)(?:\[([\w="\-]+)\])~is', $offset_expression, $matches)) {
+            $entity_type = $matches[1];
+            $collection_offset = $matches[2];
+        } elseif (preg_match('~(\w+|\*)~is', $offset_expression, $matches)) {
+            $entity_type = $matches[1];
+            $collection_offset = '*';
+        } else {
             throw new RuntimeException(
                 "Missing or invalid offset specification within attribute-value-path: " . $offset_expression
             );
         }
-
-        $entity_type = $matches[1];
-        $collection_offset = $matches[2];
 
         if (preg_match('~(\w+)="([\w\-_]+)"~is', $collection_offset, $matches) && count($matches) === 3) {
             $compare_attribute = $matches[1];
@@ -136,7 +139,7 @@ class AttributeValuePath
         }
 
         if ($offset_spec['type'] === 'index') {
-            return $offset === $offset_spec['position'];
+            return $offset === $offset_spec['position'] || $offset_spec['position'] === '*';
         } else {
             return $entity->getValue($offset_spec['attribute_name']) === $offset_spec['attribute_value'];
         }
