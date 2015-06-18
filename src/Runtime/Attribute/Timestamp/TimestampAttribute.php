@@ -60,7 +60,7 @@ class TimestampAttribute extends Attribute
 
     public function getDefaultValue()
     {
-        $default_value = $this->getOption(self::OPTION_DEFAULT_VALUE, '');
+        $default_value = $this->getOption(self::OPTION_DEFAULT_VALUE, $this->getNullValue());
         if (empty($default_value) || $default_value === 'null') {
             return $this->getNullValue();
         }

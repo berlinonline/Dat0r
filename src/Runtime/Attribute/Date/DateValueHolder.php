@@ -20,7 +20,7 @@ class DateValueHolder extends TimestampValueHolder
     public function toNative()
     {
         if (!$this->getValue() instanceof DateTimeInterface) {
-            return '';
+            return null;
         }
 
         return $this->getValue()->format(
