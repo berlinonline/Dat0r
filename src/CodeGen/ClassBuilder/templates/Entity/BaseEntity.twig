@@ -60,7 +60,7 @@ abstract class {{ class_name }} extends {{ parent_class_name }}
      * this entity is still valid after setting the given
      * value on it.
      *
-     * @param {{ attribute.php_type }} ${{ attribute.name }} {{ attribute.description|join(' ')|trim }}
+     * @param {{ attribute.php_type }} ${{ attribute.name }}{{ attribute.description ? " " ~ attribute.description|join(' ') }}
      *
      * @return boolean True, if the '{{ type_name }}' entity instance is still valid. False otherwise.
      */
